@@ -32,12 +32,18 @@ contract TheProduct {
     string hashID;
     }
 
+    event registeredHarvestEvent (
+        uint indexed _harvestID
+    );
+
     //Registering a harvest instance
     //Not sure if the input parameters should be read from memory...?
     function registerHarvest(uint _ID, string memory _supplierID, address _supplierAddress,  string memory _productID, string memory _photoHash,
     string memory _harvestTimeStamp, string memory _harvestCaptureTime) public {
         uint index = harvestProduceArray.push(harvestProduce(_ID, _supplierID, _supplierAddress, _productID, _photoHash,
             _harvestTimeStamp, _harvestCaptureTime));
+        // trigger registeredSong event
+        emit registeredHarvestEvent(index);
        // buyer[index-1].push(msg.sender); - not applicable
     }
 
