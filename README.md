@@ -1,5 +1,25 @@
 # FoodPrint
-Small scale farmer food supply chain on Blockchain. 
+FoodPrint is a small scale farmer food supply chain web application for tracking food from farm to fork. FoodPrint is powered by Blockchain technology. 
+
+## Overview
+FoodPrint has 4 types of users:
+- System Admin
+
+The System Admin is responsible for setting up the infrastructure, initial data configuration and on-boarding of the various users.
+
+- Farmer
+
+The Farmer is responsible for capturing produce data at harvest time onto FoodPrint. The Farmer also transports the produce to the Market as per order from Market Admin.
+
+- Market Admin
+
+The Market Admin is responsible for receiving produce from the Farmer and capturing the relevant data onto FoodPrint.
+
+- Market Patron
+
+The Market Patron is the customer of the market. They purchase food from the Market. The Market Patron will be able to scan a barcode associated with produce and view the verified produce information and supply chain stories view information on the produce they are buying, it's source and journey, hence from farm to fork. 
+
+
 
 ## Installation
 1. Install Truffle globally. Truffle is the most popular smart contract development, testing, and deployment framework. 
