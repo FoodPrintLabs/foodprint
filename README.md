@@ -1,4 +1,4 @@
-# songregistry
+# FoodPrint
 Small scale farmer food supply chain on Blockchain. 
 
 ## Installation
@@ -14,18 +14,18 @@ $npm install
 
 3. Start Ganache and Create a Workspace (or open an existing one). 
 
-4. Confirm SongRegistry smart contract compiles successfully.
+4. Confirm FoodPrint smart contract compiles successfully.
 ```
 $truffle compile
 ```
 
-5. Run tests for SongRegistry smart contract.
+5. Run tests for FoodPrint smart contract.
 ```
 $truffe test
 $truffle test --network development
 ```
 
-4. Deploy SongRegistry smart contract to Ganache (assumes Ganache is running).
+4. Deploy FoodPrint smart contract to Ganache (assumes Ganache is running).
 
 `truffle migrate` will run all migrations located within your project's migrations directory. If your migrations were previously run successfully, truffle migrate will start execution from the last migration that was run, running only newly created migrations. If no new migrations exists, `truffle migrate` won't perform any action at all. 
 ```
