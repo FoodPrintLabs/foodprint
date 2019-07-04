@@ -22,6 +22,14 @@ The Market Patron is the customer of the market. They purchase food from the Mar
 
 
 ## Installation
+In order to run FoodPrint, an environment with the following is required:
+
+- Node.js
+- Truffle Framework
+- Web3.js
+- Bootstrap
+- PostgreSQL
+
 1. Install Truffle globally. Truffle is the most popular smart contract development, testing, and deployment framework. 
 ```
 $npm install -g truffle 
