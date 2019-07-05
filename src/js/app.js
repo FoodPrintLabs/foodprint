@@ -107,8 +107,7 @@ App = {
       // registerHarvest(ID,supplierID,supplierAddress,productID,photoHash, harvestTimeStamp,harvestCaptureTime,
       //     { from: accounts[0] })
       console.log("registerHarvest Click");
-
-      return instance.registerHarvest(inputSupplier, inputProduct, inputPhoto, inputHarvestTime, inputDataTime, solidityContext);
+      return instance.registerHarvest(001, inputSupplier, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputProduct, inputPhoto, inputHarvestTime, inputDataTime, solidityContext);
     }).then(function(){
       $("#formRegisterHarvest").get(0).reset() // or $('form')[0].reset()
     }).catch(function(err) {

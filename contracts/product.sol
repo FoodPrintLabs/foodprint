@@ -26,6 +26,11 @@ contract TheProduct {
         string hashID;
     }
 
+    constructor () public {
+        //registerHarvest(ID, supplierID, supplierAddress, productID, photoHash, harvestTimeStamp, harvestCaptureTime)
+        registerHarvest(001,'OZF',"0x4657892df",'APP','456xf87909', '20190625 14:00', '20190725 15:00');
+    }
+
     event registeredHarvestEvent (
         uint indexed _harvestID
     );
