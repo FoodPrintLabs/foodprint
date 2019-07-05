@@ -1,4 +1,4 @@
-var product = artifacts.require("./product.sol");
+var product = artifacts.require("TheProduct");
 
 module.exports = function(deployer) {
     deployer.deploy(product);
