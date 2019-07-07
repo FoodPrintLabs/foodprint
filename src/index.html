@@ -7,16 +7,27 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>FoodPrint - from farm to fork</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="css/font-awesome.css" />-->
+          <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" rel="stylesheet">
+    <link href="css/tempusdominus-bootstrap-4.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <script src="js/jquery.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="js/moment-timezone-with-data-2012-2022.min.js"></script>
+    <script src="js/highlight.min.js"></script>
+
+    <script src="js/tempusdominus-bootstrap-4.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+
   </head>
   <body>
    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
@@ -32,7 +43,7 @@
     <div class="container" style="width: 650px;">
       <div class="row">
         <div class="col-lg-12">
-          <h1 class="text-center">FoodPrint</h1>
+          <h1 class="text-center">Harvest</h1>
           <hr/>
           <br/>
           <div id="divNotificationBar"></div>
@@ -130,11 +141,26 @@
                     </div>
                 </div>
               </div>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="harvestCheck1" required>
+                <label class="form-check-label" for="harvestCheck1">I confirm the above is true</label>
+              </div>
               <button type="submit" class="btn btn-primary">Add Harvest</button>
               <hr />
             </form>   
           </div>
         </div>
+          <script type="text/javascript">
+            $(function () {
+                $('#inputHarvestTime').datetimepicker({autoclose:true});
+            });
+        </script>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#inputDataTime').datetimepicker({autoclose: true});
+            });
+        </script>
       </div>
     </div>
 
@@ -179,22 +205,10 @@
     <!-- Add Storage -->
     <!-- Search Produce -->
 
-    <!-- jQuery and popper (required for Bootstrap) -->
-    <script src="js/jquery.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/web3.min.js"></script>
-    <script src="js/truffle-contract.js"></script>
     <script src="js/app.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
-    <script type="text/javascript">
-            $(function () {
-                $('#inputDataTime').datetimepicker();
-                $('#inputHarvestTime').datetimepicker();
-            });
-        </script>
+
+
+
+
   </body>
 </html>

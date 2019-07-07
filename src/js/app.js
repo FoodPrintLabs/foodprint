@@ -65,11 +65,12 @@ App = {
 
       for (var i = 0; i <= harvestCount; i++) {
         theProductInstance.harvestProduceArray(i).then(function(harvest) {
-          var harvestSupplier = harvest[2];
-          var harvestProduct = harvest[4];
-          var harvestPhoto = harvest[5];
-          var harvestTime = harvest[6];
-          var harvestDataCaptureTime = harvest[7];
+          console.log(harvest);
+          var harvestSupplier = harvest[1];
+          var harvestProduct = harvest[3];
+          var harvestPhoto = harvest[4];
+          var harvestTime = harvest[5];
+          var harvestDataCaptureTime = harvest[6];
 
           // Render Harvest entries
           var harvestEntry = "<tr><td>" + harvestSupplier + "</td><td>" + harvestProduct + "</td><td>" +
@@ -92,8 +93,13 @@ App = {
     var inputSupplier = $('#inputSupplier').val();
     var inputProduct = $('#inputProduct').val();
     var inputPhoto = $('#inputPhoto').val();
-    var inputHarvestTime = $('#inputHarvestTime').val();
-    var inputDataTime = $('#inputDataTime').val();
+    var inputHarvestTime = $('#inputHarvestTime').data("datetimepicker").date();
+    var inputDataTime = $('#inputDataTime').data("datetimepicker").date();
+
+    var momentHarvestTime =  moment(inputHarvestTime).format('YYYY-MM-DD HH:mm');
+    var momentInputDataTime =  moment(inputDataTime).format('YYYY-MM-DD HH:mm')
+
+    //solidityContext required if you use msg object in contract function e.g. msg.sender
     var solidityContext = {from: web3.eth.accounts[1], gas:3000000}; //add gas to avoid out of gas exception
 
     App.contracts.TheProduct.deployed().then(function(instance) {
@@ -107,7 +113,10 @@ App = {
       // registerHarvest(ID,supplierID,supplierAddress,productID,photoHash, harvestTimeStamp,harvestCaptureTime,
       //     { from: accounts[0] })
       console.log("registerHarvest Click");
-      return instance.registerHarvest(001, inputSupplier, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputProduct, inputPhoto, inputHarvestTime, inputDataTime, solidityContext);
+      console.log("inputHarvestTime -" + momentHarvestTime);
+      console.log("inputDataTime -" + momentInputDataTime);
+      console.log("solidityContext -" + solidityContext);
+      return instance.registerHarvest("2", inputSupplier, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputProduct, inputPhoto, momentHarvestTime, momentInputDataTime, solidityContext);
     }).then(function(){
       $("#formRegisterHarvest").get(0).reset() // or $('form')[0].reset()
     }).catch(function(err) {
@@ -118,14 +127,17 @@ App = {
   listenForEvents: function() {
     App.contracts.TheProduct.deployed().then(function(instance) {
       instance.registeredHarvestEvent({}, {
-       // fromBlock: 0,
-        toBlock: 'latest'
+       //fromBlock: 0,
+       toBlock: 'latest'
       }).watch(function(error, event) {
+          if (error) {
+            return error(error);
+          }
         console.log("event triggered", event);
         TriggerAlertOpen("#divNotificationBar", '"divHarvestRegisterAlert"', "Harvest Registered");
         TriggerAlertClose("#divHarvestRegisterAlert");
         // Reload when a new harvest is registered
-        App.render();        
+        App.render();
       });
     });
   }
