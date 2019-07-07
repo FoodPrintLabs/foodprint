@@ -40,9 +40,11 @@
       </nav>
       <a class="btn btn-outline-primary" href="#">Hi Thandeka</a>
     </div>
-    <div class="container" style="width: 650px;">
+    <div class="container" style="width: 750px;">
       <div class="row">
-        <div class="col-lg-12">
+
+        <!-- HARVEST START-->
+        <div class="col-sm"><!--class="col-lg-12"-->
           <h1 class="text-center">Harvest</h1>
           <hr/>
           <br/>
@@ -161,6 +163,128 @@
                 $('#inputDataTime').datetimepicker({autoclose: true});
             });
         </script>
+        <!-- HARVEST END-->
+
+        <!-- STORAGE START-->
+        <div class="col-sm"><!--class="col-lg-12"-->
+          <h1 class="text-center">Storage</h1>
+          <hr/>
+          <br/>
+          <div id="divNotificationBarStorage"></div>
+          <div id="loaderStorage">
+            <p class="text-center">Loading...</p>
+          </div>
+          <div id="contentStorage" style="display: none;">
+            <!-- View Harvest Entries -->
+
+            <div id="divStorage">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Supplier</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Photo</th>
+                    <th scope="col">Harvest Timestamp</th>
+                    <th scope="col">Data Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody id="tableStorage">
+                </tbody>
+              </table>
+            </div>
+            <hr/>
+              <!-- Get # of harvest entries -->
+              <div id="divNumStorage"></div>
+              <button type="button" class="btn btn-primary btn-lg btn-block" id="numStorageButton">Show Total Number of Storage Entries</button>
+            <hr/>
+            <form id="formRegisterStorage" onSubmit="App.registerStorage(); return false;">
+              <div class="form-group">
+                <h1 class="h3 mb-3 font-weight-normal">Add Storage Entry</h1>
+                <!--<label for="inputSupplier" class="sr-only">Supplier</label>-->
+                <!--<input type="text" id="inputSupplier" class="form-control" placeholder="Supplier name" required autofocus>-->
+
+                <label for="inputSupplierStorage">Supplier</label>
+                <select class="custom-select d-block w-100" id="inputSupplierStorage" required>
+                  <option value="">Choose Supplier...</option>
+                  <option>Oranjezicht City Farm</option>
+                  <option>Naturally Organic</option>
+                  <option>Organic Farmer</option>
+                  <option>Metro Organics</option>
+                  <option>Prickly Pears</option>
+                  <option>White Mountain</option>
+                  <option>Pedi Farmer</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid supplier.
+                </div>
+              </div>
+
+                <!--<label for="inputProduct" class="sr-only">Product</label>-->
+                <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
+              <div class="form-group">
+                <label for="inputProductStorage">Product</label>
+                <select class="custom-select d-block w-100" id="inputProductStorage" required>
+                  <option value="">Choose Product...</option>
+                  <option>Apples</option>
+                  <option>Bananas</option>
+                  <option>Oranges</option>
+                  <option>Cucumber</option>
+                  <option>Spinach</option>
+                  <option>Carrots</option>
+                  <option>Broccolli</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid product.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputPhotoStorage">Photo:</label>
+                <input type="number" id="inputPhotoStorage" class="form-control" placeholder="Photo" required autofocus>
+              </div>
+
+              <div class="form-group">
+                <label for="inputStorageTime">Storage Timestamp:</label>
+                <div class="input-group date" id="inputStorageTime" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#inputStorageTime" required autofocus/>
+                    <div class="input-group-append" data-target="#inputStorageTime" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputDataTimeStorage">Data Timestamp:</label>
+                <div class="input-group date" id="inputDataTimeStorage" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#inputDataTimeStorage" required autofocus/>
+                    <div class="input-group-append" data-target="#inputDataTimeStorage" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+              </div>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="storageCheck1" required>
+                <label class="form-check-label" for="storageCheck1">I confirm the above is true</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Add Storage</button>
+              <hr />
+            </form>
+          </div>
+        </div>
+
+          <script type="text/javascript">
+            $(function () {
+                $('#inputStorageTime').datetimepicker({autoclose:true});
+            });
+        </script>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#inputDataTimeStorage').datetimepicker({autoclose: true});
+            });
+        </script>
+      <!-- STORAGE END -->
+
       </div>
     </div>
 
