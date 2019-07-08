@@ -44,8 +44,14 @@ App = {
     var loader = $("#loader");
     var content = $("#content");
 
+    var loaderStorage = $("#loaderStorage");
+    var contentStorage = $("#contentStorage");
+
     loader.show();
     content.hide();
+
+    loaderStorage.show();
+    contentStorage.hide();
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -55,7 +61,7 @@ App = {
       }
     });
 
-    // Load contract data
+    // Load contract data for Harvest
     App.contracts.TheProduct.deployed().then(function(instance) {
       theProductInstance = instance;
       return theProductInstance.noHarvests();
@@ -87,6 +93,40 @@ App = {
     }).catch(function(error) {
       console.warn(error);
     });
+
+    // Load contract data for Storage
+    App.contracts.TheProduct.deployed().then(function(instance) {
+      theProductInstance = instance;
+      return theProductInstance.noStorage();
+    }).then(function(storageCount) {
+      var tableStorage = $("#tableStorage");
+      tableStorage.empty();
+
+      for (var i = 0; i <= storageCount; i++) {
+        theProductInstance.storageProduceArray(i).then(function(storage) {
+          console.log(storage);
+          var storageSupplierProductDate = storage[1];
+          var storageQuantity = storage[3];
+          var storageUoM = storage[4];
+          var storageTime = storage[5];
+          var storageDataCaptureTime = storage[6];
+
+          // Render Storage entries
+          var storageEntry = "<tr><td>" + storageSupplierProductDate + "</td><td>" + storageQuantity + "</td><td>" +
+          storageUoM + "</td><td>" + storageTime + "</td><td>" + storageDataCaptureTime + "</td></tr>"
+          tableStorage.append(storageEntry);
+        });
+        var numStorage = $("#numStorage");
+        numStorage.html(storageCount.toString());
+
+      }
+
+      loaderStorage.hide();
+      contentStorage.show();
+    }).catch(function(error) {
+      console.warn(error);
+    });
+
   },
 
   registerHarvest: function() {

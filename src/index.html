@@ -40,11 +40,11 @@
       </nav>
       <a class="btn btn-outline-primary" href="#">Hi Thandeka</a>
     </div>
-    <div class="container" style="width: 750px;">
+    <div class="container" style="width: 80%;">
       <div class="row">
 
         <!-- HARVEST START-->
-        <div class="col-sm"><!--class="col-lg-12"-->
+        <div class="col-md-6"><!--class="col-lg-12"-->
           <h1 class="text-center">Harvest</h1>
           <hr/>
           <br/>
@@ -75,9 +75,7 @@
               <div id="divNumHarvest"></div>
               <button type="button" class="btn btn-primary btn-lg btn-block" id="numHarvestButton">Show Total Number of Harvest Entries</button>
             <hr/>
-              <!-- Coinbase Address -->
-              <p id="coinbaseAddress" class="text-center"></p>
-            <hr/>
+
             <form id="formRegisterHarvest" onSubmit="App.registerHarvest(); return false;">
               <div class="form-group">
                 <h1 class="h3 mb-3 font-weight-normal">Add Harvest Entry</h1>
@@ -166,7 +164,7 @@
         <!-- HARVEST END-->
 
         <!-- STORAGE START-->
-        <div class="col-sm"><!--class="col-lg-12"-->
+        <div class="col-md-6"><!--class="col-lg-12"-->
           <h1 class="text-center">Storage</h1>
           <hr/>
           <br/>
@@ -175,16 +173,25 @@
             <p class="text-center">Loading...</p>
           </div>
           <div id="contentStorage" style="display: none;">
-            <!-- View Harvest Entries -->
+            <!-- View Storage Entries -->
+              <!--uint ID;  //this should be the same ID as the harvestProduce ID-->
+                <!--string marketID;-->
+                <!--address payable marketAddress;-->
+                <!--uint quantity;-->
+                <!--string unitOfMeasure;-->
+                <!--string storageTimeStamp;-->
+                <!--string storageCaptureTime;-->
+                <!--string URL;-->
+                <!--string hashID;-->
 
             <div id="divStorage">
               <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">Supplier</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Photo</th>
-                    <th scope="col">Harvest Timestamp</th>
+                    <th scope="col">Harvest</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">UoM</th>
+                    <th scope="col">Storage Timestamp</th>
                     <th scope="col">Data Timestamp</th>
                   </tr>
                 </thead>
@@ -203,44 +210,38 @@
                 <!--<label for="inputSupplier" class="sr-only">Supplier</label>-->
                 <!--<input type="text" id="inputSupplier" class="form-control" placeholder="Supplier name" required autofocus>-->
 
-                <label for="inputSupplierStorage">Supplier</label>
+                <label for="inputSupplierStorage">Harvest</label>
                 <select class="custom-select d-block w-100" id="inputSupplierStorage" required>
-                  <option value="">Choose Supplier...</option>
-                  <option>Oranjezicht City Farm</option>
-                  <option>Naturally Organic</option>
-                  <option>Organic Farmer</option>
-                  <option>Metro Organics</option>
-                  <option>Prickly Pears</option>
-                  <option>White Mountain</option>
-                  <option>Pedi Farmer</option>
+                  <option value="">Choose harvest entry...</option>
+                  <option>Oranjezicht City Farm - Apples - 8 July 2019</option>
+                  <option>Oranjezicht City Farm - Bananas - 6 July 2019</option>
+                  <option>Naturally Organic - Oranges - 8 July 2019</option>
+                  <option>Organic Farmer - Cucumber - 6 July 2019</option>
                 </select>
                 <div class="invalid-feedback">
-                  Please select a valid supplier.
+                  Please select a valid harvest entry.
                 </div>
+              </div>
+
+                <div class="form-group">
+                <label for="inputQuantityStorage">Quantity:</label>
+                <input type="number" id="inputQuantityStorage" class="form-control" placeholder="Quantity" required autofocus>
               </div>
 
                 <!--<label for="inputProduct" class="sr-only">Product</label>-->
                 <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
               <div class="form-group">
-                <label for="inputProductStorage">Product</label>
-                <select class="custom-select d-block w-100" id="inputProductStorage" required>
-                  <option value="">Choose Product...</option>
-                  <option>Apples</option>
-                  <option>Bananas</option>
-                  <option>Oranges</option>
-                  <option>Cucumber</option>
-                  <option>Spinach</option>
-                  <option>Carrots</option>
-                  <option>Broccolli</option>
+                <label for="inputUoMStorage">Unit of Measure</label>
+                <select class="custom-select d-block w-100" id="inputUoMStorage" required>
+                  <option value="">Choose Unit of Measure...</option>
+                  <option>bunch</option>
+                  <option>kilogram</option>
+                  <option>none</option>
+                  <option>box</option>
                 </select>
                 <div class="invalid-feedback">
-                  Please select a valid product.
+                  Please select a valid unit of measure.
                 </div>
-              </div>
-
-              <div class="form-group">
-                <label for="inputPhotoStorage">Photo:</label>
-                <input type="number" id="inputPhotoStorage" class="form-control" placeholder="Photo" required autofocus>
               </div>
 
               <div class="form-group">
@@ -284,6 +285,9 @@
             });
         </script>
       <!-- STORAGE END -->
+          <!-- Coinbase Address -->
+              <p id="coinbaseAddress" class="text-center"></p>
+            <hr/>
 
       </div>
     </div>
