@@ -19,7 +19,8 @@ The Market Admin is responsible for receiving produce from the Farmer and captur
 
 The Market Patron is the customer of the market. They purchase food from the Market. The Market Patron will be able to scan a barcode associated with produce and view the verified produce information and supply chain stories view information on the produce they are buying, it's source and journey, hence from farm to fork. 
 
-
+## Documentation
+- [Business Case](https://github.com/jajukajulz/foodprint/raw/master/docs/FoodPrint%20-%20Business%20Case%2008072019.pdf)
 
 ## Installation
 In order to run FoodPrint, an environment with the following is required:
