@@ -69,6 +69,15 @@ App = {
       var tableHarvest = $("#tableHarvest");
       tableHarvest.empty();
 
+      var inputSupplierStorageSelect = $('#inputSupplierStorage');
+      inputSupplierStorageSelect.empty();
+
+      var optionValue = "Choose harvest entry...";
+      var optionId = "Choose harvest entry...";
+      //inputSupplierStorageSelect.attr('placeholder','Choose harvest entry...');
+      var inputSupplierStorageOption = "<option value='" + optionId + "' selected disabled >" + optionValue + "</ option>";
+      inputSupplierStorageSelect.append(inputSupplierStorageOption);
+
       for (var i = 0; i <= harvestCount; i++) {
         theProductInstance.harvestProduceArray(i).then(function(harvest) {
           console.log(harvest);
@@ -82,6 +91,12 @@ App = {
           var harvestEntry = "<tr><td>" + harvestSupplier + "</td><td>" + harvestProduct + "</td><td>" +
           harvestPhoto + "</td><td>" + harvestTime + "</td><td>" + harvestDataCaptureTime + "</td></tr>"
           tableHarvest.append(harvestEntry);
+
+          //<option>Oranjezicht City Farm - Apples - 8 July 2019</option>
+          optionValue = harvestSupplier + " " + harvestProduct + " " + harvestTime;
+          optionId = harvestSupplier + " - " + harvestProduct + " - " + harvestTime;
+          inputSupplierStorageOption = "<option value='" + optionId + "' >" + optionValue + "</ option>";
+          inputSupplierStorageSelect.append(inputSupplierStorageOption);
         });
         var numHarvest = $("#numHarvest");
         numHarvest.html(harvestCount.toString());
@@ -159,6 +174,35 @@ App = {
       return instance.registerHarvest("2", inputSupplier, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputProduct, inputPhoto, momentHarvestTime, momentInputDataTime, solidityContext);
     }).then(function(){
       $("#formRegisterHarvest").get(0).reset() // or $('form')[0].reset()
+    }).catch(function(err) {
+      console.error(err);
+    });
+  },
+
+  registerStorage: function() {
+    var inputSupplierStorage = $('#inputSupplierStorage').val();
+    var inputQuantityStorage = $('#inputQuantityStorage').val();
+    var inputUoMStorage = $('#inputUoMStorage').val();
+    var inputStorageTime = $('#inputStorageTime').data("datetimepicker").date();
+    var inputDataTimeStorage = $('#inputDataTimeStorage').data("datetimepicker").date();
+
+    var momentInputStorageTime =  moment(inputStorageTime).format('YYYY-MM-DD HH:mm');
+    var momentInputDataTimeStorage =  moment(inputDataTimeStorage).format('YYYY-MM-DD HH:mm')
+
+    //solidityContext required if you use msg object in contract function e.g. msg.sender
+    var solidityContext = {from: web3.eth.accounts[1], gas:3000000}; //add gas to avoid out of gas exception
+
+    App.contracts.TheProduct.deployed().then(function(instance) {
+      console.log("registerStorage Click");
+      console.log("inputSupplierStorage -" + inputSupplierStorage);
+      console.log("inputQuantityStorage -" + inputQuantityStorage);
+      console.log("inputUoMStorage -" + inputUoMStorage);
+      console.log("inputStorageTime -" + momentInputStorageTime);
+      console.log("inputDataTimeStorage -" + momentInputDataTimeStorage);
+      console.log("solidityContext -" + solidityContext);
+      return instance.registerStorage("2", inputSupplierStorage, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputQuantityStorage, inputUoMStorage, momentInputStorageTime,  momentInputDataTimeStorage, "www.uct.ac.za", "test hash 1234", solidityContext);
+    }).then(function(){
+      $("#formRegisterStorage").get(0).reset() // or $('form')[0].reset()
     }).catch(function(err) {
       console.error(err);
     });
