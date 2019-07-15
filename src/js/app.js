@@ -259,6 +259,21 @@ $('#numHarvestButton').click(function (e) {
     });
 });
 
+$('#numStorageButton').click(function (e) {
+  e.preventDefault()
+  //alert("Window Loaded");
+  App.contracts.TheProduct.deployed().then(function(instance) {
+  theProductInstance = instance;
+  return theProductInstance.noStorage();
+    }).then(function(storageCount) {
+      console.log("numStorageButton Click - " + storageCount.toString());
+      var divNumStorageHtml = '<div class="alert alert-success fade in show"><button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button><strong>Number of Storage entries </strong>' + storageCount.toString() +'</div>'
+      $('#divNumStorage').html(divNumStorageHtml);
+    }).catch(function(error) {
+      console.warn(error);
+    });
+});
+
 // app.js is included in index.html
 // when index.html is opened in the browser, load function is executed when complete page is fully loaded, including all frames, objects and images
 $(window).on('load', function () {
