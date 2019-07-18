@@ -22,7 +22,7 @@ The Market Patron is the customer of the market. They purchase food from the Mar
 ## Documentation
 - [Business Case](https://github.com/jajukajulz/foodprint/raw/master/docs/FoodPrint%20-%20Business%20Case%2008072019.pdf)
 
-## Installation
+## Installation (Development Environment)
 In order to run FoodPrint, an environment with the following is required:
 
 - Node.js
@@ -75,7 +75,7 @@ If for some reason truffle fails to acknowledge a contract was modified and will
 
 5. Update `truffle-config.js` development network with NetworkID, Host and Port values from your local Blockchain in Ganache.
 
-6. Start the development web server (liteserver). This will open your default web browser and serve the index page.
+6. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
 ```
 $npm run dev
 ```
@@ -106,6 +106,12 @@ e.g. 0x4B67D20a4F27d248aF0462C23F8C193f073517FB
 ```
 $truffle migrate --network rinkeby --compile-all --reset
 ```
-
 7. Check contract on rinkeby etherscan https://rinkeby.etherscan.io
+
+## Production Deployment
+1. To deploy to a production server, first bundle and uglify then deploy
+```
+$npm run build
+$npm run start
+```
 
