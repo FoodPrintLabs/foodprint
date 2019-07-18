@@ -11,8 +11,14 @@ router.get('/',function(req,res){
   //__dirname : It will resolve to your project folder.
 });
 
+//return template for what is at the market this week
 router.get('/weekly',function(req,res){
   res.sendFile(path.join(__dirname+'/src/weekly.html'));
+});
+
+//return template with scan results for produce
+router.get('/scan',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/scanresult.html'));
 });
 
 router.get('/qrcode', async (req, res, next) => {
