@@ -2,18 +2,31 @@
   "name": "foodprint",
   "version": "1.0.0",
   "description": "food supply chain on Blockchain for small scale farmers",
-  "main": "truffle-config.js",
+  "main": "server.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "preinstall": "rm -rf node_modules/*/.git/",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "lite-server",
+    "watch": "watchify src/js/app.js -o src/js/bundle.js -v",
+    "build": "browserify src/js/app.js | uglifyjs -mc warnings=false > src/js/bundle.js",
+    "dev": "npm run watch & nodemon server.js",
+    "start": "node server.js",
     "truffletest": "truffle test"
   },
   "author": "Julian Kanjere, Deirdre Van de Heever, Thandeka Chehore",
   "license": "ISC",
   "devDependencies": {
-    "lite-server": "^2.3.0"
+    "browserify": "^16.3.0",
+    "nodemon": "^1.19.1",
+    "uglify-js": "^3.6.0",
+    "watchify": "^3.11.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "jimp": "^0.6.4",
+    "qrcode": "^1.4.0"
   }
 }
