@@ -1,7 +1,14 @@
+const QRCode = require('qrcode');
+const fs = require('fs');
+
+
 App = {
   web3Provider: null,
   contracts: {},
   account: '0x0',
+
+
+
 
   init: function() {
     return App.initWeb3();
@@ -26,7 +33,7 @@ App = {
 
   //Fetch the deployed instance of the smart contract (JSON), initialise TruffleContract and attach Web3 provider.
   initContract: function() {
-    $.getJSON("TheProduct.json", function(TheProductArtifact) {
+    $.getJSON("contracts/TheProduct.json", function(TheProductArtifact) {
       // Load JSON artifact and try to use it to initialize a TruffleContract instance
       App.contracts.TheProduct = TruffleContract(TheProductArtifact);
       // Connect provider to interact with contract
@@ -114,6 +121,7 @@ App = {
       theProductInstance = instance;
       return theProductInstance.noStorage();
     }).then(function(storageCount) {
+
       var tableStorage = $("#tableStorage");
       tableStorage.empty();
 
@@ -134,7 +142,9 @@ App = {
         var numStorage = $("#numStorage");
         numStorage.html(storageCount.toString());
 
-      }
+      };
+
+      createQRCode("Supplier", "Storage", "http://www.google.com");
 
       loaderStorage.hide();
       contentStorage.show();
@@ -208,6 +218,8 @@ App = {
     });
   },
 
+
+
   listenForEvents: function() {
     App.contracts.TheProduct.deployed().then(function(instance) {
       instance.registeredHarvestEvent({}, {
@@ -243,6 +255,20 @@ function TriggerAlertClose(alertDivID) {
       });
   }, 5000);
 };
+
+async function createQRCode(supplier, produce, produceUrl) {
+  const res = await QRCode.toDataURL(produceUrl); //"data:image/png,%89PNG%0D%0A..."
+  var QRFileName = supplier + produce;
+  QRFileName = QRFileName.trim();
+  const QRDirectory = '../static/';
+  var QRFullName = QRDirectory + QRFileName;
+  QRFullName = QRFullName.trim();
+  var divQRCodeHtml = '<img src='+ res + '>';
+      $('#QRCode').html(divQRCodeHtml);
+
+  //fs.writeFileSync(QRFullName, '<img src="${res}">');
+  console.log('Wrote to ' + res);
+  };
 
 $('#numHarvestButton').click(function (e) {
   e.preventDefault()
