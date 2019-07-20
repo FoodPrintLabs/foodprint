@@ -1,1 +1,6 @@
 /* Your custom css code goes here */
+.imgGrid{
+    width:350px;
+    height:350px;
+    overflow: hidden;
+}
