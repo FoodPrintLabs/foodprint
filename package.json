@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "watchify src/js/app.js -o src/js/bundle.js -v",
     "build": "browserify src/js/app.js | uglifyjs -mc warnings=false > src/js/bundle.js",
-    "dev": "npm run watch & nodemon server.js",
+    "dev": "npm run watch & nodemon server.js --host 0.0.0.0",
     "start": "node server.js",
     "truffletest": "truffle test"
   },
