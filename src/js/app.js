@@ -105,9 +105,10 @@ App = {
 
           //<option>Oranjezicht City Farm - Apples - 8 July 2019</option>
           optionValue = harvestSupplier + " " + harvestProduct + " " + harvestTime;
-          optionId = harvestSupplier + " - " + harvestProduct + " - " + harvestTime;
+          optionId = harvestSupplier + "_" + harvestProduct + "_" + harvestTime;
           inputSupplierStorageOption = "<option value='" + optionId + "' >" + optionValue + "</ option>";
           inputSupplierStorageSelect.append(inputSupplierStorageOption);
+          console.log("inputSupplierStorageOption " + inputSupplierStorageOption);
         });
         var numHarvest = $("#numHarvest");
         numHarvest.html(harvestCount.toString());
