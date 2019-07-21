@@ -1,6 +1,5 @@
-THEME: Green - Free Bootstrap Theme
-AUTHOR: uiCookies.com
-AUTHOR URI: https://uiCookies.com/
+THEME: Green 
+AUTHOR: uiCookies.com - FoodPrint
 
 
 CREDITS:
