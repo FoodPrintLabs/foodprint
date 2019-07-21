@@ -179,15 +179,10 @@ App = {
         theProductInstance.storageProduceArray(i).then(function(storage) {
           console.log(storage);
           var storageSupplierProductDate = storage[1];
-          var storageQuantity = storage[3];
-          var storageUoM = storage[4];
-          var storageTime = storage[5];
+          // var storageQuantity = storage[3];
+          // var storageUoM = storage[4];
+          // var storageTime = storage[5];
           var storageDataCaptureTime = storage[6];
-
-          // Render Storage entries
-          var storageEntry = "<tr><td>" + storageSupplierProductDate + "</td><td>" + storageQuantity + "</td><td>" +
-          storageUoM + "</td><td>" + storageTime + "</td><td>" + storageDataCaptureTime + "</td></tr>"
-
           //e.g. storageSupplierProductDate Oranjezicht City Farm_Apples_2019-07-05 09:25
           var supplierProductDateArray = storageSupplierProductDate.split("_");
           var cardTitle =   supplierProductDateArray[1]; //produce
