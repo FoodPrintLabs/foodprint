@@ -30,6 +30,7 @@ In order to run FoodPrint, an environment with the following is required:
 - Web3.js
 - Bootstrap
 - PostgreSQL
+- MetaMask (MetaMask is an extension for accessing Ethereum enabled distributed applications, or "Dapps" in your browser! The extension injects the Ethereum web3 API into every website's javascript context, so that dapps can read from the blockchain.)
 
 1. Install Truffle globally. Truffle is the most popular smart contract development, testing, and deployment framework. 
 ```
