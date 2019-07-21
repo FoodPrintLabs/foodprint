@@ -39,9 +39,13 @@ App = {
       // Connect provider to interact with contract
       App.contracts.TheProduct.setProvider(App.web3Provider);
 
-      App.listenForEvents();
-
-      return App.render();
+      if (window.location.href.match('weekly') != null) {
+       return App.displayWeeklyView();
+      }
+      else{
+       App.listenForEvents();
+       return App.render();
+      }
     });
   },
 
@@ -143,8 +147,7 @@ App = {
         numStorage.html(storageCount.toString());
 
       };
-
-      createQRCode("Supplier", "Storage", "http://www.google.com");
+      createQRCode("testQRCode", "OranjezichtCityFarm_Apples", "http://localhost:3000/scanresult/OranjezichtCityFarm_Apples");
 
       loaderStorage.hide();
       contentStorage.show();
@@ -152,6 +155,95 @@ App = {
       console.warn(error);
     });
 
+  },
+
+  displayWeeklyView: function(){
+    console.log(" Entered displayWeeklyView function");
+    var theProductInstance;
+    var loaderWeekly = $("#loaderWeekly");
+    var contentWeekly = $("#contentWeekly");
+
+    loaderWeekly.show();
+    contentWeekly.hide();
+
+    // Load contract data for Weekly view
+    App.contracts.TheProduct.deployed().then(function(instance) {
+      theProductInstance = instance;
+      return theProductInstance.noStorage();
+    }).then(function(storageCount) {
+
+      var cardDeckWeekly = $("#cardDeckWeekly");
+      cardDeckWeekly.empty();
+
+      for (var i = 0; i <= storageCount; i++) {
+        theProductInstance.storageProduceArray(i).then(function(storage) {
+          console.log(storage);
+          var storageSupplierProductDate = storage[1];
+          var storageQuantity = storage[3];
+          var storageUoM = storage[4];
+          var storageTime = storage[5];
+          var storageDataCaptureTime = storage[6];
+
+          // Render Storage entries
+          var storageEntry = "<tr><td>" + storageSupplierProductDate + "</td><td>" + storageQuantity + "</td><td>" +
+          storageUoM + "</td><td>" + storageTime + "</td><td>" + storageDataCaptureTime + "</td></tr>"
+
+          //e.g. storageSupplierProductDate Oranjezicht City Farm_Apples_2019-07-05 09:25
+          var supplierProductDateArray = storageSupplierProductDate.split("_");
+          var cardTitle =   supplierProductDateArray[1]; //produce
+          var cardText =   supplierProductDateArray[0]; //supplier
+          var cardUpdateTime = storageDataCaptureTime;
+          var QRCodeSupplierProduce = (cardText + "_" + cardTitle).replace(/\s/g,'');
+          var modalID = "weeklyModal_" + QRCodeSupplierProduce;
+          var QRCodeID = "QRCode_" + QRCodeSupplierProduce;
+          var modalHeader = cardTitle + " from " + cardText;
+          var dataTargetModal = "#" + modalID;
+          var weeklyEntry = "<div class='card'>\
+                <div class='card-body'>\
+                  <h5 class='card-title'>" + cardTitle + "</h5>\
+                  <p class='card-text'>Supplied by " + cardText + ".</p>\
+                  <p class='card-text'><small class='text-muted'>Last Updated on " +  cardUpdateTime + "</small></p>\
+                  <button type='button' class='btn btn-primary' data-toggle='modal' data-target='"+dataTargetModal+"'>\
+                    View Journey\
+                  </button>\
+                </div>\
+              </div>\
+              <!-- The Modal -->\
+              <div class='modal' id='"+modalID+"'>\
+                <div class='modal-dialog modal-dialog-centered'>\
+                  <div class='modal-content'>\
+                    <!-- Modal Header -->\
+                    <div class='modal-header text-center d-block'>\
+                      <h4 class='modal-title d-inline-block'>" + modalHeader + "</h4>\
+                      <button type='button' class='close' data-dismiss='modal'>&times;</button>\
+                    </div>\
+                    <!-- Modal body -->\
+                    <div class='modal-body'>\
+                      <div id='"+QRCodeID+"' align='center'></div>\
+                      <p class='modal-text' align='center'><small class='text-muted'>Scan QR Code using your cellphone camera app</small></p>\
+                    </div>\
+                    <!-- Modal footer -->\
+                    <div class='modal-footer'>\
+                      <button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button>\
+                    </div>\
+                  </div>\
+                </div>\
+              </div>"
+
+
+          cardDeckWeekly.append(weeklyEntry);
+          var baseURL = window.location.origin; //"http://localhost:3000"
+          var QRCodeURL = baseURL + "/scan/" + QRCodeSupplierProduce; //http://localhost:3000/scanresult/OranjezichtCityFarm_Apples
+          console.log('QRCodeURL ' + QRCodeURL);
+          createQRCode(QRCodeID, QRCodeSupplierProduce, QRCodeURL);
+        });
+      };
+
+      loaderWeekly.hide();
+      contentWeekly.show();
+    }).catch(function(error) {
+      console.warn(error);
+    });
   },
 
   registerHarvest: function() {
@@ -256,18 +348,11 @@ function TriggerAlertClose(alertDivID) {
   }, 5000);
 };
 
-async function createQRCode(supplier, produce, produceUrl) {
+async function createQRCode(QRCodeHtmlID, QRCodeSupplierProduce, produceUrl) {
   const res = await QRCode.toDataURL(produceUrl); //"data:image/png,%89PNG%0D%0A..."
-  var QRFileName = supplier + produce;
-  QRFileName = QRFileName.trim();
-  const QRDirectory = '../static/';
-  var QRFullName = QRDirectory + QRFileName;
-  QRFullName = QRFullName.trim();
   var divQRCodeHtml = '<img src='+ res + '>';
-      $('#QRCode').html(divQRCodeHtml);
-
-  //fs.writeFileSync(QRFullName, '<img src="${res}">');
-  console.log('Wrote to ' + res);
+      $('#'+ QRCodeHtmlID).html(divQRCodeHtml);
+  console.log('QRCode created for ' + QRCodeSupplierProduce);
   };
 
 $('#numHarvestButton').click(function (e) {
@@ -303,6 +388,5 @@ $('#numStorageButton').click(function (e) {
 // app.js is included in index.html
 // when index.html is opened in the browser, load function is executed when complete page is fully loaded, including all frames, objects and images
 $(window).on('load', function () {
-  //alert("Window Loaded");
-  App.init();
+   App.init();
 });

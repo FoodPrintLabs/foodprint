@@ -17,7 +17,10 @@ router.get('/weekly',function(req,res){
 });
 
 //return template with scan results for produce
-router.get('/scan',function(req,res){
+router.get('/scan/:id',function(req,res){
+  const supplierProduceID = req.params.id;
+  //TODO write a function that takes the supplierProduceID e.g. OranjezichtCityFarm_Apples
+  //and returns the farm profile, harvest and storage id
   res.sendFile(path.join(__dirname+'/src/scanresult.html'));
 });
 
