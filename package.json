@@ -21,9 +21,22 @@
     "browserify": "^16.3.0",
     "nodemon": "^1.19.1",
     "uglify-js": "^3.6.0",
-    "watchify": "^3.11.1"
+    "watchify": "^3.11.1",
+    "gulp": "latest",
+    "gulp-sass": "latest",
+    "gulp-uglify": "latest",
+    "gulp-rename": "latest",
+    "gulp-notify": "latest",
+    "gulp-minify-css": "latest",
+    "gulp-concat": "latest",
+    "gulp-plumber": "latest",
+    "browser-sync": "latest",
+    "gulp-sourcemaps": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-clean-css": "latest"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "jimp": "^0.6.4",
