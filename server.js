@@ -1,19 +1,56 @@
 const express = require('express');
 const QRCode = require('qrcode');
+const cors = require('cors');
 const fs = require('fs');
 const app = express();
 const path = require('path');
 const router = express.Router();
 
-
+//home page
 router.get('/',function(req,res){
   res.sendFile(path.join(__dirname+'/src/index.html'));
   //__dirname : It will resolve to your project folder.
 });
 
+//supply chain - harvest and storage
+router.get('/supplychain',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/supplychain.html'));
+});
+
+//about
+router.get('/about',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/about.html'));
+});
+
+//produce gallery
+router.get('/gallery',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/gallery.html'));
+});
+
+//farmers
+router.get('/farmers',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/Farmers.html'));
+});
+
+//contact
+router.get('/contact',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/contact.html'));
+});
+
 //return template for what is at the market this week
 router.get('/weekly',function(req,res){
   res.sendFile(path.join(__dirname+'/src/weekly.html'));
+});
+
+//return template for team
+router.get('/team',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/team.html'));
+});
+
+
+//return template for terms and conditions
+router.get('/terms',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/terms.html'));
 });
 
 //return template with scan results for produce
@@ -78,8 +115,11 @@ router.get('/qrcode', async (req, res, next) => {
 
 //add the router
 app.use('/', router);
-app.use(express.static('src'));
+//app.use(express.static('src'));
+app.use(cors());
+app.use(express.static(path.join(__dirname,"src")));
 app.use(express.static('build'));
 app.listen(process.env.port || 3000);
 
 console.log('Running at Port 3000');
+
