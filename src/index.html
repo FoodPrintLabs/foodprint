@@ -31,312 +31,302 @@
 
   </head>
   <body>
-   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-       <a href="/" class="text-success my-0 mr-md-auto font-weight-normal"><h4>FoodPrint</h4></a>
-      <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="#">Configuration</a>
-        <a class="p-2 text-dark" href="#">Supply Chain</a>
-        <a class="p-2 text-dark" href="/weekly">Weekly View</a>
-        <a class="p-2 text-dark" href="#">Analytics</a>
-        <a class="p-2 text-dark" href="#">Help</a>
-      </nav>
-      <a class="btn btn-outline-primary" href="#">Hi Thandeka</a>
-    </div>
-    <div class="container" style="width: 100%;">
-      <div class="row">
+     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+         <a href="/" class="text-success my-0 mr-md-auto font-weight-normal"><h4>FoodPrint</h4></a>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 text-dark" href="#">Configuration</a>
+          <a class="p-2 text-dark" href="#">Supply Chain</a>
+          <a class="p-2 text-dark" href="/weekly">Weekly View</a>
+          <a class="p-2 text-dark" href="#">Analytics</a>
+          <a class="p-2 text-dark" href="#">Help</a>
+        </nav>
+        <a class="btn btn-outline-primary" href="#">Hi Thandeka</a>
+     </div>
+      <div class="container" style="width: 100%;">
+        <div class="row">
 
-        <!-- HARVEST START-->
-        <div class="col-md-6"><!--class="col-lg-12"-->
-          <h1 class="text-center">Harvest</h1>
-          <hr/>
-          <br/>
-          <div id="divNotificationBar"></div>
-          <div id="loader">
-            <p class="text-center">Loading...</p>
-          </div>
-          <div id="content" style="display: none;">
-            <!-- View Harvest Entries -->
-
-            <div id="divHarvest">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Supplier</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Photo</th>
-                    <th scope="col">Harvest Timestamp</th>
-                    <th scope="col">Data Timestamp</th>
-                  </tr>
-                </thead>
-                <tbody id="tableHarvest">
-                </tbody>
-              </table>
+          <!-- HARVEST START-->
+          <div class="col-md-6"><!--class="col-lg-12"-->
+            <h1 class="text-center">Harvest</h1>
+            <hr/>
+            <br/>
+            <div id="divNotificationBar"></div>
+            <div id="loader">
+              <p class="text-center">Loading...</p>
             </div>
-            <hr/>
-              <!-- Get # of harvest entries -->
-              <div id="divNumHarvest"></div>
-              <button type="button" class="btn btn-primary btn-lg btn-block" id="numHarvestButton">Show Total Number of Harvest Entries</button>
-            <hr/>
+            <div id="content" style="display: none;">
+              <!-- View Harvest Entries -->
 
-            <form id="formRegisterHarvest" onSubmit="App.registerHarvest(); return false;">
-              <div class="form-group">
-                <h1 class="h3 mb-3 font-weight-normal">Add Harvest Entry</h1>
-                <!--<label for="inputSupplier" class="sr-only">Supplier</label>-->
-                <!--<input type="text" id="inputSupplier" class="form-control" placeholder="Supplier name" required autofocus>-->
+              <div id="divHarvest">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Supplier</th>
+                      <th scope="col">Product</th>
+                      <th scope="col">Photo</th>
+                      <th scope="col">Harvest Timestamp</th>
+                      <th scope="col">Data Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableHarvest">
+                  </tbody>
+                </table>
+              </div>
+              <hr/>
+                <!-- Get # of harvest entries -->
+                <div id="divNumHarvest"></div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="numHarvestButton">Show Total Number of Harvest Entries</button>
+              <hr/>
 
-                <label for="inputSupplier">Supplier:</label>
-                <select class="custom-select d-block w-100" id="inputSupplier" required>
-                  <option value="" selected disabled >Choose Supplier...</option>
-                  <option>Oranjezicht City Farm</option>
-                  <option>Naturally Organic</option>
-                  <option>Organic Farmer</option>
-                  <option>Metro Organics</option>
-                  <option>Prickly Pears</option>
-                  <option>White Mountain</option>
-                  <option>Pedi Farmer</option>
-                </select>
-                <div class="invalid-feedback">
-                  Please select a valid supplier.
+              <form id="formRegisterHarvest" onSubmit="App.registerHarvest(); return false;">
+                <div class="form-group">
+                  <h1 class="h3 mb-3 font-weight-normal">Add Harvest Entry</h1>
+                  <!--<label for="inputSupplier" class="sr-only">Supplier</label>-->
+                  <!--<input type="text" id="inputSupplier" class="form-control" placeholder="Supplier name" required autofocus>-->
+
+                  <label for="inputSupplier">Supplier:</label>
+                  <select class="custom-select d-block w-100" id="inputSupplier" required>
+                    <option value="" selected disabled >Choose Supplier...</option>
+                    <option>Oranjezicht City Farm</option>
+                    <option>Naturally Organic</option>
+                    <option>Organic Farmer</option>
+                    <option>Metro Organics</option>
+                    <option>Prickly Pears</option>
+                    <option>White Mountain</option>
+                    <option>Pedi Farmer</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid supplier.
+                  </div>
                 </div>
-              </div>
 
-                <!--<label for="inputProduct" class="sr-only">Product</label>-->
-                <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
-              <div class="form-group">
-                <label for="inputProduct">Product:</label>
-                <select class="custom-select d-block w-100" id="inputProduct" required>
-                  <option value="" selected disabled >Choose Product...</option>
-                  <option>Apples</option>
-                  <option>Bananas</option>
-                  <option>Oranges</option>
-                  <option>Cucumber</option>
-                  <option>Spinach</option>
-                  <option>Carrots</option>
-                  <option>Broccolli</option>
-                </select>
-                <div class="invalid-feedback">
-                  Please select a valid product.
+                  <!--<label for="inputProduct" class="sr-only">Product</label>-->
+                  <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
+                <div class="form-group">
+                  <label for="inputProduct">Product:</label>
+                  <select class="custom-select d-block w-100" id="inputProduct" required>
+                    <option value="" selected disabled >Choose Product...</option>
+                    <option>Apples</option>
+                    <option>Bananas</option>
+                    <option>Oranges</option>
+                    <option>Cucumber</option>
+                    <option>Spinach</option>
+                    <option>Carrots</option>
+                    <option>Broccolli</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid product.
+                  </div>
                 </div>
-              </div>
-
-              <div class="form-group">
-                <label for="inputPhoto">Photo:</label>
-                <input type="number" id="inputPhoto" class="form-control" placeholder="Photo" required autofocus>
-              </div>
-
-              <div class="form-group">
-                <label for="inputHarvestTime">Harvest Timestamp:</label>
-                <div class="input-group date" id="inputHarvestTime" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#inputHarvestTime" required autofocus/>
-                    <div class="input-group-append" data-target="#inputHarvestTime" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="inputDataTime">Data Timestamp:</label>
-                <div class="input-group date" id="inputDataTime" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#inputDataTime" required autofocus/>
-                    <div class="input-group-append" data-target="#inputDataTime" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-              </div>
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="harvestCheck1" required>
-                <label class="form-check-label" for="harvestCheck1">I confirm the above is true</label>
-              </div>
-              <button type="submit" class="btn btn-primary">Add Harvest</button>
-              <hr />
-            </form>
-          </div>
-        </div>
-          <script type="text/javascript">
-            $(function () {
-                $('#inputHarvestTime').datetimepicker({autoclose:true});
-            });
-        </script>
-
-        <script type="text/javascript">
-            $(function () {
-                $('#inputDataTime').datetimepicker({autoclose: true});
-            });
-        </script>
-        <!-- HARVEST END-->
-
-        <!-- STORAGE START-->
-        <div class="col-md-6"><!--class="col-lg-12"-->
-          <h1 class="text-center">Storage</h1>
-          <hr/>
-          <br/>
-          <div id="divNotificationBarStorage"></div>
-          <div id="loaderStorage">
-            <p class="text-center">Loading...</p>
-          </div>
-          <div id="contentStorage" style="display: none;">
-            <!-- View Storage Entries -->
-              <!--uint ID;  //this should be the same ID as the harvestProduce ID-->
-                <!--string marketID;-->
-                <!--address payable marketAddress;-->
-                <!--uint quantity;-->
-                <!--string unitOfMeasure;-->
-                <!--string storageTimeStamp;-->
-                <!--string storageCaptureTime;-->
-                <!--string URL;-->
-                <!--string hashID;-->
-
-            <div id="divStorage">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Harvest</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">UoM</th>
-                    <th scope="col">Storage Timestamp</th>
-                    <th scope="col">Data Timestamp</th>
-                  </tr>
-                </thead>
-                <tbody id="tableStorage">
-                </tbody>
-              </table>
-            </div>
-            <hr/>
-              <!-- Get # of harvest entries -->
-              <div id="divNumStorage"></div>
-              <button type="button" class="btn btn-primary btn-lg btn-block" id="numStorageButton">Show Total Number of Storage Entries</button>
-            <hr/>
-            <form id="formRegisterStorage" onSubmit="App.registerStorage(); return false;">
-              <div class="form-group">
-                <h1 class="h3 mb-3 font-weight-normal">Add Storage Entry</h1>
-                <!--<label for="inputSupplier" class="sr-only">Supplier</label>-->
-                <!--<input type="text" id="inputSupplier" class="form-control" placeholder="Supplier name" required autofocus>-->
-
-                <label for="inputSupplierStorage">Harvest</label>
-                <select class="custom-select d-block w-100" id="inputSupplierStorage" required>
-                </select>
-                <div class="invalid-feedback">
-                  Please select a valid harvest entry.
-                </div>
-              </div>
 
                 <div class="form-group">
-                <label for="inputQuantityStorage">Quantity:</label>
-                <input type="number" id="inputQuantityStorage" class="form-control" placeholder="Quantity" required autofocus>
-              </div>
-
-                <!--<label for="inputProduct" class="sr-only">Product</label>-->
-                <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
-              <div class="form-group">
-                <label for="inputUoMStorage">Unit of Measure</label>
-                <select class="custom-select d-block w-100" id="inputUoMStorage" required>
-                  <option value="">Choose Unit of Measure...</option>
-                  <option>bunch</option>
-                  <option>kilogram</option>
-                  <option>none</option>
-                  <option>box</option>
-                </select>
-                <div class="invalid-feedback">
-                  Please select a valid unit of measure.
+                  <label for="inputPhoto">Photo:</label>
+                  <input type="number" id="inputPhoto" class="form-control" placeholder="Photo" required autofocus>
                 </div>
-              </div>
 
-              <div class="form-group">
-                <label for="inputStorageTime">Storage Timestamp:</label>
-                <div class="input-group date" id="inputStorageTime" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#inputStorageTime" required autofocus/>
-                    <div class="input-group-append" data-target="#inputStorageTime" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
+                <div class="form-group">
+                  <label for="inputHarvestTime">Harvest Timestamp:</label>
+                  <div class="input-group date" id="inputHarvestTime" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" data-target="#inputHarvestTime" required autofocus/>
+                      <div class="input-group-append" data-target="#inputHarvestTime" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      </div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="form-group">
-                <label for="inputDataTimeStorage">Data Timestamp:</label>
-                <div class="input-group date" id="inputDataTimeStorage" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#inputDataTimeStorage" required autofocus/>
-                    <div class="input-group-append" data-target="#inputDataTimeStorage" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
+                <div class="form-group">
+                  <label for="inputDataTime">Data Timestamp:</label>
+                  <div class="input-group date" id="inputDataTime" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" data-target="#inputDataTime" required autofocus/>
+                      <div class="input-group-append" data-target="#inputDataTime" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      </div>
+                  </div>
                 </div>
-              </div>
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="storageCheck1" required>
-                <label class="form-check-label" for="storageCheck1">I confirm the above is true</label>
-              </div>
-              <button type="submit" class="btn btn-primary">Add Storage</button>
-              <hr />
-            </form>
-            <div id="testQRCode"></div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="harvestCheck1" required>
+                  <label class="form-check-label" for="harvestCheck1">I confirm the above is true</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Harvest</button>
+                <hr />
+              </form>
+            </div>
           </div>
-        </div>
+            <script type="text/javascript">
+              $(function () {
+                  $('#inputHarvestTime').datetimepicker({autoclose:true});
+              });
+          </script>
 
           <script type="text/javascript">
-            $(function () {
-                $('#inputStorageTime').datetimepicker({autoclose:true});
-            });
-        </script>
+              $(function () {
+                  $('#inputDataTime').datetimepicker({autoclose: true});
+              });
+          </script>
+          <!-- HARVEST END-->
 
-        <script type="text/javascript">
-            $(function () {
-                $('#inputDataTimeStorage').datetimepicker({autoclose: true});
-            });
-        </script>
-      <!-- STORAGE END -->
-          <!-- Coinbase Address -->
-              <p id="coinbaseAddress" class="text-center"></p>
+          <!-- STORAGE START-->
+          <div class="col-md-6"><!--class="col-lg-12"-->
+            <h1 class="text-center">Storage</h1>
             <hr/>
+            <br/>
+            <div id="divNotificationBarStorage"></div>
+            <div id="loaderStorage">
+              <p class="text-center">Loading...</p>
+            </div>
+            <div id="contentStorage" style="display: none;">
+              <!-- View Storage Entries -->
+                <!--uint ID;  //this should be the same ID as the harvestProduce ID-->
+                  <!--string marketID;-->
+                  <!--address payable marketAddress;-->
+                  <!--uint quantity;-->
+                  <!--string unitOfMeasure;-->
+                  <!--string storageTimeStamp;-->
+                  <!--string storageCaptureTime;-->
+                  <!--string URL;-->
+                  <!--string hashID;-->
 
+              <div id="divStorage">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Harvest</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">UoM</th>
+                      <th scope="col">Storage Timestamp</th>
+                      <th scope="col">Data Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableStorage">
+                  </tbody>
+                </table>
+              </div>
+              <hr/>
+                <!-- Get # of harvest entries -->
+                <div id="divNumStorage"></div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="numStorageButton">Show Total Number of Storage Entries</button>
+              <hr/>
+              <form id="formRegisterStorage" onSubmit="App.registerStorage(); return false;">
+                <div class="form-group">
+                  <h1 class="h3 mb-3 font-weight-normal">Add Storage Entry</h1>
+                  <!--<label for="inputSupplier" class="sr-only">Supplier</label>-->
+                  <!--<input type="text" id="inputSupplier" class="form-control" placeholder="Supplier name" required autofocus>-->
+
+                  <label for="inputSupplierStorage">Harvest</label>
+                  <select class="custom-select d-block w-100" id="inputSupplierStorage" required>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid harvest entry.
+                  </div>
+                </div>
+
+                  <div class="form-group">
+                  <label for="inputQuantityStorage">Quantity:</label>
+                  <input type="number" id="inputQuantityStorage" class="form-control" placeholder="Quantity" required autofocus>
+                </div>
+
+                  <!--<label for="inputProduct" class="sr-only">Product</label>-->
+                  <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
+                <div class="form-group">
+                  <label for="inputUoMStorage">Unit of Measure</label>
+                  <select class="custom-select d-block w-100" id="inputUoMStorage" required>
+                    <option value="">Choose Unit of Measure...</option>
+                    <option>bunch</option>
+                    <option>kilogram</option>
+                    <option>none</option>
+                    <option>box</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid unit of measure.
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputStorageTime">Storage Timestamp:</label>
+                  <div class="input-group date" id="inputStorageTime" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" data-target="#inputStorageTime" required autofocus/>
+                      <div class="input-group-append" data-target="#inputStorageTime" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputDataTimeStorage">Data Timestamp:</label>
+                  <div class="input-group date" id="inputDataTimeStorage" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" data-target="#inputDataTimeStorage" required autofocus/>
+                      <div class="input-group-append" data-target="#inputDataTimeStorage" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      </div>
+                  </div>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="storageCheck1" required>
+                  <label class="form-check-label" for="storageCheck1">I confirm the above is true</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Storage</button>
+                <hr />
+              </form>
+              <div id="testQRCode"></div>
+            </div>
+          </div>
+
+          <script type="text/javascript">
+              $(function () {
+                  $('#inputStorageTime').datetimepicker({autoclose:true});
+              });
+          </script>
+
+          <script type="text/javascript">
+              $(function () {
+                  $('#inputDataTimeStorage').datetimepicker({autoclose: true});
+              });
+          </script>
+        <!-- STORAGE END -->
+            <!-- Coinbase Address -->
+                <p id="coinbaseAddress" class="text-center"></p>
+              <hr/>
+
+        </div>
       </div>
-    </div>
 
 
 
-<footer class="container py-5">
-  <div class="row">
-    <div class="col-12 col-md">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>
-      <small class="d-block mb-3 text-muted">&copy; FoodPrint 2019, from farm to fork</small>
-      <img src="/img/logo.png" alt="" class="img-responsive" style="width: 70%">
-    </div>
-    <div class="col-6 col-md">
-      <h5>Features</h5>
-      <ul class="list-unstyled text-small">
-        <li><a class="text-muted" href="#">Harvest Data Capture</a></li>
-        <li><a class="text-muted" href="#">Storage Data Capture</a></li>
-        <li><a class="text-muted" href="#">Barcode Scanning</a></li>
-        <li><a class="text-muted" href="#">Analytics</a></li>
-      </ul>
-    </div>
-    <div class="col-6 col-md">
-      <h5>Resources</h5>
-      <ul class="list-unstyled text-small">
-        <li><a class="text-muted" href="#">Support</a></li>
-        <li><a class="text-muted" href="#">Blog</a></li>
-      </ul>
-    </div>
+    <footer class="container py-5">
+      <div class="row">
+        <div class="col-12 col-md">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>
+          <small class="d-block mb-3 text-muted">&copy; FoodPrint 2019, from farm to fork</small>
+          <img src="/img/logo.png" alt="" class="img-responsive" style="width: 70%">
+        </div>
+        <div class="col-6 col-md">
+          <h5>Features</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Harvest Data Capture</a></li>
+            <li><a class="text-muted" href="#">Storage Data Capture</a></li>
+            <li><a class="text-muted" href="#">Barcode Scanning</a></li>
+            <li><a class="text-muted" href="#">Analytics</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Support</a></li>
+            <li><a class="text-muted" href="#">Blog</a></li>
+          </ul>
+        </div>
 
-    <div class="col-6 col-md">
-      <h5>About</h5>
-      <ul class="list-unstyled text-small">
-        <li><a class="text-muted" href="#">Our Story</a></li>
-        <li><a class="text-muted" href="#">Team</a></li>
-        <li><a class="text-muted" href="#">Locations</a></li>
-        <li><a class="text-muted" href="#">Terms and Privacy</a></li>
-      </ul>
-    </div>
-  </div>
-</footer>
-
-    <!-- Add Storage -->
-    <!-- Search Produce -->
-
-    <!--<script src="js/app.js"></script>-->
+        <div class="col-6 col-md">
+          <h5>About</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Our Story</a></li>
+            <li><a class="text-muted" href="#">Team</a></li>
+            <li><a class="text-muted" href="#">Locations</a></li>
+            <li><a class="text-muted" href="#">Terms and Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
    <script type="text/javascript" src="js/bundle.js"></script>
-   <!--<script src="./../server.js"></script>-->
-
-
-
-
   </body>
 </html>
