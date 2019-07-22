@@ -2,327 +2,271 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>FoodPrint - from farm to fork</title>
+    <title>FoodPrint - Following From Farm to Fork</title>
+    <meta name="description" content="Free Bootstrap Theme by uicookies.com">
+    <meta name="keywords" content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
-    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" rel="stylesheet">
-    <link href="css/tempusdominus-bootstrap-4.css" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <link href="https://fonts.googleapis.com/css?family=Just+Another+Hand|Open+Sans:300,400" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles-merged.css">
+    <link rel="stylesheet" href="css/style.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
+
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <script src="js/vendor/html5shiv.min.js"></script>
+      <script src="js/vendor/respond.min.js"></script>
     <![endif]-->
-    <script src="js/jquery.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="js/moment-timezone-with-data-2012-2022.min.js"></script>
-    <script src="js/highlight.min.js"></script>
-
-    <script src="js/tempusdominus-bootstrap-4.js"></script>
-    <script src="js/web3.min.js"></script>
-    <script src="js/truffle-contract.js"></script>
-
-
   </head>
   <body>
-     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-         <a href="/" class="text-success my-0 mr-md-auto font-weight-normal"><h4>FoodPrint</h4></a>
-        <nav class="my-2 my-md-0 mr-md-3">
-          <a class="p-2 text-dark" href="#">Configuration</a>
-          <a class="p-2 text-dark" href="#">Supply Chain</a>
-          <a class="p-2 text-dark" href="/weekly">Weekly View</a>
-          <a class="p-2 text-dark" href="#">Analytics</a>
-          <a class="p-2 text-dark" href="#">Help</a>
+
+  <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+    <div class="container">
+        <a href="/" class="probootstrap-logo">FoodPrint<span>.</span></a>
+
+        <a href="#" class="probootstrap-burger-menu visible-xs" ><i>Menu</i></a>
+        <div class="mobile-menu-overlay"></div>
+
+        <nav role="navigation" class="probootstrap-nav hidden-xs">
+          <ul class="probootstrap-main-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/gallery">Produce</a></li>
+            <li><a href="/farmers">Farmers</a></li>
+            <li><a href="/weekly">Weekly View</a></li>
+            <li><a href="/supplychain">Supply Chain</a></li>
+            <li><a href="#">Config</a></li>
+            <li><a href="/contact">Contact</a></li>
+
+            <!--<li><a class="btn btn-outline-primary" href="#">Hi Thandeka</a></li>-->
+          </ul>
+          <div class="extra-text visible-xs">
+            <a href="#" class="probootstrap-burger-menu"><i>Menu</i></a>
+            <h5>Connect</h5>
+            <ul class="social-buttons">
+              <li><a href="#"><i class="icon-twitter"></i></a></li>
+              <li><a href="#"><i class="icon-facebook2"></i></a></li>
+              <li><a href="#"><i class="icon-instagram2"></i></a></li>
+            </ul>
+          </div>
         </nav>
-        <a class="btn btn-outline-primary" href="#">Hi Thandeka</a>
-     </div>
-      <div class="container" style="width: 100%;">
+    </div>
+  </header>
+  <!-- END: header -->
+  <section class="probootstrap-slider flexslider">
+    <div class="probootstrap-text-intro">
+      <div class="container">
         <div class="row">
-
-          <!-- HARVEST START-->
-          <div class="col-md-6"><!--class="col-lg-12"-->
-            <h1 class="text-center">Harvest</h1>
-            <hr/>
-            <br/>
-            <div id="divNotificationBar"></div>
-            <div id="loader">
-              <p class="text-center">Loading...</p>
-            </div>
-            <div id="content" style="display: none;">
-              <!-- View Harvest Entries -->
-
-              <div id="divHarvest">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Supplier</th>
-                      <th scope="col">Product</th>
-                      <th scope="col">Photo</th>
-                      <th scope="col">Harvest Timestamp</th>
-                      <th scope="col">Data Timestamp</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tableHarvest">
-                  </tbody>
-                </table>
-              </div>
-              <hr/>
-                <!-- Get # of harvest entries -->
-                <div id="divNumHarvest"></div>
-                <button type="button" class="btn btn-primary btn-lg btn-block" id="numHarvestButton">Show Total Number of Harvest Entries</button>
-              <hr/>
-
-              <form id="formRegisterHarvest" onSubmit="App.registerHarvest(); return false;">
-                <div class="form-group">
-                  <h1 class="h3 mb-3 font-weight-normal">Add Harvest Entry</h1>
-                  <label for="inputSupplier">Supplier:</label>
-                  <select class="custom-select d-block w-100" id="inputSupplier" required>
-                    <option value="" selected disabled >Choose Supplier...</option>
-                    <option>Oranjezicht City Farm</option>
-                    <option>Naturally Organic</option>
-                    <option>Organic Farmer</option>
-                    <option>Metro Organics</option>
-                    <option>Prickly Pears</option>
-                    <option>White Mountain</option>
-                    <option>Pedi Farmer</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please select a valid supplier.
-                  </div>
-                </div>
-
-                  <!--<label for="inputProduct" class="sr-only">Product</label>-->
-                  <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
-                <div class="form-group">
-                  <label for="inputProduct">Product:</label>
-                  <select class="custom-select d-block w-100" id="inputProduct" required>
-                    <option value="" selected disabled >Choose Product...</option>
-                    <option>Apples</option>
-                    <option>Bananas</option>
-                    <option>Oranges</option>
-                    <option>Cucumber</option>
-                    <option>Spinach</option>
-                    <option>Carrots</option>
-                    <option>Broccolli</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please select a valid product.
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="inputPhoto">Photo:</label>
-                  <input type="number" id="inputPhoto" class="form-control" placeholder="Photo" required autofocus>
-                </div>
-
-                <div class="form-group">
-                  <label for="inputHarvestTime">Harvest Timestamp:</label>
-                  <div class="input-group date" id="inputHarvestTime" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#inputHarvestTime" required autofocus/>
-                      <div class="input-group-append" data-target="#inputHarvestTime" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="inputDataTime">Data Timestamp:</label>
-                  <div class="input-group date" id="inputDataTime" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#inputDataTime" required autofocus/>
-                      <div class="input-group-append" data-target="#inputDataTime" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
-                  </div>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="harvestCheck1" required>
-                  <label class="form-check-label" for="harvestCheck1">I confirm the above is true</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Add Harvest</button>
-                <hr />
-              </form>
+          <div class="col-md-10 col-md-offset-1">
+            <div class="probootstrap-slider-text text-center">
+              <h2 class="probootstrap-heading probootstrap-animate mb20" data-animate-effect="fadeIn">Sustainable</h2>
+              <div class="probootstrap-animate probootstrap-sub-wrap mb30" data-animate-effect="fadeIn">Tasty &amp; Transparent</div>
+              <p class="probootstrap-animate" data-animate-effect="fadeIn"><a href="#" class="btn btn-ghost btn-ghost-white">Join the Journey</a></p>
             </div>
           </div>
-            <script type="text/javascript">
-              $(function () {
-                  $('#inputHarvestTime').datetimepicker({autoclose:true});
-              });
-          </script>
-
-          <script type="text/javascript">
-              $(function () {
-                  $('#inputDataTime').datetimepicker({autoclose: true});
-              });
-          </script>
-          <!-- HARVEST END-->
-
-          <!-- STORAGE START-->
-          <div class="col-md-6"><!--class="col-lg-12"-->
-            <h1 class="text-center">Storage</h1>
-            <hr/>
-            <br/>
-            <div id="divNotificationBarStorage"></div>
-            <div id="loaderStorage">
-              <p class="text-center">Loading...</p>
-            </div>
-            <div id="contentStorage" style="display: none;">
-              <!-- View Storage Entries -->
-                <!--uint ID;  //this should be the same ID as the harvestProduce ID-->
-                  <!--string marketID;-->
-                  <!--address payable marketAddress;-->
-                  <!--uint quantity;-->
-                  <!--string unitOfMeasure;-->
-                  <!--string storageTimeStamp;-->
-                  <!--string storageCaptureTime;-->
-                  <!--string URL;-->
-                  <!--string hashID;-->
-
-              <div id="divStorage">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Harvest</th>
-                      <th scope="col">Quantity</th>
-                      <th scope="col">UoM</th>
-                      <th scope="col">Storage Timestamp</th>
-                      <th scope="col">Data Timestamp</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tableStorage">
-                  </tbody>
-                </table>
-              </div>
-              <hr/>
-                <!-- Get # of harvest entries -->
-                <div id="divNumStorage"></div>
-                <button type="button" class="btn btn-primary btn-lg btn-block" id="numStorageButton">Show Total Number of Storage Entries</button>
-              <hr/>
-              <form id="formRegisterStorage" onSubmit="App.registerStorage(); return false;">
-                <div class="form-group">
-                  <h1 class="h3 mb-3 font-weight-normal">Add Storage Entry</h1>
-                  <!--<label for="inputSupplier" class="sr-only">Supplier</label>-->
-                  <!--<input type="text" id="inputSupplier" class="form-control" placeholder="Supplier name" required autofocus>-->
-
-                  <label for="inputSupplierStorage">Harvest</label>
-                  <select class="custom-select d-block w-100" id="inputSupplierStorage" required>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please select a valid harvest entry.
-                  </div>
-                </div>
-
-                  <div class="form-group">
-                  <label for="inputQuantityStorage">Quantity:</label>
-                  <input type="number" id="inputQuantityStorage" class="form-control" placeholder="Quantity" required autofocus>
-                </div>
-
-                  <!--<label for="inputProduct" class="sr-only">Product</label>-->
-                  <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
-                <div class="form-group">
-                  <label for="inputUoMStorage">Unit of Measure</label>
-                  <select class="custom-select d-block w-100" id="inputUoMStorage" required>
-                    <option value="">Choose Unit of Measure...</option>
-                    <option>bunch</option>
-                    <option>kilogram</option>
-                    <option>none</option>
-                    <option>box</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please select a valid unit of measure.
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="inputStorageTime">Storage Timestamp:</label>
-                  <div class="input-group date" id="inputStorageTime" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#inputStorageTime" required autofocus/>
-                      <div class="input-group-append" data-target="#inputStorageTime" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="inputDataTimeStorage">Data Timestamp:</label>
-                  <div class="input-group date" id="inputDataTimeStorage" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#inputDataTimeStorage" required autofocus/>
-                      <div class="input-group-append" data-target="#inputDataTimeStorage" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
-                  </div>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="storageCheck1" required>
-                  <label class="form-check-label" for="storageCheck1">I confirm the above is true</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Add Storage</button>
-                <hr />
-              </form>
-              <div id="testQRCode"></div>
-            </div>
-          </div>
-
-          <script type="text/javascript">
-              $(function () {
-                  $('#inputStorageTime').datetimepicker({autoclose:true});
-              });
-          </script>
-
-          <script type="text/javascript">
-              $(function () {
-                  $('#inputDataTimeStorage').datetimepicker({autoclose: true});
-              });
-          </script>
-        <!-- STORAGE END -->
-            <!-- Coinbase Address -->
-                <p id="coinbaseAddress" class="text-center"></p>
-              <hr/>
-
         </div>
       </div>
-
-
-
-    <footer class="container py-5">
+    </div>
+    <ul class="slides">
+      <li style="background-image: url(img/oranges_bg.jpg);"></li>
+      <li style="background-image: url(img/orangebowl_bg.jpg);"></li>
+    </ul>
+  </section>
+  <!-- END: slider  -->
+  <section class="probootstrap-section">
+    <div class="container">
       <div class="row">
-        <div class="col-12 col-md">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>
-          <small class="d-block mb-3 text-muted">&copy; FoodPrint 2019, from farm to fork</small>
-          <img src="/img/logo.png" alt="" class="img-responsive" style="width: 70%">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate" data-animate-effect="fadeIn">
+          <div class="product-item">
+            <figure><img src="img/fruitOne.jpg" alt="Free Template by uicookies.com" class="img-responsive imgGrid"></figure>
+            <div class="text">
+              <h2 class="heading">Mangoes</h2>
+              <p>The mangoes are cultivated using biological farming methods. The result is a succulent sweet flesh and a unique mango flavour.</p>
+              <p><a  class="btn btn-primary btn-sm" data-toggle="modal" data-target=".exampleModalCenter">View Details</a></p>
+            </div>
+          </div>
         </div>
-        <div class="col-6 col-md">
-          <h5>Features</h5>
-          <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="#">Harvest Data Capture</a></li>
-            <li><a class="text-muted" href="#">Storage Data Capture</a></li>
-            <li><a class="text-muted" href="#">Barcode Scanning</a></li>
-            <li><a class="text-muted" href="#">Analytics</a></li>
-          </ul>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate" data-animate-effect="fadeIn">
+          <div class="product-item">
+            <figure><img src="img/fruitTwo.jpg" alt="Free Template by uicookies.com" class="img-responsive"></figure>
+            <div class="text">
+              <h2 class="heading">Dragon Fruit</h2>
+              <p>The spiky egg-shaped fruit conceals a soft fleshy center, vivid pink or iridescent white, dotted with tiny seeds.</p>
+              <p><a href="#" class="btn btn-primary btn-sm">View Details</a></p>
+            </div>
+          </div>
         </div>
-        <div class="col-6 col-md">
-          <h5>Resources</h5>
-          <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="#">Support</a></li>
-            <li><a class="text-muted" href="#">Blog</a></li>
-          </ul>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate" data-animate-effect="fadeIn">
+          <div class="product-item">
+            <figure><img src="img/fruitThree.png" alt="Free Template by uicookies.com" class="img-responsive"></figure>
+            <div class="text">
+              <h2 class="heading">Jerusalem Artichokes</h2>
+              <p>The white flesh of this vegetable is nutty, sweet and crunchy and is a good source of Iron.</p>
+              <p><a href="#" class="btn btn-primary btn-sm">View Details</a></p>
+            </div>
+          </div>
         </div>
+        <div class="clearfix visible-lg-block visible-md-block"></div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate" data-animate-effect="fadeIn">
+          <div class="product-item">
+            <figure><img src="img/fruitFour.jpg" alt="Free Template by uicookies.com" class="img-responsive"></figure>
+            <div class="text">
+              <h2 class="heading">Nules Naartjies</h2>
+              <p>These are one of the all time great citrus fruits. The word naartjie come from the Tamil word nartei, meaning citrus.</p>
+              <p><a href="#" class="btn btn-primary btn-sm">View Details</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate" data-animate-effect="fadeIn">
+          <div class="product-item">
+            <figure><img src="img/fruitFive.jpg" alt="Free Template by uicookies.com" class="img-responsive "></figure>
+            <div class="text">
+              <h2 class="heading">Pink Lady Apples</h2>
+              <p>The pink lady apple was created in 1973 by an Australian plant breeder, John Cripps, from a cross between a Golden Delicious and a Lady William..</p>
+              <p><a href="#" class="btn btn-primary btn-sm">View Details</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate" data-animate-effect="fadeIn">
+          <div class="product-item">
+            <figure><img src="img/fruitSix.jpg" alt="Free Template by uicookies.com" class="img-responsive "></figure>
+            <div class="text">
+              <h2 class="heading">Cara Cara Oranges</h2>
+              <p>This medium sized navel is seedless, sweet and low in acid and characterised by little to no pith and easy clean separation from the rind.</p>
+              <p><a href="#" class="btn btn-primary btn-sm">View Details</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix visible-lg-block visible-md-block"></div>
+      </div>
+    </div>
+  </section>
 
-        <div class="col-6 col-md">
-          <h5>About</h5>
-          <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="#">Our Story</a></li>
-            <li><a class="text-muted" href="#">Team</a></li>
-            <li><a class="text-muted" href="#">Locations</a></li>
-            <li><a class="text-muted" href="#">Terms and Privacy</a></li>
-          </ul>
+  <section class="probootstrap-section probootstrap-bg" style="background-image: url(img/food_bg.jpg);">
+    <div class="container text-center">
+      <h2 class="heading probootstrap-animate" data-animate-effect="fadeIn">Fresh &amp; Non-GMO Products</h2>
+      <p class="sub-heading probootstrap-animate" data-animate-effect="fadeIn">Learning more about the food we eat and the people who grow them</p>
+    </div>
+  </section>
+
+  <section class="probootstrap-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="service">
+            <div class="icon"><i class="icon-location"></i></div>
+            <h2 class="heading">Locally Grown Vegetables</h2>
+            <p>The majority of the produce at OZCF is grown at farms in and around the western cape, all the way from the West Cost to George</p>
+            <p>This helps support the small scale farmers making use of sustainable farming methods</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="service">
+            <div class="icon"><i class="icon-tree"></i></div>
+            <h2 class="heading">Natural As It's In Nature</h2>
+            <p>Not all produce at the market is organically certified but it is pesticide free. You are given the knowledge so that you can choose accordingly.</p>
+            <p>The produce is grown using sustainable farming methods that are good for the land and the people.</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="service">
+            <div class="icon"><i class="icon-heart-outlined"></i></div>
+            <h2 class="heading">Food for Thought</h2>
+            <p>Knowing more about the provenance of your produce offers you better agency to support farmers making use of ethical farming methods.</p>
+            <p>It gives you the chance to put your support behind produce that is good for the land and for</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="clearfix visible-lg-block visible-md-block"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(img/slider_3.jpg)">
+    <div class="container">
+      <div class="row mb60">
+        <div class="col-md-3">
+          <div class="probootstrap-footer-widget">
+            <h4 class="heading">About</h4>
+            <ul class="stack-link">
+              <li><a href="#">Our Story</a></li>
+              <li><a href="/team">Team</a></li>
+              <li><a href="#">Locations</a></li>
+              <li><a href="/terms">Terms and Privacy</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="probootstrap-footer-widget">
+            <h4 class="heading">Features</h4>
+            <ul class="stack-link">
+              <li><a href="#">Harvest Data Capture</a></li>
+              <li><a href="#">Storage Data Capture</a></li>
+              <li><a href="#">Barcode Scanning</a></li>
+              <li><a href="#">Analytics</a></li>
+              <li><a href="#">Support</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="probootstrap-footer-widget">
+            <h4 class="heading">Products</h4>
+            <ul class="stack-link">
+              <li><a href="#">Organic Fruits</a></li>
+              <li><a href="#">Organic Vegetables</a></li>
+              <li><a href="#">Non-GMO Products</a></li>
+              <li><a href="#">Locally Grown Products</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="probootstrap-footer-widget">
+            <h4 class="heading">Subscribe</h4>
+            <p>Far far away behind the word mountains far from.</p>
+            <form action="#">
+              <div class="form-field">
+                <input type="text" class="form-control" placeholder="Enter your email">
+                <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </footer>
-   <script type="text/javascript" src="js/bundle.js"></script>
+      <div class="row copyright">
+        <div class="col-md-6">
+          <div class="probootstrap-footer-widget">
+            <p>&copy; 2019 <a href="https://foodprint.com/">FoodPrint, from farm to fork</a>. Designed by <a href="https://uicookies.com/">uicookies.com</a></p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="probootstrap-footer-widget right">
+            <ul class="probootstrap-footer-social">
+              <li><a href="#"><i class="icon-twitter"></i></a></li>
+              <li><a href="#"><i class="icon-facebook"></i></a></li>
+              <li><a href="#"><i class="icon-instagram2"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="icon-chevron-thin-up"></i></a>
+  </div>
+
+  <script src="js/scripts.min.js"></script>
+  <script src="js/main.min.js"></script>
+  <script src="js/custom.js"></script>
+
   </body>
 </html>
