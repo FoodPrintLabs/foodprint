@@ -32,18 +32,43 @@
 
   </head>
   <body>
-   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-       <a href="/" class="text-success my-0 mr-md-auto font-weight-normal"><h4>FoodPrint</h4></a>
-      <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="#">Configuration</a>
-        <a class="p-2 text-dark" href="#">Supply Chain</a>
-        <a class="p-2 text-dark" href="/weekly">Weekly View</a>
-        <a class="p-2 text-dark" href="#">Analytics</a>
-        <a class="p-2 text-dark" href="#">Help</a>
-      </nav>
-      <a class="btn btn-outline-primary" href="#">Hi Thandeka</a>
-    </div>
+   <!-- START: header -->
 
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+    <div class="container">
+        <a href="/" class="probootstrap-logo">FoodPrint<span>.</span></a>
+
+        <a href="#" class="probootstrap-burger-menu visible-xs" ><i>Menu</i></a>
+        <div class="mobile-menu-overlay"></div>
+
+        <nav role="navigation" class="probootstrap-nav hidden-xs">
+          <ul class="probootstrap-main-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/gallery">Produce</a></li>
+            <li><a href="/farmers">Farmers</a></li>
+            <li><a href="/weekly">Weekly View</a></li>
+            <li><a href="/supplychain">Supply Chain</a></li>
+            <li><a href="#">Config</a></li>
+            <li><a href="/contact">Contact</a></li>
+
+            <!--<li><a class="btn btn-outline-primary" href="#">Hi Thandeka</a></li>-->
+          </ul>
+          <div class="extra-text visible-xs">
+            <a href="#" class="probootstrap-burger-menu"><i>Menu</i></a>
+            <h5>Connect</h5>
+            <ul class="social-buttons">
+              <li><a href="#"><i class="icon-twitter"></i></a></li>
+              <li><a href="#"><i class="icon-facebook2"></i></a></li>
+              <li><a href="#"><i class="icon-instagram2"></i></a></li>
+            </ul>
+          </div>
+        </nav>
+    </div>
+  </header>
+  <!-- END: header -->
    <div class="container" style="width: 100%;">
             <h4>Visualise the Journey</h4>
             <div class="row">
@@ -100,41 +125,75 @@
         </div>
         <hr>
 
-    <footer class="container py-5">
-      <div class="row">
-        <div class="col-12 col-md">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>
-          <small class="d-block mb-3 text-muted">&copy; FoodPrint 2019, from farm to fork</small>
-          <img src="/img/logo.png" alt="" class="img-responsive" style="width: 70%">
+    <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(img/slider_3.jpg)">
+    <div class="container">
+      <div class="row mb60">
+        <div class="col-md-3">
+          <div class="probootstrap-footer-widget">
+            <h4 class="heading">About</h4>
+            <ul class="stack-link">
+              <li><a href="#">Our Story</a></li>
+              <li><a href="/team">Team</a></li>
+              <li><a href="#">Locations</a></li>
+              <li><a href="/terms">Terms and Privacy</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="col-6 col-md">
-          <h5>Features</h5>
-          <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="#">Harvest Data Capture</a></li>
-            <li><a class="text-muted" href="#">Storage Data Capture</a></li>
-            <li><a class="text-muted" href="#">Barcode Scanning</a></li>
-            <li><a class="text-muted" href="#">Analytics</a></li>
-          </ul>
+        <div class="col-md-3">
+          <div class="probootstrap-footer-widget">
+            <h4 class="heading">Features</h4>
+            <ul class="stack-link">
+              <li><a href="#">Harvest Data Capture</a></li>
+              <li><a href="#">Storage Data Capture</a></li>
+              <li><a href="#">Barcode Scanning</a></li>
+              <li><a href="#">Analytics</a></li>
+              <li><a href="#">Support</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="col-6 col-md">
-          <h5>Resources</h5>
-          <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="#">Support</a></li>
-            <li><a class="text-muted" href="#">Blog</a></li>
-          </ul>
+        <div class="col-md-3">
+          <div class="probootstrap-footer-widget">
+            <h4 class="heading">Products</h4>
+            <ul class="stack-link">
+              <li><a href="#">Organic Fruits</a></li>
+              <li><a href="#">Organic Vegetables</a></li>
+              <li><a href="#">Non-GMO Products</a></li>
+              <li><a href="#">Locally Grown Products</a></li>
+            </ul>
+          </div>
         </div>
-
-        <div class="col-6 col-md">
-          <h5>About</h5>
-          <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="#">Our Story</a></li>
-            <li><a class="text-muted" href="#">Team</a></li>
-            <li><a class="text-muted" href="#">Locations</a></li>
-            <li><a class="text-muted" href="#">Terms and Privacy</a></li>
-          </ul>
+        <div class="col-md-3">
+          <div class="probootstrap-footer-widget">
+            <h4 class="heading">Subscribe</h4>
+            <p>Far far away behind the word mountains far from.</p>
+            <form action="#">
+              <div class="form-field">
+                <input type="text" class="form-control" placeholder="Enter your email">
+                <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </footer>
+      <div class="row copyright">
+        <div class="col-md-6">
+          <div class="probootstrap-footer-widget">
+            <p>&copy; 2019 <a href="https://foodprint.com/">FoodPrint, from farm to fork</a>. Designed by <a href="https://uicookies.com/">uicookies.com</a></p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="probootstrap-footer-widget right">
+            <ul class="probootstrap-footer-social">
+              <li><a href="#"><i class="icon-twitter"></i></a></li>
+              <li><a href="#"><i class="icon-facebook"></i></a></li>
+              <li><a href="#"><i class="icon-instagram2"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
    <script type="text/javascript" src="/js/bundle.js"></script>
   </body>
 </html>
