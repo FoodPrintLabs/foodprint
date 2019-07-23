@@ -33,3 +33,5 @@ const data = [
       market_ts: "23:00", //market timestamp
     },
   ];
+
+  export default data;
