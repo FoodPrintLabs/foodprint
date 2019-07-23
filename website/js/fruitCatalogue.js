@@ -6,8 +6,9 @@ const data = [
       id: 1,
       fruit_name: "Mangoes",
       picture:
-        "img/fruitOne.jpg", //an image of the fruit
+        "img/fruitCatalogue/mangoes.jpg", //an image of the fruit
       fruit_descrip: "They have succulent sweet flesh and a unique mango flavour", //fruit description
+      fruit_cert: "",
       fruit_par1: "The mangoes are from Tamarak Mango Estate. It is a first generation farm, started by co-owners Bernie van den Heever and Dirk Visser. The estate is located between Citrusdal and Clanwilliam.", //paragraph 1
       fruit_par2: "The co-owner Bernie says the mangoes are cultivated through biological farming methods. The estate prepares its own compostand refrains from spraying harsh chemicals on fruits or trees. They use natural predators as a pest fighting mechanism.", //paragraph 2
       //fruit_par3: "Medium", //paragraph 3
@@ -21,13 +22,175 @@ const data = [
       id: 2,
       fruit_name: "Cara Cara Oranges",
       picture:
-        "img/fruitFive.jpg", //an image of the fruit
+        "img/fruitCatalogue/caracaraoranges.jpg", //an image of the fruit
       fruit_descrip: "A medium sized navel that is seedless, sweet and low in acidity. It is characterised by little to no pith and easy clean separation from the rind", //fruit description
+      fruit_cert: "",
       fruit_par1: "This medium sized navel is seedless, sweet and low in acid and characterised by little to no pith and easy, clean separation from the rind. The flavour is more complex than most navel varieties and has been described as evoking notes of cherry, rose petal, and blackberry.", //paragraph 1
       fruit_par2: "How citrus arrived on the shores of Africa from the tropical rainforests of Southern China and the Malay Archipelago and ended up on the Olifants River Valley is a historical tale. The arrival of the sweet orange to the shores of Southern Africa is clearly recorded. On 11 June 1654, the ship Tulp brought the first sweet orange trees to Cape Town from St Helena where the Portuguese had planted them to aid sick sailors.", //paragraph 2
       fruit_par3: "The first trees in South Africa were planted in the Company’s Garden. On the 26th July 1661, the first fruits were picked by Jan Van Riebeeck and were recorded as being “very good”. By the time that the St Helena oranges bore their first fruit, Jan Van Riebeeck had 1162 citrus fruit trees growing in his garden, making it the first South African orchard. ", //paragraph 3
       // fruit_par4: "", //paragraph 4
       origin: "Bergsoom Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+    },
+    {
+      id: 3,
+      fruit_name: "Beetroot",
+      picture:
+        "img/fruitCatalogue/beetroot.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+    },
+    {
+      id: 4,
+      fruit_name: "Baby Marrows/Courgettes/Zucchini",
+      picture:
+        "img/fruitCatalogue/babymarrow.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+    },
+    {
+      id: 5,
+      fruit_name: "Mange Tout Peas",
+      picture:
+        "img/fruitCatalogue/peas.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+    },
+    {
+      id: 6,
+      fruit_name: "Crown Prince Pumpkin",
+      picture:
+        "img/fruitCatalogue/pumpkin.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+    },
+    {
+      id: 7,
+      fruit_name: "Ruby Grapefruit",
+      picture:
+        "img/fruitCatalogue/grapefruit.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+    },
+    {
+      id: 8,
+      fruit_name: "Naartjies Nardocott",
+      picture:
+        "img/fruitCatalogue/naartjies_nardocott.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+    },
+    {
+      id: 9,
+      fruit_name: "Radish Cherry Belle",
+      picture:
+        "img/fruitCatalogue/radish.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+    },
+    {
+      id: 10,
+      fruit_name: "Yellow Tomatoes",
+      picture:
+        "img/fruitCatalogue/yellowtomatoes.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+    },
+    {
+      id: 11,
+      fruit_name: "Sicilian Tarocco Scire Blood Orange",
+      picture:
+        "img/fruitCatalogue/scirebloodorange.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
+      origin_dist: "23km", //distance travelled
+      harvest_ts: "23:00", //harvest timestamp
+      market_ts: "23:00", //market timestamp
+      cert: "organic", //certification is organic or conventional
+    },
+    {
+      id: 12,
+      fruit_name: "Nules Naartjies",
+      picture:
+        "img/fruitCatalogue/nulesnaartjies.jpg", //an image of the fruit
+      fruit_descrip: "Flat-Twist With Twist Out", //fruit description
+      fruit_cert: "",
+      fruit_par1: "Medium", //paragraph 1
+      fruit_par2: "Medium", //paragraph 2
+      fruit_par3: "Medium", //paragraph 3
+      fruit_par4: "Medium", //paragraph 4
+      origin: "Farm", //farm of origin
       origin_dist: "23km", //distance travelled
       harvest_ts: "23:00", //harvest timestamp
       market_ts: "23:00", //market timestamp
