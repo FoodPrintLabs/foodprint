@@ -197,4 +197,10 @@ const data = [
     },
   ];
 
+  const firstFruit= data[0]; //pick the first object from the catalogue and assign it to first fruit
+
+  document.getElementById("fruitOneName").innerHTML = "Mangoes"; //assign name of fruitOne to first fruit name object value
+  document.getElementById("fruitOneImg").src = "img/fruitSeven.jpg"; //change image source
+  document.getElementById("fruitOneDescrip").innerHTML = "They have succulent sweet flesh and a unique mango flavour"
+
   export default data;
