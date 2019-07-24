@@ -172,9 +172,8 @@ App = {
       theProductInstance = instance;
       return theProductInstance.noStorage();
     }).then(function(storageCount) {
-
       var cardDeckWeekly = $("#cardDeckWeekly");
-      cardDeckWeekly.empty();
+     cardDeckWeekly.empty();
 
       for (var i = 0; i <= storageCount; i++) {
         theProductInstance.storageProduceArray(i).then(function(storage) {
@@ -192,45 +191,23 @@ App = {
           var QRCodeSupplierProduce = (cardText + "_" + cardTitle).replace(/\s/g,'');
           var modalID = "weeklyModal_" + QRCodeSupplierProduce;
           var QRCodeID = "QRCode_" + QRCodeSupplierProduce;
-          var modalHeader = cardTitle + " from " + cardText;
-          var dataTargetModal = "#" + modalID;
-          var weeklyEntry = "<div class='card'>\
-                <div class='card-body'>\
-                  <h5 class='card-title'>" + cardTitle + "</h5>\
-                  <p class='card-text'>Supplied by " + cardText + ".</p>\
-                  <p class='card-text'><small class='text-muted'>Last Updated on " +  cardUpdateTime + "</small></p>\
-                  <button type='button' class='btn btn-primary' data-toggle='modal' data-target='"+dataTargetModal+"'>\
-                    View Journey\
-                  </button>\
-                </div>\
-              </div>\
-              <!-- The Modal -->\
-              <div class='modal' id='"+modalID+"'>\
-                <div class='modal-dialog modal-dialog-centered'>\
-                  <div class='modal-content'>\
-                    <!-- Modal Header -->\
-                    <div class='modal-header text-center d-block'>\
-                      <h4 class='modal-title d-inline-block'>" + modalHeader + "</h4>\
-                      <button type='button' class='close' data-dismiss='modal'>&times;</button>\
-                    </div>\
-                    <!-- Modal body -->\
-                    <div class='modal-body'>\
-                      <div id='"+QRCodeID+"' align='center'></div>\
-                      <p class='modal-text' align='center'><small class='text-muted'>Scan QR Code using your cellphone camera app</small></p>\
-                    </div>\
-                    <!-- Modal footer -->\
-                    <div class='modal-footer'>\
-                      <button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button>\
-                    </div>\
-                  </div>\
-                </div>\
-              </div>"
 
+          var weeklyEntry = '<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">\n' +
+                '          <div class="service">\n' +
+                '            <h2 class="heading">'+cardTitle+'</h2>\n' +
+                '            <p>Supplied by ' + cardText + '.</p>\n' +
+                '            <p><small class="text-muted">Last Updated on ' +  cardUpdateTime + '</small></p>\n' +
+                "            <div id='"+QRCodeID+"' align='center'></div>\
+                             <p class='modal-text' align='center'><small class='text-muted'>Scan QR Code to Visualise the Food Journey (using your camera app)</small></p>\n"+
+                '          </div>\n' +
+                '        <div class="clearfix visible-lg-block visible-md-block"></div>\n' +
+                '      </div>';
 
-          cardDeckWeekly.append(weeklyEntry);
+          cardDeckWeekly  .append(weeklyEntry);
           var baseURL = window.location.origin; //"http://localhost:3000"
           var QRCodeURL = baseURL + "/scan/" + QRCodeSupplierProduce; //http://localhost:3000/scanresult/OranjezichtCityFarm_Apples
-          console.log('QRCodeURL ' + QRCodeURL);
+          //console.log('weeklyEntry ' + weeklyEntry2);
+          //console.log('QRCodeURL ' + QRCodeURL);
           createQRCode(QRCodeID, QRCodeSupplierProduce, QRCodeURL);
         });
       };
