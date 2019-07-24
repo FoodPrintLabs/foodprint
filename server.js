@@ -58,6 +58,11 @@ router.get('/terms',function(req,res){
   res.sendFile(path.join(__dirname+'/src/termsofuse.html'));
 });
 
+//return sign-in page
+router.get('/sign_in',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/sign_in.html'));
+});
+
 //return template with scan results for produce
 router.get('/scan/:id',function(req,res){
   const supplierProduceID = req.params.id;
