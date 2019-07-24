@@ -148,7 +148,9 @@ App = {
         numStorage.html(storageCount.toString());
 
       };
-      createQRCode("testQRCode", "OranjezichtCityFarm_Apples", "http://localhost:3000/scanresult/OranjezichtCityFarm_Apples");
+        //testQRCode - add to page that imports app.js
+        //<div id="testQRCode"></div>
+        //createQRCode("testQRCode", "OranjezichtCityFarm_Apples", "http://localhost:3000/scanresult/OranjezichtCityFarm_Apples");
 
       loaderStorage.hide();
       contentStorage.show();
