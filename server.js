@@ -47,6 +47,11 @@ router.get('/team',function(req,res){
   res.sendFile(path.join(__dirname+'/src/team.html'));
 });
 
+//return template for how
+router.get('/how',function(req,res){
+  res.sendFile(path.join(__dirname+'/src/How.html'));
+});
+
 
 //return template for terms and conditions
 router.get('/terms',function(req,res){
