@@ -55,7 +55,7 @@ router.get('/how',function(req,res){
 
 //return template for terms and conditions
 router.get('/terms',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/terms.html'));
+  res.sendFile(path.join(__dirname+'/src/termsofuse.html'));
 });
 
 //return template with scan results for produce
