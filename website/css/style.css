@@ -65,7 +65,7 @@ h2 {
   font-size: 2.827em;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 800px) {
   h2 {
     font-size: 2.10em;
   }
@@ -569,7 +569,7 @@ a.hover-reverse:hover, a.hover-reverse:focus, a.hover-reverse:active {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$firstcolor, endColorstr=$secondcolor, GradientType=1 );
 }
 
-.probootstrap-section.probootstrap-section-colored .section-heading h2, .probootstrap-section.probootstrap-section-dark .section-heading h2 {
+.probootstrap-section.probootstrap-section-colored .section-heading probootstrap-heading probootstrap-animate mb20, .probootstrap-section.probootstrap-section-dark .section-heading h2 {
   color: white;
 }
 
@@ -1318,7 +1318,7 @@ a.hover-reverse:hover, a.hover-reverse:focus, a.hover-reverse:active {
 }
 
 .flexslider .probootstrap-slider-text {
-  margin-top: 300px;
+  margin-top: 250px;
 }
 
 @media screen and (max-width: 480px) {
