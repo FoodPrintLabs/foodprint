@@ -194,6 +194,7 @@ App = {
 
           var weeklyEntry = '<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">\n' +
                 '          <div class="service">\n' +
+                '            <div class="icon"><i class="icon-tree"></i></div>\n' +
                 '            <h2 class="heading">'+cardTitle+'</h2>\n' +
                 '            <p>Supplied by ' + cardText + '.</p>\n' +
                 '            <p><small class="text-muted">Last Updated on ' +  cardUpdateTime + '</small></p>\n' +
