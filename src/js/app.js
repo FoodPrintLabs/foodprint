@@ -204,7 +204,7 @@ App = {
                 '        <div class="clearfix visible-lg-block visible-md-block"></div>\n' +
                 '      </div>';
 
-          cardDeckWeekly  .append(weeklyEntry);
+          cardDeckWeekly.append(weeklyEntry);
           var baseURL = window.location.origin; //"http://localhost:3000"
           var QRCodeURL = baseURL + "/scan/" + QRCodeSupplierProduce; //http://localhost:3000/scanresult/OranjezichtCityFarm_Apples
           //console.log('weeklyEntry ' + weeklyEntry2);
