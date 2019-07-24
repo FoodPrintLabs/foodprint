@@ -2,7 +2,7 @@
 // fruit db containing all the info pertaining to each fruit
 
 const data = [
-    {
+  {
       id: 1,
       fruit_name: "Mangoes",
       picture:
@@ -54,7 +54,7 @@ const data = [
       id: 4,
       fruit_name: "English Spinach",
       picture:
-        "img/fruitCatalogue/spinachenglish.jpg", //an image of the fruit
+        "img/fruitCatalogue/spinachenglish.jpeg", //an image of the fruit
       fruit_descrip: "", //fruit description
       fruit_cert: "Organic Non-certified",
       fruit_par1: "Medium", //paragraph 1
@@ -70,7 +70,7 @@ const data = [
       id: 5,
       fruit_name: "Mange Tout Peas",
       picture:
-        "img/fruitCatalogue/peas.jpg", //an image of the fruit
+        "img/fruitCatalogue/mangetoutpeas.jpg", //an image of the fruit
       fruit_descrip: "", //fruit description
       fruit_cert: "Organic Non-ceritifed",
       fruit_par1: "Medium", //paragraph 1
@@ -86,9 +86,9 @@ const data = [
       id: 6,
       fruit_name: "Crown Prince Pumpkin",
       picture:
-        "img/fruitCatalogue/pumpkin.jpg", //an image of the fruit
+        "img/fruitCatalogue/crownprincepumpkin.jpg", //an image of the fruit
       fruit_descrip: "Organic Non-certified", //fruit description
-      fruit_cert: "",
+      fruit_cert: "Conventional",
       fruit_par1: "Medium", //paragraph 1
       fruit_par2: "Medium", //paragraph 2
       fruit_par3: "Medium", //paragraph 3
@@ -197,10 +197,40 @@ const data = [
     },
   ];
 
-  const firstFruit= data[0]; //pick the first object from the catalogue and assign it to first fruit
+  const firstFruit= data[0];
 
-  document.getElementById("fruitOneName").innerHTML = "Mangoes"; //assign name of fruitOne to first fruit name object value
-  document.getElementById("fruitOneImg").src = "img/fruitSeven.jpg"; //change image source
-  document.getElementById("fruitOneDescrip").innerHTML = "They have succulent sweet flesh and a unique mango flavour"
+  document.getElementById("fruitOneName").innerHTML = firstFruit.fruit_name; //assign name of fruitOne to first fruit name object value
+  document.getElementById("fruitOneImg").src = firstFruit.picture; //change image source
+  document.getElementById("fruitOneCert").innerHTML = firstFruit.fruit_cert;
+
+  const secondFruit= data[1];
+
+  document.getElementById("fruitTwoName").innerHTML = secondFruit.fruit_name; //assign name of fruitOne to first fruit name object value
+  document.getElementById("fruitTwoImg").src = secondFruit.picture; //change image source
+  document.getElementById("fruitTwoCert").innerHTML = secondFruit.fruit_cert;
+
+  const thirdFruit= data[2];
+
+  document.getElementById("fruitThreeName").innerHTML = thirdFruit.fruit_name; //assign name of fruitOne to first fruit name object value
+  document.getElementById("fruitThreeImg").src = thirdFruit.picture; //change image source
+  document.getElementById("fruitThreeCert").innerHTML = thirdFruit.fruit_cert;
+
+  const fourthFruit= data[3];
+
+  document.getElementById("fruitFourName").innerHTML = fourthFruit.fruit_name; //assign name of fruitOne to first fruit name object value
+  document.getElementById("fruitFourImg").src = fourthFruit.picture; //change image source
+  document.getElementById("fruitFourCert").innerHTML = fourthFruit.fruit_cert;
+
+  const fifthFruit= data[4];
+
+  document.getElementById("fruitFiveName").innerHTML = fifthFruit.fruit_name; //assign name of fruitOne to first fruit name object value
+  document.getElementById("fruitFiveImg").src = fifthFruit.picture; //change image source
+  document.getElementById("fruitFiveCert").innerHTML = fifthFruit.fruit_cert;
+
+  const sixthFruit= data[5];
+
+  document.getElementById("fruitSixName").innerHTML = sixthFruit.fruit_name; //assign name of fruitOne to first fruit name object value
+  document.getElementById("fruitSixImg").src = sixthFruit.picture; //change image source
+  document.getElementById("fruitSixCert").innerHTML = sixthFruit.fruit_cert;
 
   export default data;

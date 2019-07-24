@@ -456,41 +456,25 @@
     },
   ];
 
-  const firstFruit= data[0];
+  
 
-  document.getElementById("fruitOneName").innerHTML = firstFruit.fruit_name; //assign name of fruitOne to first fruit name object value
-  document.getElementById("fruitOneImg").src = firstFruit.picture; //change image source
-  document.getElementById("fruitOneCert").innerHTML = firstFruit.fruit_cert;
+var fruitBasket = ["fruitOne", "fruitTwo", "fruitThree", "fruitFour", "fruitFive", "fruitSix"];
 
-  const secondFruit= data[1];
+//fruit basket gives us part of the name of the ID of the html objects
+//fruit catalogue gives us the json object from where we will extract data pertaining to each fruit
+function addFruitInfo (){
+    var i; //variable i is used to keep track of the indexing in the fruit basket
+    for (i = 0; i < 6 ;i++) {
+          var a = fruitBasket[i] + "Name";
+          var b = fruitBasket[i] + "Img";
+          var c = fruitBasket[i] + "Cert";
+            document.getElementById(a).innerHTML = data[i].fruit_name;
+            document.getElementById(b).src = data[i].picture;
+            document.getElementById(c).innerHTML = data[i].fruit_cert;
+      }
+};
 
-  document.getElementById("fruitTwoName").innerHTML = secondFruit.fruit_name; //assign name of fruitOne to first fruit name object value
-  document.getElementById("fruitTwoImg").src = secondFruit.picture; //change image source
-  document.getElementById("fruitTwoCert").innerHTML = secondFruit.fruit_cert;
-
-  const thirdFruit= data[2];
-
-  document.getElementById("fruitThreeName").innerHTML = thirdFruit.fruit_name; //assign name of fruitOne to first fruit name object value
-  document.getElementById("fruitThreeImg").src = thirdFruit.picture; //change image source
-  document.getElementById("fruitThreeCert").innerHTML = thirdFruit.fruit_cert;
-
-  const fourthFruit= data[3];
-
-  document.getElementById("fruitFourName").innerHTML = fourthFruit.fruit_name; //assign name of fruitOne to first fruit name object value
-  document.getElementById("fruitFourImg").src = fourthFruit.picture; //change image source
-  document.getElementById("fruitFourCert").innerHTML = fourthFruit.fruit_cert;
-
-  const fifthFruit= data[4];
-
-  document.getElementById("fruitFiveName").innerHTML = fifthFruit.fruit_name; //assign name of fruitOne to first fruit name object value
-  document.getElementById("fruitFiveImg").src = fifthFruit.picture; //change image source
-  document.getElementById("fruitFiveCert").innerHTML = fifthFruit.fruit_cert;
-
-  const sixthFruit= data[5];
-
-  document.getElementById("fruitSixName").innerHTML = sixthFruit.fruit_name; //assign name of fruitOne to first fruit name object value
-  document.getElementById("fruitSixImg").src = sixthFruit.picture; //change image source
-  document.getElementById("fruitSixCert").innerHTML = sixthFruit.fruit_cert;
+addFruitInfo();
 
   </script>
 
