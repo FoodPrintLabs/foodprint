@@ -40,4 +40,44 @@ VALUES ('OCFMBERFARGNAAR01', 'Margaret Ann McGregor', 'Bergsoom Farm', 'Naartjie
 INSERT INTO metaTable
 VALUES ('OCFMWHIMOURADI01', 'Francois Malan',	'White Mountain',	'Radish Cherry Belle 150g',	'Bunch',	'A 2 ha family run farm producing organic vegetables. Henriette and Francois Malans biodynamic farm is on the outskirts of Wolseley in the Breede River Valley. The couple use organic methods of crop rotation, natural methods to build soil fertility, green manures and recently they have experimented with using homeopathic remedies (Francois brother is a homeopath) and have found them to be effective - such as using Silica applied at every moon Saturns opposition.', 'https://wmnpweb.wixsite.com/whitemountainnp?fbclid=IwAR253q5N0kas_2VQ6MsTOQ6ijsDZZ6bgzmqWQfsKh_u3P2E9hlQWkKtfep4');
 
+CREATE TABLE harvest (
+        counter int NOT NULL AUTO_INCREMENT,
+        ID varchar(255),
+        supplierID varchar(255),
+        supplierAddress varchar(255),
+        productID varchar(255),
+        photoHash varchar(255),
+        harvestTimeStamp varchar(255),
+        harvestCaptureTime varchar(255),
+        description varchar(255),
+        geolocation varchar(255),
+        supplierproduce varchar(255)
+);
 
+INSERT INTO harvest
+VALUES ('2', 'inputSupplier',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'inputProduct',	'inputPhoto',	'2019-07-05 09:25', '2019-07-06 10:25', 'description', 'geolocation', 'Oranjezicht City Farm_Apples');
+
+
+-- return instance.registerHarvest("2", inputSupplier, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputProduct, inputPhoto, momentHarvestTime, momentInputDataTime, solidityContext);
+
+
+CREATE TABLE storage (
+        counter int NOT NULL AUTO_INCREMENT,
+        ID varchar(255),
+        marketID varchar(255),
+        marketAddress varchar(255),
+        quantity varchar(255),
+        unitOfMeasure varchar(255),
+        storageTimeStamp varchar(255),
+        storageCaptureTime varchar(255),
+        URL varchar(255),
+        hashID varchar(255),
+        description varchar(255),
+        geolocation varchar(255),
+        supplierproduce varchar(255)
+);
+
+-- return instance.registerStorage("2", inputSupplierStorage, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputQuantityStorage, inputUoMStorage, momentInputStorageTime,  momentInputDataTimeStorage, "www.uct.ac.za", "test hash 1234", solidityContext);
+
+INSERT INTO storage
+VALUES ('2', 'inputMarket',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'inputQuantityStorage', 'inputUoMStorage',	'2019-07-05 09:25', '2019-07-06 10:25', 'description', 'geolocation', 'Oranjezicht City Farm_Apples');

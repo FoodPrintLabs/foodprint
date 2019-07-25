@@ -1,6 +1,7 @@
 const QRCode = require('qrcode');
 const fs = require('fs');
-
+var mysql = require('mysql');
+var connection  = require('./db');
 
 App = {
   web3Provider: null,
@@ -252,6 +253,22 @@ App = {
       return instance.registerHarvest("2", inputSupplier, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputProduct, inputPhoto, momentHarvestTime, momentInputDataTime, solidityContext);
     }).then(function(){
       $("#formRegisterHarvest").get(0).reset() // or $('form')[0].reset()
+        // connection.query('INSERT INTO customers SET ?', user, function(err, result) {
+        //         //if(err) throw err
+        //         if (err) {
+        //             req.flash('error', err)
+        //
+        //             // render to views/user/add.ejs
+        //             res.render('customers/add', {
+        //                 title: 'Add New Customer',
+        //                 name: user.name,
+        //                 email: user.email
+        //             })
+        //         } else {
+        //             req.flash('success', 'Data added successfully!');
+        //             res.redirect('/customers');
+        //         }
+        //     })
     }).catch(function(err) {
       console.error(err);
     });

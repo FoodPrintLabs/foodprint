@@ -5,6 +5,8 @@ const fs = require('fs');
 const app = express();
 const path = require('path');
 const router = express.Router();
+var mysql = require('mysql');
+var connection  = require('./src/js/db');
 
 //home page
 router.get('/',function(req,res){
@@ -68,6 +70,17 @@ router.get('/scan/:id',function(req,res){
   const supplierProduceID = req.params.id;
   //TODO write a function that takes the supplierProduceID e.g. OranjezichtCityFarm_Apples
   //and returns the farm profile, harvest and storage id
+     connection.query('SELECT * FROM customers ORDER BY id desc',function(err,rows)     {
+
+        if(err){
+         req.flash('error', err);
+         res.render('customers',{page_title:"Customers - Node.js",data:''});
+        }else{
+
+            res.render('customers',{page_title:"Customers - Node.js",data:rows});
+        }
+
+         });
   res.sendFile(path.join(__dirname+'/src/scanresult.html'));
 });
 
