@@ -199,56 +199,114 @@ router.get('/test_db', async (req, res, next) => {
 
 //addHarvest XmlHTTP request
 router.post('/addHarvest',function(req,res){
-    // ID ,
-        // supplierID,
-        // supplierAddress,
-        // productID,
-        // photoHash,
-        // harvestTimeStamp,
-        // harvestCaptureTime,
-        // harvestDescription,
-        // geolocation,
-        // supplierproduce
-  console.log("addHarvest" + req.body);
-  console.log("supplierID" + req.body.supplierID);
-  console.log("supplierAddress" + req.body.supplierAddress);
-  console.log("productID" + req.body.productID);
-  console.log("photoHash" + req.body.photoHash);
-  console.log("harvestTimeStamp" + req.body.harvestTimeStamp);
-  console.log("harvestCaptureTime" + req.body.harvestCaptureTime);
-  console.log("harvestDescription" + req.body.harvestDescription);
-  console.log("geolocation" + req.body.geolocation);
-  console.log("supplierproduce" + req.body.supplierproduce);
+    // ID ,supplierID,supplierAddress,productID,photoHash,harvestTimeStamp,harvestCaptureTime,harvestDescription,
+    // geolocation,supplierproduce
+  // console.log("addHarvest" + req.body);
+  // console.log("ID" + req.body.ID);
+  // console.log("supplierID" + req.body.supplierID);
+  // console.log("supplierAddress" + req.body.supplierAddress);
+  // console.log("productID" + req.body.productID);
+  // console.log("photoHash" + req.body.photoHash);
+  // console.log("harvestTimeStamp" + req.body.harvestTimeStamp);
+  // console.log("harvestCaptureTime" + req.body.harvestCaptureTime);
+  // console.log("harvestDescription" + req.body.harvestDescription);
+  // console.log("geolocation" + req.body.geolocation);
+  // console.log("supplierproduce" + req.body.supplierproduce);
+    try {
+      connection.query('\n' +
+          'INSERT INTO harvest (\n' +
+          '        ID ,\n' +
+          '        supplierID,\n' +
+          '        supplierAddress,\n' +
+          '        productID,\n' +
+          '        photoHash,\n' +
+          '        harvestTimeStamp,\n' +
+          '        harvestCaptureTime,\n' +
+          '        harvestDescription,\n' +
+          '        geolocation,\n' +
+          '        supplierproduce)\n' +
+          'VALUES (?, ?,?,?,?,?,?,?,?, ?);',
+          [
+            req.body.ID ,
+            req.body.supplierID,
+            req.body.supplierAddress,
+            req.body.productID,
+            req.body.photoHash,
+            req.body.harvestTimeStamp,
+            req.body.harvestCaptureTime,
+            req.body.harvestDescription,
+            req.body.geolocation,
+            req.body.supplierproduce
+        ],function(err,rows)     {
+        if(err){
+         //req.flash('error', err);
+         console.error('error', err);
+        }else{
+            console.log('addHarvest DB success');
+        }
+         });
+  } catch (e) {
+    //this will eventually be handled by your error handling middleware
+    next(e)
+  }
 });
 
 //addStorage XmlHTTP request
 router.post('/addStorage',function(req,res){
-    // ID,
-        // marketID,
-        // marketAddress,
-        // quantity,
-        // unitOfMeasure,
-        // storageTimeStamp,
-        // storageCaptureTime,
-        // URL,
-        // hashID,
-        // storageDescription,
-        // geolocation,
-        // supplierproduce
+    // ID,marketID,marketAddress,quantity,unitOfMeasure,storageTimeStamp,storageCaptureTime,URL,hashID,
+    // storageDescription,geolocation,supplierproduce
 
-  console.log("addHarvest" + req.body);
-  console.log("ID" + req.body.ID);
-  console.log("marketID" + req.body.marketID);
-  console.log("marketAddress" + req.body.marketAddress);
-  console.log("quantity" + req.body.quantity);
-  console.log("unitOfMeasure" + req.body.unitOfMeasure);
-  console.log("storageTimeStamp" + req.body.storageTimeStamp);
-  console.log("storageCaptureTime" + req.body.storageCaptureTime);
-  console.log("URL" + req.body.URL);
-  console.log("hashID" + req.body.hashID);
-  console.log("storageDescription" + req.body.storageDescription);
-  console.log("geolocation" + req.body.geolocation);
-  console.log("supplierproduce" + req.body.supplierproduce);
+  // console.log("addStorage" + req.body);
+  // console.log("ID" + req.body.ID);
+  // console.log("marketID" + req.body.marketID);
+  // console.log("marketAddress" + req.body.marketAddress);
+  // console.log("quantity" + req.body.quantity);
+  // console.log("unitOfMeasure" + req.body.unitOfMeasure);
+  // console.log("storageTimeStamp" + req.body.storageTimeStamp);
+  // console.log("storageCaptureTime" + req.body.storageCaptureTime);
+  // console.log("URL" + req.body.URL);
+  // console.log("hashID" + req.body.hashID);
+  // console.log("storageDescription" + req.body.storageDescription);
+  // console.log("geolocation" + req.body.geolocation);
+  // console.log("supplierproduce" + req.body.supplierproduce);
+  try {
+      connection.query('INSERT INTO storage (\n' +
+          '        ID,\n' +
+          '        marketID,\n' +
+          '        marketAddress,\n' +
+          '        quantity,\n' +
+          '        unitOfMeasure,\n' +
+          '        storageTimeStamp,\n' +
+          '        storageCaptureTime,\n' +
+          '        URL,\n' +
+          '        hashID,\n' +
+          '        storageDescription,\n' +
+          '        geolocation,\n' +
+          '        supplierproduce)\n' +
+          'VALUES (?, ?,?,?, ?,?, ?,?, ?, ?, ?, ?);',
+          [
+            req.body.ID ,
+            req.body.marketID,
+            req.body.marketAddress,
+            req.body.quantity,
+            req.body.unitOfMeasure,
+            req.body.storageTimeStamp,
+            req.body.storageCaptureTime,
+            req.body.URL,
+            req.body.hashID,
+            req.body.storageDescription,
+            req.body.geolocation,
+            req.body.supplierproduce
+        ],function(err,rows)     {
+        if(err){
+         console.error('error', err);
+        }else{
+            console.log('addStorage DB success');
+        }});
+  } catch (e) {
+    //this will eventually be handled by your error handling middleware
+    next(e)
+  }
 });
 
 
