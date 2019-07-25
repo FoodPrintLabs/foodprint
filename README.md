@@ -17,12 +17,12 @@ The Market Admin is responsible for receiving produce from the Farmer and captur
 
 - Market Patron
 
-The Market Patron is the customer of the market. They purchase food from the Market. The Market Patron will be able to scan a barcode associated with produce and view the verified produce information and supply chain stories view information on the produce they are buying, it's source and journey, hence from farm to fork. 
+The Market Patron is the customer of the market. They purchase food from the Market. The Market Patron will be able to scan a barcode associated with produce and view the verified produce information and supply chain stories view information on the produce they are buying, it's source and journey, hence from farm to fork. Android versions 8 & 9 and iOS versions 11 & 12 can automatically scan QR codes using the camera app. 
 
 ## Documentation
 - [Business Case](https://github.com/jajukajulz/foodprint/raw/master/docs/FoodPrint%20-%20Business%20Case%2008072019.pdf)
 
-## Installation
+## Installation (Development Environment)
 In order to run FoodPrint, an environment with the following is required:
 
 - Node.js
@@ -30,6 +30,7 @@ In order to run FoodPrint, an environment with the following is required:
 - Web3.js
 - Bootstrap
 - PostgreSQL
+- MetaMask (MetaMask is an extension for accessing Ethereum enabled distributed applications, or "Dapps" in your browser! The extension injects the Ethereum web3 API into every website's javascript context, so that dapps can read from the blockchain.)
 
 1. Install Truffle globally. Truffle is the most popular smart contract development, testing, and deployment framework. 
 ```
@@ -75,7 +76,7 @@ If for some reason truffle fails to acknowledge a contract was modified and will
 
 5. Update `truffle-config.js` development network with NetworkID, Host and Port values from your local Blockchain in Ganache.
 
-6. Start the development web server (liteserver). This will open your default web browser and serve the index page.
+6. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
 ```
 $npm run dev
 ```
@@ -106,6 +107,12 @@ e.g. 0x4B67D20a4F27d248aF0462C23F8C193f073517FB
 ```
 $truffle migrate --network rinkeby --compile-all --reset
 ```
-
 7. Check contract on rinkeby etherscan https://rinkeby.etherscan.io
+
+## Production Deployment
+1. To deploy to a production server, first bundle and uglify then deploy
+```
+$npm run build
+$npm run start
+```
 
