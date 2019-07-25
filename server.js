@@ -1,10 +1,68 @@
+var createError = require('http-errors');
 const express = require('express');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var flash = require('express-flash');
+var session = require('express-session');
+var bodyParser = require('body-parser');
 const QRCode = require('qrcode');
 const cors = require('cors');
 const fs = require('fs');
 const app = express();
 const path = require('path');
 const router = express.Router();
+var mysql = require('mysql');
+var connection  = require('./src/js/db');
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(logger('dev'));
+
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+//
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+
+app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
+app.use(session({
+ secret: '123456cat',
+ resave: false,
+ saveUninitialized: true,
+ cookie: { maxAge: 60000 }
+}))
+
+app.use(flash());
+//app.use(expressValidator());
+
+//add the router
+app.use('/', router);
+
+app.use(express.static(path.join(__dirname,"src")));
+app.use(express.static(path.join(__dirname,'build')));
+//app.use(express.static('build'));
+
+ // catch 404 and forward to error handler
+ app.use(function(req, res, next) {
+   next(createError(404));
+ });
+
+  // error handler
+ app.use(function(err, req, res, next) {
+   // set locals, only providing error in development
+   res.locals.message = err.message;
+   res.locals.error = req.app.get('env') === 'development' ? err : {};
+ // render the error page
+   res.status(err.status || 500);
+   res.render('error');
+ });
 
 //home page
 router.get('/',function(req,res){
@@ -65,13 +123,194 @@ router.get('/sign_in',function(req,res){
 
 //return template with scan results for produce
 router.get('/scan/:id',function(req,res){
-  const supplierProduceID = req.params.id;
-  //TODO write a function that takes the supplierProduceID e.g. OranjezichtCityFarm_Apples
-  //and returns the farm profile, harvest and storage id
-  res.sendFile(path.join(__dirname+'/src/scanresult.html'));
+  const supplierProduceID = req.params.id; //OranjezichtCityFarm_Apples
+  // http://localhost:3000/testscan/OranjezichtCityFarm_Apples
+     connection.query('\n' +
+         'SELECT \n' +
+         '\ts.counter,\n' +
+         '\ts.ID,\n' +
+         '\ts.marketID,\n' +
+         '\ts.marketAddress,\n' +
+         '\ts.quantity,\n' +
+         '\ts.unitOfMeasure,\n' +
+         '\ts.storageTimeStamp,\n' +
+         '\ts.storageCaptureTime,\n' +
+         '\ts.URL,\n' +
+         '\ts.hashID,\n' +
+         '\ts.storageDescription,\n' +
+         '\ts.geolocation,\n' +
+         '\ts.supplierproduce,\n' +
+         '\th.supplierID,\n' +
+         '\th.supplierAddress,\n' +
+         '\th.productID,\n' +
+         '\th.photoHash,\n' +
+         '\th.harvestTimeStamp,\n' +
+         '\th.harvestCaptureTime,\n' +
+         '\th.harvestDescription,\n' +
+         '\th.geolocation\n' +
+         'FROM \n' +
+         '\tstorage s \n' +
+         'INNER JOIN\n' +
+         '\tharvest h\n' +
+         'ON \n' +
+         '\ts.supplierproduce = h.supplierproduce\n' +
+         'WHERE  \n' +
+         '\ts.supplierproduce = ? AND \n' +
+         '\th.counter = (SELECT max(counter) FROM harvest where supplierproduce = ?) AND \n' +
+         '    s.counter = (SELECT max(counter) FROM storage where supplierproduce = ?);',
+        [
+            supplierProduceID,
+            supplierProduceID,
+            supplierProduceID
+        ],
+         function(err,rows) {
+            if(err){
+             //req.flash('error', err);
+             console.error('error', err);
+             res.render('scanresult',{data:''});
+            }
+            else {
+                console.log('Render SQL results');
+                console.log('Render SQL results', rows);
+                res.render('scanresult',{data:rows});
+            }
+         });
 });
 
-router.get('/qrcode', async (req, res, next) => {
+
+router.get('/test_db', async (req, res, next) => {
+  try {
+      connection.query('SELECT * FROM metaTable ORDER BY ProduceID desc',function(err,rows)     {
+        if(err){
+         //req.flash('error', err);
+         console.error('error', err);
+         res.render('./test_db',{page_title:"Farmers - Farm Print",data:''});
+        }else{
+            console.log('Render SQL results');
+            //console.log('Render SQL results', rows);
+            res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows});
+        }
+         });
+  } catch (e) {
+    //this will eventually be handled by your error handling middleware
+    next(e)
+  }
+});
+
+//addHarvest XmlHTTP request
+router.post('/addHarvest',function(req,res){
+    // ID ,supplierID,supplierAddress,productID,photoHash,harvestTimeStamp,harvestCaptureTime,harvestDescription,
+    // geolocation,supplierproduce
+  // console.log("addHarvest" + req.body);
+  // console.log("ID" + req.body.ID);
+  // console.log("supplierID" + req.body.supplierID);
+  // console.log("supplierAddress" + req.body.supplierAddress);
+  // console.log("productID" + req.body.productID);
+  // console.log("photoHash" + req.body.photoHash);
+  // console.log("harvestTimeStamp" + req.body.harvestTimeStamp);
+  // console.log("harvestCaptureTime" + req.body.harvestCaptureTime);
+  // console.log("harvestDescription" + req.body.harvestDescription);
+  // console.log("geolocation" + req.body.geolocation);
+  // console.log("supplierproduce" + req.body.supplierproduce);
+    try {
+      connection.query('\n' +
+          'INSERT INTO harvest (\n' +
+          '        ID ,\n' +
+          '        supplierID,\n' +
+          '        supplierAddress,\n' +
+          '        productID,\n' +
+          '        photoHash,\n' +
+          '        harvestTimeStamp,\n' +
+          '        harvestCaptureTime,\n' +
+          '        harvestDescription,\n' +
+          '        geolocation,\n' +
+          '        supplierproduce)\n' +
+          'VALUES (?, ?,?,?,?,?,?,?,?, ?);',
+          [
+            req.body.ID ,
+            req.body.supplierID,
+            req.body.supplierAddress,
+            req.body.productID,
+            req.body.photoHash,
+            req.body.harvestTimeStamp,
+            req.body.harvestCaptureTime,
+            req.body.harvestDescription,
+            req.body.geolocation,
+            req.body.supplierproduce
+        ],function(err,rows)     {
+        if(err){
+         //req.flash('error', err);
+         console.error('error', err);
+        }else{
+            console.log('addHarvest DB success');
+        }
+         });
+  } catch (e) {
+    //this will eventually be handled by your error handling middleware
+    next(e)
+  }
+});
+
+//addStorage XmlHTTP request
+router.post('/addStorage',function(req,res){
+    // ID,marketID,marketAddress,quantity,unitOfMeasure,storageTimeStamp,storageCaptureTime,URL,hashID,
+    // storageDescription,geolocation,supplierproduce
+
+  // console.log("addStorage" + req.body);
+  // console.log("ID" + req.body.ID);
+  // console.log("marketID" + req.body.marketID);
+  // console.log("marketAddress" + req.body.marketAddress);
+  // console.log("quantity" + req.body.quantity);
+  // console.log("unitOfMeasure" + req.body.unitOfMeasure);
+  // console.log("storageTimeStamp" + req.body.storageTimeStamp);
+  // console.log("storageCaptureTime" + req.body.storageCaptureTime);
+  // console.log("URL" + req.body.URL);
+  // console.log("hashID" + req.body.hashID);
+  // console.log("storageDescription" + req.body.storageDescription);
+  // console.log("geolocation" + req.body.geolocation);
+  // console.log("supplierproduce" + req.body.supplierproduce);
+  try {
+      connection.query('INSERT INTO storage (\n' +
+          '        ID,\n' +
+          '        marketID,\n' +
+          '        marketAddress,\n' +
+          '        quantity,\n' +
+          '        unitOfMeasure,\n' +
+          '        storageTimeStamp,\n' +
+          '        storageCaptureTime,\n' +
+          '        URL,\n' +
+          '        hashID,\n' +
+          '        storageDescription,\n' +
+          '        geolocation,\n' +
+          '        supplierproduce)\n' +
+          'VALUES (?, ?,?,?, ?,?, ?,?, ?, ?, ?, ?);',
+          [
+            req.body.ID ,
+            req.body.marketID,
+            req.body.marketAddress,
+            req.body.quantity,
+            req.body.unitOfMeasure,
+            req.body.storageTimeStamp,
+            req.body.storageCaptureTime,
+            req.body.URL,
+            req.body.hashID,
+            req.body.storageDescription,
+            req.body.geolocation,
+            req.body.supplierproduce
+        ],function(err,rows)     {
+        if(err){
+         console.error('error', err);
+        }else{
+            console.log('addStorage DB success');
+        }});
+  } catch (e) {
+    //this will eventually be handled by your error handling middleware
+    next(e)
+  }
+});
+
+
+router.get('/test_qrcode', async (req, res, next) => {
   try {
       // Get the text to generate QR code
     //let qr_txt = req.body.qr_text;
@@ -86,28 +325,6 @@ router.get('/qrcode', async (req, res, next) => {
   QRFullName = QRFullName.trim();
     console.log('Wrote to ' + res2);
     res.json(res2);
-
-    //fs.writeFileSync(QRFullName, '<img src="${res2}">');
-  //console.log('Wrote to ' + QRFullName);
-
-
-    // // Generate QR Code from text
-    // var qr_png = qr.imageSync(qr_txt,{ type: 'png'})
-    // // Generate a random file name
-    // let qr_code_file_name = new Date().getTime() + '.png';
-    //
-    // fs.writeFileSync('./public/qr/' + qr_code_file_name, qr_png, (err) => {
-    //
-    //     if(err){
-    //         console.log(err);
-    //     }
-    //
-    // })
-    // // Send the link of generated QR code
-    // res.send({
-    //     'qr_img': "qr/" + qr_code_file_name
-    // });
-
   } catch (e) {
     //this will eventually be handled by your error handling middleware
     next(e)
@@ -115,20 +332,6 @@ router.get('/qrcode', async (req, res, next) => {
 });
 
 
-// router.get('/about',function(req,res){
-//   res.sendFile(path.join(__dirname+'/about.html'));
-// });
-//
-// router.get('/sitemap',function(req,res){
-//   res.sendFile(path.join(__dirname+'/sitemap.html'));
-// });
-
-//add the router
-app.use('/', router);
-//app.use(express.static('src'));
-app.use(cors());
-app.use(express.static(path.join(__dirname,"src")));
-app.use(express.static('build'));
 app.listen(process.env.port || 3000);
 
 console.log('Running at Port 3000');

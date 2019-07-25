@@ -11,11 +11,9 @@
     <link rel="stylesheet" href="css/styles-merged.css">
     <link rel="stylesheet" href="css/style.min.css">
     <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.css">
     <link type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
-
-    <!--<link rel="stylesheet" href="css/bootstrap.min.css" /> TO DO FIX Datetime pickers-->
     <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" rel="stylesheet">
-    <link href="css/tempusdominus-bootstrap-4.css" rel="stylesheet"> <!--datetimepicker-->
 
     <!--[if lt IE 9]>
       <script src="js/vendor/html5shiv.min.js"></script>
@@ -30,6 +28,7 @@
     <script src="js/highlight.min.js"></script> <!--datetimepicker-->
     <script src="js/web3.min.js"></script>
     <script src="js/truffle-contract.js"></script>
+
   </head>
   <body>
      <!-- START: header -->
@@ -118,9 +117,6 @@
                     <option>White Mountain</option>
                     <option>Pedi Farmer</option>
                   </select>
-                  <div class="invalid-feedback">
-                    Please select a valid supplier.
-                  </div>
                 </div>
 
                   <!--<label for="inputProduct" class="sr-only">Product</label>-->
@@ -137,9 +133,6 @@
                     <option>Carrots</option>
                     <option>Broccolli</option>
                   </select>
-                  <div class="invalid-feedback">
-                    Please select a valid product.
-                  </div>
                 </div>
 
                 <div class="form-group">
@@ -149,23 +142,25 @@
 
                 <div class="form-group">
                   <label for="inputHarvestTime">Harvest Timestamp:</label>
-                  <div class="input-group date" id="inputHarvestTime" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#inputHarvestTime" required autofocus/>
-                      <div class="input-group-append" data-target="#inputHarvestTime" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
+                  <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="inputHarvestTime">
+                      <input type="text" class="form-control" size="16" type="text" value="" readonly />
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                   </div>
+                  <input type="hidden" id="inputHarvestTime" value="" /><br/>
                 </div>
 
                 <div class="form-group">
                   <label for="inputDataTime">Data Timestamp:</label>
-                  <div class="input-group date" id="inputDataTime" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#inputDataTime" required autofocus/>
-                      <div class="input-group-append" data-target="#inputDataTime" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
+                  <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="inputDataTime">
+                      <input type="text" class="form-control" size="16" type="text" value="" readonly />
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                   </div>
+                  <input type="hidden" id="inputDataTime" value="" /><br/>
                 </div>
+
+
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="harvestCheck1" required>
                   <label class="form-check-label" for="harvestCheck1">I confirm the above is true</label>
@@ -175,17 +170,7 @@
               </form>
             </div>
           </div>
-            <script type="text/javascript">
-              $(function () {
-                  $('#inputHarvestTime').datetimepicker({autoclose:true});
-              });
-          </script>
 
-          <script type="text/javascript">
-              $(function () {
-                  $('#inputDataTime').datetimepicker({autoclose: true});
-              });
-          </script>
           <!-- HARVEST END-->
 
           <!-- STORAGE START-->
@@ -238,9 +223,6 @@
                   <label for="inputSupplierStorage">Harvest</label>
                   <select class="custom-select d-block w-100" id="inputSupplierStorage" required>
                   </select>
-                  <div class="invalid-feedback">
-                    Please select a valid harvest entry.
-                  </div>
                 </div>
 
                   <div class="form-group">
@@ -259,30 +241,28 @@
                     <option>none</option>
                     <option>box</option>
                   </select>
-                  <div class="invalid-feedback">
-                    Please select a valid unit of measure.
-                  </div>
                 </div>
 
                 <div class="form-group">
                   <label for="inputStorageTime">Storage Timestamp:</label>
-                  <div class="input-group date" id="inputStorageTime" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#inputStorageTime" required autofocus/>
-                      <div class="input-group-append" data-target="#inputStorageTime" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
+                  <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="inputStorageTime">
+                      <input type="text" class="form-control" size="16" type="text" value="" readonly />
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                   </div>
+                  <input type="hidden" id="inputStorageTime" value=""/><br/>
                 </div>
 
                 <div class="form-group">
                   <label for="inputDataTimeStorage">Data Timestamp:</label>
-                  <div class="input-group date" id="inputDataTimeStorage" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#inputDataTimeStorage" required autofocus/>
-                      <div class="input-group-append" data-target="#inputDataTimeStorage" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
+                  <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="inputDataTimeStorage">
+                      <input type="text" class="form-control" size="16" type="text" value="" readonly />
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                   </div>
+                  <input type="hidden" id="inputDataTimeStorage" value=""/><br/>
                 </div>
+
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="storageCheck1" required>
                   <label class="form-check-label" for="storageCheck1">I confirm the above is true</label>
@@ -293,17 +273,8 @@
             </div>
           </div>
 
-          <script type="text/javascript">
-              $(function () {
-                  $('#inputStorageTime').datetimepicker({autoclose:true});
-              });
-          </script>
 
-          <script type="text/javascript">
-              $(function () {
-                  $('#inputDataTimeStorage').datetimepicker({autoclose: true});
-              });
-          </script>
+
         <!-- STORAGE END -->
             <!-- Coinbase Address -->
                 <p id="coinbaseAddress" class="text-center"></p>
@@ -388,7 +359,19 @@
    <script src="js/main.min.js"></script>
    <script src="js/custom.js"></script>
    <script type="text/javascript" src="js/bundle.js"></script>
-   <script src="js/tempusdominus-bootstrap-4.js"></script> <!--datetimepicker-->
+   <script src="js/bootstrap-datetimepicker.js"></script>
+
+  <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+</script>
 
 
   </body>

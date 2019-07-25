@@ -41,6 +41,9 @@ build/
 # truffle config infura key
 .infurakey
 
+# database config
+dbconfig.json
+
 # macOS
 .DS_Store
 

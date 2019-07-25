@@ -29,7 +29,7 @@ In order to run FoodPrint, an environment with the following is required:
 - Truffle Framework
 - Web3.js
 - Bootstrap
-- PostgreSQL
+- MySQL
 - MetaMask (MetaMask is an extension for accessing Ethereum enabled distributed applications, or "Dapps" in your browser! The extension injects the Ethereum web3 API into every website's javascript context, so that dapps can read from the blockchain.)
 
 1. Install Truffle globally. Truffle is the most popular smart contract development, testing, and deployment framework. 
@@ -76,7 +76,30 @@ If for some reason truffle fails to acknowledge a contract was modified and will
 
 5. Update `truffle-config.js` development network with NetworkID, Host and Port values from your local Blockchain in Ganache.
 
-6. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
+6. Create a MySQL database
+```
+run dbxml/foodprintDB.sql
+```
+
+7. Populate the MySQL database
+```
+run dbxml/foodprintDB_schema.sql
+```
+
+8. Create a database configuration file in the root folder - `dbconfig.json` and populate with updated json config as below
+
+```
+{
+        "db": {
+        "host"      : <HOSTNAME>,
+        "user"      : <USERNAME>,
+        "password"  : <PASSWORD>,
+        "database"  : <DATABASENAME>
+    }
+}
+```
+
+9. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
 ```
 $npm run dev
 ```
