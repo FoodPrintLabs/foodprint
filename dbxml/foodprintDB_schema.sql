@@ -47,12 +47,23 @@ CREATE TABLE harvest (
         photoHash varchar(255),
         harvestTimeStamp varchar(255),
         harvestCaptureTime varchar(255),
-        description varchar(255),
+        harvestDescription varchar(255),
         geolocation varchar(255),
-        supplierproduce varchar(255)
+        supplierproduce varchar(255),
+        PRIMARY KEY (counter)
 );
 
-INSERT INTO harvest
+INSERT INTO harvest (
+        ID ,
+        supplierID,
+        supplierAddress,
+        productID,
+        photoHash,
+        harvestTimeStamp,
+        harvestCaptureTime,
+        harvestDescription,
+        geolocation,
+        supplierproduce)
 VALUES ('2', 'inputSupplier',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'inputProduct',	'inputPhoto',	'2019-07-05 09:25', '2019-07-06 10:25', 'description', 'geolocation', 'Oranjezicht City Farm_Apples');
 
 
@@ -70,12 +81,25 @@ CREATE TABLE storage (
         storageCaptureTime varchar(255),
         URL varchar(255),
         hashID varchar(255),
-        description varchar(255),
+        storageDescription varchar(255),
         geolocation varchar(255),
-        supplierproduce varchar(255)
+        supplierproduce varchar(255),
+        PRIMARY KEY (counter)
 );
 
 -- return instance.registerStorage("2", inputSupplierStorage, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputQuantityStorage, inputUoMStorage, momentInputStorageTime,  momentInputDataTimeStorage, "www.uct.ac.za", "test hash 1234", solidityContext);
 
-INSERT INTO storage
-VALUES ('2', 'inputMarket',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'inputQuantityStorage', 'inputUoMStorage',	'2019-07-05 09:25', '2019-07-06 10:25', 'description', 'geolocation', 'Oranjezicht City Farm_Apples');
+INSERT INTO storage (
+        ID,
+        marketID,
+        marketAddress,
+        quantity,
+        unitOfMeasure,
+        storageTimeStamp,
+        storageCaptureTime,
+        URL,
+        hashID,
+        storageDescription,
+        geolocation,
+        supplierproduce)
+VALUES ('2', 'inputMarket',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'inputQuantityStorage', 'inputUoMStorage',	'2019-07-05 09:25', '2019-07-06 10:25', 'url', 'hashid', 'description', 'geolocation', 'Oranjezicht City Farm_Apples');
