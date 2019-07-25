@@ -1,15 +1,11 @@
- var mysql=require('mysql');
- var connection=mysql.createConnection({
-   host:'localhost',
-   user:'your username',
-   password:'your password',
-   database:'your database name'
- });
+var mysql=require('mysql');
+var config  = require("../../dbconfig");
+var connection=mysql.createConnection(config.db);
 connection.connect(function(error){
-   if(!!error){
-     console.log(error);
-   }else{
-     console.log('Connected!:)');
-   }
- });  
+    if(error){
+         console.log(error);
+        }else{
+         console.log('Connected!:)');
+        }
+    });
 module.exports = connection; 

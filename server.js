@@ -1,12 +1,70 @@
+var createError = require('http-errors');
 const express = require('express');
+
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+//var expressValidator = require('express-validator');
+var flash = require('express-flash');
+var session = require('express-session');
+var bodyParser = require('body-parser');
+
 const QRCode = require('qrcode');
 const cors = require('cors');
 const fs = require('fs');
 const app = express();
 const path = require('path');
+//const flash = require('connect-flash');
+//var session = require('express-session');
 const router = express.Router();
 var mysql = require('mysql');
 var connection  = require('./src/js/db');
+
+
+// view engine setup
+ app.set('views', path.join(__dirname, 'views'));
+ app.set('view engine', 'ejs');
+
+ app.use(logger('dev'));
+ app.use(bodyParser.json());
+ app.use(bodyParser.urlencoded({ extended: true }));
+ app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
+ app.use(session({
+     secret: '123456cat',
+     resave: false,
+     saveUninitialized: true,
+     cookie: { maxAge: 60000 }
+ }))
+
+ app.use(flash());
+ //app.use(expressValidator());
+
+
+
+ //add the router
+app.use('/', router);
+
+
+app.use(express.static(path.join(__dirname,"src")));
+app.use(express.static(path.join(__dirname,'build')));
+//app.use(express.static('build'));
+
+ // catch 404 and forward to error handler
+ app.use(function(req, res, next) {
+   next(createError(404));
+ });
+
+  // error handler
+ app.use(function(err, req, res, next) {
+   // set locals, only providing error in development
+   res.locals.message = err.message;
+   res.locals.error = req.app.get('env') === 'development' ? err : {};
+ // render the error page
+   res.status(err.status || 500);
+   res.render('error');
+ });
 
 //home page
 router.get('/',function(req,res){
@@ -70,7 +128,7 @@ router.get('/scan/:id',function(req,res){
   const supplierProduceID = req.params.id;
   //TODO write a function that takes the supplierProduceID e.g. OranjezichtCityFarm_Apples
   //and returns the farm profile, harvest and storage id
-     connection.query('SELECT * FROM customers ORDER BY id desc',function(err,rows)     {
+     connection.query('SELECT * FROM metaTable ORDER BY ProduceID desc',function(err,rows)     {
 
         if(err){
          req.flash('error', err);
@@ -84,7 +142,28 @@ router.get('/scan/:id',function(req,res){
   res.sendFile(path.join(__dirname+'/src/scanresult.html'));
 });
 
-router.get('/qrcode', async (req, res, next) => {
+
+router.get('/test_db', async (req, res, next) => {
+  try {
+      connection.query('SELECT * FROM metaTable ORDER BY ProduceID desc',function(err,rows)     {
+        if(err){
+         //req.flash('error', err);
+         console.error('error', err);
+         res.render('./test_db',{page_title:"Farmers - Farm Print",data:''});
+        }else{
+            console.log('Render SQL results');
+            //console.log('Render SQL results', rows);
+            res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows});
+        }
+         });
+  } catch (e) {
+    //this will eventually be handled by your error handling middleware
+    next(e)
+  }
+});
+
+
+router.get('/test_qrcode', async (req, res, next) => {
   try {
       // Get the text to generate QR code
     //let qr_txt = req.body.qr_text;
@@ -136,12 +215,7 @@ router.get('/qrcode', async (req, res, next) => {
 //   res.sendFile(path.join(__dirname+'/sitemap.html'));
 // });
 
-//add the router
-app.use('/', router);
-//app.use(express.static('src'));
-app.use(cors());
-app.use(express.static(path.join(__dirname,"src")));
-app.use(express.static('build'));
+
 app.listen(process.env.port || 3000);
 
 console.log('Running at Port 3000');
