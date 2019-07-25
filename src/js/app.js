@@ -269,6 +269,16 @@ App = {
         // geolocation,
         // supplierproduce
 
+        //          optionId = harvestSupplier + "_" + harvestProduct + "_" + harvestTime;
+        // //e.g. storageSupplierProductDate Oranjezicht City Farm_Apples_2019-07-05 09:25
+        //   var supplierProductDateArray = storageSupplierProductDate.split("_");
+        //   var cardTitle =   supplierProductDateArray[1]; //produce
+        //   var cardText =   supplierProductDateArray[0]; //supplier
+        //   var cardUpdateTime = storageDataCaptureTime;
+        //   var QRCodeSupplierProduce = (cardText + "_" + cardTitle).replace(/\s/g,'');
+
+        var harvestSupplierProduce = (inputSupplier + "_" + inputProduct).replace(/\s/g,'');
+
         addHarvestRequest.send(JSON.stringify({
             'ID':"2",
             'supplierID': inputSupplier,
@@ -279,7 +289,7 @@ App = {
             'harvestCaptureTime': momentInputDataTime,
             'harvestDescription': "harvestDescription",
             'geolocation': "-33.9180, 25.5701",
-            'supplierproduce': "supplierproduce"
+            'supplierproduce': harvestSupplierProduce
         }));
 
         // connection.query('INSERT INTO customers SET ?', user, function(err, result) {

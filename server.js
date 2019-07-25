@@ -19,8 +19,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
+
+
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+//
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
@@ -188,6 +195,30 @@ router.get('/test_db', async (req, res, next) => {
     //this will eventually be handled by your error handling middleware
     next(e)
   }
+});
+
+//return sign-in page
+router.post('/addHarvest',function(req,res){
+    // ID ,
+        // supplierID,
+        // supplierAddress,
+        // productID,
+        // photoHash,
+        // harvestTimeStamp,
+        // harvestCaptureTime,
+        // harvestDescription,
+        // geolocation,
+        // supplierproduce
+  console.log("addHarvest" + req.body);
+  console.log("supplierID" + req.body.supplierID);
+  console.log("supplierAddress" + req.body.supplierAddress);
+  console.log("productID" + req.body.productID);
+  console.log("photoHash" + req.body.photoHash);
+  console.log("harvestTimeStamp" + req.body.harvestTimeStamp);
+  console.log("harvestCaptureTime" + req.body.harvestCaptureTime);
+  console.log("harvestDescription" + req.body.harvestDescription);
+  console.log("geolocation" + req.body.geolocation);
+  console.log("supplierproduce" + req.body.supplierproduce);
 });
 
 
