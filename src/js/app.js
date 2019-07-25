@@ -1,7 +1,14 @@
+const QRCode = require('qrcode');
+const fs = require('fs');
+
+
 App = {
   web3Provider: null,
   contracts: {},
   account: '0x0',
+
+
+
 
   init: function() {
     return App.initWeb3();
@@ -26,15 +33,19 @@ App = {
 
   //Fetch the deployed instance of the smart contract (JSON), initialise TruffleContract and attach Web3 provider.
   initContract: function() {
-    $.getJSON("TheProduct.json", function(TheProductArtifact) {
+    $.getJSON("contracts/TheProduct.json", function(TheProductArtifact) {
       // Load JSON artifact and try to use it to initialize a TruffleContract instance
       App.contracts.TheProduct = TruffleContract(TheProductArtifact);
       // Connect provider to interact with contract
       App.contracts.TheProduct.setProvider(App.web3Provider);
 
-      App.listenForEvents();
-
-      return App.render();
+      if (window.location.href.match('weekly') != null) {
+       return App.displayWeeklyView();
+      }
+      else{
+       App.listenForEvents();
+       return App.render();
+      }
     });
   },
 
@@ -94,9 +105,10 @@ App = {
 
           //<option>Oranjezicht City Farm - Apples - 8 July 2019</option>
           optionValue = harvestSupplier + " " + harvestProduct + " " + harvestTime;
-          optionId = harvestSupplier + " - " + harvestProduct + " - " + harvestTime;
+          optionId = harvestSupplier + "_" + harvestProduct + "_" + harvestTime;
           inputSupplierStorageOption = "<option value='" + optionId + "' >" + optionValue + "</ option>";
           inputSupplierStorageSelect.append(inputSupplierStorageOption);
+          console.log("inputSupplierStorageOption " + inputSupplierStorageOption);
         });
         var numHarvest = $("#numHarvest");
         numHarvest.html(harvestCount.toString());
@@ -114,6 +126,7 @@ App = {
       theProductInstance = instance;
       return theProductInstance.noStorage();
     }).then(function(storageCount) {
+
       var tableStorage = $("#tableStorage");
       tableStorage.empty();
 
@@ -134,7 +147,10 @@ App = {
         var numStorage = $("#numStorage");
         numStorage.html(storageCount.toString());
 
-      }
+      };
+        //testQRCode - add to page that imports app.js
+        //<div id="testQRCode"></div>
+        //createQRCode("testQRCode", "OranjezichtCityFarm_Apples", "http://localhost:3000/scanresult/OranjezichtCityFarm_Apples");
 
       loaderStorage.hide();
       contentStorage.show();
@@ -142,6 +158,68 @@ App = {
       console.warn(error);
     });
 
+  },
+
+  displayWeeklyView: function(){
+    console.log(" Entered displayWeeklyView function");
+    var theProductInstance;
+    var loaderWeekly = $("#loaderWeekly");
+    var contentWeekly = $("#contentWeekly");
+
+    loaderWeekly.show();
+    contentWeekly.hide();
+
+    // Load contract data for Weekly view
+    App.contracts.TheProduct.deployed().then(function(instance) {
+      theProductInstance = instance;
+      return theProductInstance.noStorage();
+    }).then(function(storageCount) {
+      var cardDeckWeekly = $("#cardDeckWeekly");
+     cardDeckWeekly.empty();
+
+      for (var i = 0; i <= storageCount; i++) {
+        theProductInstance.storageProduceArray(i).then(function(storage) {
+          console.log(storage);
+          var storageSupplierProductDate = storage[1];
+          // var storageQuantity = storage[3];
+          // var storageUoM = storage[4];
+          // var storageTime = storage[5];
+          var storageDataCaptureTime = storage[6];
+          //e.g. storageSupplierProductDate Oranjezicht City Farm_Apples_2019-07-05 09:25
+          var supplierProductDateArray = storageSupplierProductDate.split("_");
+          var cardTitle =   supplierProductDateArray[1]; //produce
+          var cardText =   supplierProductDateArray[0]; //supplier
+          var cardUpdateTime = storageDataCaptureTime;
+          var QRCodeSupplierProduce = (cardText + "_" + cardTitle).replace(/\s/g,'');
+          var modalID = "weeklyModal_" + QRCodeSupplierProduce;
+          var QRCodeID = "QRCode_" + QRCodeSupplierProduce;
+
+          var weeklyEntry = '<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">\n' +
+                '          <div class="service">\n' +
+                '            <div class="icon"><i class="icon-tree"></i></div>\n' +
+                '            <h2 class="heading">'+cardTitle+'</h2>\n' +
+                '            <p>Supplied by ' + cardText + '.</p>\n' +
+                '            <p><small class="text-muted">Last Updated on ' +  cardUpdateTime + '</small></p>\n' +
+                "            <div id='"+QRCodeID+"' align='center'></div>\
+                             <p class='modal-text' align='center'><small class='text-muted'>Scan QR Code to Visualise the Food Journey (using your camera app)</small></p>\n"+
+                '          </div>\n' +
+                '        <div class="clearfix visible-lg-block visible-md-block"></div>\n' +
+                '      </div>';
+
+          cardDeckWeekly.append(weeklyEntry);
+          var baseURL = window.location.origin; //"http://localhost:3000"
+          var QRCodeURL = baseURL + "/scan/" + QRCodeSupplierProduce; //http://localhost:3000/scanresult/OranjezichtCityFarm_Apples
+          //console.log('weeklyEntry ' + weeklyEntry2);
+          //console.log('QRCodeURL ' + QRCodeURL);
+          createQRCode(QRCodeID, QRCodeSupplierProduce, QRCodeURL);
+        });
+      };
+
+      loaderWeekly.hide();
+      contentWeekly.show();
+    }).catch(function(error) {
+      console.warn(error);
+    });
   },
 
   registerHarvest: function() {
@@ -208,6 +286,8 @@ App = {
     });
   },
 
+
+
   listenForEvents: function() {
     App.contracts.TheProduct.deployed().then(function(instance) {
       instance.registeredHarvestEvent({}, {
@@ -244,6 +324,13 @@ function TriggerAlertClose(alertDivID) {
   }, 5000);
 };
 
+async function createQRCode(QRCodeHtmlID, QRCodeSupplierProduce, produceUrl) {
+  const res = await QRCode.toDataURL(produceUrl); //"data:image/png,%89PNG%0D%0A..."
+  var divQRCodeHtml = '<img src='+ res + '>';
+      $('#'+ QRCodeHtmlID).html(divQRCodeHtml);
+  console.log('QRCode created for ' + QRCodeSupplierProduce);
+  };
+
 $('#numHarvestButton').click(function (e) {
   e.preventDefault()
   //alert("Window Loaded");
@@ -277,6 +364,5 @@ $('#numStorageButton').click(function (e) {
 // app.js is included in index.html
 // when index.html is opened in the browser, load function is executed when complete page is fully loaded, including all frames, objects and images
 $(window).on('load', function () {
-  //alert("Window Loaded");
-  App.init();
+   App.init();
 });
