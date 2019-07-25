@@ -197,7 +197,7 @@ router.get('/test_db', async (req, res, next) => {
   }
 });
 
-//return sign-in page
+//addHarvest XmlHTTP request
 router.post('/addHarvest',function(req,res){
     // ID ,
         // supplierID,
@@ -217,6 +217,36 @@ router.post('/addHarvest',function(req,res){
   console.log("harvestTimeStamp" + req.body.harvestTimeStamp);
   console.log("harvestCaptureTime" + req.body.harvestCaptureTime);
   console.log("harvestDescription" + req.body.harvestDescription);
+  console.log("geolocation" + req.body.geolocation);
+  console.log("supplierproduce" + req.body.supplierproduce);
+});
+
+//addStorage XmlHTTP request
+router.post('/addStorage',function(req,res){
+    // ID,
+        // marketID,
+        // marketAddress,
+        // quantity,
+        // unitOfMeasure,
+        // storageTimeStamp,
+        // storageCaptureTime,
+        // URL,
+        // hashID,
+        // storageDescription,
+        // geolocation,
+        // supplierproduce
+
+  console.log("addHarvest" + req.body);
+  console.log("ID" + req.body.ID);
+  console.log("marketID" + req.body.marketID);
+  console.log("marketAddress" + req.body.marketAddress);
+  console.log("quantity" + req.body.quantity);
+  console.log("unitOfMeasure" + req.body.unitOfMeasure);
+  console.log("storageTimeStamp" + req.body.storageTimeStamp);
+  console.log("storageCaptureTime" + req.body.storageCaptureTime);
+  console.log("URL" + req.body.URL);
+  console.log("hashID" + req.body.hashID);
+  console.log("storageDescription" + req.body.storageDescription);
   console.log("geolocation" + req.body.geolocation);
   console.log("supplierproduce" + req.body.supplierproduce);
 });
