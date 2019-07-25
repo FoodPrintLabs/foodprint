@@ -1,7 +1,5 @@
 const QRCode = require('qrcode');
 const fs = require('fs');
-var mysql = require('mysql');
-var connection  = require('./db');
 
 App = {
   web3Provider: null,
@@ -227,8 +225,10 @@ App = {
     var inputSupplier = $('#inputSupplier').val();
     var inputProduct = $('#inputProduct').val();
     var inputPhoto = $('#inputPhoto').val();
-    var inputHarvestTime = $('#inputHarvestTime').data("datetimepicker").date();
-    var inputDataTime = $('#inputDataTime').data("datetimepicker").date();
+    //var inputHarvestTime = $('#inputHarvestTime').data("datetimepicker").date();
+    var inputHarvestTime = new Date($('#inputHarvestTime').val());
+   // var inputDataTime = $('#inputDataTime').data("datetimepicker").date();
+    var inputDataTime =  new Date($('#inputDataTime').val());
 
     var momentHarvestTime =  moment(inputHarvestTime).format('YYYY-MM-DD HH:mm');
     var momentInputDataTime =  moment(inputDataTime).format('YYYY-MM-DD HH:mm')
@@ -251,8 +251,37 @@ App = {
       console.log("inputDataTime -" + momentInputDataTime);
       console.log("solidityContext -" + solidityContext);
       return instance.registerHarvest("2", inputSupplier, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputProduct, inputPhoto, momentHarvestTime, momentInputDataTime, solidityContext);
+    }).then(function() {
+        $("#formRegisterHarvest").get(0).reset() // or $('form')[0].reset()
     }).then(function(){
-      $("#formRegisterHarvest").get(0).reset() // or $('form')[0].reset()
+        const addHarvestRequest = new XMLHttpRequest();
+        addHarvestRequest.open('post', '/addHarvest');
+        addHarvestRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        // ID ,
+        // supplierID,
+        // supplierAddress,
+        // productID,
+        // photoHash,
+        // harvestTimeStamp,
+        // harvestCaptureTime,
+        // harvestDescription,
+        // geolocation,
+        // supplierproduce
+
+        addHarvestRequest.send(JSON.stringify({
+            'ID':"2",
+            'supplierID': inputSupplier,
+            'supplierAddress': "0x874950b8c006e6d166f015236623fcd0c0a7dc75",
+            'productID': inputProduct,
+            'photoHash': inputPhoto,
+            'harvestTimeStamp': momentHarvestTime,
+            'harvestCaptureTime': momentInputDataTime,
+            'harvestDescription': "harvestDescription",
+            'geolocation': "-33.9180, 25.5701",
+            'supplierproduce': "supplierproduce"
+        }));
+
         // connection.query('INSERT INTO customers SET ?', user, function(err, result) {
         //         //if(err) throw err
         //         if (err) {
@@ -278,8 +307,10 @@ App = {
     var inputSupplierStorage = $('#inputSupplierStorage').val();
     var inputQuantityStorage = $('#inputQuantityStorage').val();
     var inputUoMStorage = $('#inputUoMStorage').val();
-    var inputStorageTime = $('#inputStorageTime').data("datetimepicker").date();
-    var inputDataTimeStorage = $('#inputDataTimeStorage').data("datetimepicker").date();
+   // var inputStorageTime = $('#inputStorageTime').data("datetimepicker").date();
+    var inputStorageTime = new Date($('#inputStorageTime').val());
+    //var inputDataTimeStorage = $('#inputDataTimeStorage').data("datetimepicker").date();
+    var inputDataTimeStorage = new Date($('#inputDataTimeStorage').val());
 
     var momentInputStorageTime =  moment(inputStorageTime).format('YYYY-MM-DD HH:mm');
     var momentInputDataTimeStorage =  moment(inputDataTimeStorage).format('YYYY-MM-DD HH:mm')
