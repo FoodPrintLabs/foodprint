@@ -64,7 +64,7 @@ INSERT INTO harvest (
         harvestDescription,
         geolocation,
         supplierproduce)
-VALUES ('2', 'inputSupplier',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'inputProduct',	'inputPhoto',	'2019-07-05 09:25', '2019-07-06 10:25', 'description', 'geolocation', 'Oranjezicht City Farm_Apples');
+VALUES ('2', 'inputSupplier',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'inputProduct',	'inputPhoto',	'2019-07-05 09:25', '2019-07-06 10:25', 'description', 'geolocation', 'OranjezichtCityFarm_Apples');
 
 
 -- return instance.registerHarvest("2", inputSupplier, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputProduct, inputPhoto, momentHarvestTime, momentInputDataTime, solidityContext);
@@ -102,4 +102,38 @@ INSERT INTO storage (
         storageDescription,
         geolocation,
         supplierproduce)
-VALUES ('2', 'inputMarket',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'inputQuantityStorage', 'inputUoMStorage',	'2019-07-05 09:25', '2019-07-06 10:25', 'url', 'hashid', 'description', 'geolocation', 'Oranjezicht City Farm_Apples');
+VALUES ('2', 'inputMarket',	'0x874950b8c006e6d166f015236623fcd0c0a7dc75',	'inputQuantityStorage', 'inputUoMStorage',	'2019-07-05 09:25', '2019-07-06 10:25', 'url', 'hashid', 'description', 'geolocation', 'OranjezichtCityFarm_Apples');
+
+-- return harvest and storage data for QRCode view
+SELECT
+	s.counter,
+	s.ID,
+	s.marketID,
+	s.marketAddress,
+	s.quantity,
+	s.unitOfMeasure,
+	s.storageTimeStamp,
+	s.storageCaptureTime,
+	s.URL,
+	s.hashID,
+	s.storageDescription,
+	s.geolocation,
+	s.supplierproduce,
+	h.supplierID,
+	h.supplierAddress,
+	h.productID,
+	h.photoHash,
+	h.harvestTimeStamp,
+	h.harvestCaptureTime,
+	h.harvestDescription,
+	h.geolocation
+FROM
+	storage s
+INNER JOIN
+	harvest h
+ON
+	s.supplierproduce = h.supplierproduce
+WHERE
+	s.supplierproduce = 'OranjezichtCityFarm_Apples' AND
+	h.counter = (SELECT max(counter) FROM harvest where supplierproduce = 'OranjezichtCityFarm_Apples') AND
+    s.counter = (SELECT max(counter) FROM storage where supplierproduce = 'OranjezichtCityFarm_Apples');

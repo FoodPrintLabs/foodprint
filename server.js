@@ -116,21 +116,58 @@ router.get('/sign_in',function(req,res){
 
 //return template with scan results for produce
 router.get('/scan/:id',function(req,res){
-  const supplierProduceID = req.params.id;
-  //TODO write a function that takes the supplierProduceID e.g. OranjezichtCityFarm_Apples
-  //and returns the farm profile, harvest and storage id
-     connection.query('SELECT * FROM metaTable ORDER BY ProduceID desc',function(err,rows)     {
-
-        if(err){
-         req.flash('error', err);
-         res.render('customers',{page_title:"Customers - Node.js",data:''});
-        }else{
-
-            res.render('customers',{page_title:"Customers - Node.js",data:rows});
-        }
-
+  const supplierProduceID = req.params.id; //OranjezichtCityFarm_Apples
+  // http://localhost:3000/testscan/OranjezichtCityFarm_Apples
+     connection.query('\n' +
+         'SELECT \n' +
+         '\ts.counter,\n' +
+         '\ts.ID,\n' +
+         '\ts.marketID,\n' +
+         '\ts.marketAddress,\n' +
+         '\ts.quantity,\n' +
+         '\ts.unitOfMeasure,\n' +
+         '\ts.storageTimeStamp,\n' +
+         '\ts.storageCaptureTime,\n' +
+         '\ts.URL,\n' +
+         '\ts.hashID,\n' +
+         '\ts.storageDescription,\n' +
+         '\ts.geolocation,\n' +
+         '\ts.supplierproduce,\n' +
+         '\th.supplierID,\n' +
+         '\th.supplierAddress,\n' +
+         '\th.productID,\n' +
+         '\th.photoHash,\n' +
+         '\th.harvestTimeStamp,\n' +
+         '\th.harvestCaptureTime,\n' +
+         '\th.harvestDescription,\n' +
+         '\th.geolocation\n' +
+         'FROM \n' +
+         '\tstorage s \n' +
+         'INNER JOIN\n' +
+         '\tharvest h\n' +
+         'ON \n' +
+         '\ts.supplierproduce = h.supplierproduce\n' +
+         'WHERE  \n' +
+         '\ts.supplierproduce = ? AND \n' +
+         '\th.counter = (SELECT max(counter) FROM harvest where supplierproduce = ?) AND \n' +
+         '    s.counter = (SELECT max(counter) FROM storage where supplierproduce = ?);',
+        [
+            supplierProduceID,
+            supplierProduceID,
+            supplierProduceID
+        ],
+         function(err,rows) {
+            if(err){
+             //req.flash('error', err);
+             console.error('error', err);
+             res.render('scanresult',{data:''});
+            }
+            else {
+                console.log('Render SQL results');
+                console.log('Render SQL results', rows);
+                res.render('scanresult',{data:rows});
+            }
          });
-  res.sendFile(path.join(__dirname+'/src/scanresult.html'));
 });
 
 
