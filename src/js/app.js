@@ -177,41 +177,42 @@ App = {
      cardDeckWeekly.empty();
 
       for (var i = 0; i <= storageCount; i++) {
-        theProductInstance.storageProduceArray(i).then(function(storage) {
-          console.log(storage);
-          var storageSupplierProductDate = storage[1];
-          // var storageQuantity = storage[3];
-          // var storageUoM = storage[4];
-          // var storageTime = storage[5];
-          var storageDataCaptureTime = storage[6];
-          //e.g. storageSupplierProductDate Oranjezicht City Farm_Apples_2019-07-05 09:25
-          var supplierProductDateArray = storageSupplierProductDate.split("_");
-          var cardTitle =   supplierProductDateArray[1]; //produce
-          var cardText =   supplierProductDateArray[0]; //supplier
-          var cardUpdateTime = storageDataCaptureTime;
-          var QRCodeSupplierProduce = (cardText + "_" + cardTitle).replace(/\s/g,'');
-          var modalID = "weeklyModal_" + QRCodeSupplierProduce;
-          var QRCodeID = "QRCode_" + QRCodeSupplierProduce;
+          (function(j){
+                theProductInstance.storageProduceArray(j).then(function(storage) {
+                  //console.log(storage);
+                  var storageSupplierProductDate = storage[1];
+                  // var storageQuantity = storage[3];
+                  // var storageUoM = storage[4];
+                  // var storageTime = storage[5];
+                  var storageDataCaptureTime = storage[6];
+                  //e.g. storageSupplierProductDate Oranjezicht City Farm_Apples_2019-07-05 09:25
+                  var supplierProductDateArray = storageSupplierProductDate.split("_");
+                  var cardTitle =   supplierProductDateArray[1]; //produce
+                  var cardText =   supplierProductDateArray[0]; //supplier
+                  if (typeof cardTitle !== "undefined"){
+                      var cardUpdateTime = storageDataCaptureTime;
+                      var QRCodeSupplierProduce = (cardText + "_" + cardTitle).replace(/\s/g,'');
+                      var QRCodeID = "QRCode_" + j + "_" + QRCodeSupplierProduce;
 
-          var weeklyEntry = '<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">\n' +
-                '          <div class="service">\n' +
-                '            <div class="icon"><i class="icon-tree"></i></div>\n' +
-                '            <h2 class="heading">'+cardTitle+'</h2>\n' +
-                '            <p>Supplied by ' + cardText + '.</p>\n' +
-                '            <p><small class="text-muted">Last Updated on ' +  cardUpdateTime + '</small></p>\n' +
-                "            <div id='"+QRCodeID+"' align='center'></div>\
-                             <p class='modal-text' align='center'><small class='text-muted'>Scan QR Code to Visualise the Food Journey (using your camera app)</small></p>\n"+
-                '          </div>\n' +
-                '        <div class="clearfix visible-lg-block visible-md-block"></div>\n' +
-                '      </div>';
-
-          cardDeckWeekly.append(weeklyEntry);
-          var baseURL = window.location.origin; //"http://localhost:3000"
-          var QRCodeURL = baseURL + "/scan/" + QRCodeSupplierProduce; //http://localhost:3000/scanresult/OranjezichtCityFarm_Apples
-          //console.log('weeklyEntry ' + weeklyEntry2);
-          //console.log('QRCodeURL ' + QRCodeURL);
-          createQRCode(QRCodeID, QRCodeSupplierProduce, QRCodeURL);
-        });
+                      var weeklyEntry = '<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 ">\n' +
+                            '          <div class="service">\n' +
+                            '            <div class="icon"><i class="icon-tree"></i></div>\n' +
+                            '            <h2 class="heading">'+cardTitle+'</h2>\n' +
+                            '            <p>' + cardText + '</p>\n' +
+                            '            <p><small class="text-muted">Last Updated on ' +  cardUpdateTime + '</small></p>\n' +
+                            "            <div id='"+QRCodeID+"' align='center'></div>\
+                                         <p class='modal-text' align='center'><small class='text-muted'>Scan QR Code to Visualise the Food Journey (using your camera app)</small></p>\n"+
+                            '          </div>\n' +
+                            '        <div class="clearfix visible-lg-block visible-md-block"></div>\n' +
+                            '      </div>';
+                      cardDeckWeekly.append(weeklyEntry);
+                      var baseURL = window.location.origin; //"http://localhost:3000"
+                      var QRCodeURL = baseURL + "/scan/" + QRCodeSupplierProduce; //http://localhost:3000/scanresult/OranjezichtCityFarm_Apples
+                      //console.log('QRCodeURL ' + QRCodeURL);
+                      createQRCode(QRCodeID, QRCodeSupplierProduce, QRCodeURL);
+                   }
+                });
+        })(i);
       };
 
       loaderWeekly.hide();
@@ -269,16 +270,7 @@ App = {
         // geolocation,
         // supplierproduce
 
-        //          optionId = harvestSupplier + "_" + harvestProduct + "_" + harvestTime;
-        // //e.g. storageSupplierProductDate Oranjezicht City Farm_Apples_2019-07-05 09:25
-        //   var supplierProductDateArray = storageSupplierProductDate.split("_");
-        //   var cardTitle =   supplierProductDateArray[1]; //produce
-        //   var cardText =   supplierProductDateArray[0]; //supplier
-        //   var cardUpdateTime = storageDataCaptureTime;
-        //   var QRCodeSupplierProduce = (cardText + "_" + cardTitle).replace(/\s/g,'');
-
         var harvestSupplierProduce = (inputSupplier + "_" + inputProduct).replace(/\s/g,'');
-
         addHarvestRequest.send(JSON.stringify({
             'ID':"2",
             'supplierID': inputSupplier,
@@ -291,23 +283,6 @@ App = {
             'geolocation': "-33.9180, 25.5701",
             'supplierproduce': harvestSupplierProduce
         }));
-
-        // connection.query('INSERT INTO customers SET ?', user, function(err, result) {
-        //         //if(err) throw err
-        //         if (err) {
-        //             req.flash('error', err)
-        //
-        //             // render to views/user/add.ejs
-        //             res.render('customers/add', {
-        //                 title: 'Add New Customer',
-        //                 name: user.name,
-        //                 email: user.email
-        //             })
-        //         } else {
-        //             req.flash('success', 'Data added successfully!');
-        //             res.redirect('/customers');
-        //         }
-        //     })
     }).catch(function(err) {
       console.error(err);
     });
@@ -339,6 +314,44 @@ App = {
       return instance.registerStorage("2", inputSupplierStorage, "0x874950b8c006e6d166f015236623fcd0c0a7dc75", inputQuantityStorage, inputUoMStorage, momentInputStorageTime,  momentInputDataTimeStorage, "www.uct.ac.za", "test hash 1234", solidityContext);
     }).then(function(){
       $("#formRegisterStorage").get(0).reset() // or $('form')[0].reset()
+    }).then(function(){
+        const addStorageRequest = new XMLHttpRequest();
+        addStorageRequest.open('post', '/addStorage');
+        addStorageRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        // ID,
+        // marketID,
+        // marketAddress,
+        // quantity,
+        // unitOfMeasure,
+        // storageTimeStamp,
+        // storageCaptureTime,
+        // URL,
+        // hashID,
+        // storageDescription,
+        // geolocation,
+        // supplierproduce
+
+        // //e.g. storageSupplierProductDate Oranjezicht City Farm_Apples_2019-07-05 09:25 inputSupplierStorage
+        var supplierProductDateArray = inputSupplierStorage.split("_");
+        var supplierName =   supplierProductDateArray[0]; //supplier
+        var supplierProduce =   supplierProductDateArray[1]; //produce
+        var storageSupplierProduce = (supplierName + "_" + supplierProduce).replace(/\s/g,'');
+
+        addStorageRequest.send(JSON.stringify({
+            'ID':"2",
+            'marketID': inputSupplierStorage,
+            'marketAddress': "0x874950b8c006e6d166f015236623fcd0c0a7dc75",
+            'quantity': inputQuantityStorage,
+            'unitOfMeasure': inputUoMStorage,
+            'storageTimeStamp': momentInputStorageTime,
+            'storageCaptureTime': momentInputDataTimeStorage,
+            'URL': "www.uct.ac.za",
+            'hashID': "test hash 1234",
+            'storageDescription': "storageDescription",
+            'geolocation': "-33.9180, 25.5701",
+            'supplierproduce': storageSupplierProduce
+        }));
     }).catch(function(err) {
       console.error(err);
     });
@@ -386,7 +399,7 @@ async function createQRCode(QRCodeHtmlID, QRCodeSupplierProduce, produceUrl) {
   const res = await QRCode.toDataURL(produceUrl); //"data:image/png,%89PNG%0D%0A..."
   var divQRCodeHtml = '<img src='+ res + '>';
       $('#'+ QRCodeHtmlID).html(divQRCodeHtml);
-  console.log('QRCode created for ' + QRCodeSupplierProduce);
+  console.log('QRCode created for ' + QRCodeSupplierProduce + ' with ID ' + QRCodeHtmlID);
   };
 
 $('#numHarvestButton').click(function (e) {
