@@ -1,51 +1,42 @@
 var createError = require('http-errors');
 const express = require('express');
-
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-//var expressValidator = require('express-validator');
 var flash = require('express-flash');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-
 const QRCode = require('qrcode');
 const cors = require('cors');
 const fs = require('fs');
 const app = express();
 const path = require('path');
-//const flash = require('connect-flash');
-//var session = require('express-session');
 const router = express.Router();
 var mysql = require('mysql');
 var connection  = require('./src/js/db');
 
-
 // view engine setup
- app.set('views', path.join(__dirname, 'views'));
- app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
- app.use(logger('dev'));
- app.use(bodyParser.json());
- app.use(bodyParser.urlencoded({ extended: true }));
- app.use(cookieParser());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
- app.use(session({
-     secret: '123456cat',
-     resave: false,
-     saveUninitialized: true,
-     cookie: { maxAge: 60000 }
- }))
+app.use(session({
+ secret: '123456cat',
+ resave: false,
+ saveUninitialized: true,
+ cookie: { maxAge: 60000 }
+}))
 
- app.use(flash());
- //app.use(expressValidator());
+app.use(flash());
+//app.use(expressValidator());
 
-
-
- //add the router
+//add the router
 app.use('/', router);
-
 
 app.use(express.static(path.join(__dirname,"src")));
 app.use(express.static(path.join(__dirname,'build')));
@@ -178,42 +169,11 @@ router.get('/test_qrcode', async (req, res, next) => {
   QRFullName = QRFullName.trim();
     console.log('Wrote to ' + res2);
     res.json(res2);
-
-    //fs.writeFileSync(QRFullName, '<img src="${res2}">');
-  //console.log('Wrote to ' + QRFullName);
-
-
-    // // Generate QR Code from text
-    // var qr_png = qr.imageSync(qr_txt,{ type: 'png'})
-    // // Generate a random file name
-    // let qr_code_file_name = new Date().getTime() + '.png';
-    //
-    // fs.writeFileSync('./public/qr/' + qr_code_file_name, qr_png, (err) => {
-    //
-    //     if(err){
-    //         console.log(err);
-    //     }
-    //
-    // })
-    // // Send the link of generated QR code
-    // res.send({
-    //     'qr_img': "qr/" + qr_code_file_name
-    // });
-
   } catch (e) {
     //this will eventually be handled by your error handling middleware
     next(e)
   }
 });
-
-
-// router.get('/about',function(req,res){
-//   res.sendFile(path.join(__dirname+'/about.html'));
-// });
-//
-// router.get('/sitemap',function(req,res){
-//   res.sendFile(path.join(__dirname+'/sitemap.html'));
-// });
 
 
 app.listen(process.env.port || 3000);
