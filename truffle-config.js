@@ -56,7 +56,7 @@ module.exports = {
         return new HDWalletProvider(MNEMONIC, infuraRinkebyURL,1)
       },
       network_id: 4,
-      from: FROMADDRESS,
+      from: FROMADDRESS, // account from which to deploy
     }
   },
 
