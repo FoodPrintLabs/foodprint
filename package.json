@@ -6,6 +6,10 @@
   "directories": {
     "test": "test"
   },
+  "engines": {
+    "node": "10.x",
+    "npm": "6.9.x"
+  },
   "scripts": {
     "preinstall": "rm -rf node_modules/*/.git/",
     "test": "echo \"Error: no test specified\" && exit 1",
