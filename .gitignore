@@ -32,11 +32,14 @@ npm-debug.log
 # generated files
 bundle.js
 
-# truffle build directory
-build/
+## truffle build directory
+#build/
 
 # truffle config HD Wallet mnemonic secret
 .secret
+
+# truffle From address used during migrations. Defaults to the first available account provided by your Ethereum client.
+.fromaddress
 
 # truffle config infura key
 .infurakey
