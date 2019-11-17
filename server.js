@@ -13,7 +13,7 @@ var router = express.Router();
 var connection  = require('./src/js/db');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var db = require('.dbxml/localdb');
+var db = require('./dbxml/localdb');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
