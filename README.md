@@ -90,7 +90,7 @@ run dbxml/foodprintDB_schema.sql
 
 ```
 {
-        "db": {
+        "db_pool": {
         "host"      : <HOSTNAME>,
         "user"      : <USERNAME>,
         "password"  : <PASSWORD>,
