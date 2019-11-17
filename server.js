@@ -1,18 +1,19 @@
 var createError = require('http-errors');
-const express = require('express');
+var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('express-flash');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-const QRCode = require('qrcode');
-const cors = require('cors');
-const fs = require('fs');
-const app = express();
-const path = require('path');
-const router = express.Router();
-var mysql = require('mysql');
+var QRCode = require('qrcode');
+var cors = require('cors');
+var app = express();
+var path = require('path');
+var router = express.Router();
 var connection  = require('./src/js/db');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var db = require('./dbxml/localdb');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,13 +24,8 @@ app.use(logger('dev'));
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-//
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-
 
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use(session({
@@ -45,9 +41,47 @@ app.use(flash());
 //add the router
 app.use('/', router);
 
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(path.join(__dirname,"src")));
 app.use(express.static(path.join(__dirname,'build')));
-//app.use(express.static('build'));
+
+// Configure the local strategy for use by Passport.
+//
+// The local strategy require a `verify` function which receives the credentials
+// (`username` and `password`) submitted by the user.  The function must verify
+// that the password is correct and then invoke `cb` with a user object, which
+// will be set at `req.user` in route handlers after authentication.
+passport.use(new LocalStrategy(
+  function(username, password, cb) {
+    db.users.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { return cb(null, false); }
+      if (user.password != password) { return cb(null, false, { errors: { 'email or password': 'is invalid' } }); }
+      return cb(null, user);
+    });
+  }));
+
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  The
+// typical implementation of this is as simple as supplying the user ID when
+// serializing, and querying the user record by ID from the database when
+// deserializing.
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  db.users.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
 
  // catch 404 and forward to error handler
  app.use(function(req, res, next) {
@@ -123,7 +157,7 @@ router.get('/sign_in',function(req,res){
 
 //return template with scan results for produce
 router.get('/scan/:id',function(req,res){
-  const supplierProduceID = req.params.id; //OranjezichtCityFarm_Apples
+  var supplierProduceID = req.params.id; //OranjezichtCityFarm_Apples
   // http://localhost:3000/testscan/OranjezichtCityFarm_Apples
      connection.query('\n' +
          'SELECT \n' +
@@ -317,10 +351,10 @@ router.get('/test_qrcode', async (req, res, next) => {
     let produceUrl = "http://www.google.com";
     let supplier = "supplier";
     let produce = "Storage";
-    const res2 = await QRCode.toDataURL(produceUrl);
+    var res2 = await QRCode.toDataURL(produceUrl);
   var QRFileName = supplier + produce;
   QRFileName = QRFileName.trim();
-  const QRDirectory = '../static/';
+  var QRDirectory = '../static/';
   var QRFullName = QRDirectory + QRFileName+".png";
   QRFullName = QRFullName.trim();
     console.log('Wrote to ' + res2);
@@ -332,7 +366,7 @@ router.get('/test_qrcode', async (req, res, next) => {
 });
 
 
-app.listen(process.env.port || 3000);
+app.listen(process.env.PORT || 3000);
 
 console.log('Running at Port 3000');
 

@@ -1,7 +1,9 @@
-var mysql=require('mysql');
-var config  = require("../../dbconfig");
+var mysql = require('mysql');
+var config = require("../../dbconfig");
+var pool = mysql.createPool(config.db_pool);
+module.exports = pool;
+
 //var connection=mysql.createConnection(config.db);
-var pool  = mysql.createPool(config.db_pool);
 // connection.connect(function(error){
 //     if(error){
 //          console.log(error);
@@ -10,4 +12,3 @@ var pool  = mysql.createPool(config.db_pool);
 //         }
 //     });
 // module.exports = connection;
-module.exports = pool;
