@@ -1,17 +1,15 @@
 var createError = require('http-errors');
-const express = require('express');
+var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('express-flash');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-const QRCode = require('qrcode');
-const cors = require('cors');
-const fs = require('fs');
-const app = express();
-const path = require('path');
-const router = express.Router();
-var mysql = require('mysql');
+var QRCode = require('qrcode');
+var cors = require('cors');
+var app = express();
+var path = require('path');
+var router = express.Router();
 var connection  = require('./src/js/db');
 
 // view engine setup
@@ -23,13 +21,8 @@ app.use(logger('dev'));
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-//
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-
 
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use(session({
@@ -47,7 +40,6 @@ app.use('/', router);
 
 app.use(express.static(path.join(__dirname,"src")));
 app.use(express.static(path.join(__dirname,'build')));
-//app.use(express.static('build'));
 
  // catch 404 and forward to error handler
  app.use(function(req, res, next) {
@@ -123,7 +115,7 @@ router.get('/sign_in',function(req,res){
 
 //return template with scan results for produce
 router.get('/scan/:id',function(req,res){
-  const supplierProduceID = req.params.id; //OranjezichtCityFarm_Apples
+  var supplierProduceID = req.params.id; //OranjezichtCityFarm_Apples
   // http://localhost:3000/testscan/OranjezichtCityFarm_Apples
      connection.query('\n' +
          'SELECT \n' +
@@ -317,10 +309,10 @@ router.get('/test_qrcode', async (req, res, next) => {
     let produceUrl = "http://www.google.com";
     let supplier = "supplier";
     let produce = "Storage";
-    const res2 = await QRCode.toDataURL(produceUrl);
+    var res2 = await QRCode.toDataURL(produceUrl);
   var QRFileName = supplier + produce;
   QRFileName = QRFileName.trim();
-  const QRDirectory = '../static/';
+  var QRDirectory = '../static/';
   var QRFullName = QRDirectory + QRFileName+".png";
   QRFullName = QRFullName.trim();
     console.log('Wrote to ' + res2);
@@ -332,7 +324,7 @@ router.get('/test_qrcode', async (req, res, next) => {
 });
 
 
-app.listen(process.env.port || 3000);
+app.listen(process.env.PORT || 3000);
 
 console.log('Running at Port 3000');
 
