@@ -29,11 +29,11 @@ INSERT INTO foodprint_usergroups (
         grouplabel,
         logdatetime)
 VALUES
-  ('1', 'superuser',	'Super User',	'2019-11-18 09:25'),
-  ('2', 'admin',	'Administrator',	'2019-11-18 09:25'),
-  ('3', 'farmer',	'Farmer',	'2019-11-18 09:25'),
-  ('4', 'market',	'Market',	'2019-11-18 09:25'),
-  ('5', 'consumer',	'Consumer',	'2019-11-18 09:25');
+  ('1', 'group.superuser',	'Super User',	'2019-11-18 09:25'),
+  ('2', 'group.admin',	'Administrator',	'2019-11-18 09:25'),
+  ('3', 'group.farmer',	'Farmer',	'2019-11-18 09:25'),
+  ('4', 'group.market',	'Market',	'2019-11-18 09:25'),
+  ('5', 'group.consumer',	'Consumer',	'2019-11-18 09:25');
 
 
 --track scans of qr codes
