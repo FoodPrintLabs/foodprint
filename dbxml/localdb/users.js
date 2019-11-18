@@ -1,7 +1,10 @@
 /* TODO import users from a gitignored json file */
 var records = [
-    { id: 1, username: 'jack', password: 'secret', displayName: 'Jack', emails: [ { value: 'jack@example.com' } ] }
-  , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', emails: [ { value: 'jill@example.com' } ] }
+    { id: 1, username: 'admin', password: 'birthday', displayName: 'Admin Jack', emails: [ { value: 'adminjack@example.com' } ], usergroup: 'group.admin'  }
+  , { id: 2, username: 'market_user', password: 'birthday', displayName: 'Market Jenny', emails: [ { value: 'marketjenny@example.com' } ], usergroup: 'group.market'  }
+  , { id: 3, username: 'farmer', password: 'birthday', displayName: 'Farmer Brown ', emails: [ { value: 'farmerbrown@example.com' } ], usergroup: 'group.farmer'  }
+  , { id: 4, username: 'consumer', password: 'birthday', displayName: 'Consumer Jill', emails: [ { value: 'consumerjill@example.com' } ], usergroup: 'group.consumer'  }
+  , { id: 5, username: 'superuser', password: 'birthday', displayName: 'Super User Julz', emails: [ { value: 'superuserjulz@example.com' } ], usergroup: 'group.superuser'  }
 ];
 
 exports.findById = function(id, cb) {
