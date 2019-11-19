@@ -231,15 +231,16 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
+          <div class="probootstrap-footer-widget" id = "footerWidget">
             <h4 class="heading">Subscribe</h4>
-            <p>Be part of the FoodPrint family and receive weekly updates.</p>
-            <form action="#">
+            <p>Be part of the FoodPrint family and receive updates.</p>
+            <form id="subscribe_form">
               <div class="form-field">
-                <input type="text" class="form-control" placeholder="Enter your email">
+                <input type="text" id="subscribe_email" class="form-control" placeholder="Enter your email">
                 <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
               </div>
             </form>
+            <text id="subscribe_result"></text>
           </div>
         </div>
       </div>
@@ -270,7 +271,31 @@
   <script src="js/main.min.js"></script>
   <script src="js/custom.js"></script>
 
-  <script >
+  <script>
+  $(document).ready(function () {
+           $('#subscribe_form').submit(function (event) {
+                        event.preventDefault();
+                        //collect the form data using Id Selector what ever data you need to send to server
+                        var data = {};
+                        data.subscribe_email=$('#subscribe_email').val();
+                        $.ajax({
+                            url: '/subscribe',
+                            data: JSON.stringify(data),
+                            processData: false,
+                            type: 'POST',
+                            contentType: 'application/json'
+                        }).done(function(res) {
+                            if (res.success) {
+                                console.log('id from ajax call is', res);
+                                $("#subscribe_form").get(0).reset() // or $('form')[0].reset()
+                                $('#subscribe_result').html('You have successfully subscribed as ' + res.email);
+                            } else {
+                                console.log('error...ajax');
+                                }
+                          });
+                    });
+                });
+
   const data = [
   {
       id: 1,

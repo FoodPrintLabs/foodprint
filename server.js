@@ -344,6 +344,45 @@ router.post('/addStorage',function(req,res){
 });
 
 
+//subscribe XmlHTTP request
+router.post('/subscribe',function(req,res){
+      var subscriber_email = req.body.subscribe_email;
+      var subscriber_datetime = new Date();
+      var subscriber_firstname = '';
+      var subscriber_surname = '';
+
+
+    try {
+      connection.query('\n' +
+          'INSERT INTO foodprint_subscription (\n' +
+          '        firstname ,\n' +
+          '        surname,\n' +
+          '        email,\n' +
+          '        logdatetime)\n' +
+          'VALUES (?, ?, ?, ?);',
+          [
+            subscriber_firstname,
+            subscriber_surname,
+            subscriber_email,
+            subscriber_datetime
+        ],function(err,rows)     {
+        if(err){
+         //req.flash('error', err);
+         console.error('error', err);
+         res.status.json({ err: err });
+        }else{
+            console.log('add foodprint_subscription DB success');
+            res.json({ success: true, email: subscriber_email });
+        }
+         });
+  } catch (e) {
+    //this will eventually be handled by your error handling middleware
+    next(e)
+  }
+});
+
+
+
 router.get('/test_qrcode', async (req, res, next) => {
   try {
       // Get the text to generate QR code
