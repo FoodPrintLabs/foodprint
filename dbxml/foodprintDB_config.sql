@@ -13,7 +13,7 @@
 -- =============================================
 
 
---user groups: superuser, admin, farmer, market, consumer
+-- user groups: superuser, admin, farmer, market, consumer
 CREATE TABLE foodprint_usergroups (
         pk int NOT NULL AUTO_INCREMENT,
         logid varchar(255),
@@ -36,16 +36,16 @@ VALUES
   ('5', 'group.consumer',	'Consumer',	'2019-11-18 09:25');
 
 
---track scans of qr codes
+-- track scans of qr codes
 CREATE TABLE foodprint_qrcount (
         pk int NOT NULL AUTO_INCREMENT,
         logid varchar(255),
         qrid varchar(255),
         qrurl varchar(255),
         marketid varchar(255),
-        request_host varchar(255), --req.headers.host;
-        request_origin varchar(255), --req.headers.origin;
-        request_useragent varchar(500), --req.useragent from https://www.npmjs.com/package/express-useragent;
+        request_host varchar(255), -- req.headers.host;
+        request_origin varchar(255), -- req.headers.origin;
+        request_useragent varchar(500), -- req.useragent from https://www.npmjs.com/package/express-useragent;
         logdatetime DATETIME,
         PRIMARY KEY (pk)
 );
@@ -62,7 +62,7 @@ INSERT INTO foodprint_qrcount (
 VALUES ('1', '1', 'http://www.foodprintapp.com/checkin/ozcf', 'OZCF',	'host',	'origin', 'useragent',	'2019-11-18 09:25');
 
 
---manage qr codes
+-- manage qr codes
 CREATE TABLE foodprint_qr (
         pk int NOT NULL AUTO_INCREMENT,
         qrid varchar(255),
@@ -86,7 +86,7 @@ INSERT INTO foodprint_qr (
 VALUES ('1', 'OZCF',	'Check-in',	'Your journey starts here', 'http://www.foodprintapp.com/checkin/ozcf','qrcode',	'2019-11-18 09:25');
 
 
---manage markets on platform
+-- manage markets on platform
 CREATE TABLE foodprint_market (
         pk int NOT NULL AUTO_INCREMENT,
         marketid varchar(255),
@@ -126,7 +126,7 @@ VALUES ('1', 'Oranjezicht City Farm Market',	'Held every Saturday, Sunday and We
 'Saturday 8.15am to 2pm, Sunday 9am to 3pm and Wednesday 4 to 8pm (all weather)', '2019-11-18 09:25');
 
 
---users allocated to market
+-- users allocated to market
 CREATE TABLE foodprint_marketuser (
         pk int NOT NULL AUTO_INCREMENT,
         marketid varchar(255),
@@ -139,10 +139,10 @@ INSERT INTO foodprint_marketuser (
         marketid ,
         userid,
         logdatetime)
-VALUES ('1', 'OZCF',	'OZCF_User1',	'2019-11-18 09:25');
+VALUES ('OZCF',	'OZCF_User1',	'2019-11-18 09:25');
 
 
---manage farms on platform
+-- manage farms on platform
 CREATE TABLE foodprint_farm (
         pk int NOT NULL AUTO_INCREMENT,
         farmid varchar(255),
@@ -183,7 +183,7 @@ VALUES ('1', 'Oranjezicht City Farm',	'The Oranjezicht City Farm (OZCF) is a non
  '2019-11-18 09:25');
 
 
---manage produce
+-- manage produce
 CREATE TABLE foodprint_farmproduce (
         pk int NOT NULL AUTO_INCREMENT,
         produceid varchar(255),
@@ -205,7 +205,7 @@ INSERT INTO foodprint_farmproduce (
 VALUES ('1', 'Yellow Tomatoes',	'ProduceDescription',	'img/fruitCatalogue/yellowtomatoes.jpg', 'Rosenhof Farm',	'2019-11-18 09:25');
 
 
---users allocated to farms
+-- users allocated to farms
 CREATE TABLE foodprint_farmuser (
         pk int NOT NULL AUTO_INCREMENT,
         farmid varchar(255),
@@ -218,10 +218,10 @@ INSERT INTO foodprint_farmuser (
         farmid ,
         userid,
         logdatetime)
-VALUES ('1', 'OZCF',	'Farm_User1',	'2019-11-18 09:25');
+VALUES ('OZCF',	'Farm_User1',	'2019-11-18 09:25');
 
 
---produce master data e.g. orange then farmproduce can be cara cara orange
+-- produce master data e.g. orange then farmproduce can be cara cara orange
 CREATE TABLE foodprint_produce (
         pk int NOT NULL AUTO_INCREMENT,
         produceid varchar(255),
@@ -236,10 +236,10 @@ INSERT INTO foodprint_produce (
         producename,
         producedescription,
         logdatetime)
-VALUES ('1', '1',	'orange',	'fruit',	'2019-11-18 09:25');
+VALUES ('1',	'orange',	'fruit',	'2019-11-18 09:25');
 
 
---version control of deployed smart contracts
+-- version control of deployed smart contracts
 CREATE TABLE foodprint_smartcontract (
         pk int NOT NULL AUTO_INCREMENT,
         contract_name varchar(255),
@@ -264,7 +264,7 @@ VALUES ('FoodPrint v1', 'Produce and Harvest stored in DB and Blockchain',	'addr
 	    'kovan', '2019-08-18 09:25',	'2019-11-18 09:25');
 
 
---catch all key:value configuration
+-- catch all key:value configuration
 CREATE TABLE foodprint_config (
         pk int NOT NULL AUTO_INCREMENT,
         configid varchar(255),
@@ -304,7 +304,7 @@ INSERT INTO market_subscription (
 VALUES ('OZCF', '',	'',	'test@afriwebhub.co.za',	'2019-11-16 09:25');
 
 
---subscription to FoodPrint via home page
+-- subscription to FoodPrint via home page
 CREATE TABLE foodprint_subscription (
         pk int NOT NULL AUTO_INCREMENT,
         firstname varchar(255),
