@@ -286,8 +286,8 @@
                             contentType: 'application/json'
                         }).done(function(res) {
                             if (res.success) {
-                                console.log('id from ajax call is', res);
-                                $("#subscribe_form").get(0).reset() // or $('form')[0].reset()
+                                //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
+                                $("#subscribe_form").hide();
                                 $('#subscribe_result').html('You have successfully subscribed as ' + res.email);
                             } else {
                                 console.log('error...ajax');
