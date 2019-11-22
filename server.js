@@ -211,6 +211,54 @@ router.get('/scan/:id',function(req,res){
          });
 });
 
+//return template with market checkin form e.g. http://localhost:3000/checkin/ozcf
+router.get('/checkin/:market_id',function(req,res){
+  var marketID = req.params.market_id; //shortcode e.g. ozcf
+  console.log('market_shortcode ' + marketID);
+  res.render('checkin.ejs',{data:marketID});
+});
+
+
+//market checkin XmlHTTP request
+router.post('/marketcheckin',function(req,res){
+      var checkin_market_id = req.body.checkin_market_id;
+      var checkin_email = req.body.checkin_email;
+      var checkin_datetime = new Date();
+      var checkin_firstname = '';
+      var checkin_surname = '';
+
+
+    try {
+      connection.query('\n' +
+          'INSERT INTO market_subscription (\n' +
+          '        market_id ,\n' +
+          '        firstname,\n' +
+          '        surname,\n' +
+          '        email,\n' +
+          '        logdatetime)\n' +
+          'VALUES (?, ?, ?, ?, ?);',
+          [
+            checkin_market_id,
+            checkin_firstname,
+            checkin_surname,
+            checkin_email,
+            checkin_datetime
+        ],function(err,rows)     {
+        if(err){
+         //req.flash('error', err);
+         console.error('error', err);
+         res.status.json({ err: err });
+        }else{
+            console.log('add market_subscription DB success');
+            res.json({ success: true, email: checkin_email });
+        }
+         });
+  } catch (e) {
+    //this will eventually be handled by your error handling middleware
+    next(e)
+  }
+});
+
 
 router.get('/test_db', async (req, res, next) => {
   try {
