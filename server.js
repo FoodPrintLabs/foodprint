@@ -207,8 +207,6 @@ router.get('/scan/:id',function(req,res){
              res.render('scanresult',{data:''});
             }
             else {
-                console.log('Render SQL results');
-                console.log('Render SQL results', rows);
                 res.render('scanresult',{data:rows});
             }
          });
@@ -217,7 +215,6 @@ router.get('/scan/:id',function(req,res){
 //return template with market checkin form e.g. http://localhost:3000/checkin/ozcf
 router.get('/checkin/:market_id',function(req,res){
   var marketID = req.params.market_id; //shortcode e.g. ozcf
-  console.log('market_shortcode ' + marketID);
   res.render('checkin.ejs',{data:marketID});
 });
 
@@ -272,7 +269,6 @@ router.get('/test_db', async (req, res, next) => {
          res.render('./test_db',{page_title:"Farmers - Farm Print",data:''});
         }else{
             console.log('Render SQL results');
-            //console.log('Render SQL results', rows);
             res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows});
         }
          });
@@ -287,16 +283,6 @@ router.post('/addHarvest',function(req,res){
     // ID ,supplierID,supplierAddress,productID,photoHash,harvestTimeStamp,harvestCaptureTime,harvestDescription,
     // geolocation,supplierproduce
   // console.log("addHarvest" + req.body);
-  // console.log("ID" + req.body.ID);
-  // console.log("supplierID" + req.body.supplierID);
-  // console.log("supplierAddress" + req.body.supplierAddress);
-  // console.log("productID" + req.body.productID);
-  // console.log("photoHash" + req.body.photoHash);
-  // console.log("harvestTimeStamp" + req.body.harvestTimeStamp);
-  // console.log("harvestCaptureTime" + req.body.harvestCaptureTime);
-  // console.log("harvestDescription" + req.body.harvestDescription);
-  // console.log("geolocation" + req.body.geolocation);
-  // console.log("supplierproduce" + req.body.supplierproduce);
     try {
       connection.query('\n' +
           'INSERT INTO harvest (\n' +
@@ -342,18 +328,6 @@ router.post('/addStorage',function(req,res){
     // storageDescription,geolocation,supplierproduce
 
   // console.log("addStorage" + req.body);
-  // console.log("ID" + req.body.ID);
-  // console.log("marketID" + req.body.marketID);
-  // console.log("marketAddress" + req.body.marketAddress);
-  // console.log("quantity" + req.body.quantity);
-  // console.log("unitOfMeasure" + req.body.unitOfMeasure);
-  // console.log("storageTimeStamp" + req.body.storageTimeStamp);
-  // console.log("storageCaptureTime" + req.body.storageCaptureTime);
-  // console.log("URL" + req.body.URL);
-  // console.log("hashID" + req.body.hashID);
-  // console.log("storageDescription" + req.body.storageDescription);
-  // console.log("geolocation" + req.body.geolocation);
-  // console.log("supplierproduce" + req.body.supplierproduce);
   try {
       connection.query('INSERT INTO storage (\n' +
           '        ID,\n' +
