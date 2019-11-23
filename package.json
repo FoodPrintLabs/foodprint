@@ -48,7 +48,7 @@
     "express": "^4.17.1",
     "express-flash": "0.0.2",
     "express-session": "^1.16.2",
-    "express-validator": "^6.1.1",
+    "express-validator": "^6.2.0",
     "fs": "0.0.1-security",
     "jimp": "^0.6.4",
     "method-override": "^3.0.0",
