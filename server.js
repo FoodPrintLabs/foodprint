@@ -220,43 +220,52 @@ router.get('/checkin/:market_id',function(req,res){
 
 
 //market checkin XmlHTTP request
-router.post('/marketcheckin',function(req,res){
-      var checkin_market_id = req.body.checkin_market_id;
-      var checkin_email = req.body.checkin_email;
-      var checkin_datetime = new Date();
-      var checkin_firstname = '';
-      var checkin_surname = '';
-
-
-    try {
-      connection.query('\n' +
-          'INSERT INTO market_subscription (\n' +
-          '        market_id ,\n' +
-          '        firstname,\n' +
-          '        surname,\n' +
-          '        email,\n' +
-          '        logdatetime)\n' +
-          'VALUES (?, ?, ?, ?, ?);',
-          [
-            checkin_market_id,
-            checkin_firstname,
-            checkin_surname,
-            checkin_email,
-            checkin_datetime
-        ],function(err,rows)     {
-        if(err){
-         //req.flash('error', err);
-         console.error('error', err);
-         res.status.json({ err: err });
-        }else{
-            console.log('add market_subscription DB success');
-            res.json({ success: true, email: checkin_email });
+router.post('/marketcheckin', [
+    check('checkin_email', 'Your email is not valid').not().isEmpty().isEmail().normalizeEmail(),
+  ],
+    function(req,res){
+    const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          res.json({ errors: errors.array(), success: false});
         }
-         });
-  } catch (e) {
-    //this will eventually be handled by your error handling middleware
-    next(e)
-  }
+      else {
+          var checkin_market_id = req.body.checkin_market_id;
+          var checkin_email = req.body.checkin_email;
+          var checkin_datetime = new Date();
+          var checkin_firstname = '';
+          var checkin_surname = '';
+
+            try {
+              connection.query('\n' +
+                  'INSERT INTO market_subscription (\n' +
+                  '        market_id ,\n' +
+                  '        firstname,\n' +
+                  '        surname,\n' +
+                  '        email,\n' +
+                  '        logdatetime)\n' +
+                  'VALUES (?, ?, ?, ?, ?);',
+                  [
+                    checkin_market_id,
+                    checkin_firstname,
+                    checkin_surname,
+                    checkin_email,
+                    checkin_datetime
+                ],function(err,rows)     {
+                if(err){
+                 //req.flash('error', err);
+                 console.error('error', err);
+                 res.status.json({ err: err });
+                }else{
+                    console.log('add market_subscription DB success');
+                    res.json({ success: true, email: checkin_email });
+                }
+                 });
+          } catch (e) {
+            //this will eventually be handled by your error handling middleware
+            next(e)
+            res.json({success: false, errors: e});
+          }
+        }
 });
 
 

@@ -93,6 +93,9 @@
                   </div>
                 </form>
                 <text id="checkin_result"></text>
+                <div class="alert-danger" id = "checkin_error_group" style="display: none">
+                <ul id="checkin_errors"></ul>
+            </div>
             </div>
           </div>
     <hr>
@@ -207,9 +210,19 @@
                                 //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
                                 $("#checkin_calltoaction").hide();
                                 $("#checkin_form").hide();
+                                $('#checkin_error_group').hide();
                                 $('#checkin_result').html('Thanks for checking in (' + res.email + ') and enjoy your visit!');
                             } else {
-                                console.log('error...ajax');
+                                $('#checkin_error_group').css('display', 'block');
+                                  var errors = JSON.parse(JSON.stringify(res.errors));
+                                  var errorsContainer = $('#checkin_errors');
+                                  errorsContainer.innerHTML = '';
+                                  var errorsList = '';
+
+                                  for (var i = 0; i < errors.length; i++) {
+                                    errorsList += '<li>' + errors[i].msg + '</li>';
+                                  }
+                                  errorsContainer.html(errorsList);
                                 }
                           });
                     });
