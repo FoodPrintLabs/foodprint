@@ -405,14 +405,13 @@ router.post('/subscribe', [
     function(req,res){
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-          res.json({ errors: errors});
+          res.json({ errors: errors.array(), success: false});
         }
       else {
           var subscriber_email = req.body.subscribe_email;
           var subscriber_datetime = new Date();
           var subscriber_firstname = '';
           var subscriber_surname = '';
-
 
           try {
               connection.query('\n' +

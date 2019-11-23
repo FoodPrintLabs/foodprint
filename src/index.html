@@ -291,12 +291,11 @@
                             if (res.success) {
                                 //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
                                 $("#subscribe_form").hide();
+                                $('#error-group').hide();
                                 $('#subscribe_result').html('You have successfully subscribed as ' + res.email);
                             } else {
-                                console.log('error...ajax');
-                                console.log(res.errors);
                                 $('#error-group').css('display', 'block');
-                                  var errors = JSON.parse(res.errors);
+                                  var errors = JSON.parse(JSON.stringify(res.errors));
                                   var errorsContainer = $('#errors');
                                   errorsContainer.innerHTML = '';
                                   var errorsList = '';
