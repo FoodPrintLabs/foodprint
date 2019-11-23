@@ -13,6 +13,9 @@ var router = express.Router();
 var connection  = require('./src/js/db');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+const { check, validationResult } = require('express-validator');
+var body = require('express-validator'); //validation
+var sanitizeBody  = require('express-validator'); //sanitization
 var db = require('./dbxml/localdb');
 
 // view engine setup
@@ -393,40 +396,53 @@ router.post('/addStorage',function(req,res){
 
 
 //subscribe XmlHTTP request
-router.post('/subscribe',function(req,res){
-      var subscriber_email = req.body.subscribe_email;
-      var subscriber_datetime = new Date();
-      var subscriber_firstname = '';
-      var subscriber_surname = '';
-
-
-    try {
-      connection.query('\n' +
-          'INSERT INTO foodprint_subscription (\n' +
-          '        firstname ,\n' +
-          '        surname,\n' +
-          '        email,\n' +
-          '        logdatetime)\n' +
-          'VALUES (?, ?, ?, ?);',
-          [
-            subscriber_firstname,
-            subscriber_surname,
-            subscriber_email,
-            subscriber_datetime
-        ],function(err,rows)     {
-        if(err){
-         //req.flash('error', err);
-         console.error('error', err);
-         res.status.json({ err: err });
-        }else{
-            console.log('add foodprint_subscription DB success');
-            res.json({ success: true, email: subscriber_email });
+router.post('/subscribe', [
+    //check('sample_name').not().isEmpty().withMessage('Name must have more than 5 characters'),
+    //check('sample_classYear', 'Class Year should be a number').not().isEmpty(),
+    //check('weekday', 'Choose a weekday').optional(),
+    check('subscribe_email', 'Your email is not valid').not().isEmpty().isEmail().normalizeEmail(),
+  ],
+    function(req,res){
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          res.json({ errors: errors});
         }
-         });
-  } catch (e) {
-    //this will eventually be handled by your error handling middleware
-    next(e)
-  }
+      else {
+          var subscriber_email = req.body.subscribe_email;
+          var subscriber_datetime = new Date();
+          var subscriber_firstname = '';
+          var subscriber_surname = '';
+
+
+          try {
+              connection.query('\n' +
+                  'INSERT INTO foodprint_subscription (\n' +
+                  '        firstname ,\n' +
+                  '        surname,\n' +
+                  '        email,\n' +
+                  '        logdatetime)\n' +
+                  'VALUES (?, ?, ?, ?);',
+                  [
+                      subscriber_firstname,
+                      subscriber_surname,
+                      subscriber_email,
+                      subscriber_datetime
+                  ], function (err, rows) {
+                      if (err) {
+                          //req.flash('error', err);
+                          console.error('error', err);
+                          res.status.json({err: err});
+                      } else {
+                          console.log('add foodprint_subscription DB success');
+                          res.json({success: true, email: subscriber_email});
+                      }
+                  });
+          } catch (e) {
+              //this will eventually be handled by your error handling middleware
+              next(e);
+              res.json({success: false, errors: e});
+          }
+      }
 });
 
 
