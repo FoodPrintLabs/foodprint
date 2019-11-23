@@ -57,42 +57,64 @@
     </div>
   </header>
   <!-- END: header -->
-   <div class="container" style="width: 100%;">
-       <h4>Check in to the Market</h4>
+   <section class="probootstrap-slider flexslider">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; z-index: 49;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="probootstrap-slider-text text-center">
+                        <h1 class="probootstrap-heading probootstrap-animate mb20 fadeIn probootstrap-animated" data-animate-effect="fadeIn">Check-in</h1>
+                        <div class="probootstrap-animate probootstrap-sub-wrap mb30 fadeIn probootstrap-animated" data-animate-effect="fadeIn">Scroll down and check-in to let us know you were here</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="slides">
+        <li style="background-image: url(/img/slider_4.jpg); width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="" class=""></li>
+    </ul>
+    <ol class="flex-control-nav flex-control-paging"><li><a href="#" class="flex-active">1</a></li><li><a href="#" class="">2</a></li></ol><ul class="flex-direction-nav"><li class="flex-nav-prev"><a class="flex-prev" href="#"></a></li><li class="flex-nav-next"><a class="flex-next" href="#"></a></li></ul>
+   </section>
+  <!-- END: slider  -->
+
+   <!--<div class="container" style="width: 100%;">-->
        <% if(data.length){%>
-                    <div class="row">
-                        <div class="col-md-6 probootstrap-animate">
-                          <p>Thanks for joining us today. The sun is warm and the produce are waiting for your tender harvest.</p>
-                        </div>
-                        <div class="col-md-6 probootstrap-animate">
-                            <p id="checkin_calltoaction">Complete your check-in to the market.</p>
-                            <form id="checkin_form">
-                              <div class="form-field">
-                                <input type="email" id="checkin_email" class="form-control" placeholder="Enter your email" required>
-                                <input type="hidden" id="checkin_market_id" value="<%=data%>"/>
-                                <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
-                              </div>
-                            </form>
-                            <text id="checkin_result"></text>
-                        </div>
-                      </div>
-                <hr>
+        <div class="probootstrap-section-heading text-center mb50 probootstrap-animate fadeInUp probootstrap-animated">
+            <h4 class="sub-heading">Thanks for joining us today. The produce awaits your tender harvest.</h4>
+            <h2 class="heading">Complete your check-in to the market.</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 probootstrap-animate ">
+                <form id="checkin_form">
+                  <div class="form-field">
+                    <input type="email" id="checkin_email" class="form-control" placeholder="Enter your email" required>
+                    <input type="hidden" id="checkin_market_id" value="<%=data%>"/>
+                    <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
+                  </div>
+                </form>
+                <text id="checkin_result"></text>
+            </div>
+          </div>
+    <hr>
           <% }
            else{ %>
-           <h4>Oops, something went wrong.</h4>
+            <h2 class="heading">Complete your check-in to the market.</h2>
+            <h4>Oops, something went wrong.</h4>
         <% } %>
 
-            <div class="row">
-                <div class="col-md-6 probootstrap-animate">
-                  <p>We are working on introducing produce traceability to the market in the coming weeks. You will be
-                      able to scan a QR Code and see where your produce is coming from, when it was harvested etc. Stay Tuned!
-                  </p>
+       <div class="row">
+            <section class="probootstrap-section probootstrap-bg" style="background-image: url(/img/slider_2.jpg);">
+                <div class="container text-center">
+                    <h2 class="heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">Food Traceability coming soon...</h2>
+                    <p class="sub-heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">We are working on introducing produce traceability to the market in the coming weeks. You will be
+                      able to scan a QR Code and see where your produce is coming from, when it was harvested etc. Stay Tuned!</p>
                 </div>
-              </div>
-   </div>
+            </section>
+       </div>
+   <!--</div>-->
 
 
-    <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(img/slider_3.jpg)">
+    <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(/img/slider_3.jpg)">
     <div class="container">
       <div class="row mb60">
         <div class="col-md-3">
