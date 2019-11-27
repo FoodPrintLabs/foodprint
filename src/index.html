@@ -72,9 +72,9 @@
       </div>
     </div>
     <ul class="slides">
-      <li style="background-image: url(img/rootvegbasket.jpg);"></li>
-      <li style="background-image: url(img/orangebowl_bg.jpg);"></li>
-      <li style="background-image: url(img/RosenhofClare.jpg);"></li>
+      <li style="background-image: url(/img/rootvegbasket.jpg);"></li>
+      <li style="background-image: url(/img/orangebowl_bg.jpg);"></li>
+      <li style="background-image: url(/img/RosenhofClare.jpg);"></li>
     </ul>
   </section>
   <!-- END: slider  -->
@@ -191,7 +191,7 @@
     </div>
   </section>
 
-  <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(img/slider_3.jpg)">
+  <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(/img/slider_3.jpg)">
     <div class="container">
       <div class="row mb60">
         <div class="col-md-3">
@@ -231,22 +231,26 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
+          <div class="probootstrap-footer-widget" id = "footerWidget">
             <h4 class="heading">Subscribe</h4>
-            <p>Be part of the FoodPrint family and receive weekly updates.</p>
-            <form action="#">
+            <p>Be part of the FoodPrint community and receive updates.</p>
+            <form id="subscribe_form">
               <div class="form-field">
-                <input type="text" class="form-control" placeholder="Enter your email">
+                <input type="email" id="subscribe_email" class="form-control" placeholder="Enter your email" required>
                 <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
               </div>
             </form>
+            <text id="subscribe_result"></text>
+            <div class="alert-danger" id = "error-group" style="display: none">
+                <ul id="errors"></ul>
+            </div>
           </div>
         </div>
       </div>
       <div class="row copyright">
         <div class="col-md-6">
           <div class="probootstrap-footer-widget">
-            <p>&copy; 2019 <a href="http://foodprintapp.com/">FoodPrint, from farm to fork</a>. Designed by <a href="https://uicookies.com/">uicookies.com</a></p>
+            <p>&copy; 2019 <a href="http://foodprintapp.com/">FoodPrint, from farm to fork</a>. Hosting sponsor <a href="https://jskdezign.com/" target="_blank">JSKDEZIGN</a></p>
           </div>
         </div>
         <div class="col-md-6">
@@ -270,7 +274,42 @@
   <script src="js/main.min.js"></script>
   <script src="js/custom.js"></script>
 
-  <script >
+  <script>
+  $(document).ready(function () {
+           $('#subscribe_form').submit(function (event) {
+                        event.preventDefault();
+                        //collect the form data using Id Selector what ever data you need to send to server
+                        var data = {};
+                        data.subscribe_email=$('#subscribe_email').val();
+                        $.ajax({
+                            url: '/subscribe',
+                            data: JSON.stringify(data),
+                            processData: false,
+                            type: 'POST',
+                            contentType: 'application/json'
+                        }).done(function(res) {
+                            if (res.success) {
+                                //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
+                                $("#subscribe_form").hide();
+                                $('#error-group').hide();
+                                $('#subscribe_result').html('You have successfully subscribed as ' + res.email);
+                            } else {
+                                $('#error-group').css('display', 'block');
+                                  var errors = JSON.parse(JSON.stringify(res.errors));
+                                  var errorsContainer = $('#errors');
+                                  errorsContainer.innerHTML = '';
+                                  var errorsList = '';
+
+                                  for (var i = 0; i < errors.length; i++) {
+                                    errorsList += '<li>' + errors[i].msg + '</li>';
+                                  }
+                                  errorsContainer.html(errorsList);
+                                  console.log('error...ajax' + errorsList);
+                            }
+                          });
+                    });
+                });
+
   const data = [
   {
       id: 1,

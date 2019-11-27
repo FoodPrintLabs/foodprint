@@ -13,6 +13,9 @@ var router = express.Router();
 var connection  = require('./src/js/db');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+const { check, validationResult } = require('express-validator');
+var body = require('express-validator'); //validation
+var sanitizeBody  = require('express-validator'); //sanitization
 var db = require('./dbxml/localdb');
 
 // view engine setup
@@ -204,11 +207,65 @@ router.get('/scan/:id',function(req,res){
              res.render('scanresult',{data:''});
             }
             else {
-                console.log('Render SQL results');
-                console.log('Render SQL results', rows);
                 res.render('scanresult',{data:rows});
             }
          });
+});
+
+//return template with market checkin form e.g. http://localhost:3000/checkin/ozcf
+router.get('/checkin/:market_id',function(req,res){
+  var marketID = req.params.market_id; //shortcode e.g. ozcf
+  res.render('checkin.ejs',{data:marketID});
+});
+
+
+//market checkin XmlHTTP request
+router.post('/marketcheckin', [
+    check('checkin_email', 'Your email is not valid').not().isEmpty().isEmail().normalizeEmail(),
+  ],
+    function(req,res){
+    const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          res.json({ errors: errors.array(), success: false});
+        }
+      else {
+          var checkin_market_id = req.body.checkin_market_id;
+          var checkin_email = req.body.checkin_email;
+          var checkin_datetime = new Date();
+          var checkin_firstname = '';
+          var checkin_surname = '';
+
+            try {
+              connection.query('\n' +
+                  'INSERT INTO market_subscription (\n' +
+                  '        market_id ,\n' +
+                  '        firstname,\n' +
+                  '        surname,\n' +
+                  '        email,\n' +
+                  '        logdatetime)\n' +
+                  'VALUES (?, ?, ?, ?, ?);',
+                  [
+                    checkin_market_id,
+                    checkin_firstname,
+                    checkin_surname,
+                    checkin_email,
+                    checkin_datetime
+                ],function(err,rows)     {
+                if(err){
+                 //req.flash('error', err);
+                 console.error('error', err);
+                 res.status.json({ err: err });
+                }else{
+                    console.log('add market_subscription DB success');
+                    res.json({ success: true, email: checkin_email });
+                }
+                 });
+          } catch (e) {
+            //this will eventually be handled by your error handling middleware
+            next(e)
+            res.json({success: false, errors: e});
+          }
+        }
 });
 
 
@@ -221,7 +278,6 @@ router.get('/test_db', async (req, res, next) => {
          res.render('./test_db',{page_title:"Farmers - Farm Print",data:''});
         }else{
             console.log('Render SQL results');
-            //console.log('Render SQL results', rows);
             res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows});
         }
          });
@@ -236,16 +292,6 @@ router.post('/addHarvest',function(req,res){
     // ID ,supplierID,supplierAddress,productID,photoHash,harvestTimeStamp,harvestCaptureTime,harvestDescription,
     // geolocation,supplierproduce
   // console.log("addHarvest" + req.body);
-  // console.log("ID" + req.body.ID);
-  // console.log("supplierID" + req.body.supplierID);
-  // console.log("supplierAddress" + req.body.supplierAddress);
-  // console.log("productID" + req.body.productID);
-  // console.log("photoHash" + req.body.photoHash);
-  // console.log("harvestTimeStamp" + req.body.harvestTimeStamp);
-  // console.log("harvestCaptureTime" + req.body.harvestCaptureTime);
-  // console.log("harvestDescription" + req.body.harvestDescription);
-  // console.log("geolocation" + req.body.geolocation);
-  // console.log("supplierproduce" + req.body.supplierproduce);
     try {
       connection.query('\n' +
           'INSERT INTO harvest (\n' +
@@ -291,18 +337,6 @@ router.post('/addStorage',function(req,res){
     // storageDescription,geolocation,supplierproduce
 
   // console.log("addStorage" + req.body);
-  // console.log("ID" + req.body.ID);
-  // console.log("marketID" + req.body.marketID);
-  // console.log("marketAddress" + req.body.marketAddress);
-  // console.log("quantity" + req.body.quantity);
-  // console.log("unitOfMeasure" + req.body.unitOfMeasure);
-  // console.log("storageTimeStamp" + req.body.storageTimeStamp);
-  // console.log("storageCaptureTime" + req.body.storageCaptureTime);
-  // console.log("URL" + req.body.URL);
-  // console.log("hashID" + req.body.hashID);
-  // console.log("storageDescription" + req.body.storageDescription);
-  // console.log("geolocation" + req.body.geolocation);
-  // console.log("supplierproduce" + req.body.supplierproduce);
   try {
       connection.query('INSERT INTO storage (\n' +
           '        ID,\n' +
@@ -342,6 +376,57 @@ router.post('/addStorage',function(req,res){
     next(e)
   }
 });
+
+
+//subscribe XmlHTTP request
+router.post('/subscribe', [
+    //check('sample_name').not().isEmpty().withMessage('Name must have more than 5 characters'),
+    //check('sample_classYear', 'Class Year should be a number').not().isEmpty(),
+    //check('weekday', 'Choose a weekday').optional(),
+    check('subscribe_email', 'Your email is not valid').not().isEmpty().isEmail().normalizeEmail(),
+  ],
+    function(req,res){
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          res.json({ errors: errors.array(), success: false});
+        }
+      else {
+          var subscriber_email = req.body.subscribe_email;
+          var subscriber_datetime = new Date();
+          var subscriber_firstname = '';
+          var subscriber_surname = '';
+
+          try {
+              connection.query('\n' +
+                  'INSERT INTO foodprint_subscription (\n' +
+                  '        firstname ,\n' +
+                  '        surname,\n' +
+                  '        email,\n' +
+                  '        logdatetime)\n' +
+                  'VALUES (?, ?, ?, ?);',
+                  [
+                      subscriber_firstname,
+                      subscriber_surname,
+                      subscriber_email,
+                      subscriber_datetime
+                  ], function (err, rows) {
+                      if (err) {
+                          //req.flash('error', err);
+                          console.error('error', err);
+                          res.status.json({err: err});
+                      } else {
+                          console.log('add foodprint_subscription DB success');
+                          res.json({success: true, email: subscriber_email});
+                      }
+                  });
+          } catch (e) {
+              //this will eventually be handled by your error handling middleware
+              next(e);
+              res.json({success: false, errors: e});
+          }
+      }
+});
+
 
 
 router.get('/test_qrcode', async (req, res, next) => {
