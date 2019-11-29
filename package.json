@@ -50,6 +50,7 @@
     "express-session": "^1.16.2",
     "express-validator": "^6.2.0",
     "fs": "0.0.1-security",
+    "heroku-ssl-redirect": "0.0.4",
     "jimp": "^0.6.4",
     "method-override": "^3.0.0",
     "morgan": "^1.9.1",

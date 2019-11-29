@@ -1,4 +1,5 @@
 var createError = require('http-errors');
+var sslRedirect = require('heroku-ssl-redirect');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -7,7 +8,6 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var QRCode = require('qrcode');
 var cors = require('cors');
-var app = express();
 var path = require('path');
 var router = express.Router();
 var connection  = require('./src/js/db');
@@ -17,6 +17,14 @@ const { check, validationResult } = require('express-validator');
 var body = require('express-validator'); //validation
 var sanitizeBody  = require('express-validator'); //sanitization
 var db = require('./dbxml/localdb');
+var app = express();
+
+// enable ssl redirect
+app.use(sslRedirect([
+  'other',
+  'development',
+  'production'
+  ]));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
