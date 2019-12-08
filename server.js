@@ -450,45 +450,96 @@ router.get('/config', function(req, res, next) {
              });
     });
 
+
 //route for insert data
-router.post('/config/save',(req, res) => {
-  let config_datetime = new Date();
-  let config_uuid =  uuidv4()
-  let data = {configname: req.body.config_name, configdescription: req.body.config_description,
-                configvalue: req.body.config_value, logdatetime: config_datetime, configid: config_uuid};
-  let sql = "INSERT INTO foodprint_config SET ?";
-  let query = connection.query(sql, data,(err, results) => {
-    if(err) {
-        //throw err;
-        req.flash('error', err)
-        // redirect to configuration list page
-        res.redirect('/config')
-    } else{
-        req.flash('success', 'New Configuration added successfully! Config Name = ' + req.body.config_name);
-        res.redirect('/config');
-      }
-  });
-});
+router.post('/config/save', [
+    //check('sample_name').not().isEmpty().withMessage('Name must have more than 5 characters'),
+    //check('sample_classYear', 'Class Year should be a number').not().isEmpty(),
+    //check('weekday', 'Choose a weekday').optional(),
+    check('config_name', 'Your config name is not valid').not().isEmpty().trim().escape(),
+    check('config_description', 'Your config description is not valid').not().isEmpty().trim().escape(),
+    check('config_value', 'Your config value is not valid').not().isEmpty().trim().escape(),
+  ],
+    function(req, res){
+        const errors = validationResult(req);
+          if (!errors.isEmpty()) {
+              req.flash('error', 'Invalid data, please try again')
+              res.render('config',{page_title:"FoodPrint - Global Configuration", data:''}); //should add error array here
+            }
+          else {
+              let config_datetime = new Date();
+              let config_uuid = uuidv4()
+              let data = {
+                  configname: req.body.config_name, configdescription: req.body.config_description,
+                  configvalue: req.body.config_value, logdatetime: config_datetime, configid: config_uuid
+              };
+              let sql = "INSERT INTO foodprint_config SET ?";
+              try {
+                  connection.query(sql, data, function(err, results) {
+                      if(err) {
+                          //throw err;
+                          req.flash('error', err)
+                          // redirect to configuration list page
+                          res.redirect('/config')
+                      } else{
+                          req.flash('success', 'New Configuration added successfully! Config Name = ' + req.body.config_name);
+                          res.redirect('/config');
+                      }
+                  });
+                  } catch (e) {
+                      //this will eventually be handled by your error handling middleware
+                      next(e);
+                      //res.json({success: false, errors: e});
+                    res.render('config',{page_title:"FoodPrint - Global Configuration", data:'',
+                    success: false, errors:e.array()});
+                  }
+          }
+    });
 
 //route for update data
-router.post('/config/update',(req, res) => {
-  let sql = "UPDATE foodprint_config SET configname='"+req.body.config_name+"', " +
-      "configdescription='"+req.body.config_description+ "',configvalue='"+req.body.config_value+
-      "' WHERE configid='"+req.body.config_id+"'";
-  //console.log('sql ' + sql);
-  //console.log('configid ' + req.body.config_id);
-  let query = connection.query(sql, (err, results) => {
-    if(err) {
-        //throw err;
-        req.flash('error', err)
-        // redirect to configuration list page
-        res.redirect('/config')
-    } else{
-        req.flash('success', 'Configuration updated successfully! Config Name = ' + req.body.config_name);
-        res.redirect('/config');
-      }
-  });
-});
+router.post('/config/update', [
+    //check('sample_name').not().isEmpty().withMessage('Name must have more than 5 characters'),
+    //check('sample_classYear', 'Class Year should be a number').not().isEmpty(),
+    //check('weekday', 'Choose a weekday').optional(),
+    check('config_name', 'Your config name is not valid').not().isEmpty().trim().escape(),
+    check('config_description', 'Your config description is not valid').not().isEmpty().trim().escape(),
+    check('config_value', 'Your config value is not valid').not().isEmpty().trim().escape(),
+  ], function(req, res) {
+    const errors = validationResult(req);
+          if (!errors.isEmpty()) {
+              req.flash('error', 'Invalid data, please try again')
+              res.render('config',{page_title:"FoodPrint - Global Configuration", data:''}); //should add error array here
+            }
+          else {
+              let sql = "UPDATE foodprint_config SET configname='" + req.body.config_name + "', " +
+                  "configdescription='" + req.body.config_description + "',configvalue='" + req.body.config_value +
+                  "' WHERE configid='" + req.body.config_id + "'";
+              //console.log('sql ' + sql);
+              //console.log('configid ' + req.body.config_id);
+              try {
+                  connection.query(sql, function(err, results){
+                      if(err) {
+                          //throw err;
+                          req.flash('error', err)
+                          // redirect to configuration list page
+                          res.redirect('/config')
+                      } else{
+                          req.flash('success', 'Configuration updated successfully! Config Name = ' + req.body.config_name);
+                  res.redirect('/config');
+              }
+              })
+                  ;
+              } catch (e) {
+                  //this will eventually be handled by your error handling middleware
+                  next(e);
+                  //res.json({success: false, errors:errors.array()});
+                  res.render('config', {
+                      page_title: "FoodPrint - Global Configuration", data: '',
+                      success: false, errors: e.array()
+                  });
+              }
+          }
+    });
 
 //route for delete data
 router.post('/config/delete',(req, res) => {
