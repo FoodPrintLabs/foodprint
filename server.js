@@ -14,6 +14,7 @@ var connection  = require('./src/js/db');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 const { check, validationResult } = require('express-validator');
+const uuidv4 = require('uuid/v4')
 var body = require('express-validator'); //validation
 var sanitizeBody  = require('express-validator'); //sanitization
 var db = require('./dbxml/localdb');
@@ -435,6 +436,78 @@ router.post('/subscribe', [
       }
 });
 
+/* TODO Need a Configuration set of URLS that is imported. */
+
+/* GET configuration page. */
+router.get('/config', function(req, res, next) {
+     connection.query('SELECT * FROM foodprint_config ORDER BY pk desc',function(err,rows)     {
+                if(err){
+                     req.flash('error', err);
+                     res.render('config',{page_title:"FoodPrint - Global Configuration", data:''});
+                }else{
+                    res.render('config',{page_title:"FoodPrint - Global Configuration", data:rows});
+                }
+             });
+    });
+
+//route for insert data
+router.post('/config/save',(req, res) => {
+  let config_datetime = new Date();
+  let config_uuid =  uuidv4()
+  let data = {configname: req.body.config_name, configdescription: req.body.config_description,
+                configvalue: req.body.config_value, logdatetime: config_datetime, configid: config_uuid};
+  let sql = "INSERT INTO foodprint_config SET ?";
+  let query = connection.query(sql, data,(err, results) => {
+    if(err) {
+        //throw err;
+        req.flash('error', err)
+        // redirect to configuration list page
+        res.redirect('/config')
+    } else{
+        req.flash('success', 'New Configuration added successfully! Config Name = ' + req.body.config_name);
+        res.redirect('/config');
+      }
+  });
+});
+
+//route for update data
+router.post('/config/update',(req, res) => {
+  let sql = "UPDATE foodprint_config SET configname='"+req.body.config_name+"', " +
+      "configdescription='"+req.body.config_description+ "',configvalue='"+req.body.config_value+
+      "' WHERE configid='"+req.body.config_id+"'";
+  //console.log('sql ' + sql);
+  //console.log('configid ' + req.body.config_id);
+  let query = connection.query(sql, (err, results) => {
+    if(err) {
+        //throw err;
+        req.flash('error', err)
+        // redirect to configuration list page
+        res.redirect('/config')
+    } else{
+        req.flash('success', 'Configuration updated successfully! Config Name = ' + req.body.config_name);
+        res.redirect('/config');
+      }
+  });
+});
+
+//route for delete data
+router.post('/config/delete',(req, res) => {
+  let sql = "DELETE FROM foodprint_config WHERE configid='"+req.body.config_id2+"'";
+  // console.log('sql ' + sql);
+  // console.log('configname ' + req.body.config_name2);
+  // console.log('configid ' + req.body.config_id2);
+  let query = connection.query(sql, (err, results) => {
+    if(err) {
+        //throw err;
+        req.flash('error', err)
+        // redirect to configuration list page
+        res.redirect('/config')
+    } else{
+        req.flash('success', 'Configuration deleted successfully! Config Name = ' + req.body.config_name2);
+        res.redirect('/config');
+      }
+  });
+});
 
 
 router.get('/test_qrcode', async (req, res, next) => {

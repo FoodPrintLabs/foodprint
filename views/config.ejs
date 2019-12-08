@@ -18,6 +18,7 @@
       <script src="/js/vendor/html5shiv.min.js"></script>
       <script src="/js/vendor/respond.min.js"></script>
     <![endif]-->
+
   </head>
   <body>
    <!-- START: header -->
@@ -59,20 +60,26 @@
   <!-- END: header -->
 
    <!-- START TABLE-->
-   <!--<div class="container" style="width: 100%;">-->
-    <h4>GLOBAL CONFIGURATION</h4>
+   <div class="container" style="width: 100%;">
+    <h3>GLOBAL CONFIGURATION</h3>
     <div>
-        <a href="#" class="btn btn-primary btn-sm">Add New Configuration</a> <!-- Add pop up modal-->
+        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Configuration</button>
     </div>
-    <!--   <% if (messages.error) { %>
-      <p style="color:red"><%- messages.error %></p>
-    <% } %> -->
+
+    <% if (messages.error) { %>
+      <p class="alert alert-danger mt-4"><%- messages.error %></p>
+    <% } %>
 
     <% if (messages.success) { %>
-        <p class="alert alert-success mt-4"><%- messages.success %></p>
+       <div class="alert alert-success alert-dismissible show mt-4" role="alert">
+          <%- messages.success %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
     <% } %>
     <br>
-      <table class="table table-hover table-sm">
+      <table class="table table-hover table-sm" id="configtable">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -95,9 +102,16 @@
                 <td><%= data[i].configdescription%></td>
                 <td><%= data[i].configvalue%></td>
                 <td>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-configid="<%= data[i].configid%>"
+                       data-configname="<%= data[i].configname%>" data-configdescription="<%=data[i].configdescription%>"
+                        data-configvalue="<%= data[i].configvalue%>">Edit</a>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-configid2="<%= data[i].configid%>"
+                       data-configname2="<%= data[i].configname%>">Delete</a>
+                </td>
+                <td>
                 <!--<a class="btn btn-success edit" href="../customers/edit/<%=data[i].id%>">Edit</a>-->
-                <a class="btn btn-success edit btn-sm" href="#">Edit</a>
-                <a class="btn btn-danger delete btn-sm" onclick="return alert('Are You sure?')" href="#">Delete</a>
+                <!--<a class="btn btn-success edit btn-sm" href="#">Edit</a>-->
+                <!--<a class="btn btn-danger delete btn-sm" onclick="return alert('Are You sure?')" href="#">Delete</a>-->
                 <!--<a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="../customers/delete/<%=data[i].id%>">Delete</a>-->
                </td>
               </tr>
@@ -111,9 +125,110 @@
 
         </tbody>
     </table>
-   <!--</div>-->
+   </div>
    <!-- END TABLE-->
 
+   <!-- Modal Add Configuration-->
+	  <form action="/config/save" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Add New Configuration</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <div class="form-group">
+                   <label for="config_name">Config Name</label>
+                   <input type="text" name="config_name" class="form-control" placeholder="Config Name" required>
+               </div>
+
+               <div class="form-group">
+                   <label for="config_description">Config Description</label>
+                   <input type="text" name="config_description" class="form-control" placeholder="Config Description" required>
+               </div>
+
+               <div class="form-group">
+                   <label for="config_value">Config Value</label>
+                   <input type="text" name="config_value" class="form-control" placeholder="Config Value" required>
+               </div>
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary">Save</button>
+             </div>
+           </div>
+         </div>
+        </div>
+	 </form>
+   <!-- End Modal Add Configuration-->
+
+   <!-- Modal Update Configuration-->
+   <form action="/config/update" method="post">
+       <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Configuration</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                  <label for="config_name">Config Name</label>
+                  <input type="text" name="config_name" class="form-control config_name" placeholder="Config Name" required>
+              </div>
+
+              <div class="form-group">
+                  <label for="config_description">Config Description</label>
+                  <input type="text" name="config_description" class="form-control config_description" placeholder="Config Description" required>
+              </div>
+
+              <div class="form-group">
+                  <label for="config_value">Config Value</label>
+                  <input type="text" name="config_value" class="form-control config_value" placeholder="Config Value" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="config_id" class="config_id">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </div>
+        </div>
+       </div>
+  </form>
+   <!-- End Modal Update Configuration-->
+
+	 <!-- Modal Delete Configuration-->
+ 	  <form id="add-row-form" action="/config/delete" method="post">
+ 	     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 	        <div class="modal-dialog">
+ 	           <div class="modal-content">
+ 	               <div class="modal-header">
+					  <h5 class="modal-title" id="myModalLabel">Delete Configuration</h5>
+                       <strong>Are you sure to delete this data?</strong>
+ 	                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+ 	               </div>
+ 	               <div class="modal-body">
+                       <div class="form-group">
+                           <label for="config_name2">Config Name</label>
+                           <input type="text" name="config_name2" id="config_name2" class="form-control config_name2" readonly>
+                       </div>
+ 	               </div>
+ 	               <div class="modal-footer">
+						<input type="hidden" name="config_id2" class="form-control config_id2" required>
+ 	                   	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+ 	                  	<button type="submit" class="btn btn-danger">Delete</button>
+ 	               </div>
+ 	      			</div>
+ 	        </div>
+ 	     </div>
+ 	 </form>
+    <!-- End Modal Delete Configuration-->
 
 
     <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(/img/slider_3.jpg)">
@@ -186,41 +301,30 @@
   <script src="/js/main.min.js"></script>
   <script src="/js/custom.js"></script>
   <script>
-  $(document).ready(function () {
-           $('#checkin_form').submit(function (event) {
-                        event.preventDefault();
-                        //collect the form data using Id Selector what ever data you need to send to server
-                        var data = {};
-                        data.checkin_email=$('#checkin_email').val();
-                        data.checkin_market_id=$('#checkin_market_id').val();
-                        $.ajax({
-                            url: '/marketcheckin',
-                            data: JSON.stringify(data),
-                            processData: false,
-                            type: 'POST',
-                            contentType: 'application/json'
-                        }).done(function(res) {
-                            if (res.success) {
-                                //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
-                                $("#checkin_calltoaction").hide();
-                                $("#checkin_form").hide();
-                                $('#checkin_error_group').hide();
-                                $('#checkin_result').html('Thanks for checking in (' + res.email + ') and enjoy your visit!');
-                            } else {
-                                $('#checkin_error_group').css('display', 'block');
-                                  var errors = JSON.parse(JSON.stringify(res.errors));
-                                  var errorsContainer = $('#checkin_errors');
-                                  errorsContainer.innerHTML = '';
-                                  var errorsList = '';
+    $(document).ready(function(){
 
-                                  for (var i = 0; i < errors.length; i++) {
-                                    errorsList += '<li>' + errors[i].msg + '</li>';
-                                  }
-                                  errorsContainer.html(errorsList);
-                                }
-                          });
-                    });
-                });
-  </script>
+        //showing data to edit modal
+        $('#configtable').on('click','.edit',function(){
+            var config_id = $(this).data('configid');
+            var config_name = $(this).data('configname');
+            var config_description = $(this).data('configdescription');
+            var config_value = $(this).data('configvalue');
+            $('#EditModal').modal('show');
+            $('.config_name').val(config_name);
+            $('.config_description').val(config_description);
+            $('.config_value').val(config_value);
+            $('.config_id').val(config_id);
+      });
+
+        //showing delete record modal
+        $('#configtable').on('click','.delete',function(){
+            var config_id2 = $(this).data('configid2');
+            var config_name2 = $(this).data('configname2');
+            $('#DeleteModal').modal('show');
+            $('.config_id2').val(config_id2);
+            $('.config_name2').val(config_name2);
+        });
+    });
+    </script>
   </body>
 </html>
