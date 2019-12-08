@@ -67,7 +67,12 @@
     </div>
 
     <% if (messages.error) { %>
-      <p class="alert alert-danger mt-4"><%- messages.error %></p>
+       <div class="alert alert-danger alert-dismissible show mt-4" role="alert">
+          <%- messages.error %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
     <% } %>
 
     <% if (messages.success) { %>
@@ -78,6 +83,7 @@
           </button>
         </div>
     <% } %>
+
     <br>
       <table class="table table-hover table-sm" id="configtable">
         <thead>
@@ -88,7 +94,6 @@
             <th scope="col">Config Description</th>
             <th scope="col">Config Value</th>
             <th width="200px">Action</th>
-
           </tr>
         </thead>
         <tbody>
@@ -108,12 +113,6 @@
                     <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-configid2="<%= data[i].configid%>"
                        data-configname2="<%= data[i].configname%>">Delete</a>
                 </td>
-                <td>
-                <!--<a class="btn btn-success edit" href="../customers/edit/<%=data[i].id%>">Edit</a>-->
-                <!--<a class="btn btn-success edit btn-sm" href="#">Edit</a>-->
-                <!--<a class="btn btn-danger delete btn-sm" onclick="return alert('Are You sure?')" href="#">Delete</a>-->
-                <!--<a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="../customers/delete/<%=data[i].id%>">Delete</a>-->
-               </td>
               </tr>
               <% }
 
