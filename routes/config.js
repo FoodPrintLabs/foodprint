@@ -28,16 +28,13 @@ router.post('/save', [
     check('config_value', 'Your config value is not valid').not().isEmpty().trim().escape(),
   ],
     function(req, res){
-        const errors = validationResult(req);
-          if (!errors.isEmpty()) {
-              const extractedErrors = []
-              //errors.array().map(err => extractedErrors.push({ [err.param]: err.msg })) e.g. [{"configdescription":"Your config description is not valid"}]
-              errors.array().map(err => extractedErrors.push(err.msg))
-              var plainTextError = JSON.stringify(extractedErrors.join());
-              var plainTextError = plainTextError.replace(/"/g, ''); //remove all double quotes in string
-              req.flash('error', plainTextError)
-              // req.flash('error',JSON.stringify(errors.array())) e.g. [{"msg":"Your config description is not valid","param":"configdescription","location":"body"}]
-              // req.flash('error',JSON.stringify(errors.mapped())) e.g. {"configdescription":{"msg":"Your config description is not valid","param":"configdescription","location":"body"}}
+        const result = validationResult(req);
+        var errors = result.errors;
+        for (var key in errors) {
+            console.log('Validation error - ' + errors[key].msg);
+      }
+          if (!result.isEmpty()) {
+              req.flash('error', errors)
               res.render('config',{page_title:"FoodPrint - Global Configuration", data:''}); //should add error array here
             }
           else {
@@ -76,14 +73,14 @@ router.post('/update', [
     check('config_description', 'Your config description is not valid').not().isEmpty().trim().escape(),
     check('config_value', 'Your config value is not valid').not().isEmpty().trim().escape(),
   ], function(req, res) {
-    const errors = validationResult(req);
-          if (!errors.isEmpty()) {
-              const extractedErrors = []
-              errors.array().map(err => extractedErrors.push(err.msg))
-              var plainTextError = JSON.stringify(extractedErrors.join());
-              var plainTextError = plainTextError.replace(/"/g, ''); //remove all double quotes in string
-              req.flash('error', plainTextError)
-              res.render('config',{page_title:"FoodPrint - Global Configuration", data:''});
+    const result = validationResult(req);
+        var errors = result.errors;
+        for (var key in errors) {
+            console.log('Validation error - ' + errors[key].msg);
+      }
+          if (!result.isEmpty()) {
+              req.flash('error', errors)
+              res.render('config',{page_title:"FoodPrint - Global Configuration", data:''}); //should add error array here
             }
           else {
               let sql = "UPDATE foodprint_config SET configname='" + req.body.config_name + "', " +
