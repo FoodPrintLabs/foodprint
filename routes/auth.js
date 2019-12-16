@@ -6,7 +6,11 @@ var passport = require('passport');
 /* Render Login page. */
 router.get('/login',
   function(req, res){
-    res.render('login', { title: 'FoodPrint - User Login' });
+      if (req.user){
+        res.redirect('/'); 
+      } else{
+        res.render('login', { title: 'FoodPrint - User Login', user:req.user});
+      }
   });
 
 /* Process Login form submission (File Based Auth). */
@@ -29,7 +33,7 @@ router.post('/dblogin',
 router.get('/logout',
   function(req, res){
     req.logout();
-    res.redirect('/');
+    res.redirect('/app/auth/login');
   });
 
 module.exports = router;
