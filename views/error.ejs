@@ -1,3 +1,32 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+   <!-- START TABLE-->
+   <div class="container" style="width: 100%;">
+    <h3>Error</h3>
+        <h4><%= message %></h4>
+        <% if (error) { %>
+            <h6><%= error.status %></h6>
+            <pre><%= error.stack %></pre>
+        <% } %>
+
+  <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(/img/slider_3.jpg)">
+    <% include ./partials/footer %>
+  </footer>
+  <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  </body>
+</html>
