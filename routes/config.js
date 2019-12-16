@@ -4,19 +4,33 @@ const { check, validationResult } = require('express-validator');
 const uuidv4 = require('uuid/v4')
 var body = require('express-validator'); //validation
 var connection  = require('../src/js/db');
+var ROLES = require('../utils/roles');
 
 
 /* GET configuration page. */
-router.get('/', function(req, res, next) {
-    connection.query('SELECT * FROM foodprint_config ORDER BY pk desc',function(err,rows)     {
-               if(err){
-                    req.flash('error', err);
-                    res.render('config',{page_title:"FoodPrint - Global Configuration", data:''});
-               }else{
-                   res.render('config',{page_title:"FoodPrint - Global Configuration", data:rows});
-               }
-            });
-   });
+router.get('/',
+    require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
+    function(req, res, next){
+        if (req.user.role === ROLES.Admin){
+            connection.query('SELECT * FROM foodprint_config ORDER BY pk desc',function(err,rows)     {
+                if(err){
+                     req.flash('error', err);
+                     res.render('config',{page_title:"FoodPrint - Global Configuration", data:''});
+                }else{
+                    res.render('config',{page_title:"FoodPrint - Global Configuration", data:rows});
+                }
+             });
+          }else{
+            res.render('error',{message: 'You are not authorised to view this resource.', title: 'Error'});
+            //res.send sends back a json object
+            // return res.send(403,{
+            //   'status': 403,
+            //   'code': 1, // custom code that makes sense for your application
+            //   'message': 'You are not a premium user',
+            //   'moreInfo': 'custom code that makes sense for your application'
+            // });
+          }
+    });
 
 //route for insert data
 router.post('/save', [
