@@ -143,12 +143,13 @@ passport.deserializeUser(function(id, cb) {
    res.locals.error = req.app.get('env') === 'development' ? err : {};
  // render the error page
    res.status(err.status || 500);
-   res.render('error');
+   res.render('error', { user:req.user });
  });
 
 //home page
 router.get('/',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/index.html'));
+  res.render('index', { user:req.user });
+  //res.sendFile(path.join(__dirname+'/src/index.html'));
   //__dirname : It will resolve to your project folder.
 });
 
