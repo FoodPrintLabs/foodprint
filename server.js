@@ -167,7 +167,8 @@ router.get('/about',function(req,res){
 
 //produce gallery
 router.get('/gallery',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/gallery.html'));
+  res.render('gallery', { user:req.user });
+  //res.sendFile(path.join(__dirname+'/src/gallery.html'));
 });
 
 //farmers
