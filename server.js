@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('express-flash');
 var session = require('express-session');
-var bodyParser = require('body-parser');
 var QRCode = require('qrcode');
 var cors = require('cors');
 var path = require('path');
@@ -20,6 +19,8 @@ var sanitizeBody  = require('express-validator'); //sanitization
 var db = require('./dbxml/localdb');
 var app = express();
 var configRouter = require('./routes/config');
+var authRouter = require('./routes/auth');
+var ROLES = require('./utils/roles');
 
 // enable ssl redirect
 app.use(sslRedirect([
@@ -34,9 +35,8 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 
-
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(cors());
@@ -45,20 +45,25 @@ app.use(session({
  secret: '123456cat',
  resave: false,
  saveUninitialized: true,
- cookie: { maxAge: 60000 }
+ cookie: { maxAge: 1800000 } // time im ms: 60000 - 1 min, 1800000 - 30min, 3600000 - 1 hour
 }))
 
-app.use(flash());
-//app.use(expressValidator());
-
-//add the router
-app.use('/', router);
-app.use('/app/config', configRouter);
-
-// Initialize Passport and restore authentication state, if any, from the
-// session.
+// Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(flash());
+
+app.use(function(req,res,next){
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success")
+  next();
+});  
+
+// Mount routers
+app.use('/', router);
+app.use('/app/config', configRouter);
+app.use('/app/auth', authRouter);
 
 app.use(express.static(path.join(__dirname,"src")));
 app.use(express.static(path.join(__dirname,'build')));
@@ -69,16 +74,45 @@ app.use(express.static(path.join(__dirname,'build')));
 // (`username` and `password`) submitted by the user.  The function must verify
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
-passport.use(new LocalStrategy(
+
+// We will use two LocalStrategies, one for file-based auth and another for db-auth
+passport.use('file-local', new LocalStrategy({
+  usernameField: 'loginUsername', //useful for custom id's on yor credentials fields, if this is incorrect you get a missing credentials error
+  passwordField: 'loginPassword', //useful for custom id's on yor credentials fields
+  },
   function(username, password, cb) {
     db.users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      if (user.password != password) { return cb(null, false, { errors: { 'email or password': 'is invalid' } }); }
-      return cb(null, user);
+      if (err) { 
+        return cb(err); 
+      }
+      if (!user) { 
+        return cb(null, false, { message: 'Incorrect username.' }); 
+      }
+      if (user.password != password) { 
+        return cb(null, false, { message: 'Incorrect password.' }); 
+      }
+      return cb(null, user); // If the credentials are valid, the verify callback invokes done to supply Passport with the user that authenticated.
     });
   }));
 
+passport.use('db-local', new LocalStrategy({
+  usernameField: 'loginUsername', //useful for custom id's on yor credentials fields, if this is incorrect you get a missing credentials error
+  passwordField: 'loginPassword', //useful for custom id's on yor credentials fields
+  },
+  function(username, password, cb) {
+    db.users.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { 
+        return cb(null, false, { message: 'Incorrect username.' }); 
+      }
+      if (user.password != password) { 
+        return cb(null, false, { message: 'Incorrect password.' }); 
+      }
+      return cb(null, user); // If the credentials are valid, the verify callback invokes done to supply Passport with the user that authenticated.
+    });
+  }));
+
+  
 // Configure Passport authenticated session persistence.
 //
 // In order to restore authentication state across HTTP requests, Passport needs
