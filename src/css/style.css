@@ -1921,7 +1921,7 @@ a.hover-reverse:hover, a.hover-reverse:focus, a.hover-reverse:active {
   width: 100vw;
   height: 100vh;
   z-index: 9999;
-  background: #ffffff url(img/FoodPrintLogo.gif) center no-repeat;
+  background: #ffffff url(../img/FoodPrintLogo.gif) center no-repeat;
 }
 
 .gototop {
