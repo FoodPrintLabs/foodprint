@@ -15,13 +15,16 @@ router.get('/',
             connection.query('SELECT * FROM foodprint_config ORDER BY pk desc',function(err,rows)     {
                 if(err){
                      req.flash('error', err);
-                     res.render('config',{page_title:"FoodPrint - Global Configuration", data:''});
+                     res.render('config',{  page_title:"FoodPrint - Global Configuration", 
+                                            data:'', user: req.user });
                 }else{
-                    res.render('config',{page_title:"FoodPrint - Global Configuration", data:rows});
+                    res.render('config',{   page_title:"FoodPrint - Global Configuration", 
+                                            data:rows, user: req.user });
                 }
              });
           }else{
-            res.render('error',{message: 'You are not authorised to view this resource.', title: 'Error'});
+            res.render('error',{    message: 'You are not authorised to view this resource.', 
+                                    title: 'Error', user: req.user });
             //res.send sends back a json object
             // return res.send(403,{
             //   'status': 403,
