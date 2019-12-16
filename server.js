@@ -149,8 +149,7 @@ passport.deserializeUser(function(id, cb) {
 //home page
 router.get('/',function(req,res){
   res.render('index', { user:req.user });
-  //res.sendFile(path.join(__dirname+'/src/index.html'));
-  //__dirname : It will resolve to your project folder.
+  //res.sendFile(path.join(__dirname+'/src/index.html')); //__dirname : It will resolve to your project folder.
 });
 
 //supply chain - harvest and storage
@@ -180,7 +179,8 @@ router.get('/contact',function(req,res){
 
 //return template for what is at the market this week
 router.get('/weekly',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/weekly.html'));
+  res.render('weekly', { user:req.user });
+  //res.sendFile(path.join(__dirname+'/src/weekly.html'));
 });
 
 //return template for team
@@ -196,7 +196,8 @@ router.get('/how',function(req,res){
 
 //return template for terms and conditions
 router.get('/terms',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/termsofuse.html'));
+  res.render('termsofuse', { user:req.user });
+  //res.sendFile(path.join(__dirname+'/src/termsofuse.html'));
 });
 
 //return sign-in page
