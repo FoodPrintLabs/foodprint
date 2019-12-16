@@ -8,6 +8,11 @@
           <div class="probootstrap-footer-widget">
             <h4 class="heading">About FoodPrint</h4>
             <ul class="stack-link">
+              <% if (user) { %>
+                <li><a href="/app/auth/logout">Log out</a></li>
+              <% } else { %>
+                <li><a href="/app/auth/login">Login</a></li>
+              <% } %>
               <li><a href="/about">About</a></li>
               <li><a href="/contact">Contact</a></li>
               <!--<li><a href="#">Locations</a></li>-->
