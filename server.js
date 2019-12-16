@@ -153,8 +153,11 @@ router.get('/',function(req,res){
 });
 
 //supply chain - harvest and storage
-router.get('/supplychain',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/supplychain.html'));
+router.get( '/app/supplychain',     
+            require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
+function(req,res){
+  res.render('supplychain', { user:req.user });
+  //res.sendFile(path.join(__dirname+'/src/supplychain.html'));
 });
 
 //about
@@ -335,7 +338,7 @@ router.get('/test_db', async (req, res, next) => {
 });
 
 //addHarvest XmlHTTP request
-router.post('/addHarvest',function(req,res){
+router.post('/app/addHarvest',function(req,res){
     // ID ,supplierID,supplierAddress,productID,photoHash,harvestTimeStamp,harvestCaptureTime,harvestDescription,
     // geolocation,supplierproduce
   // console.log("addHarvest" + req.body);
@@ -379,7 +382,7 @@ router.post('/addHarvest',function(req,res){
 });
 
 //addStorage XmlHTTP request
-router.post('/addStorage',function(req,res){
+router.post('/app/addStorage',function(req,res){
     // ID,marketID,marketAddress,quantity,unitOfMeasure,storageTimeStamp,storageCaptureTime,URL,hashID,
     // storageDescription,geolocation,supplierproduce
 
