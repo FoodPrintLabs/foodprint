@@ -173,7 +173,8 @@ router.get('/gallery',function(req,res){
 
 //farmers
 router.get('/farmers',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/Farmers.html'));
+  res.render('farmers', { user:req.user });
+  //res.sendFile(path.join(__dirname+'/src/Farmers.html'));
 });
 
 //contact
