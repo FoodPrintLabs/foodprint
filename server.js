@@ -162,7 +162,8 @@ function(req,res){
 
 //about
 router.get('/about',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/about.html'));
+  res.render('about', { user:req.user });
+  //res.sendFile(path.join(__dirname+'/src/about.html'));
 });
 
 //produce gallery
