@@ -11,7 +11,7 @@ var ROLES = require('../utils/roles');
 router.get('/',
     require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
     function(req, res, next){
-        if (req.user.role === ROLES.Admin){
+        if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
             connection.query('SELECT * FROM foodprint_config ORDER BY pk desc',function(err,rows)     {
                 if(err){
                      req.flash('error', err);
