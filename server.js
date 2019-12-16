@@ -193,7 +193,8 @@ router.get('/team',function(req,res){
 
 //return template for how
 router.get('/how',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/How.html'));
+  res.render('how', { user:req.user });
+  //res.sendFile(path.join(__dirname+'/src/How.html'));
 });
 
 
