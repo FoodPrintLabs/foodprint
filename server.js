@@ -179,7 +179,9 @@ router.get('/farmers',function(req,res){
 
 //contact
 router.get('/contact',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/contact.html'));
+  res.render('contact', { user:req.user });
+
+  //res.sendFile(path.join(__dirname+'/src/contact.html'));
 });
 
 //return template for what is at the market this week
