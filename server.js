@@ -157,61 +157,41 @@ router.get( '/app/supplychain',
             require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
 function(req,res){
   res.render('supplychain', { user:req.user });
-  //res.sendFile(path.join(__dirname+'/src/supplychain.html'));
 });
 
 //about
 router.get('/about',function(req,res){
   res.render('about', { user:req.user });
-  //res.sendFile(path.join(__dirname+'/src/about.html'));
 });
 
 //produce gallery
 router.get('/gallery',function(req,res){
   res.render('gallery', { user:req.user });
-  //res.sendFile(path.join(__dirname+'/src/gallery.html'));
 });
 
 //farmers
 router.get('/farmers',function(req,res){
   res.render('farmers', { user:req.user });
-  //res.sendFile(path.join(__dirname+'/src/Farmers.html'));
 });
 
 //contact
 router.get('/contact',function(req,res){
   res.render('contact', { user:req.user });
-
-  //res.sendFile(path.join(__dirname+'/src/contact.html'));
 });
 
 //return template for what is at the market this week
 router.get('/weekly',function(req,res){
   res.render('weekly', { user:req.user });
-  //res.sendFile(path.join(__dirname+'/src/weekly.html'));
-});
-
-//return template for team
-router.get('/team',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/team.html'));
 });
 
 //return template for how
 router.get('/how',function(req,res){
   res.render('how', { user:req.user });
-  //res.sendFile(path.join(__dirname+'/src/How.html'));
 });
-
 
 //return template for terms and conditions
 router.get('/terms',function(req,res){
   res.render('termsofuse', { user:req.user });
-  //res.sendFile(path.join(__dirname+'/src/termsofuse.html'));
-});
-
-//return sign-in page
-router.get('/sign_in',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/sign_in.html'));
 });
 
 //return template with scan results for produce
