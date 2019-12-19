@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+   <!-- START TABLE-->
+   <div class="container" style="width: 100%;">
+    <h3>GLOBAL CONFIGURATION</h3>
+    <div>
+        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Configuration</button>
+    </div>
+    
+    <% include ./partials/notificationbar %>
+
+    <br>
+      <table class="table table-hover table-sm" id="configtable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Config ID</th>
+            <th scope="col">Config Name</th>
+            <th scope="col">Config Description</th>
+            <th scope="col">Config Value</th>
+            <th width="200px">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if(data.length){
+
+              for(var i = 0; i< data.length; i++) {%>
+              <tr>
+                <th scope="row"><%= (i+1) %></th>
+                <td><%= data[i].configid%></td>
+                <td><%= data[i].configname%></td>
+                <td><%= data[i].configdescription%></td>
+                <td><%= data[i].configvalue%></td>
+                <td>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-configid="<%= data[i].configid%>"
+                       data-configname="<%= data[i].configname%>" data-configdescription="<%=data[i].configdescription%>"
+                        data-configvalue="<%= data[i].configvalue%>">Edit</a>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-configid2="<%= data[i].configid%>"
+                       data-configname2="<%= data[i].configname%>">Delete</a>
+                </td>
+              </tr>
+              <% }
+
+           }else{ %>
+               <tr>
+                  <td colspan="5">No Configuration</td>
+               </tr>
+            <% } %>
+
+        </tbody>
+    </table>
+   </div>
+   <!-- END TABLE-->
+
+   <!-- Modal Add Configuration-->
+	  <form action="/app/config/save" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Add New Configuration</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <div class="form-group">
+                   <label for="config_name">Config Name</label>
+                   <input type="text" name="config_name" class="form-control" placeholder="Config Name" required>
+               </div>
+
+               <div class="form-group">
+                   <label for="config_description">Config Description</label>
+                   <input type="text" name="config_description" class="form-control" placeholder="Config Description" required>
+               </div>
+
+               <div class="form-group">
+                   <label for="config_value">Config Value</label>
+                   <input type="text" name="config_value" class="form-control" placeholder="Config Value" required>
+               </div>
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary">Save</button>
+             </div>
+           </div>
+         </div>
+        </div>
+	 </form>
+   <!-- End Modal Add Configuration-->
+
+   <!-- Modal Update Configuration-->
+   <form action="/app/config/update" method="post">
+       <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Configuration</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                  <label for="config_name">Config Name</label>
+                  <input type="text" name="config_name" class="form-control config_name" placeholder="Config Name" required>
+              </div>
+
+              <div class="form-group">
+                  <label for="config_description">Config Description</label>
+                  <input type="text" name="config_description" class="form-control config_description" placeholder="Config Description" required>
+              </div>
+
+              <div class="form-group">
+                  <label for="config_value">Config Value</label>
+                  <input type="text" name="config_value" class="form-control config_value" placeholder="Config Value" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="config_id" class="config_id">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </div>
+        </div>
+       </div>
+  </form>
+   <!-- End Modal Update Configuration-->
+
+	 <!-- Modal Delete Configuration-->
+ 	  <form id="add-row-form" action="/app/config/delete" method="post">
+ 	     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 	        <div class="modal-dialog">
+ 	           <div class="modal-content">
+ 	               <div class="modal-header">
+					  <h5 class="modal-title" id="myModalLabel">Delete Configuration</h5>
+                       <strong>Are you sure to delete this data?</strong>
+ 	                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+ 	               </div>
+ 	               <div class="modal-body">
+                       <div class="form-group">
+                           <label for="config_name2">Config Name</label>
+                           <input type="text" name="config_name2" id="config_name2" class="form-control config_name2" readonly>
+                       </div>
+ 	               </div>
+ 	               <div class="modal-footer">
+						<input type="hidden" name="config_id2" class="form-control config_id2" required>
+ 	                   	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+ 	                  	<button type="submit" class="btn btn-danger">Delete</button>
+ 	               </div>
+ 	      			</div>
+ 	        </div>
+ 	     </div>
+ 	 </form>
+    <!-- End Modal Delete Configuration-->
+
+    <!-- start footer -->
+    <% include ./partials/footer %>
+    <!-- end footer -->
+    
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <script>
+    $(document).ready(function(){
+
+        //showing data to edit modal
+        $('#configtable').on('click','.edit',function(){
+            var config_id = $(this).data('configid');
+            var config_name = $(this).data('configname');
+            var config_description = $(this).data('configdescription');
+            var config_value = $(this).data('configvalue');
+            $('#EditModal').modal('show');
+            $('.config_name').val(config_name);
+            $('.config_description').val(config_description);
+            $('.config_value').val(config_value);
+            $('.config_id').val(config_id);
+      });
+
+        //showing delete record modal
+        $('#configtable').on('click','.delete',function(){
+            var config_id2 = $(this).data('configid2');
+            var config_name2 = $(this).data('configname2');
+            $('#DeleteModal').modal('show');
+            $('.config_id2').val(config_id2);
+            $('.config_name2').val(config_name2);
+        });
+    });
+    </script>
+  </body>
+</html>

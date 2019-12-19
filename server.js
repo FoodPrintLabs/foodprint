@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('express-flash');
 var session = require('express-session');
-var bodyParser = require('body-parser');
 var QRCode = require('qrcode');
 var cors = require('cors');
 var path = require('path');
@@ -14,10 +13,14 @@ var connection  = require('./src/js/db');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 const { check, validationResult } = require('express-validator');
+const uuidv4 = require('uuid/v4')
 var body = require('express-validator'); //validation
 var sanitizeBody  = require('express-validator'); //sanitization
 var db = require('./dbxml/localdb');
 var app = express();
+var configRouter = require('./routes/config');
+var authRouter = require('./routes/auth');
+var ROLES = require('./utils/roles');
 
 // enable ssl redirect
 app.use(sslRedirect([
@@ -32,9 +35,8 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 
-
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(cors());
@@ -43,19 +45,25 @@ app.use(session({
  secret: '123456cat',
  resave: false,
  saveUninitialized: true,
- cookie: { maxAge: 60000 }
+ cookie: { maxAge: 1800000 } // time im ms: 60000 - 1 min, 1800000 - 30min, 3600000 - 1 hour
 }))
 
-app.use(flash());
-//app.use(expressValidator());
-
-//add the router
-app.use('/', router);
-
-// Initialize Passport and restore authentication state, if any, from the
-// session.
+// Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(flash());
+
+app.use(function(req,res,next){
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success")
+  next();
+});  
+
+// Mount routers
+app.use('/', router);
+app.use('/app/config', configRouter);
+app.use('/app/auth', authRouter);
 
 app.use(express.static(path.join(__dirname,"src")));
 app.use(express.static(path.join(__dirname,'build')));
@@ -66,16 +74,45 @@ app.use(express.static(path.join(__dirname,'build')));
 // (`username` and `password`) submitted by the user.  The function must verify
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
-passport.use(new LocalStrategy(
+
+// We will use two LocalStrategies, one for file-based auth and another for db-auth
+passport.use('file-local', new LocalStrategy({
+  usernameField: 'loginUsername', //useful for custom id's on yor credentials fields, if this is incorrect you get a missing credentials error
+  passwordField: 'loginPassword', //useful for custom id's on yor credentials fields
+  },
   function(username, password, cb) {
     db.users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      if (user.password != password) { return cb(null, false, { errors: { 'email or password': 'is invalid' } }); }
-      return cb(null, user);
+      if (err) { 
+        return cb(err); 
+      }
+      if (!user) { 
+        return cb(null, false, { message: 'Incorrect username.' }); 
+      }
+      if (user.password != password) { 
+        return cb(null, false, { message: 'Incorrect password.' }); 
+      }
+      return cb(null, user); // If the credentials are valid, the verify callback invokes done to supply Passport with the user that authenticated.
     });
   }));
 
+passport.use('db-local', new LocalStrategy({
+  usernameField: 'loginUsername', //useful for custom id's on yor credentials fields, if this is incorrect you get a missing credentials error
+  passwordField: 'loginPassword', //useful for custom id's on yor credentials fields
+  },
+  function(username, password, cb) {
+    db.users.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { 
+        return cb(null, false, { message: 'Incorrect username.' }); 
+      }
+      if (user.password != password) { 
+        return cb(null, false, { message: 'Incorrect password.' }); 
+      }
+      return cb(null, user); // If the credentials are valid, the verify callback invokes done to supply Passport with the user that authenticated.
+    });
+  }));
+
+  
 // Configure Passport authenticated session persistence.
 //
 // In order to restore authentication state across HTTP requests, Passport needs
@@ -106,64 +143,55 @@ passport.deserializeUser(function(id, cb) {
    res.locals.error = req.app.get('env') === 'development' ? err : {};
  // render the error page
    res.status(err.status || 500);
-   res.render('error');
+   res.render('error', { user:req.user });
  });
 
 //home page
 router.get('/',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/index.html'));
-  //__dirname : It will resolve to your project folder.
+  res.render('index', { user:req.user });
+  //res.sendFile(path.join(__dirname+'/src/index.html')); //__dirname : It will resolve to your project folder.
 });
 
 //supply chain - harvest and storage
-router.get('/supplychain',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/supplychain.html'));
+router.get( '/app/supplychain',     
+            require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
+function(req,res){
+  res.render('supplychain', { user:req.user });
 });
 
 //about
 router.get('/about',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/about.html'));
+  res.render('about', { user:req.user });
 });
 
 //produce gallery
 router.get('/gallery',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/gallery.html'));
+  res.render('gallery', { user:req.user });
 });
 
 //farmers
 router.get('/farmers',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/Farmers.html'));
+  res.render('farmers', { user:req.user });
 });
 
 //contact
 router.get('/contact',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/contact.html'));
+  res.render('contact', { user:req.user });
 });
 
 //return template for what is at the market this week
 router.get('/weekly',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/weekly.html'));
-});
-
-//return template for team
-router.get('/team',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/team.html'));
+  res.render('weekly', { user:req.user });
 });
 
 //return template for how
 router.get('/how',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/How.html'));
+  res.render('how', { user:req.user });
 });
-
 
 //return template for terms and conditions
 router.get('/terms',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/termsofuse.html'));
-});
-
-//return sign-in page
-router.get('/sign_in',function(req,res){
-  res.sendFile(path.join(__dirname+'/src/sign_in.html'));
+  res.render('termsofuse', { user:req.user });
 });
 
 //return template with scan results for produce
@@ -222,8 +250,9 @@ router.get('/scan/:id',function(req,res){
 
 //return template with market checkin form e.g. http://localhost:3000/checkin/ozcf
 router.get('/checkin/:market_id',function(req,res){
+  var boolCheckinForm = process.env.SHOW_CHECKIN_FORM || false
   var marketID = req.params.market_id; //shortcode e.g. ozcf
-  res.render('checkin.ejs',{data:marketID});
+  res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm });
 });
 
 
@@ -296,7 +325,7 @@ router.get('/test_db', async (req, res, next) => {
 });
 
 //addHarvest XmlHTTP request
-router.post('/addHarvest',function(req,res){
+router.post('/app/addHarvest',function(req,res){
     // ID ,supplierID,supplierAddress,productID,photoHash,harvestTimeStamp,harvestCaptureTime,harvestDescription,
     // geolocation,supplierproduce
   // console.log("addHarvest" + req.body);
@@ -340,7 +369,7 @@ router.post('/addHarvest',function(req,res){
 });
 
 //addStorage XmlHTTP request
-router.post('/addStorage',function(req,res){
+router.post('/app/addStorage',function(req,res){
     // ID,marketID,marketAddress,quantity,unitOfMeasure,storageTimeStamp,storageCaptureTime,URL,hashID,
     // storageDescription,geolocation,supplierproduce
 
@@ -434,8 +463,6 @@ router.post('/subscribe', [
           }
       }
 });
-
-
 
 router.get('/test_qrcode', async (req, res, next) => {
   try {

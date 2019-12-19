@@ -2,10 +2,14 @@
 FoodPrint is a small scale farmer food supply chain web application for tracking food from farm to fork. FoodPrint is powered by Blockchain technology. 
 
 ## Overview
-FoodPrint has 4 types of users:
+FoodPrint has 5 types of users:
+- Super User Admin
+
+The Super User is responsible for setting up the infrastructure and system configuration.
+
 - System Admin
 
-The System Admin is responsible for setting up the infrastructure, initial data configuration and on-boarding of the various users.
+The System Admin is responsible for the day-to-day running of the platform, providing user support (on-boarding and operations) and basic configuration.
 
 - Farmer
 
@@ -99,7 +103,19 @@ run dbxml/foodprintDB_schema.sql
 }
 ```
 
-9. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
+9. Create a .env file in the root directory of your project. Add environment-specific variables on new lines in the form of NAME=VALUE. For example
+
+```
+APP_ENV=staging
+APP_NAME=custom environment app
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=s1mpl3
+```
+
+You can then access the variables in your code using process.env e.g. `console.log(process.env.APP_ENV)`
+    
+10. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
 ```
 $npm run dev
 ```

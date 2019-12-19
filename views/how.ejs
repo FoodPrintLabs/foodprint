@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+      <link rel="stylesheet" href="css/timeline.css" />
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+  <section class="probootstrap-section">
+    <div class="container">
+      <div class="probootstrap-section-heading text-center mb50 probootstrap-animate">
+        <h4 class="sub-heading">How it works?</h4>
+        <h2 class="heading">The FoodPrint Produce Journey.</h2>
+      </div>
+      
+      <% include ./partials/notificationbar %>
+
+      <div class="row">
+                <div class="col-md-12 probootstrap-animate">
+                    <div class="main-timeline">
+                        <a href="Farmers.html" class="timeline">
+                            <div class="timeline-icon"><i class="fas fa-seedling"></i></div>
+                            <div class="timeline-content">
+                                <h3 class="title">Farm</h3>
+                                <p class="description">
+                                    The local market farmers register with FoodPrint and grow their tasty fresh produce. The range of produce includes varies from Cara Cara oranges to leafy greens.
+                                </p>
+                            </div>
+                        </a>
+                        <a href="#" class="timeline">
+                            <div class="timeline-icon"><i class="fa fa-hand-holding-heart"></i></div>
+                            <div class="timeline-content">
+                                <h3 class="title">Harvest</h3>
+                                <p class="description">
+                                  Farmers log into their profile and log their latest harvest produce. The produce is stored in the blockchain to ensure transparency of its origin.
+                                </p>
+                            </div>
+                        </a>
+                        <a href="#" class="timeline">
+                            <div class="timeline-icon"><i class="fa fa-truck"></i></div>
+                            <div class="timeline-content">
+                                <h3 class="title">Transportation & Storage</h3>
+                                <p class="description">
+                                    The produce is carefully packed and transported to the Broker / Market. It is logged into the FoodPrint system and kept fresh in cold storage. No plastic packaging is used in this process, ensuring our environmental sustainability.
+                                </p>
+                            </div>
+                        </a>
+
+                        <a href="gallery.html" class="timeline">
+                            <div class="timeline-icon"><i class="fas fa-apple-alt"></i></div>
+                            <div class="timeline-content">
+                                <h3 class="title">Market Day</h3>
+                                <p class="description">
+                                    On Market morning, you pick the produce you'd like. Simply scan the QR code next to your chosen fruit/veg and see where it's from, when it was picked and whether it's organic.
+                                </p>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+  </section>
+
+
+  <section class="probootstrap-section probootstrap-bg" style="background-image: url(/img/fruitEight.jpg);">
+    <div class="container text-center">
+      <h2 class="heading probootstrap-animate" data-animate-effect="fadeIn">Fresh &amp; Non-GMO Products</h2>
+      <p class="sub-heading probootstrap-animate" data-animate-effect="fadeIn">Tracking the produce journey from the farm all the way to your hands at the market.</p>
+    </div>
+  </section>
+
+  <section class="probootstrap-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="service">
+            <div class="icon"><i class="icon-location"></i></div>
+            <h2 class="heading">Locally Grown Vegetables</h2>
+            <p>The majority of the produce at OZCF is grown at farms in and around the western cape, all the way from the West Cost to George</p>
+            <p>This helps support the small scale farmers making use of sustainable farming methods</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="service">
+            <div class="icon"><i class="icon-tree"></i></div>
+            <h2 class="heading">Natural As It's In Nature</h2>
+            <p>Not all produce at the market is organically certified but it is pesticide free. You are given the knowledge so that you can choose accordingly.</p>
+            <p>The produce is grown using sustainable farming methods that are good for the land and the people.</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="service">
+            <div class="icon"><i class="icon-heart-outlined"></i></div>
+            <h2 class="heading">Food for Thought</h2>
+            <p>Knowing more about the provenance of your produce offers you better agency to support farmers making use of ethical farming methods.</p>
+            <p>It gives you the chance to put your support behind produce that is good for the land and for</p>
+          </div>
+        <div class="clearfix visible-lg-block visible-md-block"></div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- start footer -->
+  <% include ./partials/footer %>
+  <!-- end footer -->  
+
+  <div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="icon-chevron-thin-up"></i></a>
+  </div>
+
+  <script src="js/scripts.min.js"></script>
+  <script src="js/main.min.js"></script>
+  <script src="js/custom.js"></script>
+
+  <!-- Sweet Alert Javascript-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+  </body>
+</html>

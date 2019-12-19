@@ -1,10 +1,10 @@
 /* TODO import users from a gitignored json file */
 var records = [
-    { id: 1, username: 'admin', password: 'birthday', displayName: 'Admin Jack', emails: [ { value: 'adminjack@example.com' } ], usergroup: 'group.admin'  }
-  , { id: 2, username: 'market_user', password: 'birthday', displayName: 'Market Jenny', emails: [ { value: 'marketjenny@example.com' } ], usergroup: 'group.market'  }
-  , { id: 3, username: 'farmer', password: 'birthday', displayName: 'Farmer Brown ', emails: [ { value: 'farmerbrown@example.com' } ], usergroup: 'group.farmer'  }
-  , { id: 4, username: 'consumer', password: 'birthday', displayName: 'Consumer Jill', emails: [ { value: 'consumerjill@example.com' } ], usergroup: 'group.consumer'  }
-  , { id: 5, username: 'superuser', password: 'birthday', displayName: 'Super User Julz', emails: [ { value: 'superuserjulz@example.com' } ], usergroup: 'group.superuser'  }
+    { id: 1, username: 'adminjack', password: 'birthday', displayName: 'Admin Jack', prefs: [ { value: 'adminjack@example.com' } ], email: 'adminjack@example.com', role: 'Admin'  }
+  , { id: 2, username: 'marketjenny', password: 'birthday', displayName: 'Market Jenny', prefs: [ { value: 'marketjenny@example.com' } ], email: 'marketjenny@example.com', role: 'Market'  }
+  , { id: 3, username: 'farmerbrown', password: 'birthday', displayName: 'Farmer Brown ', prefs: [ { value: 'farmerbrown@example.com' } ], email: 'farmerbrown@example.com', role: 'Farmer'  }
+  , { id: 4, username: 'consumerjill', password: 'birthday', displayName: 'Consumer Jill', prefs: [ { value: 'consumerjill@example.com' } ], email: 'consumerjill@example.com', role: 'Consumer'  }
+  , { id: 5, username: 'superuserjulz', password: 'birthday', displayName: 'Super User Julz', prefs: [ { value: 'superuserjulz@example.com' } ], email: 'superuserjulz@example.com', role: 'Superuser'  }
 ];
 
 exports.findById = function(id, cb) {

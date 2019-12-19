@@ -40,6 +40,7 @@
     "gulp-clean-css": "latest"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
@@ -58,6 +59,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "qrcode": "^1.4.0",
-    "truffle-hdwallet-provider": "^1.0.15"
+    "truffle-hdwallet-provider": "^1.0.15",
+    "uuid": "^3.3.3"
   }
 }

@@ -41,7 +41,7 @@
             <li><a href="/weekly">Weekly View</a></li>
             <li><a href="/supplychain">Supply Chain</a></li>
             <!--<li><a href="#">Config</a></li>-->
-            <li><a href="/sign_in">Sign In</a></li>
+            <li><a href="/app/auth/login">Sign In</a></li>
             <!--<li><a class="btn btn-outline-primary" href="#">Hi Thandeka</a></li>-->
           </ul>
           <div class="extra-text visible-xs">
@@ -57,7 +57,7 @@
     </div>
   </header>
   <!-- END: header -->
-   <section class="probootstrap-slider flexslider">
+   <!-- <section class="probootstrap-slider flexslider">
     <div style="position: absolute; top: 0; left: 0; width: 100%; z-index: 49;">
         <div class="container">
             <div class="row">
@@ -74,30 +74,34 @@
         <li style="background-image: url(/img/slider_4.jpg); width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="" class=""></li>
     </ul>
     <ol class="flex-control-nav flex-control-paging"><li><a href="#" class="flex-active">1</a></li><li><a href="#" class="">2</a></li></ol><ul class="flex-direction-nav"><li class="flex-nav-prev"><a class="flex-prev" href="#"></a></li><li class="flex-nav-next"><a class="flex-next" href="#"></a></li></ul>
-   </section>
+   </section> -->
   <!-- END: slider  -->
 
    <!--<div class="container" style="width: 100%;">-->
        <% if(data.length){%>
         <div class="probootstrap-section-heading text-center mb50 probootstrap-animate fadeInUp probootstrap-animated">
-            <h4 class="sub-heading">Thanks for joining us today. The produce awaits your tender harvest.</h4>
-            <h2 class="heading">Complete your check-in to the market.</h2>
+            <h4 class="sub-heading">Check-in Complete.</h4>
+            <h2 class="heading">Thanks for joining us today. The produce awaits your tender harvest.</h2>
         </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 probootstrap-animate ">
-                <form id="checkin_form">
-                  <div class="form-field">
-                    <input type="email" id="checkin_email" class="form-control" placeholder="Enter your email" required>
-                    <input type="hidden" id="checkin_market_id" value="<%=data%>"/>
-                    <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
-                  </div>
-                </form>
-                <text id="checkin_result"></text>
-                <div class="alert-danger" id = "checkin_error_group" style="display: none">
-                <ul id="checkin_errors"></ul>
-            </div>
-            </div>
-          </div>
+          <!-- START: CHECKIN FORM  -->
+          <% if (showCheckinForm){ %>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 probootstrap-animate ">
+                    <form id="checkin_form">
+                      <div class="form-field">
+                        <input type="email" id="checkin_email" class="form-control" placeholder="Enter your email" required>
+                        <input type="hidden" id="checkin_market_id" value="<%=data%>"/>
+                        <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
+                      </div>
+                    </form>
+                    <text id="checkin_result"></text>
+                    <div class="alert-danger" id = "checkin_error_group" style="display: none">
+                    <ul id="checkin_errors"></ul>
+                </div>
+                </div>
+              </div>
+            <% } %>
+            <!-- END: CHECKIN FORM  -->
     <hr>
           <% }
            else{ %>
@@ -172,6 +176,7 @@
         <div class="col-md-3">
           <div class="probootstrap-footer-widget right">
             <ul class="probootstrap-footer-social">
+              <li><span class="badge badge-secondary">ALPHA VERSION</span></li>
               <li><a href="#"><i class="icon-twitter"></i></a></li>
               <li><a href="#"><i class="icon-facebook"></i></a></li>
               <li><a href="#"><i class="icon-instagram2"></i></a></li>

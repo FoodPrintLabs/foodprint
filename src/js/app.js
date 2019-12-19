@@ -256,7 +256,7 @@ App = {
         $("#formRegisterHarvest").get(0).reset() // or $('form')[0].reset()
     }).then(function(){
         const addHarvestRequest = new XMLHttpRequest();
-        addHarvestRequest.open('post', '/addHarvest');
+        addHarvestRequest.open('post', '/app/addHarvest');
         addHarvestRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
         // ID ,
@@ -316,7 +316,7 @@ App = {
       $("#formRegisterStorage").get(0).reset() // or $('form')[0].reset()
     }).then(function(){
         const addStorageRequest = new XMLHttpRequest();
-        addStorageRequest.open('post', '/addStorage');
+        addStorageRequest.open('post', '/app/addStorage');
         addStorageRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
         // ID,

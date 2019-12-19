@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+      <link rel="stylesheet" href="css/bootstrap-datetimepicker.css">
+      <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" rel="stylesheet">
+
+      <script src="js/jquery.js"></script> <!--datetimepicker-->
+      <script src="js/popper.min.js"></script> <!--datetimepicker-->
+      <script src="js/bootstrap.min.js"></script> <!--datetimepicker-->
+      <script type="text/javascript" src="js/moment-with-locales.min.js"></script> <!--datetimepicker-->
+      <script type="text/javascript" src="js/moment-timezone-with-data-2012-2022.min.js"></script> <!--datetimepicker-->
+      <script src="js/highlight.min.js"></script> <!--datetimepicker-->
+      <script src="js/web3.min.js"></script>
+      <script src="js/truffle-contract.js"></script>
+  </head>
+  <body>
+   <!-- START: header -->
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+    <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+
+
+  <div class="container" style="width: 90%;">
+
+    <% include ./partials/notificationbar %>
+
+    <div class="row">
+
+      <!-- HARVEST START-->
+      <div class="col-md-6"><!--class="col-lg-12"-->
+        <h1 class="text-center">Harvest</h1>
+        <hr/>
+        <br/>
+        <div id="divNotificationBar"></div>
+        <div id="loader">
+          <p class="text-center">Loading...</p>
+        </div>
+        <div id="content" style="display: none;">
+          <!-- View Harvest Entries -->
+
+          <div id="divHarvest">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Supplier</th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Photo</th>
+                  <th scope="col">Harvest Timestamp</th>
+                  <th scope="col">Data Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="tableHarvest">
+              </tbody>
+            </table>
+          </div>
+          <hr/>
+            <!-- Get # of harvest entries -->
+            <div id="divNumHarvest"></div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="numHarvestButton">Show Total Number of Harvest Entries</button>
+          <hr/>
+
+          <form id="formRegisterHarvest" onSubmit="App.registerHarvest(); return false;">
+            <div class="form-group">
+              <h1 class="h3 mb-3 font-weight-normal">Add Harvest Entry</h1>
+              <label for="inputSupplier">Supplier:</label>
+              <select class="custom-select d-block w-100" id="inputSupplier" required>
+                <option value="" selected disabled >Choose Supplier...</option>
+                <option>Oranjezicht City Farm</option>
+                <option>Naturally Organic</option>
+                <option>Organic Farmer</option>
+                <option>Metro Organics</option>
+                <option>Prickly Pears</option>
+                <option>White Mountain</option>
+                <option>Pedi Farmer</option>
+              </select>
+            </div>
+
+              <!--<label for="inputProduct" class="sr-only">Product</label>-->
+              <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
+            <div class="form-group">
+              <label for="inputProduct">Product:</label>
+              <select class="custom-select d-block w-100" id="inputProduct" required>
+                <option value="" selected disabled >Choose Product...</option>
+                <option>Apples</option>
+                <option>Bananas</option>
+                <option>Oranges</option>
+                <option>Cucumber</option>
+                <option>Spinach</option>
+                <option>Carrots</option>
+                <option>Broccolli</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="inputPhoto">Photo:</label>
+              <input type="number" id="inputPhoto" class="form-control" placeholder="Photo" required autofocus>
+            </div>
+
+            <div class="form-group">
+              <label for="inputHarvestTime">Harvest Timestamp:</label>
+              <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="inputHarvestTime">
+                  <input type="text" class="form-control" size="16" type="text" value="" readonly />
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+              </div>
+              <input type="hidden" id="inputHarvestTime" value="" /><br/>
+            </div>
+
+            <div class="form-group">
+              <label for="inputDataTime">Data Timestamp:</label>
+              <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="inputDataTime">
+                  <input type="text" class="form-control" size="16" type="text" value="" readonly />
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+              </div>
+              <input type="hidden" id="inputDataTime" value="" /><br/>
+            </div>
+
+
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="harvestCheck1" required>
+              <label class="form-check-label" for="harvestCheck1">I confirm the above is true</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Harvest</button>
+            <hr />
+          </form>
+        </div>
+      </div>
+
+      <!-- HARVEST END-->
+
+      <!-- STORAGE START-->
+      <div class="col-md-6"><!--class="col-lg-12"-->
+        <h1 class="text-center">Storage</h1>
+        <hr/>
+        <br/>
+        <div id="divNotificationBarStorage"></div>
+        <div id="loaderStorage">
+          <p class="text-center">Loading...</p>
+        </div>
+        <div id="contentStorage" style="display: none;">
+          <!-- View Storage Entries -->
+            <!--uint ID;  //this should be the same ID as the harvestProduce ID-->
+              <!--string marketID;-->
+              <!--address payable marketAddress;-->
+              <!--uint quantity;-->
+              <!--string unitOfMeasure;-->
+              <!--string storageTimeStamp;-->
+              <!--string storageCaptureTime;-->
+              <!--string URL;-->
+              <!--string hashID;-->
+
+          <div id="divStorage">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Harvest</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">UoM</th>
+                  <th scope="col">Storage Timestamp</th>
+                  <th scope="col">Data Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="tableStorage">
+              </tbody>
+            </table>
+          </div>
+          <hr/>
+            <!-- Get # of harvest entries -->
+            <div id="divNumStorage"></div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="numStorageButton">Show Total Number of Storage Entries</button>
+          <hr/>
+          <form id="formRegisterStorage" onSubmit="App.registerStorage(); return false;">
+            <div class="form-group">
+              <h1 class="h3 mb-3 font-weight-normal">Add Storage Entry</h1>
+              <!--<label for="inputSupplier" class="sr-only">Supplier</label>-->
+              <!--<input type="text" id="inputSupplier" class="form-control" placeholder="Supplier name" required autofocus>-->
+
+              <label for="inputSupplierStorage">Harvest</label>
+              <select class="custom-select d-block w-100" id="inputSupplierStorage" required>
+              </select>
+            </div>
+
+              <div class="form-group">
+              <label for="inputQuantityStorage">Quantity:</label>
+              <input type="number" id="inputQuantityStorage" class="form-control" placeholder="Quantity" required autofocus>
+            </div>
+
+              <!--<label for="inputProduct" class="sr-only">Product</label>-->
+              <!--<input type="url" id="inputProduct" class="form-control" placeholder="Product" required autofocus>-->
+            <div class="form-group">
+              <label for="inputUoMStorage">Unit of Measure</label>
+              <select class="custom-select d-block w-100" id="inputUoMStorage" required>
+                <option value="">Choose Unit of Measure...</option>
+                <option>bunch</option>
+                <option>kilogram</option>
+                <option>none</option>
+                <option>box</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="inputStorageTime">Storage Timestamp:</label>
+              <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="inputStorageTime">
+                  <input type="text" class="form-control" size="16" type="text" value="" readonly />
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+              </div>
+              <input type="hidden" id="inputStorageTime" value=""/><br/>
+            </div>
+
+            <div class="form-group">
+              <label for="inputDataTimeStorage">Data Timestamp:</label>
+              <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="inputDataTimeStorage">
+                  <input type="text" class="form-control" size="16" type="text" value="" readonly />
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+              </div>
+              <input type="hidden" id="inputDataTimeStorage" value=""/><br/>
+            </div>
+
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="storageCheck1" required>
+              <label class="form-check-label" for="storageCheck1">I confirm the above is true</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Storage</button>
+            <hr />
+          </form>
+        </div>
+      </div>
+
+
+
+    <!-- STORAGE END -->
+        <!-- Coinbase Address -->
+            <p id="coinbaseAddress" class="text-center"></p>
+          <hr/>
+
+    </div>
+  </div>
+
+  <!-- start footer -->
+  <% include ./partials/footer %>
+  <!-- end footer -->
+
+  <script src="js/scripts.min.js"></script> <!--/*! jQuery v1.12.4 | (c) jQuery Foundation | jquery.org/license */-->
+  <script src="js/main.min.js"></script>
+  <script src="js/custom.js"></script>
+  <script type="text/javascript" src="js/bundle.js"></script>
+  <script src="js/bootstrap-datetimepicker.js"></script>
+
+  <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+</script>
+
+  </body>
+</html>
