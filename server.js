@@ -250,8 +250,9 @@ router.get('/scan/:id',function(req,res){
 
 //return template with market checkin form e.g. http://localhost:3000/checkin/ozcf
 router.get('/checkin/:market_id',function(req,res){
+  var boolCheckinForm = process.env.SHOW_CHECKIN_FORM || false
   var marketID = req.params.market_id; //shortcode e.g. ozcf
-  res.render('checkin.ejs',{data:marketID});
+  res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm });
 });
 
 
