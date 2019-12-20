@@ -27,7 +27,8 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Farm</h3>
                                         <p class="description">
-                                         These tasty fresh <b><%=data[0].productID%></b> were grown at <b><%=data[0].supplierID%></b>.   The farm is located in the Western Cape (<i>here are the GPS coordinates <b><%=data[0].geolocation%></b></i>).
+                                         These <b><%=data[0].harvest_produceName%></b> were grown at <b><%=data[0].harvest_supplierName%></b> by <b><%=data[0].harvest_farmerName%></b>.   
+                                         The farm is located in <b><%=data[0].harvest_supplierAddress%></b>.
                                         </p>
                                     </div>
                                 </a>
@@ -36,8 +37,10 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Harvest</h3>
                                         <p class="description">
-                                            <b><%=data[0].supplierID%></b> exercised high standards of crop management and sustainable farming practices that minimized crop pests, diseases and maintained soil fertility. The <b><%=data[0].productID%></b> were harvested on <b><%=data[0].harvestTimeStamp%></b>
-                                            and the harvest data captured on FoodPrint on <b><%=data[0].harvestCaptureTime%></b>.
+                                            <b><%=data[0].harvest_supplierName%></b> exercised high standards of crop management and sustainable farming practices that minimized crop pests, diseases and maintained soil fertility. 
+                                            The <b><%=data[0].harvest_produceName%></b> were harvested on <b><%=data[0].harvest_TimeStamp%></b>
+                                            and the harvest data captured on FoodPrint on <b><%=data[0].harvest_CaptureTime%></b>.
+                                            <i>Additional information about the <%=data[0].harvest_produceName%> -  <%=data[0].harvest_Description%></i>
                                         </p>
                                     </div>
                                 </a>
@@ -46,8 +49,8 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Transportation</h3>
                                         <p class="description">
-                                            After receiving an order from the market, <b><%=data[0].supplierID%></b> packaged and transported the <b><%=data[0].productID%></b> to the market on
-                                            <%=data[0].storageTimeStamp%> (<i>a day before the market opens to the public</i>).
+                                            After receiving an order from the market, <b><%=data[0].harvest_supplierName%></b> packaged and transported the <b><%=data[0].harvest_produceName%></b> to the market on
+                                            <%=data[0].market_storageTimeStamp%>.
                                         </p>
                                     </div>
                                 </a>
@@ -56,7 +59,7 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Storage</h3>
                                         <p class="description">
-                                            The handover of the <b><%=data[0].productID%></b> from <b><%=data[0].supplierID%></b> to the market happened on <b><%=data[0].storageTimeStamp%></b> (<i>to be exact</i>). The handover was captured on FoodPrint at <b><%=data[0].storageCaptureTime%></b>.
+                                            The handover of the <b><%=data[0].harvest_produceName%></b> from <b><%=data[0].harvest_supplierName%></b> to the market happened on <b><%=data[0].market_storageTimeStamp%></b>. The handover was captured on FoodPrint at <b><%=data[0].market_storageCaptureTime%></b>.
                                     </div>
                                 </a>
                                 <a href="#" class="timeline">
@@ -64,7 +67,7 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Market Stall</h3>
                                         <p class="description">
-                                            The <b><%=data[0].productID%></b> were stored at optimal temperature overnight before the opening of the market this weekend. They were added to the stall this morning!
+                                            The <b><%=data[0].harvest_produceName%></b> were stored at optimal temperature overnight before the opening of the market this weekend. They were added to the stall this morning!
                                         </p>
                                     </div>
                                 </a>
@@ -83,7 +86,7 @@
                 <hr>
           <% }
            else{ %>
-           <h4>Oops, something went wrong.</h4>
+           <h4>No data.</h4>
         <% } %>
 
       <!-- start footer -->
