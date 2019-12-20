@@ -16,6 +16,7 @@ const { check, validationResult } = require('express-validator');
 const uuidv4 = require('uuid/v4')
 var body = require('express-validator'); //validation
 var sanitizeBody  = require('express-validator'); //sanitization
+const { sanitizeParam } = require('express-validator');
 var db = require('./dbxml/localdb');
 var app = express();
 var configRouter = require('./routes/config');
@@ -261,9 +262,67 @@ router.get('/app/scan/:id',function(req,res){
 });
 
 //return template with market checkin form e.g. http://localhost:3000/checkin/ozcf
-router.get('/checkin/:market_id',function(req,res){
+router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], function(req,res){
   var boolCheckinForm = process.env.SHOW_CHECKIN_FORM || false
   var marketID = req.params.market_id; //shortcode e.g. ozcf
+  var logid = uuidv4()
+  var qrid = '' //TODO this is not yet being tracked in config
+  var qrurl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  var request_host = req.get('host')
+  var request_origin = req.headers.referer
+  //req.headers.referer - The Referer request header contains the address of the previous web page 
+  //from which a link to the currently requested page was followed. 
+  //The Referer header allows servers to identify where people are visiting them from and may use that data for analytics, logging, or optimized caching, for example.
+  
+  //alternative would have been to use origin request header
+  //The Origin request header indicates where a fetch originates from.
+  
+  var request_useragent = req.headers['user-agent']
+  var logdatetime = new Date();
+
+  //TODO - cross check marketID against existing marketID's from foodprint_market
+  
+  try {
+    connection.query('\n' +
+        'INSERT INTO foodprint_qrcount (\n' +
+        '        logid ,\n' +
+        '        qrid,\n' +
+        '        qrurl,\n' +
+        '        marketid,\n' +
+        '        request_host,\n' +
+        '        request_origin,\n' +
+        '        request_useragent,\n' +
+        '        logdatetime)\n' +
+        'VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+        [
+          logid,
+          qrid,
+          qrurl,
+          marketID,
+          request_host,
+          request_origin,
+          request_useragent,
+          logdatetime
+      ],function(err,rows)     {
+      if(err){
+       //req.flash('error', err);
+       //console.error('error', err)
+       console.error('Market checking tracking error occured');
+      // res.status.json({ err: err });
+      }else{
+          console.log('Market checking tracking successful');
+          //res.json({ success: true, email: checkin_email });
+      }
+       });
+} catch (e) {
+  //TODO log the error
+  //this will eventually be handled by your error handling middleware
+  //next(e)
+  //res.json({success: false, errors: e});
+  //console.error('error', err)
+  console.error('Market checking tracking error occured');
+  res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm, user:req.user });
+}
   res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm, user:req.user });
 });
 
