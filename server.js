@@ -250,16 +250,80 @@ router.get('/scan/:id',function(req,res){
 });
 
 //return template with scan results for produce
-router.get('/app/scan/:id',function(req,res){
-  var supplierProduceID = req.params.id; //OranjezichtCityFarm_Apples
+//TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/scan/ozcf/WMNP_Fennel
+router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,res){
+  var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
   var boolTracedOnBlockchain = process.env.SHOW_TRACED_ON_BLOCKCHAIN || false
 
-  // http://localhost:3000/app/scan/OranjezichtCityFarm_Apples
-  res.render('scanresultv1',{ data:supplierProduceID, 
-                              showTracedOnBlockchain:boolTracedOnBlockchain,
-                              user:req.user });
+  var marketID = 'ozcf'; //shortcode e.g. ozcf
+  var logid = uuidv4()
+  var qrid = '' //TODO this is not yet being tracked in config
+  
+  //http://localhost:3000/app/scan/WMNP_Fennel
+  //https://www.foodprintapp.com/app/scan/WMNP_Fennel
+  var qrurl = req.protocol + '://' + req.get('host') + req.originalUrl; 
+  
+  var request_host = req.get('host')
+  var request_origin = req.headers.referer
+  //req.headers.referer - The Referer request header contains the address of the previous web page 
+  //from which a link to the currently requested page was followed. 
+  //The Referer header allows servers to identify where people are visiting them from and may use that data for analytics, logging, or optimized caching, for example.
+  
+  //alternative would have been to use origin request header
+  //The Origin request header indicates where a fetch originates from.
+  
+  var request_useragent = req.headers['user-agent']
+  var logdatetime = new Date();
 
-});
+  //TODO - cross check marketID and supplierProduceID against existing marketID's from foodprint_market and foodPrint_supplierproduceid
+  
+  try {
+    connection.query('\n' +
+        'INSERT INTO foodprint_qrcount (\n' +
+        '        logid ,\n' +
+        '        qrid,\n' +
+        '        qrurl,\n' +
+        '        marketid,\n' +
+        '        request_host,\n' +
+        '        request_origin,\n' +
+        '        request_useragent,\n' +
+        '        logdatetime)\n' +
+        'VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+        [
+          logid,
+          qrid,
+          qrurl,
+          marketID,
+          request_host,
+          request_origin,
+          request_useragent,
+          logdatetime
+      ],function(err,rows)     {
+      if(err){
+      //req.flash('error', err);
+      //console.error('error', err)
+      console.error('Produce scan tracking error occured');
+      // res.status.json({ err: err });
+      }else{
+          console.log('Produce scan tracking successful');
+          //res.json({ success: true, email: checkin_email });
+      }
+      });
+    } catch (e) {
+      //TODO log the error
+      //this will eventually be handled by your error handling middleware
+      //next(e)
+      //res.json({success: false, errors: e});
+      //console.error('error', err)
+      console.error('Produce scan tracking error occured');
+      res.render('scanresultv1',{ data:supplierProduceID, 
+                                  showTracedOnBlockchain:boolTracedOnBlockchain,
+                                  user:req.user });
+    }
+      res.render('scanresultv1',{ data:supplierProduceID, 
+                                  showTracedOnBlockchain:boolTracedOnBlockchain,
+                                  user:req.user });
+    });
 
 //return template with market checkin form e.g. http://localhost:3000/checkin/ozcf
 router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], function(req,res){
@@ -307,10 +371,10 @@ router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], 
       if(err){
        //req.flash('error', err);
        //console.error('error', err)
-       console.error('Market checking tracking error occured');
+       console.error('Market checkin tracking error occured');
       // res.status.json({ err: err });
       }else{
-          console.log('Market checking tracking successful');
+          console.log('Market checkin tracking successful');
           //res.json({ success: true, email: checkin_email });
       }
        });
@@ -320,7 +384,7 @@ router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], 
   //next(e)
   //res.json({success: false, errors: e});
   //console.error('error', err)
-  console.error('Market checking tracking error occured');
+  console.error('Market checkin tracking error occured');
   res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm, user:req.user });
 }
   res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm, user:req.user });
