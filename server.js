@@ -240,19 +240,31 @@ router.get('/scan/:id',function(req,res){
             if(err){
              //req.flash('error', err);
              console.error('error', err);
-             res.render('scanresult',{data:''});
+             res.render('scanresult',{data:'', user:req.user});
             }
             else {
-                res.render('scanresult',{data:rows});
+                res.render('scanresult',{data:rows, user:req.user});
             }
          });
+});
+
+//return template with scan results for produce
+router.get('/app/scan/:id',function(req,res){
+  var supplierProduceID = req.params.id; //OranjezichtCityFarm_Apples
+  var boolTracedOnBlockchain = process.env.SHOW_TRACED_ON_BLOCKCHAIN || false
+
+  // http://localhost:3000/app/scan/OranjezichtCityFarm_Apples
+  res.render('scanresultv1',{ data:supplierProduceID, 
+                              showTracedOnBlockchain:boolTracedOnBlockchain,
+                              user:req.user });
+
 });
 
 //return template with market checkin form e.g. http://localhost:3000/checkin/ozcf
 router.get('/checkin/:market_id',function(req,res){
   var boolCheckinForm = process.env.SHOW_CHECKIN_FORM || false
   var marketID = req.params.market_id; //shortcode e.g. ozcf
-  res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm });
+  res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm, user:req.user });
 });
 
 
@@ -312,10 +324,10 @@ router.get('/test_db', async (req, res, next) => {
         if(err){
          //req.flash('error', err);
          console.error('error', err);
-         res.render('./test_db',{page_title:"Farmers - Farm Print",data:''});
+         res.render('./test_db',{page_title:"Farmers - Farm Print",data:'', user:req.user});
         }else{
             console.log('Render SQL results');
-            res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows});
+            res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows, user:req.user});
         }
          });
   } catch (e) {
