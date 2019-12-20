@@ -7,15 +7,15 @@
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
   </head>
   <body>
-    <!-- START: header -->
+     <!-- START: header -->
 
-  <div class="probootstrap-loader"></div>
+     <div class="probootstrap-loader"></div>
 
-  <header role="banner" class="probootstrap-header">
-      <% include ./partials/header %>
-  </header>
-  <!-- END: header -->
-
+     <header role="banner" class="probootstrap-header">
+         <% include ./partials/header %>
+     </header>
+     <!-- END: header -->
+   
    <div class="container" style="width: 100%;">
        <% if(data.length){%>
             <h4>Visualise the Journey</h4>
@@ -27,7 +27,7 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Farm</h3>
                                         <p class="description">
-                                         These tasty fresh <b>PRODUCE_NAME</b> were grown at <b>FARM_NAME</b> by FARMER_NAME.   The farm is located in the Western Cape (<i>here are the GPS coordinates <b>FARM_LOCATION</b></i>).
+                                         These tasty fresh <b><%=data[0].productID%></b> were grown at <b><%=data[0].supplierID%></b>.   The farm is located in the Western Cape (<i>here are the GPS coordinates <b><%=data[0].geolocation%></b></i>).
                                         </p>
                                     </div>
                                 </a>
@@ -36,8 +36,8 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Harvest</h3>
                                         <p class="description">
-                                            <b>FARM_NAME</b> exercised high standards of crop management and sustainable farming practices that minimized crop pests, diseases and maintained soil fertility. The <b>PRODUCE_NAME</b> were harvested on <b>HARVEST_DATETIME</b>
-                                            and the harvest data captured on FoodPrint on <b>HARVEST_DATACAPTURE_DATETIME</b>.
+                                            <b><%=data[0].supplierID%></b> exercised high standards of crop management and sustainable farming practices that minimized crop pests, diseases and maintained soil fertility. The <b><%=data[0].productID%></b> were harvested on <b><%=data[0].harvestTimeStamp%></b>
+                                            and the harvest data captured on FoodPrint on <b><%=data[0].harvestCaptureTime%></b>.
                                         </p>
                                     </div>
                                 </a>
@@ -46,8 +46,8 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Transportation</h3>
                                         <p class="description">
-                                            After receiving an order from the market, <b>FARM_NAME</b> packaged and transported the <b>PRODUCE_NAME</b> to the market on
-                                            TRANSPORTATION_TIME (<i>a day before the market opens to the public</i>).
+                                            After receiving an order from the market, <b><%=data[0].supplierID%></b> packaged and transported the <b><%=data[0].productID%></b> to the market on
+                                            <%=data[0].storageTimeStamp%> (<i>a day before the market opens to the public</i>).
                                         </p>
                                     </div>
                                 </a>
@@ -56,7 +56,7 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Storage</h3>
                                         <p class="description">
-                                            The handover of the <b>PRODUCE_NAME</b> from <b>FARM_NAME</b> to the market happened on <b>STORAGE_DATETIME</b> (<i>to be exact</i>). The handover was captured on FoodPrint at <b>STORAGE_DATACAPTURE_DATETIME</b>.
+                                            The handover of the <b><%=data[0].productID%></b> from <b><%=data[0].supplierID%></b> to the market happened on <b><%=data[0].storageTimeStamp%></b> (<i>to be exact</i>). The handover was captured on FoodPrint at <b><%=data[0].storageCaptureTime%></b>.
                                     </div>
                                 </a>
                                 <a href="#" class="timeline">
@@ -64,13 +64,13 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Market Stall</h3>
                                         <p class="description">
-                                            The <b>PRODUCE_NAME</b> were stored at optimal temperature overnight before the opening of the market this weekend. They were added to the stall this morning!
+                                            The <b><%=data[0].productID%></b> were stored at optimal temperature overnight before the opening of the market this weekend. They were added to the stall this morning!
                                         </p>
                                     </div>
                                 </a>
                             </div>
                             <br/>
-                             <!-- START: TRACED ON BLOCKCHAIN  -->
+                            <!-- START: TRACED ON BLOCKCHAIN  -->
                             <% if (showTracedOnBlockchain){ %>
                               <div class="probootstrap-section-heading text-center mb50 probootstrap-animate">
                                   <h4 class="sub-heading">Traced using Blockchain <i class="far fa-check-circle"></i></h4>
@@ -86,11 +86,9 @@
            <h4>Oops, something went wrong.</h4>
         <% } %>
 
-
-   <!-- start footer -->
-  <% include ./partials/footer %>
-  <!-- end footer -->  
-
+      <!-- start footer -->
+      <% include ./partials/footer %>
+      <!-- end footer -->  
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
     <script src="/js/scripts.min.js"></script>
   <script src="/js/main.min.js"></script>
