@@ -365,6 +365,8 @@ CREATE TABLE foodprint_weeklyview (
         harvest_blockchain_uuid varchar(255), -- uuid to blockchain config record which has contract and address
         harvest_user varchar(255), -- user who logged harvest
         storage_user varchar(255), -- user who logged storage
+        logdatetime DATETIME,
+        lastmodifieddatetime DATETIME,
         PRIMARY KEY (pk)
 );
 
@@ -406,7 +408,9 @@ INSERT INTO foodprint_weeklyview (
         harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
         harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
         harvest_user, -- user who logged harvest
-        storage_user -- user who logged storage
+        storage_user, -- user who logged storage
+        logdatetime,
+        lastmodifieddatetime
         )
 VALUES ('486819ac-4b99-457f-bfad-7251a0394535' -- logid
         ,'2e3f2070-5f5c-48bd-a5eb-f4121729bf7d' -- harvest_logid
@@ -446,6 +450,8 @@ VALUES ('486819ac-4b99-457f-bfad-7251a0394535' -- logid
         ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
         ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
         ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
         ),
 
         ('1dd54fe7-37f9-4556-a23e-50a69f7b4b1a' -- logid
@@ -486,6 +492,8 @@ VALUES ('486819ac-4b99-457f-bfad-7251a0394535' -- logid
         ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
         ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
         ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
         ),
 
         ('f7e14319-7c98-468e-b32a-d17872c4f893' -- logid
@@ -526,6 +534,8 @@ VALUES ('486819ac-4b99-457f-bfad-7251a0394535' -- logid
         ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
         ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
         ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
         ),
 
         ('80588304-00f0-459f-bcee-779385b96316' -- logid
@@ -566,6 +576,8 @@ VALUES ('486819ac-4b99-457f-bfad-7251a0394535' -- logid
         ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
         ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
         ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
         ),
 
         ('44409f5b-5813-4e36-8e3c-77c7747e8fbc' -- logid
@@ -606,6 +618,8 @@ VALUES ('486819ac-4b99-457f-bfad-7251a0394535' -- logid
         ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
         ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
         ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
         ),
 
         ('bea2e318-f858-4d8a-8e21-c466c5665a53' -- logid
@@ -646,4 +660,55 @@ VALUES ('486819ac-4b99-457f-bfad-7251a0394535' -- logid
         ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
         ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
         ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
         );
+
+-- select from foodprint_weeklyview
+SELECT 
+        logid,
+        harvest_logid,
+        harvest_supplierShortcode,
+        harvest_supplierName, 
+        harvest_farmerName,
+        harvest_supplierAddress,
+        harvest_produceName,
+        harvest_photoHash,
+        harvest_TimeStamp,
+        harvest_CaptureTime,
+        harvest_Description,
+        harvest_geolocation,
+        harvest_quantity,
+        harvest_unitOfMeasure,
+        harvest_description_json,
+        harvest_BlockchainHashID,
+        harvest_BlockchainHashData, 
+        supplierproduce, -- e.g. WMPN_BabyMarrow
+        storage_logid,
+        market_Address,
+        market_quantity,
+        market_unitOfMeasure,
+        market_storageTimeStamp,
+        market_storageCaptureTime,
+        market_URL,
+        storage_BlockchainHashID,
+        storage_BlockchainHashData,
+        storage_Description,
+        storage_bool_added_to_blockchain, -- true or false
+        storage_added_to_blockchain_date, 
+        storage_added_to_blockchain_by, -- user who logged storage to blockchain
+        storage_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        harvest_bool_added_to_blockchain, -- true or false
+        harvest_added_to_blockchain_date, 
+        harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
+        harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        harvest_user, -- user who logged harvest
+        storage_user, -- user who logged storage
+        logdatetime,
+        lastmodifieddatetime
+	FROM 
+		foodprint_weeklyview 
+	WHERE 
+		supplierproduce = 'WMNP_BabyMarrow' AND 
+        logdatetime < (date(curdate() - interval weekday(curdate()) day + interval 1 week)) AND  -- next Monday
+        logdatetime > (date(curdate() - interval weekday(curdate()) day)); -- past Monday 
