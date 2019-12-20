@@ -254,7 +254,99 @@ router.get('/scan/:id',function(req,res){
 
 //return template with scan results for produce
 //TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/scan/ozcf/WMNP_Fennel
+
 router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,res){
+  var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
+     connection.query('SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName,' +
+                      'harvest_supplierAddress, harvest_produceName, harvest_TimeStamp, harvest_CaptureTime,' +
+                      'harvest_Description, harvest_geolocation,supplierproduce, market_Address,' +
+                      'market_storageTimeStamp, market_storageCaptureTime, logdatetime, lastmodifieddatetime ' + 
+                      'FROM foodprint_weeklyview WHERE supplierproduce = ? AND ' +
+                      'logdatetime < (date(curdate() - interval weekday(curdate()) day + interval 1 week)) AND '+  
+                      'logdatetime > (date(curdate() - interval weekday(curdate()) day));',
+                      [
+                          supplierProduceID
+                      ],
+                      function(err,rows) {
+                          if(err){
+                          //req.flash('error', err);
+                          var provenance_data = '';
+                          console.error('error', err);
+                          console.error('Provenance scan error occured');
+                          //res.render('scanresult',{data:'', user:req.user});
+                          }
+                          else {
+                              var provenance_data = rows;
+                              console.log('Provenance scan successful');
+                              //res.render('scanresult',{data:rows, user:req.user});
+                          }
+                              
+                          var boolTracedOnBlockchain = process.env.SHOW_TRACED_ON_BLOCKCHAIN || false
+                          
+                          //START Track QR Scan (this could be done as xhr when scan page is rendered)
+                              var marketID = 'ozcf'; //shortcode e.g. ozcf
+                              var logid = uuidv4()
+                              var qrid = '' //TODO this is not yet being tracked in config
+                              
+                              //http://localhost:3000/app/scan/WMNP_Fennel
+                              //https://www.foodprintapp.com/app/scan/WMNP_Fennel
+                              var qrurl = req.protocol + '://' + req.get('host') + req.originalUrl; 
+                              
+                              var request_host = req.get('host')
+                              var request_origin = req.headers.referer
+                              //req.headers.referer - The Referer request header contains the address of the previous web page 
+                              //from which a link to the currently requested page was followed. 
+                              //The Referer header allows servers to identify where people are visiting them from and may use that data for analytics, logging, or optimized caching, for example.
+                              
+                              //alternative would have been to use origin request header
+                              //The Origin request header indicates where a fetch originates from.
+                              
+                              var request_useragent = req.headers['user-agent']
+                              var logdatetime = new Date();
+                            
+                              //TODO - cross check marketID and supplierProduceID against existing marketID's from foodprint_market and foodPrint_supplierproduceid
+                                connection.query( 'INSERT INTO foodprint_qrcount (' +
+                                                  'logid , qrid, qrurl, marketid, request_host,' +
+                                                  'request_origin, request_useragent,logdatetime) ' +
+                                                  ' VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+                                                  [
+                                                    logid, qrid, qrurl, marketID, request_host,
+                                                    request_origin, request_useragent, logdatetime
+                                                ]
+                                                ,function(err, res2) {
+                                                    if (err) {
+                                                      console.error('Produce scan tracking error occured');
+                                                    }
+                                                    console.log('Produce scan tracking successful');
+                                                    //callback(null, res2); // think 'return'
+                                                    })
+                          //END Track QR Scan
+                          
+                          res.render('scanresult',{data:provenance_data, user:req.user, 
+                                                  showTracedOnBlockchain:boolTracedOnBlockchain})
+                        }  
+         ); //end of connection.query
+      });
+
+    //   db.query('INSERT INTO foodprint_qrcount (' +
+    //   'logid , qrid, qrurl, marketid, request_host,' +
+    //   'request_origin, request_useragent,logdatetime) ' +
+    //   ' VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+    //   [
+    //     logid, qrid, qrurl, marketID, request_host,
+    //     request_origin, request_useragent, logdatetime
+    // ]
+    //   , function(err, res2) {
+    //       if (err) {
+    //         console.error('Produce scan tracking error occured');
+    //       }
+    //       console.log('Produce scan tracking successful');
+    //       //callback(null, res2); // think 'return'
+    //       })
+
+//return template with scan results for produce
+//TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/scan/ozcf/WMNP_Fennel
+router.get('/app/scantest/:id', [sanitizeParam('id').escape().trim()], function(req,res){
   var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
   var boolTracedOnBlockchain = process.env.SHOW_TRACED_ON_BLOCKCHAIN || false
 
