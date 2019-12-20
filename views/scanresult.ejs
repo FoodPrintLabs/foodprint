@@ -1,62 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FoodPrint - Tracing the world's food, from farm to fork.</title>
-    <meta name="description" content="FoodPrint. Tracing the world's food, from farm to fork using Blockchain.">
-    <meta name="keywords" content="food supply chain, traceability, blockchain, farmers, food markets, retailers, customers, restaurants">
-
-    <link href="https://fonts.googleapis.com/css?family=Just+Another+Hand|Open+Sans:300,400" rel="stylesheet">
-    <link rel="stylesheet" href="/css/styles-merged.css">
-    <link rel="stylesheet" href="/css/style.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
-    <link rel="stylesheet" href="/css/timeline.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-
-    <!--[if lt IE 9]>
-      <script src="/js/vendor/html5shiv.min.js"></script>
-      <script src="/js/vendor/respond.min.js"></script>
-    <![endif]-->
+    
+      <% include ./partials/head %>  
+      <link rel="stylesheet" href="/css/timeline.css" />
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
   </head>
   <body>
-   <!-- START: header -->
+     <!-- START: header -->
 
-  <div class="probootstrap-loader"></div>
+     <div class="probootstrap-loader"></div>
 
-  <header role="banner" class="probootstrap-header">
-    <div class="container">
-      <img class="logo" src="/img/FoodPrintLogo.png" height="40px" align="left" vertical-align="middle">
-        <a href="/" class="probootstrap-logo">FoodPrint<span>.</span></a>
-
-        <a href="#" class="probootstrap-burger-menu visible-xs" ><i>Menu</i></a>
-        <div class="mobile-menu-overlay"></div>
-
-        <nav role="navigation" class="probootstrap-nav hidden-xs">
-          <ul class="probootstrap-main-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/gallery">Produce</a></li>
-            <li><a href="/farmers">Farmers</a></li>
-            <li><a href="/weekly">Weekly View</a></li>
-            <li><a href="/supplychain">Supply Chain</a></li>
-            <!--<li><a href="#">Config</a></li>-->
-            <li><a href="/app/auth/login">Sign In</a></li>
-            <!--<li><a class="btn btn-outline-primary" href="#">Hi Thandeka</a></li>-->
-          </ul>
-          <div class="extra-text visible-xs">
-            <a href="#" class="probootstrap-burger-menu"><i>Menu</i></a>
-            <h5>Connect</h5>
-            <ul class="social-buttons">
-              <li><a href="#"><i class="icon-twitter"></i></a></li>
-              <li><a href="#"><i class="icon-facebook2"></i></a></li>
-              <li><a href="#"><i class="icon-instagram2"></i></a></li>
-            </ul>
-          </div>
-        </nav>
-    </div>
-  </header>
-  <!-- END: header -->
+     <header role="banner" class="probootstrap-header">
+         <% include ./partials/header %>
+     </header>
+     <!-- END: header -->
+   
    <div class="container" style="width: 100%;">
        <% if(data.length){%>
             <h4>Visualise the Journey</h4>
@@ -111,9 +70,13 @@
                                 </a>
                             </div>
                             <br/>
-                            <div class="probootstrap-section-heading text-center mb50 probootstrap-animate">
-                                <h4 class="sub-heading">Traced using Blockchain <i class="far fa-check-circle"></i></h4>
-                            </div>
+                            <!-- START: TRACED ON BLOCKCHAIN  -->
+                            <% if (showTracedOnBlockchain){ %>
+                              <div class="probootstrap-section-heading text-center mb50 probootstrap-animate">
+                                  <h4 class="sub-heading">Traced using Blockchain <i class="far fa-check-circle"></i></h4>
+                              </div>
+                              <% } %>
+                            <!-- END: TRACED ON BLOCKCHAIN -->
                         </div>
                     </div>
                 </div>
@@ -123,72 +86,9 @@
            <h4>Oops, something went wrong.</h4>
         <% } %>
 
-
-   <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(/img/slider_3.jpg)">
-    <div class="container">
-      <div class="row mb60">
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">About FoodPrint</h4>
-            <ul class="stack-link">
-              <li><a href="/about">About</a></li>
-              <li><a href="/contact">Contact</a></li>
-              <!--<li><a href="#">Locations</a></li>-->
-              <li><a href="/how">How it works?</a></li>
-              <li><a href="/terms">Terms of Use</a></li>
-              <!--<li><a href="#">FAQ</a></li>-->
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">Features</h4>
-            <ul class="stack-link">
-              <li><a href="#">Harvest Data Capture</a></li>
-              <li><a href="#">Storage Data Capture</a></li>
-              <li><a href="#">Barcode Scanning</a></li>
-              <li><a href="#">Analytics</a></li>
-              <li><a href="#">Support</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">Products</h4>
-            <ul class="stack-link">
-              <li><a href="#">Organic Fruits</a></li>
-              <li><a href="#">Organic Vegetables</a></li>
-              <li><a href="#">Non-GMO Products</a></li>
-              <li><a href="#">Locally Grown Products</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">FoodPrint</h4>
-            <p>Tracing the world's food, from farm to fork.</p>
-          </div>
-        </div>
-      </div>
-      <div class="row copyright">
-        <div class="col-md-9">
-          <div class="probootstrap-footer-widget">
-            <p>&copy; 2019 <a href="http://foodprintapp.com/">FoodPrint. Tracing the world's food, from farm to fork</a>. Hosting sponsor <a href="https://jskdezign.com/" target="_blank">JSKDEZIGN</a>.</p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget right">
-            <ul class="probootstrap-footer-social">
-              <li><span class="badge badge-secondary">ALPHA VERSION</span></li>
-              <li><a href="#"><i class="icon-twitter"></i></a></li>
-              <li><a href="#"><i class="icon-facebook"></i></a></li>
-              <li><a href="#"><i class="icon-instagram2"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+      <!-- start footer -->
+      <% include ./partials/footer %>
+      <!-- end footer -->  
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
     <script src="/js/scripts.min.js"></script>
   <script src="/js/main.min.js"></script>
