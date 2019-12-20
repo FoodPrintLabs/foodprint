@@ -12,11 +12,14 @@ var router = express.Router();
 var connection  = require('./src/js/db');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-const { check, validationResult } = require('express-validator');
+
+//sanitization and validation
+const { check, validationResult, sanitizeParam } = require('express-validator');
+//alternative import
+//var expressValidator  = require('express-validator'); 
+//expressValidator.sanitizeBody, expressValidator.sanitizeParam, expressValidator.body etc
+
 const uuidv4 = require('uuid/v4')
-var body = require('express-validator'); //validation
-var sanitizeBody  = require('express-validator'); //sanitization
-const { sanitizeParam } = require('express-validator');
 var db = require('./dbxml/localdb');
 var app = express();
 var configRouter = require('./routes/config');
