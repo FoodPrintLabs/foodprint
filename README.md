@@ -146,7 +146,26 @@ e.g. 0x4B67D20a4F27d248aF0462C23F8C193f073517FB
 ```
 $truffle migrate --network rinkeby --compile-all --reset
 ```
+
 7. Check contract on rinkeby etherscan https://rinkeby.etherscan.io
+
+8. Generate test UUID's from command line. 
+```
+$node
+>const uuidv4 = require('uuid/v4')
+>uuidv4()
+```
+
+9. Generate test QRCode's from command line. 
+```
+$node
+>var QRCode = require('qrcode');
+>let produceUrl = "http://www.google.com";
+>let supplier = "supplier";
+>let produce = "Storage";
+>var res2 = await QRCode.toDataURL(produceUrl);
+>res2
+```
 
 ## Production Deployment
 1. To deploy to a production server, first bundle and uglify then deploy

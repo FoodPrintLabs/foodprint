@@ -1,4 +1,4 @@
--- =============================================
+--  =============================================
 -- Author:      Julian Kanjere
 -- Create date: 18 November 2019
 -- Description: Script to create Config tables
@@ -320,3 +320,395 @@ INSERT INTO foodprint_subscription (
         email,
         logdatetime)
 VALUES ('TestName',	'TestSurname',	'test@afriwebhub.co.za',	'2019-11-18 09:25');
+
+-- weeklyview which is a somewhat denomarlized combination of harvest and storage
+-- weeklyview should only be created once market has ordered produce or recieved produce from farmer (i.e. harvest)
+CREATE TABLE foodprint_weeklyview (
+        pk int NOT NULL AUTO_INCREMENT,
+        logid varchar(255),
+        harvest_logid varchar(255),
+        harvest_supplierShortcode varchar(255), -- farm shortcode
+        harvest_supplierName varchar(255), -- farm name
+        harvest_farmerName varchar(255), -- farmer name
+        harvest_supplierAddress varchar(255),
+        harvest_produceName varchar(255), -- produce name e.g. Baby Marrow, Radish
+        harvest_photoHash varchar(255),
+        harvest_TimeStamp varchar(255),
+        harvest_CaptureTime varchar(255),
+        harvest_Description varchar(1000), -- details about greenhouse etc
+        harvest_geolocation varchar(255),
+        harvest_quantity varchar(255),
+        harvest_unitOfMeasure varchar(255),
+        harvest_description_json varchar(1000), -- JSON with description e.g. {'greenhouse':'yes', 'organic':'yes', ...}
+        harvest_BlockchainHashID varchar(255),
+        harvest_BlockchainHashData varchar(2000), -- JSON with column value pairs e.g. {'harvest_supplierName':'White Mountain Natural Produce', ...}
+        supplierproduce varchar(255), -- e.g. WMPN_BabyMarrow
+        storage_logid varchar(255),
+        market_Shortcode varchar(255),
+        market_Name varchar(255),
+        market_Address varchar(255),
+        market_quantity varchar(255),
+        market_unitOfMeasure varchar(255),
+        market_storageTimeStamp varchar(255),
+        market_storageCaptureTime varchar(255),
+        market_URL varchar(255),
+        storage_BlockchainHashID varchar(255),
+        storage_BlockchainHashData varchar(2000), -- JSON with column value pairs e.g. {'market_Name':'Oranjezicht City Farm', ...}
+        storage_Description varchar(255),
+        storage_bool_added_to_blockchain varchar(255), -- true or false
+        storage_added_to_blockchain_date varchar(255),
+        storage_added_to_blockchain_by varchar(255), -- user who logged storage to blockchain
+        storage_blockchain_uuid varchar(255), -- uuid to blockchain config record which has contract and address
+        harvest_bool_added_to_blockchain varchar(255), -- true or false
+        harvest_added_to_blockchain_date varchar(255), 
+        harvest_added_to_blockchain_by varchar(255), -- user who logged harvest to blockchain
+        harvest_blockchain_uuid varchar(255), -- uuid to blockchain config record which has contract and address
+        harvest_user varchar(255), -- user who logged harvest
+        storage_user varchar(255), -- user who logged storage
+        logdatetime DATETIME,
+        lastmodifieddatetime DATETIME,
+        PRIMARY KEY (pk)
+);
+
+INSERT INTO foodprint_weeklyview (
+        logid,
+        harvest_logid,
+        harvest_supplierShortcode,
+        harvest_supplierName, 
+        harvest_farmerName,
+        harvest_supplierAddress,
+        harvest_produceName,
+        harvest_photoHash,
+        harvest_TimeStamp,
+        harvest_CaptureTime,
+        harvest_Description,
+        harvest_geolocation,
+        harvest_quantity,
+        harvest_unitOfMeasure,
+        harvest_description_json,
+        harvest_BlockchainHashID,
+        harvest_BlockchainHashData, 
+        supplierproduce, -- e.g. WMPN_BabyMarrow
+        storage_logid,
+        market_Address,
+        market_quantity,
+        market_unitOfMeasure,
+        market_storageTimeStamp,
+        market_storageCaptureTime,
+        market_URL,
+        storage_BlockchainHashID,
+        storage_BlockchainHashData,
+        storage_Description,
+        storage_bool_added_to_blockchain, -- true or false
+        storage_added_to_blockchain_date, 
+        storage_added_to_blockchain_by, -- user who logged storage to blockchain
+        storage_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        harvest_bool_added_to_blockchain, -- true or false
+        harvest_added_to_blockchain_date, 
+        harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
+        harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        harvest_user, -- user who logged harvest
+        storage_user, -- user who logged storage
+        logdatetime,
+        lastmodifieddatetime
+        )
+VALUES ('486819ac-4b99-457f-bfad-7251a0394535' -- logid
+        ,'2e3f2070-5f5c-48bd-a5eb-f4121729bf7d' -- harvest_logid
+        ,'WMPN' -- harvest_supplierShortcode 
+        ,'White Mountain Natural Produce' -- harvest_supplierName
+        ,'François Malan' -- harvest_farmerName
+        ,'Wolseley, Western Cape, South Africa 6830' -- harvest_supplierAddress,
+        ,'Baby Marrow' -- harvest_produceName,
+        ,'PLACEHOLDER - Baby Marrow Photo' -- harvest_photoHash,
+        ,'2019-12-19 06:00:00' -- harvest_TimeStamp,
+        ,'2019-12-20 20:06:00' -- harvest_CaptureTime,
+        ,"Baby Marrows with soft skin and buttery flesh. [Organic]" -- harvest_Description,
+        ,'Wolseley, Western Cape, South Africa 6830' -- harvest_geolocation,
+        ,'PLACEHOLDER - harvest_quantity' -- harvest_quantity,
+        ,'units' -- harvest_unitOfMeasure,
+        ,"{'greenhouse':'no', 'organic':'yes'}" -- harvest_description_json,
+        ,'a5d17f83-d55a-4fdf-a980-b89af095a0c3' -- harvest_BlockchainHashID,
+        ,"{'harvest_supplierName':'White Mountain Natural Produce', ...}" -- harvest_BlockchainHashData
+        ,'WMNP_BabyMarrow' -- supplierproduce, -- e.g. WMPN_BabyMarrow
+        ,'1cc74217-f37d-4a9b-bc50-99952ed05d95' -- storage_logid,
+        ,'Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051' -- market_Address,
+        ,'PLACEHOLDER - market_quantity' -- market_quantity,
+        ,'units' -- market_unitOfMeasure,
+        ,'2019-12-20 09:00:00' -- market_storageTimeStamp,
+        ,'2019-12-20 20:06:00' -- market_storageCaptureTime,
+        ,'PLACEHOLDER - market_URL' -- market_URL,
+        ,'24b9ef31-bb7a-4425-ae52-a47aa8719690' -- storage_BlockchainHashID,
+        ,"{'market_Name':'Oranjezicht City Farm', ...}" -- storage_BlockchainHashData
+        ,'PLACEHOLDER - storage_Description' -- storage_Description,
+        ,'false' --  storage_bool_added_to_blockchain, 
+        ,'-' -- storage_added_to_blockchain_date,
+        ,'-' -- storage_added_to_blockchain_by, -- user who logged storage to blockchain
+        ,'-' -- storage_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'false' -- harvest_bool_added_to_blockchain, -- true or false
+        ,'-' -- harvest_added_to_blockchain_date, 
+        ,'-' -- harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
+        ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
+        ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
+        ),
+
+        ('1dd54fe7-37f9-4556-a23e-50a69f7b4b1a' -- logid
+        ,'bec4015a-b45d-4018-912a-f7e81daedf23' -- harvest_logid
+        ,'WMPN' -- harvest_supplierShortcode 
+        ,'White Mountain Natural Produce' --  harvest_supplierName
+        ,'François Malan' --  harvest_farmerName
+        ,'Wolseley, Western Cape, South Africa 6830' -- harvest_supplierAddress,
+        ,'Radish' -- harvest_produceName,
+        ,'PLACEHOLDER - Radish Photo' -- harvest_photoHash,
+        ,'2019-12-19 09:00:00' -- harvest_TimeStamp,
+        ,'2019-12-20 20:07:00' -- harvest_CaptureTime,
+        ,"Cherry Belle heirloom cultivar. [Organic]" -- harvest_Description,
+        ,'Wolseley, Western Cape, South Africa 6830' -- harvest_geolocation,
+        ,'PLACEHOLDER - harvest_quantity' -- harvest_quantity,
+        ,'units' -- harvest_unitOfMeasure,
+        ,"{'greenhouse':'no', 'organic':'yes'}" -- harvest_description_json,
+        ,'a6eb6d80-3de1-464e-b73e-23fdbfdcd721' -- harvest_BlockchainHashID,
+        ,"{'harvest_supplierName':'White Mountain Natural Produce', ...}" -- harvest_BlockchainHashData
+        ,'WMNP_Radish' -- supplierproduce, -- e.g. WMPN_BabyMarrow
+        ,'81b061a0-12aa-4648-a682-c264ef15f9a7' -- storage_logid,
+        ,'Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051' --  market_Address,
+        ,'PLACEHOLDER - market_quantity' -- market_quantity,
+        ,'units' -- market_unitOfMeasure,
+        ,'2019-12-20 09:00:00' -- market_storageTimeStamp,
+        ,'2019-12-20 20:07:00' -- market_storageCaptureTime,
+        ,'PLACEHOLDER - market_URL' -- market_URL,
+        ,'9f012536-862d-4ae2-9f1f-4351fda633a1' --  storage_BlockchainHashID,
+        ,"{'market_Name':'Oranjezicht City Farm', ...}" -- storage_BlockchainHashData
+        ,'PLACEHOLDER - storage_Description' -- storage_Description,
+        ,'false' -- storage_bool_added_to_blockchain, 
+        ,'-' -- storage_added_to_blockchain_date,
+        ,'-' -- storage_added_to_blockchain_by, -- user who logged storage to blockchain
+        ,'-' -- storage_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'false' -- harvest_bool_added_to_blockchain, -- true or false
+        ,'-' -- harvest_added_to_blockchain_date, 
+        ,'-' -- harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
+        ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
+        ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
+        ),
+
+        ('f7e14319-7c98-468e-b32a-d17872c4f893' -- logid
+        ,'f1259c22-eb1a-4998-8a17-795717c7b0e9' -- harvest_logid
+        ,'WMPN' -- harvest_supplierShortcode 
+        ,'White Mountain Natural Produce' --  harvest_supplierName
+        ,'François Malan' --  harvest_farmerName
+        ,'Wolseley, Western Cape, South Africa 6830' -- harvest_supplierAddress,
+        ,'Green Beans' -- harvest_produceName,
+        ,'PLACEHOLDER - Green Beans Photo' -- harvest_photoHash,
+        ,'2019-12-19 10:00:00' -- harvest_TimeStamp,
+        ,'2019-12-20 20:08:00' -- harvest_CaptureTime,
+        ,"Tasty green beans. [Organic]" -- harvest_Description,
+        ,'Wolseley, Western Cape, South Africa 6830' -- harvest_geolocation,
+        ,'PLACEHOLDER - harvest_quantity' -- harvest_quantity,
+        ,'g' -- harvest_unitOfMeasure,
+        ,"{'greenhouse':'no', 'organic':'yes'}" -- harvest_description_json,
+        ,'297742be-5854-4e60-999e-0a788cb3b4ae' -- harvest_BlockchainHashID,
+        ,"{'harvest_supplierName':'White Mountain Natural Produce', ...}" -- harvest_BlockchainHashData
+        ,'WMNP_GreenBeans' -- supplierproduce, -- e.g. WMPN_BabyMarrow
+        ,'62bcd288-29a0-46a9-936f-33a256855e65' -- storage_logid,
+        ,'Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051' --  market_Address,
+        ,'PLACEHOLDER - market_quantity' -- market_quantity,
+        ,'g' -- market_unitOfMeasure,
+        ,'2019-12-20 09:00:00' -- market_storageTimeStamp,
+        ,'2019-12-20 20:08:00' -- market_storageCaptureTime,
+        ,'PLACEHOLDER - market_URL' -- market_URL,
+        ,'f89a8f18-32a9-47ff-a9de-2a3e9bfea6f5' --  storage_BlockchainHashID,
+        ,"{'market_Name':'Oranjezicht City Farm', ...}" -- storage_BlockchainHashData
+        ,'PLACEHOLDER - storage_Description' -- storage_Description,
+        ,'false' -- storage_bool_added_to_blockchain, 
+        ,'-' -- storage_added_to_blockchain_date,
+        ,'-' -- storage_added_to_blockchain_by, -- user who logged storage to blockchain
+        ,'-' -- storage_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'false' -- harvest_bool_added_to_blockchain, -- true or false
+        ,'-' -- harvest_added_to_blockchain_date, 
+        ,'-' -- harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
+        ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
+        ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
+        ),
+
+        ('80588304-00f0-459f-bcee-779385b96316' -- logid
+        ,'d9b8a142-45cc-4b6e-95b8-ff2fd5f6b99c' -- harvest_logid
+        ,'WMPN' -- harvest_supplierShortcode 
+        ,'White Mountain Natural Produce' --  harvest_supplierName
+        ,'François Malan' --  harvest_farmerName
+        ,'Wolseley, Western Cape, South Africa 6830' -- harvest_supplierAddress,
+        ,'Fennel' -- harvest_produceName,
+        ,'PLACEHOLDER - Fennel Photo' -- harvest_photoHash,
+        ,'2019-12-20 05:30:00' -- harvest_TimeStamp,
+        ,'2019-12-20 20:09:00' -- harvest_CaptureTime,
+        ,"Big bulb with good flavour. [Organic]" -- harvest_Description,
+        ,'Wolseley, Western Cape, South Africa 6830' -- harvest_geolocation,
+        ,'PLACEHOLDER - harvest_quantity' -- harvest_quantity,
+        ,'units' -- harvest_unitOfMeasure,
+        ,"{'greenhouse':'no', 'organic':'yes'}" -- harvest_description_json,
+        ,'2f57d815-e7f9-46c0-912c-49d38e423d16' -- harvest_BlockchainHashID,
+        ,"{'harvest_supplierName':'White Mountain Natural Produce', ...}" -- harvest_BlockchainHashData
+        ,'WMNP_Fennel' -- supplierproduce, -- e.g. WMPN_BabyMarrow
+        ,'81a56030-ef5e-4b77-92be-463bd84cc279' -- storage_logid,
+        ,'Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051' --  market_Address,
+        ,'PLACEHOLDER - market_quantity' -- market_quantity,
+        ,'units' -- market_unitOfMeasure,
+        ,'2019-12-20 09:00:00' -- market_storageTimeStamp,
+        ,'2019-12-20 20:09:00' -- market_storageCaptureTime,
+        ,'PLACEHOLDER - market_URL' -- market_URL,
+        ,'b8acc015-1328-45bf-bff9-2a92bf47cc47' --  storage_BlockchainHashID,
+        ,"{'market_Name':'Oranjezicht City Farm', ...}" -- storage_BlockchainHashData
+        ,'PLACEHOLDER - storage_Description' -- storage_Description,
+        ,'false' -- storage_bool_added_to_blockchain, 
+        ,'-' -- storage_added_to_blockchain_date,
+        ,'-' -- storage_added_to_blockchain_by, -- user who logged storage to blockchain
+        ,'-' -- storage_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'false' -- harvest_bool_added_to_blockchain, -- true or false
+        ,'-' -- harvest_added_to_blockchain_date, 
+        ,'-' -- harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
+        ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
+        ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
+        ),
+
+        ('44409f5b-5813-4e36-8e3c-77c7747e8fbc' -- logid
+        ,'2d0107ea-dfc4-446c-8805-532327e07eb4' -- harvest_logid
+        ,'QCGF' -- harvest_supplierShortcode 
+        ,'Quick Crop Growers Farm' --  harvest_supplierName
+        ,'Arleen Van Wyk' --  harvest_farmerName
+        ,'Klipheuwel, Western Cape, South Africa 7303' -- harvest_supplierAddress,
+        ,'Basil' -- harvest_produceName,
+        ,'PLACEHOLDER - Basil Photo' -- harvest_photoHash,
+        ,'2019-12-19 06:00:00' -- harvest_TimeStamp,
+        ,'2019-12-20 20:10:00' -- harvest_CaptureTime,
+        ,"Growing medium coco peat, fertiliser Bio- ocean; Pesticide – Organicide Plus;its grown in a Greenhouse. After each harvest vegetables are washed, prepared & stored in Cold-room at 10 degrees Celsius till delivery to ensure fresh produce to the market. [Organic, Greenhouse]" -- harvest_Description,
+        ,'Klipheuwel, Western Cape, South Africa 7303' -- harvest_geolocation,
+        ,'PLACEHOLDER - harvest_quantity' -- harvest_quantity,
+        ,'g' -- harvest_unitOfMeasure,
+        ,"{'greenhouse':'yes', 'organic':'yes'}" -- harvest_description_json,
+        ,'408230f4-db1f-4ba5-baa5-0e02289e7624' -- harvest_BlockchainHashID,
+        ,"{'harvest_supplierName':'White Mountain Natural Produce', ...}" -- harvest_BlockchainHashData
+        ,'QCGF_Basil' -- supplierproduce, -- e.g. WMPN_BabyMarrow
+        ,'a5d64341-70f5-44aa-aec4-502c4bd65a9d' -- storage_logid,
+        ,'Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051' --  market_Address,
+        ,'PLACEHOLDER - market_quantity' -- market_quantity,
+        ,'g' -- market_unitOfMeasure,
+        ,'2019-12-20 09:30:00' -- market_storageTimeStamp,
+        ,'2019-12-20 20:10:00' -- market_storageCaptureTime,
+        ,'PLACEHOLDER - market_URL' -- market_URL,
+        ,'63ab5f00-0b21-4087-9f39-a795f7c6a5ff' --  storage_BlockchainHashID,
+        ,"{'market_Name':'Oranjezicht City Farm', ...}" -- storage_BlockchainHashData
+        ,'PLACEHOLDER - storage_Description' -- storage_Description,
+        ,'false' -- storage_bool_added_to_blockchain, 
+        ,'-' -- storage_added_to_blockchain_date,
+        ,'-' -- storage_added_to_blockchain_by, -- user who logged storage to blockchain
+        ,'-' -- storage_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'false' -- harvest_bool_added_to_blockchain, -- true or false
+        ,'-' -- harvest_added_to_blockchain_date, 
+        ,'-' -- harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
+        ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
+        ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
+        ),
+
+        ('bea2e318-f858-4d8a-8e21-c466c5665a53' -- logid
+        ,'876b1dd3-4432-43f4-9a73-67e55f06faf2' -- harvest_logid
+        ,'QCGF' -- harvest_supplierShortcode 
+        ,'Quick Crop Growers Farm' --  harvest_supplierName
+        ,'Arleen Van Wyk' --  harvest_farmerName
+        ,'Klipheuwel, Western Cape, South Africa 7303' -- harvest_supplierAddress,
+        ,'Cayene Pepper' -- harvest_produceName,
+        ,'PLACEHOLDER -  Cayene Pepper Photo' -- harvest_photoHash,
+        ,'2019-12-19 06:00:00' -- harvest_TimeStamp,
+        ,'2019-12-20 20:11:00' -- harvest_CaptureTime,
+        ,"Growing medium coco peat, fertiliser Bio- ocean; Pesticide – Organicide Plus;its grown in a Greenhouse. After each harvest vegetables are washed, prepared & stored in Cold-room at 10 degrees Celsius till delivery to ensure fresh produce to the market. [Organic, Greenhouse]" -- harvest_Description,
+        ,'Klipheuwel, Western Cape, South Africa 7303' -- harvest_geolocation,
+        ,'PLACEHOLDER - harvest_quantity' -- harvest_quantity,
+        ,'units' -- harvest_unitOfMeasure,
+        ,"{'greenhouse':'yes', 'organic':'yes'}" -- harvest_description_json,
+        ,'0745fae7-b370-40e6-955b-07b5ab29f492' -- harvest_BlockchainHashID,
+        ,"{'harvest_supplierName':'White Mountain Natural Produce', ...}" -- harvest_BlockchainHashData
+        ,'QCGF_CayennePepper' -- supplierproduce, -- e.g. WMPN_BabyMarrow
+        ,'776c5910-287f-456d-806a-7f8d86f4bac5' -- storage_logid,
+        ,'Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051' --  market_Address,
+        ,'PLACEHOLDER - market_quantity' -- market_quantity,
+        ,'units' -- market_unitOfMeasure,
+        ,'2019-12-20 09:30:00' -- market_storageTimeStamp,
+        ,'2019-12-20 20:11:00' -- market_storageCaptureTime,
+        ,'PLACEHOLDER - market_URL' -- market_URL,
+        ,'4ed4d9e8-8969-4e2e-94dd-1d133790b7cd' --  storage_BlockchainHashID,
+        ,"{'market_Name':'Oranjezicht City Farm', ...}" -- storage_BlockchainHashData
+        ,'PLACEHOLDER - storage_Description' -- storage_Description,
+        ,'false' -- storage_bool_added_to_blockchain, 
+        ,'-' -- storage_added_to_blockchain_date,
+        ,'-' -- storage_added_to_blockchain_by, -- user who logged storage to blockchain
+        ,'-' -- storage_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'false' -- harvest_bool_added_to_blockchain, -- true or false
+        ,'-' -- harvest_added_to_blockchain_date, 
+        ,'-' -- harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
+        ,'-' -- harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        ,'PLACEHOLDER - harvest_user' -- harvest_user, -- user who logged harvest
+        ,'PLACEHOLDER - storage_user' -- storage_user, -- user who logged storage
+        ,'2019-12-20 22:00:00'
+        ,'2019-12-20 22:00:00'
+        );
+
+-- select from foodprint_weeklyview
+SELECT 
+        logid,
+        harvest_logid,
+        harvest_supplierShortcode,
+        harvest_supplierName, 
+        harvest_farmerName,
+        harvest_supplierAddress,
+        harvest_produceName,
+        harvest_photoHash,
+        harvest_TimeStamp,
+        harvest_CaptureTime,
+        harvest_Description,
+        harvest_geolocation,
+        harvest_quantity,
+        harvest_unitOfMeasure,
+        harvest_description_json,
+        harvest_BlockchainHashID,
+        harvest_BlockchainHashData, 
+        supplierproduce, -- e.g. WMPN_BabyMarrow
+        storage_logid,
+        market_Address,
+        market_quantity,
+        market_unitOfMeasure,
+        market_storageTimeStamp,
+        market_storageCaptureTime,
+        market_URL,
+        storage_BlockchainHashID,
+        storage_BlockchainHashData,
+        storage_Description,
+        storage_bool_added_to_blockchain, -- true or false
+        storage_added_to_blockchain_date, 
+        storage_added_to_blockchain_by, -- user who logged storage to blockchain
+        storage_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        harvest_bool_added_to_blockchain, -- true or false
+        harvest_added_to_blockchain_date, 
+        harvest_added_to_blockchain_by, -- user who logged harvest to blockchain
+        harvest_blockchain_uuid, -- uuid to blockchain config record which has contract and address
+        harvest_user, -- user who logged harvest
+        storage_user, -- user who logged storage
+        logdatetime,
+        lastmodifieddatetime
+	FROM 
+		foodprint_weeklyview 
+	WHERE 
+		supplierproduce = 'WMNP_BabyMarrow' AND 
+        logdatetime < (date(curdate() - interval weekday(curdate()) day + interval 1 week)) AND  -- next Monday
+        logdatetime > (date(curdate() - interval weekday(curdate()) day)); -- past Monday 
