@@ -53,23 +53,23 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="fname">First Name</label>
-                  <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter your name" required>
+                  <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter your name"  style="color: black;" required>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="lname">Last Name</label>
-                  <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter your surname" required>
+                  <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter your surname" style="color: black;" required>
                 </div>
               </div>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" style="color: black;" required>
             </div>
             <div class="form-group">
               <label for="message">Message</label>
-              <textarea cols="30" rows="10" class="form-control" id="message" name="message" placeholder="Enter your message" required></textarea>
+              <textarea cols="30" rows="10" class="form-control" id="message" name="message" placeholder="Enter your message" style="color: black;" required></textarea>
             </div>
             <div class="form-group">
               <button class="btn btn-primary">Send Message</button>
@@ -169,6 +169,8 @@
                           data.contact_email=$('#email').val();
                           data.contact_message=$('#message').val();
                           $("#contact_form").hide();
+                          $('#contact_error_group').hide();
+                          $('#contact_result').html('');
                           $('#contact_send_clicked').html('Thanks for getting in touch.');
                           $.ajax({
                               url: '/contactform',
@@ -187,7 +189,7 @@
                                 $('#contact_result').html('Message failed to send. Please try again.');
                                   $('#contact_error_group').css('display', 'block');
                                     var errors = JSON.parse(JSON.stringify(res.errors));
-                                    var errorsContainer = $('#ccontact_errors');
+                                    var errorsContainer = $('#contact_errors');
                                     errorsContainer.innerHTML = '';
                                     var errorsList = '';
   
