@@ -12,6 +12,20 @@ var router = express.Router();
 var connection  = require('./src/js/db');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var nodemailer = require('nodemailer');
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config(); //only load the .env file if the server isn’t started in production mode
+}
+
+//emailer configuration
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth:{
+    user: process.env.EMAIL_ADDRESS,
+    pass: process.env.EMAIL_PASSWORD
+  }
+});
 
 //sanitization and validation
 const { check, validationResult, sanitizeParam } = require('express-validator');
@@ -29,7 +43,7 @@ var ROLES = require('./utils/roles');
 // enable ssl redirect
 app.use(sslRedirect([
   'other',
-  'development',
+  //'development',
   'production'
   ]));
 
@@ -608,6 +622,69 @@ router.post('/subscribe', [
           }
       }
 });
+
+//Test Email request
+router.get('/app/testemail', function(req,res){
+  let mailOptions = {
+    to: process.env.TEST_EMAIL_ADDRESS,
+    subject: "Test Email",
+    html: "<h2>Welcome to FoodPrint</h2><p>This is a test email.</p>"
+  };
+  
+  transporter.sendMail(mailOptions, function(error, data) {
+    if (error) {
+      console.log("Error sending email - ", error);
+      res.status.json({err: error});
+    } else {
+      console.log("Email successfully sent - ", data);
+      res.json({success: true});
+    }
+  });
+});
+
+
+//contactform XmlHTTP request
+router.post('/contactform', [
+check('contact_email', 'Contact email is not valid').not().isEmpty().isEmail().normalizeEmail(),
+check('contact_message', 'Contact message should not be empty').not().isEmpty(),
+check('contact_fname', 'Contact first name should not be empty').not().isEmpty(),
+check('contact_lname', 'Contact last name should not be empty').not().isEmpty(),
+],
+function(req,res){
+const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      res.json({ errors: errors.array(), success: false});
+    }
+  else {
+      var contact_email = req.body.contact_email; 
+      var contact_fname = req.body.contact_fname;  
+      var contact_lname = req.body.contact_lname;
+      var contact_message = req.body.contact_message;
+      var contact_datetime = new Date();
+      var contact_subject = "FoodPrint Website Contact Enquiry";
+      var contact_message_formatted = "<p>Email Sender: " + contact_email + 
+                                      "</p><p>Email Message: " + contact_message + 
+                                      "</p><br><br><p>Sent from https://www.foodprintapp.com/contact by </p>" +  
+                                      contact_fname + " " + contact_lname + " (" + contact_datetime +")."
+
+      let mailOptions = {
+        to: [process.env.EMAIL_ADDRESS, process.env.TEST_EMAIL_ADDRESS],
+        subject: contact_subject,
+        html: contact_message_formatted
+      };
+      
+      transporter.sendMail(mailOptions, function(error, data) {
+        if (error) {
+          console.log("Error sending email - ", error);
+          res.status.json({err: error});
+        } else {
+          console.log("Email successfully sent - ", data);
+          res.json({success: true});
+        }
+      });
+    };
+});
+
 
 router.get('/test_qrcode', async (req, res, next) => {
   try {
