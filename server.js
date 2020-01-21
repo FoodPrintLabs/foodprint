@@ -465,22 +465,29 @@ router.post('/marketcheckin', [
 });
 
 
-router.get('/test_db', async (req, res, next) => {
-  try {
-      connection.query('SELECT * FROM metaTable ORDER BY ProduceID desc',function(err,rows)     {
-        if(err){
-         //req.flash('error', err);
-         console.error('error', err);
-         res.render('./test_db',{page_title:"Farmers - Farm Print",data:'', user:req.user});
-        }else{
-            console.log('Render SQL results');
-            res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows, user:req.user});
-        }
-         });
-  } catch (e) {
-    //this will eventually be handled by your error handling middleware
-    next(e)
-  }
+router.get('/test_db', 
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
+  async (req, res, next) => {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
+    try {
+        connection.query('SELECT * FROM metaTable ORDER BY ProduceID desc',function(err,rows)     {
+          if(err){
+          //req.flash('error', err);
+          console.error('error', err);
+          res.render('./test_db',{page_title:"Farmers - Farm Print",data:'', user:req.user});
+          }else{
+              console.log('Render SQL results');
+              res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows, user:req.user});
+          }
+          });
+    } catch (e) {
+      //this will eventually be handled by your error handling middleware
+      next(e)
+    }
+  }else{
+    res.render('error',{    message: 'You are not authorised to view this resource.', 
+                            title: 'Error', user: req.user });
+    }
 });
 
 //addHarvest XmlHTTP request
@@ -623,8 +630,8 @@ router.post('/subscribe', [
       }
 });
 
-//Test Email request
-router.get('/app/testemail', function(req,res){
+//Test Email XmlHTTP request
+router.post('/app/testemail', function(req,res){
   let mailOptions = {
     to: process.env.TEST_EMAIL_ADDRESS,
     subject: "Test Email",
@@ -686,7 +693,7 @@ const errors = validationResult(req);
 });
 
 
-router.get('/test_qrcode', async (req, res, next) => {
+router.post('/test_qrcode', async (req, res, next) => {
   try {
       // Get the text to generate QR code
     //let qr_txt = req.body.qr_text;
