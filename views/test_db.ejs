@@ -69,6 +69,13 @@
   <div class="alert-danger" id = "test_qrcode_error_group" style="display: none"></div>
   <ul id="test_qrcode_errors"></ul>
 </div>
+<div class="row">
+  <p><a class="btn btn-success" id="test_rest_producescan">Test REST API (app/api/v1/scan/WMNP_Fennel)</a></p>
+  <p><text id="test_rest_producescan_result"></text></p>
+  <p><div id="test_rest_producescan_image"></div></p>
+  <div class="alert-danger" id = "test_rest_producescan_error_group" style="display: none"></div>
+  <ul id="test_rest_producescan_errors"></ul>
+</div>
 
 <script>
   $(document).ready(function () {
@@ -105,6 +112,20 @@
                           });
                     });
 
+          $('#test_rest_producescan').click(function (event) {
+                        event.preventDefault();
+                        $.ajax({
+                            url: '/app/api/v1/scan/WMNP_Fennel',
+                            processData: false,
+                            type: 'GET',
+                            contentType: 'application/json'
+                        }).done(function(res) {
+                            $('#test_rest_producescan_image').html(res);
+                            console.log('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
+                            $('#test_rest_producescan_result').html('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
+                          });
+                    });   
+                    
           $('#test_qrcode').click(function (event) {
                         event.preventDefault();
                         //collect the form data using Id Selector what ever data you need to send to server
