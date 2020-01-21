@@ -27,6 +27,10 @@ let transporter = nodemailer.createTransport({
   }
 });
 
+// Testing Emails Pattern
+// when testing emails, in NODE_ENV=development, set EMAIL_OVERRIDE
+// if EMAIL_OVERRIDE is set, send email to it's value, prepend subject line with [TEST EMAIL], include intended recipients in the body
+
 //sanitization and validation
 const { check, validationResult, sanitizeParam } = require('express-validator');
 //alternative import
