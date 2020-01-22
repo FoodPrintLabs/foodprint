@@ -41,6 +41,8 @@ const uuidv4 = require('uuid/v4')
 var db = require('./dbxml/localdb');
 var app = express();
 var configRouter = require('./routes/config');
+var harvestRouter = require('./routes/harvest');
+var storageRouter = require('./routes/storage');
 var authRouter = require('./routes/auth');
 var ROLES = require('./utils/roles');
 
@@ -86,6 +88,8 @@ app.use(function(req,res,next){
 app.use('/', router);
 app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
+app.use('/app/harvest', harvestRouter);
+app.use('/app/storage', storageRouter);
 
 app.use(express.static(path.join(__dirname,"src")));
 app.use(express.static(path.join(__dirname,'build')));
