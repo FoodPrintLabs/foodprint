@@ -53,8 +53,117 @@
           <td colspan="3">No user</td>
        </tr>
     <% } %>    
-  
 </tbody>
 </table>
+
+<div class="row">
+  <p><a class="btn btn-success" id="test_email">Test Email</a></p>
+  <p><text id="test_email_result"></text></p>
+  <div class="alert-danger" id = "test_email_error_group" style="display: none"></div>
+  <ul id="test_email_errors"></ul>
+</div>
+<div class="row">
+  <p><a class="btn btn-success" id="test_qrcode">Test QR Code</a></p>
+  <p><text id="test_qrcode_result"></text></p>
+  <p><div id="test_qrcode_image"></div></p>
+  <div class="alert-danger" id = "test_qrcode_error_group" style="display: none"></div>
+  <ul id="test_qrcode_errors"></ul>
+</div>
+<div class="row">
+  <p><a class="btn btn-success" id="test_rest_producescan">Test REST API (app/api/v1/scan/WMNP_Fennel)</a></p>
+  <p><text id="test_rest_producescan_result"></text></p>
+  <p><div id="test_rest_producescan_image"></div></p>
+  <div class="alert-danger" id = "test_rest_producescan_error_group" style="display: none"></div>
+  <ul id="test_rest_producescan_errors"></ul>
+</div>
+
+<script>
+  $(document).ready(function () {
+           $('#test_email').click(function (event) {
+                        event.preventDefault();
+                        //collect the form data using Id Selector what ever data you need to send to server
+                        //var data = {};
+                        //data.checkin_email=$('#checkin_email').val();
+                        //data.checkin_market_id=$('#checkin_market_id').val();
+                        $('#test_email_result').html('Processing.');
+                        $.ajax({
+                            url: '/app/testemail',
+                            //data: JSON.stringify(data),
+                            processData: false,
+                            type: 'POST',
+                            contentType: 'application/json'
+                        }).done(function(res) {
+                            if (res.success) {
+                                $('#test_email_error_group').hide();
+                                $('#test_email_result').html('Email sent!');
+                            } else {
+                                $('#test_email_result').html('Email not sent!');
+                                $('#test_email_error_group').css('display', 'block');
+                                  var errors = JSON.parse(JSON.stringify(res.errors));
+                                  var errorsContainer = $('#test_email_errors');
+                                  errorsContainer.innerHTML = '';
+                                  var errorsList = '';
+
+                                  for (var i = 0; i < errors.length; i++) {
+                                    errorsList += '<li>' + errors[i].msg + '</li>';
+                                  }
+                                  errorsContainer.html(errorsList);
+                                }
+                          });
+                    });
+
+          $('#test_rest_producescan').click(function (event) {
+                        event.preventDefault();
+                        $.ajax({
+                            url: '/app/api/v1/scan/WMNP_Fennel',
+                            processData: false,
+                            type: 'GET',
+                            contentType: 'application/json'
+                        }).done(function(res) {
+                            $('#test_rest_producescan_image').html(res);
+                            console.log('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
+                            $('#test_rest_producescan_result').html('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
+                          });
+                    });   
+                    
+          $('#test_qrcode').click(function (event) {
+                        event.preventDefault();
+                        //collect the form data using Id Selector what ever data you need to send to server
+                        $('#test_qrcode_result').html('Processing.');
+                        $.ajax({
+                            url: '/test_qrcode',
+                            processData: false,
+                            type: 'POST',
+                            contentType: 'application/json'
+                        }).done(function(res) {
+                          var divQRCodeHtml = '<img src='+ res + '>';
+                          $('#test_qrcode_image').html(divQRCodeHtml);
+                          console.log('Test QRCode created!');
+                          $('#test_qrcode_result').html('Test QRCode created!');
+
+
+                            // if (res.success) {
+                            //     //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
+                            //     $("#checkin_calltoaction").hide();
+                            //     $("#checkin_form").hide();
+                            //     $('#checkin_error_group').hide();
+                            //     $('#test_qrcode_result').html('Thanks for checking in (' + res.email + ') and enjoy your visit!');
+                            // } else {
+                            //     $('#test_qrcode_error_group').css('display', 'block');
+                            //       var errors = JSON.parse(JSON.stringify(res.errors));
+                            //       var errorsContainer = $('#test_qrcode_errors');
+                            //       errorsContainer.innerHTML = '';
+                            //       var errorsList = '';
+
+                            //       for (var i = 0; i < errors.length; i++) {
+                            //         errorsList += '<li>' + errors[i].msg + '</li>';
+                            //       }
+                            //       errorsContainer.html(errorsList);
+                            //     }
+                          });
+                    });    
+
+                });
+  </script>
 </body>
 </html>

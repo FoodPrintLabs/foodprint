@@ -9,7 +9,7 @@ router.get('/login',
       if (req.user){
         res.redirect('/'); 
       } else{
-        res.render('login', { title: 'FoodPrint - User Login', user:req.user});
+        res.render('login', { title: 'FoodPrint - User Login', user:req.user, page_name:'login'});
       }
   });
 

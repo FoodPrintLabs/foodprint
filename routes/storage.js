@@ -15,16 +15,19 @@ router.get('/',
             connection.query('SELECT * FROM foodprint_config ORDER BY pk desc',function(err,rows)     {
                 if(err){
                      req.flash('error', err);
-                     res.render('config',{  page_title:"FoodPrint - Global Configuration", 
-                                            data:'', user: req.user, page_name:'config' });
+                     res.render('storagelogbook',{  page_title:"FoodPrint - Global Configuration", 
+                                            data:'', user: req.user,
+                                            page_name:'storagelogbook' });
                 }else{
-                    res.render('config',{   page_title:"FoodPrint - Global Configuration", 
-                                            data:rows, user: req.user, page_name:'config' });
+                    res.render('storagelogbook',{   page_title:"FoodPrint - Global Configuration", 
+                                            data:rows, user: req.user,
+                                            page_name:'storagelogbook' });
                 }
              });
           }else{
             res.render('error',{    message: 'You are not authorised to view this resource.', 
-                                    title: 'Error', user: req.user, page_name:'error' });
+                                    title: 'Error', user: req.user,
+                                    page_name:'error' });
             //res.send sends back a json object
             // return res.send(403,{
             //   'status': 403,
@@ -52,8 +55,8 @@ router.post('/save', [
       }
           if (!result.isEmpty()) {
               req.flash('error', errors)
-              res.render('config',{page_title:"FoodPrint - Global Configuration", data:'',
-                                    page_name:'config'}); //should add error array here
+              res.render('storagelogbook',{page_title:"FoodPrint - Global Configuration", data:'',
+                            page_name:'storagelogbook'}); //should add error array here
             }
           else {
               let config_datetime = new Date();
@@ -69,18 +72,19 @@ router.post('/save', [
                           //throw err;
                           req.flash('error', err)
                           // redirect to configuration list page
-                          res.redirect('/app/config')
+                          res.redirect('/app/storage')
                       } else{
                           req.flash('success', 'New Configuration added successfully! Config Name = ' + req.body.config_name);
-                          res.redirect('/app/config');
+                          res.redirect('/app/storage');
                       }
                   });
                   } catch (e) {
                       //this will eventually be handled by your error handling middleware
                       next(e);
                       //res.json({success: false, errors: e});
-                    res.render('config',{page_title:"FoodPrint - Global Configuration", data:'',
-                    success: false, errors:e.array(), page_name:'config'});
+                    res.render('storagelogbook',{page_title:"FoodPrint - Global Configuration", data:'',
+                    success: false, errors:e.array(),
+                    page_name:'storagelogbook'});
                   }
           }
     });
@@ -98,8 +102,8 @@ router.post('/update', [
       }
           if (!result.isEmpty()) {
               req.flash('error', errors)
-              res.render('config',{page_title:"FoodPrint - Global Configuration", data:'',
-                            page_name:'config'}); //should add error array here
+              res.render('storagelogbook',{page_title:"FoodPrint - Global Configuration", data:'',
+                        page_name:'storagelogbook'}); //should add error array here
             }
           else {
               let sql = "UPDATE foodprint_config SET configname='" + req.body.config_name + "', " +
@@ -113,10 +117,10 @@ router.post('/update', [
                           //throw err;
                           req.flash('error', err)
                           // redirect to configuration list page
-                          res.redirect('/app/config')
+                          res.redirect('/app/storage')
                       } else{
                           req.flash('success', 'Configuration updated successfully! Config Name = ' + req.body.config_name);
-                  res.redirect('/app/config');
+                  res.redirect('/app/storage');
               }
               })
                   ;
@@ -124,10 +128,10 @@ router.post('/update', [
                   //this will eventually be handled by your error handling middleware
                   next(e);
                   //res.json({success: false, errors:errors.array()});
-                  res.render('config', {
+                  res.render('storagelogbook', {
                       page_title: "FoodPrint - Global Configuration", data: '',
                       success: false, errors: e.array(),
-                      page_name:'config'
+                      page_name:'storagelogbook'
                   });
               }
           }
@@ -144,10 +148,10 @@ router.post('/delete',(req, res) => {
         //throw err;
         req.flash('error', err)
         // redirect to configuration list page
-        res.redirect('/app/config')
+        res.redirect('/app/storage')
     } else{
         req.flash('success', 'Configuration deleted successfully! Config Name = ' + req.body.config_name2);
-        res.redirect('/app/config');
+        res.redirect('/app/storage');
       }
   });
 });
