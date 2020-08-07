@@ -169,12 +169,12 @@ passport.deserializeUser(function(id, cb) {
    res.locals.error = req.app.get('env') === 'development' ? err : {};
  // render the error page
    res.status(err.status || 500);
-   res.render('error', { user:req.user });
+   res.render('error', { user:req.user, page_name:'error' });
  });
 
 //home page
 router.get('/',function(req,res){
-  res.render('index', { user:req.user });
+  res.render('index', { user:req.user, page_name:'home' });
   //res.sendFile(path.join(__dirname+'/src/index.html')); //__dirname : It will resolve to your project folder.
 });
 
@@ -182,42 +182,42 @@ router.get('/',function(req,res){
 router.get( '/app/supplychain',     
             require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
 function(req,res){
-  res.render('supplychain', { user:req.user });
+  res.render('supplychain', { user:req.user , page_name:'supplychain'});
 });
 
 //about
 router.get('/about',function(req,res){
-  res.render('about', { user:req.user });
+  res.render('about', { user:req.user, page_name:'about'  });
 });
 
 //produce gallery
 router.get('/gallery',function(req,res){
-  res.render('gallery', { user:req.user });
+  res.render('gallery', { user:req.user, page_name:'gallery' });
 });
 
 //farmers
 router.get('/farmers',function(req,res){
-  res.render('farmers', { user:req.user });
+  res.render('farmers', { user:req.user, page_name:'farmers' });
 });
 
 //contact
 router.get('/contact',function(req,res){
-  res.render('contact', { user:req.user });
+  res.render('contact', { user:req.user, page_name:'contact' });
 });
 
 //return template for what is at the market this week
 router.get('/weekly',function(req,res){
-  res.render('weekly', { user:req.user });
+  res.render('weekly', { user:req.user, page_name:'weekly' });
 });
 
 //return template for how
 router.get('/how',function(req,res){
-  res.render('how', { user:req.user });
+  res.render('how', { user:req.user, page_name:'how' });
 });
 
 //return template for terms and conditions
 router.get('/terms',function(req,res){
-  res.render('termsofuse', { user:req.user });
+  res.render('termsofuse', { user:req.user, page_name:'terms' });
 });
 
 //return template with scan results for produce
@@ -270,12 +270,14 @@ router.get('/scan/:id',function(req,res){
              //req.flash('error', err);
              console.error('error', err);
              res.render('scanresultv1',{  data:'', user:req.user, 
-                                        showTracedOnBlockchain:boolTracedOnBlockchain
+                                        showTracedOnBlockchain:boolTracedOnBlockchain, 
+                                        page_name:'scanresultv1'
                                       });
             }
             else {
                 res.render('scanresultv1',{ data:rows, user:req.user,
-                                          showTracedOnBlockchain:boolTracedOnBlockchain
+                                          showTracedOnBlockchain:boolTracedOnBlockchain,
+                                          page_name:'scanresultv1'
                                         });
             }
          });
@@ -352,7 +354,8 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
                           //END Track QR Scan
                           
                           res.render('scanresult',{data:provenance_data, user:req.user, 
-                                                  showTracedOnBlockchain:boolTracedOnBlockchain})
+                                                  showTracedOnBlockchain:boolTracedOnBlockchain,
+                                                  page_name:'scanresult'})
                         }  
          ); //end of connection.query
       });
@@ -434,7 +437,8 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                           //END Track QR Scan
                           provenance_data.push({
                             user:req.user,
-                            showTracedOnBlockchain:boolTracedOnBlockchain
+                            showTracedOnBlockchain:boolTracedOnBlockchain,
+                            page_name:'home'
                         });
                         res.end(JSON.stringify(provenance_data)); //res.end() method to send data to client as json string via JSON.stringify() methoD
                       }); //end of connection.query
@@ -502,9 +506,9 @@ router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], 
   //res.json({success: false, errors: e});
   //console.error('error', err)
   console.error('Market checkin tracking error occured');
-  res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm, user:req.user });
+  res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm, user:req.user, page_name:'checkin' });
 }
-  res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm, user:req.user });
+  res.render('checkin.ejs',{ data:marketID, showCheckinForm:boolCheckinForm, user:req.user, page_name:'checkin' });
 });
 
 
@@ -567,10 +571,12 @@ router.get('/test_db',
           if(err){
           //req.flash('error', err);
           console.error('error', err);
-          res.render('./test_db',{page_title:"Farmers - Farm Print",data:'', user:req.user});
+          res.render('./test_db',{page_title:"Farmers - Farm Print",data:'', user:req.user,
+                      page_name:'testdb'});
           }else{
               console.log('Render SQL results');
-              res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows, user:req.user});
+              res.render('./test_db',{page_title:"Farmers - FarmPrint",data:rows, user:req.user,
+                      page_name:'testdb'});
           }
           });
     } catch (e) {
@@ -579,7 +585,7 @@ router.get('/test_db',
     }
   }else{
     res.render('error',{    message: 'You are not authorised to view this resource.', 
-                            title: 'Error', user: req.user });
+                            title: 'Error', user: req.user, page_name:'error' });
     }
 });
 

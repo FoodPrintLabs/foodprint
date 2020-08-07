@@ -16,15 +16,18 @@ router.get('/',
                 if(err){
                      req.flash('error', err);
                      res.render('storagelogbook',{  page_title:"FoodPrint - Global Configuration", 
-                                            data:'', user: req.user });
+                                            data:'', user: req.user,
+                                            page_name:'storagelogbook' });
                 }else{
                     res.render('storagelogbook',{   page_title:"FoodPrint - Global Configuration", 
-                                            data:rows, user: req.user });
+                                            data:rows, user: req.user,
+                                            page_name:'storagelogbook' });
                 }
              });
           }else{
             res.render('error',{    message: 'You are not authorised to view this resource.', 
-                                    title: 'Error', user: req.user });
+                                    title: 'Error', user: req.user,
+                                    page_name:'error' });
             //res.send sends back a json object
             // return res.send(403,{
             //   'status': 403,
@@ -52,7 +55,8 @@ router.post('/save', [
       }
           if (!result.isEmpty()) {
               req.flash('error', errors)
-              res.render('storagelogbook',{page_title:"FoodPrint - Global Configuration", data:''}); //should add error array here
+              res.render('storagelogbook',{page_title:"FoodPrint - Global Configuration", data:'',
+                            page_name:'storagelogbook'}); //should add error array here
             }
           else {
               let config_datetime = new Date();
@@ -79,7 +83,8 @@ router.post('/save', [
                       next(e);
                       //res.json({success: false, errors: e});
                     res.render('storagelogbook',{page_title:"FoodPrint - Global Configuration", data:'',
-                    success: false, errors:e.array()});
+                    success: false, errors:e.array(),
+                    page_name:'storagelogbook'});
                   }
           }
     });
@@ -97,7 +102,8 @@ router.post('/update', [
       }
           if (!result.isEmpty()) {
               req.flash('error', errors)
-              res.render('storagelogbook',{page_title:"FoodPrint - Global Configuration", data:''}); //should add error array here
+              res.render('storagelogbook',{page_title:"FoodPrint - Global Configuration", data:'',
+                        page_name:'storagelogbook'}); //should add error array here
             }
           else {
               let sql = "UPDATE foodprint_config SET configname='" + req.body.config_name + "', " +
@@ -124,7 +130,8 @@ router.post('/update', [
                   //res.json({success: false, errors:errors.array()});
                   res.render('storagelogbook', {
                       page_title: "FoodPrint - Global Configuration", data: '',
-                      success: false, errors: e.array()
+                      success: false, errors: e.array(),
+                      page_name:'storagelogbook'
                   });
               }
           }

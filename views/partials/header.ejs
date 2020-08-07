@@ -10,14 +10,14 @@
 
     <nav role="navigation" class="probootstrap-nav hidden-xs">
     <ul class="probootstrap-main-nav">
-        <li class="active"><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/gallery">Produce</a></li>
-        <li><a href="/farmers">Farmers</a></li>
-        <li><a href="/weekly">Weekly View</a></li>
-        <li><a href="/app/supplychain">Supply Chain</a></li>
-        <!--<li><a href="#">Config</a></li>-->
-        <li><a href="/app/auth/login">Sign In</a></li>
+        <li <% if (page_name === 'home') { %>class="active" <% } %> ><a href="/">Home</a></li>
+        <li <% if (page_name === 'about') { %>class="active" <% } %> ><a href="/about">About</a></li>
+        <li <% if (page_name === 'gallery') { %>class="active" <% } %> ><a href="/gallery">Produce</a></li>
+        <li <% if (page_name === 'farmers') { %>class="active" <% } %> ><a href="/farmers">Farmers</a></li>
+        <li <% if (page_name === 'weekly') { %>class="active" <% } %> ><a href="/weekly">Weekly View</a></li>
+        <!-- <li <% if (page_name === 'supplychain') { %>class="active" <% } %> ><a href="/app/supplychain">Supply Chain</a></li> This was from very first pilot with harvest and storage on one page July 2019 -->
+        <!--<li <% if (page_name === 'config') { %>class="active" <% } %> ><a href="/config">Config</a></li> --> 
+        <li <% if (page_name === 'login') { %>class="active" <% } %> ><a href="/app/auth/login">Log In</a></li>
         <!--<li><a class="btn btn-outline-primary" href="#">Hi Thandeka</a></li>-->
     </ul>
     <div class="extra-text visible-xs">
