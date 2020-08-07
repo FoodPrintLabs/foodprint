@@ -281,7 +281,8 @@ router.get('/scan/:id',function(req,res){
          });
 });
 
-//return template with scan results for produce
+//return template with scan results for produce i.e. http://localhost:3000/app/scan/WMNP_Fennel
+//TODO Return Farmers email address as part of provenance_data
 //TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/scan/ozcf/WMNP_Fennel
 router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,res){
   var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
@@ -432,7 +433,7 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                                                     });
                           //END Track QR Scan
                           provenance_data.push({
-                            user:req.user.username,
+                            user:req.user,
                             showTracedOnBlockchain:boolTracedOnBlockchain
                         });
                         res.end(JSON.stringify(provenance_data)); //res.end() method to send data to client as json string via JSON.stringify() methoD

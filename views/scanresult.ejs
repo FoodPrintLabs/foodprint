@@ -18,7 +18,7 @@
    
    <div class="container" style="width: 100%;">
        <% if(data.length){%>
-            <h4>Visualise the Journey</h4>
+            <h4>Visualise the Journey - Farm-to-Fork</h4>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="main-timeline">
@@ -80,15 +80,24 @@
                               </div>
                               <% } %>
                             <!-- END: TRACED ON BLOCKCHAIN -->
+
+                            <!-- START: CONTACT FARMER  -->
+                            <p><a href="mailto:thefoodprintapp@gmail.com">Email Farmer</a> <i class="fas fa-envelope"></i> </p>
+                            <!-- END: CONTACT FARMER -->
                         </div>
                     </div>
-                </div>
+               <!--  </div> -->
                 <hr>
           <% }
            else{ %>
-           <h4>No data.</h4>
+           <h4>No Farm-to-Fork data.</h4>
         <% } %>
-
+        <div class="text-center">
+            <h6 class="sub-heading"><a href="foodprintapp.com/" target="_blank" >Powered by FoodPrint</a>  <i class="fas fa-bolt"></i></h6>
+            <!-- <a href="mailto:thefoodprintapp@gmail.com">Email Farmer</a> <i class="fas fa-envelope"></i>  -->
+        </div>
+    </div>
+        
       <!-- start footer -->
       <% include ./partials/footer %>
       <!-- end footer -->  
