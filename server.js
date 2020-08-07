@@ -215,6 +215,23 @@ router.get('/pricing',function(req,res){
   res.render('pricing', { user:req.user, page_name:'pricing' });
 });
 
+//food101
+router.get('/food101',function(req,res){
+  res.render('food101', { user:req.user, page_name:'food101' });
+});
+
+//tech101
+router.get('/tech101',function(req,res){
+  res.render('tech101', { user:req.user, page_name:'tech101' });
+});
+
+//trace_produce
+router.get('/app/trace_produce',
+          require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}), 
+          function(req,res){
+  res.render('trace_produce', { user:req.user, page_name:'trace_produce' });
+});
+
 //contact
 router.get('/contact',function(req,res){
   res.render('contact', { user:req.user, page_name:'contact' });
