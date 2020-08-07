@@ -206,9 +206,11 @@ router.get('/contact',function(req,res){
 });
 
 //return template for what is at the market this week
-router.get('/weekly',function(req,res){
-  res.render('weekly', { user:req.user, page_name:'weekly' });
-});
+router.get('/weekly',   
+            require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
+            function(req,res){
+              res.render('weekly', { user:req.user, page_name:'weekly' });
+          });
 
 //return template for how
 router.get('/how',function(req,res){
