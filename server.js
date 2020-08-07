@@ -210,6 +210,11 @@ router.get('/retailers',function(req,res){
   res.render('retailers', { user:req.user, page_name:'retailers' });
 });
 
+//pricing
+router.get('/pricing',function(req,res){
+  res.render('pricing', { user:req.user, page_name:'pricing' });
+});
+
 //contact
 router.get('/contact',function(req,res){
   res.render('contact', { user:req.user, page_name:'contact' });
