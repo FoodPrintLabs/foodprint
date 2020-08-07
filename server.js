@@ -200,6 +200,16 @@ router.get('/farmers',function(req,res){
   res.render('farmers', { user:req.user, page_name:'farmers' });
 });
 
+//markets
+router.get('/markets',function(req,res){
+  res.render('markets', { user:req.user, page_name:'markets' });
+});
+
+//retailers
+router.get('/retailers',function(req,res){
+  res.render('retailers', { user:req.user, page_name:'retailers' });
+});
+
 //contact
 router.get('/contact',function(req,res){
   res.render('contact', { user:req.user, page_name:'contact' });

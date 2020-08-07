@@ -14,6 +14,8 @@
         <li <% if (page_name === 'about') { %>class="active" <% } %> ><a href="/about">About</a></li>
         <li <% if (page_name === 'gallery') { %>class="active" <% } %> ><a href="/gallery">Produce</a></li>
         <li <% if (page_name === 'farmers') { %>class="active" <% } %> ><a href="/farmers">Farmers</a></li>
+        <li <% if (page_name === 'markets') { %>class="active" <% } %> ><a href="/markets">Markets</a></li>
+        <li <% if (page_name === 'retailers') { %>class="active" <% } %> ><a href="/retailers">Retailers</a></li>
 
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -28,11 +30,10 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/app/harvest">Storage/Handover Logbook</a>
             <div class="dropdown-divider"></div>
-            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+            <a class="dropdown-item" href="/weekly">Weekly View</a>
         </div>
         </li>
 
-        <li <% if (page_name === 'weekly') { %>class="active" <% } %> ><a href="/weekly">Weekly View</a></li>
         <!-- <li <% if (page_name === 'supplychain') { %>class="active" <% } %> ><a href="/app/supplychain">Supply Chain</a></li> This was from very first pilot with harvest and storage on one page July 2019 -->
         <!--<li <% if (page_name === 'config') { %>class="active" <% } %> ><a href="/config">Config</a></li> --> 
         <li <% if (page_name === 'login') { %>class="active" <% } %> >
