@@ -83,9 +83,29 @@ router.post('/save', [
 
 //route for update data
 router.post('/update', [
-    check('config_name', 'Your config name is not valid').not().isEmpty().trim().escape(),
-    check('config_description', 'Your config description is not valid').not().isEmpty().trim().escape(),
-    check('config_value', 'Your config value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_suppliershortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_suppliername', 'Harvest Supplier Name is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_supplieraddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_producename', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_photohash', 'Harvest PhotoHash value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_timestamp', 'Harvest Timestamp value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_capturetime', 'Harvest Capture Time value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_description', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_geolocation', 'Harvest GeoLocation value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_quantity', 'Harvest Quantity value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_unitofmeasure', 'Harvest Unit of Measure value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_description_json', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_blockchainhashid', 'Blockchain Hash ID value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_blockchainhashdata', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_supplierproduce', 'Supplier Produce value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_added_to_blockchain_by', 'Harvest Added to Blockchain by value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_blockchain_uuid', 'Harvest Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_user', 'Harvest User value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_logdatetime', 'Logdatetime datetime value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_logid', 'Harvest ID value is not valid').not().isEmpty().trim().escape(),
   ], function(req, res) {
     const result = validationResult(req);
         var errors = result.errors;
@@ -93,21 +113,43 @@ router.post('/update', [
             console.log('Validation error - ' + errors[key].msg);
       }
           if (!result.isEmpty()) {
+              console.log('Error - !result.isEmpty');
               req.flash('error', errors)
-              res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", data:'',
-              page_name:'harvestlogbook', user: req.user,}); //should add error array here
-            }
+              res.redirect('/app/harvest')
+            //   res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", data:'',
+            //   page_name:'harvestlogbook', user: req.user,}); //should add error array here
+            //   if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
+            //     connection.query('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
+            //         if(err){
+            //             req.flash('error', err);
+            //             // redirect to harvest logbook page
+            //             res.redirect('/app/harvest')
+            //             //  res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook", 
+            //             //                         data:'', user: req.user, page_name:'harvestlogbook',
+            //             //                         success: false });
+            //         }else{
+            //             res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", 
+            //                                     success: false,
+            //                                     data:rows, user: req.user,
+            //                                     page_name:'harvestlogbook' });
+            //         }
+            //      });
+
+            // }
+        }
           else {
               let sql = "UPDATE foodprint_harvest SET configname='" + req.body.config_name + "', " +
                   "configdescription='" + req.body.config_description + "',configvalue='" + req.body.config_value +
                   "' WHERE configid='" + req.body.config_id + "'";
-              //console.log('sql ' + sql);
+              console.log('sql ' + sql);
               //console.log('configid ' + req.body.config_id);
               try {
                   connection.query(sql, function(err, results){
                       if(err) {
                           //throw err;
-                          req.flash('error', err)
+                          //console.log('Error - Update Harvest failed');
+                          //console.log(err);
+                          req.flash('error', err.message)
                           // redirect to harvest logbook page
                           res.redirect('/app/harvest')
                       } else{
@@ -120,12 +162,23 @@ router.post('/update', [
                   //this will eventually be handled by your error handling middleware
                   next(e);
                   //res.json({success: false, errors:errors.array()});
-                  res.render('harvestlogbook', {
-                      page_title: "FoodPrint - Harvest Logbook", data: '',
-                      success: false, errors: e.array(),
-                      page_name:'harvestlogbook',
-                      user: req.user,
-                  });
+                  console.log('Error - error handling middleware');
+
+                  if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
+                    connection.query('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
+                        if(err){
+                             req.flash('error', err.message);
+                             res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook", 
+                                                    data:'', user: req.user, page_name:'harvestlogbook',
+                                                    success: false, errors: e.array(), });
+                        }else{
+                            res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", 
+                                                    success: false, errors: e.array(),
+                                                    data:rows, user: req.user,
+                                                    page_name:'harvestlogbook' });
+                        }
+                     });
+                  }
               }
           }
     });
@@ -139,7 +192,7 @@ router.post('/delete',(req, res) => {
   let query = connection.query(sql, (err, results) => {
     if(err) {
         //throw err;
-        req.flash('error', err)
+        req.flash('error', err.message)
         // redirect to harvest logbook page
         res.redirect('/app/harvest')
     } else{

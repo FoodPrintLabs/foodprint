@@ -451,12 +451,12 @@
                 </div>      
               </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="modalFooter">
               <input type="hidden" name="viewmodal_harvest_logid" class="" id="viewmodal_harvest_logid">
-              <button id="harvestModalUpdate" type="submit" class="btn btn-primary">Update</button>
+              <!-- <button id="harvestModalUpdate" type="submit" class="btn btn-primary">Update</button>
               <button id="harvestModalAdd" type="submit" class="btn btn-primary">Add</button>
               <button id="harvestModalDelete" type="submit" class="btn btn-danger">Delete</button>
-              <button id="harvestModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button id="harvestModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
             </div>
           </div>
         </div>
@@ -539,6 +539,38 @@
   <script src="/js/custom.js"></script>
   <script type="text/javascript">
     function ShowModal(obj_identifier, action, header, contentClassID) {
+
+      // <button id="harvestModalUpdate" type="submit" class="btn btn-primary">Update</button>
+
+      var updateButton=$('<input/>').attr({
+          type: "submit",
+          id: "harvestModalUpdate",
+          value: 'Update',
+          class:"btn btn-primary"
+      });
+
+      var addButton=$('<input/>').attr({
+          type: "submit",
+          id: "harvestModalAdd",
+          value: 'Add',
+          class:"btn btn-primary"
+      });
+
+      var deleteButton=$('<input/>').attr({
+          type: "submit",
+          id: "harvestModalDelete",
+          value: 'Delete',
+          class:"btn btn-danger"
+      });
+
+      var closeButton=$('<input/>').attr({
+          type: "submit",
+          id: "harvestModalClose",
+          value: 'Close',
+          class:"btn btn-secondary",
+          'data-dismiss':"modal"
+      });
+
       var harvest_logid = $(obj_identifier).data('harvest_logid');
             var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode'); 
             var harvest_suppliername = $(obj_identifier).data('harvest_suppliername');
@@ -597,25 +629,32 @@
             $('#viewmodal_logdatetime').val(logdatetime);
             $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
 
-       if (action==='add'){
+       //remove modal buttons, then re-add
         $('#harvestModalUpdate').remove();
+        $('#harvestModalAdd').remove();
         $('#harvestModalDelete').remove();
+        $('#harvestModalClose').remove();
+       
+       if (action==='add'){
+        $("#modalBodyContainer :input").attr("disabled", false);
+        $("#modalFooter").append(addButton);  
+        $("#modalFooter").append(closeButton);  
        }
        else if (action==='view'){
-        $("#modalBodyContainer :input").attr("disabled", true);
-        // $('#form1 input').attr('readonly', 'readonly');
-        $('#harvestModalAdd').remove();
-        $('#harvestModalUpdate').remove();
-        $('#harvestModalDelete').remove();        
+        $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
+        // $('#form1 input').attr('readonly', 'readonly');      
+        $("#modalFooter").append(closeButton);  
        }
        else if (action==='update'){
-        $('#harvestModalAdd').remove();
-        $('#harvestModalDelete').remove();
+        $("#modalBodyContainer :input").attr("disabled", false);
+        $("#modalFooter").append(updateButton);  
+        $("#modalFooter").append(closeButton);  
         $('#harvestModalForm').attr('action', '/app/harvest/update');
        }
        else if (action==='delete'){
-        $('#harvestModalAdd').remove();
-        $('#harvestModalUpdate').remove();
+        $("#modalBodyContainer :input").attr("disabled", false);
+        $("#modalFooter").append(deleteButton);  
+        $("#modalFooter").append(closeButton);  
         $('#harvestModalForm').attr('action', '/app/harvest/delete');
        }
 
