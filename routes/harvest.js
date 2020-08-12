@@ -46,8 +46,8 @@ router.post('/save', [
             console.log('Validation error - ' + errors[key].msg);
       }
           if (!result.isEmpty()) {
-              req.flash('error', errors)
-              res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", data:'', user: req.user,}); //should add error array here
+              req.flash('error', errors);
+              res.redirect('/app/harvest');
             }
           else {
               let config_datetime = new Date();
@@ -74,9 +74,9 @@ router.post('/save', [
                       next(e);
                       //res.json({success: false, errors: e});
                     res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", data:'',
-                    success: false, errors:e.array(),
-                    page_name:'harvestlogbook',
-                    user: req.user,});
+                                                success: false, errors:e.array(),
+                                                page_name:'harvestlogbook',
+                                                user: req.user,});
                   }
           }
     });
@@ -112,30 +112,11 @@ router.post('/update', [
         for (var key in errors) {
             console.log('Validation error - ' + errors[key].msg);
       }
-          if (!result.isEmpty()) {
+       if (!result.isEmpty()) {
               console.log('Error - !result.isEmpty');
-              req.flash('error', errors)
-              res.redirect('/app/harvest')
-            //   res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", data:'',
-            //   page_name:'harvestlogbook', user: req.user,}); //should add error array here
-            //   if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
-            //     connection.query('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
-            //         if(err){
-            //             req.flash('error', err);
-            //             // redirect to harvest logbook page
-            //             res.redirect('/app/harvest')
-            //             //  res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook", 
-            //             //                         data:'', user: req.user, page_name:'harvestlogbook',
-            //             //                         success: false });
-            //         }else{
-            //             res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", 
-            //                                     success: false,
-            //                                     data:rows, user: req.user,
-            //                                     page_name:'harvestlogbook' });
-            //         }
-            //      });
-
-            // }
+              console.log(errors);
+               req.flash('error', errors)
+                res.redirect('/app/harvest') 
         }
           else {
               let sql = "UPDATE foodprint_harvest SET configname='" + req.body.config_name + "', " +
@@ -147,8 +128,8 @@ router.post('/update', [
                   connection.query(sql, function(err, results){
                       if(err) {
                           //throw err;
-                          //console.log('Error - Update Harvest failed');
-                          //console.log(err);
+                          console.log('Error - Update Harvest failed');
+                          console.log(err);
                           req.flash('error', err.message)
                           // redirect to harvest logbook page
                           res.redirect('/app/harvest')

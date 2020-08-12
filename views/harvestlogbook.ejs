@@ -72,6 +72,7 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
+                      
                     <a onclick="ShowModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit" 
                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -98,6 +99,7 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Edit</a>
+
                     <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete" 
                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -126,7 +128,6 @@
                       Delete</a>
                       <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%> <a href="javascript:void(0);" class="btn btn-xs btn-success">View on Blockchain</a>  <%}else{ %> 
 
-                      
                     <a href="javascript:void(0);" class="btn btn-xs btn-success blockchain" 
                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -155,166 +156,17 @@
                       Add to Blockchain</a>  <% } %><!--<button type="button" class="btn btn-primary disabled">Disabled Primary</button> -->
                     </div>
                 </td>
-
-     
               </tr>
               <% }
-
            }else{ %>
                <tr>
                   <td colspan="5">No Data</td>
                </tr>
             <% } %>
-
         </tbody>
     </table>
    </div>
    <!-- END TABLE-->
-
-   <!-- Modal Add Harvest-->
-	  <!-- <form id="harvestModalFormAdd" action="/app/harvest/save" method="post">
-      <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add New Harvest</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-  
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="addmodal_harvest_suppliershortcode">Supplier Shortcode</label>
-                <input type="text" name="addmodal_harvest_suppliershortcode" class="form-control" id="addmodal_harvest_suppliershortcode" placeholder="Supplier Shortcode">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_suppliername">Supplier Name</label>
-                <input type="text" name="addmodal_harvest_suppliername" class="form-control" id=" addmodal_harvest_suppliername" placeholder="Supplier Name">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_farmername">Farmer Name</label>
-                <input type="text" name="addmodal_harvest_farmername" class="form-control" id="addmodal_harvest_farmername" placeholder="Farmer Name">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_supplieraddress">Supplier Address</label>
-                <input type="text" name="addmodal_harvest_supplieraddress" class="form-control" id="addmodal_harvest_supplieraddress" placeholder="Supplier Address">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_producename">Produce Name</label>
-                <input type="text" name="addmodal_harvest_producename" class="form-control" id="addmodal_harvest_producename" placeholder="Produce Name">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_photohash">Photo hash</label>
-                <input type="text" name="addmodal_harvest_photohash" class="form-control" id="addmodal_harvest_photohash" placeholder="Photo hash">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_timestamp">Harvest Timestamp</label>
-                <input type="text" name="addmodal_harvest_timestamp" class="form-control" id="addmodal_harvest_timestamp" placeholder="Harvest Timestamp">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_capturetime">Harvest Data Capture Time</label>
-                <input type="text" name="addmodal_harvest_capturetime" class="form-control" id="addmodal_harvest_capturetime" placeholder="Harvest Data Capture Time">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_description">Harvest Description</label>
-                <input type="text" name="addmodal_harvest_description" class="form-control" id="addmodal_harvest_description" placeholder="Harvest Description">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_geolocation">Harvest Geolocation</label>
-                <input type="text" name="addmodal_harvest_geolocation" class="form-control" id="addmodal_harvest_geolocation" placeholder="Harvest Geolocation">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_quantity">Harvest Quantity</label>
-                <input type="text" name="addmodal_harvest_quantity" class="form-control" id="addmodal_harvest_quantity" placeholder="Harvest Quantity">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_unitofmeasure">Harvest Unit of Measure</label>
-                <input type="text" name="addmodal_harvest_unitofmeasure" class="form-control" id="addmodal_harvest_unitofmeasure" placeholder="Harvest Unit of Measure">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_description_json">Harvest Description JSON</label>
-                <input type="text" name="addmodal_harvest_description_json" class="form-control" id="addmodal_harvest_description_json" placeholder="Harvest Description JSON">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_blockchainhashid">Harvest Blockchain Hash ID</label>
-                <input type="text" name="addmodal_harvest_blockchainhashid" class="form-control" id="addmodal_harvest_blockchainhashid" placeholder="Harvest Blockchain Hash ID">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_blockchainhashdata">Blockchain Hash Data</label>
-                <input type="text" name="addmodal_harvest_blockchainhashdata" class="form-control" id="addmodal_harvest_blockchainhashdata" placeholder="Blockchain Hash Data">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_supplierproduce">Supplier Produce</label>
-                <input type="text" name="addmodal_supplierproduce" class="form-control" id="addmodal_supplierproduce" placeholder="Supplier Produce">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_bool_added_to_blockchain">Harvest Added to Blockchain - Yes / No</label>
-                <input type="text" name="addmodal_harvest_bool_added_to_blockchain" class="form-control" id="addmodal_harvest_bool_added_to_blockchain" placeholder="Harvest Added to Blockchain - Yes / No">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_added_to_blockchain_date">Harvest Added to Blockchain Datetime</label>
-                <input type="text" name="addmodal_harvest_added_to_blockchain_date" class="form-control" id="addmodal_harvest_added_to_blockchain_date" placeholder="Harvest Added to Blockchain Datetime">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_added_to_blockchain_by">Harvest Added to Blockchain By User</label>
-                <input type="text" name="addmodal_harvest_added_to_blockchain_by" class="form-control" id="addmodal_harvest_added_to_blockchain_by" placeholder="Harvest Added to Blockchain By User">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_blockchain_uuid">Harvest Blockchain ID</label>
-                <input type="text" name="addmodal_harvest_blockchain_uuid" class="form-control" id="addmodal_harvest_blockchain_uuid" placeholder="Harvest Blockchain ID">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_user">Harvest Logged By User</label>
-                <input type="text" name="addmodal_harvest_user" class="form-control" id="addmodal_harvest_user" placeholder="Harvest Logged By User">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_logdatetime">Log Datetime</label>
-                <input type="text" name="addmodal_logdatetime" class="form-control" id="addmodal_logdatetime" placeholder="Log Datetime">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_lastmodifieddatetime">Last Modified Datetime</label>
-                <input type="text" name="addmodal_lastmodifieddatetime" class="form-control" id="addmodal_lastmodifieddatetime" placeholder="Last Modified Datetime">
-              </div>
-  
-              <div class="form-group">
-                <label for="addmodal_harvest_logid">Harvest ID</label>
-                <input type="text" name="addmodal_harvest_logid" class="form-control" id="addmodal_harvest_logid" placeholder="Harvest ID">
-              </div>      
-  
-            </div>
-            <div class="modal-footer">
-              <input type="hidden" name="addmodal_harvest_logid" class="" id="addmodal_harvest_logid">
-              <button type="submit" class="btn btn-primary">Save</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>  
-            </div>
-          </div>
-        </div>
-        </div>
-	 </form> -->
-   <!-- End Modal Add Harvest-->
 
     <!-- Modal View Harvest-->
     <form id="harvestModalForm" action="/app/harvest/save" method="post">
@@ -453,10 +305,6 @@
             </div>
             <div class="modal-footer" id="modalFooter">
               <input type="hidden" name="viewmodal_harvest_logid" class="" id="viewmodal_harvest_logid">
-              <!-- <button id="harvestModalUpdate" type="submit" class="btn btn-primary">Update</button>
-              <button id="harvestModalAdd" type="submit" class="btn btn-primary">Add</button>
-              <button id="harvestModalDelete" type="submit" class="btn btn-danger">Delete</button>
-              <button id="harvestModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
             </div>
           </div>
         </div>
@@ -464,84 +312,16 @@
     </form>
     <!-- End Modal View Harvest-->
 
-   <!-- Modal Update Harvest-->
-   <!-- <form action="/app/harvest/update" method="post">
-       <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Configuration</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                  <label for="config_name">Config Name</label>
-                  <input type="text" name="config_name" class="form-control config_name" placeholder="Config Name" required>
-              </div>
-
-              <div class="form-group">
-                  <label for="config_description">Config Description</label>
-                  <input type="text" name="config_description" class="form-control config_description" placeholder="Config Description" required>
-              </div>
-
-              <div class="form-group">
-                  <label for="config_value">Config Value</label>
-                  <input type="text" name="config_value" class="form-control config_value" placeholder="Config Value" required>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <input type="hidden" name="config_id" class="config_id">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Update</button>
-            </div>
-          </div>
-        </div>
-       </div>
-  </form> -->
-   <!-- End Modal Update Harvest-->
-
-	 <!-- Modal Delete Harvest-->
- 	  <!-- <form id="add-row-form" action="/app/harvest/delete" method="post">
- 	     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
- 	        <div class="modal-dialog">
- 	           <div class="modal-content">
- 	               <div class="modal-header">
-					  <h5 class="modal-title" id="myModalLabel">Delete Configuration</h5>
-                       <strong>Are you sure to delete this data?</strong>
- 	                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
- 	               </div>
- 	               <div class="modal-body">
-                       <div class="form-group">
-                           <label for="config_name2">Config Name</label>
-                           <input type="text" name="config_name2" id="config_name2" class="form-control config_name2" readonly>
-                       </div>
- 	               </div>
- 	               <div class="modal-footer">
-						<input type="hidden" name="config_id2" class="form-control config_id2" required>
- 	                   	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
- 	                  	<button type="submit" class="btn btn-danger">Delete</button>
- 	               </div>
- 	      			</div>
- 	        </div>
- 	     </div>
- 	 </form> -->
-    <!-- End Modal Delete Harvest-->
-
     <!-- start footer -->
     <% include ./partials/footer %>
     <!-- end footer -->
     
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-    <script src="/js/scripts.min.js"></script>
+  <script src="/js/scripts.min.js"></script>
   <script src="/js/main.min.js"></script>
   <script src="/js/custom.js"></script>
   <script type="text/javascript">
     function ShowModal(obj_identifier, action, header, contentClassID) {
-
-      // <button id="harvestModalUpdate" type="submit" class="btn btn-primary">Update</button>
-
       var updateButton=$('<input/>').attr({
           type: "submit",
           id: "harvestModalUpdate",
@@ -602,8 +382,6 @@
             // console.log("harvest_supplierName - " + harvest_supplierName);
             console.log("harvest_suppliername - " + harvest_suppliername);
 
-
-
             $('#viewmodal_harvest_logid').val(harvest_logid);
             $('#viewmodal_harvest_suppliershortcode').val(harvest_suppliershortcode);
             $('#viewmodal_harvest_suppliername').val(harvest_suppliername);
@@ -629,132 +407,40 @@
             $('#viewmodal_logdatetime').val(logdatetime);
             $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
 
-       //remove modal buttons, then re-add
-        $('#harvestModalUpdate').remove();
-        $('#harvestModalAdd').remove();
-        $('#harvestModalDelete').remove();
-        $('#harvestModalClose').remove();
-       
-       if (action==='add'){
-        $("#modalBodyContainer :input").attr("disabled", false);
-        $("#modalFooter").append(addButton);  
-        $("#modalFooter").append(closeButton);  
-       }
-       else if (action==='view'){
-        $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
-        // $('#form1 input').attr('readonly', 'readonly');      
-        $("#modalFooter").append(closeButton);  
-       }
-       else if (action==='update'){
-        $("#modalBodyContainer :input").attr("disabled", false);
-        $("#modalFooter").append(updateButton);  
-        $("#modalFooter").append(closeButton);  
-        $('#harvestModalForm').attr('action', '/app/harvest/update');
-       }
-       else if (action==='delete'){
-        $("#modalBodyContainer :input").attr("disabled", false);
-        $("#modalFooter").append(deleteButton);  
-        $("#modalFooter").append(closeButton);  
-        $('#harvestModalForm').attr('action', '/app/harvest/delete');
-       }
+          //remove modal buttons, then re-add
+            $('#harvestModalUpdate').remove();
+            $('#harvestModalAdd').remove();
+            $('#harvestModalDelete').remove();
+            $('#harvestModalClose').remove();
+          
+          if (action==='add'){
+            $("#modalBodyContainer :input").attr("disabled", false);
+            $("#modalFooter").append(addButton);  
+            $("#modalFooter").append(closeButton);  
+          }
+          else if (action==='view'){
+            $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
+            // $('#form1 input').attr('readonly', 'readonly');      
+            $("#modalFooter").append(closeButton);  
+          }
+          else if (action==='update'){
+            $("#modalBodyContainer :input").attr("disabled", false);
+            $("#modalFooter").append(updateButton);  
+            $("#modalFooter").append(closeButton);  
+            $('#harvestModalForm').attr('action', '/app/harvest/update');
+          }
+          else if (action==='delete'){
+            $("#modalBodyContainer :input").attr("disabled", false);
+            $("#modalFooter").append(deleteButton);  
+            $("#modalFooter").append(closeButton);  
+            $('#harvestModalForm').attr('action', '/app/harvest/delete');
+          }
 
-      $('#harvestModalLabel').html(header);
-      $('#modalBodyContainer').removeAttr('class'); //if already exists remove it
-      $('#modalBodyContainer').addClass(contentClassID);
-      $('#harvestViewModal').modal('show');
-    }
-</script>
-  <script>
-    $(document).ready(function(){
-
-      
-
-    //showModal();
-
-      //  //showing data to view modal
-      //  $('#harvesttable').on('click','.view',function(){
-            
-      //       var harvest_logid = $(this).data('harvest_logid');
-      //       var harvest_suppliershortcode = $(this).data('harvest_suppliershortcode');
-      //       var harvest_suppliername = $(this).data('harvest_suppliername');
-      //       var harvest_farmername = $(this).data('harvest_farmername');
-      //       var harvest_supplieraddress = $(this).data('harvest_supplieraddress');
-      //       var harvest_producename = $(this).data('harvest_producename');
-      //       var harvest_photohash = $(this).data('harvest_photohash');
-      //       var harvest_timestamp = $(this).data('harvest_timestamp');
-      //       var harvest_capturetime = $(this).data('harvest_capturetime');
-      //       var harvest_description = $(this).data('harvest_description');
-      //       var harvest_geolocation = $(this).data('harvest_geolocation');
-      //       var harvest_quantity = $(this).data('harvest_quantity');
-      //       var harvest_unitofmeasure = $(this).data('harvest_unitofmeasure');
-      //       var harvest_description_json = $(this).data('harvest_description_json');
-      //       var harvest_blockchainhashid = $(this).data('harvest_blockchainhashid');
-      //       var harvest_blockchainhashdata = $(this).data('harvest_blockchainhashdata');
-      //       var supplierproduce = $(this).data('supplierproduce');
-      //       var harvest_bool_added_to_blockchain = $(this).data('harvest_bool_added_to_blockchain');
-      //       var harvest_added_to_blockchain_date = $(this).data('harvest_added_to_blockchain_date');
-      //       var harvest_added_to_blockchain_by = $(this).data('harvest_added_to_blockchain_by');
-      //       var harvest_blockchain_uuid = $(this).data('harvest_blockchain_uuid');
-      //       var harvest_user = $(this).data('harvest_user');
-      //       var logdatetime = $(this).data('logdatetime');
-      //       var lastmodifieddatetime = $(this).data('lastmodifieddatetime');
-
-      //       // console.log("harvest_logid - " + harvest_logid);
-      //       // console.log("supplierproduce - " + supplierproduce);
-      //       // console.log("harvest_TimeStamp - " + harvest_TimeStamp);
-      //       // console.log("harvest_supplierName - " + harvest_supplierName);
-
-      //       $('#ViewModal').modal('show');
-
-      //       $('#viewmodal_harvest_logid').val(harvest_logid);
-      //       $('#viewmodal_harvest_suppliershortcode').val(harvest_suppliershortcode);
-      //       $('#viewmodal_harvest_suppliername').val(harvest_suppliername);
-      //       $('#viewmodal_harvest_farmername').val(harvest_farmername);
-      //       $('#viewmodal_harvest_supplieraddress').val(harvest_supplieraddress);
-      //       $('#viewmodal_harvest_producename').val(harvest_producename);
-      //       $('#viewmodal_harvest_photohash').val(harvest_photohash);
-      //       $('#viewmodal_harvest_timestamp').val(harvest_timestamp);
-      //       $('#viewmodal_harvest_capturetime').val(harvest_capturetime);
-      //       $('#viewmodal_harvest_description').val(harvest_description);
-      //       $('#viewmodal_harvest_geolocation').val(harvest_geolocation);
-      //       $('#viewmodal_harvest_quantity').val(harvest_quantity);
-      //       $('#viewmodal_harvest_unitofmeasure').val(harvest_unitofmeasure);
-      //       $('#viewmodal_harvest_description_json').val(harvest_description_json);
-      //       $('#viewmodal_harvest_blockchainhashid').val(harvest_blockchainhashid);
-      //       $('#viewmodal_harvest_blockchainhashdata').val(harvest_blockchainhashdata);
-      //       $('#viewmodal_supplierproduce').val(supplierproduce);
-      //       $('#viewmodal_harvest_bool_added_to_blockchain').val(harvest_bool_added_to_blockchain);
-      //       $('#viewmodal_harvest_added_to_blockchain_date').val(harvest_added_to_blockchain_date);
-      //       $('#viewmodal_harvest_added_to_blockchain_by').val(harvest_added_to_blockchain_by);
-      //       $('#viewmodal_harvest_blockchain_uuid').val(harvest_blockchain_uuid);
-      //       $('#viewmodal_harvest_user').val(harvest_user);
-      //       $('#viewmodal_logdatetime').val(logdatetime);
-      //       $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
-      // });  
-      
-      // //showing data to edit modal
-      //   $('#harvesttable').on('click','.edit',function(){
-      //       var config_id = $(this).data('configid');
-      //       var config_name = $(this).data('configname');
-      //       var config_description = $(this).data('configdescription');
-      //       var config_value = $(this).data('configvalue');
-      //       $('#EditModal').modal('show');
-      //       $('.config_name').val(config_name);
-      //       $('.config_description').val(config_description);
-      //       $('.config_value').val(config_value);
-      //       $('.config_id').val(config_id);
-      // });
-
-        // //showing delete record modal
-        // $('#harvesttable').on('click','.delete',function(){
-        //     var config_id2 = $(this).data('configid2');
-        //     var config_name2 = $(this).data('configname2');
-        //     $('#DeleteModal').modal('show');
-        //     $('.config_id2').val(config_id2);
-        //     $('.config_name2').val(config_name2);
-        // });
-    });
-
+          $('#harvestModalLabel').html(header);
+          $('#modalBodyContainer').removeAttr('class'); //if already exists remove it
+          $('#modalBodyContainer').addClass(contentClassID);
+          $('#harvestViewModal').modal('show');
+        }
     </script>
   </body>
 </html>
