@@ -17,7 +17,7 @@
    <div class="container" style="width: 100%;">
     <h3>HARVEST LOGBOOK</h3>
     <div>
-        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Configuration</button>
+        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Harvest</button>
     </div>
     
     <% include ./partials/notificationbar %>
@@ -31,7 +31,7 @@
             <th scope="col">Harvest Datetime</th>
             <th scope="col">Supplier</th>
             <th scope="col">Produce</th>
-            <th width="200px">Action</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -71,7 +71,7 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
-                    <a href="javascript:void(0);" class="btn btn-xs btn-info edit" 
+                    <a href="javascript:void(0);" class="btn btn-xs btn-info edit disabled" 
                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
@@ -97,7 +97,7 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Edit</a>
-                    <a href="javascript:void(0);" class="btn btn-xs btn-danger delete" 
+                    <a href="javascript:void(0);" class="btn btn-xs btn-danger delete disabled" 
                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
@@ -123,6 +123,35 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Delete</a>
+                      <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%> <a href="javascript:void(0);" class="btn btn-xs btn-success">View on Blockchain</a>  <%}else{ %> 
+
+                      
+                    <a href="javascript:void(0);" class="btn btn-xs btn-success blockchain" 
+                      data-harvest_logid="<%= data[i].harvest_logid%>"
+                      data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
+                      data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
+                      data-harvest_farmername="<%=data[i].harvest_farmerName%>"
+                      data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
+                      data-harvest_producename="<%=data[i].harvest_produceName%>"
+                      data-harvest_photohash="<%=data[i].harvest_photoHash%>"
+                      data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
+                      data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
+                      data-harvest_description="<%=data[i].harvest_Description%>"
+                      data-harvest_geolocation="<%=data[i].harvest_geolocation%>"
+                      data-harvest_quantity="<%=data[i].harvest_quantity%>"
+                      data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>"
+                      data-harvest_description_json="<%=data[i].harvest_description_json%>"
+                      data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>"
+                      data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>"
+                      data-supplierproduce="<%=data[i].supplierproduce%>"
+                      data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>"
+                      data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>"
+                      data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
+                      data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
+                      data-harvest_user="<%=data[i].harvest_user%>"
+                      data-logdatetime="<%=data[i].logdatetime%>"
+                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
+                      Add to Blockchain</a>  <% } %><!--<button type="button" class="btn btn-primary disabled">Disabled Primary</button> -->
                     </div>
                 </td>
 
