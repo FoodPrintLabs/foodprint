@@ -3,6 +3,7 @@ var router = express.Router();
 const { check, validationResult } = require('express-validator');
 const uuidv4 = require('uuid/v4')
 var body = require('express-validator'); //validation
+var moment = require('moment'); //datetime
 var connection  = require('../src/js/db');
 var ROLES = require('../utils/roles');
 
@@ -88,8 +89,8 @@ router.post('/update', [
     check('viewmodal_harvest_supplieraddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_producename', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_photohash', 'Harvest PhotoHash value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_timestamp', 'Harvest Timestamp value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_capturetime', 'Harvest Capture Time value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_timestamp', 'Harvest Timestamp value is not valid').not().isEmpty(),
+    check('viewmodal_harvest_capturetime', 'Harvest Capture Time value is not valid').not().isEmpty(),
     check('viewmodal_harvest_description', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_geolocation', 'Harvest GeoLocation value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_quantity', 'Harvest Quantity value is not valid').not().isEmpty().trim().escape(),
@@ -103,8 +104,8 @@ router.post('/update', [
     check('viewmodal_harvest_added_to_blockchain_by', 'Harvest Added to Blockchain by value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_blockchain_uuid', 'Harvest Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_user', 'Harvest User value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_logdatetime', 'Logdatetime datetime value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_logdatetime', 'Logdatetime datetime value is not valid').not().isEmpty(),
+    check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not().isEmpty(),
     check('viewmodal_harvest_logid', 'Harvest ID value is not valid').not().isEmpty().trim().escape(),
   ], function(req, res) {
     const result = validationResult(req);
@@ -120,6 +121,11 @@ router.post('/update', [
         }
           else {
             console.log('req.body.viewmodal_harvest_logid ' + req.body.viewmodal_harvest_logid);
+            let harvest_TimeStamp = moment(new Date(req.body.viewmodal_harvest_timestamp)).format("YYYY-MM-DD HH:mm:ss");
+            let harvest_CaptureTime = moment(new Date(req.body.viewmodal_harvest_capturetime)).format("YYYY-MM-DD HH:mm:ss");
+            let logdatetime = moment(new Date(req.body.viewmodal_logdatetime)).format("YYYY-MM-DD HH:mm:ss");
+            let lastmodifieddatetime = moment(new Date(req.body.viewmodal_lastmodifieddatetime)).format("YYYY-MM-DD HH:mm:ss");
+              let config_uuid = uuidv4()
             //TODO - should rather update only the fields have changed!
                 let sql = "UPDATE foodprint_harvest SET harvest_supplierShortcode='" + req.body.viewmodal_harvest_suppliershortcode + "', " +
                   "harvest_supplierName='" + req.body.viewmodal_harvest_suppliername + 
@@ -142,8 +148,8 @@ router.post('/update', [
                   "',harvest_added_to_blockchain_by='" + req.body.viewmodal_harvest_added_to_blockchain_by +
                   "',harvest_blockchain_uuid='" + req.body.viewmodal_harvest_blockchain_uuid +
                   "',harvest_user='" + req.body.viewmodal_harvest_user +
-                  "',logdatetime='" + req.body.viewmodal_logdatetime +
-                  "',lastmodifieddatetime='" + req.body.viewmodal_lastmodifieddatetime +
+                  "',logdatetime='" + logdatetime +
+                  "',lastmodifieddatetime='" + lastmodifieddatetime +
                   "' WHERE harvest_logid='" + req.body.viewmodal_harvest_logid + "'";
               console.log('sql ' + sql);
               //console.log('configid ' + req.body.config_id);
@@ -156,10 +162,11 @@ router.post('/update', [
                           req.flash('error', err.message)
                           // redirect to harvest logbook page
                           res.redirect('/app/harvest')
-                      } else{
-                          req.flash('success', 'Harvest entry updated successfully! Config Name = ' + req.body.config_name);
-                  res.redirect('/app/harvest');
-              }
+                      } 
+                      else{
+                          req.flash('success', 'Harvest entry updated successfully! Harvest ID = ' + req.body.viewmodal_harvest_logid);
+                          res.redirect('/app/harvest');
+                        }
               })
                   ;
               } catch (e) {
