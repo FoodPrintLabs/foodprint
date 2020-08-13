@@ -611,7 +611,10 @@
             $("#viewmodal_harvest_logid").attr('readonly', true);
 
             $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
+            $("#harvestDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
+
             $("#harvestCheckDiv").show();  // show confirm add/edit checkbox
+
             $("#modalFooter").append(updateButton);  
             $("#modalFooter").append(closeButton);  
             $('#harvestModalForm').attr('action', '/app/harvest/update');
