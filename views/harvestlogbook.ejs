@@ -72,7 +72,7 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
-                      
+
                     <a onclick="ShowModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit" 
                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -267,9 +267,19 @@
                   <input type="text" name="viewmodal_harvest_bool_added_to_blockchain" class="form-control" id="viewmodal_harvest_bool_added_to_blockchain" placeholder="Harvest Added to Blockchain - Yes / No">
                 </div>
 
+                <!-- <div class="form-group">
+                  <label for="viewmodal_harvest_added_to_blockchain_date">Harvest Added to Blockchain Datetime</label>
+                  <input type="datetime-local" name="viewmodal_harvest_added_to_blockchain_date" class="form-control" id="viewmodal_harvest_added_to_blockchain_date" placeholder="Harvest Added to Blockchain Datetime">
+                </div> -->
+
                 <div class="form-group">
                   <label for="viewmodal_harvest_added_to_blockchain_date">Harvest Added to Blockchain Datetime</label>
-                  <input type="text" name="viewmodal_harvest_added_to_blockchain_date" class="form-control" id="viewmodal_harvest_added_to_blockchain_date" placeholder="Harvest Added to Blockchain Datetime">
+                  <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="viewmodal_harvest_added_to_blockchain_date">
+                      <input type="text" class="form-control" size="16" type="text" value=""  name="viewmodal_harvest_added_to_blockchain_date"  placeholder="Harvest Added to Blockchain Datetime" />
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                  </div>
+                  <input type="hidden" id="viewmodal_harvest_added_to_blockchain_date" value=""/><br/>
                 </div>
 
                 <div class="form-group">
@@ -289,18 +299,43 @@
 
                 <div class="form-group">
                   <label for="viewmodal_logdatetime">Log Datetime</label>
-                  <input type="text" name="viewmodal_logdatetime" class="form-control" id="viewmodal_logdatetime" placeholder="Log Datetime">
+                  <input type="datetime" name="viewmodal_logdatetime" class="form-control" id="viewmodal_logdatetime" placeholder="Log Datetime">
                 </div>
 
                 <div class="form-group">
                   <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
-                  <input type="text" name="viewmodal_lastmodifieddatetime" class="form-control" id="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime">
+                  <input type="datetime" name="viewmodal_lastmodifieddatetime" class="form-control" id="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime">
                 </div>
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_logid">Harvest ID</label>
                   <input type="text" name="viewmodal_harvest_logid" class="form-control" id="viewmodal_harvest_logid" placeholder="Harvest ID">
-                </div>      
+                </div> 
+
+                <div class="form-group">
+                  <label for="inputHarvestTime">Harvest Timestamp:</label>
+                  <div class="input-group date form_datetime" data-date="" data-date-format="dd MM yyyy - HH:ii p" data-link-field="inputHarvestTime">
+                      <input type="text" class="form-control" size="16" type="text" value="" />
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                  </div>
+                  <input type="hidden" id="inputHarvestTime" value="" /><br/>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                      <span class="input-group-addon" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+              </div>
+
+                
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="harvestCheck1" required>
+                  <label class="form-check-label" for="harvestCheck1">I confirm the above is true</label>
+                </div>
               </div>
             </div>
             <div class="modal-footer" id="modalFooter">
@@ -317,9 +352,38 @@
     <!-- end footer -->
     
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-  <script src="/js/scripts.min.js"></script>
-  <script src="/js/main.min.js"></script>
-  <script src="/js/custom.js"></script>
+
+    
+  <script src="/js/scripts.min.js"></script><!--/*! jQuery v1.12.4 | (c) jQuery Foundation | jquery.org/license */-->
+  <script src="/js/main.min.js"></script>  <!--  Bootstrap v3.3.7 -->
+   
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha256-xaF9RpdtRxzwYMWg4ldJoyPWqyDPCRD0Cv7YEEe6Ie8=" crossorigin="anonymous"></script> -->
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data-2012-2022.min.js"></script>
+   
+
+   <script src="/js/tempusdominus-bootstrap-3.js"></script> <!--datetime picker -->
+  <script src="/js/custom.js"></script><!-- Subscribe-->
+
+  <script src="/js/web3.min.js"></script><!--blockchain -->
+  <script src="/js/truffle-contract.js"></script><!--blockchain -->
+
+  <script type="text/javascript">
+    $(function () {
+                    $('#datetimepicker1').datetimepicker();
+                });
+
+    // $('.form_datetime').datetimepicker({
+    //     weekStart: 1,
+    //     todayBtn:  1,
+    // autoclose: 1,
+    // todayHighlight: 1,
+    // startView: 2,
+    // forceParse: 0,
+    //     showMeridian: 1
+    // });
+  </script>
+  
   <script type="text/javascript">
     function ShowModal(obj_identifier, action, header, contentClassID) {
       var updateButton=$('<input/>').attr({
@@ -376,7 +440,7 @@
             var logdatetime = $(obj_identifier).data('logdatetime');
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
 
-            // console.log("harvest_logid - " + harvest_logid);
+            console.log("harvest_logid - " + harvest_logid);
             // console.log("supplierproduce - " + supplierproduce);
             // console.log("harvest_TimeStamp - " + harvest_TimeStamp);
             // console.log("harvest_supplierName - " + harvest_supplierName);
@@ -425,6 +489,8 @@
           }
           else if (action==='update'){
             $("#modalBodyContainer :input").attr("disabled", false);
+            $("#viewmodal_harvest_logid").attr('readonly', 'readonly');
+            $("#viewmodal_logdatetime").attr('readonly', 'readonly');
             $("#modalFooter").append(updateButton);  
             $("#modalFooter").append(closeButton);  
             $('#harvestModalForm').attr('action', '/app/harvest/update');
