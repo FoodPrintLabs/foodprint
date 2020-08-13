@@ -372,11 +372,16 @@
                 </div>
             </div> -->
 
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="harvestCheck1" required>
-                  <label class="form-check-label" for="harvestCheck1">I confirm the above is true</label>
+                <div class="form-check" id="harvestCheckDiv">
+                  <input type="checkbox" class="form-check-input" id="harvestCheck" required>
+                  <label class="form-check-label" for="harvestCheck">I confirm the above harvest entry is correct</label>
                 </div>
               </div>
+              <div class="form-check" id="harvestDeleteDiv">
+                <input type="checkbox" class="form-check-input" id="harvestDelete" required>
+                <label class="form-check-label" for="harvestDelete">I confirm I wish to delete this harvest entry</label>
+              </div>
+            </div>
             </div>
             <div class="modal-footer" id="modalFooter">
               <input type="hidden" name="viewmodal_harvest_logid" class="" id="viewmodal_harvest_logid">
@@ -522,12 +527,16 @@
           if (action==='add'){
             $("#modalBodyContainer :input").attr("disabled", false);
             $("#modalBodyContainer :input").attr("required", true);
+            $("#harvestDeleteDiv").hide();  
+            $("#harvestCheckDiv").show();  
             $("#modalFooter").append(addButton);  
             $("#modalFooter").append(closeButton);  
           }
           else if (action==='view'){
             $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
-            // $('#form1 input').attr('readonly', 'readonly');      
+            // $('#form1 input').attr('readonly', 'readonly');    
+            $("#harvestCheckDiv").hide();  
+            $("#harvestDeleteDiv").hide();  
             $("#modalFooter").append(closeButton);  
           }
           else if (action==='update'){
@@ -536,13 +545,17 @@
             //TODO $("#viewmodal_logdatetime").attr('readonly', true);
             //$("#viewmodal_logdatetime_calendar").attr('readonly', true);
            // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
-            
+
+            $("#harvestDeleteDiv").hide();  
+            $("#harvestCheckDiv").show();  
             $("#modalFooter").append(updateButton);  
             $("#modalFooter").append(closeButton);  
             $('#harvestModalForm').attr('action', '/app/harvest/update');
           }
           else if (action==='delete'){
             $("#modalBodyContainer :input").attr("disabled", false);
+            $("#harvestCheckDiv").hide();  
+            $("#harvestDeleteDiv").show();  
             $("#modalFooter").append(deleteButton);  
             $("#modalFooter").append(closeButton);  
             $('#harvestModalForm').attr('action', '/app/harvest/delete');
