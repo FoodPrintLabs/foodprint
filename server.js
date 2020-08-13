@@ -78,7 +78,10 @@ app.use(passport.session());
 
 app.use(flash());
 
+// middleware for all views
 app.use(function(req,res,next){
+  // locals is deleted at the end of current request, flash is deleted after it is displayed, and it is stored in session intermediately.
+  // (this works with redirect)
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success")
   next();
