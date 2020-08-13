@@ -259,23 +259,30 @@ router.post('/update', [
     });
 
 //route for delete data
-router.post('/delete',(req, res) => {
-  let sql = "DELETE FROM foodprint_harvest WHERE configid='"+req.body.config_id2+"'";
-  // console.log('sql ' + sql);
-  // console.log('configname ' + req.body.config_name2);
-  // console.log('configid ' + req.body.config_id2);
-  let query = connection.query(sql, (err, results) => {
-    if(err) {
-        //throw err;
-        req.flash('error', err.message)
-        // redirect to harvest logbook page
-        res.redirect('/app/harvest')
-    } else{
-        req.flash('success', 'Harvest deleted successfully! Harvest Name = ' + req.body.config_name2);
-        res.redirect('/app/harvest');
-      }
-  });
-});
+//TODO - should we add a deleted field and rather set that to 1 instead of an actual delete?
+router.post('/delete',
+    [
+    check('viewmodal_harvest_logid', 'Harvest ID value is not valid').not().isEmpty().trim().escape(),
+  ],
+  function(req, res) {
+    let sql = "DELETE FROM foodprint_harvest WHERE harvest_logid='"+req.body.viewmodal_harvest_logid+"'";
+    console.log('sql ' + sql);
+    // console.log('configname ' + req.body.config_name2);
+    console.log('configid ' + req.body.viewmodal_harvest_logid);
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
+            let query = connection.query(sql, (err, results) => {
+                if(err) {
+                    //throw err;
+                    req.flash('error', err.message)
+                    // redirect to harvest logbook page
+                    res.redirect('/app/harvest')
+                } else{
+                    req.flash('success', 'Harvest entry deleted successfully! Harvest ID = ' + req.body.viewmodal_harvest_logid);
+                    res.redirect('/app/harvest');
+                }
+            });
+        }
+    });
 
  
 module.exports = router;

@@ -592,7 +592,14 @@
           else if (action==='delete'){
             $("#modalBodyContainer :input").attr("disabled", true);
             $("#harvestCheckDiv").hide();  // hide confirm add/edit checkbox
-            $("#harvestDeleteDiv").show();  // hide confirm delete checkbox
+            $("#harvestCheck").attr("required", false); // make confirm confirm add/edit checkbox not required in case form will not submit
+
+            $("#harvestDeleteDiv").show();  // show confirm delete checkbox
+
+            //make viewmodal_harvest_logid readon;y not disabled so it is sent via web request
+            $("#viewmodal_harvest_logid").attr("disabled", false);
+            $("#viewmodal_harvest_logid").attr('readonly', true);
+
             $("#modalFooter").append(deleteButton);  
             $("#modalFooter").append(closeButton);  
             $('#harvestModalForm').attr('action', '/app/harvest/delete');
