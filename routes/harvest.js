@@ -33,12 +33,36 @@ router.get('/',
 
 //route for insert data
 router.post('/save', [
-    //check('sample_name').not().isEmpty().withMessage('Name must have more than 5 characters'),
-    //check('sample_classYear', 'Class Year should be a number').not().isEmpty(),
-    //check('weekday', 'Choose a weekday').optional(),
-    check('config_name', 'Your config name is not valid').not().isEmpty().trim().escape(),
-    check('config_description', 'Your config description is not valid').not().isEmpty().trim().escape(),
-    check('config_value', 'Your config value is not valid').not().isEmpty().trim().escape(),
+    //System populated:
+    //viewmodal_harvest_added_to_blockchain_date, viewmodal_harvest_capturetime, 
+    //viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid,
+    //viewmodal_harvest_blockchainhashid, viewmodal_harvest_blockchainhashdata,
+    //viewmodal_harvest_bool_added_to_blockchain , 
+    //viewmodal_harvest_user, viewmodal_harvest_blockchain_uuid, viewmodal_harvest_added_to_blockchain_by
+
+    check('viewmodal_harvest_suppliershortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_suppliername', 'Harvest Supplier Name is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_supplieraddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_producename', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_photohash', 'Harvest PhotoHash value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_timestamp', 'Harvest Timestamp value is not valid').not().isEmpty(),
+    //check('viewmodal_harvest_capturetime', 'Harvest Capture Time value is not valid').not().isEmpty(),
+    check('viewmodal_harvest_description', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_geolocation', 'Harvest GeoLocation value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_quantity', 'Harvest Quantity value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_unitofmeasure', 'Harvest Unit of Measure value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_description_json', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_harvest_blockchainhashid', 'Blockchain Hash ID value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_harvest_blockchainhashdata', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_supplierproduce', 'Supplier Produce value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_harvest_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_harvest_added_to_blockchain_by', 'Harvest Added to Blockchain by value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_harvest_blockchain_uuid', 'Harvest Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_harvest_user', 'Harvest User value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_logdatetime', 'Logdatetime datetime value is not valid').not().isEmpty(),
+    //check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not().isEmpty(),
+    //check('viewmodal_harvest_logid', 'Harvest ID value is not valid').not().isEmpty().trim().escape(),
   ],
     function(req, res){
         const result = validationResult(req);
@@ -51,11 +75,39 @@ router.post('/save', [
               res.redirect('/app/harvest');
             }
           else {
-              let config_datetime = new Date();
-              let config_uuid = uuidv4()
+              //console.log('req.body.viewmodal_harvest_logid ' + req.body.viewmodal_harvest_logid);
+              let harvest_logid_uuid = uuidv4()
+              let harvest_TimeStamp = moment(new Date(req.body.viewmodal_harvest_timestamp)).format("YYYY-MM-DD HH:mm:ss"); //actual time of harvest in the field 
+              let harvest_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of harvest data entry 
+              let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+              let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
+
               let data = {
-                  configname: req.body.config_name, configdescription: req.body.config_description,
-                  configvalue: req.body.config_value, logdatetime: config_datetime, configid: config_uuid
+                harvest_logid: harvest_logid_uuid,
+                harvest_supplierShortcode: req.body.viewmodal_harvest_suppliershortcode,
+                harvest_supplierName: req.body.viewmodal_harvest_suppliername, 
+                harvest_farmerName: req.body.viewmodal_harvest_farmername,
+                harvest_supplierAddress: req.body.viewmodal_harvest_supplieraddress,
+                harvest_produceName: req.body.viewmodal_harvest_producename,
+                harvest_photoHash: req.body.viewmodal_harvest_photohash,
+                harvest_TimeStamp: harvest_TimeStamp,
+                harvest_CaptureTime: harvest_CaptureTime,
+                harvest_Description: req.body.viewmodal_harvest_description,
+                harvest_geolocation: req.body.viewmodal_harvest_geolocation,
+                harvest_quantity: req.body.viewmodal_harvest_quantity,
+                harvest_unitOfMeasure: req.body.viewmodal_harvest_unitofmeasure,
+                harvest_description_json: '-',
+                harvest_BlockchainHashID: '-',
+                harvest_BlockchainHashData: '-', 
+                supplierproduce: req.body.viewmodal_supplierproduce, // e.g. WMPN_BabyMarrow
+                harvest_bool_added_to_blockchain: 'false', //true or false
+                harvest_added_to_blockchain_date: '-', //system generated when add to blockchain is selected
+                harvest_added_to_blockchain_by: '-', // user who logged harvest to blockchain
+                harvest_blockchain_uuid: '-', // uuid to blockchain config record which has contract and address
+                harvest_user: req.user.email, // user who logged harvest
+                logdatetime: logdatetime,
+                lastmodifieddatetime: lastmodifieddatetime
               };
               let sql = "INSERT INTO foodprint_harvest SET ?";
               try {
@@ -66,18 +118,31 @@ router.post('/save', [
                           // redirect to harvest logbook page
                           res.redirect('/app/harvest')
                       } else{
-                          req.flash('success', 'New Harvestentry added successfully! Harvest Name = ' + req.body.config_name);
+                          req.flash('success', 'New Harvest entry added successfully! Harvest ID = ' + harvest_logid_uuid);
                           res.redirect('/app/harvest');
                       }
                   });
                   } catch (e) {
                       //this will eventually be handled by your error handling middleware
-                      next(e);
-                      //res.json({success: false, errors: e});
-                    res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", data:'',
-                                                success: false, errors:e.array(),
-                                                page_name:'harvestlogbook',
-                                                user: req.user,});
+                        next(e);
+                        //res.json({success: false, errors:errors.array()});
+                        console.log('Error - error handling middleware');
+
+                        if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
+                            connection.query('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
+                                if(err){
+                                    req.flash('error', err.message);
+                                    res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook", 
+                                                            data:'', user: req.user, page_name:'harvestlogbook',
+                                                            success: false, errors: e.array(), });
+                                }else{
+                                    res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook", 
+                                                            success: false, errors: e.array(),
+                                                            data:rows, user: req.user,
+                                                            page_name:'harvestlogbook' });
+                                }
+                            });
+                        }
                   }
           }
     });
@@ -114,8 +179,8 @@ router.post('/update', [
             console.log('Validation error - ' + errors[key].msg);
       }
        if (!result.isEmpty()) {
-              console.log('Error - !result.isEmpty');
-              console.log(errors);
+              //console.log('Error - !result.isEmpty');
+              //console.log(errors);
                req.flash('error', errors)
                 res.redirect('/app/harvest') 
         }
@@ -125,7 +190,6 @@ router.post('/update', [
             let harvest_CaptureTime = moment(new Date(req.body.viewmodal_harvest_capturetime)).format("YYYY-MM-DD HH:mm:ss");
             let logdatetime = moment(new Date(req.body.viewmodal_logdatetime)).format("YYYY-MM-DD HH:mm:ss");
             let lastmodifieddatetime = moment(new Date(req.body.viewmodal_lastmodifieddatetime)).format("YYYY-MM-DD HH:mm:ss");
-              let config_uuid = uuidv4()
             //TODO - should rather update only the fields have changed!
                 let sql = "UPDATE foodprint_harvest SET harvest_supplierShortcode='" + req.body.viewmodal_harvest_suppliershortcode + "', " +
                   "harvest_supplierName='" + req.body.viewmodal_harvest_suppliername + 
