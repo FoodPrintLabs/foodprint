@@ -119,9 +119,32 @@ router.post('/update', [
                 res.redirect('/app/harvest') 
         }
           else {
-              let sql = "UPDATE foodprint_harvest SET configname='" + req.body.config_name + "', " +
-                  "configdescription='" + req.body.config_description + "',configvalue='" + req.body.config_value +
-                  "' WHERE configid='" + req.body.config_id + "'";
+            console.log('req.body.viewmodal_harvest_logid ' + req.body.viewmodal_harvest_logid);
+            //TODO - should rather update only the fields have changed!
+                let sql = "UPDATE foodprint_harvest SET harvest_supplierShortcode='" + req.body.viewmodal_harvest_suppliershortcode + "', " +
+                  "harvest_supplierName='" + req.body.viewmodal_harvest_suppliername + 
+                  "',harvest_farmerName='" + req.body.viewmodal_harvest_farmername +
+                  "',harvest_supplierAddress='" + req.body.viewmodal_harvest_supplieraddress +
+                  "',harvest_produceName='" + req.body.viewmodal_harvest_producename +
+                  "',harvest_photoHash='" + req.body.viewmodal_harvest_photohash +
+                  "',harvest_TimeStamp='" + req.body.viewmodal_harvest_timestamp +
+                  "',harvest_CaptureTime='" + req.body.viewmodal_harvest_capturetime +
+                  "',harvest_Description='" + req.body.viewmodal_harvest_description +
+                  "',harvest_geolocation='" + req.body.viewmodal_harvest_geolocation +
+                  "',harvest_quantity='" + req.body.viewmodal_harvest_quantity +
+                  "',harvest_unitOfMeasure='" + req.body.viewmodal_harvest_unitofmeasure +
+                  "',harvest_description_json='" + req.body.viewmodal_harvest_description_json +
+                  "',harvest_BlockchainHashID='" + req.body.viewmodal_harvest_blockchainhashid +
+                  "',harvest_BlockchainHashData='" + req.body.viewmodal_harvest_blockchainhashdata +
+                  "',supplierproduce='" + req.body.viewmodal_supplierproduce +
+                  "',harvest_bool_added_to_blockchain='" + req.body.viewmodal_harvest_bool_added_to_blockchain +
+                  "',harvest_added_to_blockchain_date='" + req.body.viewmodal_harvest_added_to_blockchain_date +
+                  "',harvest_added_to_blockchain_by='" + req.body.viewmodal_harvest_added_to_blockchain_by +
+                  "',harvest_blockchain_uuid='" + req.body.viewmodal_harvest_blockchain_uuid +
+                  "',harvest_user='" + req.body.viewmodal_harvest_user +
+                  "',logdatetime='" + req.body.viewmodal_logdatetime +
+                  "',lastmodifieddatetime='" + req.body.viewmodal_lastmodifieddatetime +
+                  "' WHERE harvest_logid='" + req.body.viewmodal_harvest_logid + "'";
               console.log('sql ' + sql);
               //console.log('configid ' + req.body.config_id);
               try {
