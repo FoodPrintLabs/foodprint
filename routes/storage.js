@@ -41,19 +41,19 @@ router.post('/save', [
     check('viewmodal_market_Address', 'Market Address value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_quantity', 'Storage Quantity value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_unitOfMeasure', 'Storage Unit of Measure value  is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_market_storageTimeStamp', 'Storage Timestamp value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_storageTimeStamp', 'Storage Timestamp value is not valid').not().isEmpty(),
     //check('viewmodal_market_storageCaptureTime', 'Storage Capture Time is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_URL', 'Market URL value is not valid').not().isEmpty().trim().escape(),
     //check('viewmodal_storage_BlockchainHashID', 'Blockchain Hash ID value is not valid').not().isEmpty().trim().escape(),
     //check('viewmodal_storage_BlockchainHashData', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_storage_Description', 'Storage Description value is not valid').not().isEmpty().trim().escape(),
     // check('viewmodal_storage_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
-    // check('viewmodal_storage_added_to_blockchain_date', Storage Added to Blockchain Date is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_storage_added_to_blockchain_date', Storage Added to Blockchain Date is not valid').not().isEmpty(),
     // check('viewmodal_storage_added_to_blockchain_by', 'Storage Added to Blockchain by is not valid').not().isEmpty().trim().escape(),
     // check('viewmodal_storage_blockchain_uuid', 'Storage Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
     // check('viewmodal_storage_user', 'Sorage User  value is not valid').not().isEmpty().trim().escape(),
-    // check('viewmodal_logdatetime', 'Logdatetime datetime value is not valid').not().isEmpty().trim().escape(),
-    // check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not().isEmpty().escape(),
+    // check('viewmodal_logdatetime', 'Logdatetime datetime value is not valid').not().isEmpty(),
+    // check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not(),
     // check('viewmodal_harvest_logid', 'Harvest ID value is not valid').not().isEmpty().escape(),
     // check('viewmodal_storage_logid', 'Storage ID value is not valid').not().isEmpty().escape(),
   ],
@@ -75,7 +75,6 @@ router.post('/save', [
               let storage_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of storage/handover data entry 
               let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
               let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-
 
               let data = {
                 harvest_logid: harvest_logid_uuid,
@@ -101,6 +100,10 @@ router.post('/save', [
                 logdatetime: logdatetime,
                 lastmodifieddatetime: lastmodifieddatetime
               };
+              console.log('storage_TimeStamp - ' + storage_TimeStamp);
+              console.log('viewmodal_market_storageTimeStamp - ' + req.body.viewmodal_market_storageTimeStamp);
+
+
               let sql = "INSERT INTO foodprint_storage SET ?";
               try {
                   connection.query(sql, data, function(err, results) {
@@ -257,9 +260,8 @@ router.post('/delete',
     check('viewmodal_storage_logid', 'Storage ID value is not valid').not().isEmpty().trim().escape(),
   ],
   function(req, res) {
-    let sql = "DELETE FROM foodprint_storage WHERE harvest_logid='"+req.body.viewmodal_storage_logid+"'";
-    console.log('sql ' + sql);
-    // console.log('configname ' + req.body.config_name2);
+    let sql = "DELETE FROM foodprint_storage WHERE storage_logid='"+req.body.viewmodal_storage_logid+"'";
+    //console.log('sql ' + sql);
     console.log('configid ' + req.body.viewmodal_storage_logid);
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
             let query = connection.query(sql, (err, results) => {

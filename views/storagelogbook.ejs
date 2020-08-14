@@ -212,7 +212,7 @@
                 <div class="form-group">
                     <label for="viewmodal_market_storageTimeStamp">Storage/Handover Time</label>
                     <div class="input-group form_datetime" id="viewmodal_market_storageTimeStamp_datetimepicker" data-target-input="viewmodal_market_storageTimeStamp">
-                        <input type="text" class="form-control datetimepicker-input" id="viewmodal_market_storageTimeStamp" name="viewmodal_market_storageTimeStamp" placeholder="Actual time of Storage/Handover" data-target="#viewmodal_market_storageTimeStamp"/>
+                        <input type="text" class="form-control datetimepicker-input" id="viewmodal_market_storageTimeStamp" name="viewmodal_market_storageTimeStamp" placeholder="Actual time of Storage/Handover with farmer (Storage Timestamp)" data-target="#viewmodal_market_storageTimeStamp"/>
                         <span class="input-group-addon" data-target="#viewmodal_market_storageTimeStamp" data-toggle="datetimepicker">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -503,14 +503,14 @@
             $("#viewmodal_storage_blockchain_uuidDiv").hide();  
             $("#viewmodal_storage_added_to_blockchain_byDiv").hide();  
             //
-            $("#viewmodal_market_storageCaptureTimeDivDiv").hide();  
+            $("#viewmodal_market_storageCaptureTimeDiv").hide();  
             $("#viewmodal_logdatetimeDiv").hide();  
             $("#viewmodal_lastmodifieddatetimeDiv").hide();  
             $("#viewmodal_harvest_logidDiv").hide();  
             $("#viewmodal_storage_logidDiv").hide();  
             
 
-            //Make System populated elements not required otherwise Add Harvest Form will not submit
+            //Make System populated elements not required otherwise Add Storage Form will not submit
             $("#viewmodal_storage_BlockchainHashID").attr("required", false);
             $("#viewmodal_storage_BlockchainHashData").attr("required", false);
             $("#viewmodal_storage_bool_added_to_blockchain").attr("required", false);
@@ -519,7 +519,7 @@
             $("#viewmodal_storage_blockchain_uuid").attr("required", false);
             $("#viewmodal_storage_added_to_blockchain_by").attr("required", false);
             //
-            $("#viewmodal_market_storageCaptureTimeDiv").attr("required", false);
+            $("#viewmodal_market_storageCaptureTime").attr("required", false);
             $("#viewmodal_logdatetime").attr("required", false);
             $("#viewmodal_lastmodifieddatetime").attr("required", false);
             $("#viewmodal_harvest_logid").attr("required", false);
@@ -550,7 +550,7 @@
             $("#viewmodal_storage_blockchain_uuidDiv").show();  
             $("#viewmodal_storage_added_to_blockchain_byDiv").show();  
             
-            $("#viewmodal_market_storageCaptureTimeDivDiv").show();  
+            $("#viewmodal_market_storageCaptureTimeDiv").show();  
             $("#viewmodal_logdatetimeDiv").show();  
             $("#viewmodal_lastmodifieddatetimeDiv").show();  
             $("#viewmodal_harvest_logidDiv").show();  
@@ -568,7 +568,7 @@
            // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
 
            $("#viewmodal_storage_added_to_blockchain_dateDiv").show();  
-            $("#viewmodal_market_storageCaptureTimeDivDiv").show();  //TODO - this should be readonly
+            $("#viewmodal_market_storageCaptureTimeDiv").show();  //TODO - this should be readonly
             $("#viewmodal_logdatetimeDiv").show();  //TODO - this should be readonly
             $("#viewmodal_lastmodifieddatetimeDiv").show();  //TODO - this should be readonly
 
