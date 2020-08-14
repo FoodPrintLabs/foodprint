@@ -33,36 +33,29 @@ router.get('/',
 
 //route for insert data
 router.post('/save', [
-    //System populated:
-    //viewmodal_harvest_added_to_blockchain_date, viewmodal_harvest_capturetime, 
-    //viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid,
-    //viewmodal_harvest_blockchainhashid, viewmodal_harvest_blockchainhashdata,
-    //viewmodal_harvest_bool_added_to_blockchain , 
-    //viewmodal_harvest_user, viewmodal_harvest_blockchain_uuid, viewmodal_harvest_added_to_blockchain_by
-
+    //System populated items commented out and excluded from validation
     check('viewmodal_harvest_suppliershortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_suppliername', 'Harvest Supplier Name is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_supplieraddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_producename', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_photohash', 'Harvest PhotoHash value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_timestamp', 'Harvest Timestamp value is not valid').not().isEmpty(),
-    //check('viewmodal_harvest_capturetime', 'Harvest Capture Time value is not valid').not().isEmpty(),
-    check('viewmodal_harvest_description', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_geolocation', 'Harvest GeoLocation value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_quantity', 'Harvest Quantity value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_unitofmeasure', 'Harvest Unit of Measure value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_description_json', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
-    //check('viewmodal_harvest_blockchainhashid', 'Blockchain Hash ID value is not valid').not().isEmpty().trim().escape(),
-    //check('viewmodal_harvest_blockchainhashdata', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_supplierproduce', 'Supplier Produce value is not valid').not().isEmpty().trim().escape(),
-    //check('viewmodal_harvest_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
-    //check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty().trim().escape(),
-    //check('viewmodal_harvest_added_to_blockchain_by', 'Harvest Added to Blockchain by value is not valid').not().isEmpty().trim().escape(),
-    //check('viewmodal_harvest_blockchain_uuid', 'Harvest Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
-    //check('viewmodal_harvest_user', 'Harvest User value is not valid').not().isEmpty().trim().escape(),
-    //check('viewmodal_logdatetime', 'Logdatetime datetime value is not valid').not().isEmpty(),
-    //check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not().isEmpty(),
-    //check('viewmodal_harvest_logid', 'Storage ID value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_supplierproduce', ' Supplier Produce value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_Shortcode', 'Market Shortcode value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_Name', 'Market Name value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_Address', 'Market Address value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_quantity', 'Storage Quantity value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_unitOfMeasure', 'Storage Unit of Measure value  is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_storageTimeStamp', 'Storage Timestamp value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_market_storageCaptureTime', 'Storage Capture Time is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_URL', 'Market URL value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_storage_BlockchainHashID', 'Blockchain Hash ID value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_storage_BlockchainHashData', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_storage_Description', 'Storage Description value is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_storage_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_storage_added_to_blockchain_date', Storage Added to Blockchain Date is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_storage_added_to_blockchain_by', 'Storage Added to Blockchain by is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_storage_blockchain_uuid', 'Storage Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_storage_user', 'Sorage User  value is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_logdatetime', 'Logdatetime datetime value is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not().isEmpty().escape(),
+    // check('viewmodal_harvest_logid', 'Harvest ID value is not valid').not().isEmpty().escape(),
+    // check('viewmodal_storage_logid', 'Storage ID value is not valid').not().isEmpty().escape(),
   ],
     function(req, res){
         const result = validationResult(req);
@@ -76,36 +69,35 @@ router.post('/save', [
             }
           else {
               //console.log('req.body.viewmodal_harvest_logid ' + req.body.viewmodal_harvest_logid);
-              let harvest_logid_uuid = uuidv4()
-              let harvest_TimeStamp = moment(new Date(req.body.viewmodal_harvest_timestamp)).format("YYYY-MM-DD HH:mm:ss"); //actual time of harvest in the field 
-              let harvest_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of harvest data entry 
+              let harvest_logid_uuid = uuidv4(); //TODO - this should be selected in Storage Modal via drop down
+              let storage_logid_uuid = uuidv4();
+              let storage_TimeStamp = moment(new Date(req.body.viewmodal_market_storageTimeStamp)).format("YYYY-MM-DD HH:mm:ss"); //actual time of storage/handover at market with farmer 
+              let storage_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of storage/handover data entry 
               let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
               let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
 
               let data = {
                 harvest_logid: harvest_logid_uuid,
+                storage_logid: storage_logid_uuid,
                 harvest_supplierShortcode: req.body.viewmodal_harvest_suppliershortcode,
-                harvest_supplierName: req.body.viewmodal_harvest_suppliername, 
-                harvest_farmerName: req.body.viewmodal_harvest_farmername,
-                harvest_supplierAddress: req.body.viewmodal_harvest_supplieraddress,
-                harvest_produceName: req.body.viewmodal_harvest_producename,
-                harvest_photoHash: req.body.viewmodal_harvest_photohash,
-                harvest_TimeStamp: harvest_TimeStamp,
-                harvest_CaptureTime: harvest_CaptureTime,
-                harvest_Description: req.body.viewmodal_harvest_description,
-                harvest_geolocation: req.body.viewmodal_harvest_geolocation,
-                harvest_quantity: req.body.viewmodal_harvest_quantity,
-                harvest_unitOfMeasure: req.body.viewmodal_harvest_unitofmeasure,
-                harvest_description_json: '-',
-                harvest_BlockchainHashID: '-',
-                harvest_BlockchainHashData: '-', 
                 supplierproduce: req.body.viewmodal_supplierproduce, // e.g. WMPN_BabyMarrow
-                harvest_bool_added_to_blockchain: 'false', //true or false
-                harvest_added_to_blockchain_date: '-', //system generated when add to blockchain is selected
-                harvest_added_to_blockchain_by: '-', // user who logged harvest to blockchain
-                harvest_blockchain_uuid: '-', // uuid to blockchain config record which has contract and address
-                harvest_user: req.user.email, // user who logged harvest
+                market_Shortcode: req.body.viewmodal_market_Shortcode,
+                market_Name: req.body.viewmodal_market_Name,
+                market_Address: req.body.viewmodal_market_Address,
+                market_quantity: req.body.viewmodal_market_quantity,
+                market_unitOfMeasure: req.body.viewmodal_market_unitOfMeasure,
+                market_storageTimeStamp: storage_TimeStamp,
+                market_storageCaptureTime: storage_CaptureTime,
+                market_URL: req.body.viewmodal_market_URL,
+                storage_BlockchainHashID: '-',
+                storage_BlockchainHashData: '-',
+                storage_Description: req.body.viewmodal_storage_Description,
+                storage_bool_added_to_blockchain: 'false', //true or false
+                storage_added_to_blockchain_date: '-',  //system generated when add to blockchain is selected
+                storage_added_to_blockchain_by: '-', // user who logged storage to blockchain
+                storage_blockchain_uuid: '-', // uuid to blockchain config record which has contract and address
+                storage_user: req.user.email, // user who logged storage
                 logdatetime: logdatetime,
                 lastmodifieddatetime: lastmodifieddatetime
               };
@@ -118,7 +110,7 @@ router.post('/save', [
                           // redirect to Storage Logbook page
                           res.redirect('/app/storage')
                       } else{
-                          req.flash('success', 'New Storage entry added successfully! Storage ID = ' + harvest_logid_uuid);
+                          req.flash('success', 'New Storage entry added successfully! Storage ID = ' + storage_logid_uuid);
                           res.redirect('/app/storage');
                       }
                   });
@@ -154,7 +146,7 @@ router.post('/update', [
     check('viewmodal_harvest_supplieraddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_producename', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_photohash', 'Harvest PhotoHash value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_timestamp', 'Harvest Timestamp value is not valid').not().isEmpty(),
+    check('viewmodal_market_storageTimeStamp', 'Harvest Timestamp value is not valid').not().isEmpty(),
     check('viewmodal_harvest_capturetime', 'Harvest Capture Time value is not valid').not().isEmpty(),
     check('viewmodal_harvest_description', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_geolocation', 'Harvest GeoLocation value is not valid').not().isEmpty().trim().escape(),
@@ -186,7 +178,7 @@ router.post('/update', [
         }
           else {
             console.log('req.body.viewmodal_harvest_logid ' + req.body.viewmodal_harvest_logid);
-            let harvest_TimeStamp = moment(new Date(req.body.viewmodal_harvest_timestamp)).format("YYYY-MM-DD HH:mm:ss");
+            let harvest_TimeStamp = moment(new Date(req.body.viewmodal_market_storageTimeStamp)).format("YYYY-MM-DD HH:mm:ss");
             let harvest_CaptureTime = moment(new Date(req.body.viewmodal_harvest_capturetime)).format("YYYY-MM-DD HH:mm:ss");
             let logdatetime = moment(new Date(req.body.viewmodal_logdatetime)).format("YYYY-MM-DD HH:mm:ss");
             let lastmodifieddatetime = moment(new Date(req.body.viewmodal_lastmodifieddatetime)).format("YYYY-MM-DD HH:mm:ss");
@@ -197,7 +189,7 @@ router.post('/update', [
                   "',harvest_supplierAddress='" + req.body.viewmodal_harvest_supplieraddress +
                   "',harvest_produceName='" + req.body.viewmodal_harvest_producename +
                   "',harvest_photoHash='" + req.body.viewmodal_harvest_photohash +
-                  "',harvest_TimeStamp='" + req.body.viewmodal_harvest_timestamp +
+                  "',harvest_TimeStamp='" + req.body.viewmodal_market_storageTimeStamp +
                   "',harvest_CaptureTime='" + req.body.viewmodal_harvest_capturetime +
                   "',harvest_Description='" + req.body.viewmodal_harvest_description +
                   "',harvest_geolocation='" + req.body.viewmodal_harvest_geolocation +
@@ -228,7 +220,7 @@ router.post('/update', [
                           res.redirect('/app/storage')
                       } 
                       else{
-                          req.flash('success', 'Storage entry updated successfully! Storage ID = ' + req.body.viewmodal_harvest_logid);
+                          req.flash('success', 'Storage entry updated successfully! Storage ID = ' + req.body.viewmodal_storage_logid);
                           res.redirect('/app/storage');
                         }
               })
@@ -262,13 +254,13 @@ router.post('/update', [
 //TODO - should we add a deleted field and rather set that to 1 instead of an actual delete?
 router.post('/delete',
     [
-    check('viewmodal_harvest_logid', 'Storage ID value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_storage_logid', 'Storage ID value is not valid').not().isEmpty().trim().escape(),
   ],
   function(req, res) {
-    let sql = "DELETE FROM foodprint_storage WHERE harvest_logid='"+req.body.viewmodal_harvest_logid+"'";
+    let sql = "DELETE FROM foodprint_storage WHERE harvest_logid='"+req.body.viewmodal_storage_logid+"'";
     console.log('sql ' + sql);
     // console.log('configname ' + req.body.config_name2);
-    console.log('configid ' + req.body.viewmodal_harvest_logid);
+    console.log('configid ' + req.body.viewmodal_storage_logid);
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
             let query = connection.query(sql, (err, results) => {
                 if(err) {
@@ -277,7 +269,7 @@ router.post('/delete',
                     // redirect to Storage Logbook page
                     res.redirect('/app/storage')
                 } else{
-                    req.flash('success', 'Storage entry deleted successfully! Storage ID = ' + req.body.viewmodal_harvest_logid);
+                    req.flash('success', 'Storage entry deleted successfully! Storage ID = ' + req.body.viewmodal_storage_logid);
                     res.redirect('/app/storage');
                 }
             });
