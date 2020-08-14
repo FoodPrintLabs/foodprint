@@ -27,7 +27,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Harvest Datetime</th>
+            <th scope="col">Storage ID</th>
             <th scope="col">Storage Datetime</th>
             <th scope="col">Supplier Shortcode</th>
             <th scope="col">Produce</th>
@@ -40,10 +40,10 @@
               <tr>
                 <td scope="row"><%= (i+1) %></th>
                 <!-- <td><%= data[i].harvest_logid %></td> -->
-                <td><%= data[i].harvest_TimeStamp %></td>
+                <td><%= data[i].storage_logid %></td>
                 <td><%= data[i].market_storageTimeStamp %></td>
                 <td><%= data[i].harvest_supplierShortcode %></td>
-                <td><%= data[i].harvest_produceName %></td>
+                <td><%= data[i].supplierproduce %></td>
                 <td>
                   <div class="btn-group btn-group-sm" role="group" aria-label="...">
                     <a onclick="ShowStorageModal(this, 'view', 'View Storage Entry','viewCSS')"  class="btn btn-xs btn-info view" 
@@ -51,17 +51,17 @@
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-supplierproduce="<%=data[i].supplierproduce%>"
                       data-storage_logid="<%=data[i].storage_logid%>"
-                      data-market_Shortcode="<%=data[i].market_Shortcode%>"
-                      data-market_Name="<%=data[i].market_Name%>"
-                      data-market_Address="<%=data[i].market_Address%>"
+                      data-market_shortcode="<%=data[i].market_Shortcode%>"
+                      data-market_name="<%=data[i].market_Name%>"
+                      data-market_address="<%=data[i].market_Address%>"
                       data-market_quantity="<%=data[i].market_quantity%>"
-                      data-market_unitOfMeasure="<%=data[i].market_unitOfMeasure%>"
-                      data-market_storageTimeStamp="<%=data[i].market_storageTimeStamp%>"
-                      data-market_storageCaptureTime="<%=data[i].market_storageCaptureTime%>"
-                      data-market_URL="<%=data[i].market_URL%>"
-                      data-storage_BlockchainHashID="<%=data[i].storage_BlockchainHashID%>"
-                      data-storage_BlockchainHashData="<%=data[i].storage_BlockchainHashData%>"
-                      data-storage_Description="<%=data[i].storage_Description%>"
+                      data-market_unitofmeasure="<%=data[i].market_unitOfMeasure%>"
+                      data-market_storagetimestamp="<%=data[i].market_storageTimeStamp%>"
+                      data-market_storagecapturetime="<%=data[i].market_storageCaptureTime%>"
+                      data-market_url="<%=data[i].market_URL%>"
+                      data-storage_blockchainhashid="<%=data[i].storage_BlockchainHashID%>"
+                      data-storage_blockchainhashdata="<%=data[i].storage_BlockchainHashData%>"
+                      data-storage_description="<%=data[i].storage_Description%>"
                       data-storage_bool_added_to_blockchain="<%=data[i].storage_bool_added_to_blockchain%>"
                       data-storage_added_to_blockchain_date="<%=data[i].storage_added_to_blockchain_date%>"
                       data-storage_added_to_blockchain_by="<%=data[i].storage_added_to_blockchain_by%>"
@@ -76,17 +76,17 @@
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-supplierproduce="<%=data[i].supplierproduce%>"
                       data-storage_logid="<%=data[i].storage_logid%>"
-                      data-market_Shortcode="<%=data[i].market_Shortcode%>"
-                      data-market_Name="<%=data[i].market_Name%>"
-                      data-market_Address="<%=data[i].market_Address%>"
+                      data-market_shortcode="<%=data[i].market_Shortcode%>"
+                      data-market_name="<%=data[i].market_Name%>"
+                      data-market_address="<%=data[i].market_Address%>"
                       data-market_quantity="<%=data[i].market_quantity%>"
-                      data-market_unitOfMeasure="<%=data[i].market_unitOfMeasure%>"
-                      data-market_storageTimeStamp="<%=data[i].market_storageTimeStamp%>"
-                      data-market_storageCaptureTime="<%=data[i].market_storageCaptureTime%>"
-                      data-market_URL="<%=data[i].market_URL%>"
-                      data-storage_BlockchainHashID="<%=data[i].storage_BlockchainHashID%>"
-                      data-storage_BlockchainHashData="<%=data[i].storage_BlockchainHashData%>"
-                      data-storage_Description="<%=data[i].storage_Description%>"
+                      data-market_unitofmeasure="<%=data[i].market_unitOfMeasure%>"
+                      data-market_storagetimestamp="<%=data[i].market_storageTimeStamp%>"
+                      data-market_storagecapturetime="<%=data[i].market_storageCaptureTime%>"
+                      data-market_url="<%=data[i].market_URL%>"
+                      data-storage_blockchainhashid="<%=data[i].storage_BlockchainHashID%>"
+                      data-storage_blockchainhashdata="<%=data[i].storage_BlockchainHashData%>"
+                      data-storage_description="<%=data[i].storage_Description%>"
                       data-storage_bool_added_to_blockchain="<%=data[i].storage_bool_added_to_blockchain%>"
                       data-storage_added_to_blockchain_date="<%=data[i].storage_added_to_blockchain_date%>"
                       data-storage_added_to_blockchain_by="<%=data[i].storage_added_to_blockchain_by%>"
@@ -101,17 +101,17 @@
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-supplierproduce="<%=data[i].supplierproduce%>"
                       data-storage_logid="<%=data[i].storage_logid%>"
-                      data-market_Shortcode="<%=data[i].market_Shortcode%>"
-                      data-market_Name="<%=data[i].market_Name%>"
-                      data-market_Address="<%=data[i].market_Address%>"
+                      data-market_shortcode="<%=data[i].market_Shortcode%>"
+                      data-market_name="<%=data[i].market_Name%>"
+                      data-market_address="<%=data[i].market_Address%>"
                       data-market_quantity="<%=data[i].market_quantity%>"
-                      data-market_unitOfMeasure="<%=data[i].market_unitOfMeasure%>"
-                      data-market_storageTimeStamp="<%=data[i].market_storageTimeStamp%>"
-                      data-market_storageCaptureTime="<%=data[i].market_storageCaptureTime%>"
-                      data-market_URL="<%=data[i].market_URL%>"
-                      data-storage_BlockchainHashID="<%=data[i].storage_BlockchainHashID%>"
-                      data-storage_BlockchainHashData="<%=data[i].storage_BlockchainHashData%>"
-                      data-storage_Description="<%=data[i].storage_Description%>"
+                      data-market_unitofmeasure="<%=data[i].market_unitOfMeasure%>"
+                      data-market_storagetimestamp="<%=data[i].market_storageTimeStamp%>"
+                      data-market_storagecapturetime="<%=data[i].market_storageCaptureTime%>"
+                      data-market_url="<%=data[i].market_URL%>"
+                      data-storage_blockchainhashid="<%=data[i].storage_BlockchainHashID%>"
+                      data-storage_blockchainhashdata="<%=data[i].storage_BlockchainHashData%>"
+                      data-storage_description="<%=data[i].storage_Description%>"
                       data-storage_bool_added_to_blockchain="<%=data[i].storage_bool_added_to_blockchain%>"
                       data-storage_added_to_blockchain_date="<%=data[i].storage_added_to_blockchain_date%>"
                       data-storage_added_to_blockchain_by="<%=data[i].storage_added_to_blockchain_by%>"
@@ -127,17 +127,17 @@
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-supplierproduce="<%=data[i].supplierproduce%>"
                       data-storage_logid="<%=data[i].storage_logid%>"
-                      data-market_Shortcode="<%=data[i].market_Shortcode%>"
-                      data-market_Name="<%=data[i].market_Name%>"
-                      data-market_Address="<%=data[i].market_Address%>"
+                      data-market_shortcode="<%=data[i].market_Shortcode%>"
+                      data-market_name="<%=data[i].market_Name%>"
+                      data-market_address="<%=data[i].market_Address%>"
                       data-market_quantity="<%=data[i].market_quantity%>"
-                      data-market_unitOfMeasure="<%=data[i].market_unitOfMeasure%>"
-                      data-market_storageTimeStamp="<%=data[i].market_storageTimeStamp%>"
-                      data-market_storageCaptureTime="<%=data[i].market_storageCaptureTime%>"
-                      data-market_URL="<%=data[i].market_URL%>"
-                      data-storage_BlockchainHashID="<%=data[i].storage_BlockchainHashID%>"
-                      data-storage_BlockchainHashData="<%=data[i].storage_BlockchainHashData%>"
-                      data-storage_Description="<%=data[i].storage_Description%>"
+                      data-market_unitofmeasure="<%=data[i].market_unitOfMeasure%>"
+                      data-market_storagetimestamp="<%=data[i].market_storageTimeStamp%>"
+                      data-market_storagecapturetime="<%=data[i].market_storageCaptureTime%>"
+                      data-market_url="<%=data[i].market_URL%>"
+                      data-storage_blockchainhashid="<%=data[i].storage_BlockchainHashID%>"
+                      data-storage_blockchainhashdata="<%=data[i].storage_BlockchainHashData%>"
+                      data-storage_description="<%=data[i].storage_Description%>"
                       data-storage_bool_added_to_blockchain="<%=data[i].storage_bool_added_to_blockchain%>"
                       data-storage_added_to_blockchain_date="<%=data[i].storage_added_to_blockchain_date%>"
                       data-storage_added_to_blockchain_by="<%=data[i].storage_added_to_blockchain_by%>"
@@ -408,22 +408,22 @@
           'data-dismiss':"modal"
       });
 
-            //retrieve data values on click of view/edit/delete
+            //retrieve data values on click of view/edit/delete. These datavalues need to be lowercase
             var harvest_logid = $(obj_identifier).data('harvest_logid');
             var storage_logid = $(obj_identifier).data('storage_logid');
             var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode'); 
             var supplierproduce = $(obj_identifier).data('supplierproduce');
-            var market_Shortcode = $(obj_identifier).data('market_Shortcode');
-            var market_Name = $(obj_identifier).data('market_Name');
-            var market_Address = $(obj_identifier).data('market_Address');
+            var market_Shortcode = $(obj_identifier).data('market_shortcode');
+            var market_Name = $(obj_identifier).data('market_name');
+            var market_Address = $(obj_identifier).data('market_address');
             var market_quantity = $(obj_identifier).data('market_quantity');
-            var market_unitOfMeasure = $(obj_identifier).data('market_unitOfMeasure');
-            var market_storageTimeStamp = $(obj_identifier).data('market_storageTimeStamp');
-            var market_storageCaptureTime = $(obj_identifier).data('market_storageCaptureTime');
-            var market_URL = $(obj_identifier).data('market_URL');
-            var storage_BlockchainHashID = $(obj_identifier).data('storage_BlockchainHashID');
-            var storage_BlockchainHashData = $(obj_identifier).data('storage_BlockchainHashData');
-            var storage_Description = $(obj_identifier).data('storage_Description');
+            var market_unitOfMeasure = $(obj_identifier).data('market_unitofmeasure');
+            var market_storageTimeStamp = $(obj_identifier).data('market_storagetimestamp');
+            var market_storageCaptureTime = $(obj_identifier).data('market_storagecapturetime');
+            var market_URL = $(obj_identifier).data('market_url');
+            var storage_BlockchainHashID = $(obj_identifier).data('storage_blockchainhashid');
+            var storage_BlockchainHashData = $(obj_identifier).data('storage_blockchainhashdata');
+            var storage_Description = $(obj_identifier).data('storage_description');
             var storage_bool_added_to_blockchain = $(obj_identifier).data('storage_bool_added_to_blockchain');
             var storage_added_to_blockchain_by = $(obj_identifier).data('storage_added_to_blockchain_by');
             var storage_blockchain_uuid = $(obj_identifier).data('storage_blockchain_uuid');
@@ -432,8 +432,27 @@
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
 
             //check console
-            console.log("harvest_logid - " + harvest_logid);
-            console.log("storage_logid - " + storage_logid);
+            // console.log("harvest_logid - " + harvest_logid);
+            // console.log("storage_logid - " + storage_logid);
+            // console.log("harvest_suppliershortcode - " + harvest_suppliershortcode);
+            // console.log("supplierproduce - " + supplierproduce);
+            // console.log("market_Shortcode - " + market_Shortcode);
+            // console.log("market_Name - " + market_Name);
+            // console.log("market_Address - " + market_Address); 
+            // console.log("market_quantity - " + market_quantity);
+            // console.log("market_unitOfMeasure - " + market_unitOfMeasure); 
+            // console.log("market_storageTimeStamp - " + market_storageTimeStamp); 
+            // console.log("market_storageCaptureTime - " + market_storageCaptureTime); 
+            // console.log("market_URL - " + market_URL); 
+            // console.log("storage_BlockchainHashID - " + storage_BlockchainHashID); 
+            // console.log("storage_BlockchainHashData - " + storage_BlockchainHashData);
+            // console.log("storage_Description - " + storage_Description); 
+            // console.log("storage_bool_added_to_blockchain - " + storage_bool_added_to_blockchain);
+            // console.log("storage_added_to_blockchain_by - " + storage_added_to_blockchain_by);
+            // console.log("storage_blockchain_uuid - " + storage_blockchain_uuid);
+            // console.log("storage_user - " + storage_user);
+            // console.log("logdatetime - " + logdatetime);
+            // console.log("lastmodifieddatetime - " + lastmodifieddatetime);
 
             //populate Modal elements
             $('#viewmodal_harvest_logid').val(harvest_logid);
@@ -456,7 +475,7 @@
             $('#viewmodal_storage_added_to_blockchain_by').val(storage_added_to_blockchain_by);
             $('#viewmodal_storage_blockchain_uuid').val(storage_blockchain_uuid);
             $('#viewmodal_storage_user').val(storage_user);
-            $('#viewmodal_logdatetime_calendar').val(logdatetime);
+            $('#viewmodal_logdatetime').val(logdatetime);
             $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
 
           //remove modal buttons, then re-add
@@ -492,13 +511,13 @@
             
 
             //Make System populated elements not required otherwise Add Harvest Form will not submit
-            $("#viewmodal_harvest_blockchainhashid").attr("required", false);
-            $("#viewmodal_harvest_blockchainhashdata").attr("required", false);
-            $("#viewmodal_harvest_bool_added_to_blockchain").attr("required", false);
-            $("#viewmodal_harvest_added_to_blockchain_date").attr("required", false);
-            $("#viewmodal_harvest_user").attr("required", false);
-            $("#viewmodal_harvest_blockchain_uuid").attr("required", false);
-            $("#viewmodal_harvest_added_to_blockchain_by").attr("required", false);
+            $("#viewmodal_storage_BlockchainHashID").attr("required", false);
+            $("#viewmodal_storage_BlockchainHashData").attr("required", false);
+            $("#viewmodal_storage_bool_added_to_blockchain").attr("required", false);
+            $("#viewmodal_storage_added_to_blockchain_date").attr("required", false);
+            $("#viewmodal_storage_user").attr("required", false);
+            $("#viewmodal_storage_blockchain_uuid").attr("required", false);
+            $("#viewmodal_storage_added_to_blockchain_by").attr("required", false);
             //
             $("#viewmodal_market_storageCaptureTimeDiv").attr("required", false);
             $("#viewmodal_logdatetime").attr("required", false);
