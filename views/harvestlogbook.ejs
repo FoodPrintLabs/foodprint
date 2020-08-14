@@ -182,14 +182,35 @@
 
             <div class="modal-body">
               <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
                   <input type="text" name="viewmodal_harvest_suppliershortcode" class="form-control" id="viewmodal_harvest_suppliershortcode" placeholder="Supplier Shortcode">
+                </div> -->
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
+                    <option value="" selected disabled >Choose Supplier...</option>
+                    <option>WMNP</option>
+                    <option>QCGF</option>
+                    <option>OZCF</option>
+                  </select>
                 </div>
+
+
+                <!-- <div class="form-group">
+                  <label for="viewmodal_harvest_suppliername">Supplier Name</label>
+                  <input type="text" name="viewmodal_harvest_suppliername" class="form-control" id="viewmodal_harvest_suppliername" placeholder="Supplier Name">
+                </div> -->
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_suppliername">Supplier Name</label>
-                  <input type="text" name="viewmodal_harvest_suppliername" class="form-control" id="viewmodal_harvest_suppliername" placeholder="Supplier Name">
+                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
+                    <option value="" selected disabled >Choose Supplier Name...</option>
+                    <option>White Mountain Natural Produce</option>
+                    <option>Quick Crop Growers Farm</option>
+                    <option>Oranjezicht City Farm</option>
+                  </select>
                 </div>
 
                 <div class="form-group">
@@ -202,9 +223,25 @@
                   <input type="text" name="viewmodal_harvest_supplieraddress" class="form-control" id="viewmodal_harvest_supplieraddress" placeholder="Supplier Address">
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="viewmodal_harvest_producename">Produce Name</label>
                   <input type="text" name="viewmodal_harvest_producename" class="form-control" id="viewmodal_harvest_producename" placeholder="Produce Name">
+                </div> -->
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_producename">Produce Name</label>
+                  <select class="custom-select d-block w-100" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename" >
+                    <option value="" selected disabled >Choose Produce...</option>
+                    <option>Baby Marrow</option>
+                    <option>Basil</option>
+                    <option>Beetroot</option>
+                    <option>Cayene Pepper</option>
+                    <option>Cucumber</option>
+                    <option>Fennel</option>
+                    <option>Green Beans</option>
+                    <option>Lebanese Cucumber</option>
+                    <option>Radish</option>
+                  </select>
                 </div>
 
                 <div class="form-group">
@@ -233,7 +270,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="viewmodal_harvest_description">Harvest Description</label>
+                  <label for="viewmodal_harvest_description">Description of Harvest</label>
                   <input type="text" name="viewmodal_harvest_description" class="form-control" id="viewmodal_harvest_description" placeholder="Harvest Description">
                 </div>
 
@@ -244,13 +281,13 @@
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_quantity">Produce Quantity</label>
-                  <input type="text" name="viewmodal_harvest_quantity" class="form-control" id="viewmodal_harvest_quantity" placeholder="Quantity of produce harvested">
+                  <input type="number" name="viewmodal_harvest_quantity" class="form-control" id="viewmodal_harvest_quantity" placeholder="Quantity of produce harvested">
                 </div>
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_unitofmeasure">Unit of Measure</label>
                   <select class="custom-select d-block w-100" id="viewmodal_harvest_unitofmeasure" name="viewmodal_harvest_unitofmeasure">
-                    <option value="">Choose Unit of Measure...</option>
+                    <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>bunch</option>
                     <option>kilogram</option>
                     <option>none</option>
@@ -273,9 +310,25 @@
                   <input type="text" name="viewmodal_harvest_blockchainhashdata" class="form-control" id="viewmodal_harvest_blockchainhashdata" placeholder="Blockchain Hash Data">
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="viewmodal_supplierproduce">Supplier Produce</label>
                   <input type="text" name="viewmodal_supplierproduce" class="form-control" id="viewmodal_supplierproduce" placeholder="Supplier Produce">
+                </div> -->
+
+                <div class="form-group">
+                  <label for="viewmodal_supplierproduce">Supplier Produce</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                    <option value="" selected disabled >Choose Supplier Produce...</option>
+                    <option>QCGF_Basil</option>
+                    <option>QCGF_Beetroot</option>
+                    <option>QCGF_CayennePepper</option>
+                    <option>WMNP_BabyMarrow</option>
+                    <option>WMNP_Radish</option>
+                    <option>WMNP_GreenBeans</option>
+                    <option>WMNP_Fennel</option>
+                    <option>WMNP_Basil</option>
+                    <option>WMNP_Cucumber</option>
+                  </select>
                 </div>
                 
                 <div class="form-group" id="viewmodal_harvest_bool_added_to_blockchainDiv">
