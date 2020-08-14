@@ -200,13 +200,24 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="viewmodal_market_quantity">Market Quantity</label>
-                  <input type="text" name="viewmodal_market_quantity" class="form-control" id="viewmodal_market_quantity" placeholder="Market Quantity">
+                  <label for="viewmodal_market_quantity">Produce Quantity</label>
+                  <input type="text" name="viewmodal_market_quantity" class="form-control" id="viewmodal_market_quantity" placeholder="Quantity of produce received by Market">
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="viewmodal_market_unitOfMeasure">Market Unit of Measure</label>
                   <input type="text" name="viewmodal_market_unitOfMeasure" class="form-control" id="viewmodal_market_unitOfMeasure" placeholder="Market Unit of Measure">
+                </div> -->
+
+                <div class="form-group">
+                  <label for="viewmodal_market_unitOfMeasure">Unit of Measure</label>
+                  <select class="custom-select d-block w-100" id="viewmodal_market_unitOfMeasure" name="viewmodal_market_unitOfMeasure">
+                    <option value="">Choose Unit of Measure...</option>
+                    <option>bunch</option>
+                    <option>kilogram</option>
+                    <option>none</option>
+                    <option>box</option>
+                  </select>
                 </div>
 
                 <div class="form-group">
