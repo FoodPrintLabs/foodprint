@@ -182,10 +182,6 @@
 
             <div class="modal-body">
               <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
-                <!-- <div class="form-group">
-                  <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
-                  <input type="text" name="viewmodal_harvest_suppliershortcode" class="form-control" id="viewmodal_harvest_suppliershortcode" placeholder="Supplier Shortcode">
-                </div> -->
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
@@ -197,12 +193,6 @@
                   </select>
                 </div>
 
-
-                <!-- <div class="form-group">
-                  <label for="viewmodal_harvest_suppliername">Supplier Name</label>
-                  <input type="text" name="viewmodal_harvest_suppliername" class="form-control" id="viewmodal_harvest_suppliername" placeholder="Supplier Name">
-                </div> -->
-
                 <div class="form-group">
                   <label for="viewmodal_harvest_suppliername">Supplier Name</label>
                   <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
@@ -212,21 +202,22 @@
                     <option>Oranjezicht City Farm</option>
                   </select>
                 </div>
-
+              
                 <div class="form-group">
-                  <label for="viewmodal_harvest_farmername">Farmer Name</label>
-                  <input type="text" name="viewmodal_harvest_farmername" class="form-control" id="viewmodal_harvest_farmername" placeholder="Farmer Name">
+                  <label for="viewmodal_supplierproduce">Supplier Produce Code</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                    <option value="" selected disabled >Choose Supplier Produce...</option>
+                    <option>QCGF_Basil</option>
+                    <option>QCGF_Beetroot</option>
+                    <option>QCGF_CayennePepper</option>
+                    <option>WMNP_BabyMarrow</option>
+                    <option>WMNP_Radish</option>
+                    <option>WMNP_GreenBeans</option>
+                    <option>WMNP_Fennel</option>
+                    <option>WMNP_Basil</option>
+                    <option>WMNP_Cucumber</option>
+                  </select>
                 </div>
-
-                <div class="form-group">
-                  <label for="viewmodal_harvest_supplieraddress">Supplier Address</label>
-                  <input type="text" name="viewmodal_harvest_supplieraddress" class="form-control" id="viewmodal_harvest_supplieraddress" placeholder="Supplier Address">
-                </div>
-
-                <!-- <div class="form-group">
-                  <label for="viewmodal_harvest_producename">Produce Name</label>
-                  <input type="text" name="viewmodal_harvest_producename" class="form-control" id="viewmodal_harvest_producename" placeholder="Produce Name">
-                </div> -->
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_producename">Produce Name</label>
@@ -242,6 +233,16 @@
                     <option>Lebanese Cucumber</option>
                     <option>Radish</option>
                   </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_supplieraddress">Supplier Address</label>
+                  <input type="text" name="viewmodal_harvest_supplieraddress" class="form-control" id="viewmodal_harvest_supplieraddress" placeholder="Supplier Address">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_farmername">Farmer Name</label>
+                  <input type="text" name="viewmodal_harvest_farmername" class="form-control" id="viewmodal_harvest_farmername" placeholder="Farmer Name">
                 </div>
 
                 <div class="form-group">
@@ -314,22 +315,6 @@
                   <label for="viewmodal_supplierproduce">Supplier Produce</label>
                   <input type="text" name="viewmodal_supplierproduce" class="form-control" id="viewmodal_supplierproduce" placeholder="Supplier Produce">
                 </div> -->
-
-                <div class="form-group">
-                  <label for="viewmodal_supplierproduce">Supplier Produce</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
-                    <option value="" selected disabled >Choose Supplier Produce...</option>
-                    <option>QCGF_Basil</option>
-                    <option>QCGF_Beetroot</option>
-                    <option>QCGF_CayennePepper</option>
-                    <option>WMNP_BabyMarrow</option>
-                    <option>WMNP_Radish</option>
-                    <option>WMNP_GreenBeans</option>
-                    <option>WMNP_Fennel</option>
-                    <option>WMNP_Basil</option>
-                    <option>WMNP_Cucumber</option>
-                  </select>
-                </div>
                 
                 <div class="form-group" id="viewmodal_harvest_bool_added_to_blockchainDiv">
                   <label for="viewmodal_harvest_bool_added_to_blockchain">Harvest Added to Blockchain - Yes / No</label>
@@ -370,12 +355,7 @@
                       </span>
                   </div>
                 </div>
-
-                <!-- <div class="form-group">
-                  <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
-                  <input type="datetime" name="viewmodal_lastmodifieddatetime" class="form-control" id="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime">
-                </div> -->
-
+            
                 <div class="form-group" id="viewmodal_lastmodifieddatetimeDiv">
                   <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
                   <div class="input-group form_datetime" id="viewmodal_lastmodifieddatetime_datetimepicker" data-target-input="viewmodal_lastmodifieddatetime">
