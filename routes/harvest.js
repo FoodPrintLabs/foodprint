@@ -56,7 +56,7 @@ router.post('/save', [
     //check('viewmodal_harvest_blockchainhashdata', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_supplierproduce', 'Supplier Produce value is not valid').not().isEmpty().trim().escape(),
     //check('viewmodal_harvest_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
-    //check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty().trim().escape(),
+    //check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty(),
     //check('viewmodal_harvest_added_to_blockchain_by', 'Harvest Added to Blockchain by value is not valid').not().isEmpty().trim().escape(),
     //check('viewmodal_harvest_blockchain_uuid', 'Harvest Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
     //check('viewmodal_harvest_user', 'Harvest User value is not valid').not().isEmpty().trim().escape(),
@@ -165,7 +165,7 @@ router.post('/update', [
     check('viewmodal_harvest_blockchainhashdata', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_supplierproduce', 'Supplier Produce value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty(),
     check('viewmodal_harvest_added_to_blockchain_by', 'Harvest Added to Blockchain by value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_blockchain_uuid', 'Harvest Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_user', 'Harvest User value is not valid').not().isEmpty().trim().escape(),
@@ -197,8 +197,8 @@ router.post('/update', [
                   "',harvest_supplierAddress='" + req.body.viewmodal_harvest_supplieraddress +
                   "',harvest_produceName='" + req.body.viewmodal_harvest_producename +
                   "',harvest_photoHash='" + req.body.viewmodal_harvest_photohash +
-                  "',harvest_TimeStamp='" + req.body.viewmodal_harvest_timestamp +
-                  "',harvest_CaptureTime='" + req.body.viewmodal_harvest_capturetime +
+                  "',harvest_TimeStamp='" + harvest_TimeStamp +
+                  "',harvest_CaptureTime='" + harvest_CaptureTime +
                   "',harvest_Description='" + req.body.viewmodal_harvest_description +
                   "',harvest_geolocation='" + req.body.viewmodal_harvest_geolocation +
                   "',harvest_quantity='" + req.body.viewmodal_harvest_quantity +
