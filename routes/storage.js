@@ -55,7 +55,7 @@ router.post('/save', [
     check('viewmodal_market_Shortcode', 'Market Shortcode value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_Name', 'Market Name value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_Address', 'Market Address value is not valid').not().isEmpty(),
-    check('viewmodal_harvest_logidSelect', 'arvest ID value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_harvest_logidSelect', 'Harvest ID value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_quantity', 'Storage Quantity value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_unitOfMeasure', 'Storage Unit of Measure value  is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_storageTimeStamp', 'Storage Timestamp value is not valid').not().isEmpty(),
