@@ -255,7 +255,7 @@
                 </div>
 
                 <div class="form-group" id="viewmodal_storage_added_to_blockchain_dateDiv">
-                  <label for="viewmodal_storage_added_to_blockchain_date">Harvest Added to Blockchain Datetime</label>
+                  <label for="viewmodal_storage_added_to_blockchain_date">Storage Added to Blockchain Datetime</label>
                   <div class="input-group form_datetime" id="viewmodal_storage_added_to_blockchain_date_datetimepicker" data-target-input="viewmodal_storage_added_to_blockchain_date">
                       <input type="text" class="form-control datetimepicker-input" id="viewmodal_storage_added_to_blockchain_date" name="viewmodal_storage_added_to_blockchain_date" placeholder="Storage Added to Blockchain Datetime" data-target="#viewmodal_storage_added_to_blockchain_date"/>
                       <span class="input-group-addon" data-target="#viewmodal_storage_added_to_blockchain_date" data-toggle="datetimepicker">
@@ -425,6 +425,7 @@
             var storage_BlockchainHashData = $(obj_identifier).data('storage_blockchainhashdata');
             var storage_Description = $(obj_identifier).data('storage_description');
             var storage_bool_added_to_blockchain = $(obj_identifier).data('storage_bool_added_to_blockchain');
+            var storage_added_to_blockchain_date = $(obj_identifier).data('storage_added_to_blockchain_date');
             var storage_added_to_blockchain_by = $(obj_identifier).data('storage_added_to_blockchain_by');
             var storage_blockchain_uuid = $(obj_identifier).data('storage_blockchain_uuid');
             var storage_user = $(obj_identifier).data('storage_user');
@@ -471,7 +472,7 @@
             $('#viewmodal_storage_BlockchainHashData').val(storage_BlockchainHashData);
             $('#viewmodal_storage_Description').val(storage_Description);
             $('#viewmodal_storage_bool_added_to_blockchain').val(storage_bool_added_to_blockchain);
-            $('#viewmodal_storage_added_to_blockchain_date').val(storage_bool_added_to_blockchain);
+            $('#viewmodal_storage_added_to_blockchain_date').val(storage_added_to_blockchain_date);
             $('#viewmodal_storage_added_to_blockchain_by').val(storage_added_to_blockchain_by);
             $('#viewmodal_storage_blockchain_uuid').val(storage_blockchain_uuid);
             $('#viewmodal_storage_user').val(storage_user);

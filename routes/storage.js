@@ -144,29 +144,29 @@ router.post('/save', [
 
 //route for update data
 router.post('/update', [
+    //System populated items commented out and excluded from validation
     check('viewmodal_harvest_suppliershortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_suppliername', 'Harvest Supplier Name is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_supplieraddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_producename', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_photohash', 'Harvest PhotoHash value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_market_storageTimeStamp', 'Harvest Timestamp value is not valid').not().isEmpty(),
-    check('viewmodal_harvest_capturetime', 'Harvest Capture Time value is not valid').not().isEmpty(),
-    check('viewmodal_harvest_description', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_geolocation', 'Harvest GeoLocation value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_quantity', 'Harvest Quantity value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_unitofmeasure', 'Harvest Unit of Measure value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_description_json', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_blockchainhashid', 'Blockchain Hash ID value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_blockchainhashdata', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_supplierproduce', 'Supplier Produce value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_added_to_blockchain_by', 'Harvest Added to Blockchain by value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_blockchain_uuid', 'Harvest Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_user', 'Harvest User value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_supplierproduce', ' Supplier Produce value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_Shortcode', 'Market Shortcode value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_Name', 'Market Name value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_Address', 'Market Address value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_quantity', 'Storage Quantity value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_unitOfMeasure', 'Storage Unit of Measure value  is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_storageTimeStamp', 'Storage Timestamp value is not valid').not().isEmpty(),
+    check('viewmodal_market_storageCaptureTime', 'Storage Capture Time is not valid').not().isEmpty(),
+    check('viewmodal_market_URL', 'Market URL value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_storage_BlockchainHashID', 'Blockchain Hash ID value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_storage_BlockchainHashData', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_storage_Description', 'Storage Description value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_storage_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_storage_added_to_blockchain_date', 'Storage Added to Blockchain Date is not valid').not().isEmpty(),
+    check('viewmodal_storage_added_to_blockchain_by', 'Storage Added to Blockchain by is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_storage_blockchain_uuid', 'Storage Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_storage_user', 'Sorage User  value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_logdatetime', 'Logdatetime datetime value is not valid').not().isEmpty(),
-    check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not().isEmpty(),
-    check('viewmodal_harvest_logid', 'Storage ID value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_lastmodifieddatetime', 'Last Modified Datetime value is not valid').not(),
+    check('viewmodal_harvest_logid', 'Harvest ID value is not valid').not().isEmpty().escape(),
+    check('viewmodal_storage_logid', 'Storage ID value is not valid').not().isEmpty().escape(),
   ], function(req, res) {
     const result = validationResult(req);
         var errors = result.errors;
@@ -181,37 +181,34 @@ router.post('/update', [
         }
           else {
             console.log('req.body.viewmodal_harvest_logid ' + req.body.viewmodal_harvest_logid);
-            let harvest_TimeStamp = moment(new Date(req.body.viewmodal_market_storageTimeStamp)).format("YYYY-MM-DD HH:mm:ss");
-            let harvest_CaptureTime = moment(new Date(req.body.viewmodal_harvest_capturetime)).format("YYYY-MM-DD HH:mm:ss");
+            let storage_TimeStamp = moment(new Date(req.body.viewmodal_market_storageTimeStamp)).format("YYYY-MM-DD HH:mm:ss");
+            let storage_CaptureTime = moment(new Date(req.body.viewmodal_market_storageCaptureTime)).format("YYYY-MM-DD HH:mm:ss");
             let logdatetime = moment(new Date(req.body.viewmodal_logdatetime)).format("YYYY-MM-DD HH:mm:ss");
             let lastmodifieddatetime = moment(new Date(req.body.viewmodal_lastmodifieddatetime)).format("YYYY-MM-DD HH:mm:ss");
             //TODO - should rather update only the fields have changed!
-                let sql = "UPDATE foodprint_storage SET harvest_supplierShortcode='" + req.body.viewmodal_harvest_suppliershortcode + "', " +
-                  "harvest_supplierName='" + req.body.viewmodal_harvest_suppliername + 
-                  "',harvest_farmerName='" + req.body.viewmodal_harvest_farmername +
-                  "',harvest_supplierAddress='" + req.body.viewmodal_harvest_supplieraddress +
-                  "',harvest_produceName='" + req.body.viewmodal_harvest_producename +
-                  "',harvest_photoHash='" + req.body.viewmodal_harvest_photohash +
-                  "',harvest_TimeStamp='" + req.body.viewmodal_market_storageTimeStamp +
-                  "',harvest_CaptureTime='" + req.body.viewmodal_harvest_capturetime +
-                  "',harvest_Description='" + req.body.viewmodal_harvest_description +
-                  "',harvest_geolocation='" + req.body.viewmodal_harvest_geolocation +
-                  "',harvest_quantity='" + req.body.viewmodal_harvest_quantity +
-                  "',harvest_unitOfMeasure='" + req.body.viewmodal_harvest_unitofmeasure +
-                  "',harvest_description_json='" + req.body.viewmodal_harvest_description_json +
-                  "',harvest_BlockchainHashID='" + req.body.viewmodal_harvest_blockchainhashid +
-                  "',harvest_BlockchainHashData='" + req.body.viewmodal_harvest_blockchainhashdata +
-                  "',supplierproduce='" + req.body.viewmodal_supplierproduce +
-                  "',harvest_bool_added_to_blockchain='" + req.body.viewmodal_harvest_bool_added_to_blockchain +
-                  "',harvest_added_to_blockchain_date='" + req.body.viewmodal_harvest_added_to_blockchain_date +
-                  "',harvest_added_to_blockchain_by='" + req.body.viewmodal_harvest_added_to_blockchain_by +
-                  "',harvest_blockchain_uuid='" + req.body.viewmodal_harvest_blockchain_uuid +
-                  "',harvest_user='" + req.body.viewmodal_harvest_user +
+                let sql = "UPDATE foodprint_storage SET harvest_logid='" + req.body.viewmodal_harvest_logid + "', " +
+                  "harvest_supplierShortcode='" + req.body.viewmodal_harvest_suppliershortcode + 
+                  "',supplierproduce='" + req.body.viewmodal_supplierproduce + 
+                  "',market_Shortcode='" + req.body.viewmodal_market_Shortcode + 
+                  "',market_Name='" + req.body.viewmodal_market_Name + 
+                  "',market_Address='" + req.body.viewmodal_market_Address + 
+                  "',market_quantity='" + req.body.viewmodal_market_quantity + 
+                  "',market_unitOfMeasure='" + req.body.viewmodal_market_unitOfMeasure + 
+                  "',market_storageTimeStamp='" + storage_TimeStamp + 
+                  "',market_storageCaptureTime='" + storage_CaptureTime + 
+                  "',market_URL='" + req.body.viewmodal_market_URL + 
+                  "',storage_BlockchainHashID='" + req.body.viewmodal_storage_BlockchainHashID + 
+                  "',storage_BlockchainHashData='" + req.body.viewmodal_storage_BlockchainHashData + 
+                  "',storage_Description='" + req.body.viewmodal_storage_Description + 
+                  "',storage_bool_added_to_blockchain='" + req.body.viewmodal_storage_bool_added_to_blockchain + 
+                  "',storage_added_to_blockchain_date='" + req.body.viewmodal_storage_added_to_blockchain_date + 
+                  "',storage_added_to_blockchain_by='" + req.body.viewmodal_storage_added_to_blockchain_by + 
+                  "',storage_blockchain_uuid='" + req.body.viewmodal_storage_blockchain_uuid + 
+                  "',storage_user='" + req.body.viewmodal_storage_user +
                   "',logdatetime='" + logdatetime +
                   "',lastmodifieddatetime='" + lastmodifieddatetime +
-                  "' WHERE harvest_logid='" + req.body.viewmodal_harvest_logid + "'";
+                  "' WHERE storage_logid='" + req.body.viewmodal_storage_logid + "'";
               console.log('sql ' + sql);
-              //console.log('configid ' + req.body.config_id);
               try {
                   connection.query(sql, function(err, results){
                       if(err) {
