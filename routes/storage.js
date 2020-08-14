@@ -15,13 +15,29 @@ router.get('/',
         if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
             connection.query('SELECT * FROM foodprint_storage ORDER BY pk desc',function(err,rows)     {
                 if(err){
-                     req.flash('error', err);
+                     req.flash('error', err.message);
                      res.render('storagelogbook',{  page_title:"FoodPrint - Storage Logbook", 
                                             data:'', user: req.user, page_name:'storagelogbook' });
                 }else{
-                    res.render('storagelogbook',{   page_title:"FoodPrint - Storage Logbook", 
-                                            data:rows, user: req.user,
-                                            page_name:'storagelogbook' });
+
+                    connection.query('SELECT harvest_logid, supplierproduce, harvest_quantity, harvest_unitofmeasure, harvest_TimeStamp FROM foodprint_harvest ORDER BY pk desc',function(err,harvest_rows){
+                        if(err){
+                            //console.log("err harvest_rows - " + err);
+                             req.flash('error', err.message);//TODO- flash does not seem to be working on render, to test add an invalid column to the SQL query
+                             res.render('storagelogbook',{  page_title:"FoodPrint - Storage Logbook", 
+                                                    data:rows, harvest_data:'', user: req.user, page_name:'storagelogbook' });
+                        }else{
+                            console.log("harvest_rows - " + harvest_rows);
+                            res.render('storagelogbook',{   page_title:"FoodPrint - Storage Logbook", 
+                                                    data:rows, harvest_data:harvest_rows, user: req.user,
+                                                    page_name:'storagelogbook' });
+                        }
+                     });
+
+
+                    // res.render('storagelogbook',{   page_title:"FoodPrint - Storage Logbook", 
+                    //                         data:rows, user: req.user,
+                    //                         page_name:'storagelogbook' });
                 }
              });
           }else{
@@ -38,7 +54,8 @@ router.post('/save', [
     check('viewmodal_supplierproduce', ' Supplier Produce value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_Shortcode', 'Market Shortcode value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_Name', 'Market Name value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_market_Address', 'Market Address value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_Address', 'Market Address value is not valid').not().isEmpty(),
+    check('viewmodal_harvest_logidSelect', 'arvest ID value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_quantity', 'Storage Quantity value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_unitOfMeasure', 'Storage Unit of Measure value  is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_storageTimeStamp', 'Storage Timestamp value is not valid').not().isEmpty(),
@@ -69,7 +86,9 @@ router.post('/save', [
             }
           else {
               //console.log('req.body.viewmodal_harvest_logid ' + req.body.viewmodal_harvest_logid);
-              let harvest_logid_uuid = uuidv4(); //TODO - this should be selected in Storage Modal via drop down
+              console.log('req.body.viewmodal_harvest_logidSelect ' + req.body.viewmodal_harvest_logidSelect);
+              
+             let harvest_logid_uuid = req.body.viewmodal_harvest_logidSelect
               let storage_logid_uuid = uuidv4();
               let storage_TimeStamp = moment(new Date(req.body.viewmodal_market_storageTimeStamp)).format("YYYY-MM-DD HH:mm:ss"); //actual time of storage/handover at market with farmer 
               let storage_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of storage/handover data entry 
@@ -149,7 +168,7 @@ router.post('/update', [
     check('viewmodal_supplierproduce', ' Supplier Produce value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_Shortcode', 'Market Shortcode value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_Name', 'Market Name value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_market_Address', 'Market Address value is not valid').not().isEmpty().trim().escape(),
+    check('viewmodal_market_Address', 'Market Address value is not valid').not().isEmpty(),
     check('viewmodal_market_quantity', 'Storage Quantity value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_unitOfMeasure', 'Storage Unit of Measure value  is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_market_storageTimeStamp', 'Storage Timestamp value is not valid').not().isEmpty(),

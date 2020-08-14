@@ -174,45 +174,107 @@
 
             <div class="modal-body">
               <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
                   <input type="text" name="viewmodal_harvest_suppliershortcode" class="form-control" id="viewmodal_harvest_suppliershortcode" placeholder="Supplier Shortcode">
-                </div>
+                </div> -->
 
                 <div class="form-group">
-                  <label for="viewmodal_supplierproduce">Supplier Produce</label>
-                  <input type="text" name="viewmodal_supplierproduce" class="form-control" id="viewmodal_supplierproduce" placeholder="Supplier Produce">
-                </div>
-
-                <div class="form-group">
-                  <label for="viewmodal_market_Shortcode">Market Shortcode</label>
-                  <input type="text" name="viewmodal_market_Shortcode" class="form-control" id="viewmodal_market_Shortcode" placeholder="Market Shortcode">
-                </div>
-
-                <div class="form-group">
-                  <label for="viewmodal_market_Name">Market Name</label>
-                  <input type="text" name="viewmodal_market_Name" class="form-control" id="viewmodal_market_Name" placeholder="Market Name">
-                </div>
-
-                <div class="form-group">
-                  <label for="viewmodal_market_Address">Market Address</label>
-                  <input type="text" name="viewmodal_market_Address" class="form-control" id="viewmodal_market_Address" placeholder="Market Address">
-                </div>
-
-                <div class="form-group">
-                  <label for="viewmodal_market_quantity">Produce Quantity</label>
-                  <input type="text" name="viewmodal_market_quantity" class="form-control" id="viewmodal_market_quantity" placeholder="Quantity of produce received by Market">
+                  <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
+                    <option value="" selected disabled >Choose Supplier...</option>
+                    <option>WMNP</option>
+                    <option>QCGF</option>
+                    <option>OZCF</option>
+                  </select>
                 </div>
 
                 <!-- <div class="form-group">
-                  <label for="viewmodal_market_unitOfMeasure">Market Unit of Measure</label>
-                  <input type="text" name="viewmodal_market_unitOfMeasure" class="form-control" id="viewmodal_market_unitOfMeasure" placeholder="Market Unit of Measure">
+                  <label for="viewmodal_supplierproduce">Supplier Produce</label>
+                  <input type="text" name="viewmodal_supplierproduce" class="form-control" id="viewmodal_supplierproduce" placeholder="Supplier Produce">
                 </div> -->
+
+                <div class="form-group">
+                  <label for="viewmodal_supplierproduce">Supplier Produce</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                    <option value="" selected disabled >Choose Supplier Produce...</option>
+                    <option>QCGF_Basil</option>
+                    <option>QCGF_Beetroot</option>
+                    <option>QCGF_CayennePepper</option>
+                    <option>WMNP_BabyMarrow</option>
+                    <option>WMNP_Radish</option>
+                    <option>WMNP_GreenBeans</option>
+                    <option>WMNP_Fennel</option>
+                    <option>WMNP_Basil</option>
+                    <option>WMNP_Cucumber</option>
+                  </select>
+                </div>
+
+                <!-- <div class="form-group">
+                  <label for="viewmodal_market_Shortcode">Market Shortcode</label>
+                  <input type="text" name="viewmodal_market_Shortcode" class="form-control" id="viewmodal_market_Shortcode" placeholder="Market Shortcode">
+                </div> -->
+
+                <div class="form-group">
+                  <label for="viewmodal_market_Shortcode">Market Shortcode</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_market_Shortcode" id="viewmodal_market_Shortcode">
+                    <option value="" selected disabled >Choose Market Shortcode...</option>
+                    <option>OZCFM</option>
+                    <option>OBM</option>
+                  </select>
+                </div>
+
+                <!-- <div class="form-group">
+                  <label for="viewmodal_market_Name">Market Name</label>
+                  <input type="text" name="viewmodal_market_Name" class="form-control" id="viewmodal_market_Name" placeholder="Market Name">
+                </div> -->
+
+                <div class="form-group">
+                  <label for="viewmodal_market_Name">Market Name</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_market_Name" id="viewmodal_market_Name">
+                    <option value="" selected disabled >Choose Market Name...</option>
+                    <option>Oranjezicht City Farm Market</option>
+                    <option>Neighbourgoods Market - The Old Biscuit Mill</option>
+                  </select>
+                </div>
+<!-- 
+                <div class="form-group">
+                  <label for="viewmodal_market_Address">Market Address</label>
+                  <input type="text" name="viewmodal_market_Address" class="form-control" id="viewmodal_market_Address" placeholder="Market Address">
+                </div> -->
+
+                <div class="form-group">
+                  <label for="viewmodal_market_Address">Market Address</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_market_Address" id="viewmodal_market_Address">
+                    <option value="" selected disabled >Choose Market Address...</option>
+                    <option>OBM - 375 Albert Rd, Woodstock, Cape Town, 7915</option>
+                    <option>OZCFM - Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051</option>
+                  </select>
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_logidSelectDiv">
+                  <label for="viewmodal_harvest_logidSelect">Select Harvest ID</label>
+                  <select class="custom-select d-block w-100"  name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID">
+                    <option value="" selected disabled>Select Harvest ID...</option>
+                    <% if(harvest_data.length){
+                      for(var i = 0; i< harvest_data.length; i++) {%>
+                        <option value="<%=harvest_data[i].harvest_logid%>"><%= harvest_data[i].harvest_TimeStamp +  "/"  + harvest_data[i].supplierproduce + "/"  + harvest_data[i].harvest_quantity + "("+ harvest_data[i].harvest_unitofmeasure + ")"%></option>
+                          <% }
+                        }else{ %>
+                          <option>No data</option>
+                         <% } %>
+                  </select>
+                </div> 
+
+                <div class="form-group">
+                  <label for="viewmodal_market_quantity">Produce Quantity</label>
+                  <input type="number" name="viewmodal_market_quantity" class="form-control" id="viewmodal_market_quantity" placeholder="Quantity of produce received by Market">
+                </div>
 
                 <div class="form-group">
                   <label for="viewmodal_market_unitOfMeasure">Unit of Measure</label>
                   <select class="custom-select d-block w-100" id="viewmodal_market_unitOfMeasure" name="viewmodal_market_unitOfMeasure">
-                    <option value="">Choose Unit of Measure...</option>
+                    <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>bunch</option>
                     <option>kilogram</option>
                     <option>none</option>
@@ -256,7 +318,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="viewmodal_storage_Description">Storage Description</label>
+                  <label for="viewmodal_storage_Description">Description of Produce Storage/Handover</label>
                   <input type="text" name="viewmodal_storage_Description" class="form-control" id="viewmodal_storage_Description" placeholder="Storage Description">
                 </div>
 
@@ -319,7 +381,7 @@
                   <label for="viewmodal_storage_logid">Storage/Handover ID</label>
                   <input type="text" name="viewmodal_storage_logid" class="form-control" id="viewmodal_storage_logid" placeholder="Storage/Handover ID">
                 </div> 
-                
+
               <!-- <div class="form-group">
                 <div class="input-group date" id="datetimepicker1" data-target-input="#inputdatetimepicker1">
                     <input type="text" class="form-control datetimepicker-input" placeholder="Last Modified Datetime"  id="inputdatetimepicker1" data-target="#inputdatetimepicker1"/>
@@ -384,8 +446,6 @@
           showMeridian: 1
       });
     });
-
-    
   </script>
   
   <script type="text/javascript">
@@ -568,6 +628,9 @@
             $("#viewmodal_harvest_logidDiv").show();  
             $("#viewmodal_storage_logidDiv").show();
 
+            $("#viewmodal_harvest_logidSelectDiv").hide();  
+            $("#viewmodal_harvest_logidSelect").attr("required", false); // make Harvest Logid Select box not required otherwise form will not submit
+
             $("#storageCheckDiv").hide();  // hide confirm add/edit checkbox
             $("#storageDeleteDiv").hide();  // hide confirm delete checkbox
             $("#modalFooter").append(closeButton);  
@@ -612,6 +675,9 @@
             //make viewmodal_storage_logid readonly not disabled so it is sent via web request
             $("#viewmodal_storage_logid").attr("disabled", false);
             $("#viewmodal_storage_logid").attr('readonly', true);
+
+            $("#viewmodal_harvest_logidSelectDiv").hide();  
+            $("#viewmodal_harvest_logidSelect").attr("required", false); // make Harvest Logid Select box not required otherwise form will not submit
 
             $("#modalFooter").append(deleteButton);  
             $("#modalFooter").append(closeButton);  
