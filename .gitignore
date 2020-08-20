@@ -59,6 +59,4 @@ dbconfig.json
 # docsite artifacts
 docsite-build
 docs/api
-src/css/tempusdominus-bootstrap-3.css
 src/js/_DS_Store
-src/js/tempusdominus-bootstrap-3.js
