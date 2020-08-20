@@ -102,7 +102,7 @@ router.post('/save', [
                 harvest_BlockchainHashData: '-', 
                 supplierproduce: req.body.viewmodal_supplierproduce, // e.g. WMPN_BabyMarrow
                 harvest_bool_added_to_blockchain: 'false', //true or false
-                harvest_added_to_blockchain_date: '-', //system generated when add to blockchain is selected
+                harvest_added_to_blockchain_date: 'NULL', //system generated when add to blockchain is selected
                 harvest_added_to_blockchain_by: '-', // user who logged harvest to blockchain
                 harvest_blockchain_uuid: '-', // uuid to blockchain config record which has contract and address
                 harvest_user: req.user.email, // user who logged harvest
@@ -165,7 +165,7 @@ router.post('/update', [
     check('viewmodal_harvest_blockchainhashdata', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_supplierproduce', 'Supplier Produce value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty(),
+   // check('viewmodal_harvest_added_to_blockchain_date', 'Harvest Added to Blockchain Date value is not valid').not().isEmpty(),
     check('viewmodal_harvest_added_to_blockchain_by', 'Harvest Added to Blockchain by value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_blockchain_uuid', 'Harvest Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_user', 'Harvest User value is not valid').not().isEmpty().trim().escape(),

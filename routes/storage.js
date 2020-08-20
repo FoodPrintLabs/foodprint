@@ -8,6 +8,17 @@ var connection  = require('../src/js/db');
 var ROLES = require('../utils/roles');
 
 
+/*
+const sqlQuery = "INSERT INTO table_name (field1, field2) VALUES ?";
+const values =  [ ['field1', 'NULL'] ];
+
+con.query(sqlQuery, [values], function (err, result) {
+    if (err) throw err;
+    console.log("Number of records inserted: " + result.affectedRows);
+  });
+
+*/
+
 /* GET storage page. */
 router.get('/',
     require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
@@ -112,7 +123,7 @@ router.post('/save', [
                 storage_BlockchainHashData: '-',
                 storage_Description: req.body.viewmodal_storage_Description,
                 storage_bool_added_to_blockchain: 'false', //true or false
-                storage_added_to_blockchain_date: '-',  //system generated when add to blockchain is selected
+                storage_added_to_blockchain_date: 'NULL',  //system generated when add to blockchain is selected
                 storage_added_to_blockchain_by: '-', // user who logged storage to blockchain
                 storage_blockchain_uuid: '-', // uuid to blockchain config record which has contract and address
                 storage_user: req.user.email, // user who logged storage
@@ -178,7 +189,7 @@ router.post('/update', [
     check('viewmodal_storage_BlockchainHashData', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_storage_Description', 'Storage Description value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_storage_bool_added_to_blockchain', 'Added to Blockchain value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_storage_added_to_blockchain_date', 'Storage Added to Blockchain Date is not valid').not().isEmpty(),
+    //check('viewmodal_storage_added_to_blockchain_date', 'Storage Added to Blockchain Date is not valid').not().isEmpty(),
     check('viewmodal_storage_added_to_blockchain_by', 'Storage Added to Blockchain by is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_storage_blockchain_uuid', 'Storage Blockchain UUID value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_storage_user', 'Sorage User  value is not valid').not().isEmpty().trim().escape(),
