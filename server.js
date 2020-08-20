@@ -2,7 +2,7 @@ var createError = require('http-errors');
 var sslRedirect = require('heroku-ssl-redirect');
 var express = require('express');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var logger = require('morgan'); //Morgan is an HTTP request logger middleware for Node.js. It simplifies the process of logging requests to your application.
 var flash = require('express-flash');
 var session = require('express-session');
 var QRCode = require('qrcode');
@@ -14,8 +14,9 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var nodemailer = require('nodemailer');
 
+//only load the .env file if the server isn’t started in production mode
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config(); //only load the .env file if the server isn’t started in production mode
+  require('dotenv').config(); 
 }
 
 //emailer configuration
@@ -57,7 +58,11 @@ app.use(sslRedirect([
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
+//app.use(logger('dev'));
+app.use(express.logger({
+  format: 'dev', 
+ // stream: fs.createWriteStream(__dirname + '/access.log', {flags: 'a'}); //write logfile to current directory, flag a is append 
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -165,15 +170,7 @@ passport.deserializeUser(function(id, cb) {
    next(createError(404));
  });
 
-  // error handler
- app.use(function(err, req, res, next) {
-   // set locals, only providing error in development
-   res.locals.message = err.message;
-   res.locals.error = req.app.get('env') === 'development' ? err : {};
- // render the error page
-   res.status(err.status || 500);
-   res.render('error', { user:req.user, page_name:'error' });
- });
+
 
 //home page
 router.get('/',function(req,res){
@@ -897,6 +894,27 @@ router.post('/test_qrcode', async (req, res, next) => {
   }
 });
 
+// error handler 
+// to define an error-handling middleware, we simply define a middleware in our server.js with four arguments: err, req, res, and next. 
+// As long as we have these four arguments, Express will recognize the middleware as an error handling middleware
+//Note that error handler must be the last middleware in chain, so it should be defined in the bottom of your application.js file after other app.use() and routes calls. 
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// render the error page
+  res.status(err.status || 500);
+  res.render('error', { user:req.user, page_name:'error' });
+});
+
+// alternative error handlers based on mode
+// app.configure('development', () => {
+//   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+// })
+
+// app.configure('production', () => {
+//   app.use(express.errorHandler())
+// })
 
 app.listen(process.env.PORT || 3000);
 
