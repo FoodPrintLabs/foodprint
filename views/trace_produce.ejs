@@ -18,11 +18,35 @@
     <div class="row align-items-center justify-content-center">
       <!-- START TRACE PRODUCE-->
         <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
-          <h3 class="heading text-center">TRACE PRODUCE</h3>
+          <h3>TRACE PRODUCE</h3>
           <% include ./partials/notificationbar %>
-          TODO - Search Form<br>
-          TODO - Results Table
-        </div>
+          <h5>Produce Search Form</h5>
+          <form id="search_form">
+              <div class="form-group">
+                <input type="text" id="search_term" class="form-control" placeholder="Enter Produce Name, Harvest ID or Storage ID" required>
+              </div>  
+              <div class="form-group">
+                <button class="btn btn-primary">Search</button>
+              </div>
+          </form>
+          <hr>
+          
+          <text id="search_result_title"></text>
+          <br>
+          <text id="search_result_title_storage"></text>
+          <div id="search_result_storage" style="display: none">
+            <ul id="search_result_storage"></ul>
+          </div>
+          <br>
+          <text id="search_result_title_harvest"></text>
+          <div id = "search_result_harvest" style="display: none">
+            <ul id="search_result_harvest"></ul>
+          </div>
+
+          <div class="alert-danger" id = "error-group" style="display: none">
+              <ul id="errors"></ul>
+          </div>
+      </div>
         <!-- END TRACE PRODUCE-->
       </div>
     </div>
@@ -35,5 +59,72 @@
     <script src="/js/scripts.min.js"></script>
   <script src="/js/main.min.js"></script>
   <script src="/js/custom.js"></script>
+  <script>
+    $('#search_form').submit(function (event) {
+		event.preventDefault();
+		//collect the form data using Id Selector what ever data you need to send to server
+		var data = {};
+		data.search_term=$('#search_term').val();
+		$.ajax({
+			url: '/app/traceproduce',
+			data: JSON.stringify(data),
+			processData: false,
+			type: 'POST',
+			contentType: 'application/json'
+		}).done(function(res) {
+      $('#search_result_title').html('<h5>Produce Search Results</h5>');
+      
+			if (res.success) {
+        $('#error-group').hide();
+        $('#search_result_title_storage').html('<h6>Produce Storage Entries</h6>');
+        $('#search_result_title_harvest').html('<h6>Produce Harvest Results</h6>');
+        
+        $('#search_result_storage').css('display', 'block');
+				  var produce_storage_data = JSON.parse(JSON.stringify(res.produce_storage_data));
+				  var produceStorageContainer = $('#search_result_storage');
+				  produceStorageContainer.innerHTML = '';
+				  var produceStorageList = '';
+
+				  for (var i = 0; i < produce_storage_data.length; i++) {
+            produceStorageList += '<li>' + '<b>storage_logid</b> - ' + produce_storage_data[i].storage_logid + 
+                                  ' <b>harvest_logid</b> - ' + produce_storage_data[i].harvest_logid +
+                                  ' <b>market_storageTimeStamp</b> - ' + produce_storage_data[i].market_storageTimeStamp +
+                                  ' <b>supplierproduce</b> - ' + produce_storage_data[i].supplierproduce + 
+                                  '</li><br>';
+				  }
+				  produceStorageContainer.html(produceStorageList);
+          //console.log('produceStorageList success...ajax' + produceStorageList);
+
+        $('#search_result_harvest').css('display', 'block');
+				  var produce_harvest_data = JSON.parse(JSON.stringify(res.produce_harvest_data));
+				  var produceHarvestContainer = $('#search_result_harvest');
+				  produceHarvestContainer.innerHTML = '';
+				  var produceHarvestList = '';
+
+				  for (var i = 0; i < produce_harvest_data.length; i++) {
+            produceHarvestList += '<li> ' + '<b>harvest_logid</b> - ' + produce_harvest_data[i].harvest_logid + 
+                                  ' <b>harvest_TimeStamp</b> - ' + produce_harvest_data[i].harvest_TimeStamp +
+                                  ' <b>supplierproduce</b> - ' + produce_harvest_data[i].supplierproduce + 
+                                   '</li><br>';
+				  }
+				  produceHarvestContainer.html(produceHarvestList);
+          //console.log('produceHarvestList success...ajax' + produceHarvestList);
+          
+			} else {
+				$('#error-group').css('display', 'block');
+				  var errors = JSON.parse(JSON.stringify(res.errors));
+				  var errorsContainer = $('#errors');
+				  errorsContainer.innerHTML = '';
+				  var errorsList = '';
+
+				  for (var i = 0; i < errors.length; i++) {
+					errorsList += '<li>' + errors[i].msg + '</li>';
+				  }
+				  errorsContainer.html(errorsList);
+				  console.log('error...ajax' + errorsList);
+			}
+		  });
+	});
+  </script>
   </body>
 </html>

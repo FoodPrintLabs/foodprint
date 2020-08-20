@@ -1,31 +1,57 @@
 <!-- views/partials/notificationbar.ejs -->
 <!-- uses request flash i.e. req.flash-->
 
+
 <% if(error && error.length > 0) { %>
-  <div class="alert alert-danger alert-dismissible show mt-4" role="alert">
-          <%= error %>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <br>  
+  <!-- If the error is from express-validator, it will be an array, each element with param, msg, value and location properties.
+         Otherwise the error is a standard JavaScript error  -->
+    <% if(error.length === 1 && (error[0].msg===undefined &&  error[0].param===undefined && error[0].location===undefined)) { %>
+      <div class="alert alert-danger alert-dismissible show mt-4" role="alert">
+        <strong><%= error %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
+        </button>
+      </div>
+      <% } else { %>
+          <% error.forEach(function(err) { %>
+            <div class="alert alert-danger alert-dismissible show mt-4" role="alert">
+            <strong> <%= err.msg %> <%= err.message %> </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <% }) %>
+  <% } %> 
 <% } %>
 
-<% if (messages.error) { %>
+<!-- <% if (messages.error) { %>
+  <br>
     <% Object.values(messages.error).forEach(function(single_error){ %>
         <div class="alert alert-danger alert-dismissible show mt-4" role="alert">
-                <%= single_error.msg %>
+              <%= single_error.msg %>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
     <% }); %>
- <% } %>
+ <% } %> -->
 
- <% if (messages.success) { %>
+ <!-- <% if (messages.success) { %>
+  <br>
     <div class="alert alert-success alert-dismissible show mt-4" role="alert">
        <%- messages.success %>
        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
          <span aria-hidden="true">&times;</span>
        </button>
      </div>
- <% } %>
+ <% } %> -->
+
+ <%if(success && success.length > 0){%>
+  <div class="alert alert-success alert-dismissible show mt-4" role="alert">
+    <%- success %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<%}%>

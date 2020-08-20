@@ -17,6 +17,7 @@ router.get('/login',
 /* TODO add a user not found message */
 router.post('/login', 
   passport.authenticate('file-local', { successReturnToOrRedirect: '/',
+                                    successFlash : "You are now logged in.",
                                     failureRedirect: '/app/auth/login', 
                                     failureFlash: true }) //instruct Passport to flash an error message using the message given by the strategy's verify callback, if any
 );
@@ -33,6 +34,7 @@ router.post('/dblogin',
 router.get('/logout',
   function(req, res){
     req.logout();
+    req.flash('success', 'You are now logged out.');
     res.redirect('/app/auth/login');
   });
 

@@ -78,7 +78,10 @@ app.use(passport.session());
 
 app.use(flash());
 
+// middleware for all views
 app.use(function(req,res,next){
+  // locals is deleted at the end of current request, flash is deleted after it is displayed, and it is stored in session intermediately.
+  // (this works with redirect)
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success")
   next();
@@ -823,6 +826,53 @@ const errors = validationResult(req);
         }
       });
     };
+});
+
+//traceproduce (i.e. produce search) XmlHTTP request
+router.post('/app/traceproduce', [
+  check('search_term', 'Search term is not valid').not().isEmpty().trim().escape(),
+],
+  function(req,res){
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.json({ errors: errors.array(), success: false});
+      }
+    else {
+      try {
+          let storage_sql = "SELECT harvest_logid, storage_logid, market_storageTimeStamp, supplierproduce FROM foodprint_storage WHERE storage_logid='" + req.body.search_term + 
+          "' OR harvest_logid='" + req.body.search_term + 
+          "' OR supplierproduce LIKE '%" + req.body.search_term + 
+          "%' OR supplierproduce='" + req.body.search_term +"'";
+          console.log('sql ' + storage_sql);
+
+          let harvest_sql = "SELECT harvest_logid, supplierproduce, harvest_quantity, harvest_unitofmeasure, harvest_TimeStamp  FROM foodprint_harvest WHERE harvest_logid='" + req.body.search_term + 
+          "' OR harvest_produceName='" + req.body.search_term + 
+          "' OR supplierproduce LIKE '%" + req.body.search_term + 
+          "%' OR supplierproduce='" + req.body.search_term +"'";
+          console.log('harvest_sql ' + harvest_sql);
+
+            connection.query(storage_sql, function(err,storage_rows){
+              if(err){
+                  console.error('error', err);
+                  res.status.json({err: err});
+              }else{
+                  connection.query(harvest_sql, function(err,harvest_rows){
+                      if(err){
+                        console.error('error', err);
+                        res.status.json({err: err});
+                      }else{
+                        console.log('Search DB success');
+                        res.json({success: true, produce_harvest_data:harvest_rows, produce_storage_data:storage_rows});
+                      }
+                  });
+              }
+          });
+        } catch (e) {
+            //this will eventually be handled by your error handling middleware
+            next(e);
+            res.json({success: false, errors: e});
+        }
+    }
 });
 
 
