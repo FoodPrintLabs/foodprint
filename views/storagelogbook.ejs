@@ -179,7 +179,7 @@
                   <label for="viewmodal_harvest_logidSelect">Select Harvest ID</label>
                   <select class="custom-select d-block w-100"  name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID">
                     <option value="" selected disabled>Select Harvest ID...</option>
-                    <% if(harvest_data.length){
+                    <% if(typeof harvest_data != "undefined" && harvest_data.length){
                       for(var i = 0; i< harvest_data.length; i++) {%>
                         <option value="<%=harvest_data[i].harvest_logid%>"><%= harvest_data[i].harvest_TimeStamp +  "/"  + harvest_data[i].supplierproduce + "/"  + harvest_data[i].harvest_quantity + "("+ harvest_data[i].harvest_unitofmeasure + ")"%></option>
                           <% }
