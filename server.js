@@ -13,6 +13,7 @@ var connection  = require('./src/js/db');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var nodemailer = require('nodemailer');
+var fs = require('fs')
 
 //only load the .env file if the server isn’t started in production mode
 if (process.env.NODE_ENV !== 'production') {
@@ -58,11 +59,17 @@ app.use(sslRedirect([
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//app.use(logger('dev'));
-app.use(express.logger({
-  format: 'dev', 
- // stream: fs.createWriteStream(__dirname + '/access.log', {flags: 'a'}); //write logfile to current directory, flag a is append 
-}));
+// You can set morgan to log differently depending on your environment
+
+// create a write stream (in append mode), to current directory
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
+if (app.get('env') == 'production') {
+  app.use(logger('common', { skip: function(req, res) { return res.statusCode < 400 }})); // only log error responses, write log lines to process.stdout
+ // app.use(logger('common', { skip: function(req, res) { return res.statusCode < 400 }, stream: __dirname + '/access.log' }));
+} else {
+  app.use(logger('dev', {stream: accessLogStream}));//write logfile to current directory, flag a is append 
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
