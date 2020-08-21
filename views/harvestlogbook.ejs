@@ -69,6 +69,8 @@
                       data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
                       data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
                       data-harvest_user="<%=data[i].harvest_user%>"
+                      data-year_established="<%=data[i].year_established%>"
+                      data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
@@ -96,6 +98,8 @@
                       data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
                       data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
                       data-harvest_user="<%=data[i].harvest_user%>"
+                      data-year_established="<%=data[i].year_established%>"
+                      data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Edit</a>
@@ -123,6 +127,8 @@
                       data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
                       data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
                       data-harvest_user="<%=data[i].harvest_user%>"
+                      data-year_established="<%=data[i].year_established%>"
+                      data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Delete</a>
@@ -151,6 +157,8 @@
                       data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
                       data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
                       data-harvest_user="<%=data[i].harvest_user%>"
+                      data-year_established="<%=data[i].year_established%>"
+                      data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Add to Blockchain</a>  <% } %><!--<button type="button" class="btn btn-primary disabled">Disabled Primary</button> -->
@@ -197,9 +205,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="viewmodal_harvest_suppliername">Supplier Name</label>
+                  <label for="viewmodal_harvest_suppliername">Farmer Name</label>
                   <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
-                    <option value="" selected disabled >Choose Supplier Name...</option>
+                    <option value="" selected disabled >Choose Farmer Name...</option>
                     <option>Bergsoom Farm</option>
                     <option>Eikelaan Farm</option>
                     <option>Oranjezicht City Farm</option>
@@ -271,13 +279,23 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="viewmodal_harvest_supplieraddress">Supplier Address</label>
+                  <label for="viewmodal_harvest_supplieraddress">Farmer Address</label>
                   <input type="text" name="viewmodal_harvest_supplieraddress" class="form-control" id="viewmodal_harvest_supplieraddress" placeholder="Supplier Address">
                 </div>
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_farmername">Farmer Name</label>
                   <input type="text" name="viewmodal_harvest_farmername" class="form-control" id="viewmodal_harvest_farmername" placeholder="Farmer Name">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_year_established">Year Farm Established</label>
+                  <input type="text" name="viewmodal_harvest_year_established" class="form-control" id="viewmodal_harvest_year_established" placeholder="Year Farm Established">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_covid19_response">Brief description of response to COVID-19</label>
+                  <input type="text" name="viewmodal_harvest_covid19_response" class="form-control" id="viewmodal_harvest_covid19_response" placeholder="Brief description of response to COVID-19">
                 </div>
 
                 <!--NB name="viewmodal_harvest_photohash_uploaded_file" and enctype="multipart/form-data" on the from required for multer library-->
@@ -540,6 +558,8 @@
             var harvest_added_to_blockchain_by = $(obj_identifier).data('harvest_added_to_blockchain_by');
             var harvest_blockchain_uuid = $(obj_identifier).data('harvest_blockchain_uuid');
             var harvest_user = $(obj_identifier).data('harvest_user');
+            var year_established = $(obj_identifier).data('year_established');
+            var covid19_response = $(obj_identifier).data('covid19_response');
             var logdatetime = $(obj_identifier).data('logdatetime');
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
 
@@ -612,6 +632,8 @@
             $('#viewmodal_harvest_added_to_blockchain_by').val(harvest_added_to_blockchain_by);
             $('#viewmodal_harvest_blockchain_uuid').val(harvest_blockchain_uuid);
             $('#viewmodal_harvest_user').val(harvest_user);
+            $('#viewmodal_harvest_year_established').val(year_established);
+            $('#viewmodal_harvest_covid19_response').val(covid19_response);
             $('#viewmodal_logdatetime').val(logdatetime);
             $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
 

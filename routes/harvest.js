@@ -116,6 +116,8 @@ router.post('/save', upload.single('viewmodal_harvest_photohash_uploaded_file'),
                 harvest_supplierShortcode: req.body.viewmodal_harvest_suppliershortcode,
                 harvest_supplierName: req.body.viewmodal_harvest_suppliername, 
                 harvest_farmerName: req.body.viewmodal_harvest_farmername,
+                year_established: req.body.viewmodal_harvest_year_established,
+                covid19_response: req.body.viewmodal_harvest_covid19_response,
                 harvest_supplierAddress: req.body.viewmodal_harvest_supplieraddress,
                 harvest_produceName: req.body.viewmodal_harvest_producename,
                 //harvest_photoHash: req.body.viewmodal_harvest_photohash,
@@ -230,6 +232,8 @@ router.post('/update',  upload.none(), [
                   "harvest_supplierName='" + req.body.viewmodal_harvest_suppliername + 
                   "',harvest_farmerName='" + req.body.viewmodal_harvest_farmername +
                   "',harvest_supplierAddress='" + req.body.viewmodal_harvest_supplieraddress +
+                  "',year_established='" + req.body.viewmodal_harvest_year_established +
+                  "',covid19_response='" + req.body.viewmodal_harvest_covid19_response +
                   "',harvest_produceName='" + req.body.viewmodal_harvest_producename +
                  // "',harvest_photoHash='" + req.body.viewmodal_harvest_photohash +
                   "',harvest_TimeStamp='" + harvest_TimeStamp +
