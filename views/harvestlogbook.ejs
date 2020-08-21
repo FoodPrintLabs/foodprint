@@ -169,7 +169,7 @@
    <!-- END TABLE-->
 
     <!-- Modal View Harvest-->
-    <form id="harvestModalForm" action="/app/harvest/save" method="post">
+    <form id="harvestModalForm" enctype="multipart/form-data" action="/app/harvest/save" method="post">
       <div class="modal fade" id="harvestViewModal" tabindex="-1" role="dialog" aria-labelledby="harvestModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -245,9 +245,13 @@
                   <input type="text" name="viewmodal_harvest_farmername" class="form-control" id="viewmodal_harvest_farmername" placeholder="Farmer Name">
                 </div>
 
+                <!--NB name="viewmodal_harvest_photohash_uploaded_file" and enctype="multipart/form-data" on the from required for multer library-->
                 <div class="form-group">
-                  <label for="viewmodal_harvest_photohash">Photo hash</label>
-                  <input type="text" name="viewmodal_harvest_photohash" class="form-control" id="viewmodal_harvest_photohash" placeholder="Photo hash">
+                  <label for="viewmodal_harvest_photohash">Harvest Photo</label>
+                  <input type="file" name="viewmodal_harvest_photohash_uploaded_file" class="form-control" id="viewmodal_harvest_photohash" placeholder="Photo hash">
+                  <div id="viewmodal_harvest_photoimageDiv">
+                    <img id="viewmodal_harvest_photoimage" width='100%' alt="Harvest Image" />
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -425,7 +429,8 @@
                 });
 
     $(function () {
-        $('.form_datetime').datetimepicker({
+      $('.form_datetime').datetimepicker();
+     /*    $('.form_datetime').datetimepicker({
           weekStart: 1,
           todayBtn:  1,
       autoclose: 1,
@@ -433,7 +438,7 @@
       startView: 2,
       forceParse: 0,
           showMeridian: 1
-      });
+      }); */
     });
 
     
@@ -477,6 +482,7 @@
             var harvest_supplieraddress = $(obj_identifier).data('harvest_supplieraddress');
             var harvest_producename = $(obj_identifier).data('harvest_producename');
             var harvest_photohash = $(obj_identifier).data('harvest_photohash');
+            var harvest_photoimage = harvest_photohash;
             var harvest_timestamp = $(obj_identifier).data('harvest_timestamp');
             var harvest_capturetime = $(obj_identifier).data('harvest_capturetime');
             var harvest_description = $(obj_identifier).data('harvest_description');
@@ -495,11 +501,12 @@
             var logdatetime = $(obj_identifier).data('logdatetime');
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
 
-            console.log("harvest_logid - " + harvest_logid);
+            //console.log("harvest_logid - " + harvest_logid);
             // console.log("supplierproduce - " + supplierproduce);
             // console.log("harvest_TimeStamp - " + harvest_TimeStamp);
             // console.log("harvest_supplierName - " + harvest_supplierName);
-            console.log("harvest_suppliername - " + harvest_suppliername);
+            // console.log("harvest_photohash - " + harvest_photohash);
+            //console.log("harvest_photoimage - " + harvest_photoimage);
 
             $('#viewmodal_harvest_logid').val(harvest_logid);
             $('#viewmodal_harvest_suppliershortcode').val(harvest_suppliershortcode);
@@ -507,7 +514,9 @@
             $('#viewmodal_harvest_farmername').val(harvest_farmername);
             $('#viewmodal_harvest_supplieraddress').val(harvest_supplieraddress);
             $('#viewmodal_harvest_producename').val(harvest_producename);
-            $('#viewmodal_harvest_photohash').val(harvest_photohash);
+            //$('#viewmodal_harvest_photohash').val(harvest_photohash);            
+            $('#viewmodal_harvest_photoimage').attr("src", harvest_photoimage);
+
             $('#viewmodal_harvest_timestamp').val(harvest_timestamp);
             $('#viewmodal_harvest_capturetime').val(harvest_capturetime);
             $('#viewmodal_harvest_description').val(harvest_description);
@@ -537,12 +546,13 @@
             $("#modalBodyContainer :input").attr("required", true);
             
             //System populated:
-            //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
+            //viewmodal_harvest_photoimageDiv, viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
             //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
             //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv,
             //viewmodal_harvest_capturetime, viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid 
 
             //Hide divs for System populated elements
+            $("#viewmodal_harvest_photoimageDiv").hide();  
             $("#viewmodal_harvest_blockchainhashidDiv").hide();  
             $("#viewmodal_harvest_blockchainhashdataDiv").hide();  
             $("#viewmodal_harvest_bool_added_to_blockchainDiv").hide();  
@@ -555,8 +565,10 @@
             $("#viewmodal_logdatetimeDiv").hide();  
             $("#viewmodal_lastmodifieddatetimeDiv").hide();  
             $("#viewmodal_harvest_logidDiv").hide();  
+            
 
             //Make System populated elements not required otherwise Add Harvest Form will not submit
+            $("#viewmodal_harvest_photoimage").attr("required", false);
             $("#viewmodal_harvest_blockchainhashid").attr("required", false);
             $("#viewmodal_harvest_blockchainhashdata").attr("required", false);
             $("#viewmodal_harvest_bool_added_to_blockchain").attr("required", false);
@@ -564,6 +576,7 @@
             $("#viewmodal_harvest_user").attr("required", false);
             $("#viewmodal_harvest_blockchain_uuid").attr("required", false);
             $("#viewmodal_harvest_added_to_blockchain_by").attr("required", false);
+            
             //
             $("#viewmodal_harvest_capturetime").attr("required", false);
             $("#viewmodal_logdatetime").attr("required", false);
@@ -582,11 +595,13 @@
             $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
             // $('#form1 input').attr('readonly', 'readonly');    
 
-              //System populated:
+            //SHOW DIVS
+            //System populated:
             //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
             //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
             //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv
 
+            $("#viewmodal_harvest_photoimageDiv").show(); 
             $("#viewmodal_harvest_blockchainhashidDiv").show();  
             $("#viewmodal_harvest_blockchainhashdataDiv").show();  
             $("#viewmodal_harvest_bool_added_to_blockchainDiv").show();  
@@ -610,6 +625,11 @@
             //TODO $("#viewmodal_logdatetime").attr('readonly', true);
             //$("#viewmodal_logdatetime_calendar").attr('readonly', true);
            // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
+
+
+           //cannot modify image once it has been added
+           $("#viewmodal_harvest_photoimageDiv").show();  
+            $("#viewmodal_harvest_photohash").attr('disabled', true);
 
            $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
             $("#viewmodal_harvest_capturetimeDiv").show();  //TODO - this should be readonly
@@ -635,8 +655,8 @@
 
             $("#harvestDeleteDiv").show();  // show confirm delete checkbox
 
-            //make viewmodal_harvest_logid readon;y not disabled so it is sent via web request
-            $("#viewmodal_harvest_logid").attr("disabled", false);
+            //make viewmodal_harvest_logid readonly not disabled so it is sent via web request
+            $("#viewmodal_harvest_logid").attr("disabled", false); 
             $("#viewmodal_harvest_logid").attr('readonly', true);
 
             $("#modalFooter").append(deleteButton);  
