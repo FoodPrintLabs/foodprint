@@ -123,7 +123,7 @@ router.post('/save', [
                 storage_BlockchainHashData: '-',
                 storage_Description: req.body.viewmodal_storage_Description,
                 storage_bool_added_to_blockchain: 'false', //true or false
-                storage_added_to_blockchain_date: 'NULL',  //system generated when add to blockchain is selected
+                storage_added_to_blockchain_date: NULL,  //system generated when add to blockchain is selected
                 storage_added_to_blockchain_by: '-', // user who logged storage to blockchain
                 storage_blockchain_uuid: '-', // uuid to blockchain config record which has contract and address
                 storage_user: req.user.email, // user who logged storage
@@ -139,7 +139,7 @@ router.post('/save', [
                   connection.query(sql, data, function(err, results) {
                       if(err) {
                           //throw err;
-                          req.flash('error', err)
+                          req.flash('error', err.message)
                           // redirect to Storage Logbook page
                           res.redirect('/app/storage')
                       } else{
