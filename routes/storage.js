@@ -123,7 +123,7 @@ router.post('/save', [
                 storage_BlockchainHashData: '-',
                 storage_Description: req.body.viewmodal_storage_Description,
                 storage_bool_added_to_blockchain: 'false', //true or false
-                storage_added_to_blockchain_date: NULL,  //system generated when add to blockchain is selected
+                //storage_added_to_blockchain_date: NULL,  //system generated when add to blockchain is selected
                 storage_added_to_blockchain_by: '-', // user who logged storage to blockchain
                 storage_blockchain_uuid: '-', // uuid to blockchain config record which has contract and address
                 storage_user: req.user.email, // user who logged storage
@@ -231,7 +231,7 @@ router.post('/update', [
                   "',storage_BlockchainHashData='" + req.body.viewmodal_storage_BlockchainHashData + 
                   "',storage_Description='" + req.body.viewmodal_storage_Description + 
                   "',storage_bool_added_to_blockchain='" + req.body.viewmodal_storage_bool_added_to_blockchain + 
-                  "',storage_added_to_blockchain_date='" + req.body.viewmodal_storage_added_to_blockchain_date + 
+                //  "',storage_added_to_blockchain_date='" + req.body.viewmodal_storage_added_to_blockchain_date + 
                   "',storage_added_to_blockchain_by='" + req.body.viewmodal_storage_added_to_blockchain_by + 
                   "',storage_blockchain_uuid='" + req.body.viewmodal_storage_blockchain_uuid + 
                   "',storage_user='" + req.body.viewmodal_storage_user +
