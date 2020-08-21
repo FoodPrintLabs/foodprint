@@ -60,7 +60,7 @@ router.post('/save', upload.single('viewmodal_harvest_photohash_uploaded_file'),
     check('viewmodal_harvest_geolocation', 'Harvest GeoLocation value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_quantity', 'Harvest Quantity value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_unitofmeasure', 'Harvest Unit of Measure value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_description_json', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_harvest_description_json', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
     //check('viewmodal_harvest_blockchainhashid', 'Blockchain Hash ID value is not valid').not().isEmpty().trim().escape(),
     //check('viewmodal_harvest_blockchainhashdata', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_supplierproduce', 'Supplier Produce value is not valid').not().isEmpty().trim().escape(),
@@ -91,7 +91,21 @@ router.post('/save', upload.single('viewmodal_harvest_photohash_uploaded_file'),
               let harvest_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of harvest data entry 
               let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
               let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
+              for (var harvest_description_item in req.body.viewmodal_harvest_description_json) {
+                if (req.body.viewmodal_harvest_description_json) {
+                  items = req.body.viewmodal_harvest_description_json;
+                  harvest_description_item = JSON.stringify(items).replace(/]|[[]|"/g, '',)
+                  console.log("items");
+                  console.log(items);
+                }
+              }
               
+              console.log("req.body.viewmodal_harvest_description_json");
+              console.log(req.body.viewmodal_harvest_description_json);
+
+              console.log("harvest_description_item");
+              console.log(harvest_description_item);
               // req.file is the harvest image file i.e. viewmodal_harvest_photohash_uploaded_file
               const img = req.file; 
             
@@ -111,7 +125,7 @@ router.post('/save', upload.single('viewmodal_harvest_photohash_uploaded_file'),
                 harvest_geolocation: req.body.viewmodal_harvest_geolocation,
                 harvest_quantity: req.body.viewmodal_harvest_quantity,
                 harvest_unitOfMeasure: req.body.viewmodal_harvest_unitofmeasure,
-                harvest_description_json: '-',
+                harvest_description_json: harvest_description_item,
                 harvest_BlockchainHashID: '-',
                 harvest_BlockchainHashData: '-', 
                 supplierproduce: req.body.viewmodal_supplierproduce, // e.g. WMPN_BabyMarrow
@@ -181,7 +195,7 @@ router.post('/update',  upload.none(), [
     check('viewmodal_harvest_geolocation', 'Harvest GeoLocation value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_quantity', 'Harvest Quantity value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_unitofmeasure', 'Harvest Unit of Measure value is not valid').not().isEmpty().trim().escape(),
-    check('viewmodal_harvest_description_json', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
+    // check('viewmodal_harvest_description_json', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_blockchainhashid', 'Blockchain Hash ID value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_harvest_blockchainhashdata', 'Blockchain Hash Data value is not valid').not().isEmpty().trim().escape(),
     check('viewmodal_supplierproduce', 'Supplier Produce value is not valid').not().isEmpty().trim().escape(),
@@ -224,7 +238,7 @@ router.post('/update',  upload.none(), [
                   "',harvest_geolocation='" + req.body.viewmodal_harvest_geolocation +
                   "',harvest_quantity='" + req.body.viewmodal_harvest_quantity +
                   "',harvest_unitOfMeasure='" + req.body.viewmodal_harvest_unitofmeasure +
-                  "',harvest_description_json='" + req.body.viewmodal_harvest_description_json +
+                //  "',harvest_description_json='" + req.body.viewmodal_harvest_description_json +
                   "',harvest_BlockchainHashID='" + req.body.viewmodal_harvest_blockchainhashid +
                   "',harvest_BlockchainHashData='" + req.body.viewmodal_harvest_blockchainhashdata +
                   "',supplierproduce='" + req.body.viewmodal_supplierproduce +

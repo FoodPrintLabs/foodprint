@@ -335,9 +335,16 @@
                   </select>
                 </div>
 
-                <div class="form-group">
-                  <label for="viewmodal_harvest_description_json">Harvest Description JSON</label>
-                  <input type="text" name="viewmodal_harvest_description_json" class="form-control" id="viewmodal_harvest_description_json" placeholder="Harvest Description JSON">
+                <div class="form-group" id="viewmodal_harvest_description_jsonDiv">
+                  <label>Additional Information</label> <br />
+                  <!-- <input type="text" name="viewmodal_harvest_description_json" class="form-control" id="viewmodal_harvest_description_json" placeholder="Harvest Description JSON"> -->
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_pestfree" value="Pesticide Free" /> Pesticide Free<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_certorganic" value="Certified Organic" /> Certified Organic<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_noncertorganic" value="Non-Certified Organic" /> Non-Certified Organic<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_conventional" value="Conventional" /> Conventional<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_freerange" value="Free Range" /> Free Range<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_greenhouse" value="Greenhouse Grown" /> Greenhouse Grown<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_gmo" value="Non-GMO" /> Non-GMO<br />
                 </div>
 
                 <div class="form-group", id="viewmodal_harvest_blockchainhashidDiv">
@@ -536,13 +543,51 @@
             var logdatetime = $(obj_identifier).data('logdatetime');
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
 
-            //console.log("harvest_logid - " + harvest_logid);
+            console.log("harvest_logid - " + harvest_logid);
             // console.log("supplierproduce - " + supplierproduce);
             // console.log("harvest_TimeStamp - " + harvest_TimeStamp);
             // console.log("harvest_supplierName - " + harvest_supplierName);
             // console.log("harvest_photohash - " + harvest_photohash);
             //console.log("harvest_photoimage - " + harvest_photoimage);
 
+            console.log("harvest_description_json - " + harvest_description_json);
+            if(typeof harvest_description_json !== "undefined")
+            {
+              if (harvest_description_json.indexOf("Pesticide Free") != -1)
+              {
+                $("#viewmodal_harvest_description_json_pestfree").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Certified Organic") != -1)
+              {
+                $("viewmodal_harvest_description_json_certorganic").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Non-Certified Organic") != -1)
+              {
+                $("#viewmodal_harvest_description_json_noncertorganic").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Conventional") != -1)
+              {
+                $("#viewmodal_harvest_description_json_conventional").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Free Range") != -1)
+              {
+                $("#viewmodal_harvest_description_json_freerange").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Greenhouse Grown") != -1)
+              {
+                $("#viewmodal_harvest_description_json_greenhouse").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Non-GMO") != -1)
+              {
+                $("#viewmodal_harvest_description_json_gmo").prop("checked", true);
+              }
+            }
             $('#viewmodal_harvest_logid').val(harvest_logid);
             $('#viewmodal_harvest_suppliershortcode').val(harvest_suppliershortcode);
             $('#viewmodal_harvest_suppliername').val(harvest_suppliername);
@@ -618,6 +663,15 @@
             $("#viewmodal_lastmodifieddatetime").attr("required", false);
             $("#viewmodal_harvest_logid").attr("required", false);
 
+            // Harvest description  checkboxes should not be required
+            $("#viewmodal_harvest_description_json_pestfree").attr("required", false);
+            $("#viewmodal_harvest_description_json_certorganic").attr("required", false);
+            $("#viewmodal_harvest_description_json_noncertorganic").attr("required", false);
+            $("#viewmodal_harvest_description_json_conventional").attr("required", false);
+            $("#viewmodal_harvest_description_json_freerange").attr("required", false);
+            $("#viewmodal_harvest_description_json_greenhouse").attr("required", false);
+            $("#viewmodal_harvest_description_json_gmo").attr("required", false);
+
             $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
             $("#harvestDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
 
@@ -665,6 +719,15 @@
            //cannot modify image once it has been added
            $("#viewmodal_harvest_photoimageDiv").show();  
             $("#viewmodal_harvest_photohash").attr('disabled', true);
+
+          // Harvest description checkboxes should  be read-only
+          $("#viewmodal_harvest_description_json_pestfree").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_certorganic").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_noncertorganic").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_conventional").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_freerange").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_greenhouse").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_gmo").attr('disabled', true);
 
            $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
             $("#viewmodal_harvest_capturetimeDiv").show();  //TODO - this should be readonly
