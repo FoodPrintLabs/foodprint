@@ -1,13 +1,17 @@
 --  =============================================
 -- Author:      Julian Kanjere
 -- Create date: 22 January 2020
--- Description: Script to create ew harvest and storage tables
+-- Description: Script to create new harvest and storage tables
 
 
 -- Harvest (include hash column, added_to_blockchain, blockchain_date, blockchain_by, verifiable_on_blockchain.
 --         write to DB then Add to Blockchain fxn which also stores the contract address and uses latest contract by default),
 -- Storage (write to DB then Add to Blockchain fxn), Weekly View (choose market then display),
 
+-- =============CHANGE HISTORY===================
+-- Julian Kanjere       20 August 2020          Change columns harvest_TimeStamp, harvest_CaptureTime,  harvest_added_to_blockchain_date in foodprint_harvest to DATETIME
+-- Julian Kanjere       20 August 2020          Change columns market_storageTimeStamp, market_storageCaptureTime,  storage_added_to_blockchain_date in foodprint_storage to DATETIME
+-- Julian Kanjere       20 August 2020          Change column harvest_photoHash to LONGBLOB
 -- =============================================
 
 
@@ -20,7 +24,7 @@ CREATE TABLE foodprint_harvest (
         harvest_farmerName varchar(255), -- farmer name
         harvest_supplierAddress varchar(255),
         harvest_produceName varchar(255), -- produce name e.g. Baby Marrow, Radish
-        harvest_photoHash varchar(255),
+        harvest_photoHash LONGBLOB,
         harvest_TimeStamp varchar(255),
         harvest_CaptureTime varchar(255),
         harvest_Description varchar(1000), -- details about greenhouse etc
@@ -74,7 +78,7 @@ VALUES ('2e3f2070-5f5c-48bd-a5eb-f4121729bf7d' -- harvest_logid
         ,'Wolseley, Western Cape, South Africa 6830' -- harvest_supplierAddress,
         ,'Baby Marrow' -- harvest_produceName,
         ,'PLACEHOLDER - Baby Marrow Photo' -- harvest_photoHash,
-        ,'22020-01-19 06:00:00' -- harvest_TimeStamp,
+        ,'2020-01-19 06:00:00' -- harvest_TimeStamp,
         ,'2020-01-20 20:06:00' -- harvest_CaptureTime,
         ,"Baby Marrows with soft skin and buttery flesh. [Organic]" -- harvest_Description,
         ,'Wolseley, Western Cape, South Africa 6830' -- harvest_geolocation,
@@ -142,14 +146,14 @@ CREATE TABLE foodprint_storage (
         market_Address varchar(255),
         market_quantity varchar(255),
         market_unitOfMeasure varchar(255),
-        market_storageTimeStamp varchar(255),
-        market_storageCaptureTime varchar(255),
+        market_storageTimeStamp DATETIME,
+        market_storageCaptureTime DATETIME,
         market_URL varchar(255),
         storage_BlockchainHashID varchar(255),
         storage_BlockchainHashData varchar(2000), -- JSON with column value pairs e.g. {'market_Name':'Oranjezicht City Farm', ...}
         storage_Description varchar(255),
         storage_bool_added_to_blockchain varchar(255), -- true or false
-        storage_added_to_blockchain_date varchar(255),
+        storage_added_to_blockchain_date DATETIME,
         storage_added_to_blockchain_by varchar(255), -- user who logged storage to blockchain
         storage_blockchain_uuid varchar(255), -- uuid to blockchain config record which has contract and address
         storage_user varchar(255), -- user who logged storage
