@@ -27,7 +27,7 @@
                                     <div class="timeline-content">
                                         <h3 class="title">Farm</h3>
                                         <p class="description">
-                                         <b><%=data[0].harvest_produceName%></b> grown at <b><%=data[0].harvest_supplierName%></b> by <b><%=data[0].harvest_farmerName%></b>.   
+                                         <b><%=data[0].harvest_produceName%></b> grown at <b><%=data[0].harvest_supplierName%></b>(established <%=data[0].year_established%>) by <b><%=data[0].harvest_farmerName%></b>.   
                                          The farm is located in <b><%=data[0].harvest_supplierAddress%></b>.
                                         </p>
                                     </div>
@@ -39,8 +39,9 @@
                                         <p class="description">
                                             <b><%=data[0].harvest_supplierName%></b> exercised high standards of crop management and sustainable farming practices that minimized crop pests, diseases and maintained soil fertility. 
                                             The <b><%=data[0].harvest_produceName%></b> were harvested on <b><%=data[0].harvest_TimeStamp%></b>
-                                            and the harvest data captured on FoodPrint on <b><%=data[0].harvest_CaptureTime%></b>.
-                                            <i>Additional information about the <%=data[0].harvest_produceName%> -  <%=data[0].harvest_Description%></i>
+                                            and the harvest data captured on FoodPrint on <b><%=data[0].harvest_CaptureTime%></b>.</br>
+                                            <i>Additional information about the <%=data[0].harvest_produceName%> -  <%=data[0].harvest_Description%></i></br>
+                                            <i><%=data[0].harvest_description_json%> </i>
                                         </p>
                                     </div>
                                 </a>
@@ -73,6 +74,10 @@
                                 </a>
                             </div>
                             <br/>
+                            <div class="text-center">
+                                <img  width='50%' alt="Harvest Image" src="<%= data[0].harvest_photoHash %>"/>
+                            </div>
+
                             <!-- START: TRACED ON BLOCKCHAIN  -->
                             <% if (showTracedOnBlockchain){ %>
                               <div class="probootstrap-section-heading text-center mb50 probootstrap-animate" class="text-center">

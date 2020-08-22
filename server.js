@@ -329,8 +329,8 @@ router.get('/scan/:id',function(req,res){
 //TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/scan/ozcf/WMNP_Fennel
 router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,res){
   var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
-     connection.query('SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName,' +
-                      'harvest_supplierAddress, harvest_produceName, harvest_TimeStamp, harvest_CaptureTime,' +
+     connection.query('SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName, year_established, harvest_description_json,' +
+                      'harvest_photoHash, harvest_supplierAddress, harvest_produceName, harvest_TimeStamp, harvest_CaptureTime,' +
                       'harvest_Description, harvest_geolocation,supplierproduce, market_Address,' +
                       'market_storageTimeStamp, market_storageCaptureTime, logdatetime, lastmodifieddatetime ' + 
                       'FROM foodprint_weeklyview WHERE supplierproduce = ? AND ' +
@@ -348,6 +348,7 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
                           //res.render('scanresult',{data:'', user:req.user});
                           }
                           else {
+                              rows[0].harvest_photoHash = 'data:image/png;base64,' + new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
                               var provenance_data = rows;
                               console.log('Provenance scan successful');
                               //res.render('scanresult',{data:rows, user:req.user});
@@ -408,8 +409,8 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
 //TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/api/v1/scan/ozcf/WMNP_Fennel
 router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], function(req,res){
   var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
-     connection.query('SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName,' +
-                      'harvest_supplierAddress, harvest_produceName, harvest_TimeStamp, harvest_CaptureTime,' +
+     connection.query('SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName, year_established, harvest_description_json,' +
+                      'harvest_photoHash, harvest_supplierAddress, harvest_produceName, harvest_TimeStamp, harvest_CaptureTime,' +
                       'harvest_Description, harvest_geolocation,supplierproduce, market_Address,' +
                       'market_storageTimeStamp, market_storageCaptureTime, logdatetime, lastmodifieddatetime ' + 
                       'FROM foodprint_weeklyview WHERE supplierproduce = ? AND ' +
@@ -428,6 +429,8 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                           }
                           else {
                             if (rows.length){
+                              rows[0].harvest_photoHash = 'data:image/png;base64,' + new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
+
                               var provenance_data = rows[0]; // return 1st row only
                             }
                             else{
@@ -435,7 +438,6 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                             }
                               
                               console.log('Provenance scan successful');
-                              //res.render('scanresult',{data:rows, user:req.user});
                           }
                               
                           var boolTracedOnBlockchain = process.env.SHOW_TRACED_ON_BLOCKCHAIN || false
@@ -479,11 +481,9 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                                                     //callback(null, res2); // think 'return'
                                                     });
                           //END Track QR Scan
-                          provenance_data.push({
-                            user:req.user,
-                            showTracedOnBlockchain:boolTracedOnBlockchain,
-                            page_name:'home'
-                        });
+                          provenance_data['user']= req.user;
+                          provenance_data['showTracedOnBlockchain']= boolTracedOnBlockchain;
+                          provenance_data['page_name']= 'home';
                         res.end(JSON.stringify(provenance_data)); //res.end() method to send data to client as json string via JSON.stringify() methoD
                       }); //end of connection.query
                       
