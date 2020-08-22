@@ -388,10 +388,12 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
                                                 ,function(err, res2) {
                                                     if (err) {
                                                       console.error('Produce scan tracking error occured');
+                                                      console.error('error', err);
                                                     }
-                                                    console.log('Produce scan tracking successful');
-                                                    //callback(null, res2); // think 'return'
-                                                    });
+                                                    else{
+                                                      console.log('Produce scan tracking successful');
+                                                    }                                                    
+                                                  });
                           //END Track QR Scan
                           
                           res.render('scanresult',{data:provenance_data, user:req.user, 
@@ -471,6 +473,7 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                                                 ,function(err, res2) {
                                                     if (err) {
                                                       console.error('Produce scan tracking error occured');
+                                                      console.error('error', err);
                                                     }
                                                     console.log('Produce scan tracking successful');
                                                     //callback(null, res2); // think 'return'
