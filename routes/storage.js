@@ -38,7 +38,7 @@ router.get('/',
                              res.render('storagelogbook',{  page_title:"FoodPrint - Storage Logbook", 
                                                     data:rows, harvest_data:'', user: req.user, page_name:'storagelogbook' });
                         }else{
-                            console.log("harvest_rows - " + harvest_rows);
+                            //console.log("harvest_rows - " + harvest_rows);
                             res.render('storagelogbook',{   page_title:"FoodPrint - Storage Logbook", 
                                                     data:rows, harvest_data:harvest_rows, user: req.user,
                                                     page_name:'storagelogbook' });
@@ -96,42 +96,61 @@ router.post('/save', [
               res.redirect('/app/storage');
             }
           else {
-              //console.log('req.body.viewmodal_harvest_logid ' + req.body.viewmodal_harvest_logid);
-              console.log('req.body.viewmodal_harvest_logidSelect ' + req.body.viewmodal_harvest_logidSelect);
-              
-             let harvest_logid_uuid = req.body.viewmodal_harvest_logidSelect
-              let storage_logid_uuid = uuidv4();
-              let storage_TimeStamp = moment(new Date(req.body.viewmodal_market_storageTimeStamp)).format("YYYY-MM-DD HH:mm:ss"); //actual time of storage/handover at market with farmer 
-              let storage_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of storage/handover data entry 
-              let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-              let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+                //console.log('req.body.viewmodal_harvest_logid ' + req.body.viewmodal_harvest_logid);
+                console.log('req.body.viewmodal_harvest_logidSelect ' + req.body.viewmodal_harvest_logidSelect);
+                
+                let harvest_logid_uuid = req.body.viewmodal_harvest_logidSelect
+                let storage_logid_uuid = uuidv4();
+                let storage_TimeStamp = moment(new Date(req.body.viewmodal_market_storageTimeStamp)).format("YYYY-MM-DD HH:mm:ss"); //actual time of storage/handover at market with farmer 
+                let storage_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of storage/handover data entry 
+                let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+                let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
-              let data = {
-                harvest_logid: harvest_logid_uuid,
-                storage_logid: storage_logid_uuid,
-                harvest_supplierShortcode: req.body.viewmodal_harvest_suppliershortcode,
-                supplierproduce: req.body.viewmodal_supplierproduce, // e.g. WMPN_BabyMarrow
-                market_Shortcode: req.body.viewmodal_market_Shortcode,
-                market_Name: req.body.viewmodal_market_Name,
-                market_Address: req.body.viewmodal_market_Address,
-                market_quantity: req.body.viewmodal_market_quantity,
-                market_unitOfMeasure: req.body.viewmodal_market_unitOfMeasure,
-                market_storageTimeStamp: storage_TimeStamp,
-                market_storageCaptureTime: storage_CaptureTime,
-                market_URL: req.body.viewmodal_market_URL,
-                storage_BlockchainHashID: '-',
-                storage_BlockchainHashData: '-',
-                storage_Description: req.body.viewmodal_storage_Description,
-                storage_bool_added_to_blockchain: 'false', //true or false
-                //storage_added_to_blockchain_date: NULL,  //system generated when add to blockchain is selected
-                storage_added_to_blockchain_by: '-', // user who logged storage to blockchain
-                storage_blockchain_uuid: '-', // uuid to blockchain config record which has contract and address
-                storage_user: req.user.email, // user who logged storage
-                logdatetime: logdatetime,
-                lastmodifieddatetime: lastmodifieddatetime
-              };
-              console.log('storage_TimeStamp - ' + storage_TimeStamp);
-              console.log('viewmodal_market_storageTimeStamp - ' + req.body.viewmodal_market_storageTimeStamp);
+                //access req.body variables
+                let req_harvest_suppliershortcode = req.body.viewmodal_harvest_suppliershortcode;
+                let req_supplierproduce = req.body.viewmodal_supplierproduce;
+                let req_market_Shortcode = req.body.viewmodal_market_Shortcode;
+                let req_market_Name = req.body.viewmodal_market_Name;
+                let req_market_Address = req.body.viewmodal_market_Address;
+                let req_market_quantity = req.body.viewmodal_market_quantity;
+                let req_market_unitOfMeasure = req.body.viewmodal_market_unitOfMeasure;
+                let req_market_URL = req.body.viewmodal_market_URL;
+                let req_storage_Description = req.body.viewmodal_storage_Description;
+                let req_email = req.user.email;
+
+                //blockchain variables
+                let sys_storage_BlockchainHashID = '-';
+                let sys_storage_BlockchainHashData = '-';
+                let sys_storage_bool_added_to_blockchain = 'false';
+                let sys_storage_added_to_blockchain_by = '-';
+                let sys_storage_blockchain_uuid = '-';
+
+                let data = {
+                    harvest_logid: harvest_logid_uuid,
+                    storage_logid: storage_logid_uuid,
+                    harvest_supplierShortcode: req_harvest_suppliershortcode,
+                    supplierproduce: req_supplierproduce, // e.g. WMPN_BabyMarrow
+                    market_Shortcode: req_market_Shortcode,
+                    market_Name: req_market_Name,
+                    market_Address: req_market_Address,
+                    market_quantity: req_market_quantity,
+                    market_unitOfMeasure: req_market_unitOfMeasure,
+                    market_storageTimeStamp: storage_TimeStamp,
+                    market_storageCaptureTime: storage_CaptureTime,
+                    market_URL: req_market_URL,
+                    storage_BlockchainHashID: sys_storage_BlockchainHashID,
+                    storage_BlockchainHashData: sys_storage_BlockchainHashData,
+                    storage_Description: req_storage_Description,
+                    storage_bool_added_to_blockchain: sys_storage_bool_added_to_blockchain, //true or false
+                    //storage_added_to_blockchain_date: NULL,  //system generated when add to blockchain is selected
+                    storage_added_to_blockchain_by: sys_storage_added_to_blockchain_by, // user who logged storage to blockchain
+                    storage_blockchain_uuid: sys_storage_blockchain_uuid, // uuid to blockchain config record which has contract and address
+                    storage_user: req_email, // user who logged storage
+                    logdatetime: logdatetime,
+                    lastmodifieddatetime: lastmodifieddatetime
+                };
+                console.log('storage_TimeStamp - ' + storage_TimeStamp);
+                console.log('viewmodal_market_storageTimeStamp - ' + req.body.viewmodal_market_storageTimeStamp);
 
 
               let sql = "INSERT INTO foodprint_storage SET ?";
@@ -143,6 +162,55 @@ router.post('/save', [
                           // redirect to Storage Logbook page
                           res.redirect('/app/storage')
                       } else{
+                            console.log('Add storage entry successful');
+
+                            //there should be one harvest entry for the harvest_logid
+                            connection.query('SELECT * FROM foodprint_harvest WHERE harvest_logid = ?;',
+                            [
+                                harvest_logid_uuid
+                            ],
+                            function(err,harvest_rows){
+                                if(err){
+                                    console.error("err pulling harvest_row - " + err);
+                                }else{
+                                    console.log("success getting harvest_row - " + harvest_rows);
+                                    console.log("harvest_rows[0].harvest_supplierName - " + harvest_rows[0].harvest_supplierName);
+                                    
+                                    // insert into weekly_view 
+                                    //TODO this really needs to be in a transaction with the add storage, if either fails then rollback 
+                                    let logid_uuid = uuidv4();
+                                    connection.query( 'INSERT INTO foodprint_weeklyview (' +
+                                    'logid, harvest_logid, harvest_supplierShortcode, harvest_supplierName,  harvest_farmerName, harvest_supplierAddress,' +
+                                    'year_established, covid19_response, harvest_produceName, harvest_photoHash, harvest_TimeStamp, harvest_CaptureTime,'  +
+                                    'harvest_Description, harvest_geolocation, harvest_quantity, harvest_unitOfMeasure, harvest_description_json,'  +
+                                    'harvest_BlockchainHashID, harvest_BlockchainHashData,  supplierproduce,  storage_logid, market_Address, market_quantity,'  +
+                                    'market_unitOfMeasure, market_storageTimeStamp, market_storageCaptureTime, market_URL, storage_BlockchainHashID,'  +
+                                    'storage_BlockchainHashData, storage_Description, storage_bool_added_to_blockchain,'  + 
+                                    'storage_added_to_blockchain_by, storage_blockchain_uuid, harvest_bool_added_to_blockchain, harvest_added_to_blockchain_date,'  + 
+                                    'harvest_added_to_blockchain_by, harvest_blockchain_uuid, harvest_user, storage_user, logdatetime, lastmodifieddatetime)' + 
+                                    ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+
+                                    [
+                                        logid_uuid, harvest_logid_uuid, req_harvest_suppliershortcode, harvest_rows[0].harvest_supplierName, harvest_rows[0].harvest_farmerName, harvest_rows[0].harvest_supplierAddress,
+                                        harvest_rows[0].year_established, harvest_rows[0].covid19_response, harvest_rows[0].harvest_produceName, harvest_rows[0].harvest_photoHash, harvest_rows[0].harvest_TimeStamp, harvest_rows[0].harvest_CaptureTime,
+                                        harvest_rows[0].harvest_Description, harvest_rows[0].harvest_geolocation, harvest_rows[0].harvest_quantity, harvest_rows[0].harvest_unitOfMeasure, harvest_rows[0].harvest_description_json,
+                                        harvest_rows[0].harvest_BlockchainHashID, harvest_rows[0].harvest_BlockchainHashData, req_supplierproduce, storage_logid_uuid, req_market_Address, req_market_quantity,
+                                        req_market_unitOfMeasure, storage_TimeStamp, storage_CaptureTime, req_market_URL, sys_storage_BlockchainHashID,
+                                        sys_storage_BlockchainHashData, req_storage_Description, sys_storage_bool_added_to_blockchain, 
+                                        sys_storage_added_to_blockchain_by, sys_storage_blockchain_uuid, harvest_rows[0].harvest_bool_added_to_blockchain, harvest_rows[0].harvest_added_to_blockchain_date,
+                                        harvest_rows[0].harvest_added_to_blockchain_by, harvest_rows[0].harvest_blockchain_uuid, harvest_rows[0].harvest_user, req_email, logdatetime, lastmodifieddatetime
+                                    ], function(err, res2) {
+                                        if (err) {
+                                            console.error('Add weekly view error occured');
+                                            console.error('error', err);
+                                        }
+                                        else{
+                                            console.log('Add weekly view successful');
+                                        }
+                                        });
+                                }
+                             });
+
                           req.flash('success', 'New Storage entry added successfully! Storage ID = ' + storage_logid_uuid);
                           res.redirect('/app/storage');
                       }
