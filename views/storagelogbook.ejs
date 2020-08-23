@@ -177,9 +177,9 @@
 
                 <div class="form-group" id="viewmodal_harvest_logidSelectDiv">
                   <label for="viewmodal_harvest_logidSelect">Select Harvest ID</label>
-                  <select class="custom-select d-block w-100"  name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID">
+                  <select class="custom-select d-block w-100 form-control""  name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID" style="width:100%; >
                     <option value="" selected disabled>Select Harvest ID...</option>
-                    <% if(harvest_data.length){
+                    <% if(typeof harvest_data != "undefined" && harvest_data.length){
                       for(var i = 0; i< harvest_data.length; i++) {%>
                         <option value="<%=harvest_data[i].harvest_logid%>"><%= harvest_data[i].harvest_TimeStamp +  "/"  + harvest_data[i].supplierproduce + "/"  + harvest_data[i].harvest_quantity + "("+ harvest_data[i].harvest_unitofmeasure + ")"%></option>
                           <% }
@@ -193,9 +193,12 @@
                   <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
                   <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
                     <option value="" selected disabled >Choose Supplier...</option>
-                    <option>WMNP</option>
-                    <option>QCGF</option>
+                    <option>BGSM</option>
+                    <option>EKLN</option>
                     <option>OZCF</option>
+                    <option>PEDI</option>
+                    <option>QCGF</option>
+                    <option>WMNP</option>
                   </select>
                 </div>
 
@@ -203,21 +206,37 @@
                   <label for="viewmodal_supplierproduce">Supplier Produce</label>
                   <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
                     <option value="" selected disabled >Choose Supplier Produce...</option>
+                    <option>BGSM_Bergamot</option>
+                    <option>BGSM_Lemon</option>
+                    <option>BGSM_Oranges</option>
+                    <option>EKLN_Cauliflower</option>
+                    <option>EKLN_Eggs</option>
+                    <option>EKLN_Sorrel</option>
+                    <option>OZCF_Beetroot</option>
+                    <option>OZCF_Chard</option>
+                    <option>OZCF_Lettuce</option>
+                    <option>PEDI_Cabbage</option>
+                    <option>PEDI_Carrots</option>
+                    <option>PEDI_Onion</option>
+                    <option>PEDI_Spinach</option>
+                    <option>PEDI_Turnips</option>
                     <option>QCGF_Basil</option>
                     <option>QCGF_Beetroot</option>
                     <option>QCGF_CayennePepper</option>
+                    <option>QCGF_Leeks</option>
+                    <option>QCGF_Radish</option>
                     <option>WMNP_BabyMarrow</option>
-                    <option>WMNP_Radish</option>
-                    <option>WMNP_GreenBeans</option>
-                    <option>WMNP_Fennel</option>
                     <option>WMNP_Basil</option>
                     <option>WMNP_Cucumber</option>
+                    <option>WMNP_Fennel</option>
+                    <option>WMNP_GreenBeans</option>
+                    <option>WMNP_Radish</option> 
                   </select>
                 </div>
 
                 <div class="form-group">
                   <label for="viewmodal_market_Shortcode">Market Shortcode</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_market_Shortcode" id="viewmodal_market_Shortcode">
+                  <select class="custom-select d-block w-100 form-control" name="viewmodal_market_Shortcode" id="viewmodal_market_Shortcode">
                     <option value="" selected disabled >Choose Market Shortcode...</option>
                     <option>OZCFM</option>
                     <option>OBM</option>

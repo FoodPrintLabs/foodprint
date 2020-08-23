@@ -106,11 +106,13 @@ run dbxml/foodprintDB_schema.sql
 9. Create a .env file in the root directory of your project. Add environment-specific variables on new lines in the form of NAME=VALUE. For example
 
 ```
-APP_ENV=staging
+NODE_ENV=staging
 APP_NAME=custom environment app
 DB_HOST=localhost
 DB_USER=root
 DB_PASS=s1mpl3
+EMAIL_ADDRESS=GMAIL_EMAIL_ADDRESS
+EMAIL_PASSWORD=GMAIL_EMAIL_PASSWORD
 ```
 
 You can then access the variables in your code using process.env e.g. `console.log(process.env.APP_ENV)`

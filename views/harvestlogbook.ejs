@@ -69,6 +69,8 @@
                       data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
                       data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
                       data-harvest_user="<%=data[i].harvest_user%>"
+                      data-year_established="<%=data[i].year_established%>"
+                      data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
@@ -96,6 +98,8 @@
                       data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
                       data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
                       data-harvest_user="<%=data[i].harvest_user%>"
+                      data-year_established="<%=data[i].year_established%>"
+                      data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Edit</a>
@@ -123,6 +127,8 @@
                       data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
                       data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
                       data-harvest_user="<%=data[i].harvest_user%>"
+                      data-year_established="<%=data[i].year_established%>"
+                      data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Delete</a>
@@ -151,6 +157,8 @@
                       data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
                       data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
                       data-harvest_user="<%=data[i].harvest_user%>"
+                      data-year_established="<%=data[i].year_established%>"
+                      data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Add to Blockchain</a>  <% } %><!--<button type="button" class="btn btn-primary disabled">Disabled Primary</button> -->
@@ -169,7 +177,7 @@
    <!-- END TABLE-->
 
     <!-- Modal View Harvest-->
-    <form id="harvestModalForm" action="/app/harvest/save" method="post">
+    <form id="harvestModalForm" enctype="multipart/form-data" action="/app/harvest/save" method="post">
       <div class="modal fade" id="harvestViewModal" tabindex="-1" role="dialog" aria-labelledby="harvestModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -187,19 +195,25 @@
                   <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
                   <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
                     <option value="" selected disabled >Choose Supplier...</option>
-                    <option>WMNP</option>
-                    <option>QCGF</option>
+                    <option>BGSM</option>
+                    <option>EKLN</option>
                     <option>OZCF</option>
+                    <option>PEDI</option>
+                    <option>QCGF</option>
+                    <option>WMNP</option>
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <label for="viewmodal_harvest_suppliername">Supplier Name</label>
+                  <label for="viewmodal_harvest_suppliername">Farmer Name</label>
                   <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
-                    <option value="" selected disabled >Choose Supplier Name...</option>
-                    <option>White Mountain Natural Produce</option>
-                    <option>Quick Crop Growers Farm</option>
+                    <option value="" selected disabled >Choose Farmer Name...</option>
+                    <option>Bergsoom Farm</option>
+                    <option>Eikelaan Farm</option>
                     <option>Oranjezicht City Farm</option>
+                    <option>Pedi AgriHub</option>
+                    <option>Quick Crop Growers Farm</option>
+                    <option>White Mountain Natural Produce</option>
                   </select>
                 </div>
               
@@ -207,15 +221,31 @@
                   <label for="viewmodal_supplierproduce">Supplier Produce Code</label>
                   <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
                     <option value="" selected disabled >Choose Supplier Produce...</option>
+                    <option>BGSM_Bergamot</option>
+                    <option>BGSM_Lemon</option>
+                    <option>BGSM_Oranges</option>
+                    <option>EKLN_Cauliflower</option>
+                    <option>EKLN_Eggs</option>
+                    <option>EKLN_Sorrel</option>
+                    <option>OZCF_Beetroot</option>
+                    <option>OZCF_Chard</option>
+                    <option>OZCF_Lettuce</option>
+                    <option>PEDI_Cabbage</option>
+                    <option>PEDI_Carrots</option>
+                    <option>PEDI_Onion</option>
+                    <option>PEDI_Turnips</option>
+                    <option>PEDI_Spinach</option>
                     <option>QCGF_Basil</option>
                     <option>QCGF_Beetroot</option>
                     <option>QCGF_CayennePepper</option>
+                    <option>QCGF_Leeks</option>
+                    <option>QCGF_Radish</option>
                     <option>WMNP_BabyMarrow</option>
-                    <option>WMNP_Radish</option>
-                    <option>WMNP_GreenBeans</option>
-                    <option>WMNP_Fennel</option>
                     <option>WMNP_Basil</option>
                     <option>WMNP_Cucumber</option>
+                    <option>WMNP_Fennel</option>
+                    <option>WMNP_GreenBeans</option>
+                    <option>WMNP_Radish</option> 
                   </select>
                 </div>
 
@@ -226,17 +256,31 @@
                     <option>Baby Marrow</option>
                     <option>Basil</option>
                     <option>Beetroot</option>
+                    <option>Bergamot</option>
+                    <option>Blood Oranges</option>
+                    <option>Cabbage</option>
+                    <option>Carrots</option>
+                    <option>Cauliflower</option>
                     <option>Cayene Pepper</option>
                     <option>Cucumber</option>
+                    <option>Eggs</option>
                     <option>Fennel</option>
                     <option>Green Beans</option>
                     <option>Lebanese Cucumber</option>
+                    <option>Leeks</option>
+                    <option>Lemon</option>
+                    <option>Lettuce</option>
+                    <option>Onion</option>
                     <option>Radish</option>
+                    <option>Sorrel</option>
+                    <option>Swiss Chard</option>
+                    <option>Spinach</option>
+                    <option>Turnips</option>
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <label for="viewmodal_harvest_supplieraddress">Supplier Address</label>
+                  <label for="viewmodal_harvest_supplieraddress">Farmer Address</label>
                   <input type="text" name="viewmodal_harvest_supplieraddress" class="form-control" id="viewmodal_harvest_supplieraddress" placeholder="Supplier Address">
                 </div>
 
@@ -246,8 +290,22 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="viewmodal_harvest_photohash">Photo hash</label>
-                  <input type="text" name="viewmodal_harvest_photohash" class="form-control" id="viewmodal_harvest_photohash" placeholder="Photo hash">
+                  <label for="viewmodal_harvest_year_established">Year Farm Established</label>
+                  <input type="text" name="viewmodal_harvest_year_established" class="form-control" id="viewmodal_harvest_year_established" placeholder="Year Farm Established">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_covid19_response">Brief description of response to COVID-19</label>
+                  <input type="text" name="viewmodal_harvest_covid19_response" class="form-control" id="viewmodal_harvest_covid19_response" placeholder="Brief description of response to COVID-19">
+                </div>
+
+                <!--NB name="viewmodal_harvest_photohash_uploaded_file" and enctype="multipart/form-data" on the from required for multer library-->
+                <div class="form-group">
+                  <label for="viewmodal_harvest_photohash">Harvest Photo</label>
+                  <input type="file" name="viewmodal_harvest_photohash_uploaded_file" class="form-control" id="viewmodal_harvest_photohash" placeholder="Photo hash">
+                  <div id="viewmodal_harvest_photoimageDiv">
+                    <img id="viewmodal_harvest_photoimage" width='100%' alt="Harvest Image" />
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -296,9 +354,16 @@
                   </select>
                 </div>
 
-                <div class="form-group">
-                  <label for="viewmodal_harvest_description_json">Harvest Description JSON</label>
-                  <input type="text" name="viewmodal_harvest_description_json" class="form-control" id="viewmodal_harvest_description_json" placeholder="Harvest Description JSON">
+                <div class="form-group" id="viewmodal_harvest_description_jsonDiv">
+                  <label>Additional Information</label> <br />
+                  <!-- <input type="text" name="viewmodal_harvest_description_json" class="form-control" id="viewmodal_harvest_description_json" placeholder="Harvest Description JSON"> -->
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_pestfree" value="Pesticide Free" /> Pesticide Free<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_certorganic" value="Certified Organic" /> Certified Organic<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_noncertorganic" value="Non-Certified Organic" /> Non-Certified Organic<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_conventional" value="Conventional" /> Conventional<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_freerange" value="Free Range" /> Free Range<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_greenhouse" value="Greenhouse Grown" /> Greenhouse Grown<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_gmo" value="Non-GMO" /> Non-GMO<br />
                 </div>
 
                 <div class="form-group", id="viewmodal_harvest_blockchainhashidDiv">
@@ -425,7 +490,8 @@
                 });
 
     $(function () {
-        $('.form_datetime').datetimepicker({
+      $('.form_datetime').datetimepicker();
+     /*    $('.form_datetime').datetimepicker({
           weekStart: 1,
           todayBtn:  1,
       autoclose: 1,
@@ -433,7 +499,7 @@
       startView: 2,
       forceParse: 0,
           showMeridian: 1
-      });
+      }); */
     });
 
     
@@ -477,6 +543,7 @@
             var harvest_supplieraddress = $(obj_identifier).data('harvest_supplieraddress');
             var harvest_producename = $(obj_identifier).data('harvest_producename');
             var harvest_photohash = $(obj_identifier).data('harvest_photohash');
+            var harvest_photoimage = harvest_photohash;
             var harvest_timestamp = $(obj_identifier).data('harvest_timestamp');
             var harvest_capturetime = $(obj_identifier).data('harvest_capturetime');
             var harvest_description = $(obj_identifier).data('harvest_description');
@@ -492,6 +559,8 @@
             var harvest_added_to_blockchain_by = $(obj_identifier).data('harvest_added_to_blockchain_by');
             var harvest_blockchain_uuid = $(obj_identifier).data('harvest_blockchain_uuid');
             var harvest_user = $(obj_identifier).data('harvest_user');
+            var year_established = $(obj_identifier).data('year_established');
+            var covid19_response = $(obj_identifier).data('covid19_response');
             var logdatetime = $(obj_identifier).data('logdatetime');
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
 
@@ -499,15 +568,56 @@
             // console.log("supplierproduce - " + supplierproduce);
             // console.log("harvest_TimeStamp - " + harvest_TimeStamp);
             // console.log("harvest_supplierName - " + harvest_supplierName);
-            console.log("harvest_suppliername - " + harvest_suppliername);
+            // console.log("harvest_photohash - " + harvest_photohash);
+            //console.log("harvest_photoimage - " + harvest_photoimage);
 
+            console.log("harvest_description_json - " + harvest_description_json);
+            if(typeof harvest_description_json !== "undefined")
+            {
+              if (harvest_description_json.indexOf("Pesticide Free") != -1)
+              {
+                $("#viewmodal_harvest_description_json_pestfree").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Certified Organic") != -1)
+              {
+                $("viewmodal_harvest_description_json_certorganic").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Non-Certified Organic") != -1)
+              {
+                $("#viewmodal_harvest_description_json_noncertorganic").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Conventional") != -1)
+              {
+                $("#viewmodal_harvest_description_json_conventional").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Free Range") != -1)
+              {
+                $("#viewmodal_harvest_description_json_freerange").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Greenhouse Grown") != -1)
+              {
+                $("#viewmodal_harvest_description_json_greenhouse").prop("checked", true);
+              }
+
+              if (harvest_description_json.indexOf("Non-GMO") != -1)
+              {
+                $("#viewmodal_harvest_description_json_gmo").prop("checked", true);
+              }
+            }
             $('#viewmodal_harvest_logid').val(harvest_logid);
             $('#viewmodal_harvest_suppliershortcode').val(harvest_suppliershortcode);
             $('#viewmodal_harvest_suppliername').val(harvest_suppliername);
             $('#viewmodal_harvest_farmername').val(harvest_farmername);
             $('#viewmodal_harvest_supplieraddress').val(harvest_supplieraddress);
             $('#viewmodal_harvest_producename').val(harvest_producename);
-            $('#viewmodal_harvest_photohash').val(harvest_photohash);
+            //$('#viewmodal_harvest_photohash').val(harvest_photohash);            
+            $('#viewmodal_harvest_photoimage').attr("src", harvest_photoimage);
+
             $('#viewmodal_harvest_timestamp').val(harvest_timestamp);
             $('#viewmodal_harvest_capturetime').val(harvest_capturetime);
             $('#viewmodal_harvest_description').val(harvest_description);
@@ -523,6 +633,8 @@
             $('#viewmodal_harvest_added_to_blockchain_by').val(harvest_added_to_blockchain_by);
             $('#viewmodal_harvest_blockchain_uuid').val(harvest_blockchain_uuid);
             $('#viewmodal_harvest_user').val(harvest_user);
+            $('#viewmodal_harvest_year_established').val(year_established);
+            $('#viewmodal_harvest_covid19_response').val(covid19_response);
             $('#viewmodal_logdatetime').val(logdatetime);
             $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
 
@@ -537,12 +649,13 @@
             $("#modalBodyContainer :input").attr("required", true);
             
             //System populated:
-            //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
+            //viewmodal_harvest_photoimageDiv, viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
             //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
             //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv,
             //viewmodal_harvest_capturetime, viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid 
 
             //Hide divs for System populated elements
+            $("#viewmodal_harvest_photoimageDiv").hide();  
             $("#viewmodal_harvest_blockchainhashidDiv").hide();  
             $("#viewmodal_harvest_blockchainhashdataDiv").hide();  
             $("#viewmodal_harvest_bool_added_to_blockchainDiv").hide();  
@@ -555,8 +668,10 @@
             $("#viewmodal_logdatetimeDiv").hide();  
             $("#viewmodal_lastmodifieddatetimeDiv").hide();  
             $("#viewmodal_harvest_logidDiv").hide();  
+            
 
             //Make System populated elements not required otherwise Add Harvest Form will not submit
+            $("#viewmodal_harvest_photoimage").attr("required", false);
             $("#viewmodal_harvest_blockchainhashid").attr("required", false);
             $("#viewmodal_harvest_blockchainhashdata").attr("required", false);
             $("#viewmodal_harvest_bool_added_to_blockchain").attr("required", false);
@@ -564,11 +679,21 @@
             $("#viewmodal_harvest_user").attr("required", false);
             $("#viewmodal_harvest_blockchain_uuid").attr("required", false);
             $("#viewmodal_harvest_added_to_blockchain_by").attr("required", false);
+            
             //
             $("#viewmodal_harvest_capturetime").attr("required", false);
             $("#viewmodal_logdatetime").attr("required", false);
             $("#viewmodal_lastmodifieddatetime").attr("required", false);
             $("#viewmodal_harvest_logid").attr("required", false);
+
+            // Harvest description  checkboxes should not be required
+            $("#viewmodal_harvest_description_json_pestfree").attr("required", false);
+            $("#viewmodal_harvest_description_json_certorganic").attr("required", false);
+            $("#viewmodal_harvest_description_json_noncertorganic").attr("required", false);
+            $("#viewmodal_harvest_description_json_conventional").attr("required", false);
+            $("#viewmodal_harvest_description_json_freerange").attr("required", false);
+            $("#viewmodal_harvest_description_json_greenhouse").attr("required", false);
+            $("#viewmodal_harvest_description_json_gmo").attr("required", false);
 
             $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
             $("#harvestDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
@@ -582,11 +707,13 @@
             $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
             // $('#form1 input').attr('readonly', 'readonly');    
 
-              //System populated:
+            //SHOW DIVS
+            //System populated:
             //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
             //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
             //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv
 
+            $("#viewmodal_harvest_photoimageDiv").show(); 
             $("#viewmodal_harvest_blockchainhashidDiv").show();  
             $("#viewmodal_harvest_blockchainhashdataDiv").show();  
             $("#viewmodal_harvest_bool_added_to_blockchainDiv").show();  
@@ -610,6 +737,20 @@
             //TODO $("#viewmodal_logdatetime").attr('readonly', true);
             //$("#viewmodal_logdatetime_calendar").attr('readonly', true);
            // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
+
+
+           //cannot modify image once it has been added
+           $("#viewmodal_harvest_photoimageDiv").show();  
+            $("#viewmodal_harvest_photohash").attr('disabled', true);
+
+          // Harvest description checkboxes should  be read-only
+          $("#viewmodal_harvest_description_json_pestfree").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_certorganic").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_noncertorganic").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_conventional").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_freerange").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_greenhouse").attr('disabled', true);
+          $("#viewmodal_harvest_description_json_gmo").attr('disabled', true);
 
            $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
             $("#viewmodal_harvest_capturetimeDiv").show();  //TODO - this should be readonly
@@ -635,8 +776,8 @@
 
             $("#harvestDeleteDiv").show();  // show confirm delete checkbox
 
-            //make viewmodal_harvest_logid readon;y not disabled so it is sent via web request
-            $("#viewmodal_harvest_logid").attr("disabled", false);
+            //make viewmodal_harvest_logid readonly not disabled so it is sent via web request
+            $("#viewmodal_harvest_logid").attr("disabled", false); 
             $("#viewmodal_harvest_logid").attr('readonly', true);
 
             $("#modalFooter").append(deleteButton);  
