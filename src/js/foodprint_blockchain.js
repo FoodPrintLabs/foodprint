@@ -735,8 +735,10 @@ $(document).ready(function() {
         }
       ];
 
+    var FoodPrintProduceContractV2 = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
+
     // call addHarvestToBlockchain() function on button click
-    $("#addHarvestBtn").click(addHarvestToBlockchain);
+    $(".addHarvestToBlockchainBtn").click(addHarvestToBlockchain);
 
     // call verifyHarvestEntry function on button click
     $("#verifyHarvestEntryBtn").click(verifyHarvestEntry);
@@ -783,7 +785,6 @@ $(document).ready(function() {
         }
 
         // TODO - trigger  notification
-        //triggerNotificationOpen(CONSTANTS.NOTIFICATION_BAR_DIV, '"divverifyHarvestEntryAlert"', message_description, message_type);
         return console.log(message_description);
     };
 
@@ -825,6 +826,15 @@ $(document).ready(function() {
 
     // function Add to Blockchain
     async function addHarvestToBlockchain() {
+       
+        // disable button
+        $("this").prop("disabled", true);
+
+        // add spinner to button
+        $(this).html(
+            `<span class="spinner-border spinner-border-sm" id="spinner_addHarvestBtn" role="status" aria-hidden="true"></span> Adding to Blockchain...`
+        );
+
 		if (window.ethereum)
 			try {
 				await window.ethereum.enable();
@@ -895,11 +905,10 @@ $(document).ready(function() {
 
         //Load the contract schema from the abi and Instantiate the contract by address
         // at(): Create an instance of MyContract that represents your contract at a specific address.
-        // deployed(): Create an instance of MyContract that represents the default address managed by MyContract.
+        // deployed(): Create an instance of MyContract that represents the default address managed by MyFoodPrintProduceContractV2.
         // new(): Deploy a new version of this contract to the network, getting an instance of MyContract that represents the newly deployed instance.
 
-        let contract = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
-        contract.registerHarvestSubmission(supplierproduce, photoHash, harvest_geolocation, harvest_timestamp.toString(), harvest_logid,
+        FoodPrintProduceContractV2.registerHarvestSubmission(supplierproduce, photoHash, harvest_geolocation, harvest_timestamp.toString(), harvest_logid,
             function(err, result) {
         if (err){
             return handle_error(err);
@@ -912,6 +921,34 @@ $(document).ready(function() {
         });
     };
 
+    //Watch for registeredHarvestEvent
+    var registeredHarvestEvent = FoodPrintProduceContractV2.registeredHarvestEvent();
+    registeredHarvestEvent.watch(function(error, result){
+        if (!error)
+            {
+                console.log("registeredHarvestEvent");
+                // TODO - enable button?
+                //$(addHarvestBtn).attr("disabled", true);
+
+                // Remove spinner from button
+                //$("spinner_addHarvestBtn").hide();
+
+                //update text
+                //$("addHarvestBtn").html(`Added to Blockchain`);
+
+                // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+            } else {
+                // Remove spinner from button
+               // $("spinner_addHarvestBtn").hide();
+
+                //update text
+                //$("addHarvestBtn").html(`Error Adding to Blockchain`);
+                console.log(error);
+
+                // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+            }
+    });
+
     //check on blockchain  
     // function to verify Harvest entry exists 
     function verifyHarvestEntry() {
@@ -919,8 +956,7 @@ $(document).ready(function() {
             return handle_web3_undefined_error();
         }
 
-        let contract = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
-        contract.getHarvestSubmission(harvest_logid, function(err, result) {
+        FoodPrintProduceContractV2.getHarvestSubmission(harvest_logid, function(err, result) {
             if (err){
                 return handle_error(err);
             }
@@ -969,8 +1005,7 @@ $(document).ready(function() {
 
     // function to retrieve a submitted Harvest Entry submitter address
     function retrieveHarvestEntrySubmitAddress() {
-        let contract = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
-        contract.getHarvestSubmitterAddress(harvest_logid, function(err, result) {
+        FoodPrintProduceContractV2.getHarvestSubmitterAddress(harvest_logid, function(err, result) {
             if (err){
                 return handle_error(err);
             }
@@ -1004,8 +1039,7 @@ $(document).ready(function() {
                 return handle_web3_undefined_error();
             }
 
-        let contract = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
-        contract.getHarvestSubmissionsCount(function(err, result) {
+        FoodPrintProduceContractV2.getHarvestSubmissionsCount(function(err, result) {
             if (err){
                 return handle_error(err);
             }
@@ -1026,8 +1060,7 @@ $(document).ready(function() {
                 return handle_web3_undefined_error();
             }
 
-        let contract = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
-        contract.checkContractIsRunning(function(err, result) {
+        FoodPrintProduceContractV2.checkContractIsRunning(function(err, result) {
             if (err){
                 return handle_error(err);
             }
@@ -1042,15 +1075,14 @@ $(document).ready(function() {
                 return handle_web3_undefined_error();
             }
 
-        let contract = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
-        contract.checkContractIsRunning(function(err, result) {
+        FoodPrintProduceContractV2.checkContractIsRunning(function(err, result) {
             if (err) {
                 return handle_error(err);
             };
             var original_contract_status = result;
             console.log("Is FoodPrint Produce Contract currently stopped before toggle: " + original_contract_status);
 
-            contract.toggleContractActive(function(err2, result2) {
+            FoodPrintProduceContractV2.toggleContractActive(function(err2, result2) {
                 if (err2){
                     return handle_error(err2);
                 };
@@ -1068,8 +1100,7 @@ $(document).ready(function() {
                 return handle_web3_undefined_error();
             }
 
-        let contract = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
-        contract.destroy(function(err, result) {
+        FoodPrintProduceContractV2.destroy(function(err, result) {
             if (err){
                 return handle_error(err);
             }
