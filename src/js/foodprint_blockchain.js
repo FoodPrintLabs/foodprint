@@ -1,739 +1,769 @@
 $(document).ready(function() {
-    const foodPrintProduceContractAddress = '0xA64D7EF883d4801F1988f4e36EB7BaA0F36E3cff';
+    const foodPrintProduceContractAddress = '0x02F216543cb0a0ba108dbd90687E9cd99C41dE16';
 
     // The second is the Application Binary interface or the ABI of the contract code.
     // ABI is just a list of method signatures, return types, members etc of the contract in a defined JSON format.
     // This ABI is needed when you will call your contract from a real javascript client.
     const foodPrintProduceContractABI = [
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "name": "harvestLogIDs",
-          "outputs": [
-            {
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "name": "harvestAddressMap",
-          "outputs": [
-            {
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "name": "storageMap",
-          "outputs": [
-            {
-              "name": "storageID",
-              "type": "string"
-            },
-            {
-              "name": "harvestID",
-              "type": "string"
-            },
-            {
-              "name": "supplierproduceID",
-              "type": "string"
-            },
-            {
-              "name": "marketID",
-              "type": "string"
-            },
-            {
-              "name": "storageTimeStamp",
-              "type": "string"
-            },
-            {
-              "name": "BlockNumber",
-              "type": "uint256"
-            },
-            {
-              "name": "IsSet",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": false,
-          "inputs": [],
-          "name": "renounceOwnership",
-          "outputs": [],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [],
-          "name": "owner",
-          "outputs": [
-            {
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [],
-          "name": "isOwner",
-          "outputs": [
-            {
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "name": "harvestMap",
-          "outputs": [
-            {
-              "name": "harvestID",
-              "type": "string"
-            },
-            {
-              "name": "supplierproduceID",
-              "type": "string"
-            },
-            {
-              "name": "photoHash",
-              "type": "string"
-            },
-            {
-              "name": "geolocation",
-              "type": "string"
-            },
-            {
-              "name": "harvestTimeStamp",
-              "type": "string"
-            },
-            {
-              "name": "BlockNumber",
-              "type": "uint256"
-            },
-            {
-              "name": "IsSet",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "name": "storageAddressMap",
-          "outputs": [
-            {
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": false,
-          "inputs": [
-            {
-              "name": "newOwner",
-              "type": "address"
-            }
-          ],
-          "name": "transferOwnership",
-          "outputs": [],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "name": "storageLogIDs",
-          "outputs": [
-            {
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "constructor"
-        },
-        {
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "fallback"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "name": "_harvestLogIDIndex",
-              "type": "uint256"
-            },
-            {
-              "indexed": false,
-              "name": "_harvestID",
-              "type": "string"
-            },
-            {
-              "indexed": false,
-              "name": "_harvestSubmissionBlockNumber",
-              "type": "uint256"
-            }
-          ],
-          "name": "registeredHarvestEvent",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "name": "_harvestID",
-              "type": "string"
-            },
-            {
-              "indexed": false,
-              "name": "_harvestSubmissionBlockNumber",
-              "type": "uint256"
-            }
-          ],
-          "name": "registeredHarvestDetailEvent",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "name": "_storageLogIDIndex",
-              "type": "uint256"
-            },
-            {
-              "indexed": false,
-              "name": "_storageID",
-              "type": "string"
-            },
-            {
-              "indexed": false,
-              "name": "_storageSubmissionBlockNumber",
-              "type": "uint256"
-            }
-          ],
-          "name": "registeredStorageEvent",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "name": "_storageID",
-              "type": "string"
-            },
-            {
-              "indexed": false,
-              "name": "_storageSubmissionBlockNumber",
-              "type": "uint256"
-            }
-          ],
-          "name": "registeredStorageEvent",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "name": "previousOwner",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "name": "newOwner",
-              "type": "address"
-            }
-          ],
-          "name": "OwnershipTransferred",
-          "type": "event"
-        },
-        {
-          "constant": false,
-          "inputs": [],
-          "name": "toggleContractActive",
-          "outputs": [
-            {
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "constant": false,
-          "inputs": [
-            {
-              "name": "_supplierproduceID",
-              "type": "string"
-            },
-            {
-              "name": "_photoHash",
-              "type": "string"
-            },
-            {
-              "name": "_geolocation",
-              "type": "string"
-            },
-            {
-              "name": "_harvestTimeStamp",
-              "type": "string"
-            },
-            {
-              "name": "_harvestID",
-              "type": "string"
-            }
-          ],
-          "name": "registerHarvestSubmission",
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256"
-            },
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "constant": false,
-          "inputs": [
-            {
-              "name": "_growingCondtions",
-              "type": "string"
-            },
-            {
-              "name": "_harvestDescription",
-              "type": "string"
-            },
-            {
-              "name": "_harvestTableName",
-              "type": "string"
-            },
-            {
-              "name": "_harvestQuantity",
-              "type": "string"
-            },
-            {
-              "name": "_harvestUser",
-              "type": "string"
-            },
-            {
-              "name": "_harvestID",
-              "type": "string"
-            }
-          ],
-          "name": "registerHarvestSubmissionDetails",
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [],
-          "name": "getHarvestSubmissionsCount",
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "harvest_id",
-              "type": "string"
-            }
-          ],
-          "name": "getHarvestSubmitterAddress",
-          "outputs": [
-            {
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "arrayIndex",
-              "type": "uint256"
-            }
-          ],
-          "name": "getHarvestLogIDByIndex",
-          "outputs": [
-            {
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "harvest_id",
-              "type": "string"
-            }
-          ],
-          "name": "getHarvestSubmission",
-          "outputs": [
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "uint256"
-            },
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "harvest_id",
-              "type": "string"
-            }
-          ],
-          "name": "checkHarvestSubmission",
-          "outputs": [
-            {
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": false,
-          "inputs": [
-            {
-              "name": "_supplierproduceID",
-              "type": "string"
-            },
-            {
-              "name": "_marketID",
-              "type": "string"
-            },
-            {
-              "name": "_storageTimeStamp",
-              "type": "string"
-            },
-            {
-              "name": "_storageID",
-              "type": "string"
-            },
-            {
-              "name": "_harvestID",
-              "type": "string"
-            }
-          ],
-          "name": "registerStorageSubmission",
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256"
-            },
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "constant": false,
-          "inputs": [
-            {
-              "name": "_marketAddress",
-              "type": "string"
-            },
-            {
-              "name": "_storageDescription",
-              "type": "string"
-            },
-            {
-              "name": "_storageTableName",
-              "type": "string"
-            },
-            {
-              "name": "_storageUser",
-              "type": "string"
-            },
-            {
-              "name": "_storageQuantity",
-              "type": "uint256"
-            },
-            {
-              "name": "_storageID",
-              "type": "string"
-            }
-          ],
-          "name": "registerStorageSubmissionDetail",
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [],
-          "name": "getStorageSubmissionsCount",
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "storage_id",
-              "type": "string"
-            }
-          ],
-          "name": "getStorageSubmitterAddress",
-          "outputs": [
-            {
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "arrayIndex",
-              "type": "uint256"
-            }
-          ],
-          "name": "getStorageLogIDByIndex",
-          "outputs": [
-            {
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "storage_id",
-              "type": "string"
-            }
-          ],
-          "name": "getStorageSubmission",
-          "outputs": [
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "uint256"
-            },
-            {
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [
-            {
-              "name": "storage_id",
-              "type": "string"
-            }
-          ],
-          "name": "checkStorageSubmission",
-          "outputs": [
-            {
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": true,
-          "inputs": [],
-          "name": "checkContractIsRunning",
-          "outputs": [
-            {
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "payable": false,
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "constant": false,
-          "inputs": [],
-          "name": "destroy",
-          "outputs": [],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        }
-      ];
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "harvestLogIDs",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "name": "harvestDetailMap",
+        "outputs": [
+          {
+            "name": "harvestID",
+            "type": "string"
+          },
+          {
+            "name": "growingCondtions",
+            "type": "string"
+          },
+          {
+            "name": "harvestDescription",
+            "type": "string"
+          },
+          {
+            "name": "harvestTableName",
+            "type": "string"
+          },
+          {
+            "name": "harvestQuantity",
+            "type": "string"
+          },
+          {
+            "name": "harvestUser",
+            "type": "string"
+          },
+          {
+            "name": "BlockNumber",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "name": "harvestAddressMap",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "name": "storageMap",
+        "outputs": [
+          {
+            "name": "storageID",
+            "type": "string"
+          },
+          {
+            "name": "harvestID",
+            "type": "string"
+          },
+          {
+            "name": "otherID",
+            "type": "string"
+          },
+          {
+            "name": "storageTimeStamp",
+            "type": "string"
+          },
+          {
+            "name": "storageDetail",
+            "type": "string"
+          },
+          {
+            "name": "BlockNumber",
+            "type": "uint256"
+          },
+          {
+            "name": "IsSet",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "isOwner",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "name": "harvestMap",
+        "outputs": [
+          {
+            "name": "harvestID",
+            "type": "string"
+          },
+          {
+            "name": "supplierproduceID",
+            "type": "string"
+          },
+          {
+            "name": "photoHash",
+            "type": "string"
+          },
+          {
+            "name": "geolocation",
+            "type": "string"
+          },
+          {
+            "name": "harvestTimeStamp",
+            "type": "string"
+          },
+          {
+            "name": "BlockNumber",
+            "type": "uint256"
+          },
+          {
+            "name": "IsSet",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "name": "storageAddressMap",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "storageLogIDs",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "fallback"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "_harvestLogIDIndex",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "_harvestID",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "_harvestSubmissionBlockNumber",
+            "type": "uint256"
+          }
+        ],
+        "name": "registeredHarvestEvent",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "_harvestID",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "_harvestSubmissionBlockNumber",
+            "type": "uint256"
+          }
+        ],
+        "name": "registeredHarvestDetailEvent",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "_storageLogIDIndex",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "_storageID",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "_storageSubmissionBlockNumber",
+            "type": "uint256"
+          }
+        ],
+        "name": "registeredStorageEvent",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "name": "previousOwner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "toggleContractActive",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_supplierproduceID",
+            "type": "string"
+          },
+          {
+            "name": "_photoHash",
+            "type": "string"
+          },
+          {
+            "name": "_geolocation",
+            "type": "string"
+          },
+          {
+            "name": "_harvestTimeStamp",
+            "type": "string"
+          },
+          {
+            "name": "_harvestID",
+            "type": "string"
+          }
+        ],
+        "name": "registerHarvestSubmission",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          },
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_growingCondtions",
+            "type": "string"
+          },
+          {
+            "name": "_harvestDescription",
+            "type": "string"
+          },
+          {
+            "name": "_harvestTableName",
+            "type": "string"
+          },
+          {
+            "name": "_harvestQuantity",
+            "type": "string"
+          },
+          {
+            "name": "_harvestUser",
+            "type": "string"
+          },
+          {
+            "name": "_harvestID",
+            "type": "string"
+          }
+        ],
+        "name": "registerHarvestSubmissionDetails",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "getHarvestSubmissionsCount",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "harvest_id",
+            "type": "string"
+          }
+        ],
+        "name": "getHarvestSubmitterAddress",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "arrayIndex",
+            "type": "uint256"
+          }
+        ],
+        "name": "getHarvestLogIDByIndex",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "harvest_id",
+            "type": "string"
+          }
+        ],
+        "name": "getHarvestSubmission",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "uint256"
+          },
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "harvest_id",
+            "type": "string"
+          }
+        ],
+        "name": "getHarvestSubmissionDetail",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "harvest_id",
+            "type": "string"
+          }
+        ],
+        "name": "checkHarvestSubmission",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_otherID",
+            "type": "string"
+          },
+          {
+            "name": "_storageTimeStamp",
+            "type": "string"
+          },
+          {
+            "name": "_storageDetail",
+            "type": "string"
+          },
+          {
+            "name": "_storageID",
+            "type": "string"
+          },
+          {
+            "name": "_harvestID",
+            "type": "string"
+          }
+        ],
+        "name": "registerStorageSubmission",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          },
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "getStorageSubmissionsCount",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "storage_id",
+            "type": "string"
+          }
+        ],
+        "name": "getStorageSubmitterAddress",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "arrayIndex",
+            "type": "uint256"
+          }
+        ],
+        "name": "getStorageLogIDByIndex",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "storage_id",
+            "type": "string"
+          }
+        ],
+        "name": "getStorageSubmission",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "uint256"
+          },
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "storage_id",
+            "type": "string"
+          }
+        ],
+        "name": "checkStorageSubmission",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "checkContractIsRunning",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "destroy",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ];
 
     var FoodPrintProduceContractV2 = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
 
@@ -863,7 +893,7 @@ $(document).ready(function() {
             var harvest_geolocation = $(this).data('harvest_geolocation');
             var harvest_quantity = $(this).data('harvest_quantity');
             var harvest_unitofmeasure = $(this).data('harvest_unitofmeasure');
-            var harvest_description_json = $(this).data('harvest_description_json');
+            var harvest_description_json = $(this).data('harvest_description_json'); //growing conditions
             var harvest_blockchainhashid = $(this).data('harvest_blockchainhashid');
             var harvest_blockchainhashdata = $(this).data('harvest_blockchainhashdata');
             var supplierproduce = $(this).data('supplierproduce');
@@ -876,6 +906,9 @@ $(document).ready(function() {
             var covid19_response = $(this).data('covid19_response');
             var logdatetime = $(this).data('logdatetime');
             var lastmodifieddatetime = $(this).data('lastmodifieddatetime');
+
+            var harvest_tablename = 'foodprint_harvest';
+            var harvest_quantity_combined = harvest_quantity + "(" + harvest_unitofmeasure + ")";
       
             console.log("this harvest_logid - " + harvest_logid);    
             
@@ -908,8 +941,8 @@ $(document).ready(function() {
 
         //Load the contract schema from the abi and Instantiate the contract by address
         // at(): Create an instance of MyContract that represents your contract at a specific address.
-        // deployed(): Create an instance of MyContract that represents the default address managed by MyFoodPrintProduceContractV2.
-        // new(): Deploy a new version of this contract to the network, getting an instance of MyContract that represents the newly deployed instance.
+        // deployed(): Create an instance of MyContract that represents the default address managed by FoodPrintProduceContractV2.
+        // new(): Deploy a new version of this contract to the network, getting an instance of FoodPrintProduceContractV2 that represents the newly deployed instance.
 
         FoodPrintProduceContractV2.registerHarvestSubmission(supplierproduce, photoHash, harvest_geolocation, harvest_timestamp.toString(), harvest_logid,
             function(err, result) {
@@ -919,7 +952,28 @@ $(document).ready(function() {
                 `Error Adding to Blockchain`
             );
             return handle_error(err);
-        }
+        } else {
+
+          // function registerHarvestSubmissionDetails(string calldata _growingCondtions, string calldata _harvestDescription,
+          //   string calldata _harvestTableName, string calldata _harvestQuantity, string calldata _harvestUser, 
+          //    string calldata _harvestID)
+
+          console.log("Test before sumbit - harvest_description_json: " + harvest_description_json + ", harvest_description: " +  harvest_description +
+                ", harvest_tablename: " + harvest_tablename  + ",harvest_quantity_combined: " + harvest_quantity_combined + ",harvest_user:" + harvest_user + 
+                ", harvest_logid:" + harvest_logid);
+
+          FoodPrintProduceContractV2.registerHarvestSubmissionDetails(harvest_description_json, harvest_description, harvest_tablename, 
+                                                                      harvest_quantity_combined, harvest_user, harvest_logid,
+            function(err2, result) {
+              if (err2){
+                  console.log("Error Adding to Blockchain");
+                  $(this).html(
+                      `Error Adding to Blockchain`
+                  );
+                  return handle_error(err2);
+            }
+          });
+        };
 
         var message_description = `Transaction submitted to Blockchain for processing (Upload Harvest Entry from ${supplierproduce} with Harvest ID  ${harvest_logid}). Check your Metamask for transaction update.`;
 
@@ -927,8 +981,9 @@ $(document).ready(function() {
         console.log(message_description);
         });
     };
+    
 
-    //Watch for registeredHarvestEvent
+    //Watch for registeredHarvestEvent, returns  _harvestLogIDIndex, _harvestID and _harvestSubmissionBlockNumber
     var registeredHarvestEvent = FoodPrintProduceContractV2.registeredHarvestEvent();
     registeredHarvestEvent.watch(function(error, result){
         if (!error)
@@ -955,6 +1010,20 @@ $(document).ready(function() {
                 // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
             }
     });
+
+     //Watch for registeredHarvestDetailEvent, returns _harvestID and _harvestSubmissionBlockNumber
+     var registeredHarvestDetailEvent = FoodPrintProduceContractV2.registeredHarvestDetailEvent();
+     registeredHarvestEvent.watch(function(error, result){
+         if (!error)
+             {
+                 console.log("registeredHarvestDetailEvent" + result);
+                 // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+             } else {
+                 console.log("registeredHarvestDetailEvent error" + error);
+ 
+                 // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+             }
+     });
 
     //check on blockchain  
     // function to verify Harvest entry exists 
@@ -1060,6 +1129,21 @@ $(document).ready(function() {
              return console.log(message_description);
         });
     };
+
+  //Watch for registeredStorageEvent, returns uint _storageLogIDIndex,  string _storageID, _storageSubmissionBlockNumber
+  var registeredStorageEvent = FoodPrintProduceContractV2.registeredStorageEvent();
+  registeredStorageEvent.watch(function(error, result){
+      if (!error)
+          {
+              console.log("registeredStorageEvent");
+              // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+          } else {
+              console.log("registeredStorageEvent Error" + error);
+
+              // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+          }
+  });
+
 
     // function to check FoodPrint Produce Contract Status - stopped or not stopped
     function getContractStatus() {
