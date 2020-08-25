@@ -826,13 +826,16 @@ $(document).ready(function() {
 
     // function Add to Blockchain
     async function addHarvestToBlockchain() {
-       
-        // disable button
-        $("this").prop("disabled", true);
+
+        // disable button wont work because it is actually a link
+        // $("this").prop("disabled", true);
+
+        //  disable link 
+        $(this).addClass('disabled'); 
 
         // add spinner to button
         $(this).html(
-            `<span class="spinner-border spinner-border-sm" id="spinner_addHarvestBtn" role="status" aria-hidden="true"></span> Adding to Blockchain...`
+            `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding to Blockchain...`
         );
 
 		if (window.ethereum)
@@ -911,6 +914,10 @@ $(document).ready(function() {
         FoodPrintProduceContractV2.registerHarvestSubmission(supplierproduce, photoHash, harvest_geolocation, harvest_timestamp.toString(), harvest_logid,
             function(err, result) {
         if (err){
+            console.log("Error Adding to Blockchain");
+            $(this).html(
+                `Error Adding to Blockchain`
+            );
             return handle_error(err);
         }
 
