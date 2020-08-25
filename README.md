@@ -123,11 +123,22 @@ $npm run dev
 ```
 
 ## Other
-1. Access deployed contract from CLI
+1a. Access deployed contract from CLI (V1)
 ```
 $ truffle console
 $ TheProduct.deployed().then(function(instance) { app = instance })
 $ app.noHarvests()
+```
+
+1b. Access deployed contract from CLI (V2) after adding a sample Harvest entry and then using the resulting Harvest ID e.g. c6e301b9-aceb-498f-a63e-2503091f0ab0
+```
+$ truffle console
+$ TheProductV2.deployed().then(function(instance) { app = instance })
+$ app.getHarvestSubmissionsCount()
+$ let harvest_logid = “c6e301b9-aceb-498f-a63e-2503091f0ab0”
+$ app.getHarvestSubmitterAddress(harvest_logid)
+$ let harvest=app.getHarvestSubmission(harvest_logid)
+$ harvest
 ```
 
 2. Add a new migration
