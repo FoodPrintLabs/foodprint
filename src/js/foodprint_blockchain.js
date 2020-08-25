@@ -829,12 +829,42 @@ $(document).ready(function() {
 			try {
 				await window.ethereum.enable();
 			} catch (err) {
-                var message_type = CONSTANTS.ERROR; //error or success
                 var message_description = "Access to your Ethereum account rejected.";
 
                 //TODO - trigger notification
                 return console.log(message_description);
             }
+
+            //harvest entry variables from selected record
+            var harvest_logid = $(this).data('harvest_logid');
+            var harvest_suppliershortcode = $(this).data('harvest_suppliershortcode'); 
+            var harvest_suppliername = $(this).data('harvest_suppliername');
+            var harvest_farmername = $(this).data('harvest_farmername');
+            var harvest_supplieraddress = $(this).data('harvest_supplieraddress');
+            var harvest_producename = $(this).data('harvest_producename');
+            var harvest_photohash = $(this).data('harvest_photohash');
+            var harvest_photoimage = harvest_photohash;
+            var harvest_timestamp = $(this).data('harvest_timestamp');
+            var harvest_capturetime = $(this).data('harvest_capturetime');
+            var harvest_description = $(this).data('harvest_description');
+            var harvest_geolocation = $(this).data('harvest_geolocation');
+            var harvest_quantity = $(this).data('harvest_quantity');
+            var harvest_unitofmeasure = $(this).data('harvest_unitofmeasure');
+            var harvest_description_json = $(this).data('harvest_description_json');
+            var harvest_blockchainhashid = $(this).data('harvest_blockchainhashid');
+            var harvest_blockchainhashdata = $(this).data('harvest_blockchainhashdata');
+            var supplierproduce = $(this).data('supplierproduce');
+            var harvest_bool_added_to_blockchain = $(this).data('harvest_bool_added_to_blockchain');
+            var harvest_added_to_blockchain_date = $(this).data('harvest_added_to_blockchain_date');
+            var harvest_added_to_blockchain_by = $(this).data('harvest_added_to_blockchain_by');
+            var harvest_blockchain_uuid = $(this).data('harvest_blockchain_uuid');
+            var harvest_user = $(this).data('harvest_user');
+            var year_established = $(this).data('year_established');
+            var covid19_response = $(this).data('covid19_response');
+            var logdatetime = $(this).data('logdatetime');
+            var lastmodifieddatetime = $(this).data('lastmodifieddatetime');
+      
+            console.log("this harvest_logid - " + harvest_logid);    
             
         //let farmer_details = '{HarvestDescription:"Leafy Veg", HarvestGrowingConditions:"Organic",SupplierID:OZCF}';
        let photoHash = sha256(harvest_photohash);
