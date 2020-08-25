@@ -7,7 +7,6 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 /** @title TheProduct - FoodPrint Produce Smart Contract. */
 contract TheProductV2 is Ownable {
     /*
-
     NB:
         - "internal" functions can only be called from the contract itself (or from derived contracts).
 
@@ -21,7 +20,6 @@ contract TheProductV2 is Ownable {
 
         External functions = calldata, public functions = memory
         Explicit data location for all variables of struct, array or mapping types is now mandatory. This is also applied to function parameters and return variables.
-
     */
 
     // Include the SafeMath library inside this contract
@@ -31,8 +29,7 @@ contract TheProductV2 is Ownable {
     bool private stopped; // for use in circuit breaker
 
     /*
-        Struct for a single produce harvest operation which corresponds to an entry in the FoodPrint Harvest Logbook
-        A struct in solidity is simply a loose bag of variables.
+        Struct for a single produce harvest operation which corresponds to an entry in the FoodPrint Harvest Logbook. A struct in solidity is simply a loose bag of variables.
     */
     struct produceHarvestSubmission {
         string harvestID;
@@ -40,6 +37,7 @@ contract TheProductV2 is Ownable {
         string photoHash;
         string geolocation;
         string harvestTimeStamp;
+        //string harvestDetail; //growingCondtions, harvestTableName, harvestQuantity, harvestUser
         uint256 BlockNumber;  // block number of Harvest submission
         uint IsSet; // integer indication of whether Harvest Submission exists i.e. default is zero so if > 0 it exists
     }
@@ -56,10 +54,14 @@ contract TheProductV2 is Ownable {
 
     /*
         State variable that stores a `produceHarvestSubmission` struct for each Harvest entry. The key is a string i.e. harvest_logid e.g. 93716116-4207-4b1e-a891-01731642fd3a and the value is a produceHarvestSubmission struct.
-        The compiler will automatically generate a getter which allows us to do something like HarvestSubmissionDetails = harvestMap(93716116-4207-4b1e-a891-01731642fd3a).
         Recall that a mapping is essentially a key-value store for storing and looking up data, it allows random access in a single step.
     */
     mapping(string => produceHarvestSubmission) public harvestMap;
+
+    /*
+        State variable that stores a `produceHarvestSubmissionDetail` struct for each Harvest entry.
+    */
+    mapping(string => produceHarvestSubmissionDetail) public harvestDetailMap;
 
     /*
        State variable that stores the ETH wallet address corresponding to each harvest entry submission i.e. AuditTrail purposes.
@@ -92,35 +94,29 @@ contract TheProductV2 is Ownable {
 
     //Creating the reference data for storage of produce
     /*
-        Struct for a single produce storage operation (i.e. handover from farmer to market) 
-        which corresponds to an entry in the  FoodPrint Storage Logbook (Handover Logbook).
+        Struct for a single produce storage operation (i.e. handover from farmer to market) which corresponds to an entry in the  FoodPrint Storage Logbook (Handover Logbook).
         Each storage operation has an associated harvest operation.
     */
     struct produceStorageSubmission {
         string storageID;  
         string harvestID;  //this should be the same ID as the corresponding produceHarvestSubmission ID
-        string supplierproduceID;
-        string marketID;
+        string otherID; //includes supplierproduceID and marketID
+        //string marketID;
         string storageTimeStamp;
+        string storageDetail; //storageDescription, storageTableName, storageUser and storageQuantity which includes storage UoM
         uint256 BlockNumber; //block number of storage submission. previously hash
         uint IsSet; // integer indication of whether storage Submission exists i.e. default is zero so if > 0 it exists
     }
 
-    struct produceStorageSubmissionDetail {
-        string storageID;  
-        string marketAddress;
-        string storageDescription;
-        string storageTableName;
-        string storageUser;
-        uint storageQuantity; //includes storage UoM
-        uint256 BlockNumber; //block number of storage submission. previously hash
-    }
-
     /*
         State variable that stores a `produceStorageSubmission` struct for each Storage entry.
-        The key is a string i.e. storage_logid e.g. 93716116-4207-4b1e-a891-01731642fd3a and the value is a produceStorageSubmission struct.
     */
     mapping(string => produceStorageSubmission) public storageMap;
+
+    /*
+        State variable that stores a `produceStorageSubmissionDetail` struct for each Storage entry.
+    */
+   // mapping(string => produceStorageSubmissionDetail) public storageDetailMap;
 
     /*
        State variable that stores the ETH wallet address corresponding to each harvest entry submission i.e. for AuditTrail purposes.
@@ -129,7 +125,6 @@ contract TheProductV2 is Ownable {
 
     /*
         A dynamically-sized string array containing Storage Log IDs. This will be used for length tracking.
-        Array of storageLogIDs made public because of length method.
     */
     string[] public storageLogIDs;
 
@@ -141,15 +136,6 @@ contract TheProductV2 is Ownable {
         string _storageID,
         uint _storageSubmissionBlockNumber
     );
-
-    /** 
-     * @dev Fired on submission of a Storage entry.
-     */
-    event registeredStorageEvent (
-        string _storageID,
-        uint _storageSubmissionBlockNumber
-    );
-
 
    /**
      * @dev Constructor.
@@ -239,21 +225,13 @@ contract TheProductV2 is Ownable {
                                        string calldata _harvestTableName, string calldata _harvestQuantity, string calldata _harvestUser, 
                                         string calldata _harvestID)
                                         stopInEmergency external returns(uint) {
-        /*
-            Recall that Public functions need to write all of the arguments to memory because public functions
-            may be called internally, which is an entirely different process from external calls. Thus, when the
-            compiler generates the code for an internal function, that function expects its arguments to be located in memory.
-        */
-
+        
         uint256 harvestSubmissionBlockNumber = block.number;
         // string harvestSubmissionBlockHash = block.blockhash(harvestSubmissionBlockNumber - 1); // hash of the given block - only works for the 256 most recent blocks excluding current
 
         // Creates mapping between a harvestID and HarvestS ubmission struct and save in storage.
-        produceHarvestSubmissionDetail(_harvestID, _growingCondtions, _harvestDescription, _harvestTableName, 
+        harvestDetailMap[_harvestID] = produceHarvestSubmissionDetail(_harvestID, _growingCondtions, _harvestDescription, _harvestTableName, 
                                         _harvestQuantity,  _harvestUser, harvestSubmissionBlockNumber);
-
-         // Creates mapping between a Harvest ID and Harvest Entry submitter address then save in storage.
-       // harvestAddressMap[_harvestID] = msg.sender;
         
          // trigger event for Harvest registration
         emit registeredHarvestDetailEvent(_harvestID, harvestSubmissionBlockNumber);
@@ -287,7 +265,7 @@ contract TheProductV2 is Ownable {
     }
 
     /**
-     * @dev Returns the harvest submission details if the Harvest ID  exists in the harvestMap.
+     * @dev Returns the harvest submission if the Harvest ID  exists in the harvestMap.
      * @param harvest_id Harvest ID which is key in the harvestMap.
      * Data location must be "memory" for return parameter in function
      */
@@ -303,6 +281,19 @@ contract TheProductV2 is Ownable {
     }   
 
     /**
+     * @dev Returns the harvest submission details if the Harvest ID  exists in the harvestDetailMap.
+     * @param harvest_id Harvest ID which is key in the harvestMap.
+     */
+    function getHarvestSubmissionDetail(string calldata harvest_id) external stopInEmergency view returns (string memory, string memory,  
+                                                                                                    string memory, string memory, string memory, string memory, uint) {
+        
+        produceHarvestSubmissionDetail memory harvestEntryDetail = harvestDetailMap[harvest_id];
+
+        return (harvest_id, harvestEntryDetail.growingCondtions, harvestEntryDetail.harvestDescription, 
+               harvestEntryDetail.harvestTableName, harvestEntryDetail.harvestQuantity, harvestEntryDetail.harvestUser, harvestEntryDetail.BlockNumber);
+    }  
+
+    /**
      * @dev Confirm whether the Harvest ID exists in the harvest submissions.
      * @param harvest_id Harvest ID which is key in the harvestMap map
      */
@@ -316,25 +307,17 @@ contract TheProductV2 is Ownable {
         // otherwise return false
         return false;
     }
-///
 
     /**
      * @dev Register a Storage submission - it should add the Storage submission to the array of Storage submissions i.e. storageMap.
-     * @param _supplierproduceID Unique ID (per supplier-produce combination) e.g. OZCF_Apples
-     * @param _marketID Unique ID for market e.g. OZCFM
+     * @param _otherID Other IDs (e.g. supplier-produce and marketID) e.g. OZCF_Apples, OZCFM
      * @param _storageTimeStamp Date and time at which produce is harvested e.g. 20190620 16:10:55
+     * @param _storageDetail Combination of storageDescription, storageTableName, storageUser and storageQuantity which includes storage UoM
      * @param _storageID Unique ID for storage entry e.g. 1b26557b-20f3-4ea2-81d2-e54c5a9a50be
      * @param _harvestID Unique ID for harvest entry e.g. 1b26557b-20f3-4ea2-81d2-e54c5a9a40f7
      */
-    function registerStorageSubmission (string calldata _supplierproduceID, string calldata _marketID, 
-                                        string calldata _storageTimeStamp,  string calldata _storageID, string calldata _harvestID)
+    function registerStorageSubmission (string calldata _otherID, string calldata _storageTimeStamp,  string calldata _storageDetail, string calldata _storageID, string calldata _harvestID)
                                         stopInEmergency external returns(uint, uint) {
-        /*
-            Recall that Public functions need to write all of the arguments to memory because public functions
-            may be called internally, which is an entirely different process from external calls. Thus, when the
-            compiler generates the code for an internal function, that function expects its arguments to be located in memory.
-        */
-
         require(this.checkStorageSubmission(_storageID) == false, "Error: Cannot add a previously submitted Storage ID/Entry.");
 
         uint256 storageSubmissionBlockNumber = block.number;
@@ -343,8 +326,7 @@ contract TheProductV2 is Ownable {
         uint256 IsSet = 1;
 
         // Creates mapping between a harvestID and HarvestS ubmission struct and save in storage.
-        storageMap[_storageID] = produceStorageSubmission(_storageID, _harvestID, _supplierproduceID, _marketID, _storageTimeStamp, 
-                                                          storageSubmissionBlockNumber,  IsSet);
+        storageMap[_storageID] = produceStorageSubmission(_storageID, _harvestID, _otherID, _storageTimeStamp, _storageDetail, storageSubmissionBlockNumber,  IsSet);
 
          // Creates mapping between a Storage ID and Storage/Handover submitter address then save in storage.
         storageAddressMap[_storageID] = msg.sender;
@@ -357,47 +339,6 @@ contract TheProductV2 is Ownable {
         emit registeredStorageEvent(storageLogIDIndex, _storageID, storageSubmissionBlockNumber);
 
         return (storageLogIDIndex, storageSubmissionBlockNumber);
-    }
-
-     /**
-     * @dev Register a Storage submission detail - it should add the Storage submission to the array of Storage submissions i.e. storageMap.
-     * @param _marketAddress Supplier street address e.g. Waterfront, Cape Town
-     * @param _storageDescription Harvest specific comment e.g. Baby Marrows with soft skin and buttery flesh.
-     * @param _storageTableName Table name for harvest entry in relational database e.g. foodprint_harvest
-     * @param _storageUser User who logged harvest e.g. useremail@xyz.com
-     * @param _storageQuantity Quantity of ordered produce e.g. 10, includes unit of measure e.g. bunches/KGs/none
-     * @param _storageID Unique ID for storage entry e.g. 1b26557b-20f3-4ea2-81d2-e54c5a9a50be
-     */
-    function registerStorageSubmissionDetail (string calldata _marketAddress, string calldata _storageDescription, 
-                                        string calldata _storageTableName, string calldata _storageUser, uint _storageQuantity,
-                                        string calldata _storageID)
-                                        stopInEmergency external returns(uint) {
-        /*
-            Recall that Public functions need to write all of the arguments to memory because public functions
-            may be called internally, which is an entirely different process from external calls. Thus, when the
-            compiler generates the code for an internal function, that function expects its arguments to be located in memory.
-        */
-
-        //require(this.checkStorageSubmission(_storageID) == false, "Error: Cannot add a previously submitted Storage ID/Entry.");
-
-        uint256 storageSubmissionBlockNumber = block.number;
-        // string harvestSubmissionBlockHash = block.blockhash(harvestSubmissionBlockNumber - 1); // hash of the given block - only works for the 256 most recent blocks excluding current
-
-        // Storage Submission Detail struct and save in storage.
-        produceStorageSubmissionDetail(_storageID, _marketAddress, _storageDescription,
-                                                        _storageTableName, _storageUser, _storageQuantity, storageSubmissionBlockNumber);
-
-         // Creates mapping between a Storage ID and Storage/Handover submitter address then save in storage.
-        //storageAddressMap[_storageID] = msg.sender;
-
-        //add the Storage ID to the array for length tracking
-        //uint storageLogIDIndex = storageLogIDs.push(_storageID);
-        //storageLogIDIndex = storageLogIDIndex.sub(1); //subtract 1 if you wish to access using array index
-
-        // trigger event for storage/handover detail registration
-        emit registeredStorageEvent(_storageID, storageSubmissionBlockNumber);
-
-        return (storageSubmissionBlockNumber);
     }
 
     /**
@@ -426,17 +367,13 @@ contract TheProductV2 is Ownable {
     }
 
     /**
-     * @dev Returns the Storage submission details if the Storage ID  exists in the storageMap.
+     * @dev Returns the Storage submission if the Storage ID  exists in the storageMap.
      * @param storage_id Storage ID which is key in the storageMap.
      */
-    function getStorageSubmission(string calldata storage_id) external stopInEmergency view returns (string memory, string memory, string memory,
-                                                                                                    string memory, uint, uint) {
-
-
+    function getStorageSubmission(string calldata storage_id) external stopInEmergency view returns (string memory, string memory, string memory, string memory, uint, uint) {
         produceStorageSubmission memory storageEntry = storageMap[storage_id];
 
-        return (storageEntry.storageID, storageEntry.harvestID, storageEntry.supplierproduceID,
-               storageEntry.marketID, storageEntry.BlockNumber, storageEntry.IsSet);
+        return (storageEntry.storageID, storageEntry.harvestID, storageEntry.otherID, storageEntry.storageDetail, storageEntry.BlockNumber, storageEntry.IsSet);
     }   
 
     /**
@@ -453,11 +390,6 @@ contract TheProductV2 is Ownable {
         // otherwise return false
         return false;
     }
-
-
-
-////
-
 
     /**
      * @dev Confirm whether the contract is stopped or not.
