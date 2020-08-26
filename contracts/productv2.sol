@@ -276,7 +276,7 @@ contract TheProductV2 is Ownable {
         //Rather load struct into memory then return instead of returning directly against map e.g. harvestMap[harvest_id].supplierproduceID
         produceHarvestSubmission memory harvestEntry = harvestMap[harvest_id];
 
-        return (harvest_id, harvestEntry.supplierproduceID, harvestEntry.harvestTimeStamp, 
+        return (harvestEntry.harvest_id, harvestEntry.supplierproduceID, harvestEntry.harvestTimeStamp, 
                harvestEntry.BlockNumber, harvestEntry.IsSet);
     }   
 
