@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    const foodPrintProduceContractAddress = '0x02F216543cb0a0ba108dbd90687E9cd99C41dE16';
+    const foodPrintProduceContractAddress = '0xf12ec65861A8103af5B2F9B07e8F1790D391E832';
 
     // The second is the Application Binary interface or the ABI of the contract code.
     // ABI is just a list of method signatures, return types, members etc of the contract in a defined JSON format.
