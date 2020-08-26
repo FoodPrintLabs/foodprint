@@ -774,7 +774,24 @@ $(document).ready(function() {
      $(".addStorageToBlockchainBtn").click(addStorageToBlockchain);
 
     // call verifyHarvestEntry function on button click
-    $("#verifyHarvestEntryBtn").click(verifyHarvestEntry);
+    // $("#verifyHarvestEntryBtn").click(verifyHarvestEntry);
+
+    $("#verifyHarvestEntryBtn").click(function (e) {
+      e.preventDefault();
+      var data = {};
+      data.harvest_logid=$('#search_harvest_id').val();
+      verifyHarvestEntry(data);
+    });
+
+    $("#verifyStorageEntryBtn").click(function (e) {
+      e.preventDefault();
+      var data = {};
+      data.storage_logid=$('#search_storage_id').val();
+      verifyStorageEntry(data);
+    });
+
+    // call verifyStorageEntry function on button click
+    //$("#verifyStorageEntryBtn").click(verifyStorageEntry);
 
     // call retrieveHarvestEntrySubmitAddress function on button click
     $("#retrieveHarvestEntrySubmitAddressBtn").click(retrieveHarvestEntrySubmitAddress);
@@ -792,7 +809,7 @@ $(document).ready(function() {
     });
 
     // trigger smart contract call to toggleContractStatus() function after clicking on toggle contract status button
-    $("toggleContractStatusBtn").click(function (e) {
+    $("#toggleContractStatusBtn").click(function (e) {
       e.preventDefault();
       toggleContractStatus();
     });
@@ -1028,18 +1045,29 @@ $(document).ready(function() {
              }
      });
 
-    //check on blockchain  
-    // function to verify Harvest entry exists 
-    function verifyHarvestEntry() {
+    // function to verify Harvest entry exists on blockchain
+    //TODO - Harvest detail
+    function verifyHarvestEntry(data) {
+        //  disable link 
+        $(this).addClass('disabled'); 
+
+        // add spinner to button
+        $(this).html(
+            `<span class="spinner-border spinner-border-sm" id="spinner_verifyHarvestEntryBtn" role="status" aria-hidden="true"></span> Searching on Blockchain...`
+        );
+
         if (typeof web3 === 'undefined'){
             return handle_web3_undefined_error();
         }
+
+        harvest_logid=data.harvest_logid;
+        console.log("search_harvest_logid: " + harvest_logid);
+
 
         FoodPrintProduceContractV2.getHarvestSubmission(harvest_logid, function(err, result) {
             if (err){
                 return handle_error(err);
             }
-
             //result:
             // harvest_id,
             // harvestEntry.supplierproduceID,
@@ -1051,12 +1079,11 @@ $(document).ready(function() {
             console.log("result: " + result);
 
             let contractIsSet = result[4].toNumber();
-
             console.log("contractIsSet: " + contractIsSet);
             console.log("result[0]: " + result[0]);
             console.log("(contractIsSet > 0): " + (contractIsSet > 0));
 
-            // if the hash is not in the smart contracts harvestMap, then isSet will not be 1
+            // if the Harvest Entry is not in the smart contracts harvestMap, then isSet will not be 1
             if (contractIsSet > 0) {
                 let contract_harvest_id = result[0];
                 let contract_harvestEntry_supplierproduceID = result[1];
@@ -1064,20 +1091,31 @@ $(document).ready(function() {
                 let contract_harvestEntry_BlockNumber= result[3];
                 // let displayDate = new Date(contractSubmissionBlocktime * 1000).toLocaleString();
 
-               // var message_type = CONSTANTS.SUCCESS; //error or success
                 var message_description =`Harvest Entry for ${contract_harvestEntry_supplierproduceID} with Harvest ID ${contract_harvest_id} is <b>valid</b>. Uploaded to FoodPrint Produce (Blockchain) on: ${contract_harvestEntry_harvestTimeStamp}.` +
                                             `BlockNumber ${contract_harvestEntry_BlockNumber}.`;
+                //trigger notification
+                $("#search_result_harvest").html(message_description);
+                //$("#search_result_harvest").css('display','block'); //display result - not working
+                $("#search_result_harvest").removeAttr('style');//display result
 
-                // TODO - trigger notification
-                //triggerNotificationOpen(CONSTANTS.NOTIFICATION_BAR_DIV, '"divverifyHarvestEntryAlert"', message_description, message_type);
+                // Remove spinner from button
+                $("#spinner_verifyHarvestEntryBtn").hide();
+                $(this).html('Verify Harvest ID');
+                $(this).removeClass("disabled");
+                //$(this).html( `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Search on Blockchain...` );
                 return console.log(message_description);
             }
             else
-                var message_type = CONSTANTS.ERROR; //error or success
                 var message_description =`Harvest Entry with Harvest ID ${harvest_logid} is <b>invalid</b>: not found in the FoodPrint Harvest Logbook (Blockchain).`;
 
-                // TODO - trigger notification
-                //triggerNotificationOpen(CONSTANTS.NOTIFICATION_BAR_DIV, '"divverifyHarvestEntryAlert"', message_description, message_type);
+                // Remove spinner from button
+                $("#spinner_verifyHarvestEntryBtn").hide();
+                $(this).html('Verify Harvest ID');
+                $(this).removeClass("disabled");
+
+                //trigger notification
+                $("#search_result_harvest").html(message_description);
+                $("#search_result_harvest").removeAttr('style');//display result
                 return console.log(message_description);
             });
     };
@@ -1251,6 +1289,80 @@ $(document).ready(function() {
               // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
           }
   });
+
+   // function to verify Harvest entry exists on blockchain
+   function verifyStorageEntry(data) {
+    //  disable link 
+    $(this).addClass('disabled'); 
+
+    // add spinner to button
+    $(this).html(
+        `<span class="spinner-border spinner-border-sm" id="spinner_verifyStorageEntryBtn" role="status" aria-hidden="true"></span> Searching on Blockchain...`
+    );
+
+    if (typeof web3 === 'undefined'){
+        return handle_web3_undefined_error();
+    }
+    storage_logid = data.storage_logid;
+    console.log("search_storage_logid: " + storage_logid);
+
+    FoodPrintProduceContractV2.getStorageSubmission(storage_logid, function(err, result) {
+        if (err){
+            return handle_error(err);
+        }
+        //result:
+        //storageEntry.storageID, 
+        //storageEntry.harvestID,
+        //storageEntry.otherID, 
+        //storageEntry.storageDetail, 
+        //storageEntry.BlockNumber, 
+        //storageEntry.IsSet
+
+        // Output from the contract function call
+        console.log("result: " + result);
+
+        let contractIsSet = result[5].toNumber();
+        console.log("contractIsSet: " + contractIsSet);
+        console.log("result[0]: " + result[0]);
+        console.log("(contractIsSet > 0): " + (contractIsSet > 0));
+
+        // if the Storage Entry is not in the smart contracts storageMap, then isSet will not be 1
+        if (contractIsSet > 0) {
+            let contract_storage_id = result[0];
+            let contract_harvest_id = result[1];
+            let contract_otherID = result[2];
+            let contract_storageDetail = result[3];
+            let contract_storageEntry_BlockNumber= result[4];
+
+            var message_description =`Storage Entry with Storage ID ${contract_storage_id} and Harvest ID ${contract_harvest_id} is <b>valid</b>. This corresponds to ${contract_otherID}. Additional details from 
+                                      FoodPrint Produce (Blockchain) include: ${contract_storageDetail}.` +
+                                        `BlockNumber ${contract_storageEntry_BlockNumber}.`;
+            //trigger notification
+             $("#search_result_storage").html(message_description);
+             $("#search_result_storage").removeAttr('style');//display result
+            // $('#search_result_storage').css('display','none'); //hide result
+
+            // Remove spinner from button
+            $("#spinner_verifyStorageEntryBtn").hide();
+            $(this).html('Verify Storage ID');
+            $(this).removeClass("disabled");
+            //$(this).html( `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Search on Blockchain...` );
+            return console.log(message_description);
+        }
+        else
+            var message_description =`Storage Entry with Storage ID ${contract_storage_id} is <b>invalid</b>: not found in the FoodPrint Storage Logbook (Blockchain).`;
+
+            // Remove spinner from button
+            $("#spinner_verifyStorageEntryBtn").hide();
+            $(this).html('Verify Storage ID');
+            $(this).removeClass("disabled");
+
+            //trigger notification
+            $("#search_result_hstorage").html(message_description);
+            $("#search_result_storage").removeAttr('style');//display result
+            return console.log(message_description);
+        });
+};
 
 
     // function to check FoodPrint Produce Contract Status - stopped or not stopped
