@@ -770,6 +770,9 @@ $(document).ready(function() {
     // call addHarvestToBlockchain() function on button click
     $(".addHarvestToBlockchainBtn").click(addHarvestToBlockchain);
 
+     // call addStorageToBlockchain() function on button click
+     $(".addStorageToBlockchainBtn").click(addStorageToBlockchain);
+
     // call verifyHarvestEntry function on button click
     $("#verifyHarvestEntryBtn").click(verifyHarvestEntry);
 
@@ -936,7 +939,7 @@ $(document).ready(function() {
         // harvest_timestamp,
         // harvest_logid);
 
-        console.log("Test before sumbit - supplierproduce: " + supplierproduce + ", photoHash: " +  photoHash +
+        console.log("Test before submit - supplierproduce: " + supplierproduce + ", photoHash: " +  photoHash +
                 ", harvest_geolocation: " + harvest_geolocation  + ",harvest_timestamp: " + harvest_timestamp.toString() + ", harvest_logid:" + harvest_logid);
 
         //Load the contract schema from the abi and Instantiate the contract by address
@@ -958,7 +961,7 @@ $(document).ready(function() {
           //   string calldata _harvestTableName, string calldata _harvestQuantity, string calldata _harvestUser, 
           //    string calldata _harvestID)
 
-          console.log("Test before sumbit - harvest_description_json: " + harvest_description_json + ", harvest_description: " +  harvest_description +
+          console.log("Test before submit - harvest_description_json: " + harvest_description_json + ", harvest_description: " +  harvest_description +
                 ", harvest_tablename: " + harvest_tablename  + ",harvest_quantity_combined: " + harvest_quantity_combined + ",harvest_user:" + harvest_user + 
                 ", harvest_logid:" + harvest_logid);
 
@@ -1127,6 +1130,111 @@ $(document).ready(function() {
 
              // TODO - trigger notification
              return console.log(message_description);
+        });
+    };
+
+
+   // function Add Storage Entry to Blockchain
+   //TODO - should only be able to add Storage to Blockchain if there is a corresponding Harvest ID already on Blockchain
+   async function addStorageToBlockchain() {
+
+        // disable button wont work because it is actually a link
+        // $("this").prop("disabled", true);
+
+        //  disable link 
+        $(this).addClass('disabled'); 
+
+        // add spinner to button
+        $(this).html(
+            `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding to Blockchain...`
+        );
+
+    if (window.ethereum)
+      try {
+        await window.ethereum.enable();
+      } catch (err) {
+                var message_description = "Access to your Ethereum account rejected.";
+
+                //TODO - trigger notification
+                return console.log(message_description);
+            }
+
+        //storage entry variables from selected record
+        var harvest_logid = $(this).data('harvest_logid');
+        var storage_logid = $(this).data('storage_logid');
+        var harvest_suppliershortcode = $(this).data('harvest_suppliershortcode'); 
+        var supplierproduce = $(this).data('supplierproduce');
+        var market_Shortcode = $(this).data('market_shortcode');
+        var market_Name = $(this).data('market_name');
+        var market_Address = $(this).data('market_address');
+        var market_quantity = $(this).data('market_quantity');
+        var market_unitOfMeasure = $(this).data('market_unitofmeasure');
+        var market_storageTimeStamp = $(this).data('market_storagetimestamp');
+        var market_storageCaptureTime = $(this).data('market_storagecapturetime');
+        var market_URL = $(this).data('market_url');
+        var storage_BlockchainHashID = $(this).data('storage_blockchainhashid');
+        var storage_BlockchainHashData = $(this).data('storage_blockchainhashdata');
+        var storage_Description = $(this).data('storage_description');
+        var storage_bool_added_to_blockchain = $(this).data('storage_bool_added_to_blockchain');
+        var storage_added_to_blockchain_date = $(this).data('storage_added_to_blockchain_date');
+        var storage_added_to_blockchain_by = $(this).data('storage_added_to_blockchain_by');
+        var storage_blockchain_uuid = $(this).data('storage_blockchain_uuid');
+        var storage_user = $(this).data('storage_user');
+        var logdatetime = $(this).data('logdatetime');
+        var lastmodifieddatetime = $(this).data('lastmodifieddatetime');
+
+        var storage_tablename = 'foodprint_storage';
+        var storage_quantity_combined = market_quantity + "(" + market_unitOfMeasure + ")";
+  
+        console.log("this harvest_logid - " + harvest_logid);    
+        console.log("this storage_logid - " + storage_logid);    
+            
+        let storageDetail = `{storageDescription:${storage_Description}, storageTableName:${storage_tablename}, storageUser:${storage_user}, storageQuantity:${storage_quantity_combined}}`;
+        let otherID = `{supplierproduceID:${supplierproduce}, marketID:${market_Shortcode}}`;
+        //TODO - similar implementation for timestamps
+
+        console.log("this storageDetail - " + storageDetail);    
+        console.log("this otherID - " + otherID);
+
+        if (typeof web3 === 'undefined'){
+            return handle_web3_undefined_error();
+        }
+
+        // solidityContext required if you use msg object in contract function e.g. msg.sender
+        // var solidityContext = {from: web3.eth.accounts[1], gas:3000000}; //add gas to avoid out of gas exception
+
+        // FoodPrint Produce contract 
+        // registerStorageSubmission (string calldata _otherID, string calldata _storageTimeStamp,  string calldata _storageDetail, string calldata _storageID, string calldata _harvestID)
+      
+        // registerStorageSubmission(
+        // otherID,
+        // market_storageTimeStamp,
+        // storageDetail,
+        // storage_logid,
+        // harvest_logid);
+
+        console.log("Test before submit - otherID: " + otherID + ", market_storageTimeStamp: " +  market_storageTimeStamp +
+                ", storageDetail: " + storageDetail  + ",storage_logid: " + storage_logid + ", harvest_logid:" + harvest_logid);
+
+        //Load the contract schema from the abi and Instantiate the contract by address
+        // at(): Create an instance of MyContract that represents your contract at a specific address.
+        // deployed(): Create an instance of MyContract that represents the default address managed by FoodPrintProduceContractV2.
+        // new(): Deploy a new version of this contract to the network, getting an instance of FoodPrintProduceContractV2 that represents the newly deployed instance.
+
+        FoodPrintProduceContractV2.registerStorageSubmission(otherID, market_storageTimeStamp, storageDetail, storage_logid, harvest_logid,
+            function(err, result) {
+        if (err){
+            console.log("Error Adding Storage to Blockchain");
+            $(this).html(
+                `Error Adding Storage to Blockchain`
+            );
+            return handle_error(err);
+        } 
+
+        var message_description = `Transaction submitted to Blockchain for processing (Upload Storage Entry from ${supplierproduce} with Harvest ID ${harvest_logid} and Storage ID ${storage_logid}). Check your Metamask for transaction update.`;
+
+        //TODO - trigger notification
+        console.log(message_description);
         });
     };
 
