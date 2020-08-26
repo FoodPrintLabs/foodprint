@@ -820,6 +820,9 @@ $(document).ready(function() {
       getContractStatus();
     });
 
+  // Display current ethereum account
+  getCurrentEthereumAccount();
+
     //function to handle error from smart contract call
     function handle_error(err) {
         console.log("function handle_error(err).");
@@ -855,11 +858,13 @@ $(document).ready(function() {
                 return handle_web3_undefined_error();
             }
 
-        var currentAccount = web3.eth.accounts[0];
-        console.log("currentAccount " + currentAccount);
+      var currentAccount = web3.currentProvider.selectedAddress;
+      // var account =  web3.eth.accounts[0];  console.log("currentAccount2 " + account);
 
-       //var currentEthereumAccountHtml = '<p> Current Ethereum Account: ' + currentAccount +'</p>';
-        //$(CONSTANTS.CURRENT_ETHEREUM_ACCOUNT_DIV).html(currentEthereumAccountHtml);
+      console.log("currentAccount " + currentAccount);
+
+       var currentEthereumAccountHtml = '<p> Current Ethereum Account: ' + currentAccount +'</p>';
+       $("#currentEtheremAccountDiv").html(currentEthereumAccountHtml);
     };
 
     var account = web3.currentProvider.selectedAddress
