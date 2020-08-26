@@ -123,11 +123,34 @@ $npm run dev
 ```
 
 ## Other
-1. Access deployed contract from CLI
+1. Access deployed contract from CLI (V1)
 ```
 $ truffle console
 $ TheProduct.deployed().then(function(instance) { app = instance })
 $ app.noHarvests()
+```
+
+Access deployed contract from CLI (V2) after adding a sample Harvest entry and then using the resulting Harvest ID e.g. c6e301b9-aceb-498f-a63e-2503091f0ab0
+```
+$ truffle console
+$ TheProductV2.deployed().then(function(instance) { app = instance })
+$ app.getHarvestSubmissionsCount()
+$ let harvest_logid = "c6e301b9-aceb-498f-a63e-2503091f0ab0"
+$ app.getHarvestSubmitterAddress(harvest_logid)
+$ let harvest=app.getHarvestSubmission(harvest_logid)
+$ harvest
+$ let harvestDetail=app.getHarvestSubmissionDetail(harvest_logid)
+$ harvestDetail
+
+$ let storage_logid = "51a84fb0-154f-416b-a333-4cc5725b60d1"
+$ app.getStorageSubmitterAddress(storage_logid)
+$ let storage=app.getStorageSubmission(storage_logid)
+$ storage
+```
+
+To see the list of contracts already deployed on the Truffle Develop network
+```
+$networks [--clean]
 ```
 
 2. Add a new migration
@@ -167,6 +190,20 @@ $node
 >let produce = "Storage";
 >var res2 = await QRCode.toDataURL(produceUrl);
 >res2
+```
+
+10. Flatten Smart Contract and Verify on Testnet (Verify using  Compiler Type: SINGLE FILE / CONCATENANTED METHOD )
+```
+$npm install  truffle-flattener -g
+$truffle-flattener ./contracts/productv2.sol > ./productv2Flattened.sol
+$pbcopy < productv2Flattened.sol
+https://rinkeby.etherscan.io/verifyContract?a=0x000000000000000000 (replace with contract address)
+
+```
+
+11. Generate UML Class diagram for smart contract (`sol2uml`)
+```
+https://rinkeby.etherscan.io/viewsvg?t=1&a=0x000000000000000000 (replace with contract address, contract should be verified)
 ```
 
 ## Production Deployment

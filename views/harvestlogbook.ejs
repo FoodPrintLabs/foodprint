@@ -134,7 +134,7 @@
                       Delete</a>
                       <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%> <a href="javascript:void(0);" class="btn btn-xs btn-success">View on Blockchain</a>  <%}else{ %> 
 
-                    <a href="javascript:void(0);" class="btn btn-xs btn-success blockchain" 
+                    <a  href="javascript:void(0);" class="btn btn-xs btn-success blockchain addHarvestToBlockchainBtn"
                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
@@ -483,6 +483,8 @@
 
   <script src="/js/web3.min.js"></script><!-- Blockchain -->
   <script src="/js/truffle-contract.js"></script><!-- Blockchain -->
+  <script src="/js/sha256.min.js"></script><!-- Blockchain -->
+
 
   <script type="text/javascript">
     $(function () {
@@ -537,259 +539,260 @@
       });
 
       var harvest_logid = $(obj_identifier).data('harvest_logid');
-            var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode'); 
-            var harvest_suppliername = $(obj_identifier).data('harvest_suppliername');
-            var harvest_farmername = $(obj_identifier).data('harvest_farmername');
-            var harvest_supplieraddress = $(obj_identifier).data('harvest_supplieraddress');
-            var harvest_producename = $(obj_identifier).data('harvest_producename');
-            var harvest_photohash = $(obj_identifier).data('harvest_photohash');
-            var harvest_photoimage = harvest_photohash;
-            var harvest_timestamp = $(obj_identifier).data('harvest_timestamp');
-            var harvest_capturetime = $(obj_identifier).data('harvest_capturetime');
-            var harvest_description = $(obj_identifier).data('harvest_description');
-            var harvest_geolocation = $(obj_identifier).data('harvest_geolocation');
-            var harvest_quantity = $(obj_identifier).data('harvest_quantity');
-            var harvest_unitofmeasure = $(obj_identifier).data('harvest_unitofmeasure');
-            var harvest_description_json = $(obj_identifier).data('harvest_description_json');
-            var harvest_blockchainhashid = $(obj_identifier).data('harvest_blockchainhashid');
-            var harvest_blockchainhashdata = $(obj_identifier).data('harvest_blockchainhashdata');
-            var supplierproduce = $(obj_identifier).data('supplierproduce');
-            var harvest_bool_added_to_blockchain = $(obj_identifier).data('harvest_bool_added_to_blockchain');
-            var harvest_added_to_blockchain_date = $(obj_identifier).data('harvest_added_to_blockchain_date');
-            var harvest_added_to_blockchain_by = $(obj_identifier).data('harvest_added_to_blockchain_by');
-            var harvest_blockchain_uuid = $(obj_identifier).data('harvest_blockchain_uuid');
-            var harvest_user = $(obj_identifier).data('harvest_user');
-            var year_established = $(obj_identifier).data('year_established');
-            var covid19_response = $(obj_identifier).data('covid19_response');
-            var logdatetime = $(obj_identifier).data('logdatetime');
-            var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
+      var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode'); 
+      var harvest_suppliername = $(obj_identifier).data('harvest_suppliername');
+      var harvest_farmername = $(obj_identifier).data('harvest_farmername');
+      var harvest_supplieraddress = $(obj_identifier).data('harvest_supplieraddress');
+      var harvest_producename = $(obj_identifier).data('harvest_producename');
+      var harvest_photohash = $(obj_identifier).data('harvest_photohash');
+      var harvest_photoimage = harvest_photohash;
+      var harvest_timestamp = $(obj_identifier).data('harvest_timestamp');
+      var harvest_capturetime = $(obj_identifier).data('harvest_capturetime');
+      var harvest_description = $(obj_identifier).data('harvest_description');
+      var harvest_geolocation = $(obj_identifier).data('harvest_geolocation');
+      var harvest_quantity = $(obj_identifier).data('harvest_quantity');
+      var harvest_unitofmeasure = $(obj_identifier).data('harvest_unitofmeasure');
+      var harvest_description_json = $(obj_identifier).data('harvest_description_json');
+      var harvest_blockchainhashid = $(obj_identifier).data('harvest_blockchainhashid');
+      var harvest_blockchainhashdata = $(obj_identifier).data('harvest_blockchainhashdata');
+      var supplierproduce = $(obj_identifier).data('supplierproduce');
+      var harvest_bool_added_to_blockchain = $(obj_identifier).data('harvest_bool_added_to_blockchain');
+      var harvest_added_to_blockchain_date = $(obj_identifier).data('harvest_added_to_blockchain_date');
+      var harvest_added_to_blockchain_by = $(obj_identifier).data('harvest_added_to_blockchain_by');
+      var harvest_blockchain_uuid = $(obj_identifier).data('harvest_blockchain_uuid');
+      var harvest_user = $(obj_identifier).data('harvest_user');
+      var year_established = $(obj_identifier).data('year_established');
+      var covid19_response = $(obj_identifier).data('covid19_response');
+      var logdatetime = $(obj_identifier).data('logdatetime');
+      var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
 
-            console.log("harvest_logid - " + harvest_logid);
-            // console.log("supplierproduce - " + supplierproduce);
-            // console.log("harvest_TimeStamp - " + harvest_TimeStamp);
-            // console.log("harvest_supplierName - " + harvest_supplierName);
-            // console.log("harvest_photohash - " + harvest_photohash);
-            //console.log("harvest_photoimage - " + harvest_photoimage);
+      console.log("harvest_logid - " + harvest_logid);
+      // console.log("supplierproduce - " + supplierproduce);
+      // console.log("harvest_TimeStamp - " + harvest_TimeStamp);
+      // console.log("harvest_supplierName - " + harvest_supplierName);
+      // console.log("harvest_photohash - " + harvest_photohash);
+      //console.log("harvest_photoimage - " + harvest_photoimage);
 
-            console.log("harvest_description_json - " + harvest_description_json);
-            if(typeof harvest_description_json !== "undefined")
-            {
-              if (harvest_description_json.indexOf("Pesticide Free") != -1)
-              {
-                $("#viewmodal_harvest_description_json_pestfree").prop("checked", true);
-              }
-
-              if (harvest_description_json.indexOf("Certified Organic") != -1)
-              {
-                $("viewmodal_harvest_description_json_certorganic").prop("checked", true);
-              }
-
-              if (harvest_description_json.indexOf("Non-Certified Organic") != -1)
-              {
-                $("#viewmodal_harvest_description_json_noncertorganic").prop("checked", true);
-              }
-
-              if (harvest_description_json.indexOf("Conventional") != -1)
-              {
-                $("#viewmodal_harvest_description_json_conventional").prop("checked", true);
-              }
-
-              if (harvest_description_json.indexOf("Free Range") != -1)
-              {
-                $("#viewmodal_harvest_description_json_freerange").prop("checked", true);
-              }
-
-              if (harvest_description_json.indexOf("Greenhouse Grown") != -1)
-              {
-                $("#viewmodal_harvest_description_json_greenhouse").prop("checked", true);
-              }
-
-              if (harvest_description_json.indexOf("Non-GMO") != -1)
-              {
-                $("#viewmodal_harvest_description_json_gmo").prop("checked", true);
-              }
-            }
-            $('#viewmodal_harvest_logid').val(harvest_logid);
-            $('#viewmodal_harvest_suppliershortcode').val(harvest_suppliershortcode);
-            $('#viewmodal_harvest_suppliername').val(harvest_suppliername);
-            $('#viewmodal_harvest_farmername').val(harvest_farmername);
-            $('#viewmodal_harvest_supplieraddress').val(harvest_supplieraddress);
-            $('#viewmodal_harvest_producename').val(harvest_producename);
-            //$('#viewmodal_harvest_photohash').val(harvest_photohash);            
-            $('#viewmodal_harvest_photoimage').attr("src", harvest_photoimage);
-
-            $('#viewmodal_harvest_timestamp').val(harvest_timestamp);
-            $('#viewmodal_harvest_capturetime').val(harvest_capturetime);
-            $('#viewmodal_harvest_description').val(harvest_description);
-            $('#viewmodal_harvest_geolocation').val(harvest_geolocation);
-            $('#viewmodal_harvest_quantity').val(harvest_quantity);
-            $('#viewmodal_harvest_unitofmeasure').val(harvest_unitofmeasure);
-            $('#viewmodal_harvest_description_json').val(harvest_description_json);
-            $('#viewmodal_harvest_blockchainhashid').val(harvest_blockchainhashid);
-            $('#viewmodal_harvest_blockchainhashdata').val(harvest_blockchainhashdata);
-            $('#viewmodal_supplierproduce').val(supplierproduce);
-            $('#viewmodal_harvest_bool_added_to_blockchain').val(harvest_bool_added_to_blockchain);
-            $('#viewmodal_harvest_added_to_blockchain_date').val(harvest_added_to_blockchain_date);
-            $('#viewmodal_harvest_added_to_blockchain_by').val(harvest_added_to_blockchain_by);
-            $('#viewmodal_harvest_blockchain_uuid').val(harvest_blockchain_uuid);
-            $('#viewmodal_harvest_user').val(harvest_user);
-            $('#viewmodal_harvest_year_established').val(year_established);
-            $('#viewmodal_harvest_covid19_response').val(covid19_response);
-            $('#viewmodal_logdatetime').val(logdatetime);
-            $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
-
-          //remove modal buttons, then re-add
-            $('#harvestModalUpdate').remove();
-            $('#harvestModalAdd').remove();
-            $('#harvestModalDelete').remove();
-            $('#harvestModalClose').remove();
-          
-          if (action==='add'){
-            $("#modalBodyContainer :input").attr("disabled", false);
-            $("#modalBodyContainer :input").attr("required", true);
-            
-            //System populated:
-            //viewmodal_harvest_photoimageDiv, viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
-            //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
-            //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv,
-            //viewmodal_harvest_capturetime, viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid 
-
-            //Hide divs for System populated elements
-            $("#viewmodal_harvest_photoimageDiv").hide();  
-            $("#viewmodal_harvest_blockchainhashidDiv").hide();  
-            $("#viewmodal_harvest_blockchainhashdataDiv").hide();  
-            $("#viewmodal_harvest_bool_added_to_blockchainDiv").hide();  
-            $("#viewmodal_harvest_added_to_blockchain_dateDiv").hide();  
-            $("#viewmodal_harvest_userDiv").hide();  
-            $("#viewmodal_harvest_blockchain_uuidDiv").hide();  
-            $("#viewmodal_harvest_added_to_blockchain_byDiv").hide();  
-            //
-            $("#viewmodal_harvest_capturetimeDiv").hide();  
-            $("#viewmodal_logdatetimeDiv").hide();  
-            $("#viewmodal_lastmodifieddatetimeDiv").hide();  
-            $("#viewmodal_harvest_logidDiv").hide();  
-            
-
-            //Make System populated elements not required otherwise Add Harvest Form will not submit
-            $("#viewmodal_harvest_photoimage").attr("required", false);
-            $("#viewmodal_harvest_blockchainhashid").attr("required", false);
-            $("#viewmodal_harvest_blockchainhashdata").attr("required", false);
-            $("#viewmodal_harvest_bool_added_to_blockchain").attr("required", false);
-            $("#viewmodal_harvest_added_to_blockchain_date").attr("required", false);
-            $("#viewmodal_harvest_user").attr("required", false);
-            $("#viewmodal_harvest_blockchain_uuid").attr("required", false);
-            $("#viewmodal_harvest_added_to_blockchain_by").attr("required", false);
-            
-            //
-            $("#viewmodal_harvest_capturetime").attr("required", false);
-            $("#viewmodal_logdatetime").attr("required", false);
-            $("#viewmodal_lastmodifieddatetime").attr("required", false);
-            $("#viewmodal_harvest_logid").attr("required", false);
-
-            // Harvest description  checkboxes should not be required
-            $("#viewmodal_harvest_description_json_pestfree").attr("required", false);
-            $("#viewmodal_harvest_description_json_certorganic").attr("required", false);
-            $("#viewmodal_harvest_description_json_noncertorganic").attr("required", false);
-            $("#viewmodal_harvest_description_json_conventional").attr("required", false);
-            $("#viewmodal_harvest_description_json_freerange").attr("required", false);
-            $("#viewmodal_harvest_description_json_greenhouse").attr("required", false);
-            $("#viewmodal_harvest_description_json_gmo").attr("required", false);
-
-            $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
-            $("#harvestDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
-
-            $("#harvestCheckDiv").show();  // show confirm add/edit checkbox
-
-            $("#modalFooter").append(addButton);  
-            $("#modalFooter").append(closeButton);  
-          }
-          else if (action==='view'){
-            $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
-            // $('#form1 input').attr('readonly', 'readonly');    
-
-            //SHOW DIVS
-            //System populated:
-            //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
-            //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
-            //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv
-
-            $("#viewmodal_harvest_photoimageDiv").show(); 
-            $("#viewmodal_harvest_blockchainhashidDiv").show();  
-            $("#viewmodal_harvest_blockchainhashdataDiv").show();  
-            $("#viewmodal_harvest_bool_added_to_blockchainDiv").show();  
-            $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
-            $("#viewmodal_harvest_userDiv").show();  
-            $("#viewmodal_harvest_blockchain_uuidDiv").show();  
-            $("#viewmodal_harvest_added_to_blockchain_byDiv").show();  
-            
-            $("#viewmodal_harvest_capturetimeDiv").show();  
-            $("#viewmodal_logdatetimeDiv").show();  
-            $("#viewmodal_lastmodifieddatetimeDiv").show();  
-            $("#viewmodal_harvest_logidDiv").show();  
-
-            $("#harvestCheckDiv").hide();  // hide confirm add/edit checkbox
-            $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
-            $("#modalFooter").append(closeButton);  
-          }
-          else if (action==='update'){
-            $("#modalBodyContainer :input").attr("disabled", false);
-            
-            //TODO $("#viewmodal_logdatetime").attr('readonly', true);
-            //$("#viewmodal_logdatetime_calendar").attr('readonly', true);
-           // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
-
-
-           //cannot modify image once it has been added
-           $("#viewmodal_harvest_photoimageDiv").show();  
-            $("#viewmodal_harvest_photohash").attr('disabled', true);
-
-          // Harvest description checkboxes should  be read-only
-          $("#viewmodal_harvest_description_json_pestfree").attr('disabled', true);
-          $("#viewmodal_harvest_description_json_certorganic").attr('disabled', true);
-          $("#viewmodal_harvest_description_json_noncertorganic").attr('disabled', true);
-          $("#viewmodal_harvest_description_json_conventional").attr('disabled', true);
-          $("#viewmodal_harvest_description_json_freerange").attr('disabled', true);
-          $("#viewmodal_harvest_description_json_greenhouse").attr('disabled', true);
-          $("#viewmodal_harvest_description_json_gmo").attr('disabled', true);
-
-           $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
-            $("#viewmodal_harvest_capturetimeDiv").show();  //TODO - this should be readonly
-            $("#viewmodal_logdatetimeDiv").show();  //TODO - this should be readonly
-            $("#viewmodal_lastmodifieddatetimeDiv").show();  //TODO - this should be readonly
-
-            $("#viewmodal_harvest_logidDiv").show();  
-            $("#viewmodal_harvest_logid").attr('readonly', true);
-
-            $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
-            $("#harvestDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
-
-            $("#harvestCheckDiv").show();  // show confirm add/edit checkbox
-
-            $("#modalFooter").append(updateButton);  
-            $("#modalFooter").append(closeButton);  
-            $('#harvestModalForm').attr('action', '/app/harvest/update');
-          }
-          else if (action==='delete'){
-            $("#modalBodyContainer :input").attr("disabled", true);
-            $("#harvestCheckDiv").hide();  // hide confirm add/edit checkbox
-            $("#harvestCheck").attr("required", false); // make confirm confirm add/edit checkbox not required in case form will not submit
-
-            $("#harvestDeleteDiv").show();  // show confirm delete checkbox
-
-            //make viewmodal_harvest_logid readonly not disabled so it is sent via web request
-            $("#viewmodal_harvest_logid").attr("disabled", false); 
-            $("#viewmodal_harvest_logid").attr('readonly', true);
-
-            $("#modalFooter").append(deleteButton);  
-            $("#modalFooter").append(closeButton);  
-            $('#harvestModalForm').attr('action', '/app/harvest/delete');
-          }
-
-          $('#harvestModalLabel').html(header);
-          $('#modalBodyContainer').removeAttr('class'); //if already exists remove it
-          $('#modalBodyContainer').addClass(contentClassID);
-          $('#harvestViewModal').modal('show');
+      console.log("harvest_description_json - " + harvest_description_json);
+      if(typeof harvest_description_json !== "undefined")
+      {
+        if (harvest_description_json.indexOf("Pesticide Free") != -1)
+        {
+          $("#viewmodal_harvest_description_json_pestfree").prop("checked", true);
         }
+
+        if (harvest_description_json.indexOf("Certified Organic") != -1)
+        {
+          $("viewmodal_harvest_description_json_certorganic").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Non-Certified Organic") != -1)
+        {
+          $("#viewmodal_harvest_description_json_noncertorganic").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Conventional") != -1)
+        {
+          $("#viewmodal_harvest_description_json_conventional").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Free Range") != -1)
+        {
+          $("#viewmodal_harvest_description_json_freerange").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Greenhouse Grown") != -1)
+        {
+          $("#viewmodal_harvest_description_json_greenhouse").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Non-GMO") != -1)
+        {
+          $("#viewmodal_harvest_description_json_gmo").prop("checked", true);
+        }
+      }
+      $('#viewmodal_harvest_logid').val(harvest_logid);
+      $('#viewmodal_harvest_suppliershortcode').val(harvest_suppliershortcode);
+      $('#viewmodal_harvest_suppliername').val(harvest_suppliername);
+      $('#viewmodal_harvest_farmername').val(harvest_farmername);
+      $('#viewmodal_harvest_supplieraddress').val(harvest_supplieraddress);
+      $('#viewmodal_harvest_producename').val(harvest_producename);
+      //$('#viewmodal_harvest_photohash').val(harvest_photohash);            
+      $('#viewmodal_harvest_photoimage').attr("src", harvest_photoimage);
+
+      $('#viewmodal_harvest_timestamp').val(harvest_timestamp);
+      $('#viewmodal_harvest_capturetime').val(harvest_capturetime);
+      $('#viewmodal_harvest_description').val(harvest_description);
+      $('#viewmodal_harvest_geolocation').val(harvest_geolocation);
+      $('#viewmodal_harvest_quantity').val(harvest_quantity);
+      $('#viewmodal_harvest_unitofmeasure').val(harvest_unitofmeasure);
+      $('#viewmodal_harvest_description_json').val(harvest_description_json);
+      $('#viewmodal_harvest_blockchainhashid').val(harvest_blockchainhashid);
+      $('#viewmodal_harvest_blockchainhashdata').val(harvest_blockchainhashdata);
+      $('#viewmodal_supplierproduce').val(supplierproduce);
+      $('#viewmodal_harvest_bool_added_to_blockchain').val(harvest_bool_added_to_blockchain);
+      $('#viewmodal_harvest_added_to_blockchain_date').val(harvest_added_to_blockchain_date);
+      $('#viewmodal_harvest_added_to_blockchain_by').val(harvest_added_to_blockchain_by);
+      $('#viewmodal_harvest_blockchain_uuid').val(harvest_blockchain_uuid);
+      $('#viewmodal_harvest_user').val(harvest_user);
+      $('#viewmodal_harvest_year_established').val(year_established);
+      $('#viewmodal_harvest_covid19_response').val(covid19_response);
+      $('#viewmodal_logdatetime').val(logdatetime);
+      $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
+
+    //remove modal buttons, then re-add
+      $('#harvestModalUpdate').remove();
+      $('#harvestModalAdd').remove();
+      $('#harvestModalDelete').remove();
+      $('#harvestModalClose').remove();
+    
+    if (action==='add'){
+      $("#modalBodyContainer :input").attr("disabled", false);
+      $("#modalBodyContainer :input").attr("required", true);
+      
+      //System populated:
+      //viewmodal_harvest_photoimageDiv, viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
+      //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
+      //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv,
+      //viewmodal_harvest_capturetime, viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid 
+
+      //Hide divs for System populated elements
+      $("#viewmodal_harvest_photoimageDiv").hide();  
+      $("#viewmodal_harvest_blockchainhashidDiv").hide();  
+      $("#viewmodal_harvest_blockchainhashdataDiv").hide();  
+      $("#viewmodal_harvest_bool_added_to_blockchainDiv").hide();  
+      $("#viewmodal_harvest_added_to_blockchain_dateDiv").hide();  
+      $("#viewmodal_harvest_userDiv").hide();  
+      $("#viewmodal_harvest_blockchain_uuidDiv").hide();  
+      $("#viewmodal_harvest_added_to_blockchain_byDiv").hide();  
+      //
+      $("#viewmodal_harvest_capturetimeDiv").hide();  
+      $("#viewmodal_logdatetimeDiv").hide();  
+      $("#viewmodal_lastmodifieddatetimeDiv").hide();  
+      $("#viewmodal_harvest_logidDiv").hide();  
+      
+
+      //Make System populated elements not required otherwise Add Harvest Form will not submit
+      $("#viewmodal_harvest_photoimage").attr("required", false);
+      $("#viewmodal_harvest_blockchainhashid").attr("required", false);
+      $("#viewmodal_harvest_blockchainhashdata").attr("required", false);
+      $("#viewmodal_harvest_bool_added_to_blockchain").attr("required", false);
+      $("#viewmodal_harvest_added_to_blockchain_date").attr("required", false);
+      $("#viewmodal_harvest_user").attr("required", false);
+      $("#viewmodal_harvest_blockchain_uuid").attr("required", false);
+      $("#viewmodal_harvest_added_to_blockchain_by").attr("required", false);
+      
+      //
+      $("#viewmodal_harvest_capturetime").attr("required", false);
+      $("#viewmodal_logdatetime").attr("required", false);
+      $("#viewmodal_lastmodifieddatetime").attr("required", false);
+      $("#viewmodal_harvest_logid").attr("required", false);
+
+      // Harvest description  checkboxes should not be required
+      $("#viewmodal_harvest_description_json_pestfree").attr("required", false);
+      $("#viewmodal_harvest_description_json_certorganic").attr("required", false);
+      $("#viewmodal_harvest_description_json_noncertorganic").attr("required", false);
+      $("#viewmodal_harvest_description_json_conventional").attr("required", false);
+      $("#viewmodal_harvest_description_json_freerange").attr("required", false);
+      $("#viewmodal_harvest_description_json_greenhouse").attr("required", false);
+      $("#viewmodal_harvest_description_json_gmo").attr("required", false);
+
+      $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
+      $("#harvestDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
+
+      $("#harvestCheckDiv").show();  // show confirm add/edit checkbox
+
+      $("#modalFooter").append(addButton);  
+      $("#modalFooter").append(closeButton);  
+    }
+    else if (action==='view'){
+      $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
+      // $('#form1 input').attr('readonly', 'readonly');    
+
+      //SHOW DIVS
+      //System populated:
+      //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
+      //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
+      //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv
+
+      $("#viewmodal_harvest_photoimageDiv").show(); 
+      $("#viewmodal_harvest_blockchainhashidDiv").show();  
+      $("#viewmodal_harvest_blockchainhashdataDiv").show();  
+      $("#viewmodal_harvest_bool_added_to_blockchainDiv").show();  
+      $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
+      $("#viewmodal_harvest_userDiv").show();  
+      $("#viewmodal_harvest_blockchain_uuidDiv").show();  
+      $("#viewmodal_harvest_added_to_blockchain_byDiv").show();  
+      
+      $("#viewmodal_harvest_capturetimeDiv").show();  
+      $("#viewmodal_logdatetimeDiv").show();  
+      $("#viewmodal_lastmodifieddatetimeDiv").show();  
+      $("#viewmodal_harvest_logidDiv").show();  
+
+      $("#harvestCheckDiv").hide();  // hide confirm add/edit checkbox
+      $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
+      $("#modalFooter").append(closeButton);  
+    }
+    else if (action==='update'){
+      $("#modalBodyContainer :input").attr("disabled", false);
+      
+      //TODO $("#viewmodal_logdatetime").attr('readonly', true);
+      //$("#viewmodal_logdatetime_calendar").attr('readonly', true);
+      // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
+
+
+      //cannot modify image once it has been added
+      $("#viewmodal_harvest_photoimageDiv").show();  
+      $("#viewmodal_harvest_photohash").attr('disabled', true);
+
+    // Harvest description checkboxes should  be read-only
+    $("#viewmodal_harvest_description_json_pestfree").attr('disabled', true);
+    $("#viewmodal_harvest_description_json_certorganic").attr('disabled', true);
+    $("#viewmodal_harvest_description_json_noncertorganic").attr('disabled', true);
+    $("#viewmodal_harvest_description_json_conventional").attr('disabled', true);
+    $("#viewmodal_harvest_description_json_freerange").attr('disabled', true);
+    $("#viewmodal_harvest_description_json_greenhouse").attr('disabled', true);
+    $("#viewmodal_harvest_description_json_gmo").attr('disabled', true);
+
+      $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
+      $("#viewmodal_harvest_capturetimeDiv").show();  //TODO - this should be readonly
+      $("#viewmodal_logdatetimeDiv").show();  //TODO - this should be readonly
+      $("#viewmodal_lastmodifieddatetimeDiv").show();  //TODO - this should be readonly
+
+      $("#viewmodal_harvest_logidDiv").show();  
+      $("#viewmodal_harvest_logid").attr('readonly', true);
+
+      $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
+      $("#harvestDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
+
+      $("#harvestCheckDiv").show();  // show confirm add/edit checkbox
+
+      $("#modalFooter").append(updateButton);  
+      $("#modalFooter").append(closeButton);  
+      $('#harvestModalForm').attr('action', '/app/harvest/update');
+    }
+    else if (action==='delete'){
+      $("#modalBodyContainer :input").attr("disabled", true);
+      $("#harvestCheckDiv").hide();  // hide confirm add/edit checkbox
+      $("#harvestCheck").attr("required", false); // make confirm confirm add/edit checkbox not required in case form will not submit
+
+      $("#harvestDeleteDiv").show();  // show confirm delete checkbox
+
+      //make viewmodal_harvest_logid readonly not disabled so it is sent via web request
+      $("#viewmodal_harvest_logid").attr("disabled", false); 
+      $("#viewmodal_harvest_logid").attr('readonly', true);
+
+      $("#modalFooter").append(deleteButton);  
+      $("#modalFooter").append(closeButton);  
+      $('#harvestModalForm').attr('action', '/app/harvest/delete');
+    }
+
+    $('#harvestModalLabel').html(header);
+    $('#modalBodyContainer').removeAttr('class'); //if already exists remove it
+    $('#modalBodyContainer').addClass(contentClassID);
+    $('#harvestViewModal').modal('show');
+  }
     </script>
+    <script src="/js/foodprint_blockchain.js"></script> <!-- Blockchain integration -->
   </body>
 </html>
