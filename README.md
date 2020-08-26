@@ -192,6 +192,20 @@ $node
 >res2
 ```
 
+10. Flatten Smart Contract and Verify on Testnet (Verify using  Compiler Type: SINGLE FILE / CONCATENANTED METHOD )
+```
+$npm install  truffle-flattener -g
+$truffle-flattener ./contracts/productv2.sol > ./productv2Flattened.sol
+$pbcopy < productv2Flattened.sol
+https://rinkeby.etherscan.io/verifyContract?a=0x000000000000000000 (replace with contract address)
+
+```
+
+11. Generate UML Class diagram for smart contract (`sol2uml`)
+```
+https://rinkeby.etherscan.io/viewsvg?t=1&a=0x000000000000000000 (replace with contract address, contract should be verified)
+```
+
 ## Production Deployment
 1. To deploy to a production server, first bundle and uglify then deploy
 ```
