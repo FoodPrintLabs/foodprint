@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+ 
+   
+   <div class="container" style="width: 100%;">
+    <div class="row align-items-center justify-content-center">
+      <!-- START Blockchain Explorer -->
+        <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
+          <h3>Blockchain Explorer</h3>
+          <% include ./partials/notificationbar %>
+          <h5>Harvest Search Form</h5>
+          <form id="search_harvest_form">
+              <div class="form-group">
+                <input type="text" id="search_harvest_id" class="form-control" placeholder="Enter Harvest ID" required>
+              </div>  
+              <div class="form-group">
+                <button class="btn btn-primary" id="verifyHarvestEntryBtn">Verify Harvest ID</button>
+              </div>
+          </form>
+
+          <h5>Harvest Search Result</h5>
+          <div id = "search_result_harvest" style="display: none">
+          </div>
+          
+          <hr>
+
+          <h5>Storage Search Form</h5>
+          <form id="search_storage_form">
+            <div class="form-group">
+              <input type="text" id="search_storage_id" class="form-control" placeholder="Enter Storage ID" required>
+            </div>  
+            <div class="form-group">
+              <button class="btn btn-primary" id="verifyStorageEntryBtn">Verify Storage ID</button>
+            </div>
+        </form>
+
+        <h5>Storage Search Result</h5>
+        <div id = "search_result_storage" style="display: none">
+        </div>
+          
+      </div>
+        <!-- END Blockchain explorer-->
+
+        <hr>
+       
+      </div>
+      <p>&nbsp;</p>
+
+
+      <!-- Contract deployment details -->
+      <div class="col-md-6 col-md-offset-3">
+        <h5>Blockchain Configuration</h5>
+        <div id="currentEtheremAccountDiv"></div>
+        <p>Contract deployed in Testnet transaction <a href="https://rinkeby.etherscan.io/tx/0x98992426a3ed5b6139d6b0162fd9a153f865bec083ff296dab6ecc7a6ba8b169" target="_blank" >0x98992426a3ed5b6139d6b0162fd9a153f865bec083ff296dab6ecc7a6ba8b169</a></p>
+        <p>Contract deployed at Testnet address <a href="https://rinkeby.etherscan.io/address/0xfC4d26073650887069dFa7Da686A491535ab8Fd4" target="_blank" >0xfC4d26073650887069dFa7Da686A491535ab8Fd4</a></p>
+        <p>Contract creator <a href="https://rinkeby.etherscan.io/address/0x4B67D20a4F27d248aF0462C23F8C193f073517FB" target="_blank" >0x4B67D20a4F27d248aF0462C23F8C193f073517FB</a></p>
+      </div>
+    </div>
+    
+
+  <!-- start footer -->
+  <% include ./partials/footer %>
+  <!-- end footer -->
+  
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+
+  <script src="/js/web3.min.js"></script><!-- Blockchain -->
+  <script src="/js/truffle-contract.js"></script><!-- Blockchain -->
+  <script src="/js/sha256.min.js"></script><!-- Blockchain -->
+  <script src="/js/foodprint_blockchain.js"></script> <!-- Blockchain integration -->
+  </body>
+</html>

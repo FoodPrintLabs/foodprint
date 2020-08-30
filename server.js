@@ -239,6 +239,13 @@ router.get('/app/trace_produce',
   res.render('trace_produce', { user:req.user, page_name:'trace_produce' });
 });
 
+//blockchain_explorer
+router.get('/app/blockchain_explorer',
+          require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}), 
+          function(req,res){
+  res.render('blockchain_explorer', { user:req.user, page_name:'blockchain_explorer' });
+});
+
 //contact
 router.get('/contact',function(req,res){
   res.render('contact', { user:req.user, page_name:'contact' });
