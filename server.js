@@ -418,7 +418,7 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
   var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
      connection.query('SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName, year_established, harvest_description_json,' +
                       'harvest_photoHash, harvest_supplierAddress, harvest_produceName, harvest_TimeStamp, harvest_CaptureTime,' +
-                      'harvest_Description, harvest_geolocation,supplierproduce, market_Address, year_established, covid19_response' +
+                      'harvest_Description, harvest_geolocation,supplierproduce, market_Address, year_established, covid19_response,' +
                       'market_storageTimeStamp, market_storageCaptureTime, logdatetime, lastmodifieddatetime ' + 
                       'FROM foodprint_weeklyview WHERE supplierproduce = ? AND ' +
                       'logdatetime < (date(curdate() - interval weekday(curdate()) day + interval 1 week)) AND '+  
@@ -429,7 +429,7 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                       function(err,rows) {
                           if(err){
                           //req.flash('error', err);
-                          var provenance_data = '';
+                          var provenance_data = [];
                           console.error('error', err);
                           console.error('Provenance scan error occured');
                           //res.render('scanresult',{data:'', user:req.user});
