@@ -418,7 +418,7 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
   var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
      connection.query('SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName, year_established, harvest_description_json,' +
                       'harvest_photoHash, harvest_supplierAddress, harvest_produceName, harvest_TimeStamp, harvest_CaptureTime,' +
-                      'harvest_Description, harvest_geolocation,supplierproduce, market_Address,' +
+                      'harvest_Description, harvest_geolocation,supplierproduce, market_Address, year_established, covid19_response,' +
                       'market_storageTimeStamp, market_storageCaptureTime, logdatetime, lastmodifieddatetime ' + 
                       'FROM foodprint_weeklyview WHERE supplierproduce = ? AND ' +
                       'logdatetime < (date(curdate() - interval weekday(curdate()) day + interval 1 week)) AND '+  
@@ -429,7 +429,7 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                       function(err,rows) {
                           if(err){
                           //req.flash('error', err);
-                          var provenance_data = '';
+                          var provenance_data = [];
                           console.error('error', err);
                           console.error('Provenance scan error occured');
                           //res.render('scanresult',{data:'', user:req.user});
@@ -471,22 +471,22 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                               var logdatetime = new Date();
                             
                               //TODO - cross check marketID and supplierProduceID against existing marketID's from foodprint_market and foodPrint_supplierproduceid
-                                connection.query( 'INSERT INTO foodprint_qrcount (' +
-                                                  'logid , qrid, qrurl, marketid, request_host,' +
-                                                  'request_origin, request_useragent,logdatetime) ' +
-                                                  ' VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-                                                  [
-                                                    logid, qrid, qrurl, marketID, request_host,
-                                                    request_origin, request_useragent, logdatetime
-                                                ]
-                                                ,function(err, res2) {
-                                                    if (err) {
-                                                      console.error('Produce scan tracking error occured');
-                                                      console.error('error', err);
-                                                    }
-                                                    console.log('Produce scan tracking successful');
-                                                    //callback(null, res2); // think 'return'
-                                                    });
+                                // connection.query( 'INSERT INTO foodprint_qrcount (' +
+                                //                   'logid , qrid, qrurl, marketid, request_host,' +
+                                //                   'request_origin, request_useragent,logdatetime) ' +
+                                //                   ' VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+                                //                   [
+                                //                     logid, qrid, qrurl, marketID, request_host,
+                                //                     request_origin, request_useragent, logdatetime
+                                //                 ]
+                                //                 ,function(err, res2) {
+                                //                     if (err) {
+                                //                       console.error('Produce scan tracking error occured');
+                                //                       console.error('error', err);
+                                //                     }
+                                //                     console.log('Produce scan tracking successful');
+                                //                     //callback(null, res2); // think 'return'
+                                //                     });
                           //END Track QR Scan
                           provenance_data['user']= req.user;
                           provenance_data['showTracedOnBlockchain']= boolTracedOnBlockchain;
@@ -495,7 +495,9 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                       }); //end of connection.query
                       
       });
-     
+
+//TODO Add Weekly View route and template
+//TODO Add Weekly View REST API
 
 //return template with market checkin form e.g. http://localhost:3000/checkin/ozcf
 router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], function(req,res){
