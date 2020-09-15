@@ -268,6 +268,11 @@ router.get('/terms',function(req,res){
   res.render('termsofuse', { user:req.user, page_name:'terms' });
 });
 
+//return template for privacy policy
+router.get('/privacy',function(req,res){
+  res.render('privacypolicy', { user:req.user, page_name:'privacy' });
+});
+
 //return template with scan results for produce
 //NB this is an old template (scanresultv1) which probably should be removed
 router.get('/scan/:id',function(req,res){
