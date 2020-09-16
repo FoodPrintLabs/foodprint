@@ -268,6 +268,11 @@ router.get('/terms',function(req,res){
   res.render('termsofuse', { user:req.user, page_name:'terms' });
 });
 
+//return template for privacy policy
+router.get('/privacy',function(req,res){
+  res.render('privacypolicy', { user:req.user, page_name:'privacy' });
+});
+
 //return template with scan results for produce
 //NB this is an old template (scanresultv1) which probably should be removed
 router.get('/scan/:id',function(req,res){
@@ -352,13 +357,13 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
                           var provenance_data = '';
                           console.error('error', err);
                           console.error('Provenance scan error occured');
-                          //res.render('scanresult',{data:'', user:req.user});
                           }
                           else {
+                            if (typeof rows !== 'undefined' && rows.length){
                               rows[0].harvest_photoHash = 'data:image/png;base64,' + new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
+                            }
                               var provenance_data = rows;
                               console.log('Provenance scan successful');
-                              //res.render('scanresult',{data:rows, user:req.user});
                           }
                               
                           var boolTracedOnBlockchain = process.env.SHOW_TRACED_ON_BLOCKCHAIN || false
@@ -435,13 +440,13 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                           //res.render('scanresult',{data:'', user:req.user});
                           }
                           else {
-                            if (rows.length){
+                            if (typeof rows !== 'undefined' && rows.length){
                               rows[0].harvest_photoHash = 'data:image/png;base64,' + new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
 
                               var provenance_data = rows[0]; // return 1st row only
                             }
                             else{
-                              var provenance_data = []; // return 1st row only
+                              var provenance_data = []; // return empty list for no data
                             }
                               
                               console.log('Provenance scan successful');
