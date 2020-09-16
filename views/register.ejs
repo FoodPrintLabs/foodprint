@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+ 
+   
+   <div class="container" style="width: 100%;">
+    <div class="row align-items-center justify-content-center">
+      <!-- START LOGIN FORM-->
+        <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
+          <h3 class="heading text-center">USER REGISTRATION</h3>
+          <% include ./partials/notificationbar %>
+          <div class="probootstrap-section-heading text-center mb50 probootstrap-animate fadeInUp probootstrap-animated" style="background-image: url(/img/farm1.jpg); height: 200px; background-size: 100%; background-repeat: no-repeat; ">
+          </div>
+          <h4 class="heading">Enter Your Details</h4>
+
+            <form class="probootstrap-form mb60 validate-form" method="post">
+                <div class="form-group">
+                    <label for="registerName">Name</label>
+                    <input type="text" style="color: black;" id="registerName" name="registerName"class="form-control" placeholder="Enter Name" required autofocus/>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="registerSurname">Surname</label>
+                    <input type="text" style="color: black;" id="registerSurname" name="registerSurname"class="form-control" placeholder="Enter Surname" required autofocus/>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <input type="email" style="color: black;" id="registerEmail" name="registerEmail"class="form-control" placeholder="Enter Email Address" required autofocus/>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="registerConfirmEmail">Confirm Email Address</label>
+                    <input type="email" style="color: black;" id="registerConfirmEmail" name="registerConfirmEmail" class="form-control" placeholder="Re-Enter Email Address" required autofocus/>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="registerUserType">User Type</label>
+                    <select class="custom-select d-block w-100" name="registerUserType" id="registerUserType" required>
+                      <option value="" selected disabled >Select User Type...</option>
+                      <option>Farmer</option>
+                      <option>Agri-Hub</option>
+                      <option>Food Market</option>
+                      <option>Restaurant</option>
+                      <option>Retailer</option>
+                      <option>Consumer</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="registerOrgName">Organisation Name</label>
+                    <input type="text" style="color: black;" id="registerOrgName" name="registerOrgName" class="form-control" placeholder="Enter Organisation Name" required>
+                  </div>
+      
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit" formaction="/app/auth/register">Register</button>
+                </div>
+                
+                <div class="form-group">
+                    By signing up, you are indicating that you have read and agree to the <a href="/terms" target="_blank">Terms of Use</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.
+                  </div>
+
+                <div class="form-group">
+                  Already have a FoodPrint account? <a href="/app/auth/login/">Sign in now</a>.
+                </div>
+                
+
+
+            </form>
+        </div>
+        <!-- END LOGIN FORM-->
+      </div>
+    </div>
+
+  <!-- start footer -->
+  <% include ./partials/footer %>
+  <!-- end footer -->
+  
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  </body>
+</html>

@@ -38,4 +38,20 @@ router.get('/logout',
     res.redirect('/app/auth/login');
   });
 
+
+  /* Render Register page. */
+router.get('/register/:message?',
+function(req, res){
+  req.params.message ?
+  res.render('message', { title: 'FoodPrint - User Registration', user:req.user, page_name:'message', message:'Your registration has been submitted and is currently under review by the FoodPrint Team! You will be notified of status updates via the email you provided.'}):
+  res.render('register', { title: 'FoodPrint - User Registration', user:req.user, page_name:'register'});
+});
+
+/* Process register form submission . */
+router.post('/register', 
+function(req, res){
+  //TODO - Log registration to table and send email to FoodPrint Admin
+  res.redirect('/app/auth/register/message');
+});
+
 module.exports = router;

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+ 
+   
+   <div class="container" style="width: 100%;">
+    <div class="row align-items-center justify-content-center">
+      <!-- START LOGIN FORM-->
+        <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
+          <h3 class="heading text-center">MESSAGE</h3>
+          <% include ./partials/notificationbar %>
+          <div class="probootstrap-section-heading text-center mb50 probootstrap-animate fadeInUp probootstrap-animated" style="background-image: url(/img/farm1.jpg); height: 200px; background-size: 100%; background-repeat: no-repeat; ">
+          </div>
+          <p><%= message %></p>
+        </div>
+        <!-- END LOGIN FORM-->
+      </div>
+    </div>
+
+  <!-- start footer -->
+  <% include ./partials/footer %>
+  <!-- end footer -->
+  
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  </body>
+</html>
