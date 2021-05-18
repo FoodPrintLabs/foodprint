@@ -23,7 +23,6 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "latest",
-    "browserify": "^16.3.0",
     "gulp": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-clean-css": "latest",
@@ -42,6 +41,7 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "browserify": "^16.3.0",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
@@ -66,6 +66,7 @@
     "passport-local": "^1.0.0",
     "qrcode": "^1.4.0",
     "truffle-hdwallet-provider": "^1.0.15",
+    "uglify": "^0.1.5",
     "uuid": "^3.3.3"
   }
 }
