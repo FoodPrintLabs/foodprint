@@ -88,3 +88,8 @@ VALUES ('test8c7c-9d4e-49dd-8b57-09e08df01234' -- logid
         ,'2020' -- Year established
         ,'Covid-19 protocols observed' -- covid19 response
         )
+
+    --Bump out logdatetime for demo's
+    --UPDATE foodprint_weeklyview
+    --SET logdatetime = '2020-11-23 11:00:00'
+    --WHERE logid = 'test8c7c-9d4e-49dd-8b57-09e08df01234';
