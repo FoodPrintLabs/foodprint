@@ -13,11 +13,20 @@ var fs = require('fs');
 
 
 /* GET harvest page. */
+/* Changed to MySQL2 library which gives prepared statements (changed from connection.query to connection.execute).
+With prepared statements MySQL doesn't have to prepare
+query execution plan for same query everytime, which results in better performance.
+
+If you execute same statement again, it will be picked from a Least Recently Used (LRU) cache which will save query
+preparation time and give better performance.
+
+TODO - Need to replicate this change to other SQL queries
+  */
 router.get('/',
     require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
     function(req, res, next){
         if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
-            connection.query('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
+            connection.execute('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
                 if(err){
                      req.flash('error', err);
                      res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook", 
@@ -25,7 +34,8 @@ router.get('/',
                 }else{
                     for (i=0; i<rows.length; i++)
                     {
-                        rows[i].harvest_photoHash = 'data:image/png;base64,' + new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
+                        rows[i].harvest_photoHash = 'data:image/png;base64,' +
+                            new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
                     }
                     res.render('harvestlogbook',{   page_title:"FoodPrint - Harvest Logbook", 
                                             data:rows, user: req.user,
