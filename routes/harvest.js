@@ -173,7 +173,7 @@ router.post('/save', upload.single('viewmodal_harvest_photohash_uploaded_file'),
                         console.log('Error - error handling middleware');
 
                         if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
-                            connection.query('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
+                            connection.execute('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
                                 if(err){
                                     req.flash('error', err.message);
                                     res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook", 
@@ -288,7 +288,7 @@ router.post('/update',  upload.none(), [
                   console.log('Error - error handling middleware');
 
                   if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
-                    connection.query('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
+                      connection.execute('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
                         if(err){
                              req.flash('error', err.message);
                              res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook", 
@@ -317,7 +317,7 @@ router.post('/delete', upload.none(),
     //console.log('DELETE Harvest sql ' + sql);
     console.log('configid ' + req.body.viewmodal_harvest_logid);
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
-            let query = connection.query(sql, (err, results) => {
+            let query = connection.execute(sql, (err, results) => {
                 if(err) {
                     //throw err;
                     req.flash('error', err.message)

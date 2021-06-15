@@ -288,7 +288,7 @@ router.get('/scan/:id',function(req,res){
   var boolTracedOnBlockchain = process.env.SHOW_TRACED_ON_BLOCKCHAIN || false
 
   // http://localhost:3000/scan/OranjezichtCityFarm_Apples
-     connection.query('\n' +
+    connection.execute('\n' +
          'SELECT \n' +
          '\ts.counter,\n' +
          '\ts.ID,\n' +
@@ -371,7 +371,8 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()],
             'logdatetime > (date(curdate() - interval weekday(curdate()) day));'
     }
     console.debug('Final provenance SQL query '  + traceSqlFinal);
-        connection.query(traceSqlFinal,
+    console.debug('Final provenance SQL query params '  + supplierProduceID);
+        connection.execute(traceSqlFinal,
                       [
                           supplierProduceID
                       ],
@@ -420,7 +421,9 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()],
                               var logdatetime = new Date();
                             
                               //TODO - cross check marketID and supplierProduceID against existing marketID's from foodprint_market and foodPrint_supplierproduceid
-                                connection.query( 'INSERT INTO foodprint_qrcount (' +
+                          //using connection.query and not connection.execute because of
+                          // TypeError: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+                          connection.query( 'INSERT INTO foodprint_qrcount (' +
                                                   'logid , qrid, qrurl, marketid, request_host,' +
                                                   'request_origin, request_useragent,logdatetime) ' +
                                                   ' VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
@@ -443,7 +446,7 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()],
                                                   showTracedOnBlockchain:boolTracedOnBlockchain,
                                                   testRecord:testProvenance, page_name:'scanresult'})
                         }  
-         ); //end of connection.query
+         ); //end of connection.execute
       });
 
 //REST API Get a single produce data record (twin to router.get('/app/scan/:id'))
@@ -473,7 +476,7 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
             'logdatetime > (date(curdate() - interval weekday(curdate()) day));'
     }
 
-    connection.query(traceSqlFinal,
+    connection.execute(traceSqlFinal,
                     [
                         supplierProduceID
                     ],
@@ -549,7 +552,7 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                           provenance_data['page_name']= 'home';
                           //res.end() method to send data to client as json string via JSON.stringify() methoD
                         res.end(JSON.stringify(provenance_data, null, 4));
-                      }); //end of connection.query
+                      }); //end of connection.execute
       });
 
 
@@ -579,7 +582,7 @@ router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], 
   //TODO - cross check marketID against existing marketID's from foodprint_market
   
   try {
-    connection.query('\n' +
+      connection.execute('\n' +
         'INSERT INTO foodprint_qrcount (\n' +
         '        logid ,\n' +
         '        qrid,\n' +
@@ -640,7 +643,7 @@ router.post('/marketcheckin', [
           var checkin_surname = '';
 
             try {
-              connection.query('\n' +
+                connection.execute('\n' +
                   'INSERT INTO market_subscription (\n' +
                   '        market_id ,\n' +
                   '        firstname,\n' +
@@ -706,7 +709,7 @@ router.post('/app/addHarvest',function(req,res){
     // geolocation,supplierproduce
   // console.log("addHarvest" + req.body);
     try {
-      connection.query('\n' +
+        connection.query('\n' +
           'INSERT INTO harvest (\n' +
           '        ID ,\n' +
           '        supplierID,\n' +
@@ -810,7 +813,7 @@ router.post('/subscribe', [
           var subscriber_surname = '';
 
           try {
-              connection.query('\n' +
+              connection.execute('\n' +
                   'INSERT INTO foodprint_subscription (\n' +
                   '        firstname ,\n' +
                   '        surname,\n' +
@@ -925,12 +928,12 @@ router.post('/app/traceproduce', [
           "%' OR supplierproduce='" + req.body.search_term +"'";
           console.log('harvest_sql ' + harvest_sql);
 
-            connection.query(storage_sql, function(err,storage_rows){
+          connection.execute(storage_sql, function(err,storage_rows){
               if(err){
                   console.error('error', err);
                   res.status.json({err: err});
               }else{
-                  connection.query(harvest_sql, function(err,harvest_rows){
+                  connection.execute(harvest_sql, function(err,harvest_rows){
                       if(err){
                         console.error('error', err);
                         res.status.json({err: err});
