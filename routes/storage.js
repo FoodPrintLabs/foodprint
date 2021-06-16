@@ -24,14 +24,13 @@ router.get('/',
     require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login'}),    
     function(req, res, next){
         if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
-            connection.query('SELECT * FROM foodprint_storage ORDER BY pk desc',function(err,rows)     {
+            connection.execute('SELECT * FROM foodprint_storage ORDER BY pk desc',function(err,rows)     {
                 if(err){
                      req.flash('error', err.message);
                      res.render('storagelogbook',{  page_title:"FoodPrint - Storage Logbook", 
                                             data:'', user: req.user, page_name:'storagelogbook' });
                 }else{
-
-                    connection.query('SELECT harvest_logid, supplierproduce, harvest_quantity, harvest_unitofmeasure, harvest_TimeStamp FROM foodprint_harvest ORDER BY pk desc',function(err,harvest_rows){
+                    connection.execute('SELECT harvest_logid, supplierproduce, harvest_quantity, harvest_unitofmeasure, harvest_TimeStamp FROM foodprint_harvest ORDER BY pk desc',function(err,harvest_rows){
                         if(err){
                             //console.log("err harvest_rows - " + err);
                              req.flash('error', err.message);//TODO- flash does not seem to be working on render, to test add an invalid column to the SQL query
@@ -165,7 +164,7 @@ router.post('/save', [
                             console.log('Add storage entry successful');
 
                             //there should be one harvest entry for the harvest_logid
-                            connection.query('SELECT * FROM foodprint_harvest WHERE harvest_logid = ?;',
+                          connection.execute('SELECT * FROM foodprint_harvest WHERE harvest_logid = ?;',
                             [
                                 harvest_logid_uuid
                             ],
@@ -222,7 +221,7 @@ router.post('/save', [
                         console.log('Error - error handling middleware');
 
                         if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
-                            connection.query('SELECT * FROM foodprint_storage ORDER BY pk desc',function(err,rows)     {
+                            connection.execute('SELECT * FROM foodprint_storage ORDER BY pk desc',function(err,rows)     {
                                 if(err){
                                     req.flash('error', err.message);
                                     res.render('storagelogbook',{  page_title:"FoodPrint - Storage Logbook", 
@@ -330,7 +329,7 @@ router.post('/update', [
                   console.log('Error - error handling middleware');
 
                   if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
-                    connection.query('SELECT * FROM foodprint_storage ORDER BY pk desc',function(err,rows)     {
+                      connection.execute('SELECT * FROM foodprint_storage ORDER BY pk desc',function(err,rows)     {
                         if(err){
                              req.flash('error', err.message);
                              res.render('storagelogbook',{  page_title:"FoodPrint - Storage Logbook", 
@@ -359,7 +358,7 @@ router.post('/delete',
     //console.log('sql ' + sql);
     console.log('configid ' + req.body.viewmodal_storage_logid);
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser){
-            let query = connection.query(sql, (err, results) => {
+            let query = connection.execute(sql, (err, results) => {
                 if(err) {
                     //throw err;
                     req.flash('error', err.message)

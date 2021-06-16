@@ -10,19 +10,20 @@ var cors = require('cors');
 var path = require('path');
 var router = express.Router();
 var connection  = require('./src/js/db');
+var CUSTOM_ENUMS = require('./src/js/enums')
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var nodemailer = require('nodemailer');
 var fs = require('fs')
 
 //only load the .env file if the server isn’t started in production mode
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION) {
   require('dotenv').config(); 
 }
 
 //emailer configuration
 let transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: CUSTOM_ENUMS.GMAIL,
   auth:{
     user: process.env.EMAIL_ADDRESS,
     pass: process.env.EMAIL_PASSWORD
@@ -64,11 +65,13 @@ app.set('view engine', 'ejs');
 // create a write stream (in append mode), to current directory
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 
-if (app.get('env') == 'production') {
-  app.use(logger('common', { skip: function(req, res) { return res.statusCode < 400 }})); // only log error responses, write log lines to process.stdout
+// only log error responses, write log lines to process.stdout
+if (app.get('env') == CUSTOM_ENUMS.PRODUCTION) {
+  app.use(logger('common', { skip: function(req, res) { return res.statusCode < 400 }}));
  // app.use(logger('common', { skip: function(req, res) { return res.statusCode < 400 }, stream: __dirname + '/access.log' }));
 } else {
-  app.use(logger('dev', {stream: accessLogStream}));//write logfile to current directory, flag a is append 
+    //write logfile to current directory, flag a is append
+  app.use(logger('dev', {stream: accessLogStream}));
 }
 
 app.use(express.json());
@@ -92,7 +95,8 @@ app.use(flash());
 
 // middleware for all views
 app.use(function(req,res,next){
-  // locals is deleted at the end of current request, flash is deleted after it is displayed, and it is stored in session intermediately.
+  // locals is deleted at the end of current request, flash is deleted after it is displayed,
+    // and it is stored in session intermediately.
   // (this works with redirect)
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success")
@@ -118,8 +122,8 @@ app.use(express.static(path.join(__dirname,'build')));
 
 // We will use two LocalStrategies, one for file-based auth and another for db-auth
 passport.use('file-local', new LocalStrategy({
-  usernameField: 'loginUsername', //useful for custom id's on yor credentials fields, if this is incorrect you get a missing credentials error
-  passwordField: 'loginPassword', //useful for custom id's on yor credentials fields
+  usernameField: 'loginUsername', //useful for custom id's on your credentials fields, if incorrect you get a missing credentials error
+  passwordField: 'loginPassword', //useful for custom id's on your credentials fields
   },
   function(username, password, cb) {
     db.users.findByUsername(username, function(err, user) {
@@ -132,13 +136,15 @@ passport.use('file-local', new LocalStrategy({
       if (user.password != password) { 
         return cb(null, false, { message: 'Incorrect password.' }); 
       }
-      return cb(null, user); // If the credentials are valid, the verify callback invokes done to supply Passport with the user that authenticated.
+        // If the credentials are valid, the verify callback invokes done to supply
+        // Passport with the user that authenticated.
+      return cb(null, user);
     });
   }));
 
 passport.use('db-local', new LocalStrategy({
-  usernameField: 'loginUsername', //useful for custom id's on yor credentials fields, if this is incorrect you get a missing credentials error
-  passwordField: 'loginPassword', //useful for custom id's on yor credentials fields
+  usernameField: 'loginUsername', //useful for custom id's on your credentials fields, if this is incorrect you get a missing credentials error
+  passwordField: 'loginPassword', //useful for custom id's on your credentials fields
   },
   function(username, password, cb) {
     db.users.findByUsername(username, function(err, user) {
@@ -149,7 +155,9 @@ passport.use('db-local', new LocalStrategy({
       if (user.password != password) { 
         return cb(null, false, { message: 'Incorrect password.' }); 
       }
-      return cb(null, user); // If the credentials are valid, the verify callback invokes done to supply Passport with the user that authenticated.
+        // If the credentials are valid, the verify callback invokes done to
+        // supply Passport with the user that authenticated.
+      return cb(null, user);
     });
   }));
 
@@ -280,7 +288,7 @@ router.get('/scan/:id',function(req,res){
   var boolTracedOnBlockchain = process.env.SHOW_TRACED_ON_BLOCKCHAIN || false
 
   // http://localhost:3000/scan/OranjezichtCityFarm_Apples
-     connection.query('\n' +
+    connection.execute('\n' +
          'SELECT \n' +
          '\ts.counter,\n' +
          '\ts.ID,\n' +
@@ -339,15 +347,32 @@ router.get('/scan/:id',function(req,res){
 //return template with scan results for produce i.e. http://localhost:3000/app/scan/WMNP_Fennel
 //TODO Return Farmers email address as part of provenance_data
 //TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/scan/ozcf/WMNP_Fennel
-router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,res){
-  var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
-     connection.query('SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName, year_established, harvest_description_json,' +
-                      'harvest_photoHash, harvest_supplierAddress, harvest_produceName, harvest_TimeStamp, harvest_CaptureTime,' +
-                      'harvest_Description, harvest_geolocation,supplierproduce, market_Address,' +
-                      'market_storageTimeStamp, market_storageCaptureTime, logdatetime, lastmodifieddatetime ' + 
-                      'FROM foodprint_weeklyview WHERE supplierproduce = ? AND ' +
-                      'logdatetime < (date(curdate() - interval weekday(curdate()) day + interval 1 week)) AND '+  
-                      'logdatetime > (date(curdate() - interval weekday(curdate()) day));',
+router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()],
+    function(req,res){
+    var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
+    var traceSqlBase = 'SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName,' +
+        'year_established, harvest_description_json, harvest_photoHash, harvest_supplierAddress, harvest_produceName,' +
+        'harvest_TimeStamp, harvest_CaptureTime, harvest_Description, harvest_geolocation, supplierproduce,' +
+        'market_Address, market_storageTimeStamp, market_storageCaptureTime, logdatetime, lastmodifieddatetime ' +
+        'FROM foodprint_weeklyview WHERE supplierproduce = ? '
+
+    if (supplierProduceID.split("_")[0] == CUSTOM_ENUMS.TEST){
+        // e.g. https://www.foodprintapp.com/app/scan/TEST_beetroot
+
+        var testProvenance = true;
+        //return single latest entry for supplierproduce
+        var traceSqlFinal = traceSqlBase + 'ORDER BY logdatetime DESC LIMIT 1;'
+    }
+    else{
+        //return latest weekly entry using ozcf protocol
+        var testProvenance = false;
+        var traceSqlFinal =  traceSqlBase + ' AND ' +
+            'logdatetime < (date(curdate() - interval weekday(curdate()) day + interval 1 week)) AND ' +
+            'logdatetime > (date(curdate() - interval weekday(curdate()) day));'
+    }
+    console.debug('Final provenance SQL query '  + traceSqlFinal);
+    console.debug('Final provenance SQL query params '  + supplierProduceID);
+        connection.execute(traceSqlFinal,
                       [
                           supplierProduceID
                       ],
@@ -360,7 +385,12 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
                           }
                           else {
                             if (typeof rows !== 'undefined' && rows.length){
-                              rows[0].harvest_photoHash = 'data:image/png;base64,' + new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
+                                // TODO - Use sharp library to attempt to resize base64 and if error, set flag that image invalid
+                                //  https://stackoverflow.com/questions/51010423/how-to-resize-base64-image-in-javascript
+
+                                // convert your binary data to base64 format & then pass it to ejs
+                               rows[0].harvest_photoHash = 'data:image/png;base64,' +
+                                   new Buffer( rows[0].harvest_photoHash, 'binary').toString('base64');
                             }
                               var provenance_data = rows;
                               console.log('Provenance scan successful');
@@ -369,7 +399,7 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
                           var boolTracedOnBlockchain = process.env.SHOW_TRACED_ON_BLOCKCHAIN || false
                           
                           //START Track QR Scan (this could be done as xhr when scan page is rendered)
-                              var marketID = 'ozcf'; //shortcode e.g. ozcf
+                              var marketID = CUSTOM_ENUMS.OZCF; //shortcode e.g. ozcf
                               var logid = uuidv4()
                               var qrid = '' //TODO this is not yet being tracked in config
                               
@@ -381,7 +411,8 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
                               var request_origin = req.headers.referer
                               //req.headers.referer - The Referer request header contains the address of the previous web page 
                               //from which a link to the currently requested page was followed. 
-                              //The Referer header allows servers to identify where people are visiting them from and may use that data for analytics, logging, or optimized caching, for example.
+                              //The Referer header allows servers to identify where people are visiting them from and
+                                // may use that data for analytics, logging, or optimized caching, for example.
                               
                               //alternative would have been to use origin request header
                               //The Origin request header indicates where a fetch originates from.
@@ -390,7 +421,9 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
                               var logdatetime = new Date();
                             
                               //TODO - cross check marketID and supplierProduceID against existing marketID's from foodprint_market and foodPrint_supplierproduceid
-                                connection.query( 'INSERT INTO foodprint_qrcount (' +
+                          //using connection.query and not connection.execute because of
+                          // TypeError: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+                          connection.query( 'INSERT INTO foodprint_qrcount (' +
                                                   'logid , qrid, qrurl, marketid, request_host,' +
                                                   'request_origin, request_useragent,logdatetime) ' +
                                                   ' VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
@@ -411,9 +444,9 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
                           
                           res.render('scanresult',{data:provenance_data, user:req.user, 
                                                   showTracedOnBlockchain:boolTracedOnBlockchain,
-                                                  page_name:'scanresult'})
+                                                  testRecord:testProvenance, page_name:'scanresult'})
                         }  
-         ); //end of connection.query
+         ); //end of connection.execute
       });
 
 //REST API Get a single produce data record (twin to router.get('/app/scan/:id'))
@@ -421,16 +454,32 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function(req,
 //TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/api/v1/scan/ozcf/WMNP_Fennel
 router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], function(req,res){
   var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
-     connection.query('SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName, year_established, harvest_description_json,' +
-                      'harvest_photoHash, harvest_supplierAddress, harvest_produceName, harvest_TimeStamp, harvest_CaptureTime,' +
-                      'harvest_Description, harvest_geolocation,supplierproduce, market_Address, year_established, covid19_response,' +
-                      'market_storageTimeStamp, market_storageCaptureTime, logdatetime, lastmodifieddatetime ' + 
-                      'FROM foodprint_weeklyview WHERE supplierproduce = ? AND ' +
-                      'logdatetime < (date(curdate() - interval weekday(curdate()) day + interval 1 week)) AND '+  
-                      'logdatetime > (date(curdate() - interval weekday(curdate()) day));',
-                      [
-                          supplierProduceID
-                      ],
+    var traceSqlBase = 'SELECT harvest_supplierShortcode, harvest_supplierName, harvest_farmerName,' +
+        'year_established, harvest_description_json, harvest_photoHash, harvest_supplierAddress, harvest_produceName,' +
+        'harvest_TimeStamp, harvest_CaptureTime, harvest_Description, harvest_geolocation, supplierproduce,' +
+        'market_Address, market_storageTimeStamp, market_storageCaptureTime, logdatetime, lastmodifieddatetime ' +
+        'FROM foodprint_weeklyview WHERE supplierproduce = ? '
+
+    if (supplierProduceID.split("_")[0] == CUSTOM_ENUMS.TEST){
+        // e.g. https://www.foodprintapp.com/app/scan/TEST_beetroot
+        //http://localhost:3000/app/api/v1/scan/TEST_Beetroot
+
+        var testProvenance = true;
+        //return single latest entry for supplierproduce
+        var traceSqlFinal = traceSqlBase + 'ORDER BY logdatetime DESC LIMIT 1;'
+    }
+    else{
+        //return latest weekly entry using ozcf protocol
+        var testProvenance = false;
+        var traceSqlFinal =  traceSqlBase + ' AND ' +
+            'logdatetime < (date(curdate() - interval weekday(curdate()) day + interval 1 week)) AND ' +
+            'logdatetime > (date(curdate() - interval weekday(curdate()) day));'
+    }
+
+    connection.execute(traceSqlFinal,
+                    [
+                        supplierProduceID
+                    ],
                       function(err,rows) {
                           if(err){
                           //req.flash('error', err);
@@ -441,8 +490,13 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                           }
                           else {
                             if (typeof rows !== 'undefined' && rows.length){
-                              rows[0].harvest_photoHash = 'data:image/png;base64,' + new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
 
+                                // TODO - Use sharp library to attempt to resize base64 and if error, set flag that image invalid
+                                //  https://stackoverflow.com/questions/51010423/how-to-resize-base64-image-in-javascript
+
+                                // convert your binary data to base64 format & then pass it to ejs
+                                rows[0].harvest_photoHash = 'data:image/png;base64,' +
+                                    new Buffer( rows[0].harvest_photoHash, 'binary').toString('base64');
                               var provenance_data = rows[0]; // return 1st row only
                             }
                             else{
@@ -496,10 +550,12 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
                           provenance_data['user']= req.user;
                           provenance_data['showTracedOnBlockchain']= boolTracedOnBlockchain;
                           provenance_data['page_name']= 'home';
-                        res.end(JSON.stringify(provenance_data)); //res.end() method to send data to client as json string via JSON.stringify() methoD
-                      }); //end of connection.query
-                      
+                          //res.end() method to send data to client as json string via JSON.stringify() methoD
+                        res.end(JSON.stringify(provenance_data, null, 4));
+                      }); //end of connection.execute
       });
+
+
 
 //TODO Add Weekly View route and template
 //TODO Add Weekly View REST API
@@ -526,7 +582,7 @@ router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], 
   //TODO - cross check marketID against existing marketID's from foodprint_market
   
   try {
-    connection.query('\n' +
+      connection.execute('\n' +
         'INSERT INTO foodprint_qrcount (\n' +
         '        logid ,\n' +
         '        qrid,\n' +
@@ -587,7 +643,7 @@ router.post('/marketcheckin', [
           var checkin_surname = '';
 
             try {
-              connection.query('\n' +
+                connection.execute('\n' +
                   'INSERT INTO market_subscription (\n' +
                   '        market_id ,\n' +
                   '        firstname,\n' +
@@ -653,7 +709,7 @@ router.post('/app/addHarvest',function(req,res){
     // geolocation,supplierproduce
   // console.log("addHarvest" + req.body);
     try {
-      connection.query('\n' +
+        connection.query('\n' +
           'INSERT INTO harvest (\n' +
           '        ID ,\n' +
           '        supplierID,\n' +
@@ -757,7 +813,7 @@ router.post('/subscribe', [
           var subscriber_surname = '';
 
           try {
-              connection.query('\n' +
+              connection.execute('\n' +
                   'INSERT INTO foodprint_subscription (\n' +
                   '        firstname ,\n' +
                   '        surname,\n' +
@@ -872,12 +928,12 @@ router.post('/app/traceproduce', [
           "%' OR supplierproduce='" + req.body.search_term +"'";
           console.log('harvest_sql ' + harvest_sql);
 
-            connection.query(storage_sql, function(err,storage_rows){
+          connection.execute(storage_sql, function(err,storage_rows){
               if(err){
                   console.error('error', err);
                   res.status.json({err: err});
               }else{
-                  connection.query(harvest_sql, function(err,harvest_rows){
+                  connection.execute(harvest_sql, function(err,harvest_rows){
                       if(err){
                         console.error('error', err);
                         res.status.json({err: err});
