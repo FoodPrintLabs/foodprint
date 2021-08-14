@@ -30,33 +30,42 @@ const initialize = () => {
   // function to see if the MetaMask extension is installed
   const isMetaMaskInstalled = () => {
     //Have to check the ethereum binding on the window object to see if it's installed
-    const { ethereum } = window;
+    const { ethereum } = window; // old school way was (typeof window.ethereum !== "undefined")
+    console.log({ ethereum });
     return Boolean(ethereum && ethereum.isMetaMask);
   };
 
-  // function when connect to wallet is clicked
-  const onClickConnect = async () => {
-    try {
-      // Will open the MetaMask UI
-      // You should disable this button while the request is pending!
-      await ethereum.request({ method: 'eth_requestAccounts' });
-      const account = accounts[0];
-      showAccount.innerHTML = account;
-      console.log(account || "Not able to get accounts");
-      console.log(isMetaMaskConnected());
-      if (isMetaMaskConnected()) {
-        console.log("Metamask is connected :)");
-      }
-    } catch (error) {
-      var message_description = "Access to your Ethereum account rejected.";
-      //TODO - trigger pop up notification
-      return console.log(message_description);
+  // Function when connect to wallet is clicked
+  async function onClickConnect() {
+    // old school way of checking if metamask is installed
+    if (isMetaMaskInstalled()){
+      console.log("MetaMask is installed!");
+      try {
+        /* Ask user permission to access his accounts, this will open the MetaMask UI
+          "Connecting" or "logging in" to MetaMask effectively means "to access the user's Ethereum account(s)".
+          You should only initiate a connection request in response to direct user action, such as clicking a button.
+          You should always disable the "connect" button while the connection request is pending. You should never initiate a
+          connection request on page load.*/
+        accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        const account = accounts[0];
+        showAccount.innerHTML = account;
+        console.log(account || "Not able to get accounts");
+        console.log(isMetaMaskConnected());
+        if (isMetaMaskConnected()) {
+          console.log("Metamask is connected :)");
+        }
+      } catch (err) {
+        var message_description = "Access to your Ethereum account rejected.";
 
-      console.error(error);
+        //TODO - trigger pop up notification
+        return console.log(message_description);
+      }
+    } else {
+      console.log("Please install MetaMask");
     }
   };
-
-
 
   const MetaMaskClientCheck = () => {
     //Now we check to see if Metamask is installed
@@ -83,7 +92,7 @@ const initialize = () => {
   //------Contract Interactions------\\
   // in order to create a contract instance, we need the contract address and its ABI
   // const foodPrintProduceContractAddress = '0xf12ec65861A8103af5B2F9B07e8F1790D391E832'; // Ethereum Rinkeby
-  foodPrintProduceContractAddress = '0xf12ec65861A8103af5B2F9B07e8F1790D391E832'; // Matic Mumbai
+  foodPrintProduceContractAddress = '0x650168110ADa1f089D443904c6759b7349576A0d'; // Matic Mumbai
 
   // The second is the Application Binary interface or the ABI of the contract code.
   // ABI is just a list of method signatures, return types, members etc of the contract in a defined JSON format.
@@ -1120,50 +1129,44 @@ const initialize = () => {
     console.log("Test before submit - supplierproduce: " + supplierproduce + ", photoHash: " + photoHash +
         ", harvest_geolocation: " + harvest_geolocation + ",harvest_timestamp: " + harvest_timestamp.toString() + ", harvest_logid:" + harvest_logid);
 
-    //Load the contract schema from the abi and Instantiate the contract by address
-    // at(): Create an instance of MyContract that represents your contract at a specific address.
-    // deployed(): Create an instance of MyContract that represents the default address managed by FoodPrintProduceContractV2.
-    // new(): Deploy a new version of this contract to the network, getting an instance of FoodPrintProduceContractV2 that represents the newly deployed instance.
-    FoodPrintProduceContractV2.registerHarvestSubmission(supplierproduce, photoHash, harvest_geolocation, harvest_timestamp.toString(), harvest_logid,
-        function (err, result) {
-          if (err) {
-            console.log("Error Adding to Blockchain");
-            $(this).html(
-                `Error Adding to Blockchain`
-            );
-            return handle_error(err);
-          } else {
+    try {
+      const transaction = await FoodPrintProduceContractV2.registerHarvestSubmission(supplierproduce, photoHash,
+          harvest_geolocation, harvest_timestamp.toString(), harvest_logid);
+      const data = await transaction.wait();
+      console.log("Result from registerHarvestSubmission: ", data);
+      try {
+        //submit corresponding HarvestSubmissionDetails
+        console.log("Test before submit - harvest_description_json: " + harvest_description_json + ", harvest_description: " + harvest_description +
+            ", harvest_tablename: " + harvest_tablename + ",harvest_quantity_combined: " + harvest_quantity_combined + ",harvest_user:" + harvest_user +
+            ", harvest_logid:" + harvest_logid);
+        const transaction2 = await FoodPrintProduceContractV2.registerHarvestSubmissionDetails(harvest_description_json, harvest_description, harvest_tablename,
+            harvest_quantity_combined, harvest_user, harvest_logid)
+        const data2 = await transaction2.wait();
+        console.log("Result from HarvestSubmissionDetails: ", data2);
 
-            // function registerHarvestSubmissionDetails(string calldata _growingCondtions, string calldata _harvestDescription,
-            //   string calldata _harvestTableName, string calldata _harvestQuantity, string calldata _harvestUser,
-            //    string calldata _harvestID)
+      } catch (err) {
+        console.log("Error: ", err);
+        console.log("Error Adding to Blockchain HarvestSubmissionDetails");
+        $(this).html(
+            `Error Adding to Blockchain`
+        );
+        return handle_error(err);
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+      console.log("Error Adding to Blockchain HarvestSubmission");
+      $(this).html(
+          `Error Adding to Blockchain`
+      );
+      return handle_error(err);
+    };
 
-            console.log("Test before submit - harvest_description_json: " + harvest_description_json + ", harvest_description: " + harvest_description +
-                ", harvest_tablename: " + harvest_tablename + ",harvest_quantity_combined: " + harvest_quantity_combined + ",harvest_user:" + harvest_user +
-                ", harvest_logid:" + harvest_logid);
+    var message_description = `Transaction submitted to Blockchain for processing (Upload Harvest Entry from ${supplierproduce} with Harvest ID  ${harvest_logid}). Check your Metamask for transaction update.`;
 
-            FoodPrintProduceContractV2.registerHarvestSubmissionDetails(harvest_description_json, harvest_description, harvest_tablename,
-                harvest_quantity_combined, harvest_user, harvest_logid,
-                function (err2, result) {
-                  if (err2) {
-                    console.log("Error Adding to Blockchain");
-                    $(this).html(
-                        `Error Adding to Blockchain`
-                    );
-                    return handle_error(err2);
-                  }
-                });
-          }
-          ;
-
-          var message_description = `Transaction submitted to Blockchain for processing (Upload Harvest Entry from ${supplierproduce} with Harvest ID  ${harvest_logid}). Check your Metamask for transaction update.`;
-
-          //TODO - trigger notification
-          console.log(message_description);
-        });
+    //TODO - trigger notification
+    console.log(message_description);
   };
-
-
+  
   //Watch for registeredHarvestEvent, returns  _harvestLogIDIndex, _harvestID and _harvestSubmissionBlockNumber
     FoodPrintProduceContractV2.on('registeredHarvestEvent', (harvestLogIDIndex, harvestID, harvestSubmissionBlockNumber, event) => {
     console.log("registeredHarvestEvent");
