@@ -18,8 +18,8 @@
     <h3>STORAGE/HANDOVER LOGBOOK</h3>
     <div>
       <a class="btn btn-primary btn-sm" onclick="ShowStorageModal(this, 'add', 'Add Storage Entry','addCSS')">Add New Storage Entry</a>
-<!--      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>-->
-<!--      <p>Connected Account: <span class="showAccount"></span></p>-->
+      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>
+      <p>Connected Account: <span class="showAccount"></span></p>
     </div>
     
     <% include ./partials/notificationbar %>
@@ -423,8 +423,8 @@
 
   <script src="/js/custom.js"></script><!-- Subscribe-->
 
-  <script src="/js/web3.min.js"></script><!-- Blockchain -->
-  <script src="/js/truffle-contract.js"></script><!-- Blockchain -->
+<!--  <script src="/js/web3.min.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
+<!--  <script src="/js/truffle-contract.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
   <script src="/js/sha256.min.js"></script><!-- Blockchain -->
 
 
@@ -687,7 +687,9 @@
           $('#modalBodyContainer').addClass(contentClassID);
           $('#storageViewModal').modal('show');
         }
-    </script>
+   </script>
+   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+           type="application/javascript"></script> <!-- This exposes the library as a global variable: ethers -->
     <script src="/js/foodprint_blockchain.js"></script> <!-- Blockchain integration -->
   </body>
 </html>

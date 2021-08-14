@@ -20,6 +20,11 @@
         <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
           <h3>BLOCKCHAIN EXPLORER</h3>
           <% include ./partials/notificationbar %>
+          <div>
+            <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>
+            <p>Connected Account: <span class="showAccount"></span></p>
+          </div>
+
           <h5>Harvest Search Form</h5>
           <form id="search_harvest_form">
               <div class="form-group">
@@ -85,9 +90,12 @@
   <script src="/js/main.min.js"></script>
   <script src="/js/custom.js"></script>
 
-  <script src="/js/web3.min.js"></script><!-- Blockchain -->
-  <script src="/js/truffle-contract.js"></script><!-- Blockchain -->
-  <script src="/js/sha256.min.js"></script><!-- Blockchain -->
-  <script src="/js/foodprint_blockchain.js"></script> <!-- Blockchain integration -->
+<!--  <script src="/js/web3.min.js"></script>&lt;!&ndash; TODO - remove thi? Blockchain &ndash;&gt;-->
+<!--  <script src="/js/truffle-contract.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
+   <script src="/js/sha256.min.js"></script><!-- Blockchain -->
+   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+           type="application/javascript"></script> <!-- This exposes the library as a global variable: ethers -->
+
+   <script src="/js/foodprint_blockchain.js"></script> <!-- Blockchain integration -->
   </body>
 </html>
