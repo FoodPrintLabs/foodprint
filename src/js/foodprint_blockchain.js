@@ -1,76 +1,115 @@
 $(document).ready(function() {
-    const foodPrintProduceContractAddress = '0xf12ec65861A8103af5B2F9B07e8F1790D391E832';
+    // const foodPrintProduceContractAddress = '0xf12ec65861A8103af5B2F9B07e8F1790D391E832'; // Ethereum Rinkeby
+    const foodPrintProduceContractAddress = '0xf12ec65861A8103af5B2F9B07e8F1790D391E832'; // Matic Mumbai
 
     // The second is the Application Binary interface or the ABI of the contract code.
     // ABI is just a list of method signatures, return types, members etc of the contract in a defined JSON format.
     // This ABI is needed when you will call your contract from a real javascript client.
     const foodPrintProduceContractABI = [
       {
-        "constant": true,
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "anonymous": false,
         "inputs": [
           {
-            "name": "",
+            "indexed": true,
+            "internalType": "address",
+            "name": "previousOwner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "_harvestID",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_harvestSubmissionBlockNumber",
             "type": "uint256"
           }
         ],
-        "name": "harvestLogIDs",
-        "outputs": [
+        "name": "registeredHarvestDetailEvent",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
           {
-            "name": "",
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_harvestLogIDIndex",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "_harvestID",
             "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_harvestSubmissionBlockNumber",
+            "type": "uint256"
           }
         ],
+        "name": "registeredHarvestEvent",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_storageLogIDIndex",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "_storageID",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_storageSubmissionBlockNumber",
+            "type": "uint256"
+          }
+        ],
+        "name": "registeredStorageEvent",
+        "type": "event"
+      },
+      {
         "payable": false,
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "nonpayable",
+        "type": "fallback"
       },
       {
         "constant": true,
         "inputs": [
           {
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "name": "harvestDetailMap",
-        "outputs": [
-          {
-            "name": "harvestID",
-            "type": "string"
-          },
-          {
-            "name": "growingCondtions",
-            "type": "string"
-          },
-          {
-            "name": "harvestDescription",
-            "type": "string"
-          },
-          {
-            "name": "harvestTableName",
-            "type": "string"
-          },
-          {
-            "name": "harvestQuantity",
-            "type": "string"
-          },
-          {
-            "name": "harvestUser",
-            "type": "string"
-          },
-          {
-            "name": "BlockNumber",
-            "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [
-          {
+            "internalType": "string",
             "name": "",
             "type": "string"
           }
@@ -78,6 +117,7 @@ $(document).ready(function() {
         "name": "harvestAddressMap",
         "outputs": [
           {
+            "internalType": "address",
             "name": "",
             "type": "address"
           }
@@ -90,39 +130,149 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           }
         ],
-        "name": "storageMap",
+        "name": "harvestDetailMap",
         "outputs": [
           {
-            "name": "storageID",
-            "type": "string"
-          },
-          {
+            "internalType": "string",
             "name": "harvestID",
             "type": "string"
           },
           {
-            "name": "otherID",
+            "internalType": "string",
+            "name": "growingCondtions",
             "type": "string"
           },
           {
-            "name": "storageTimeStamp",
+            "internalType": "string",
+            "name": "harvestDescription",
             "type": "string"
           },
           {
-            "name": "storageDetail",
+            "internalType": "string",
+            "name": "harvestTableName",
             "type": "string"
           },
           {
+            "internalType": "string",
+            "name": "harvestQuantity",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "harvestUser",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "BlockNumber",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "harvestLogIDs",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "name": "harvestMap",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "harvestID",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "supplierproduceID",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "photoHash",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "geolocation",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "harvestTimeStamp",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
             "name": "BlockNumber",
             "type": "uint256"
           },
           {
+            "internalType": "uint256",
             "name": "IsSet",
             "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "isOwner",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
           }
         ],
         "payable": false,
@@ -140,79 +290,9 @@ $(document).ready(function() {
       },
       {
         "constant": true,
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-          {
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "isOwner",
-        "outputs": [
-          {
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
         "inputs": [
           {
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "name": "harvestMap",
-        "outputs": [
-          {
-            "name": "harvestID",
-            "type": "string"
-          },
-          {
-            "name": "supplierproduceID",
-            "type": "string"
-          },
-          {
-            "name": "photoHash",
-            "type": "string"
-          },
-          {
-            "name": "geolocation",
-            "type": "string"
-          },
-          {
-            "name": "harvestTimeStamp",
-            "type": "string"
-          },
-          {
-            "name": "BlockNumber",
-            "type": "uint256"
-          },
-          {
-            "name": "IsSet",
-            "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [
-          {
+            "internalType": "string",
             "name": "",
             "type": "string"
           }
@@ -220,8 +300,81 @@ $(document).ready(function() {
         "name": "storageAddressMap",
         "outputs": [
           {
+            "internalType": "address",
             "name": "",
             "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "storageLogIDs",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "name": "storageMap",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "storageID",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "harvestID",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "otherID",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "storageTimeStamp",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "storageDetail",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "BlockNumber",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "IsSet",
+            "type": "uint256"
           }
         ],
         "payable": false,
@@ -232,6 +385,7 @@ $(document).ready(function() {
         "constant": false,
         "inputs": [
           {
+            "internalType": "address",
             "name": "newOwner",
             "type": "address"
           }
@@ -243,119 +397,12 @@ $(document).ready(function() {
         "type": "function"
       },
       {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "storageLogIDs",
-        "outputs": [
-          {
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-      },
-      {
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "fallback"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "_harvestLogIDIndex",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "name": "_harvestID",
-            "type": "string"
-          },
-          {
-            "indexed": false,
-            "name": "_harvestSubmissionBlockNumber",
-            "type": "uint256"
-          }
-        ],
-        "name": "registeredHarvestEvent",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "_harvestID",
-            "type": "string"
-          },
-          {
-            "indexed": false,
-            "name": "_harvestSubmissionBlockNumber",
-            "type": "uint256"
-          }
-        ],
-        "name": "registeredHarvestDetailEvent",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "_storageLogIDIndex",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "name": "_storageID",
-            "type": "string"
-          },
-          {
-            "indexed": false,
-            "name": "_storageSubmissionBlockNumber",
-            "type": "uint256"
-          }
-        ],
-        "name": "registeredStorageEvent",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "name": "previousOwner",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "name": "newOwner",
-            "type": "address"
-          }
-        ],
-        "name": "OwnershipTransferred",
-        "type": "event"
-      },
-      {
         "constant": false,
         "inputs": [],
         "name": "toggleContractActive",
         "outputs": [
           {
+            "internalType": "bool",
             "name": "",
             "type": "bool"
           }
@@ -368,22 +415,27 @@ $(document).ready(function() {
         "constant": false,
         "inputs": [
           {
+            "internalType": "string",
             "name": "_supplierproduceID",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_photoHash",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_geolocation",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_harvestTimeStamp",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_harvestID",
             "type": "string"
           }
@@ -391,10 +443,12 @@ $(document).ready(function() {
         "name": "registerHarvestSubmission",
         "outputs": [
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           },
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           }
@@ -407,26 +461,32 @@ $(document).ready(function() {
         "constant": false,
         "inputs": [
           {
+            "internalType": "string",
             "name": "_growingCondtions",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_harvestDescription",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_harvestTableName",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_harvestQuantity",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_harvestUser",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_harvestID",
             "type": "string"
           }
@@ -434,6 +494,7 @@ $(document).ready(function() {
         "name": "registerHarvestSubmissionDetails",
         "outputs": [
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           }
@@ -448,6 +509,7 @@ $(document).ready(function() {
         "name": "getHarvestSubmissionsCount",
         "outputs": [
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           }
@@ -460,6 +522,7 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "string",
             "name": "harvest_id",
             "type": "string"
           }
@@ -467,6 +530,7 @@ $(document).ready(function() {
         "name": "getHarvestSubmitterAddress",
         "outputs": [
           {
+            "internalType": "address",
             "name": "",
             "type": "address"
           }
@@ -479,6 +543,7 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "uint256",
             "name": "arrayIndex",
             "type": "uint256"
           }
@@ -486,6 +551,7 @@ $(document).ready(function() {
         "name": "getHarvestLogIDByIndex",
         "outputs": [
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           }
@@ -498,6 +564,7 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "string",
             "name": "harvest_id",
             "type": "string"
           }
@@ -505,22 +572,27 @@ $(document).ready(function() {
         "name": "getHarvestSubmission",
         "outputs": [
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           },
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           }
@@ -533,6 +605,7 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "string",
             "name": "harvest_id",
             "type": "string"
           }
@@ -540,30 +613,37 @@ $(document).ready(function() {
         "name": "getHarvestSubmissionDetail",
         "outputs": [
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           }
@@ -576,6 +656,7 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "string",
             "name": "harvest_id",
             "type": "string"
           }
@@ -583,6 +664,7 @@ $(document).ready(function() {
         "name": "checkHarvestSubmission",
         "outputs": [
           {
+            "internalType": "bool",
             "name": "",
             "type": "bool"
           }
@@ -595,22 +677,27 @@ $(document).ready(function() {
         "constant": false,
         "inputs": [
           {
+            "internalType": "string",
             "name": "_otherID",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_storageTimeStamp",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_storageDetail",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_storageID",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "_harvestID",
             "type": "string"
           }
@@ -618,10 +705,12 @@ $(document).ready(function() {
         "name": "registerStorageSubmission",
         "outputs": [
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           },
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           }
@@ -636,6 +725,7 @@ $(document).ready(function() {
         "name": "getStorageSubmissionsCount",
         "outputs": [
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           }
@@ -648,6 +738,7 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "string",
             "name": "storage_id",
             "type": "string"
           }
@@ -655,6 +746,7 @@ $(document).ready(function() {
         "name": "getStorageSubmitterAddress",
         "outputs": [
           {
+            "internalType": "address",
             "name": "",
             "type": "address"
           }
@@ -667,6 +759,7 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "uint256",
             "name": "arrayIndex",
             "type": "uint256"
           }
@@ -674,6 +767,7 @@ $(document).ready(function() {
         "name": "getStorageLogIDByIndex",
         "outputs": [
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           }
@@ -686,6 +780,7 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "string",
             "name": "storage_id",
             "type": "string"
           }
@@ -693,26 +788,32 @@ $(document).ready(function() {
         "name": "getStorageSubmission",
         "outputs": [
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "string",
             "name": "",
             "type": "string"
           },
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           },
           {
+            "internalType": "uint256",
             "name": "",
             "type": "uint256"
           }
@@ -725,6 +826,7 @@ $(document).ready(function() {
         "constant": true,
         "inputs": [
           {
+            "internalType": "string",
             "name": "storage_id",
             "type": "string"
           }
@@ -732,6 +834,7 @@ $(document).ready(function() {
         "name": "checkStorageSubmission",
         "outputs": [
           {
+            "internalType": "bool",
             "name": "",
             "type": "bool"
           }
@@ -746,6 +849,7 @@ $(document).ready(function() {
         "name": "checkContractIsRunning",
         "outputs": [
           {
+            "internalType": "bool",
             "name": "",
             "type": "bool"
           }
