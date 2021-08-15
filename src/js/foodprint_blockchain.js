@@ -5,9 +5,6 @@
 
 
 const currentUrl = new URL(window.location.href)
-const forwarderOrigin = currentUrl.hostname === 'localhost'
-    ? 'http://localhost:3000'
-    : undefined
 
 // this function will be called when content in the DOM is loaded
 const initialize = () => {
@@ -57,7 +54,7 @@ const initialize = () => {
           console.log("Metamask is connected :)");
         }
       } catch (err) {
-        var message_description = "Access to your Ethereum account rejected.";
+        const message_description = "Access to your Ethereum account rejected.";
 
         //TODO - trigger pop up notification
         return console.log(message_description);
@@ -65,7 +62,7 @@ const initialize = () => {
     } else {
       console.log("Please install MetaMask");
     }
-  };
+  }
 
   const MetaMaskClientCheck = () => {
     //Now we check to see if Metamask is installed
@@ -73,23 +70,25 @@ const initialize = () => {
       //If it isn't installed we ask the user to click to install it
       onboardButton.innerText = 'Click here to install MetaMask!';
       //When the button is clicked we call this function
-      onboardButton.onclick =  window.open("https://metamask.io/download");;
+      onboardButton.onclick =  window.open("https://metamask.io/download");
       //The button is now disabled
       onboardButton.disabled = false;
     } else {
       //If MetaMask is installed we ask the user to connect to their wallet
-      onboardButton.innerText = 'Connect to Wallet';
+      onboardButton.innerText = 'Connect to MetaMask Wallet';
       //When the button is clicked we call this function to connect the users MetaMask Wallet
       onboardButton.onclick = onClickConnect;
       //The button is now disabled
       onboardButton.disabled = false;
     }
   };
+
   MetaMaskClientCheck();
-  //------/MetaMask Checks------\\
+
+  //------/MetaMask Functions------\\
 
 
-  //------Contract Interactions------\\
+  //------Contract Setup------\\
   // in order to create a contract instance, we need the contract address and its ABI
   // const foodPrintProduceContractAddress = '0xf12ec65861A8103af5B2F9B07e8F1790D391E832'; // Ethereum Rinkeby
   foodPrintProduceContractAddress = '0x650168110ADa1f089D443904c6759b7349576A0d'; // Matic Mumbai
@@ -961,9 +960,18 @@ const initialize = () => {
     }
   ];
 
-  // FoodPrintProduceContractV2 = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
+  // The "any" network will allow spontaneous network changes
+  const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  provider.on("network", (newNetwork, oldNetwork) => {
+    // When a Provider makes its initial connection, it emits a "network"
+    // event with a null oldNetwork along with the newNetwork. So, if the
+    // oldNetwork exists, it represents a changing network
+    if (oldNetwork) {
+      window.location.reload();
+    }
+  });
+
   console.log({ provider });
 
   // The Metamask plugin also allows signing transactions to send ether and
@@ -971,12 +979,16 @@ const initialize = () => {
   const signer = provider.getSigner();
 
   // the contract object
+  // FoodPrintProduceContractV2 = web3.eth.contract(foodPrintProduceContractABI).at(foodPrintProduceContractAddress);
   FoodPrintProduceContractV2 = new ethers.Contract(
       foodPrintProduceContractAddress,
       foodPrintProduceContractABI,
       signer
   );
 
+  //------/Contract Setup------\\
+
+  //------UI Click Event Handlers------\\
 
   // trigger smart contract call to  addHarvestToBlockchain() function on UI button click
   $(".addHarvestToBlockchainBtn").click(addHarvestToBlockchain);
@@ -987,7 +999,7 @@ const initialize = () => {
   // trigger smart contract call to verifyHarvestEntry function on UI button click
   $("#verifyHarvestEntryBtn").click(function (e) {
     e.preventDefault();
-    var data = {};
+    const data = {};
     data.harvest_logid = $('#search_harvest_id').val();
     verifyHarvestEntry(data);
   });
@@ -995,7 +1007,7 @@ const initialize = () => {
   // trigger smart contract call to verifyStorageEntry function on UI button click
   $("#verifyStorageEntryBtn").click(function (e) {
     e.preventDefault();
-    var data = {};
+    const data = {};
     data.storage_logid = $('#search_storage_id').val();
     verifyStorageEntry(data);
   });
@@ -1027,78 +1039,78 @@ const initialize = () => {
     getContractStatus();
   });
 
+  //------/UI Click Event Handlers------\\
+
+  //------Custom Error Handlers------\\
+
   //function to handle error from smart contract call
   function handle_error(err) {
     console.log("function handle_error(err).");
-    var error_data = err.data;
-    var message_description = "FoodPrint Produce smart contract call failed: " + err;
+    const error_data = err.data;
+    let message_description = "FoodPrint Produce smart contract call failed: " + err;
     if (typeof error_data !== 'undefined') {
-      var error_message = error_data.message;
+      const error_message = error_data.message;
       if (typeof error_message !== 'undefined') {
         message_description = "FoodPrint Produce smart contract call failed: " + error_message;
       }
     }
-
     // TODO - trigger  notification
     return console.log(message_description);
-  };
-
-  // var account = web3.currentProvider.selectedAddress
+  }
 
   //function to handle web 3 undefined error from smart contract call
   function handle_web3_undefined_error() {
     console.log("function handle_web3_undefined_error(err).");
-    var message_description = "Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.";
+    let  message_description = "Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.";
 
     //TODO - trigger notification
     return console.log(message_description);
-  };
+  }
+
+  //------/Custom Error Handlers------\\
+
+  //------Blockchain and Smart Contract Function Calls------\\
 
   // function Add to Blockchain
   async function addHarvestToBlockchain() {
-
     // disable button wont work because it is actually a link
     // $("this").prop("disabled", true);
-
     //  disable link
     $(this).addClass('disabled');
-
     // add spinner to button
-    $(this).html(
-        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding to Blockchain...`
-    );
+    $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 
+        Adding to Blockchain...`);
 
     //harvest entry variables from selected record
-    var harvest_logid = $(this).data('harvest_logid');
-    var harvest_suppliershortcode = $(this).data('harvest_suppliershortcode');
-    var harvest_suppliername = $(this).data('harvest_suppliername');
-    var harvest_farmername = $(this).data('harvest_farmername');
-    var harvest_supplieraddress = $(this).data('harvest_supplieraddress');
-    var harvest_producename = $(this).data('harvest_producename');
-    var harvest_photohash = $(this).data('harvest_photohash');
-    var harvest_photoimage = harvest_photohash;
-    var harvest_timestamp = $(this).data('harvest_timestamp');
-    var harvest_capturetime = $(this).data('harvest_capturetime');
-    var harvest_description = $(this).data('harvest_description');
-    var harvest_geolocation = $(this).data('harvest_geolocation');
-    var harvest_quantity = $(this).data('harvest_quantity');
-    var harvest_unitofmeasure = $(this).data('harvest_unitofmeasure');
-    var harvest_description_json = $(this).data('harvest_description_json'); //growing conditions
-    var harvest_blockchainhashid = $(this).data('harvest_blockchainhashid');
-    var harvest_blockchainhashdata = $(this).data('harvest_blockchainhashdata');
-    var supplierproduce = $(this).data('supplierproduce');
-    var harvest_bool_added_to_blockchain = $(this).data('harvest_bool_added_to_blockchain');
-    var harvest_added_to_blockchain_date = $(this).data('harvest_added_to_blockchain_date');
-    var harvest_added_to_blockchain_by = $(this).data('harvest_added_to_blockchain_by');
-    var harvest_blockchain_uuid = $(this).data('harvest_blockchain_uuid');
-    var harvest_user = $(this).data('harvest_user');
-    var year_established = $(this).data('year_established');
-    var covid19_response = $(this).data('covid19_response');
-    var logdatetime = $(this).data('logdatetime');
-    var lastmodifieddatetime = $(this).data('lastmodifieddatetime');
-
-    var harvest_tablename = 'foodprint_harvest';
-    var harvest_quantity_combined = harvest_quantity + "(" + harvest_unitofmeasure + ")";
+    const harvest_logid = $(this).data('harvest_logid');
+    const harvest_suppliershortcode = $(this).data('harvest_suppliershortcode');
+    const harvest_suppliername = $(this).data('harvest_suppliername');
+    const harvest_farmername = $(this).data('harvest_farmername');
+    const harvest_supplieraddress = $(this).data('harvest_supplieraddress');
+    const harvest_producename = $(this).data('harvest_producename');
+    const harvest_photohash = $(this).data('harvest_photohash');
+    const harvest_photoimage = harvest_photohash;
+    const harvest_timestamp = $(this).data('harvest_timestamp');
+    const harvest_capturetime = $(this).data('harvest_capturetime');
+    const harvest_description = $(this).data('harvest_description');
+    const harvest_geolocation = $(this).data('harvest_geolocation');
+    const harvest_quantity = $(this).data('harvest_quantity');
+    const harvest_unitofmeasure = $(this).data('harvest_unitofmeasure');
+    const harvest_description_json = $(this).data('harvest_description_json'); //growing conditions
+    const harvest_blockchainhashid = $(this).data('harvest_blockchainhashid');
+    const harvest_blockchainhashdata = $(this).data('harvest_blockchainhashdata');
+    const supplierproduce = $(this).data('supplierproduce');
+    const harvest_bool_added_to_blockchain = $(this).data('harvest_bool_added_to_blockchain');
+    const harvest_added_to_blockchain_date = $(this).data('harvest_added_to_blockchain_date');
+    const harvest_added_to_blockchain_by = $(this).data('harvest_added_to_blockchain_by');
+    const harvest_blockchain_uuid = $(this).data('harvest_blockchain_uuid');
+    const harvest_user = $(this).data('harvest_user');
+    const year_established = $(this).data('year_established');
+    const covid19_response = $(this).data('covid19_response');
+    const logdatetime = $(this).data('logdatetime');
+    const lastmodifieddatetime = $(this).data('lastmodifieddatetime');
+    const harvest_tablename = 'foodprint_harvest';
+    const harvest_quantity_combined = harvest_quantity + "(" + harvest_unitofmeasure + ")";
 
     console.log("this harvest_logid - " + harvest_logid);
 
@@ -1111,7 +1123,7 @@ const initialize = () => {
     }
 
     // solidityContext required if you use msg object in contract function e.g. msg.sender
-    // var solidityContext = {from: web3.eth.accounts[1], gas:3000000}; //add gas to avoid out of gas exception
+    // const solidityContext = {from: web3.eth.accounts[1], gas:3000000}; //add gas to avoid out of gas exception
 
     // FoodPrint Produce contract
     // registerHarvestSubmission(string calldata _supplierproduceID,
@@ -1152,6 +1164,10 @@ const initialize = () => {
         );
         return handle_error(err);
       }
+      let message_description = `Transaction submitted to Blockchain for processing (Upload Harvest Entry 
+      from ${supplierproduce} with Harvest ID  ${harvest_logid}). Check your Metamask for transaction update.`;
+      //TODO - trigger notification
+      console.log(message_description);
     } catch (err) {
       console.log("Error: ", err);
       console.log("Error Adding to Blockchain HarvestSubmission");
@@ -1159,101 +1175,29 @@ const initialize = () => {
           `Error Adding to Blockchain`
       );
       return handle_error(err);
-    };
-
-    var message_description = `Transaction submitted to Blockchain for processing (Upload Harvest Entry from ${supplierproduce} with Harvest ID  ${harvest_logid}). Check your Metamask for transaction update.`;
-
-    //TODO - trigger notification
-    console.log(message_description);
-  };
-  
-  //Watch for registeredHarvestEvent, returns  _harvestLogIDIndex, _harvestID and _harvestSubmissionBlockNumber
-    FoodPrintProduceContractV2.on('registeredHarvestEvent', (harvestLogIDIndex, harvestID, harvestSubmissionBlockNumber, event) => {
-    console.log("registeredHarvestEvent");
-    console.log('First parameter harvestLogIDIndex:', harvestLogIDIndex);
-    console.log('Second parameter harvestID:', harvestID);
-    console.log('Third parameter harvestSubmissionBlockNumber:', harvestSubmissionBlockNumber);
-    console.log('Event : ', event);  //Event object
-    // TODO - if not error
-      // Enable button?
-      // Remove spinner from button
-      //$("spinner_addHarvestBtn").hide();
-      //update text
-      //$("addHarvestBtn").html(`Added to Blockchain`);
-      // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
-    });
-
-  /*var registeredHarvestEvent = FoodPrintProduceContractV2.registeredHarvestEvent();
-  registeredHarvestEvent.watch(function (error, result) {
-    if (!error) {
-      console.log("registeredHarvestEvent");
-      // TODO - enable button?
-      //$(addHarvestBtn).attr("disabled", true);
-
-      // Remove spinner from button
-      //$("spinner_addHarvestBtn").hide();
-
-      //update text
-      //$("addHarvestBtn").html(`Added to Blockchain`);
-
-      // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
-    } else {
-      // Remove spinner from button
-      // $("spinner_addHarvestBtn").hide();
-
-      //update text
-      //$("addHarvestBtn").html(`Error Adding to Blockchain`);
-      console.log(error);
-
-      // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
     }
-  });*/
-
-  //Watch for registeredHarvestDetailEvent, returns  _harvestID and _harvestSubmissionBlockNumber
-  FoodPrintProduceContractV2.on('registeredHarvestDetailEvent', (harvestID, harvestSubmissionBlockNumber, event) => {
-    console.log("registeredHarvestDetailEvent");
-    console.log('First parameter harvestID:', harvestID);
-    console.log('Second parameter harvestSubmissionBlockNumber:', harvestSubmissionBlockNumber);
-    console.log('Event : ', event);  //Event object
-    // TODO - if not error
-    // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
-    });
-
-  // var registeredHarvestDetailEvent = FoodPrintProduceContractV2.registeredHarvestDetailEvent();
-  // registeredHarvestEvent.watch(function (error, result) {
-  //   if (!error) {
-  //     console.log("registeredHarvestDetailEvent" + result);
-  //     // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
-  //   } else {
-  //     console.log("registeredHarvestDetailEvent error" + error);
-  //
-  //     // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
-  //   }
-  // });
+  }
 
   // function to verify Harvest entry exists on blockchain
   //TODO - Harvest detail
-  function verifyHarvestEntry(data) {
+  async function verifyHarvestEntry(data) {
     //  disable link
     $(this).addClass('disabled');
-
     // add spinner to button
-    $(this).html(
-        `<span class="spinner-border spinner-border-sm" id="spinner_verifyHarvestEntryBtn" role="status" aria-hidden="true"></span> Searching on Blockchain...`
-    );
+    $(this).html(`<span class="spinner-border spinner-border-sm" id="spinner_verifyHarvestEntryBtn" 
+                role="status" aria-hidden="true"></span> Searching on Blockchain...`);
 
     if (typeof web3 === 'undefined') {
       return handle_web3_undefined_error();
     }
 
-    var harvest_logid = data.harvest_logid;
+    const harvest_logid = data.harvest_logid;
     console.log("search_harvest_logid: " + harvest_logid);
 
-
-    FoodPrintProduceContractV2.getHarvestSubmission(harvest_logid, function (err, result) {
-      if (err) {
-        return handle_error(err);
-      }
+    try {
+      //getHarvestSubmission
+      const result = await FoodPrintProduceContractV2.getHarvestSubmission(harvest_logid)
+      console.log("Result from getHarvestSubmission: ", result);
       //result:
       // harvest_id,
       // harvestEntry.supplierproduceID,
@@ -1263,7 +1207,6 @@ const initialize = () => {
 
       // Output from the contract function call
       console.log("result: " + result);
-
       let contractIsSet = result[4].toNumber();
       console.log("contractIsSet: " + contractIsSet);
       console.log("result[0]: " + result[0]);
@@ -1277,7 +1220,7 @@ const initialize = () => {
         let contract_harvestEntry_BlockNumber = result[3];
         // let displayDate = new Date(contractSubmissionBlocktime * 1000).toLocaleString();
 
-        var message_description = `Harvest Entry for ${contract_harvestEntry_supplierproduceID} with Harvest ID ${contract_harvest_id} is <b>valid</b>. Uploaded to FoodPrint Produce (Blockchain) on: ${contract_harvestEntry_harvestTimeStamp}.` +
+        let message_description = `Harvest Entry for ${contract_harvestEntry_supplierproduceID} with Harvest ID ${contract_harvest_id} is <b>valid</b>. Uploaded to FoodPrint Produce (Blockchain) on: ${contract_harvestEntry_harvestTimeStamp}.` +
             `BlockNumber ${contract_harvestEntry_BlockNumber}.`;
         //trigger notification
         $("#search_result_harvest").html(message_description);
@@ -1290,125 +1233,137 @@ const initialize = () => {
         $(this).removeClass("disabled");
         //$(this).html( `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Search on Blockchain...` );
         return console.log(message_description);
-      } else
-        var message_description = `Harvest Entry with Harvest ID ${harvest_logid} is <b>invalid</b>: not found in the FoodPrint Harvest Logbook (Blockchain).`;
+      } else{
+        let message_description = `Harvest Entry with Harvest ID ${harvest_logid} is <b>invalid</b>: not found in the FoodPrint Harvest Logbook (Blockchain).`;
 
-      // Remove spinner from button
-      $("#spinner_verifyHarvestEntryBtn").hide();
-      $(this).html('Verify Harvest ID');
-      $(this).removeClass("disabled");
+        // Remove spinner from button
+        $("#spinner_verifyHarvestEntryBtn").hide();
+        $(this).html('Verify Harvest ID');
+        $(this).removeClass("disabled");
 
-      //trigger notification
-      $("#search_result_harvest").html(message_description);
-      $("#search_result_harvest").removeAttr('style');//display result
-      return console.log(message_description);
-    });
-  };
+        //trigger notification
+        $("#search_result_harvest").html(message_description);
+        $("#search_result_harvest").removeAttr('style');//display result
+
+        return console.log(message_description);
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+      console.log("Error reading from Blockchain getHarvestSubmission");
+      $(this).html(`Error Reading from Blockchain`);
+      return handle_error(err);
+    }
+  }
 
   // function to retrieve a submitted Harvest Entry submitter address
-  function retrieveHarvestEntrySubmitAddress() {
-    FoodPrintProduceContractV2.getHarvestSubmitterAddress(harvest_logid, function (err, result) {
-      if (err) {
-        return handle_error(err);
-      }
-
+  async function retrieveHarvestEntrySubmitAddress() {
+    try {
+      //getHarvestSubmitterAddress
+      const result = await FoodPrintProduceContractV2.getHarvestSubmitterAddress(harvest_logid)
+      console.log("Result from getHarvestSubmitterAddress: ", result);
       //result:
       // harvestSubmissionAddress 0x874950B8c006e6D166f015236623fCD0C0a7DC75,
 
-      // Output from the contract function call
-      console.log("result: " + result);
-
       if (result === '0x0000000000000000000000000000000000000000') {
-        var message_description = `Harvest Entry with Harvest ID ${harvest_logid} is <b>invalid</b>: no corresponding submitter address found in the FoodPrint Produce (Blockchain).`;
+        let message_description = `Harvest Entry with Harvest ID ${harvest_logid} is <b>invalid</b>: no corresponding submitter address found in the FoodPrint Produce (Blockchain).`;
 
         // TODO - trigger notification
         return console.log(message_description);
       } else {
-        var message_description = `Harvest Entry with Harvest ID ${harvest_logid} is <b>valid</b>. Uploaded to FoodPrint Produce (Blockchain) by address : ${result}.`;
+        let message_description = `Harvest Entry with Harvest ID ${harvest_logid} is <b>valid</b>. Uploaded to FoodPrint Produce (Blockchain) by address : ${result}.`;
         // TODO - trigger notification
         return console.log(message_description);
       }
-    });
-  };
+    } catch (err) {
+      console.log("Error: ", err);
+      console.log("Error reading from Blockchain getHarvestSubmitterAddress");
+      $(this).html(
+          `Error reading from Blockchain`
+      );
+      return handle_error(err);
+    }
+  }
 
   // function to get count of Harvest entries that have been previously uploaded
-  function getProduceHarvestCount() {
+ async function getProduceHarvestCount() {
     if (typeof web3 === 'undefined') {
       return handle_web3_undefined_error();
     }
 
-    FoodPrintProduceContractV2.getHarvestSubmissionsCount(function (err, result) {
-      if (err) {
-        return handle_error(err);
-      }
-      let harvestSubmissionsCount = result.toNumber(); // Output from the contract function call
-      console.log("getHarvestSubmissionsCount: " + harvestSubmissionsCount);
-      var message_description = `Number of Harvest Entries: + ${harvestSubmissionsCount}`;
-
-      // TODO - trigger notification
-      return console.log(message_description);
-    });
-  };
-
+   try {
+     //getHarvestSubmissionsCount
+     const result = await FoodPrintProduceContractV2.getHarvestSubmissionsCount()
+     console.log("Result from getHarvestSubmissionsCount: ", result);
+     let harvestSubmissionsCount = result.toNumber(); // Output from the contract function call
+     console.log("getHarvestSubmissionsCount: " + harvestSubmissionsCount);
+     let message_description = `Number of Harvest Entries: + ${harvestSubmissionsCount}`;
+     // TODO - trigger notification
+     return console.log(message_description);
+   } catch (err) {
+     console.log("Error: ", err);
+     console.log("Error reading from Blockchain getHarvestSubmissionsCount");
+     $(this).html(
+         `Error reading fromBlockchain`
+     );
+     return handle_error(err);
+   }
+  }
 
   // function Add Storage Entry to Blockchain
   //TODO - should only be able to add Storage to Blockchain if there is a corresponding Harvest ID already on Blockchain
-  async function addStorageToBlockchain() {
-
+ async function addStorageToBlockchain() {
     // disable button wont work because it is actually a link
     // $("this").prop("disabled", true);
-
     //  disable link
     $(this).addClass('disabled');
-
     // add spinner to button
     $(this).html(
         `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding to Blockchain...`
     );
+    if (typeof web3 === 'undefined') {
+      return handle_web3_undefined_error();
+    }
 
     //storage entry variables from selected record
-    var harvest_logid = $(this).data('harvest_logid');
-    var storage_logid = $(this).data('storage_logid');
-    var harvest_suppliershortcode = $(this).data('harvest_suppliershortcode');
-    var supplierproduce = $(this).data('supplierproduce');
-    var market_Shortcode = $(this).data('market_shortcode');
-    var market_Name = $(this).data('market_name');
-    var market_Address = $(this).data('market_address');
-    var market_quantity = $(this).data('market_quantity');
-    var market_unitOfMeasure = $(this).data('market_unitofmeasure');
-    var market_storageTimeStamp = $(this).data('market_storagetimestamp');
-    var market_storageCaptureTime = $(this).data('market_storagecapturetime');
-    var market_URL = $(this).data('market_url');
-    var storage_BlockchainHashID = $(this).data('storage_blockchainhashid');
-    var storage_BlockchainHashData = $(this).data('storage_blockchainhashdata');
-    var storage_Description = $(this).data('storage_description');
-    var storage_bool_added_to_blockchain = $(this).data('storage_bool_added_to_blockchain');
-    var storage_added_to_blockchain_date = $(this).data('storage_added_to_blockchain_date');
-    var storage_added_to_blockchain_by = $(this).data('storage_added_to_blockchain_by');
-    var storage_blockchain_uuid = $(this).data('storage_blockchain_uuid');
-    var storage_user = $(this).data('storage_user');
-    var logdatetime = $(this).data('logdatetime');
-    var lastmodifieddatetime = $(this).data('lastmodifieddatetime');
-
-    var storage_tablename = 'foodprint_storage';
-    var storage_quantity_combined = market_quantity + "(" + market_unitOfMeasure + ")";
+    const harvest_logid = $(this).data('harvest_logid');
+    const storage_logid = $(this).data('storage_logid');
+    const harvest_suppliershortcode = $(this).data('harvest_suppliershortcode');
+    const supplierproduce = $(this).data('supplierproduce');
+    const market_Shortcode = $(this).data('market_shortcode');
+    const market_Name = $(this).data('market_name');
+    const market_Address = $(this).data('market_address');
+    const market_quantity = $(this).data('market_quantity');
+    const market_unitOfMeasure = $(this).data('market_unitofmeasure');
+    const market_storageTimeStamp = $(this).data('market_storagetimestamp');
+    const market_storageCaptureTime = $(this).data('market_storagecapturetime');
+    const market_URL = $(this).data('market_url');
+    const storage_BlockchainHashID = $(this).data('storage_blockchainhashid');
+    const storage_BlockchainHashData = $(this).data('storage_blockchainhashdata');
+    const storage_Description = $(this).data('storage_description');
+    const storage_bool_added_to_blockchain = $(this).data('storage_bool_added_to_blockchain');
+    const storage_added_to_blockchain_date = $(this).data('storage_added_to_blockchain_date');
+    const storage_added_to_blockchain_by = $(this).data('storage_added_to_blockchain_by');
+    const storage_blockchain_uuid = $(this).data('storage_blockchain_uuid');
+    const storage_user = $(this).data('storage_user');
+    const logdatetime = $(this).data('logdatetime');
+    const lastmodifieddatetime = $(this).data('lastmodifieddatetime');
+    const storage_tablename = 'foodprint_storage';
+    const storage_quantity_combined = market_quantity + "(" + market_unitOfMeasure + ")";
 
     console.log("this harvest_logid - " + harvest_logid);
     console.log("this storage_logid - " + storage_logid);
 
-    let storageDetail = `{storageDescription:${storage_Description}, storageTableName:${storage_tablename}, storageUser:${storage_user}, storageQuantity:${storage_quantity_combined}}`;
+    let storageDetail = `{storageDescription:${storage_Description}, storageTableName:${storage_tablename}, 
+    storageUser:${storage_user}, storageQuantity:${storage_quantity_combined}}`;
     let otherID = `{supplierproduceID:${supplierproduce}, marketID:${market_Shortcode}}`;
+
     //TODO - similar implementation for timestamps
 
     console.log("this storageDetail - " + storageDetail);
     console.log("this otherID - " + otherID);
 
-    if (typeof web3 === 'undefined') {
-      return handle_web3_undefined_error();
-    }
-
     // solidityContext required if you use msg object in contract function e.g. msg.sender
-    // var solidityContext = {from: web3.eth.accounts[1], gas:3000000}; //add gas to avoid out of gas exception
+    // const solidityContext = {from: web3.eth.accounts[1], gas:3000000}; //add gas to avoid out of gas exception
 
     // FoodPrint Produce contract
     // registerStorageSubmission (string calldata _otherID, string calldata _storageTimeStamp,  string calldata _storageDetail, string calldata _storageID, string calldata _harvestID)
@@ -1423,73 +1378,43 @@ const initialize = () => {
     console.log("Test before submit - otherID: " + otherID + ", market_storageTimeStamp: " + market_storageTimeStamp +
         ", storageDetail: " + storageDetail + ",storage_logid: " + storage_logid + ", harvest_logid:" + harvest_logid);
 
-    //Load the contract schema from the abi and Instantiate the contract by address
-    // at(): Create an instance of MyContract that represents your contract at a specific address.
-    // deployed(): Create an instance of MyContract that represents the default address managed by FoodPrintProduceContractV2.
-    // new(): Deploy a new version of this contract to the network, getting an instance of FoodPrintProduceContractV2 that represents the newly deployed instance.
-
-    FoodPrintProduceContractV2.registerStorageSubmission(otherID, market_storageTimeStamp, storageDetail, storage_logid, harvest_logid,
-        function (err, result) {
-          if (err) {
-            console.log("Error Adding Storage to Blockchain");
-            $(this).html(
-                `Error Adding Storage to Blockchain`
-            );
-            return handle_error(err);
-          }
-
-          var message_description = `Transaction submitted to Blockchain for processing (Upload Storage Entry from ${supplierproduce} with Harvest ID ${harvest_logid} and Storage ID ${storage_logid}). Check your Metamask for transaction update.`;
-
-          //TODO - trigger notification
-          console.log(message_description);
-        });
-  };
-
-  //Watch for registeredStorageEvent, returns  returns uint _storageLogIDIndex,  string _storageID, _storageSubmissionBlockNumber
-  FoodPrintProduceContractV2.on('registeredStorageEvent', (storageLogIDIndex, storageID, storageSubmissionBlockNumber, event) => {
-    console.log("registeredStorageEvent");
-    console.log('First parameter storageLogIDIndex:', storageLogIDIndex);
-    console.log('Second parameter storageID:', storageID);
-    console.log('Third parameter storageSubmissionBlockNumber:', storageSubmissionBlockNumber);
-    console.log('Event : ', event);  //Event object
-    // TODO - if not error
-    // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
-  });
-
-
-  //Watch for registeredStorageEvent, returns uint _storageLogIDIndex,  string _storageID, _storageSubmissionBlockNumber
-/*  var registeredStorageEvent = FoodPrintProduceContractV2.registeredStorageEvent();
-  registeredStorageEvent.watch(function (error, result) {
-    if (!error) {
-      console.log("registeredStorageEvent");
-      // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
-    } else {
-      console.log("registeredStorageEvent Error" + error);
-
-      // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+    try {
+      //submit registerStorageSubmission
+      const transaction = await FoodPrintProduceContractV2.registerStorageSubmission(otherID, market_storageTimeStamp,
+          storageDetail, storage_logid, harvest_logid);
+      const result = await transaction.wait();
+      console.log("Result from registerStorageSubmission: ", result);
+      let message_description = `Transaction submitted to Blockchain for processing (Upload Storage Entry from ${supplierproduce} with Harvest ID ${harvest_logid} and Storage ID ${storage_logid}). Check your Metamask for transaction update.`;
+      //TODO - trigger notification
+      console.log(message_description);
+      return;
+    } catch (err) {
+      console.log("Error: ", err);
+      console.log("Error Adding Storage to Blockchain registerStorageSubmission");
+      $(this).html(
+          `Error Adding Storage to Blockchain`
+      );
+      return handle_error(err);
     }
-  });*/
+  }
 
   // function to verify Harvest entry exists on blockchain
-  function verifyStorageEntry(data) {
+ async function verifyStorageEntry(data) {
     //  disable link 
     $(this).addClass('disabled');
-
     // add spinner to button
-    $(this).html(
-        `<span class="spinner-border spinner-border-sm" id="spinner_verifyStorageEntryBtn" role="status" aria-hidden="true"></span> Searching on Blockchain...`
-    );
-
+    $(this).html(`<span class="spinner-border spinner-border-sm" id="spinner_verifyStorageEntryBtn" role="status" 
+                aria-hidden="true"></span> Searching on Blockchain...`);
     if (typeof web3 === 'undefined') {
       return handle_web3_undefined_error();
     }
-    var storage_logid = data.storage_logid;
+    const storage_logid = data.storage_logid;
     console.log("search_storage_logid: " + storage_logid);
+    try {
+      //getStorageSubmission
+      const result = await FoodPrintProduceContractV2.getStorageSubmission(storage_logid)
+      console.log("Result from getStorageSubmission: ", result);
 
-    FoodPrintProduceContractV2.getStorageSubmission(storage_logid, function (err, result) {
-      if (err) {
-        return handle_error(err);
-      }
       //result:
       //storageEntry.storageID,
       //storageEntry.harvestID,
@@ -1500,7 +1425,6 @@ const initialize = () => {
 
       // Output from the contract function call
       console.log("result: " + result);
-
       let contractIsSet = result[5].toNumber();
       console.log("contractIsSet: " + contractIsSet);
       console.log("result[0]: " + result[0]);
@@ -1514,7 +1438,7 @@ const initialize = () => {
         let contract_storageDetail = result[3];
         let contract_storageEntry_BlockNumber = result[4];
 
-        var message_description = `Storage Entry with Storage ID ${contract_storage_id} and Harvest ID ${contract_harvest_id} is <b>valid</b>. This corresponds to ${contract_otherID}. Additional details from 
+        let message_description = `Storage Entry with Storage ID ${contract_storage_id} and Harvest ID ${contract_harvest_id} is <b>valid</b>. This corresponds to ${contract_otherID}. Additional details from 
                                       FoodPrint Produce (Blockchain) include: ${contract_storageDetail}.` +
             `BlockNumber ${contract_storageEntry_BlockNumber}.`;
         //trigger notification
@@ -1528,83 +1452,157 @@ const initialize = () => {
         $(this).removeClass("disabled");
         //$(this).html( `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Search on Blockchain...` );
         return console.log(message_description);
-      } else
-        var message_description = `Storage Entry with Storage ID ${contract_storage_id} is <b>invalid</b>: not found in the FoodPrint Storage Logbook (Blockchain).`;
+      } else{
+        let message_description = `Storage Entry with Storage ID ${contract_storage_id} is <b>invalid</b>: not found in the FoodPrint Storage Logbook (Blockchain).`;
 
-      // Remove spinner from button
-      $("#spinner_verifyStorageEntryBtn").hide();
-      $(this).html('Verify Storage ID');
-      $(this).removeClass("disabled");
+        // Remove spinner from button
+        $("#spinner_verifyStorageEntryBtn").hide();
+        $(this).html('Verify Storage ID');
+        $(this).removeClass("disabled");
 
-      //trigger notification
-      $("#search_result_hstorage").html(message_description);
-      $("#search_result_storage").removeAttr('style');//display result
-      return console.log(message_description);
-    });
-  };
+        //trigger notification
+        $("#search_result_storage").html(message_description);
+        $("#search_result_storage").removeAttr('style');//display result
 
+        return console.log(message_description);
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+      console.log("Error reading from Blockchain getStorageSubmission");
+      $(this).html("Error Reading from Blockchain");
+      return handle_error(err);
+    }
+  }
 
   // function to check FoodPrint Produce Contract Status - stopped or not stopped
-  function getContractStatus() {
+ async function getContractStatus() {
     if (typeof web3 === 'undefined') {
       return handle_web3_undefined_error();
     }
 
-    FoodPrintProduceContractV2.checkContractIsRunning(function (err, result) {
-      if (err) {
-        return handle_error(err);
-      }
-
+    try {
+      //checkContractIsRunning
+      const result = await FoodPrintProduceContractV2.checkContractIsRunning()
+      console.log("Result from checkContractIsRunning: ", result);
       console.log("Is FoodPrint Produce Contract currently stopped " + result);
-    });
-  };
+      return
+    } catch (err) {
+      console.log("Error: ", err);
+      console.log("Error reading from Blockchain checkContractIsRunning");
+      $(this).html(`Error Reading from Blockchain`);
+      return handle_error(err);
+    }
+  }
 
   // function to toggle contract status between stopped and not stopped
-  function toggleContractStatus() {
+ async function toggleContractStatus() {
     if (typeof web3 === 'undefined') {
       return handle_web3_undefined_error();
     }
-
-    FoodPrintProduceContractV2.checkContractIsRunning(function (err, result) {
-      if (err) {
-        return handle_error(err);
-      }
-      ;
-      var original_contract_status = result;
+    try {
+      //checkContractIsRunning
+      const result = await FoodPrintProduceContractV2.checkContractIsRunning()
+      console.log("Result from checkContractIsRunning: ", result);
+      const original_contract_status = result;
       console.log("Is FoodPrint Produce Contract currently stopped before toggle: " + original_contract_status);
 
-      FoodPrintProduceContractV2.toggleContractActive(function (err2, result2) {
-        if (err2) {
-          return handle_error(err2);
-        }
-        ;
-        var new_contract_status = !original_contract_status;
+      try {
+        //toggleContractActive
+        const transaction2 = await FoodPrintProduceContractV2.toggleContractActive()
+        const result2 = await transaction2.wait();
+        console.log("Result from toggleContractActive: ", result2);
+        const new_contract_status = !original_contract_status;
 
         // TODO - trigger a custom notification
         console.log("FoodPrint Produce Contract status toggled. Transaction submitted to Blockchain for processing");
-      });
-    });
-  };
+
+      } catch (err) {
+        console.log("Error: ", err);
+        console.log("Error writing to Blockchain toggleContractActive");
+        $(this).html(
+            `Error writing to Blockchain`
+        );
+        return handle_error(err);
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+      console.log("Error reading from Blockchain checkContractIsRunning");
+      $(this).html(
+          `Error Reading from Blockchain`
+      );
+      return handle_error(err);
+    }
+  }
 
   // function to initiate FoodPrint Produce selfdestruct
-  function destroyContract() {
+ async function destroyContract() {
     if (typeof web3 === 'undefined') {
       return handle_web3_undefined_error();
     }
 
-    FoodPrintProduceContractV2.destroy(function (err, result) {
-      if (err) {
-        return handle_error(err);
-      }
-      console.log("result: " + result);
-      // TODO - trigger a custom notification
+    try {
+      //destroy
+      const transaction = await FoodPrintProduceContractV2.destroy()
+      const result = await transaction.wait();
+      console.log("Result from destroy: ", result);
       if (typeof result !== 'undefined') {
         console.log("Contract destroy initiated");
       }
-    });
-  };
-};
+    } catch (err) {
+      console.log("Error: ", err);
+      console.log("Error writing to Blockchain destroy");
+      $(this).html(
+          `Error writing Blockchain`
+      );
+      return handle_error(err);
+    }
+  }
 
+  //------/Blockchain and Smart Contract Function Calls------\\
+
+  //------Watch for Blockchain and Smart Contract Events------\\
+
+  //Watch for registeredHarvestEvent, returns  _harvestLogIDIndex, _harvestID and _harvestSubmissionBlockNumber
+  FoodPrintProduceContractV2.on('registeredHarvestEvent', (harvestLogIDIndex, harvestID, harvestSubmissionBlockNumber, event) => {
+    console.log("registeredHarvestEvent");
+    console.log('First parameter harvestLogIDIndex:', harvestLogIDIndex);
+    console.log('Second parameter harvestID:', harvestID);
+    console.log('Third parameter harvestSubmissionBlockNumber:', harvestSubmissionBlockNumber);
+    console.log('Event : ', event);  //Event object
+    // TODO - if not error
+    // Enable button?
+    // Remove spinner from button
+    //$("spinner_addHarvestBtn").hide();
+    //update text
+    //$("addHarvestBtn").html(`Added to Blockchain`);
+    // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+  });
+
+  //Watch for registeredHarvestDetailEvent, returns  _harvestID and _harvestSubmissionBlockNumber
+  FoodPrintProduceContractV2.on('registeredHarvestDetailEvent', (harvestID, harvestSubmissionBlockNumber, event) => {
+    console.log("registeredHarvestDetailEvent");
+    console.log('First parameter harvestID:', harvestID);
+    console.log('Second parameter harvestSubmissionBlockNumber:', harvestSubmissionBlockNumber);
+    console.log('Event : ', event);  //Event object
+    // TODO - if not error
+    // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+  });
+
+  //Watch for registeredStorageEvent, returns  returns uint _storageLogIDIndex,  string _storageID, _storageSubmissionBlockNumber
+  FoodPrintProduceContractV2.on('registeredStorageEvent', (storageLogIDIndex, storageID, storageSubmissionBlockNumber, event) => {
+    console.log("registeredStorageEvent");
+    console.log('First parameter storageLogIDIndex:', storageLogIDIndex);
+    console.log('Second parameter storageID:', storageID);
+    console.log('Third parameter storageSubmissionBlockNumber:', storageSubmissionBlockNumber);
+    console.log('Event : ', event);  //Event object
+    // TODO - if not error
+    // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
+  });
+
+  //------/Watch for Blockchain and Smart Contract Events------\\
+
+
+};
 
 // As soon as the content in the DOM is loaded we are calling our initialize function
 window.addEventListener("DOMContentLoaded", initialize);
