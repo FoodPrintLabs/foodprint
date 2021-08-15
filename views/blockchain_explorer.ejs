@@ -20,6 +20,11 @@
         <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
           <h3>BLOCKCHAIN EXPLORER</h3>
           <% include ./partials/notificationbar %>
+          <div>
+            <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>
+            <p>Connected Account: <span class="showAccount"></span></p>
+          </div>
+
           <h5>Harvest Search Form</h5>
           <form id="search_harvest_form">
               <div class="form-group">
@@ -63,12 +68,18 @@
       <div class="col-md-6 col-md-offset-3">
         <h5>Blockchain Configuration</h5>
         <div id="currentEtheremAccountDiv"></div>
-        <p>Contract deployed in Testnet transaction <a href="https://rinkeby.etherscan.io/tx/0x98992426a3ed5b6139d6b0162fd9a153f865bec083ff296dab6ecc7a6ba8b169" target="_blank" >0x98992426a3ed5b6139d6b0162fd9a153f865bec083ff296dab6ecc7a6ba8b169</a></p>
-        <p>Contract deployed at Testnet address <a href="https://rinkeby.etherscan.io/address/0xfC4d26073650887069dFa7Da686A491535ab8Fd4" target="_blank" >0xfC4d26073650887069dFa7Da686A491535ab8Fd4</a></p>
-        <p>Contract creator <a href="https://rinkeby.etherscan.io/address/0x4B67D20a4F27d248aF0462C23F8C193f073517FB" target="_blank" >0x4B67D20a4F27d248aF0462C23F8C193f073517FB</a></p>
+        <!--
+          <p>Contract deployed  on Ethereum Rinkeby testnet</p>
+          <p>Contract deployed in Testnet transaction <a href="https://rinkeby.etherscan.io/tx/0x98992426a3ed5b6139d6b0162fd9a153f865bec083ff296dab6ecc7a6ba8b169" target="_blank" >0x98992426a3ed5b6139d6b0162fd9a153f865bec083ff296dab6ecc7a6ba8b169</a></p>
+          <p>Contract deployed at Testnet address <a href="https://rinkeby.etherscan.io/address/0xfC4d26073650887069dFa7Da686A491535ab8Fd4" target="_blank" >0xfC4d26073650887069dFa7Da686A491535ab8Fd4</a></p>
+          <p>Contract creator <a href="https://rinkeby.etherscan.io/address/0x4B67D20a4F27d248aF0462C23F8C193f073517FB" target="_blank" >0x4B67D20a4F27d248aF0462C23F8C193f073517FB</a></p>
+        -->
+        <p>Contract deployed  on Matic mumbai testnet</p>
+        <p>Contract deployed in Testnet transaction <a href="https://mumbai.polygonscan.com/tx/0xf814b93a97d73c9dc0c023a4e25d992e58440564593359bf9c1f6ed2514174f6" target="_blank" >0xf814b93a97d73c9dc0c023a4e25d992e58440564593359bf9c1f6ed2514174f6</a></p>
+        <p>Contract deployed at Testnet address <a href="https://mumbai.polygonscan.com/address/0x650168110ada1f089d443904c6759b7349576a0d" target="_blank" >0x650168110ada1f089d443904c6759b7349576a0d</a></p>
+        <p>Contract creator <a href="https://mumbai.polygonscan.com/address/0xa5913085443d492b4e951dab3a80c3598bee6820" target="_blank" >0xa5913085443d492b4e951dab3a80c3598bee6820</a></p>
       </div>
     </div>
-    
 
   <!-- start footer -->
   <% include ./partials/footer %>
@@ -79,9 +90,12 @@
   <script src="/js/main.min.js"></script>
   <script src="/js/custom.js"></script>
 
-  <script src="/js/web3.min.js"></script><!-- Blockchain -->
-  <script src="/js/truffle-contract.js"></script><!-- Blockchain -->
-  <script src="/js/sha256.min.js"></script><!-- Blockchain -->
-  <script src="/js/foodprint_blockchain.js"></script> <!-- Blockchain integration -->
+<!--  <script src="/js/web3.min.js"></script>&lt;!&ndash; TODO - remove thi? Blockchain &ndash;&gt;-->
+<!--  <script src="/js/truffle-contract.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
+   <script src="/js/sha256.min.js"></script><!-- Blockchain -->
+   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+           type="application/javascript"></script> <!-- This exposes the library as a global variable: ethers -->
+
+   <script src="/js/foodprint_blockchain.js"></script> <!-- Blockchain integration -->
   </body>
 </html>

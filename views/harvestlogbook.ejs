@@ -17,8 +17,10 @@
    <div class="container" style="width: 100%;">
     <h3>HARVEST LOGBOOK</h3>
     <div>
-        <!-- <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Harvest</button> -->
-        <a class="btn btn-primary btn-sm" onclick="ShowModal(this, 'add', 'Add Harvest Entry','addCSS')">Add New Harvest Entry</a>
+      <!-- <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Harvest</button> -->
+      <a class="btn btn-primary btn-sm" onclick="ShowModal(this, 'add', 'Add Harvest Entry','addCSS')">Add New Harvest Entry</a>
+      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>
+      <p>Connected Account: <span class="showAccount"></span></p>
     </div>
     
     <% include ./partials/notificationbar %>
@@ -46,8 +48,9 @@
                 <td><%= data[i].harvest_produceName %></td>
                 <td>
                   <div class="btn-group btn-group-sm" role="group" aria-label="...">
-                    <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')"  class="btn btn-xs btn-info view" 
-                      data-harvest_logid="<%= data[i].harvest_logid%>"
+                    <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')"  class="btn btn-xs btn-info view"
+                       id="<%= ("harvest_view_" + data[i].harvest_logid) %>"
+                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
                       data-harvest_farmername="<%=data[i].harvest_farmerName%>"
@@ -75,8 +78,9 @@
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
 
-                    <a onclick="ShowModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit" 
-                      data-harvest_logid="<%= data[i].harvest_logid%>"
+                    <a onclick="ShowModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit"
+                       id="<%= ("harvest_edit_" + data[i].harvest_logid) %>"
+                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
                       data-harvest_farmername="<%=data[i].harvest_farmerName%>"
@@ -104,8 +108,9 @@
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Edit</a>
 
-                    <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete" 
-                      data-harvest_logid="<%= data[i].harvest_logid%>"
+                    <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete"
+                       id="<%= ("harvest_delete_" + data[i].harvest_logid) %>"
+                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
                       data-harvest_farmername="<%=data[i].harvest_farmerName%>"
@@ -135,7 +140,8 @@
                       <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%> <a href="javascript:void(0);" class="btn btn-xs btn-success">View on Blockchain</a>  <%}else{ %> 
 
                     <a  href="javascript:void(0);" class="btn btn-xs btn-success blockchain addHarvestToBlockchainBtn"
-                      data-harvest_logid="<%= data[i].harvest_logid%>"
+                        id="<%= ("harvest_add_blockchain_" + data[i].harvest_logid) %>"
+                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
                       data-harvest_farmername="<%=data[i].harvest_farmerName%>"
@@ -496,8 +502,8 @@
 
   <script src="/js/custom.js"></script><!-- Subscribe-->
 
-  <script src="/js/web3.min.js"></script><!-- Blockchain -->
-  <script src="/js/truffle-contract.js"></script><!-- Blockchain -->
+<!--  <script src="/js/web3.min.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
+<!--  <script src="/js/truffle-contract.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
   <script src="/js/sha256.min.js"></script><!-- Blockchain -->
 
 
@@ -807,7 +813,9 @@
     $('#modalBodyContainer').addClass(contentClassID);
     $('#harvestViewModal').modal('show');
   }
-    </script>
-    <script src="/js/foodprint_blockchain.js"></script> <!-- Blockchain integration -->
+   </script>
+   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+           type="application/javascript"></script> <!-- This exposes the library as a global variable: ethers -->
+   <script src="/js/foodprint_blockchain.js"></script> <!-- Blockchain integration -->
   </body>
 </html>

@@ -26,6 +26,7 @@ const MNEMONIC = fs.readFileSync(".secret").toString().trim();
 const FROMADDRESS = fs.readFileSync(".fromaddress").toString().trim();
 
 const infuraRinkebyURL = "https://rinkeby.infura.io/v3/"+infuraKey;
+const maticMumbaiURL = "https://rpc-mumbai.matic.today";
 
 module.exports = {
   /**
@@ -57,6 +58,16 @@ module.exports = {
       },
       network_id: 4,
       from: FROMADDRESS, // account from which to deploy
+    },
+
+    mumbai: {
+      provider: function() {
+        return new HDWalletProvider(MNEMONIC, maticMumbaiURL)
+      },
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
     }
   },
 

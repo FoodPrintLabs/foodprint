@@ -1,5 +1,9 @@
 # FoodPrint
-FoodPrint is a small scale farmer food supply chain web application for tracking food from farm-to-fork. FoodPrint is a blockchain-enabled, cloud application. 
+FoodPrint is a digital, blockchain-enabled, farm-to-fork (fresh produce) supply chain platform for smallholder farmers, primarily in developing countries. 
+FoodPrint is designed to:
+- Simplify production and harvest data collection for smallholder farmers.
+- Directly connect them to market opportunities - including but not limited to intermediaries such as markets and retailers, as well as consumers.
+- Provide them with access to blockchain-based financial and transactional services.
 
 ## Overview
 FoodPrint has 5 types of users:
@@ -15,16 +19,16 @@ The System Admin is responsible for the day-to-day running of the platform, prov
 
 The Farmer is responsible for capturing produce data at harvest time onto FoodPrint. The Farmer also transports the produce to the Market as per order from Market Admin.
 
-- Market Admin
+- Intermediary e.g. Wholesaler, Retailers, Farmers Market Admin etc
 
-The Market Admin is responsible for receiving produce from the Farmer and capturing the relevant data onto FoodPrint.
+The Intermediary is responsible for receiving produce from the Farmer and capturing the relevant data onto FoodPrint.
 
-- Market Patron
+- Consumer
 
-The Market Patron is the customer of the market. They purchase food from the Market. The Market Patron will be able to scan a barcode associated with produce and view the verified produce information and supply chain stories view information on the produce they are buying, it's source and journey, hence from farm-to-fork. Android versions 8 & 9 and iOS versions 11 & 12 can automatically scan QR codes using the camera app. 
+The consumer is the final actor in a food supply chain. They purchase fresh produce from an intermediary. The consumer can scan a barcode associated with produce and view the verified produce information and supply chain stories i.e. view information on the produce they are buying, it's source and journey, hence from farm-to-fork. Android versions 8 & 9 and iOS versions 11 & 12 can automatically scan QR codes using the camera app. 
 
 ## Documentation
-- [Business Case](https://github.com/jajukajulz/foodprint/raw/master/docs/FoodPrint%20-%20Business%20Case%2008072019.pdf)
+TODO
 
 ## Installation (Development Environment)
 In order to run FoodPrint, an environment with the following is required:
@@ -87,7 +91,7 @@ run dbxml/foodprintDB.sql
 
 7. Populate the MySQL database
 ```
-run dbxml/foodprintDB_schema.sql
+run dbxml/FoodPrintSchemaDump20210814.sql (previuously used foodprintDB_schema.sql but now out of date)
 ```
 
 8. Create a database configuration file in the root folder - `dbconfig.json` and populate with updated json config as below
@@ -122,15 +126,60 @@ You can then access the variables in your code using process.env e.g. `console.l
 $npm run dev
 ```
 
+## Deploy to Rinkeby Ethereum test network
+
+1. Create infura project  at https://infura.io (Infura gives you access to test network).
+This project will give you an ID that you will use in `truffle-config.js`
+infura means you do not have to sync an ether node or rinkeby node to deploy directly.
+
+2. Connect your MetaMask wallet to Rinkeby network
+
+2. Get test ether from https://faucet.rinkeby.io/ (you will need to create an Ethereum rinkeby wallet on MetaMask then use the address on twitter).
+e.g. 0x4B67D20a4F27d248aF0462C23F8C193f073517FB
+
+3. Update `truffle-config.js` with rinkeby. This will deploy from the metamask accounts, by default account 0 so specify which one you want.
+
+4. Deploy to rinkeby. 
+```
+$truffle migrate --network rinkeby --compile-all --reset
+```
+
+5. Check contract on Ethereum testnet blockchain explorer i.e.  rinkeby etherscan https://rinkeby.etherscan.io
+
+
+## Deploy to a Mumbai Matic test network
+
+1. Add mumbai network details to `truffle-config.js` i.e. `https://rpc-mumbai.matic.today`
+
+2. Connect your MetaMask wallet to Mumbai network (https://rpc-mumbai.matic.today)
+
+3. Get a test MATIC token from Matic faucet https://faucet.matic.network (otherwise deploy will fail). Deploy by default is from your first MetaMask account so this is the one you want to fund.
+
+4. Deploy to MATIC. 
+```
+$truffle migrate --network mumbai
+```
+
+5. Check contract on Matic's testnet blockchain explorer i.e. Polygon PoS Chain Testnet Explorer
+(mumbai polygonscan) https://mumbai.polygonscan.com/
+
+
+## Production Deployment
+1. To deploy to a production server, first bundle and uglify then deploy
+```
+$npm run build
+$npm run start
+```
+
 ## Other
-1. Access deployed contract from CLI (V1)
+- Access deployed contract from CLI (V1)
 ```
 $ truffle console
 $ TheProduct.deployed().then(function(instance) { app = instance })
 $ app.noHarvests()
 ```
 
-Access deployed contract from CLI (V2) after adding a sample Harvest entry and then using the resulting Harvest ID e.g. c6e301b9-aceb-498f-a63e-2503091f0ab0
+- Access deployed contract from CLI (V2) after adding a sample Harvest entry and then using the resulting Harvest ID e.g. c6e301b9-aceb-498f-a63e-2503091f0ab0
 ```
 $ truffle console
 $ TheProductV2.deployed().then(function(instance) { app = instance })
@@ -148,40 +197,23 @@ $ let storage=app.getStorageSubmission(storage_logid)
 $ storage
 ```
 
-To see the list of contracts already deployed on the Truffle Develop network
+- To see the list of contracts already deployed and their corresponding networks
 ```
-$networks [--clean]
+$truffle networks [--clean]
 ```
 
-2. Add a new migration
+- To add a new migration
 ```
 $touch 2_deploy_contract.js
 ```
-
-3. Create infura project  at https://infura.io (Infura gives you access to test network).
-This project will give you an ID that you will use in `truffle-config.js`
-infura means you do not have to sync an ether node or rinkeby node to deploy directly.
-
-4. Get test ether from https://faucet.rinkeby.io/ (you will need to create an Ethereum rinkeby wallet on MetaMask then use the address on twitter).
-e.g. 0x4B67D20a4F27d248aF0462C23F8C193f073517FB
-
-5. Update `truffle-config.js` with rinkeby. This will deploy from the metamask accounts, by default account 0 so specify which one you want.
-
-6. Deploy to rinkeby. 
-```
-$truffle migrate --network rinkeby --compile-all --reset
-```
-
-7. Check contract on rinkeby etherscan https://rinkeby.etherscan.io
-
-8. Generate test UUID's from command line. 
+- Generate test UUID's from command line (i.e. server side). 
 ```
 $node
 >const uuidv4 = require('uuid/v4')
 >uuidv4()
 ```
 
-9. Generate test QRCode's from command line. 
+- Generate test QRCode's from command line (i.e. server side). 
 ```
 $node
 >var QRCode = require('qrcode');
@@ -192,26 +224,32 @@ $node
 >res2
 ```
 
-10. Flatten Smart Contract and Verify on Testnet (Verify using  Compiler Type: SINGLE FILE / CONCATENANTED METHOD )
+- Flatten Smart Contract
 ```
 $npm install  truffle-flattener -g
 $truffle-flattener ./contracts/productv2.sol > ./productv2Flattened.sol
+```
+
+- Verify smart contract on Ethereum Testnet (Verify using  Compiler Type: SINGLE FILE / CONCATENANTED METHOD )
+```
 $pbcopy < productv2Flattened.sol
 https://rinkeby.etherscan.io/verifyContract?a=0x000000000000000000 (replace with contract address)
-
 ```
 
-11. Generate UML Class diagram for smart contract (`sol2uml`)
+- Verify smart contract on Matic Testnet (Verify using  Compiler Type: SINGLE FILE / CONCATENANTED METHOD )
+```
+https://mumbai.polygonscan.com/verifyContract
+```
+
+- Generate UML Class diagram for smart contract (`sol2uml`)
 ```
 https://rinkeby.etherscan.io/viewsvg?t=1&a=0x000000000000000000 (replace with contract address, contract should be verified)
-```
+```     
 
-## Production Deployment
-1. To deploy to a production server, first bundle and uglify then deploy
-```
-$npm run build
-$npm run start
-```
+## Contract details
+Initial contract was deployed at Ethereum Testnet (rinkeby) at address https://rinkeby.etherscan.io/address/0xfC4d26073650887069dFa7Da686A491535ab8Fd4.
+
+Latest contract is deployed on Matic Testnet (mumbai) at address https://mumbai.polygonscan.com/address/0x650168110ADa1f089D443904c6759b7349576A0d
 
 ## Supported Browsers
 
