@@ -1569,12 +1569,7 @@ const initialize = () => {
     console.log('Second parameter harvestID:', harvestID);
     console.log('Third parameter harvestSubmissionBlockNumber:', harvestSubmissionBlockNumber);
     console.log('Event : ', event);  //Event object
-    // TODO - if not error
-    // Enable button?
-    // Remove spinner from button
-    //$("spinner_addHarvestBtn").hide();
-    //update text
-    //$("addHarvestBtn").html(`Added to Blockchain`);
+    updateHarvestAddBlockchainBtn(harvestID) //Update UI Button to stop spinning
     // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
   });
 
@@ -1595,12 +1590,59 @@ const initialize = () => {
     console.log('Second parameter storageID:', storageID);
     console.log('Third parameter storageSubmissionBlockNumber:', storageSubmissionBlockNumber);
     console.log('Event : ', event);  //Event object
-    // TODO - if not error
+    updateStorageAddBlockchainBtn(storageID) //Update UI Button to stop spinning
     // TODO - Update status in DB via ajax post then update UI button, maybe ID button should include harvestid in its ID
   });
 
   //------/Watch for Blockchain and Smart Contract Events------\\
 
+  //------AJAX Calls------\\
+  function updateHarvestAddBlockchainBtn(harvest_logid) {
+    const addToBlockchainBtnID = "#" + harvest_add_blockchain_ + harvest_logid
+    const addToBlockchainBtn = $(addToBlockchainBtnID)
+    console.log(addToBlockchainBtn)
+
+    // remove spinner from button
+    addToBlockchainBtn.removeClass("spinner-border");
+    addToBlockchainBtn.removeClass("spinner-spinner-border-sm");
+    addToBlockchainBtn.html('Added to Blockchain...');
+    console.log("updateHarvestAddBlockchainBtn updated for Harvest " + harvest_logid);
+  }
+
+  function updateStorageAddBlockchainBtn(storage_logid) {
+    const addToBlockchainBtnID = "#" + storage_add_blockchain_ + storage_logid
+    // let btn = $('[data-storage_logid="21596a22-03be-4a56-8aec-0e370b6236eb"]') // returns all 4 buttons
+
+    //let btn = $('#storage_add_blockchain_cab9949a-cb4b-4173-9ac8-d9336991acfa')
+    const addToBlockchainBtn = $(addToBlockchainBtnID)
+    console.log(addToBlockchainBtn)
+
+    // remove spinner from button
+    addToBlockchainBtn.removeClass("spinner-border");
+    addToBlockchainBtn.removeClass("spinner-spinner-border-sm");
+    addToBlockchainBtn.html('Added to Blockchain...');
+    console.log("updateStorageAddBlockchainBtn updated for Storage " + storage_logid);
+  }
+
+      //TODO updateHarvestDB and updateStorageDB
+  function updateHarvestDB(harvest_logid) {
+    alert("Insert " + harvest_logid);
+    $.ajax({
+      url: '/updateharvestblockchain',
+      data: JSON.stringify(data),
+      processData: false,
+      type: 'POST',
+      contentType: 'application/json'
+    }).done(function(res) {
+      if (res.success) {
+        //reload page or grey out add to blockchain - button
+      } else {
+        //console log failed to update harvest db blockchain to true
+      }
+    });
+    alert("Insert done")
+  }
+  //------/AJAX Calls------\\
 
 };
 
