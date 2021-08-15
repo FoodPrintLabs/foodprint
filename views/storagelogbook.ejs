@@ -48,8 +48,9 @@
                 <td><%= data[i].supplierproduce %></td>
                 <td>
                   <div class="btn-group btn-group-sm" role="group" aria-label="...">
-                    <a onclick="ShowStorageModal(this, 'view', 'View Storage Entry','viewCSS')"  class="btn btn-xs btn-info view" 
-                      data-harvest_logid="<%= data[i].harvest_logid%>"
+                    <a onclick="ShowStorageModal(this, 'view', 'View Storage Entry','viewCSS')"  class="btn btn-xs btn-info view"
+                       id="<%= ("storage_view_" + data[i].storage_logid) %>"
+                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-supplierproduce="<%=data[i].supplierproduce%>"
                       data-storage_logid="<%=data[i].storage_logid%>"
@@ -73,8 +74,9 @@
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
 
-                    <a onclick="ShowStorageModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit" 
-                      data-harvest_logid="<%= data[i].harvest_logid%>"
+                    <a onclick="ShowStorageModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit"
+                       id="<%= ("storage_edit_" + data[i].storage_logid) %>"
+                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-supplierproduce="<%=data[i].supplierproduce%>"
                       data-storage_logid="<%=data[i].storage_logid%>"
@@ -98,8 +100,9 @@
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Edit</a>
 
-                    <a onclick="ShowStorageModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete" 
-                      data-harvest_logid="<%= data[i].harvest_logid%>"
+                    <a onclick="ShowStorageModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete"
+                       id="<%= ("storage_delete_" + data[i].storage_logid) %>"
+                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-supplierproduce="<%=data[i].supplierproduce%>"
                       data-storage_logid="<%=data[i].storage_logid%>"
@@ -124,8 +127,9 @@
                       Delete</a>
                       <% if(data[i].storage_bool_added_to_blockchain!=='false'){%> <a href="javascript:void(0);" class="btn btn-xs btn-success">View on Blockchain</a>  <%}else{ %> 
 
-                    <a href="javascript:void(0);" class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn" 
-                      data-harvest_logid="<%= data[i].harvest_logid%>"
+                    <a href="javascript:void(0);" class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn"
+                       id="<%= ("storage_add_blockchain_" + data[i].storage_logid) %>"
+                       data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-supplierproduce="<%=data[i].supplierproduce%>"
                       data-storage_logid="<%=data[i].storage_logid%>"
