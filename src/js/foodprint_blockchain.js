@@ -1614,7 +1614,7 @@ const initialize = () => {
 
   //------AJAX Calls------\\
   function updateHarvestAddBlockchainBtn(harvest_logid) {
-    const addToBlockchainBtnID = "#" + harvest_add_blockchain_ + harvest_logid
+    const addToBlockchainBtnID = "#harvest_add_blockchain_" + harvest_logid
     const addToBlockchainBtn = $(addToBlockchainBtnID)
     console.log(addToBlockchainBtn)
 
@@ -1626,7 +1626,7 @@ const initialize = () => {
   }
 
   function updateStorageAddBlockchainBtn(storage_logid) {
-    const addToBlockchainBtnID = "#" + storage_add_blockchain_ + storage_logid
+    const addToBlockchainBtnID = "#storage_add_blockchain_" + storage_logid
     // let btn = $('[data-storage_logid="21596a22-03be-4a56-8aec-0e370b6236eb"]') // returns all 4 buttons
 
     //let btn = $('#storage_add_blockchain_cab9949a-cb4b-4173-9ac8-d9336991acfa')
