@@ -33,7 +33,8 @@ const initialize = () => {
   };
 
   // Function when connect to wallet is clicked
-  async function onClickConnect() {
+  async function onClickConnect(e) {
+    e.preventDefault();
     // old school way of checking if metamask is installed
     if (isMetaMaskInstalled()){
       console.log("MetaMask is installed!");
@@ -52,6 +53,9 @@ const initialize = () => {
         console.log(isMetaMaskConnected());
         if (isMetaMaskConnected()) {
           console.log("Metamask is connected :)");
+          onboardButton.innerText = 'Connected to MetaMask!';
+          onboardButton.disabled = true;
+          onboardButton.classList.add('disabled');
         }
       } catch (err) {
         const message_description = "Access to your Ethereum account rejected.";
@@ -72,14 +76,26 @@ const initialize = () => {
       //When the button is clicked we call this function
       onboardButton.onclick =  window.open("https://metamask.io/download");
       //The button is now disabled
-      onboardButton.disabled = false;
+      onboardButton.disabled = true;
+      onboardButton.classList.add('disabled');
     } else {
+      if (isMetaMaskConnected()) {
+        console.log("Metamask is connected :)");
+        //The button is now disabled
+        onboardButton.disabled = true;
+        onboardButton.classList.add('disabled');
+        onboardButton.innerText = 'Connected to MetaMask!';
+        const account = accounts[0];
+        showAccount.innerHTML = account;
+        console.log(account || "Not able to get accounts");
+      } else{
       //If MetaMask is installed we ask the user to connect to their wallet
       onboardButton.innerText = 'Connect to MetaMask Wallet';
       //When the button is clicked we call this function to connect the users MetaMask Wallet
       onboardButton.onclick = onClickConnect;
       //The button is now disabled
-      onboardButton.disabled = false;
+      onboardButton.disabled = true;
+      }
     }
   };
 
