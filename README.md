@@ -96,14 +96,35 @@ run dbxml/FoodPrintSchemaDump20210814.sql (previuously used foodprintDB_schema.s
 
 8. Create a database configuration file in the root folder - `dbconfig.json` and populate with updated json config as below
 
-```
+```json
 {
-        "db_pool": {
+  "db_pool": {
         "host"      : <HOSTNAME>,
         "user"      : <USERNAME>,
         "password"  : <PASSWORD>,
         "database"  : <DATABASENAME>
-    }
+    },
+  "development": {
+    "username": <USERNAME>,
+    "password": <PASSWORD>,
+    "database": <DATABASENAME>,
+    "host": <HOSTNAME>,
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": <USERNAME>,
+    "password": <PASSWORD>,
+    "database": <DATABASENAME>,
+    "host": <HOSTNAME>,
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": <USERNAME>,
+    "password": <PASSWORD>,
+    "database": <DATABASENAME>,
+    "host": <HOSTNAME>,
+    "dialect": "mysql"
+  }
 }
 ```
 
