@@ -16,8 +16,10 @@ const options = {
   },
   tables: [ // use all tables, if omitted
     'foodprint_harvest',
+    'foodprint_storage',
     'foodprint_qrcount',
-    'foodprint_subscription'
+    'foodprint_subscription',
+    'foodprint_weeklyview'
   ]
 };
 
@@ -28,6 +30,6 @@ const auto = new SequelizeAuto(config.database, config.username, config.password
 });
 
 auto.run().then(data => {
-  // const tableNames = Object.keys(data.tables);
-  // console.log(tableNames);      // table list
+  const tableNames = Object.keys(data.tables);
+  console.log(tableNames);      // table list
 });

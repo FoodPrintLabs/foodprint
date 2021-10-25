@@ -152,9 +152,9 @@ $npm run dev
 For convenience Sequelize Auto provides a programmatic api that can be used in the generation of models in addition to their [cli](https://github.com/sequelize/sequelize-auto).
 You can use the convenience script `src/js/sequelise_auto_export.js` to generate required models by supplying the table names in the `tables` section of the `options` object. The script establishes a connection to the database using the config data specified in step `8`.
 
-Execute the command below to generate the models for the specified tables:
+Execute the command below within `src/js` to generate the models for the specified tables:
 ```bash
-node src/js/sequelise_auto_export.js
+node sequelise_auto_export.js
 ```
 
 The generated models can be found in `./models`
