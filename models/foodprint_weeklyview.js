@@ -40,11 +40,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     harvest_TimeStamp: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.DATE,
       allowNull: true
     },
     harvest_CaptureTime: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.DATE,
       allowNull: true
     },
     harvest_Description: {

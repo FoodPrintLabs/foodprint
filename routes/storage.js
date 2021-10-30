@@ -38,7 +38,7 @@ router.get('/',
           models.FoodprintHarvest
             .findAll({
               attributes: ['harvest_logid', 'supplierproduce',
-                'harvest_quantity', 'harvest_unitofmeasure', 'harvest_TimeStamp'],
+                'harvest_quantity', 'harvest_unitOfMeasure', 'harvest_TimeStamp'],
               order: [
                 ['pk', 'DESC']
               ]
