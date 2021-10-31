@@ -54,6 +54,7 @@ var harvestRouter = require('./routes/harvest');
 var storageRouter = require('./routes/storage');
 var authRouter = require('./routes/auth');
 var ROLES = require('./utils/roles');
+const {Sequelize} = require("sequelize");
 
 // enable ssl redirect
 app.use(sslRedirect([
@@ -412,12 +413,12 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()],
             {supplierproduce: supplierProduceID},
             {
               logdatetime: {
-                [Op.lt]: '(date(curdate() - interval weekday(curdate()) day + interval 1 week))'
+                [Op.lt]: Sequelize.literal('(date(curdate() - interval weekday(curdate()) day + interval 1 week))')
               }
             },
             {
               logdatetime: {
-                [Op.gt]: '(date(curdate() - interval weekday(curdate()) day))'
+                [Op.gt]: Sequelize.literal('(date(curdate() - interval weekday(curdate()) day))')
               }
             }
           ]
@@ -662,12 +663,12 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
           {supplierproduce: supplierProduceID},
           {
             logdatetime: {
-              [Op.lt]: '(date(curdate() - interval weekday(curdate()) day + interval 1 week))'
+              [Op.lt]: Sequelize.literal('(date(curdate() - interval weekday(curdate()) day + interval 1 week))')
             }
           },
           {
             logdatetime: {
-              [Op.gt]: '(date(curdate() - interval weekday(curdate()) day))'
+              [Op.gt]: Sequelize.literal('(date(curdate() - interval weekday(curdate()) day))')
             }
           }
         ]
