@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  database:
+    image: mysql:5.6
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'foodprint'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'qwertyui123'
+      MYSQL_ROOT_PASSWORD: 'qwertyui123'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - foodprint-db:/var/lib/database
+volumes:
+  foodprint-db:
