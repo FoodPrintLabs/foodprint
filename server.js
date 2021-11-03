@@ -857,7 +857,32 @@ router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], 
   //TODO - cross check marketID against existing marketID's from foodprint_market
 
   try {
-    connection.execute('\n' +
+
+    let data = {
+      logid: logid,
+      qrid: qrid,
+      qrurl: qrurl,
+      marketID: marketID,
+      request_host: request_host,
+      request_origin: request_origin,
+      request_useragent: request_useragent,
+      logdatetime: logdatetime
+    }
+
+    models.FoodprintQrcount
+      .create(data)
+      .then(() => {
+        console.log('Market checkin tracking successful');
+        //res.json({ success: true, email: checkin_email });
+      })
+      .catch(err => {
+        //req.flash('error', err);
+        //console.error('error', err)
+        console.error('Market checkin tracking error occured');
+        // res.status.json({ err: err });
+      })
+
+    /*connection.execute('\n' +
       'INSERT INTO foodprint_qrcount (\n' +
       '        logid ,\n' +
       '        qrid,\n' +
@@ -887,7 +912,7 @@ router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], 
           console.log('Market checkin tracking successful');
           //res.json({ success: true, email: checkin_email });
         }
-      });
+      });*/
   } catch (e) {
     //TODO log the error
     //this will eventually be handled by your error handling middleware
@@ -1209,7 +1234,58 @@ router.post('/app/traceproduce', [
       res.json({errors: errors.array(), success: false});
     } else {
       try {
-        let storage_sql = "SELECT harvest_logid, storage_logid, market_storageTimeStamp, supplierproduce FROM foodprint_storage WHERE storage_logid='" + req.body.search_term +
+
+        models.FoodprintStorage
+          .findAll({
+            attributes: ['harvest_logid', 'storage_logid', 'market_storageTimeStamp', 'supplierproduce'],
+            where: {
+              [Op.or]: [
+                {storage_logid: req.body.search_term},
+                {harvest_logid: req.body.search_term},
+                {
+                  supplierproduce: {
+                    [Op.substring]: req.body.search_term
+                  }
+                },
+                {supplierproduce: req.body.search_term}
+              ]
+            }
+          })
+          .then(storage_rows => {
+
+            models.FoodprintHarvest
+              .findAll({
+                attributes: ['harvest_logid', 'supplierproduce', 'harvest_quantity', 'harvest_unitofmeasure', 'harvest_TimeStamp'],
+                where: {
+                  [Op.or]: [
+                    {harvest_logid: req.body.search_term},
+                    {harvest_produceName: req.body.search_term},
+                    {
+                      supplierproduce: {
+                        [Op.substring]: req.body.search_term
+                      }
+                    },
+                    {supplierproduce: req.body.search_term}
+                  ]
+                }
+              })
+              .then(harvest_rows => {
+                console.log('Search DB success');
+                res.json({success: true, produce_harvest_data: harvest_rows, produce_storage_data: storage_rows});
+              })
+              .catch(err => {
+                console.error('error', err);
+                res.status.json({err: err});
+              })
+
+          })
+          .catch(err => {
+            console.error('error', err);
+            res.status.json({err: err});
+          })
+
+
+        /*let storage_sql = "SELECT harvest_logid, storage_logid, market_storageTimeStamp, supplierproduce FROM foodprint_storage WHERE storage_logid='" + req.body.search_term +
           "' OR harvest_logid='" + req.body.search_term +
           "' OR supplierproduce LIKE '%" + req.body.search_term +
           "%' OR supplierproduce='" + req.body.search_term + "'";
@@ -1236,7 +1312,7 @@ router.post('/app/traceproduce', [
               }
             });
           }
-        });
+        });*/
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
