@@ -68,12 +68,23 @@ router.post('/register/whatsapp',
       let sql = "INSERT INTO user SET ?";
 
       connection.query(sql, req.body, function (err, results) {
-        console.log("results", results);
         if (err) {
           console.log(err)
           res.status(400).send({ message: err.message });
         } else {
-          res.status(201).send({ message: "success" });
+          let sql = "select ID, firstName, middleName, lastName, email, phoneNumber, role, createdAt, registrationChannel from user where phoneNumber = ?";
+
+          connection.execute(sql, [req.body.phoneNumber],
+            function (err, users) {
+              if (err) {
+                console.log(err)
+                res.status(400).send({ message: err.message });
+              } else if (users.length === 0) {
+                res.status(404).send({ message: "user not found" });
+              } else {
+                res.status(201).send(users[0]);
+              }
+            });
         }
       });
     } catch (e) {
@@ -93,7 +104,6 @@ router.get('/register/status/:phoneNumber',
 
       connection.execute(sql, [phoneNumber],
         function (err, users) {
-          console.log("users", users);
           if (err) {
             console.log(err)
             res.status(400).send({ message: err.message });
