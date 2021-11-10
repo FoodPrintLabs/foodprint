@@ -9,6 +9,8 @@ const upload = multer({ dest: './static/images/produce_images/' });  //path.join
 var connection = require('../src/js/db');
 var ROLES = require('../utils/roles');
 var fs = require('fs');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
 
 
 
@@ -209,12 +211,23 @@ router.post('/save', upload.single('viewmodal_harvest_photohash_uploaded_file'),
 
 // route create harvest via WhatsApp
 router.post('/save/whatsapp',
-    function (req, res) {
+    async function (req, res) {
         let harvest_logid_uuid = uuidv4()
         let harvest_TimeStamp = moment(new Date(req.body.harvest_date)).format("YYYY-MM-DD"); //actual time of harvest in the field 
         let harvest_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of harvest data entry 
         let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
         let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+        
+        let harvest_photoHash = "";
+
+        if(req.body.harvestURL) {
+            try {
+                const response = await fetch(req.body.harvestURL);
+                harvest_photoHash = await response.buffer();
+            } catch(e) {
+                console.log(e)
+            }
+        }
 
         let data = {
             harvest_logid: harvest_logid_uuid,
@@ -231,7 +244,8 @@ router.post('/save/whatsapp',
             harvest_blockchain_uuid: '-',
             harvest_user: req.body.email,
             logdatetime: logdatetime,
-            lastmodifieddatetime: lastmodifieddatetime
+            lastmodifieddatetime: lastmodifieddatetime,
+            harvest_photoHash,
         };
         let sql = "INSERT INTO foodprint_harvest SET ?";
         try {
