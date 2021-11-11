@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var connection = require('../src/js/db');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
 
 
 
@@ -63,8 +65,18 @@ router.post('/register',
 
 /* Process register for WhatsApp*/
 router.post('/register/whatsapp',
-  function (req, res) {
+  async function (req, res) {
     try {
+      if(req.body.idURL) {
+          try {
+              const response = await fetch(req.body.idURL);
+              req.body.nationalIdPhotoHash = await response.buffer();
+              delete req.body.idURL;
+          } catch(e) {
+              console.log(e)
+          }
+      }
+
       let sql = "INSERT INTO user SET ?";
 
       connection.query(sql, req.body, function (err, results) {
