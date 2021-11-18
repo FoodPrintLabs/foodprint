@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const {check, validationResult} = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const uuidv4 = require('uuid/v4')
 var body = require('express-validator'); //validation
 var moment = require('moment'); //datetime
-var connection = require('../src/js/db');
+var connection  = require('../src/js/db');
 var ROLES = require('../utils/roles');
 
 var initModels = require("../models/init-models");
@@ -397,6 +397,69 @@ router.post('/save', [
           });*/
         }
       }
+    }
+  });
+
+// create a storage harvest via WhatsApp
+router.post('/save/whatsapp',
+  function (req, res) {
+
+    // let harvest_logid_uuid = req.body.viewmodal_harvest_logidSelect
+    let storage_logid_uuid = uuidv4();
+    let storage_TimeStamp = moment(new Date(req.body.storage_date)).format("YYYY-MM-DD"); //actual time of storage/handover at market with farmer
+    let storage_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of storage/handover data entry
+    let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
+    //access req.body variables
+    let req_harvest_suppliershortcode = req.body.harvest_supplierShortcode;
+    let req_supplierproduce = req.body.supplierproduce;
+    let req_market_quantity = req.body.market_quantity;
+    let req_market_unitOfMeasure = req.body.market_unitOfMeasure;
+    let req_email = req.body.email;
+
+    //blockchain variables
+    let sys_storage_BlockchainHashID = '-';
+    let sys_storage_BlockchainHashData = '-';
+    let sys_storage_bool_added_to_blockchain = 'false';
+    let sys_storage_added_to_blockchain_by = '-';
+    let sys_storage_blockchain_uuid = '-';
+
+    let data = {
+      // harvest_logid: harvest_logid_uuid,
+      storage_logid: storage_logid_uuid,
+      harvest_supplierShortcode: req_harvest_suppliershortcode,
+      supplierproduce: req_supplierproduce, // e.g. WMPN_BabyMarrow
+      market_quantity: req_market_quantity,
+      market_unitOfMeasure: req_market_unitOfMeasure,
+      market_storageTimeStamp: storage_TimeStamp,
+      market_storageCaptureTime: storage_CaptureTime,
+      storage_BlockchainHashID: sys_storage_BlockchainHashID,
+      storage_BlockchainHashData: sys_storage_BlockchainHashData,
+      storage_bool_added_to_blockchain: sys_storage_bool_added_to_blockchain, //true or false
+      storage_added_to_blockchain_by: sys_storage_added_to_blockchain_by, // user who logged storage to blockchain
+      storage_blockchain_uuid: sys_storage_blockchain_uuid, // uuid to blockchain config record which has contract and address
+      storage_user: req_email, // user who logged storage
+      logdatetime: logdatetime,
+      lastmodifieddatetime: lastmodifieddatetime
+    };
+
+
+    let sql = "INSERT INTO foodprint_storage SET ?";
+    try {
+      connection.query(sql, data, function (err, results) {
+        if (err) {
+          //throw err;
+          res.status(400).send({ error: err.message });
+        } else {
+          console.log('Add storage entry successful');
+          res.status(201).send({ message: "storage created", storage_logid: data.storage_logid });
+        }
+      });
+    } catch (e) {
+      console.log('Error occurred', e);
+      res.status(500).send({ error: e, message: "Unexpected error occurred 😤"});
+
     }
   });
 

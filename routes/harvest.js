@@ -1,14 +1,16 @@
 var express = require('express');
 var router = express.Router();
-const {check, validationResult} = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const uuidv4 = require('uuid/v4')
 var body = require('express-validator'); //validation
 var moment = require('moment'); //datetime
 const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
-const upload = multer({dest: './static/images/produce_images/'});  //path.join(__dirname, 'static/images/produce_images/)
-// var connection  = require('../src/js/db');
+const upload = multer({ dest: './static/images/produce_images/' });  //path.join(__dirname, 'static/images/produce_images/)
+var connection = require('../src/js/db');
 var ROLES = require('../utils/roles');
 var fs = require('fs');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
 
 
 var initModels = require("../models/init-models");
@@ -257,8 +259,67 @@ router.post('/save', upload.single('viewmodal_harvest_photohash_uploaded_file'),
       }
 
 
-    }
-  });
+        }
+    });
+
+
+// route create harvest via WhatsApp
+router.post('/save/whatsapp',
+    async function (req, res) {
+        let harvest_logid_uuid = uuidv4()
+        let harvest_TimeStamp = moment(new Date(req.body.harvest_date)).format("YYYY-MM-DD"); //actual time of harvest in the field
+        let harvest_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss"); //time of harvest data entry
+        let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+        let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
+        let harvest_photoHash = "";
+
+        if(req.body.harvestURL) {
+            try {
+                const response = await fetch(req.body.harvestURL);
+                harvest_photoHash = await response.buffer();
+            } catch(e) {
+                console.log(e)
+            }
+        }
+
+        let data = {
+            harvest_logid: harvest_logid_uuid,
+            harvest_farmerName: req.body.harvest_farmerName,
+            harvest_produceName: req.body.harvest_produceName,
+            harvest_TimeStamp: harvest_TimeStamp,
+            harvest_CaptureTime: harvest_CaptureTime,
+            harvest_quantity: req.body.harvest_quantity,
+            harvest_unitOfMeasure: req.body.harvest_unitOfMeasure,
+            harvest_BlockchainHashID: '-',
+            harvest_BlockchainHashData: '-',
+            harvest_bool_added_to_blockchain: 'false',
+            harvest_added_to_blockchain_by: '-',
+            harvest_blockchain_uuid: '-',
+            harvest_user: req.body.email,
+            logdatetime: logdatetime,
+            lastmodifieddatetime: lastmodifieddatetime,
+            harvest_photoHash,
+        };
+        let sql = "INSERT INTO foodprint_harvest SET ?";
+        try {
+            connection.query(sql, data, function (err, results) {
+                if (err) {
+                    //throw err;
+                    res.status(400).send({ message: err.message });
+
+                } else {
+                    res.status(201).send({ message: "harvest created", harvest_logid: data.harvest_logid });
+                }
+            });
+        } catch (e) {
+            //this will eventually be handled by your error handling middleware
+            //res.json({success: false, errors:errors.array()});
+            console.log(e);
+            res.status(500).send({ error: e, message: "Unexpected error occurred 😤"});
+        }
+    });
+
 
 //route for update data
 router.post('/update', upload.none(), [
