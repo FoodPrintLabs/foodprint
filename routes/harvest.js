@@ -138,7 +138,7 @@ router.post('/save', upload.single('viewmodal_harvest_photohash_uploaded_file'),
 
       for (var harvest_description_item in req.body.viewmodal_harvest_description_json) {
         if (req.body.viewmodal_harvest_description_json) {
-          items = req.body.viewmodal_harvest_description_json;
+          let items = req.body.viewmodal_harvest_description_json;
           harvest_description_item = JSON.stringify(items).replace(/]|[[]|"/g, '',)
           console.log("items");
           console.log(items);
@@ -301,9 +301,19 @@ router.post('/save/whatsapp',
             lastmodifieddatetime: lastmodifieddatetime,
             harvest_photoHash,
         };
-        let sql = "INSERT INTO foodprint_harvest SET ?";
+        // let sql = "INSERT INTO foodprint_harvest SET ?";
         try {
-            connection.query(sql, data, function (err, results) {
+
+          models.FoodprintHarvest
+            .create(data)
+            .then(_ => {
+              res.status(201).send({ message: "harvest created", harvest_logid: data.harvest_logid });
+            })
+            .catch( err => {
+              //throw err;
+              res.status(400).send({ message: err.message });
+            })
+            /*connection.query(sql, data, function (err, results) {
                 if (err) {
                     //throw err;
                     res.status(400).send({ message: err.message });
@@ -311,7 +321,7 @@ router.post('/save/whatsapp',
                 } else {
                     res.status(201).send({ message: "harvest created", harvest_logid: data.harvest_logid });
                 }
-            });
+            });*/
         } catch (e) {
             //this will eventually be handled by your error handling middleware
             //res.json({success: false, errors:errors.array()});
