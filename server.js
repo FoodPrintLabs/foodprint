@@ -941,8 +941,27 @@ router.post('/marketcheckin', [
       var checkin_firstname = '';
       var checkin_surname = '';
 
+      let data = {
+        market_id: checkin_market_id,
+        firstname: checkin_firstname,
+        surname: checkin_surname,
+        email: checkin_email,
+        logdatetime: checkin_datetime,
+      }
       try {
-        connection.execute('\n' +
+
+        models.MarketSubscription
+          .create(data)
+          .then(_ => {
+            console.log('add market_subscription DB success');
+            res.json({success: true, email: checkin_email});
+          })
+          .catch( err => {
+            //req.flash('error', err);
+            console.error('error', err);
+            res.status.json({err: err});
+          })
+        /*connection.execute('\n' +
           'INSERT INTO market_subscription (\n' +
           '        market_id ,\n' +
           '        firstname,\n' +
@@ -965,7 +984,7 @@ router.post('/marketcheckin', [
               console.log('add market_subscription DB success');
               res.json({success: true, email: checkin_email});
             }
-          });
+          });*/
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e)
@@ -975,7 +994,7 @@ router.post('/marketcheckin', [
   });
 
 
-router.get('/test_db',
+/*router.get('/test_db',
   require('connect-ensure-login').ensureLoggedIn({redirectTo: '/app/auth/login'}),
   async (req, res, next) => {
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
@@ -1006,7 +1025,7 @@ router.get('/test_db',
         title: 'Error', user: req.user, page_name: 'error'
       });
     }
-  });
+  });*/
 
 //addHarvest XmlHTTP request
 router.post('/app/addHarvest', function (req, res) {

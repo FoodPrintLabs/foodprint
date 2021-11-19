@@ -445,9 +445,20 @@ router.post('/save/whatsapp',
     };
 
 
-    let sql = "INSERT INTO foodprint_storage SET ?";
+    // let sql = "INSERT INTO foodprint_storage SET ?";
     try {
-      connection.query(sql, data, function (err, results) {
+
+      models.FoodprintStorage
+        .create(data)
+        .then(_ => {
+          console.log('Add storage entry successful');
+          res.status(201).send({ message: "storage created", storage_logid: data.storage_logid });
+        })
+        .catch(err => {
+          //throw err;
+          res.status(400).send({ error: err.message });
+        })
+      /*connection.query(sql, data, function (err, results) {
         if (err) {
           //throw err;
           res.status(400).send({ error: err.message });
@@ -455,7 +466,7 @@ router.post('/save/whatsapp',
           console.log('Add storage entry successful');
           res.status(201).send({ message: "storage created", storage_logid: data.storage_logid });
         }
-      });
+      });*/
     } catch (e) {
       console.log('Error occurred', e);
       res.status(500).send({ error: e, message: "Unexpected error occurred 😤"});

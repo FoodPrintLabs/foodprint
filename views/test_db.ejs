@@ -9,50 +9,51 @@
 </head>
 <body>
   <div>
-    <a href="/" class="btn btn-primary ml-3">Home</a>  
+    <a href="/" class="btn btn-primary ml-3">Home</a>
     <a href="#" class="btn btn-secondary ml-3">New Customer</a>
     <a href="#" class="btn btn-info ml-3">Customer List</a>
-</div>    
+</div>
 <!--   <% if (messages.error) { %>
   <p style="color:red"><%- messages.error %></p>
 <% } %> -->
-  
+
 <% if (messages.success) { %>
     <p class="alert alert-success mt-4"><%- messages.success %></p>
-<% } %>  
+<% } %>
 <br>
   <table class="table">
 <thead>
   <tr>
     <th scope="col">#</th>
-    <th scope="col">Name</th>
-    <th scope="col">Email</th>
-    <th width="200px">Action</th>
- 
+    <th scope="col">ID</th>
+    <th scope="col">Farmer Name</th>
+    <th width="200px">Produce Name</th>
+
   </tr>
 </thead>
 <tbody>
   <% if(data.length){
- 
-  for(var i = 0; i< data.length; i++) {%>  
+
+  for(var i = 0; i< data.length; i++) {%>
   <tr>
     <th scope="row"><%= (i+1) %></th>
-    <td><%= data[i].ProduceID%></td>
-    <td><%= data[i].Farmer%></td>
-    <td>
-    <!--<a class="btn btn-success edit" href="../customers/edit/<%=data[i].id%>">Edit</a>                       -->
-    <!--<a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="../customers/delete/<%=data[i].id%>">Delete</a>                       -->
+    <td><%= data[i].harvest_logid%></td>
+    <td><%= data[i].harvest_farmerName%></td>
+    <td><%= data[i].harvest_produceName%></td>
+    <!--<td>
+    &lt;!&ndash;<a class="btn btn-success edit" href="../customers/edit/<%=data[i].id%>">Edit</a>                       &ndash;&gt;
+    &lt;!&ndash;<a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="../customers/delete/<%=data[i].id%>">Delete</a>                       &ndash;&gt;
    <a class="btn btn-success edit" href="#">Edit</a>
     <a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="#">Delete</a>
-   </td>
+   </td>-->
   </tr>
   <% }
-           
+
    }else{ %>
        <tr>
-          <td colspan="3">No user</td>
+          <td colspan="3">No data</td>
        </tr>
-    <% } %>    
+    <% } %>
 </tbody>
 </table>
 
@@ -124,8 +125,8 @@
                             console.log('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
                             $('#test_rest_producescan_result').html('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
                           });
-                    });   
-                    
+                    });
+
           $('#test_qrcode').click(function (event) {
                         event.preventDefault();
                         //collect the form data using Id Selector what ever data you need to send to server
@@ -161,7 +162,7 @@
                             //       errorsContainer.html(errorsList);
                             //     }
                           });
-                    });    
+                    });
 
                 });
   </script>

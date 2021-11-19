@@ -4,7 +4,10 @@ var passport = require('passport');
 var connection = require('../src/js/db');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
+var initModels = require("../models/init-models");
+var sequelise = require('../src/js/db_sequelise');
 
+var models = initModels(sequelise);
 
 
 /* Render Login page. */
@@ -77,7 +80,37 @@ router.post('/register/whatsapp',
           }
       }
 
-      let sql = "INSERT INTO user SET ?";
+      models.User
+        .create(req.body)
+        .then(_ => {
+          models.User
+            .findAll({
+              attributes: ['ID', 'firstName', 'middleName',
+                'lastName', 'email', 'phoneNumber',
+                'role', 'createdAt', 'registrationChannel'],
+              where: {
+                phoneNumber: req.body.phoneNumber
+              }
+            })
+            .then(users =>{
+              if (users.length === 0) {
+                res.status(404).send({ message: "user not found" });
+              } else {
+                res.status(201).send(users[0]);
+              }
+            })
+            .catch(err =>{
+              console.log(err)
+              res.status(400).send({ message: err.message });
+            })
+
+        })
+        .catch(err =>{
+          console.log(err)
+          res.status(400).send({ message: err.message });
+        })
+
+      /*let sql = "INSERT INTO user SET ?";
 
       connection.query(sql, req.body, function (err, results) {
         if (err) {
@@ -98,7 +131,7 @@ router.post('/register/whatsapp',
               }
             });
         }
-      });
+      });*/
     } catch (e) {
       console.log(e)
       res.status(500).send({ error: e, message: "Unexpected error occurred 😤"});
@@ -112,7 +145,28 @@ router.get('/register/status/:phoneNumber',
     const { phoneNumber } = req.params
     try {
 
-      let sql = "select ID, firstName, middleName, lastName, email, phoneNumber, role, createdAt, registrationChannel from user where phoneNumber = ?";
+      models.User
+        .findAll({
+          attributes: ['ID', 'firstName', 'middleName',
+            'lastName', 'email', 'phoneNumber',
+            'role', 'createdAt', 'registrationChannel'],
+          where: {
+            phoneNumber: phoneNumber
+          }
+        })
+        .then(users => {
+          if (users.length === 0) {
+            res.status(404).send({ message: "user not found" });
+          } else {
+            res.status(200).send(users[0]);
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send({ message: err.message });
+        })
+
+      /*let sql = "select ID, firstName, middleName, lastName, email, phoneNumber, role, createdAt, registrationChannel from user where phoneNumber = ?";
 
       connection.execute(sql, [phoneNumber],
         function (err, users) {
@@ -124,7 +178,7 @@ router.get('/register/status/:phoneNumber',
           } else {
             res.status(200).send(users[0]);
           }
-        });
+        });*/
     } catch (e) {
       console.log(e)
       res.status(500).send({ error: e, message: "Unexpected error occurred 😤"});

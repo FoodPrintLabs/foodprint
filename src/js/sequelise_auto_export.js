@@ -19,7 +19,10 @@ const options = {
     'foodprint_storage',
     'foodprint_qrcount',
     'foodprint_subscription',
-    'foodprint_weeklyview'
+    'foodprint_weeklyview',
+    'foodprint_config',
+    'user',
+    'market_subscription'
   ]
 };
 
