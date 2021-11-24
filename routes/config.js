@@ -156,6 +156,7 @@ router.post('/update', [
                   })
                   .then(_ =>{
                     req.flash('success', 'Configuration updated successfully! Config Name = ' + req.body.config_name);
+                    res.redirect('/app/config');
                   })
                   .catch(err => {
                     //throw err;
