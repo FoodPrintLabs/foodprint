@@ -96,14 +96,35 @@ run dbxml/FoodPrintSchemaDump20210814.sql (previuously used foodprintDB_schema.s
 
 8. Create a database configuration file in the root folder - `dbconfig.json` and populate with updated json config as below
 
-```
+```json
 {
-        "db_pool": {
+  "db_pool": {
         "host"      : <HOSTNAME>,
         "user"      : <USERNAME>,
         "password"  : <PASSWORD>,
         "database"  : <DATABASENAME>
-    }
+    },
+  "development": {
+    "username": <USERNAME>,
+    "password": <PASSWORD>,
+    "database": <DATABASENAME>,
+    "host": <HOSTNAME>,
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": <USERNAME>,
+    "password": <PASSWORD>,
+    "database": <DATABASENAME>,
+    "host": <HOSTNAME>,
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": <USERNAME>,
+    "password": <PASSWORD>,
+    "database": <DATABASENAME>,
+    "host": <HOSTNAME>,
+    "dialect": "mysql"
+  }
 }
 ```
 
@@ -125,6 +146,18 @@ You can then access the variables in your code using process.env e.g. `console.l
 ```
 $npm run dev
 ```
+
+## Generating Models from an existing database with Sequelize Auto
+
+For convenience Sequelize Auto provides a programmatic api that can be used in the generation of models in addition to their [cli](https://github.com/sequelize/sequelize-auto).
+You can use the convenience script `src/js/sequelise_auto_export.js` to generate required models by supplying the table names in the `tables` section of the `options` object. The script establishes a connection to the database using the config data specified in step `8`.
+
+Execute the command below within `src/js` to generate the models for the specified tables:
+```bash
+node sequelise_auto_export.js
+```
+
+The generated models can be found in `./models`
 
 ## Deploy to Rinkeby Ethereum test network
 

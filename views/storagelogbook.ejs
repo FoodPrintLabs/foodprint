@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <% include ./partials/head %>  
+      <% include ./partials/head %>
   </head>
   <body>
    <!-- START: header -->
@@ -21,9 +21,9 @@
       <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>
       <p>Connected Account: <span class="showAccount"></span></p>
     </div>
-    
+
     <% include ./partials/notificationbar %>
-    
+
     <br>
       <table class="table table-hover table-condensed table-responsive" id="storagetable">
         <thead>
@@ -125,7 +125,7 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Delete</a>
-                      <% if(data[i].storage_bool_added_to_blockchain!=='false'){%> <a href="javascript:void(0);" class="btn btn-xs btn-success">View on Blockchain</a>  <%}else{ %> 
+                      <% if(data[i].storage_bool_added_to_blockchain!=='false'){%> <a href="javascript:void(0);" class="btn btn-xs btn-success">View on Blockchain</a>  <%}else{ %>
 
                     <a href="javascript:void(0);" class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn"
                        id="<%= ("storage_add_blockchain_" + data[i].storage_logid) %>"
@@ -187,14 +187,14 @@
                     <option value="" selected disabled>Select Harvest ID...</option>
                     <% if(typeof harvest_data != "undefined" && harvest_data.length){
                       for(var i = 0; i< harvest_data.length; i++) {%>
-                        <option value="<%=harvest_data[i].harvest_logid%>"><%= harvest_data[i].harvest_TimeStamp +  "/"  + harvest_data[i].supplierproduce + "/"  + harvest_data[i].harvest_quantity + "("+ harvest_data[i].harvest_unitofmeasure + ")"%></option>
+                        <option value="<%=harvest_data[i].harvest_logid%>"><%= harvest_data[i].harvest_TimeStamp +  "/"  + harvest_data[i].supplierproduce + "/"  + harvest_data[i].harvest_quantity + "("+ harvest_data[i].harvest_unitOfMeasure + ")"%></option>
                           <% }
                         }else{ %>
                           <option>No data</option>
                          <% } %>
                   </select>
-                </div> 
-                
+                </div>
+
                 <div class="form-group">
                   <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
                   <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
@@ -244,7 +244,7 @@
                     <option>WMNP_Cucumber</option>
                     <option>WMNP_Fennel</option>
                     <option>WMNP_GreenBeans</option>
-                    <option>WMNP_Radish</option> 
+                    <option>WMNP_Radish</option>
                   </select>
                 </div>
 
@@ -384,12 +384,12 @@
                 <div class="form-group" id="viewmodal_harvest_logidDiv">
                   <label for="viewmodal_harvest_logid">Harvest ID</label>
                   <input type="text" name="viewmodal_harvest_logid" class="form-control" id="viewmodal_harvest_logid" placeholder="Harvest ID">
-                </div> 
+                </div>
 
                 <div class="form-group" id="viewmodal_storage_logidDiv">
                   <label for="viewmodal_storage_logid">Storage/Handover ID</label>
                   <input type="text" name="viewmodal_storage_logid" class="form-control" id="viewmodal_storage_logid" placeholder="Storage/Handover ID">
-                </div> 
+                </div>
 
                 <div class="form-check" id="storageCheckDiv">
                   <input type="checkbox" class="form-check-input" id="storageCheck" required>
@@ -414,13 +414,13 @@
     <!-- start footer -->
     <% include ./partials/footer %>
     <!-- end footer -->
-    
+
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
 
-    
+
   <script src="/js/scripts.min.js"></script><!--/*! jQuery v1.12.4 | (c) jQuery Foundation | jquery.org/license */-->
   <script src="/js/main.min.js"></script>  <!--  Bootstrap v3.3.7 -->
-   
+
    <script type="text/javascript" src="/js/moment-with-locales.min.js"></script> <!--datetime picker -->
    <script type="text/javascript" src="/js/moment-timezone-with-data-2012-2022.min.js"></script> <!--datetime picker -->
    <script src="/js/tempusdominus-bootstrap-3.js"></script> <!--datetime picker -->
@@ -449,7 +449,7 @@
       });
     });
   </script>
-  
+
   <script type="text/javascript">
     function ShowStorageModal(obj_identifier, action, header, contentClassID) {
       var updateButton=$('<input/>').attr({
@@ -484,7 +484,7 @@
             //retrieve data values on click of view/edit/delete. These datavalues need to be lowercase
             var harvest_logid = $(obj_identifier).data('harvest_logid');
             var storage_logid = $(obj_identifier).data('storage_logid');
-            var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode'); 
+            var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode');
             var supplierproduce = $(obj_identifier).data('supplierproduce');
             var market_Shortcode = $(obj_identifier).data('market_shortcode');
             var market_Name = $(obj_identifier).data('market_name');
@@ -512,15 +512,15 @@
             // console.log("supplierproduce - " + supplierproduce);
             // console.log("market_Shortcode - " + market_Shortcode);
             // console.log("market_Name - " + market_Name);
-            // console.log("market_Address - " + market_Address); 
+            // console.log("market_Address - " + market_Address);
             // console.log("market_quantity - " + market_quantity);
-            // console.log("market_unitOfMeasure - " + market_unitOfMeasure); 
-            // console.log("market_storageTimeStamp - " + market_storageTimeStamp); 
-            // console.log("market_storageCaptureTime - " + market_storageCaptureTime); 
-            // console.log("market_URL - " + market_URL); 
-            // console.log("storage_BlockchainHashID - " + storage_BlockchainHashID); 
+            // console.log("market_unitOfMeasure - " + market_unitOfMeasure);
+            // console.log("market_storageTimeStamp - " + market_storageTimeStamp);
+            // console.log("market_storageCaptureTime - " + market_storageCaptureTime);
+            // console.log("market_URL - " + market_URL);
+            // console.log("storage_BlockchainHashID - " + storage_BlockchainHashID);
             // console.log("storage_BlockchainHashData - " + storage_BlockchainHashData);
-            // console.log("storage_Description - " + storage_Description); 
+            // console.log("storage_Description - " + storage_Description);
             // console.log("storage_bool_added_to_blockchain - " + storage_bool_added_to_blockchain);
             // console.log("storage_added_to_blockchain_by - " + storage_added_to_blockchain_by);
             // console.log("storage_blockchain_uuid - " + storage_blockchain_uuid);
@@ -557,32 +557,32 @@
             $('#storageModalAdd').remove();
             $('#storageModalDelete').remove();
             $('#storageModalClose').remove();
-          
+
           if (action==='add'){
             $("#modalBodyContainer :input").attr("disabled", false);
             $("#modalBodyContainer :input").attr("required", true);
-            
+
             //System populated:
             //viewmodal_storage_BlockchainHashIDDiv, viewmodal_storage_BlockchainHashDataDiv,
-            //viewmodal_storage_bool_added_to_blockchainDiv, viewmodal_storage_added_to_blockchain_dateDiv, 
+            //viewmodal_storage_bool_added_to_blockchainDiv, viewmodal_storage_added_to_blockchain_dateDiv,
             //viewmodal_storage_userDiv, viewmodal_storage_blockchain_uuidDiv, viewmodal_storage_added_to_blockchain_byDiv,
             //viewmodal_market_storageCaptureTimeDiv, viewmodal_logdatetime, viewmodal_lastmodifieddatetime, viewmodal_harvest_logid and viewmodal_storage_logid
 
             //Hide divs for System populated elements
-            $("#viewmodal_storage_BlockchainHashIDDiv").hide();  
-            $("#viewmodal_storage_BlockchainHashDataDiv").hide();  
-            $("#viewmodal_storage_bool_added_to_blockchainDiv").hide();  
-            $("#viewmodal_storage_added_to_blockchain_dateDiv").hide();  
-            $("#viewmodal_storage_userDiv").hide();  
-            $("#viewmodal_storage_blockchain_uuidDiv").hide();  
-            $("#viewmodal_storage_added_to_blockchain_byDiv").hide();  
+            $("#viewmodal_storage_BlockchainHashIDDiv").hide();
+            $("#viewmodal_storage_BlockchainHashDataDiv").hide();
+            $("#viewmodal_storage_bool_added_to_blockchainDiv").hide();
+            $("#viewmodal_storage_added_to_blockchain_dateDiv").hide();
+            $("#viewmodal_storage_userDiv").hide();
+            $("#viewmodal_storage_blockchain_uuidDiv").hide();
+            $("#viewmodal_storage_added_to_blockchain_byDiv").hide();
             //
-            $("#viewmodal_market_storageCaptureTimeDiv").hide();  
-            $("#viewmodal_logdatetimeDiv").hide();  
-            $("#viewmodal_lastmodifieddatetimeDiv").hide();  
-            $("#viewmodal_harvest_logidDiv").hide();  
-            $("#viewmodal_storage_logidDiv").hide();  
-            
+            $("#viewmodal_market_storageCaptureTimeDiv").hide();
+            $("#viewmodal_logdatetimeDiv").hide();
+            $("#viewmodal_lastmodifieddatetimeDiv").hide();
+            $("#viewmodal_harvest_logidDiv").hide();
+            $("#viewmodal_storage_logidDiv").hide();
+
 
             //Make System populated elements not required otherwise Add Storage Form will not submit
             $("#viewmodal_storage_BlockchainHashID").attr("required", false);
@@ -604,52 +604,52 @@
 
             $("#storageCheckDiv").show();  // show confirm add/edit checkbox
 
-            $("#modalFooter").append(addButton);  
-            $("#modalFooter").append(closeButton);  
+            $("#modalFooter").append(addButton);
+            $("#modalFooter").append(closeButton);
           }
           else if (action==='view'){
             $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
-            // $('#form1 input').attr('readonly', 'readonly');    
+            // $('#form1 input').attr('readonly', 'readonly');
 
               //System populated:
             //viewmodal_storage_BlockchainHashIDDiv, viewmodal_storage_BlockchainHashDataDiv,
-            //viewmodal_storage_bool_added_to_blockchainDiv, viewmodal_storage_added_to_blockchain_dateDiv, 
+            //viewmodal_storage_bool_added_to_blockchainDiv, viewmodal_storage_added_to_blockchain_dateDiv,
             //viewmodal_storage_userDiv, viewmodal_storage_blockchain_uuidDiv, viewmodal_storage_added_to_blockchain_byDiv
 
-            $("#viewmodal_storage_BlockchainHashIDDiv").show();  
-            $("#viewmodal_storage_BlockchainHashDataDiv").show();  
-            $("#viewmodal_storage_bool_added_to_blockchainDiv").show();  
-            $("#viewmodal_storage_added_to_blockchain_dateDiv").show();  
-            $("#viewmodal_storage_userDiv").show();  
-            $("#viewmodal_storage_blockchain_uuidDiv").show();  
-            $("#viewmodal_storage_added_to_blockchain_byDiv").show();  
-            
-            $("#viewmodal_market_storageCaptureTimeDiv").show();  
-            $("#viewmodal_logdatetimeDiv").show();  
-            $("#viewmodal_lastmodifieddatetimeDiv").show();  
-            $("#viewmodal_harvest_logidDiv").show();  
+            $("#viewmodal_storage_BlockchainHashIDDiv").show();
+            $("#viewmodal_storage_BlockchainHashDataDiv").show();
+            $("#viewmodal_storage_bool_added_to_blockchainDiv").show();
+            $("#viewmodal_storage_added_to_blockchain_dateDiv").show();
+            $("#viewmodal_storage_userDiv").show();
+            $("#viewmodal_storage_blockchain_uuidDiv").show();
+            $("#viewmodal_storage_added_to_blockchain_byDiv").show();
+
+            $("#viewmodal_market_storageCaptureTimeDiv").show();
+            $("#viewmodal_logdatetimeDiv").show();
+            $("#viewmodal_lastmodifieddatetimeDiv").show();
+            $("#viewmodal_harvest_logidDiv").show();
             $("#viewmodal_storage_logidDiv").show();
 
-            $("#viewmodal_harvest_logidSelectDiv").hide();  
+            $("#viewmodal_harvest_logidSelectDiv").hide();
             $("#viewmodal_harvest_logidSelect").attr("required", false); // make Harvest Logid Select box not required otherwise form will not submit
 
             $("#storageCheckDiv").hide();  // hide confirm add/edit checkbox
             $("#storageDeleteDiv").hide();  // hide confirm delete checkbox
-            $("#modalFooter").append(closeButton);  
+            $("#modalFooter").append(closeButton);
           }
           else if (action==='update'){
             $("#modalBodyContainer :input").attr("disabled", false);
-            
+
             //TODO $("#viewmodal_logdatetime").attr('readonly', true);
             //$("#viewmodal_logdatetime_calendar").attr('readonly', true);
            // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
 
-           $("#viewmodal_storage_added_to_blockchain_dateDiv").show();  
+           $("#viewmodal_storage_added_to_blockchain_dateDiv").show();
             $("#viewmodal_market_storageCaptureTimeDiv").show();  //TODO - this should be readonly
             $("#viewmodal_logdatetimeDiv").show();  //TODO - this should be readonly
             $("#viewmodal_lastmodifieddatetimeDiv").show();  //TODO - this should be readonly
 
-            $("#viewmodal_harvest_logidDiv").show();  
+            $("#viewmodal_harvest_logidDiv").show();
             $("#viewmodal_storage_logidDiv").show();
             $("#viewmodal_harvest_logid").attr('readonly', true);
             $("#viewmodal_storage_logid").attr('readonly', true);
@@ -659,8 +659,8 @@
 
             $("#storageCheckDiv").show();  // show confirm add/edit checkbox
 
-            $("#modalFooter").append(updateButton);  
-            $("#modalFooter").append(closeButton);  
+            $("#modalFooter").append(updateButton);
+            $("#modalFooter").append(closeButton);
             $('#storageModalForm').attr('action', '/app/storage/update');
           }
           else if (action==='delete'){
@@ -678,11 +678,11 @@
             $("#viewmodal_storage_logid").attr("disabled", false);
             $("#viewmodal_storage_logid").attr('readonly', true);
 
-            $("#viewmodal_harvest_logidSelectDiv").hide();  
+            $("#viewmodal_harvest_logidSelectDiv").hide();
             $("#viewmodal_harvest_logidSelect").attr("required", false); // make Harvest Logid Select box not required otherwise form will not submit
 
-            $("#modalFooter").append(deleteButton);  
-            $("#modalFooter").append(closeButton);  
+            $("#modalFooter").append(deleteButton);
+            $("#modalFooter").append(closeButton);
             $('#storageModalForm').attr('action', '/app/storage/delete');
           }
 
