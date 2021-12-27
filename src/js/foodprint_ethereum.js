@@ -1,7 +1,7 @@
 // this script contains the integration logic for the FoodPrint application to interact with the
 // productv2 solidity smart contract
 
-// import MetaMaskOnboarding from '@metamask/onboarding' // TODO this requires prebundling of the foodprint_blockchain.js before including in html templates
+// import MetaMaskOnboarding from '@metamask/onboarding' // TODO this requires prebundling of the foodprint_ethereum.js before including in html templates
 
 
 const currentUrl = new URL(window.location.href)
