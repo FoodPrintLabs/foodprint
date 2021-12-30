@@ -41,7 +41,7 @@
           <% if(data.length){
               for(var i = 0; i< data.length; i++) {%>
               <tr>
-                <td scope="row"><%= (i+1) %></th>
+                <td scope="row"><%= (i+1) %></td>
                 <td><%= data[i].harvest_logid %></td>
                 <td><%= data[i].harvest_TimeStamp %></td>
                 <td><%= data[i].harvest_supplierName %></td>
@@ -137,37 +137,39 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Delete</a>
-                      <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%> <a href="javascript:void(0);" class="btn btn-xs btn-success">View on Blockchain</a>  <%}else{ %> 
+                      <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%>
+                        <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank">
+                          View on Blockchain</a>  <%}else{ %>
 
-                    <a  href="javascript:void(0);" class="btn btn-xs btn-success blockchain addHarvestToBlockchainBtn"
-                        id="<%= ("harvest_add_blockchain_" + data[i].harvest_logid) %>"
-                        data-harvest_logid="<%= data[i].harvest_logid%>"
-                      data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
-                      data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
-                      data-harvest_farmername="<%=data[i].harvest_farmerName%>"
-                      data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
-                      data-harvest_producename="<%=data[i].harvest_produceName%>"
-                      data-harvest_photohash="<%=data[i].harvest_photoHash%>"
-                      data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
-                      data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
-                      data-harvest_description="<%=data[i].harvest_Description%>"
-                      data-harvest_geolocation="<%=data[i].harvest_geolocation%>"
-                      data-harvest_quantity="<%=data[i].harvest_quantity%>"
-                      data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>"
-                      data-harvest_description_json="<%=data[i].harvest_description_json%>"
-                      data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>"
-                      data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>"
-                      data-supplierproduce="<%=data[i].supplierproduce%>"
-                      data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>"
-                      data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>"
-                      data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
-                      data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
-                      data-harvest_user="<%=data[i].harvest_user%>"
-                      data-year_established="<%=data[i].year_established%>"
-                      data-covid19_response="<%=data[i].covid19_response%>"
-                      data-logdatetime="<%=data[i].logdatetime%>"
-                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
-                      Add to Blockchain</a>  <% } %><!--<button type="button" class="btn btn-primary disabled">Disabled Primary</button> -->
+                    <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addHarvestToBlockchainBtn"
+                       id="<%= ("harvest_add_blockchain_" + data[i].harvest_logid) %>"
+                       data-harvest_logid="<%= data[i].harvest_logid%>"
+                        data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
+                        data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
+                        data-harvest_farmername="<%=data[i].harvest_farmerName%>"
+                        data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
+                        data-harvest_producename="<%=data[i].harvest_produceName%>"
+                        data-harvest_photohash="<%=data[i].harvest_photoHash%>"
+                        data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
+                        data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
+                        data-harvest_description="<%=data[i].harvest_Description%>"
+                        data-harvest_geolocation="<%=data[i].harvest_geolocation%>"
+                        data-harvest_quantity="<%=data[i].harvest_quantity%>"
+                        data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>"
+                        data-harvest_description_json="<%=data[i].harvest_description_json%>"
+                        data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>"
+                        data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>"
+                        data-supplierproduce="<%=data[i].supplierproduce%>"
+                        data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>"
+                        data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>"
+                        data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
+                        data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
+                        data-harvest_user="<%=data[i].harvest_user%>"
+                        data-year_established="<%=data[i].year_established%>"
+                        data-covid19_response="<%=data[i].covid19_response%>"
+                        data-logdatetime="<%=data[i].logdatetime%>"
+                        data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
+                        Add to Blockchain</a>  <% } %>
                     </div>
                 </td>
               </tr>
@@ -524,11 +526,96 @@
           showMeridian: 1
       }); */
     });
-
-    
   </script>
-  
+
   <script type="text/javascript">
+    function addToBlockchain(obj_identifier) {
+      var harvestLogid = $(obj_identifier).data('harvest_logid');
+      var harvestAddBlockchainBtnId = "#harvest_add_blockchain_" + harvestLogid;
+
+      //$(harvestAddBlockchainBtnId).click(function (event) {
+        //event.preventDefault();
+
+        // add spinner and disable button
+        $(harvestAddBlockchainBtnId).addClass('disabled');
+        // add spinner to button
+        $(harvestAddBlockchainBtnId).html(
+                `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding to Blockchain...`
+        );
+
+        var harvestSupplierShortcode = $(obj_identifier).data('harvest_suppliershortcode');
+        var harvestSupplierName = $(obj_identifier).data('harvest_suppliername');
+        var harvestFarmerName = $(obj_identifier).data('harvest_farmername');
+        var harvestSupplierAddress = $(obj_identifier).data('harvest_supplieraddress');
+        var harvestProduceName = $(obj_identifier).data('harvest_producename');
+        var harvestPhotoHash = $(obj_identifier).data('harvest_photohash');
+        var harvestPhotoImage = harvestPhotoHash;
+        var harvestTimestamp = $(obj_identifier).data('harvest_timestamp');
+        var harvestCaptureTime = $(obj_identifier).data('harvest_capturetime');
+        var harvestDescription = $(obj_identifier).data('harvest_description');
+        var harvestGeolocation = $(obj_identifier).data('harvest_geolocation');
+        var harvestQuantity = $(obj_identifier).data('harvest_quantity');
+        var harvestUnitOfMeasure = $(obj_identifier).data('harvest_unitofmeasure');
+        var harvestDescriptionJSON = $(obj_identifier).data('harvest_description_json');
+        var harvestBlockchainHashId = $(obj_identifier).data('harvest_blockchainhashid');
+        var harvestBlockchainHashData = $(obj_identifier).data('harvest_blockchainhashdata');
+        var supplierProduce = $(obj_identifier).data('supplierproduce');
+        var harvestBoolAddedToBlockchain = $(obj_identifier).data('harvest_bool_added_to_blockchain');
+        var harvestAddedToBlockchainDate = $(obj_identifier).data('harvest_added_to_blockchain_date');
+        var harvestAddedToBlockchainBy = $(obj_identifier).data('harvest_added_to_blockchain_by');
+        var harvestBlockchainUuid = $(obj_identifier).data('harvest_blockchain_uuid');
+        var harvestUser = $(obj_identifier).data('harvest_user');
+        var yearEstablished = $(obj_identifier).data('year_established');
+        var covid19Response = $(obj_identifier).data('covid19_response');
+        var logDatetime = $(obj_identifier).data('logdatetime');
+        var lastModifiedDatetime = $(obj_identifier).data('lastmodifieddatetime');
+
+        //buyerID is generic version of marketID, it represents an intermediary buying the produce
+        let otherIdentifiers = "{" + "sourceID:" + harvestSupplierShortcode + ", " + "buyerID:" + "}";
+
+        //actionTimestamp is generic for harvest time, storage time etc
+        let logDetail = "{" + "description:" + harvestDescription + ", " + "actionTimeStamp:" + harvestTimestamp +
+                 ", " + "logQuantity:" + harvestQuantity + "(" + harvestUnitOfMeasure + ")" + "}";
+
+        let logExtendedDetail = "{" + "growingConditions:" + harvestDescriptionJSON + "}";
+
+        let photoHash = sha256(harvestPhotoHash);
+        console.log("harvest_photohash successfully hashed (hash value " + photoHash + ").");
+        let logMetadata = "{" + "logUser:" + harvestUser + ", " + "logType:" + "harvest"  + ", " + "logTableName:" +
+                "foodprint_harvest" + ", " + "harvestPhotoHash:" + photoHash + "}";
+
+        var data = {};
+        data.logID = harvestLogid;
+        data.previouslogID = "";
+        data.otherIdentifiers = otherIdentifiers;
+        data.logDetail = logDetail;
+        data.logExtendedDetail = logExtendedDetail;
+        data.logMetadata = logMetadata;
+
+        // send POST request to server via ajax
+        $.ajax({
+          url: '/app/harvest/save/blockchain',
+          data: JSON.stringify(data),
+          processData: false,
+          type: 'POST',
+          contentType: 'application/json'
+        }).done(function(res) {
+          if (res.success) {
+            // remove spinner from button
+            $(harvestAddBlockchainBtnId).removeClass("spinner-border");
+            $(harvestAddBlockchainBtnId).removeClass("spinner-spinner-border-sm");
+            $(harvestAddBlockchainBtnId).html('Added to Blockchain...');
+            console.log("updateHarvestAddBlockchainBtn updated for Harvest " + harvestLogid);
+          } else {
+            // remove spinner from button
+            $(harvestAddBlockchainBtnId).removeClass("spinner-border");
+            $(harvestAddBlockchainBtnId).removeClass("spinner-spinner-border-sm");
+            $(harvestAddBlockchainBtnId).html('Error! Add to Blockchain');
+          }
+        });
+     // });
+    }
+
     function ShowModal(obj_identifier, action, header, contentClassID) {
       var updateButton=$('<input/>').attr({
           type: "submit",
@@ -814,8 +901,5 @@
     $('#harvestViewModal').modal('show');
   }
    </script>
-   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
-           type="application/javascript"></script> <!-- This exposes the library as a global variable: ethers -->
-   <script src="/js/foodprint_ethereum.js"></script> <!-- Blockchain integration -->
   </body>
 </html>
