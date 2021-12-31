@@ -146,10 +146,11 @@ router.get('/app/test/blockchain/algod',
     });
 
 
-// route add harvest to Blockchain
+// route add harvest to Algorand Blockchain
 router.post('/app/harvest/save/blockchain',
     async function (req, res) {
-        console.log("Now logging supply chain harvest data from %s to %s... Assumes source account has funds to pay fees", recoveredAccount1.addr, recoveredAccount2.addr);
+        console.log("Now logging supply chain harvest data from %s to %s... " +
+            "Assumes source account has funds to pay fees", recoveredAccount1.addr, recoveredAccount2.addr);
         //If you use the async keyword before a function definition, you can then use await within the function.
         // When you await a promise, the function is paused in a non-blocking way until the promise settles.
         (async() => {
@@ -239,18 +240,139 @@ function updateHarvestBlockchainHash(logId, supplyChainData, user, transactionId
                 }
             })
             .then(_ => {
-                console.log("Harvest logbook updated with blockchain data!");
+                console.log("Harvest logbook entry with logid " + logId + " updated with blockchain data for " +
+                    "Algorand transaction " + transactionId + "!");
             })
             .catch(err => {
                 //throw err;
-                console.log('Error - Update Harvest failed');
-                console.log("Harvest logbook not updated with blockchain data!");
+                console.log("Error - Update Harvest logbook entry logid " + logId + " with blockchain data failed " +
+                    "for Algorand transaction " + transactionId + "!");
                 console.log(err);
                 return false;
             })
     }catch (e) {
         //this will eventually be handled by your error handling middleware
-        console.log("Harvest logbook not updated with blockchain data!");
+        console.log("Harvest logbook entry with logid " + logId + " not updated with blockchain data for Algorand " +
+            "transaction " + transactionId + ".");
+        console.log(e);
+        return false
+    }
+}
+
+// route add storage to Algorand Blockchain
+router.post('/app/storage/save/blockchain',
+    async function (req, res) {
+        console.log("Now logging supply chain storage data from %s to %s... " +
+            "Assumes source account has funds to pay fees", recoveredAccount1.addr, recoveredAccount2.addr);
+        (async() => {
+            let params = await algodclient.getTransactionParams().do();
+            // see https://mumbai.polygonscan.com/tx/0xffbd57ca02f12666561b7789a09e29868f564b4344b8b319e74e0181658af40e vs
+            // https://goalseeker.purestake.io/algorand/testnet/transaction/X2V5FXDKXOEOSI3JD7XJVZFSETFMG5KPK3KANIXAFRQJ2D3QDCZA
+
+            console.log(req.body);
+            // {
+            //     logID: '48544b9e-4795-49f5-bb01-b2a1edb0ecfd',
+            //         previouslogID: '',
+            //     otherIdentifiers: '{sourceID:BGSM, buyerID:}',
+            //     logDetail: '{description:FoodPrint Test, actionTimeStamp:Sun Aug 15 2021 02:43:00 GMT+0200 (South Africa Standard Time), logQuantity:123(bunch)}',
+            //     logExtendedDetail: '{growingConditions:Pesticide Free,Certified Organic,Non-Certified Organic}',
+            //     logMetadata: '{logUser:superuserjulz@example.comlogType:harvestlogTableName:foodprint_harvestharvestPhotoHash:34567}'
+            //     }
+
+            let supplyChainData = JSON.stringify(req.body);
+
+            const enc = new TextEncoder();
+            const note = enc.encode(supplyChainData);
+            let txn = {
+                "from": recoveredAccount1.addr,
+                "to": recoveredAccount2.addr,
+                "fee": 1000, // transactions only cost 1/1000th of an Algo (0.001).
+                "amount": 0, // 0 algos
+                "firstRound": params.firstRound,
+                "lastRound": params.lastRound,
+                "genesisID": params.genesisID,
+                "genesisHash": params.genesisHash,
+                "note": note
+            }
+
+            // sign transaction using private key
+            let signedTxn = algosdk.signTransaction(txn, recoveredAccount1.sk);
+
+            // submit the signed transaction to the network
+            let sendTx = await algodclient.sendRawTransaction(signedTxn.blob).do();
+
+            console.log("Transaction: " + sendTx.txId);
+
+            // Wait for confirmation
+            let confirmedTxn = await waitForConfirmation(algodclient, sendTx.txId, 4)
+
+            // get the completed transaction
+            console.log("Transaction " + sendTx.txId + " confirmed in round " + confirmedTxn["confirmed-round"]);
+
+            var txnNote = new TextDecoder().decode(confirmedTxn.txn.txn.note);
+            console.log("Note field: ", txnNote);
+
+            console.log("Transaction Amount: %d microAlgos", confirmedTxn.txn.txn.amt);
+            console.log("Transaction Fee: %d microAlgos", confirmedTxn.txn.txn.fee);
+
+            // update database with blockchain transaction details etc
+            updateStorageBlockchainHash(req.body.logID, supplyChainData, req.user, sendTx.txId);
+
+            res.status(201).send({ success: true, message: "Storage entry added to Algorand blockchain",
+                storageLogid: req.body.logID, transactionId: sendTx.txId});
+        })().catch( e => {
+            console.log(e)
+            //throw err;
+            res.status(400).send({ success: false, message: e.message });
+        })
+    });
+
+function updateStorageBlockchainHash(logId, supplyChainData, user, transactionId) {
+    let supplyChainDataHash = crypto.createHash("sha256").update(supplyChainData).digest("base64");
+
+    let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+
+    // {
+    //     logID: '21596a22-03be-4a56-8aec-0e370b6236eb',
+    //     previouslogID: 'c542eccd-ab27-4a28-bfc0-3723584553eb',
+    //     otherIdentifiers: '{sourceID:EKLN, buyerID:OZCFM}',
+    //     logDetail: '{description:All good, actionTimeStamp:Fri Sep 04 2020 15:49:00 GMT+0200 (South Africa Standard Time), logQuantity:200(none)}',
+    //     logExtendedDetail: '{}',
+    //     logMetadata: '{logUser:test@afriwebhub.co.za, logType:storage, logTableName:foodprint_storage, storagePhotoHash:NaN'
+    // }
+
+    let data = {
+        storage_logid: logId,
+        storage_BlockchainHashID: supplyChainDataHash,
+        storage_BlockchainHashData: supplyChainData,
+        storage_added_to_blockchain_date: logdatetime,
+        storage_bool_added_to_blockchain: true,
+        storage_added_to_blockchain_by: user.email,
+        storage_blockchain_uuid: transactionId,
+        blockchain_explorer_url: 'https://goalseeker.purestake.io/algorand/testnet/transaction/' + transactionId
+    }
+    try {
+        models.FoodprintStorage
+            .update(data, {
+                where: {
+                    storage_logid: logId
+                }
+            })
+            .then(_ => {
+                console.log("Storage logbook entry with logid " + logId + " updated with blockchain data for " +
+                    "Algorand transaction " + transactionId + "!");
+            })
+            .catch(err => {
+                //throw err;
+                console.log("Error - Update Storage logbook entry with logid " + logId + " for Algorand transaction " +
+                    transactionId + "failed!");
+                console.log(err);
+                return false;
+            })
+    }catch (e) {
+        //this will eventually be handled by your error handling middleware
+        console.log("Storage logbook entry with logid " + logId + " not updated for Algorand transaction " +
+            transactionId + ".");
         console.log(e);
         return false
     }
