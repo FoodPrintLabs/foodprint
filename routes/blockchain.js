@@ -267,17 +267,15 @@ router.post('/app/storage/save/blockchain',
         (async() => {
             let params = await algodclient.getTransactionParams().do();
             // see https://mumbai.polygonscan.com/tx/0xffbd57ca02f12666561b7789a09e29868f564b4344b8b319e74e0181658af40e vs
-            // https://goalseeker.purestake.io/algorand/testnet/transaction/X2V5FXDKXOEOSI3JD7XJVZFSETFMG5KPK3KANIXAFRQJ2D3QDCZA
+            // https://goalseeker.purestake.io/algorand/testnet/transaction/5SEZYSNEARNC4QQXQVPEPUVTP3OI6UQXO3BEGEH2FOKPQ6UDGKPQ
 
             console.log(req.body);
-            // {
-            //     logID: '48544b9e-4795-49f5-bb01-b2a1edb0ecfd',
-            //         previouslogID: '',
-            //     otherIdentifiers: '{sourceID:BGSM, buyerID:}',
-            //     logDetail: '{description:FoodPrint Test, actionTimeStamp:Sun Aug 15 2021 02:43:00 GMT+0200 (South Africa Standard Time), logQuantity:123(bunch)}',
-            //     logExtendedDetail: '{growingConditions:Pesticide Free,Certified Organic,Non-Certified Organic}',
-            //     logMetadata: '{logUser:superuserjulz@example.comlogType:harvestlogTableName:foodprint_harvestharvestPhotoHash:34567}'
-            //     }
+            // {"logID":"231ac393-264a-4516-9e42-56b5f738deed","previouslogID":"","otherIdentifiers":
+            // "{sourceID:OZCF, buyerID:}","logDetail":"{produce:Beetroot, description:Fresh beetroot,
+            // actionTimeStamp:Thu Dec 30 2021 10:37:00 GMT+0200 (South Africa Standard Time), logQuantity:10(bunch)}",
+            // "logExtendedDetail":"{growingConditions:Pesticide Free,Free Range,Greenhouse Grown}","logMetadata":
+            // "{logUser:superuserjulz@example.com, logType:harvest, logTableName:foodprint_harvest,
+            // harvestPhotoHash:7f21430912a08ced86bf43fcbcceddcdf74343ba80f72a625bff75fd710ede06}"}
 
             let supplyChainData = JSON.stringify(req.body);
 
@@ -332,14 +330,14 @@ function updateStorageBlockchainHash(logId, supplyChainData, user, transactionId
 
     let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
-    // {
-    //     logID: '21596a22-03be-4a56-8aec-0e370b6236eb',
-    //     previouslogID: 'c542eccd-ab27-4a28-bfc0-3723584553eb',
-    //     otherIdentifiers: '{sourceID:EKLN, buyerID:OZCFM}',
-    //     logDetail: '{description:All good, actionTimeStamp:Fri Sep 04 2020 15:49:00 GMT+0200 (South Africa Standard Time), logQuantity:200(none)}',
-    //     logExtendedDetail: '{}',
-    //     logMetadata: '{logUser:test@afriwebhub.co.za, logType:storage, logTableName:foodprint_storage, storagePhotoHash:NaN'
-    // }
+    //https://goalseeker.purestake.io/algorand/testnet/transaction/VWBBKI47MQAFYMCIF4BY565KVSFUIUPG23RNOTIKREX4FSXNCFJQ
+    //{"logID":"253f65e1-2f39-44c8-a36d-5019c465b84d","previouslogID":"231ac393-264a-4516-9e42-56b5f738deed",
+    // "otherIdentifiers":"{sourceID:OZCF, buyerID:OZCFM}","logDetail":
+    // "{produce:OZCF_Beetroot, description:Fresh produce,
+    // actionTimeStamp:Fri Dec 31 2021 10:42:00 GMT+0200 (South Africa Standard Time), logQuantity:10(bunch)}",
+    // "logExtendedDetail":"{}","logMetadata":"{logUser:superuserjulz@example.com, logType:storage,
+    // logTableName:foodprint_storage, storagePhotoHash:NaN"}
+
 
     let data = {
         storage_logid: logId,
