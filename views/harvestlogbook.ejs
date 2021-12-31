@@ -17,10 +17,9 @@
    <div class="container" style="width: 100%;">
     <h3>HARVEST LOGBOOK</h3>
     <div>
-      <!-- <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Harvest</button> -->
       <a class="btn btn-primary btn-sm" onclick="ShowModal(this, 'add', 'Add Harvest Entry','addCSS')">Add New Harvest Entry</a>
-      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>
-      <p>Connected Account: <span class="showAccount"></span></p>
+<!--      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>-->
+<!--      <p>Connected Account: <span class="showAccount"></span></p>-->
     </div>
     
     <% include ./partials/notificationbar %>
@@ -137,10 +136,10 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Delete</a>
+
                       <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%>
                         <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank">
                           View on Blockchain</a>  <%}else{ %>
-
                     <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addHarvestToBlockchainBtn"
                        id="<%= ("harvest_add_blockchain_" + data[i].harvest_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
@@ -493,7 +492,6 @@
     <!-- end footer -->
     
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-
     
   <script src="/js/scripts.min.js"></script><!--/*! jQuery v1.12.4 | (c) jQuery Foundation | jquery.org/license */-->
   <script src="/js/main.min.js"></script>  <!--  Bootstrap v3.3.7 -->
@@ -503,11 +501,7 @@
    <script src="/js/tempusdominus-bootstrap-3.js"></script> <!--datetime picker -->
 
   <script src="/js/custom.js"></script><!-- Subscribe-->
-
-<!--  <script src="/js/web3.min.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
-<!--  <script src="/js/truffle-contract.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
   <script src="/js/sha256.min.js"></script><!-- Blockchain -->
-
 
   <script type="text/javascript">
     $(function () {
@@ -574,8 +568,9 @@
         let otherIdentifiers = "{" + "sourceID:" + harvestSupplierShortcode + ", " + "buyerID:" + "}";
 
         //actionTimestamp is generic for harvest time, storage time etc
-        let logDetail = "{" + "description:" + harvestDescription + ", " + "actionTimeStamp:" + harvestTimestamp +
-                 ", " + "logQuantity:" + harvestQuantity + "(" + harvestUnitOfMeasure + ")" + "}";
+        let logDetail = "{" + "produce:" + harvestProduceName + ", "  + "description:" + harvestDescription + ", " +
+                "actionTimeStamp:" + harvestTimestamp + ", " + "logQuantity:" + harvestQuantity + "(" +
+                harvestUnitOfMeasure + ")" + "}";
 
         let logExtendedDetail = "{" + "growingConditions:" + harvestDescriptionJSON + "}";
 
@@ -613,7 +608,6 @@
             $(harvestAddBlockchainBtnId).html('Error! Add to Blockchain');
           }
         });
-     // });
     }
 
     function ShowModal(obj_identifier, action, header, contentClassID) {
