@@ -53,6 +53,7 @@ var configRouter = require('./routes/config');
 var harvestRouter = require('./routes/harvest');
 var storageRouter = require('./routes/storage');
 var authRouter = require('./routes/auth');
+var blockchainRouter = require('./routes/blockchain');
 var ROLES = require('./utils/roles');
 const {Sequelize} = require("sequelize");
 
@@ -92,7 +93,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use(session({
-  secret: '123456cat',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {maxAge: 1800000} // time im ms: 60000 - 1 min, 1800000 - 30min, 3600000 - 1 hour
@@ -116,6 +117,7 @@ app.use(function (req, res, next) {
 
 // Mount routers
 app.use('/', router);
+app.use('/', blockchainRouter);
 app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
 app.use('/app/harvest', harvestRouter);

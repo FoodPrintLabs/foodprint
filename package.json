@@ -17,8 +17,7 @@
     "watch": "watchify src/js/app.js -o src/js/bundle.js -v",
     "heroku-postbuild": "npm run bundle",
     "dev": "npm run watch & nodemon server.js --host 0.0.0.0",
-    "start": "node server.js",
-    "truffletest": "truffle test"
+    "start": "node server.js"
   },
   "author": "Julian Kanjere, Deirdre Van de Heever, Thandeka Chehore, Natasha Oates",
   "license": "ISC",
@@ -37,10 +36,11 @@
     "gulp-uglify": "latest",
     "nodemon": "^1.19.1",
     "sequelize-auto": "^0.8.4",
-    "truffle-flattener": "^1.5.0",
+    "sequelize-cli": "^6.3.0",
     "watchify": "^3.11.1"
   },
   "dependencies": {
+    "algosdk": "^1.12.0",
     "body-parser": "^1.19.0",
     "browserify": "^16.3.0",
     "connect-ensure-login": "^0.1.1",
@@ -63,12 +63,10 @@
     "mysql2": "^2.2.5",
     "node-fetch": "^3.1.0",
     "nodemailer": "^6.4.2",
-    "openzeppelin-solidity": "^2.5.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "qrcode": "^1.4.0",
     "sequelize": "^6.6.5",
-    "truffle-hdwallet-provider": "^1.0.15",
     "uglify-js": "^3.13.7",
     "uuid": "^3.3.3"
   }

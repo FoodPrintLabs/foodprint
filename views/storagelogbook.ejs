@@ -18,8 +18,8 @@
     <h3>STORAGE/HANDOVER LOGBOOK</h3>
     <div>
       <a class="btn btn-primary btn-sm" onclick="ShowStorageModal(this, 'add', 'Add Storage Entry','addCSS')">Add New Storage Entry</a>
-      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>
-      <p>Connected Account: <span class="showAccount"></span></p>
+<!--      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>-->
+<!--      <p>Connected Account: <span class="showAccount"></span></p>-->
     </div>
 
     <% include ./partials/notificationbar %>
@@ -40,7 +40,7 @@
           <% if(data.length){
               for(var i = 0; i< data.length; i++) {%>
               <tr>
-                <td scope="row"><%= (i+1) %></th>
+                <td scope="row"><%= (i+1) %></td>
                 <!-- <td><%= data[i].harvest_logid %></td> -->
                 <td><%= data[i].storage_logid %></td>
                 <td><%= data[i].market_storageTimeStamp %></td>
@@ -125,9 +125,11 @@
                       data-logdatetime="<%=data[i].logdatetime%>"
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Delete</a>
-                      <% if(data[i].storage_bool_added_to_blockchain!=='false'){%> <a href="javascript:void(0);" class="btn btn-xs btn-success">View on Blockchain</a>  <%}else{ %>
 
-                    <a href="javascript:void(0);" class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn"
+                    <% if(data[i].storage_bool_added_to_blockchain!=='false'){%>
+                    <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank">
+                      View on Blockchain</a>  <%}else{ %>
+                      <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn"
                        id="<%= ("storage_add_blockchain_" + data[i].storage_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -426,9 +428,6 @@
    <script src="/js/tempusdominus-bootstrap-3.js"></script> <!--datetime picker -->
 
   <script src="/js/custom.js"></script><!-- Subscribe-->
-
-<!--  <script src="/js/web3.min.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
-<!--  <script src="/js/truffle-contract.js"></script>&lt;!&ndash; Blockchain &ndash;&gt;-->
   <script src="/js/sha256.min.js"></script><!-- Blockchain -->
 
 
@@ -451,6 +450,89 @@
   </script>
 
   <script type="text/javascript">
+    function addToBlockchain(obj_identifier) {
+      var storageLogid = $(obj_identifier).data('storage_logid');
+      var storageAddBlockchainBtnId = "#storage_add_blockchain_" + storageLogid;
+
+      //$(harvestAddBlockchainBtnId).click(function (event) {
+      //event.preventDefault();
+
+      // add spinner and disable button
+      $(storageAddBlockchainBtnId).addClass('disabled');
+      // add spinner to button
+      $(storageAddBlockchainBtnId).html(
+              `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding to Blockchain...`
+      );
+
+      var harvestLogid = $(obj_identifier).data('harvest_logid');
+      var harvestSupplierShortcode = $(obj_identifier).data('harvest_suppliershortcode');
+      var supplierProduce = $(obj_identifier).data('supplierproduce');
+      var marketShortcode = $(obj_identifier).data('market_shortcode');
+      var marketName = $(obj_identifier).data('market_name');
+      var marketAddress = $(obj_identifier).data('market_address');
+      var marketQuantity = $(obj_identifier).data('market_quantity');
+      var marketUnitOfMeasure = $(obj_identifier).data('market_unitofmeasure');
+      var marketStorageTimestamp = $(obj_identifier).data('market_storagetimestamp');
+      var marketStorageCapturetime = $(obj_identifier).data('market_storagecapturetime');
+      var marketUrl = $(obj_identifier).data('market_URL');
+      var storageBlockchainHashId = $(obj_identifier).data('storage_blockchainhashid');
+      var storageBlockchainHashData = $(obj_identifier).data('storage_blockchainhashdata');
+      var storageDescription = $(obj_identifier).data('storage_description');
+      var storageBoolAddedToBlockchain = $(obj_identifier).data('storage_bool_added_to_blockchain');
+      var storageAddedToBlockchainDate = $(obj_identifier).data('storage_added_to_blockchain_date');
+      var storageAddedToBlockchainBy = $(obj_identifier).data('storage_added_to_blockchain_by');
+      var storageBlockchainUuid = $(obj_identifier).data('storage_blockchain_uuid');
+      var storageUser = $(obj_identifier).data('storage_user');
+      var logdatetime = $(obj_identifier).data('logdatetime');
+      var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
+
+      //buyerID is generic version of marketID, it represents an intermediary buying the produce
+      let otherIdentifiers = "{" + "sourceID:" + harvestSupplierShortcode + ", " + "buyerID:" + marketShortcode + "}";
+
+      //actionTimestamp is generic for harvest time, storage time etc
+      let logDetail = "{" + "produce:" + supplierProduce + ", "  + "description:" + storageDescription + ", " +
+              "actionTimeStamp:" + marketStorageTimestamp + ", " + "logQuantity:" + marketQuantity +
+              "(" + marketUnitOfMeasure + ")" + "}";
+
+      let logExtendedDetail = "{" + "}";
+
+      // hash storage photo if any e.g. a receipt of produce handover
+      // let photoHash = sha256(harvestPhotoHash);
+      // console.log("harvest_photohash successfully hashed (hash value " + photoHash + ").");
+      let logMetadata = "{" + "logUser:" + storageUser + ", " + "logType:" + "storage"  + ", " + "logTableName:" +
+              "foodprint_storage" + ", " + "storagePhotoHash:" +  + "}";
+
+      var data = {};
+      data.logID = storageLogid;
+      data.previouslogID = harvestLogid;
+      data.otherIdentifiers = otherIdentifiers;
+      data.logDetail = logDetail;
+      data.logExtendedDetail = logExtendedDetail;
+      data.logMetadata = logMetadata;
+
+      // send POST request to server via ajax
+      $.ajax({
+        url: '/app/storage/save/blockchain',
+        data: JSON.stringify(data),
+        processData: false,
+        type: 'POST',
+        contentType: 'application/json'
+      }).done(function(res) {
+        if (res.success) {
+          // remove spinner from button
+          $(storageAddBlockchainBtnId).removeClass("spinner-border");
+          $(storageAddBlockchainBtnId).removeClass("spinner-spinner-border-sm");
+          $(storageAddBlockchainBtnId).html('Added to Blockchain...');
+          console.log("updateStorageAddBlockchainBtn updated for Storage " + storageLogid);
+        } else {
+          // remove spinner from button
+          $(storageAddBlockchainBtnId).removeClass("spinner-border");
+          $(storageAddBlockchainBtnId).removeClass("spinner-spinner-border-sm");
+          $(storageAddBlockchainBtnId).html('Error! Add to Blockchain');
+        }
+      });
+    }
+
     function ShowStorageModal(obj_identifier, action, header, contentClassID) {
       var updateButton=$('<input/>').attr({
           type: "submit",
@@ -692,8 +774,5 @@
           $('#storageViewModal').modal('show');
         }
    </script>
-   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
-           type="application/javascript"></script> <!-- This exposes the library as a global variable: ethers -->
-    <script src="/js/foodprint_ethereum.js"></script> <!-- Blockchain integration -->
   </body>
 </html>

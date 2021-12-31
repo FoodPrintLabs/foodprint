@@ -262,7 +262,6 @@ router.post('/save', upload.single('viewmodal_harvest_photohash_uploaded_file'),
         }
     });
 
-
 // route create harvest via WhatsApp
 router.post('/save/whatsapp',
     async function (req, res) {

@@ -34,67 +34,18 @@ TODO
 In order to run FoodPrint, an environment with the following is required:
 
 - Node.js
-- Truffle Framework
-- Web3.js
+- Algosdk
 - Bootstrap
 - MySQL
-- MetaMask (MetaMask is an extension for accessing Ethereum enabled distributed applications, or "Dapps" in your browser! The extension injects the Ethereum web3 API into every website's javascript context, so that dapps can read from the blockchain.)
 
-1. Install Truffle globally. Truffle is the most popular smart contract development, testing, and deployment framework. 
-```
-$npm install -g truffle 
-```
-
-2. Install node dependencies.
+1. Install node dependencies.
 ```
 $npm install
 ```
 
-3. Start Ganache and Create a Workspace (or open an existing one). 
+2. Create a blank MySQL database
 
-4. Confirm FoodPrint smart contract compiles successfully.
-```
-$truffle compile
-```
-
-5. Run tests for FoodPrint smart contract.
-```
-$truffe test
-$truffle test --network development
-```
-
-4. Deploy FoodPrint smart contract to Ganache (assumes Ganache is running).
-
-`truffle migrate` will run all migrations located within your project's migrations directory. If your migrations were previously run successfully, truffle migrate will start execution from the last migration that was run, running only newly created migrations. If no new migrations exists, `truffle migrate` won't perform any action at all. 
-```
-$truffle migrate
-```
-
-The --reset flag will force to run all your migrations scripts again. Compiling if some of the contracts have changed. You have to pay gas for the whole migration again. 
-```
-$truffle migrate --reset
-```
-
-The --all flag will force to recompile all your contracts. Even if they didn't change. It is more time compiling all your contracts, and after that it will have to run all your deploying scripts again.
-```
-$truffle migrate --compile-all --reset
-```
-
-If for some reason truffle fails to acknowledge a contract was modified and will not compile it again, delete the build/ directory. This will force a recompilation of all your contracts and running all your deploy scripts again.
-
-5. Update `truffle-config.js` development network with NetworkID, Host and Port values from your local Blockchain in Ganache.
-
-6. Create a MySQL database
-```
-run dbxml/foodprintDB.sql
-```
-
-7. Populate the MySQL database
-```
-run dbxml/FoodPrintSchemaDump20210814.sql (previuously used foodprintDB_schema.sql but now out of date)
-```
-
-8. Create a database configuration file in the root folder - `dbconfig.json` and populate with updated json config as below
+3. Create a database configuration file in the root folder - `dbconfig.json` and populate with updated json config as below
 
 ```json
 {
@@ -128,74 +79,41 @@ run dbxml/FoodPrintSchemaDump20210814.sql (previuously used foodprintDB_schema.s
 }
 ```
 
-9. Create a .env file in the root directory of your project. Add environment-specific variables on new lines in the form of NAME=VALUE. For example
+4. Create a .env file in the root directory of your project. Add environment-specific variables on new lines in the form of NAME=VALUE. For example
 
 ```
 NODE_ENV=staging
-APP_NAME=custom environment app
-DB_HOST=localhost
-DB_USER=root
-DB_PASS=s1mpl3
+PORT=3000
+APP_NAME=REPLACE_ME
+SESSION_SECRET=REPLACE_ME
 EMAIL_ADDRESS=GMAIL_EMAIL_ADDRESS
 EMAIL_PASSWORD=GMAIL_EMAIL_PASSWORD
+EMAIL_OVERRIDE=OVERRIDE_EMAIL_ADDRESS
+BLOCKCHAINENV=TESTNET
+DEV_ALGOD_API_KEY=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+DEV_ALGOD_SERVER=http://localhost
+DEV_ALGOD_PORT=4001
+DEV_ALGOINDEXER_PORT=8980
+TESTNET_ALGOD_API_KEY=REPLACE_ME
+TESTNET_ALGOD_SERVER=https://testnet-algorand.api.purestake.io/ps2
+TESTNET_ALGOINDEXER_SERVER=https://testnet-algorand.api.purestake.io/idx2
+TESTNET_ALGOD_PORT=
+MAINNET_ALGOD_API_KEY=REPLACE_ME
+MAINNET_ALGOD_SERVER=https:https://mainnet-algorand.api.purestake.io/ps2
+MAINNET_ALGOINDEXER_SERVER=https://mainnet-algorand.api.purestake.io/idx2
+MAINNET_ALGOD_PORT=
+ACCOUNT1_ADDRESS=REPLACE_ME
+ACCOUNT1_MNEMONIC=REPLACE_ME
+ACCOUNT2_ADDRESS=REPLACE_ME
+ACCOUNT2_MNEMONIC=REPLACE_ME
 ```
 
-You can then access the variables in your code using process.env e.g. `console.log(process.env.APP_ENV)`
+You can then access the variables in your code using process.env e.g. `console.log(process.env.NODE_ENV)`
     
-10. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
+5. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
 ```
 $npm run dev
 ```
-
-## Generating Models from an existing database with Sequelize Auto
-
-For convenience Sequelize Auto provides a programmatic api that can be used in the generation of models in addition to their [cli](https://github.com/sequelize/sequelize-auto).
-You can use the convenience script `src/js/sequelise_auto_export.js` to generate required models by supplying the table names in the `tables` section of the `options` object. The script establishes a connection to the database using the config data specified in step `8`.
-
-Execute the command below within `src/js` to generate the models for the specified tables:
-```bash
-node sequelise_auto_export.js
-```
-
-The generated models can be found in `./models`
-
-## Deploy to Rinkeby Ethereum test network
-
-1. Create infura project  at https://infura.io (Infura gives you access to test network).
-This project will give you an ID that you will use in `truffle-config.js`
-infura means you do not have to sync an ether node or rinkeby node to deploy directly.
-
-2. Connect your MetaMask wallet to Rinkeby network
-
-2. Get test ether from https://faucet.rinkeby.io/ (you will need to create an Ethereum rinkeby wallet on MetaMask then use the address on twitter).
-e.g. 0x4B67D20a4F27d248aF0462C23F8C193f073517FB
-
-3. Update `truffle-config.js` with rinkeby. This will deploy from the metamask accounts, by default account 0 so specify which one you want.
-
-4. Deploy to rinkeby. 
-```
-$truffle migrate --network rinkeby --compile-all --reset
-```
-
-5. Check contract on Ethereum testnet blockchain explorer i.e.  rinkeby etherscan https://rinkeby.etherscan.io
-
-
-## Deploy to a Mumbai Matic test network
-
-1. Add mumbai network details to `truffle-config.js` i.e. `https://rpc-mumbai.matic.today`
-
-2. Connect your MetaMask wallet to Mumbai network (https://rpc-mumbai.matic.today)
-
-3. Get a test MATIC token from Matic faucet https://faucet.matic.network (otherwise deploy will fail). Deploy by default is from your first MetaMask account so this is the one you want to fund.
-
-4. Deploy to MATIC. 
-```
-$truffle migrate --network mumbai
-```
-
-5. Check contract on Matic's testnet blockchain explorer i.e. Polygon PoS Chain Testnet Explorer
-(mumbai polygonscan) https://mumbai.polygonscan.com/
-
 
 ## Production Deployment
 1. To deploy to a production server, first bundle and uglify then deploy
@@ -205,40 +123,20 @@ $npm run start
 ```
 
 ## Other
-- Access deployed contract from CLI (V1)
-```
-$ truffle console
-$ TheProduct.deployed().then(function(instance) { app = instance })
-$ app.noHarvests()
+
+- Generating Sequelize Models from an existing database using Sequelize Auto.
+For convenience Sequelize Auto provides a programmatic api that can be used in the generation of models in addition to 
+their [cli](https://github.com/sequelize/sequelize-auto). You can use the convenience script 
+`src/js/sequelise_auto_export.js` to generate required models by supplying the table names in the `tables` section of 
+the `options` object. The script establishes a connection to the database using the config data specified in step `3`.
+Execute the command below within `src/js` to generate the models for the specified tables:
+```bash
+node sequelise_auto_export.js
 ```
 
-- Access deployed contract from CLI (V2) after adding a sample Harvest entry and then using the resulting Harvest ID e.g. c6e301b9-aceb-498f-a63e-2503091f0ab0
-```
-$ truffle console
-$ TheProductV2.deployed().then(function(instance) { app = instance })
-$ app.getHarvestSubmissionsCount()
-$ let harvest_logid = "c6e301b9-aceb-498f-a63e-2503091f0ab0"
-$ app.getHarvestSubmitterAddress(harvest_logid)
-$ let harvest=app.getHarvestSubmission(harvest_logid)
-$ harvest
-$ let harvestDetail=app.getHarvestSubmissionDetail(harvest_logid)
-$ harvestDetail
+The generated models can be found in `./models`
 
-$ let storage_logid = "51a84fb0-154f-416b-a333-4cc5725b60d1"
-$ app.getStorageSubmitterAddress(storage_logid)
-$ let storage=app.getStorageSubmission(storage_logid)
-$ storage
-```
 
-- To see the list of contracts already deployed and their corresponding networks
-```
-$truffle networks [--clean]
-```
-
-- To add a new migration
-```
-$touch 2_deploy_contract.js
-```
 - Generate test UUID's from command line (i.e. server side). 
 ```
 $node
@@ -257,32 +155,13 @@ $node
 >res2
 ```
 
-- Flatten Smart Contract
-```
-$npm install  truffle-flattener -g
-$truffle-flattener ./contracts/productv2.sol > ./productv2Flattened.sol
-```
 
-- Verify smart contract on Ethereum Testnet (Verify using  Compiler Type: SINGLE FILE / CONCATENANTED METHOD )
-```
-$pbcopy < productv2Flattened.sol
-https://rinkeby.etherscan.io/verifyContract?a=0x000000000000000000 (replace with contract address)
-```
-
-- Verify smart contract on Matic Testnet (Verify using  Compiler Type: SINGLE FILE / CONCATENANTED METHOD )
-```
-https://mumbai.polygonscan.com/verifyContract
-```
-
-- Generate UML Class diagram for smart contract (`sol2uml`)
-```
-https://rinkeby.etherscan.io/viewsvg?t=1&a=0x000000000000000000 (replace with contract address, contract should be verified)
-```     
-
-## Contract details
+## Previous contract details
 Initial contract was deployed at Ethereum Testnet (rinkeby) at address https://rinkeby.etherscan.io/address/0xfC4d26073650887069dFa7Da686A491535ab8Fd4.
 
-Latest contract is deployed on Matic Testnet (mumbai) at address https://mumbai.polygonscan.com/address/0x650168110ADa1f089D443904c6759b7349576A0d
+This was followed by a deployment to the Matic Testnet (mumbai) at address https://mumbai.polygonscan.com/address/0x650168110ADa1f089D443904c6759b7349576A0d,
+
+Latest version of FoodPrint is integrated with the Algorand TestNet via the `algosdk` and `PureStake` service.
 
 ## Supported Browsers
 
