@@ -53,7 +53,14 @@ var configRouter = require('./routes/config');
 var harvestRouter = require('./routes/harvest');
 var storageRouter = require('./routes/storage');
 var authRouter = require('./routes/auth');
-var blockchainRouter = require('./routes/blockchain');
+// var blockchainRouter = require('./routes/blockchain');
+
+var testRouter = require('./routes/test');
+var searchRouter = require('./routes/search');
+var websiteRouter = require('./routes/website');
+
+var apiRouter = require('./routes/api');
+
 var ROLES = require('./utils/roles');
 const {Sequelize} = require("sequelize");
 
@@ -117,11 +124,17 @@ app.use(function (req, res, next) {
 
 // Mount routers
 app.use('/', router);
-app.use('/', blockchainRouter);
+// app.use('/', blockchainRouter);
 app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
 app.use('/app/harvest', harvestRouter);
 app.use('/app/storage', storageRouter);
+
+app.use('/app/test', testRouter);
+app.use('/app/search', searchRouter);
+app.use('/app/website', websiteRouter);
+
+app.use('/app/api/v1', apiRouter);
 
 app.use(express.static(path.join(__dirname, "src")));
 app.use(express.static(path.join(__dirname, 'build')));
