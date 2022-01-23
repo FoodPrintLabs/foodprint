@@ -226,59 +226,5 @@ router.post('/delete',(req, res) => {
 });
 
 
-router.get('/test_db',
-  require('connect-ensure-login').ensureLoggedIn({redirectTo: '/app/auth/login'}),
-  async (req, res, next) => {
-    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
-      try {
-        models.FoodprintHarvest
-          .findAll({
-            order: [
-              ['pk', 'DESC']
-            ]
-          })
-          .then(rows => {
-            console.log('Render SQL results');
-            res.render('./test_db', {
-              page_title: "Farmers - FarmPrint", data: rows, user: req.user,
-              page_name: 'testdb'
-            });
-          })
-          .catch(err => {
-            //req.flash('error', err);
-            console.error('error', err);
-            res.render('./test_db', {
-              page_title: "Farmers - Farm Print", data: '', user: req.user,
-              page_name: 'testdb'
-            });
-          })
-        /*connection.query('SELECT * FROM metaTable ORDER BY ProduceID desc', function (err, rows) {
-          if (err) {
-            //req.flash('error', err);
-            console.error('error', err);
-            res.render('./test_db', {
-              page_title: "Farmers - Farm Print", data: '', user: req.user,
-              page_name: 'testdb'
-            });
-          } else {
-            console.log('Render SQL results');
-            res.render('./test_db', {
-              page_title: "Farmers - FarmPrint", data: rows, user: req.user,
-              page_name: 'testdb'
-            });
-          }
-        });*/
-      } catch (e) {
-        //this will eventually be handled by your error handling middleware
-        next(e)
-      }
-    } else {
-      res.render('error', {
-        message: 'You are not authorised to view this resource.',
-        title: 'Error', user: req.user, page_name: 'error'
-      });
-    }
-  });
-
 
 module.exports = router;

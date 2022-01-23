@@ -812,7 +812,7 @@ router.get('/qrcount/scans/:startDate',
 router.post('/login',
   passport.authenticate('file-local', {session: false}),
   function(req, res) {
-    res.status(200).json({ message: "Login Success"});
+    res.status(200).json({ message: "Login Successful"});
   }
 );
 
