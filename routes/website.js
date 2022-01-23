@@ -119,29 +119,6 @@ router.post('/subscribe', [
             res.status.json({err: err});
           });
 
-
-        /*connection.execute('\n' +
-            'INSERT INTO foodprint_subscription (\n' +
-            '        firstname ,\n' +
-            '        surname,\n' +
-            '        email,\n' +
-            '        logdatetime)\n' +
-            'VALUES (?, ?, ?, ?);',
-            [
-                subscriber_firstname,
-                subscriber_surname,
-                subscriber_email,
-                subscriber_datetime
-            ], function (err, rows) {
-                if (err) {
-                    //req.flash('error', err);
-                    console.error('error', err);
-                    res.status.json({err: err});
-                } else {
-                    console.log('add foodprint_subscription DB success');
-                    res.json({success: true, email: subscriber_email});
-                }
-            });*/
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
@@ -228,30 +205,7 @@ router.post('/marketcheckin', [
             console.error('error', err);
             res.status.json({err: err});
           })
-        /*connection.execute('\n' +
-          'INSERT INTO market_subscription (\n' +
-          '        market_id ,\n' +
-          '        firstname,\n' +
-          '        surname,\n' +
-          '        email,\n' +
-          '        logdatetime)\n' +
-          'VALUES (?, ?, ?, ?, ?);',
-          [
-            checkin_market_id,
-            checkin_firstname,
-            checkin_surname,
-            checkin_email,
-            checkin_datetime
-          ], function (err, rows) {
-            if (err) {
-              //req.flash('error', err);
-              console.error('error', err);
-              res.status.json({err: err});
-            } else {
-              console.log('add market_subscription DB success');
-              res.json({success: true, email: checkin_email});
-            }
-          });*/
+
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e)
@@ -308,37 +262,6 @@ router.get('/checkin/:market_id', [sanitizeParam('market_id').escape().trim()], 
         // res.status.json({ err: err });
       })
 
-    /*connection.execute('\n' +
-      'INSERT INTO foodprint_qrcount (\n' +
-      '        logid ,\n' +
-      '        qrid,\n' +
-      '        qrurl,\n' +
-      '        marketid,\n' +
-      '        request_host,\n' +
-      '        request_origin,\n' +
-      '        request_useragent,\n' +
-      '        logdatetime)\n' +
-      'VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-      [
-        logid,
-        qrid,
-        qrurl,
-        marketID,
-        request_host,
-        request_origin,
-        request_useragent,
-        logdatetime
-      ], function (err, rows) {
-        if (err) {
-          //req.flash('error', err);
-          //console.error('error', err)
-          console.error('Market checkin tracking error occured');
-          // res.status.json({ err: err });
-        } else {
-          console.log('Market checkin tracking successful');
-          //res.json({ success: true, email: checkin_email });
-        }
-      });*/
   } catch (e) {
     //TODO log the error
     //this will eventually be handled by your error handling middleware

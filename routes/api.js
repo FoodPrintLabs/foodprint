@@ -51,10 +51,10 @@ router.get('/harvest',
 
 router.post('/harvest/save',
   [
-    check('harvest_suppliershortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
-    check('harvest_suppliername', 'Harvest Supplier Name is not valid').not().isEmpty().trim().escape(),
-    check('harvest_supplieraddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
-    check('harvest_producename', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
+    check('harvest_supplierShortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
+    check('harvest_supplierName', 'Harvest Supplier Name is not valid').not().isEmpty().trim().escape(),
+    check('harvest_supplierAddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
+    check('harvest_produceName', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
     check('harvest_timestamp', 'Harvest Timestamp value is not valid').not().isEmpty(),
     check('harvest_description', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
     check('harvest_geolocation', 'Harvest GeoLocation value is not valid').not().isEmpty().trim().escape(),
@@ -77,7 +77,7 @@ router.post('/harvest/save',
     } else {
 
       let harvest_logid_uuid = uuidv4()
-      let harvest_TimeStamp = moment(new Date(req.body.harvest_date)).format("YYYY-MM-DD");
+      let harvest_TimeStamp = moment(new Date(req.body.harvest_timestamp)).format("YYYY-MM-DD HH:mm:ss");
       let harvest_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
       let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
       let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
@@ -94,19 +94,19 @@ router.post('/harvest/save',
 
       let data = {
         harvest_logid: harvest_logid_uuid,
-        harvest_supplierShortcode: req.body.harvest_suppliershortcode,
-        harvest_supplierName: req.body.harvest_suppliername,
+        harvest_supplierShortcode: req.body.harvest_supplierShortcode,
+        harvest_supplierName: req.body.harvest_supplierName,
         harvest_farmerName: req.body.harvest_farmerName,
         year_established: req.body.harvest_year_established,
         covid19_response: req.body.harvest_covid19_response,
-        harvest_supplierAddress: req.body.harvest_supplieraddress,
+        harvest_supplierAddress: req.body.harvest_supplierAddress,
         harvest_produceName: req.body.harvest_produceName,
         harvest_TimeStamp: harvest_TimeStamp,
         harvest_CaptureTime: harvest_CaptureTime,
         harvest_Description: req.body.harvest_description,
         harvest_geolocation: req.body.harvest_geolocation,
         harvest_quantity: req.body.harvest_quantity,
-        harvest_unitOfMeasure: req.body.harvest_unitOfMeasure,
+        harvest_unitOfMeasure: req.body.harvest_unitofmeasure,
         harvest_BlockchainHashID: '-',
         harvest_BlockchainHashData: '-',
         supplierproduce: req.body.supplierproduce,
@@ -125,7 +125,7 @@ router.post('/harvest/save',
           .then(_ => {
             res.status(201).json({
               message: "Harvest created successfully",
-              harvestLogID: data.harvest_logid
+              harvest_logid: data.harvest_logid
             });
           })
           .catch(err => {
@@ -144,10 +144,10 @@ router.post('/harvest/save',
 
 
 router.post('/harvest/update', [
-  check('harvest_suppliershortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
-  check('harvest_suppliername', 'Harvest Supplier Name is not valid').not().isEmpty().trim().escape(),
-  check('harvest_supplieraddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
-  check('harvest_producename', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
+  check('harvest_supplierShortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
+  check('harvest_supplierName', 'Harvest Supplier Name is not valid').not().isEmpty().trim().escape(),
+  check('harvest_supplierAddress', 'Harvest Supplier Address value is not valid').not().isEmpty().trim().escape(),
+  check('harvest_produceName', 'Harvest Produce Name value is not valid').not().isEmpty().trim().escape(),
   check('harvest_timestamp', 'Harvest Timestamp value is not valid').not().isEmpty(),
   check('harvest_capturetime', 'Harvest Capture Time value is not valid').not().isEmpty(),
   check('harvest_description', 'Harvest Description value is not valid').not().isEmpty().trim().escape(),
@@ -185,13 +185,13 @@ router.post('/harvest/update', [
     let lastmodifieddatetime = moment(new Date(req.body.lastmodifieddatetime)).format("YYYY-MM-DD HH:mm:ss");
 
     let data = {
-      harvest_supplierShortcode: req.body.harvest_suppliershortcode,
-      harvest_supplierName: req.body.harvest_suppliername,
-      harvest_farmerName: req.body.harvest_farmername,
-      harvest_supplierAddress: req.body.harvest_supplieraddress,
+      harvest_supplierShortcode: req.body.harvest_supplierShortcode,
+      harvest_supplierName: req.body.harvest_supplierName,
+      harvest_farmerName: req.body.harvest_farmerName,
+      harvest_supplierAddress: req.body.harvest_supplierAddress,
       year_established: req.body.harvest_year_established,
       covid19_response: req.body.harvest_covid19_response,
-      harvest_produceName: req.body.harvest_producename,
+      harvest_produceName: req.body.harvest_produceName,
       harvest_TimeStamp: harvest_TimeStamp,
       harvest_CaptureTime: harvest_CaptureTime,
       harvest_Description: req.body.harvest_description,
@@ -218,7 +218,7 @@ router.post('/harvest/update', [
         .then(_ => {
           res.status(200).json({
             message: 'Harvest entry updated successfully',
-            harvestLogID: data.harvest_logid
+            harvest_logid: req.body.harvest_logid
           });
         })
         .catch(err => {
@@ -312,7 +312,7 @@ router.post('/harvest/save/whatsapp',
         .create(data)
         .then(_ => {
           res.status(201).json({
-            message: "harvest created",
+            message: "Harvest created successfully",
             harvest_logid: data.harvest_logid
           });
         })
@@ -389,12 +389,12 @@ router.get('/storage',
 
 
 router.post('/storage/save', [
-    check('harvest_suppliershortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
+    check('harvest_supplierShortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
     check('supplierproduce', ' Supplier Produce value is not valid').not().isEmpty().trim().escape(),
     check('market_Shortcode', 'Market Shortcode value is not valid').not().isEmpty().trim().escape(),
     check('market_Name', 'Market Name value is not valid').not().isEmpty().trim().escape(),
     check('market_Address', 'Market Address value is not valid').not().isEmpty(),
-    check('harvest_logidSelect', 'Harvest ID value is not valid').not().isEmpty().trim().escape(),
+    check('harvest_logid', 'Harvest ID value is not valid').not().isEmpty().trim().escape(),
     check('market_quantity', 'Storage Quantity value is not valid').not().isEmpty().trim().escape(),
     check('market_unitOfMeasure', 'Storage Unit of Measure value  is not valid').not().isEmpty().trim().escape(),
     check('market_storageTimeStamp', 'Storage Timestamp value is not valid').not().isEmpty(),
@@ -415,14 +415,14 @@ router.post('/storage/save', [
       });
     } else {
 
-      let harvest_logid_uuid = req.body.harvest_logidSelect
+      let harvest_logid_uuid = req.body.harvest_logid
       let storage_logid_uuid = uuidv4();
       let storage_TimeStamp = moment(new Date(req.body.market_storageTimeStamp)).format("YYYY-MM-DD HH:mm:ss");
       let storage_CaptureTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
       let logdatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
       let lastmodifieddatetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
-      let req_harvest_suppliershortcode = req.body.harvest_suppliershortcode;
+      let req_harvest_supplierShortcode = req.body.harvest_supplierShortcode;
       let req_supplierproduce = req.body.supplierproduce;
       let req_market_Shortcode = req.body.market_Shortcode;
       let req_market_Name = req.body.market_Name;
@@ -431,7 +431,7 @@ router.post('/storage/save', [
       let req_market_unitOfMeasure = req.body.market_unitOfMeasure;
       let req_market_URL = req.body.market_URL;
       let req_storage_Description = req.body.storage_Description;
-      let req_email = req.user.email;
+      let req_email = req.body.storage_user;
 
       //blockchain variables
       let sys_storage_BlockchainHashID = '-';
@@ -443,7 +443,7 @@ router.post('/storage/save', [
       let data = {
         harvest_logid: harvest_logid_uuid,
         storage_logid: storage_logid_uuid,
-        harvest_supplierShortcode: req_harvest_suppliershortcode,
+        harvest_supplierShortcode: req_harvest_supplierShortcode,
         supplierproduce: req_supplierproduce,
         market_Shortcode: req_market_Shortcode,
         market_Name: req_market_Name,
@@ -556,7 +556,7 @@ router.post('/storage/save', [
 
 //route for update data
 router.post('/storage/update', [
-    check('harvest_suppliershortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
+    check('harvest_supplierShortcode', 'Harvest Supplier Shortcode is not valid').not().isEmpty().trim().escape(),
     check('supplierproduce', ' Supplier Produce value is not valid').not().isEmpty().trim().escape(),
     check('market_Shortcode', 'Market Shortcode value is not valid').not().isEmpty().trim().escape(),
     check('market_Name', 'Market Name value is not valid').not().isEmpty().trim().escape(),
@@ -599,7 +599,7 @@ router.post('/storage/update', [
 
       let data = {
         harvest_logid: req.body.harvest_logid,
-        harvest_supplierShortcode: req.body.harvest_suppliershortcode,
+        harvest_supplierShortcode: req.body.harvest_supplierShortcode,
         supplierproduce: req.body.supplierproduce,
         market_Shortcode: req.body.market_Shortcode,
         market_Name: req.body.market_Name,
@@ -721,7 +721,7 @@ router.post('/storage/save/whatsapp',
         .create(data)
         .then(_ => {
           res.status(201).json({
-            message: "storage created",
+            message: "Storage entry created successfully",
             storage_logid: data.storage_logid
           });
         })
@@ -769,7 +769,6 @@ router.get('/storage/whatsapp',
 /*
 * QR COUNT
 */
-// TODO use qrid in query
 router.get('/qrcount/scans/:startDate',
   function (req, res) {
     const {startDate} = req.params
@@ -777,9 +776,9 @@ router.get('/qrcount/scans/:startDate',
       models.FoodprintQrcount
         .findAll({
           attributes: [
-            'qrurl', [Sequelize.fn('COUNT', '*'), 'scanCount']
+            'qrid', [Sequelize.fn('COUNT', '*'), 'scanCount']
           ],
-          group: ['qrurl'],
+          group: ['qrid'],
           raw: true,
           where: {
             logdatetime: {
@@ -788,12 +787,9 @@ router.get('/qrcount/scans/:startDate',
           }
         })
         .then(rows => {
-          // res.status(200).json(rows);
-          // console.log(rows)
           let response = [];
           rows.forEach(row => {
-            let qrid = row.qrurl.split('/').filter(Boolean).pop();
-            response.push(`${qrid} - ${row.scanCount} scans`)
+            response.push(`${row.qrid} - ${row.scanCount} scans`)
           })
           res.status(200).json(response)
         })
@@ -816,7 +812,7 @@ router.get('/qrcount/scans/:startDate',
 router.post('/login',
   passport.authenticate('file-local', {session: false}),
   function(req, res) {
-    res.status(200).json({ message: "Login success"});
+    res.status(200).json({ message: "Login Success"});
   }
 );
 
