@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+ 
+   
+   <div class="container" style="width: 100%;">
+    <div class="row align-items-center justify-content-center">
+      <!-- START PRE-REGISTER FORM-->
+        <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
+          <h3 class="heading text-center">USER REGISTRATION</h3>
+          <% include ./partials/notificationbar %>
+          <div class="probootstrap-section-heading text-center mb50 probootstrap-animate fadeInUp probootstrap-animated" style="background-image: url(/img/farm1.jpg); height: 200px; background-size: 100%; background-repeat: no-repeat; ">
+          </div>
+          <h4 class="heading">What interests you about joining the FoodPrint initiative</h4>
+
+            <form class="probootstrap-form mb60 validate-form" method="get">
+                
+                <!--Descriptions for each members will be added to label-->
+                <input type="radio" id="farmer" name="choice" value="farmer">
+                <label for="farmer" class="choice_description">I am a Farmer</label><br>
+
+                <input type="radio" id="intermediary" name="choice" value="intermediary">
+                <label for="intermediary" class="choice_description">I am an intermediary</label><br>
+
+                <input type="radio" id="agent" name="choice" value="agent">
+                <label for="agent" class="choice_description">I am an Agent</label><br>
+
+      
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit" formaction="/app/auth/register">Continue</button>
+                </div>
+
+                <div class="form-group">
+                  Already have a FoodPrint account? <a href="/app/auth/login/">Sign in now</a>.
+                </div>
+                
+
+
+            </form>
+        </div>
+        <!-- END PRE-REGISTER FORM-->
+      </div>
+    </div>
+
+  <!-- start footer -->
+  <% include ./partials/footer %>
+  <!-- end footer -->
+  
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  </body>
+</html>
