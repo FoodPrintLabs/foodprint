@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
       <% include ./partials/head %>  
+      <script>
+      const URL = new URL(window.location.href); 
+      const getParam = URL.searchParams.get('choice'); 
+      alert(getParam)
+      </script>
   </head>
   <body>
    <!-- START: header -->
@@ -12,11 +17,11 @@
       <% include ./partials/header %>
   </header>
   <!-- END: header -->
- 
+
    
    <div class="container" style="width: 100%;">
     <div class="row align-items-center justify-content-center">
-      <!-- START LOGIN FORM-->
+      <!-- START REGISTER FORM-->
         <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
           <h3 class="heading text-center">USER REGISTRATION</h3>
           <% include ./partials/notificationbar %>
@@ -36,6 +41,11 @@
                   </div>
 
                   <div class="form-group">
+                    <label for="registerPhoneNumber">Phone Number</label>
+                    <input type="email" style="color: black;" id="registerPhoneNumber" name="registerPhoneNumber"class="form-control" placeholder="Enter Phone Number" required autofocus/>
+                  </div>
+
+                  <div class="form-group">
                     <label for="registerEmail">Email Address</label>
                     <input type="email" style="color: black;" id="registerEmail" name="registerEmail"class="form-control" placeholder="Enter Email Address" required autofocus/>
                   </div>
@@ -49,18 +59,42 @@
                     <label for="registerUserType">User Type</label>
                     <select class="custom-select d-block w-100" name="registerUserType" id="registerUserType" required>
                       <option value="" selected disabled >Select User Type...</option>
+                      <option>Admin</option>
+                      <option>Agent</option>
+                      <option>Regulator</option>
+                      <option>Data User</option>
                       <option>Farmer</option>
                       <option>Agri-Hub</option>
                       <option>Food Market</option>
                       <option>Restaurant</option>
                       <option>Retailer</option>
-                      <option>Consumer</option>
+                      <!--<option>Consumer</option>-->
                     </select>
                   </div>
+
+                  <!--IF farmer SELECTED display and required-->
+                  <div class="form-group">
+                    <label for="registerIDPhoto">ID Photo</label>
+                    <input type="file" style="color: black;" id="registerIDPhoto" name="registerIDPhoto" class="form-control"  required>
+                  </div>
+
+                  <!--IF intermediary SELECTED display and required-->
+                  <!--Should user select type or input?-->
 
                   <div class="form-group">
                     <label for="registerOrgName">Organisation Name</label>
                     <input type="text" style="color: black;" id="registerOrgName" name="registerOrgName" class="form-control" placeholder="Enter Organisation Name" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="registerOrgType">Organisation Type</label>
+                    <input type="text" style="color: black;" id="registerOrgType" name="registerOrgType" class="form-control" placeholder="Enter Type of Organisation" required>
+                  </div>
+
+                  <!--IF agent display SELECTED and required-->
+                  <div class="form-group">
+                    <label for="registerOrgName">City</label>
+                    <input type="text" style="color: black;" id="registerOrgName" name="registerOrgName" class="form-control" placeholder="Enter City" required>
                   </div>
       
                 <div class="form-group">
@@ -79,7 +113,7 @@
 
             </form>
         </div>
-        <!-- END LOGIN FORM-->
+        <!-- END REGISTER FORM-->
       </div>
     </div>
 
