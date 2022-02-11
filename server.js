@@ -56,7 +56,7 @@ var searchRouter = require('./routes/search');
 var websiteRouter = require('./routes/website');
 var legacyRouter = require('./routes/legacy');
 
-var apiRouter = require('./routes/api');
+var apiV1Router = require('./routes/api_v1');
 
 // var ROLES = require('./utils/roles');
 // const {Sequelize} = require("sequelize");
@@ -131,7 +131,7 @@ app.use('/', websiteRouter);
 app.use('/', testRouter);
 app.use('/', searchRouter);
 
-app.use('/app/api/v1', apiRouter);
+app.use('/app/api/v1', apiV1Router);
 
 app.use('/', legacyRouter);
 
