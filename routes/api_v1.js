@@ -253,7 +253,7 @@ router.post('/harvest/delete',
         .then(_ => {
           res.status(200).json({
             message: 'Harvest entry deleted successfully!',
-            harvestLogID: req.body.harvest_logid
+            harvest_logid: req.body.harvest_logid
           })
         })
         .catch(err => {
@@ -334,7 +334,7 @@ router.get('/harvest/whatsapp',
     try {
       models.FoodprintHarvest
         .findAll({
-          attributes: ['harvest_produceName', 'harvest_quantity', 'logdatetime'],
+          attributes: ['harvest_produceName', 'harvest_quantity', 'harvest_unitOfMeasure', 'logdatetime'],
           where: {
             harvest_logid: req.body.harvest_logid
           }
@@ -743,7 +743,7 @@ router.get('/storage/whatsapp',
     try {
       models.FoodprintStorage
         .findAll({
-          attributes: ['supplierproduce', 'market_quantity', 'logdatetime'],
+          attributes: ['supplierproduce', 'market_quantity', 'market_unitOfMeasure', 'logdatetime'],
           where: {
             storage_logid: req.body.storage_logid
           }
