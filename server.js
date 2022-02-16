@@ -53,6 +53,7 @@ var configRouter = require("./routes/config");
 var harvestRouter = require("./routes/harvest");
 var storageRouter = require("./routes/storage");
 var authRouter = require("./routes/auth");
+var umsRouter = require("./routes/usermanagement");
 var blockchainRouter = require("./routes/blockchain");
 var ROLES = require("./utils/roles");
 const { Sequelize } = require("sequelize");
@@ -128,6 +129,7 @@ app.use("/", router);
 app.use("/", blockchainRouter);
 app.use("/app/config", configRouter);
 app.use("/app/auth", authRouter);
+app.use("/app/usermanagement", umsRouter);
 app.use("/app/harvest", harvestRouter);
 app.use("/app/storage", storageRouter);
 
@@ -176,7 +178,7 @@ passport.use(
       passwordField: "loginPassword", //useful for custom id's on your credentials fields
     },
     function (username, password, cb) {
-      db.users.findByUsername(username, function (err, user) {
+      models.User.findByUsername(username, function (err, user) {
         if (err) {
           return cb(err);
         }
@@ -206,7 +208,21 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-  db.users.findById(id, function (err, user) {
+  //NEED TO LOOK INTO HOW TO DESERIALIZE BOTH WAYS - using just the models version for DB Testing so long
+  /*db.users.findById(id, function (err, user) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, user);
+  });
+  */
+  models.User.findUserById(id, function (err, user) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, user);
+  });
+  models.User.findByUsername(id, function (err, user) {
     if (err) {
       return cb(err);
     }
@@ -330,14 +346,6 @@ router.get("/terms", function (req, res) {
 //return template for privacy policy
 router.get("/privacy", function (req, res) {
   res.render("privacypolicy", { user: req.user, page_name: "privacy" });
-});
-
-//return template for user management
-router.get("/user_management", function (req, res) {
-  res.render("user_management", {
-    user: req.user,
-    page_name: "User Management",
-  });
 });
 
 //return template with scan results for produce
