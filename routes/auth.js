@@ -35,6 +35,19 @@ router.post(
   }) //instruct Passport to flash an error message using the message given by the strategy's verify callback, if any
 );
 
+/* Render DB Login page. */
+router.get("/dblogin", function (req, res) {
+  if (req.user) {
+    res.redirect("/");
+  } else {
+    res.render("dblogin", {
+      title: "FoodPrint - User Login",
+      user: req.user,
+      page_name: "login",
+    });
+  }
+});
+
 /* Process  Login form submission (DB Based Auth). */
 /* TODO add a user not found message */
 router.post(
@@ -80,6 +93,7 @@ router.get("/register_options", function (req, res) {
 });
 
 /* Process register form submission . */
+/*NOT FINISHED */
 router.post("/register", function (req, res) {
   //TODO - Log registration to table and send email to FoodPrint Admin
 
@@ -106,6 +120,7 @@ router.post("/register", function (req, res) {
             "firstName",
             "middleName",
             "lastName",
+            "phoneNumber",
             "email",
             "role",
             "createdAt",
