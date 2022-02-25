@@ -133,8 +133,8 @@ app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
 app.use('/app/harvest', harvestRouter);
 app.use('/app/storage', storageRouter);
-app.use('/app/dashboard-farmer', dashboardAdminRouter);
-app.use('/app/dashboard-admin', dashboardFarmerRouter);
+app.use('/app/dashboard-farmer', dashboardFarmerRouter);
+app.use('/app/dashboard-admin', dashboardAdminRouter);
 
 app.use('/', websiteRouter);
 app.use('/', testRouter);
