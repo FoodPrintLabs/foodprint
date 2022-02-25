@@ -10,13 +10,12 @@ var cors = require('cors');
 var path = require('path');
 var router = express.Router();
 // var connection = require('./src/js/db');
-var CUSTOM_ENUMS = require('./src/js/enums')
+var CUSTOM_ENUMS = require('./src/js/enums');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 // var nodemailer = require('nodemailer');
-var fs = require('fs')
+var fs = require('fs');
 var sequelise = require('./src/js/db_sequelise');
-
 
 //only load the .env file if the server isn’t started in production mode
 if (process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION) {
@@ -50,6 +49,8 @@ var harvestRouter = require('./routes/harvest');
 var storageRouter = require('./routes/storage');
 var authRouter = require('./routes/auth');
 var blockchainRouter = require('./routes/blockchain');
+var dashboardAdminRouter = require('./routes/dashboard-admin');
+var dashboardFarmerRouter = require('./routes/dashboard-farmer');
 
 var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
@@ -62,11 +63,13 @@ var apiV1Router = require('./routes/api_v1');
 // const {Sequelize} = require("sequelize");
 
 // enable ssl redirect
-app.use(sslRedirect([
-  'other',
-  //'development',
-  'production'
-]));
+app.use(
+  sslRedirect([
+    'other',
+    //'development',
+    'production',
+  ])
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -75,33 +78,37 @@ app.set('view engine', 'ejs');
 // You can set morgan to log differently depending on your environment
 
 // create a write stream (in append mode), to current directory
-var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'})
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
 // only log error responses, write log lines to process.stdout
 if (app.get('env') == CUSTOM_ENUMS.PRODUCTION) {
-  app.use(logger('common', {
-    skip: function (req, res) {
-      return res.statusCode < 400
-    }
-  }));
+  app.use(
+    logger('common', {
+      skip: function (req, res) {
+        return res.statusCode < 400;
+      },
+    })
+  );
   // app.use(logger('common', { skip: function(req, res) { return res.statusCode < 400 }, stream: __dirname + '/access.log' }));
 } else {
   //write logfile to current directory, flag a is append
-  app.use(logger('dev', {stream: accessLogStream}));
+  app.use(logger('dev', { stream: accessLogStream }));
 }
 
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(cors());
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {maxAge: 1800000} // time im ms: 60000 - 1 min, 1800000 - 30min, 3600000 - 1 hour
-}))
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 1800000 }, // time im ms: 60000 - 1 min, 1800000 - 30min, 3600000 - 1 hour
+  })
+);
 
 // Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
@@ -114,8 +121,8 @@ app.use(function (req, res, next) {
   // locals is deleted at the end of current request, flash is deleted after it is displayed,
   // and it is stored in session intermediately.
   // (this works with redirect)
-  res.locals.error = req.flash("error");
-  res.locals.success = req.flash("success")
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
   next();
 });
 
@@ -126,6 +133,8 @@ app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
 app.use('/app/harvest', harvestRouter);
 app.use('/app/storage', storageRouter);
+app.use('/app/dashboard-farmer', dashboardAdminRouter);
+app.use('/app/dashboard-admin', dashboardFarmerRouter);
 
 app.use('/', websiteRouter);
 app.use('/', testRouter);
@@ -135,7 +144,7 @@ app.use('/app/api/v1', apiV1Router);
 
 app.use('/', legacyRouter);
 
-app.use(express.static(path.join(__dirname, "src")));
+app.use(express.static(path.join(__dirname, 'src')));
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Configure the local strategy for use by Passport.
@@ -146,48 +155,57 @@ app.use(express.static(path.join(__dirname, 'build')));
 // will be set at `req.user` in route handlers after authentication.
 
 // We will use two LocalStrategies, one for file-based auth and another for db-auth
-passport.use('file-local', new LocalStrategy({
-    usernameField: 'loginUsername', //useful for custom id's on your credentials fields, if incorrect you get a missing credentials error
-    passwordField: 'loginPassword', //useful for custom id's on your credentials fields
-  },
-  function (username, password, cb) {
-    db.users.findByUsername(username, function (err, user) {
-      if (err) {
-        return cb(err);
-      }
-      if (!user) {
-        return cb(null, false, {message: 'Incorrect username.'});
-      }
-      if (user.password != password) {
-        return cb(null, false, {message: 'Incorrect password.'});
-      }
-      // If the credentials are valid, the verify callback invokes done to supply
-      // Passport with the user that authenticated.
-      return cb(null, user);
-    });
-  }));
+passport.use(
+  'file-local',
+  new LocalStrategy(
+    {
+      usernameField: 'loginUsername', //useful for custom id's on your credentials fields, if incorrect you get a missing credentials error
+      passwordField: 'loginPassword', //useful for custom id's on your credentials fields
+    },
+    function (username, password, cb) {
+      db.users.findByUsername(username, function (err, user) {
+        if (err) {
+          return cb(err);
+        }
+        if (!user) {
+          return cb(null, false, { message: 'Incorrect username.' });
+        }
+        if (user.password != password) {
+          return cb(null, false, { message: 'Incorrect password.' });
+        }
+        // If the credentials are valid, the verify callback invokes done to supply
+        // Passport with the user that authenticated.
+        return cb(null, user);
+      });
+    }
+  )
+);
 
-passport.use('db-local', new LocalStrategy({
-    usernameField: 'loginUsername', //useful for custom id's on your credentials fields, if this is incorrect you get a missing credentials error
-    passwordField: 'loginPassword', //useful for custom id's on your credentials fields
-  },
-  function (username, password, cb) {
-    db.users.findByUsername(username, function (err, user) {
-      if (err) {
-        return cb(err);
-      }
-      if (!user) {
-        return cb(null, false, {message: 'Incorrect username.'});
-      }
-      if (user.password != password) {
-        return cb(null, false, {message: 'Incorrect password.'});
-      }
-      // If the credentials are valid, the verify callback invokes done to
-      // supply Passport with the user that authenticated.
-      return cb(null, user);
-    });
-  }));
-
+passport.use(
+  'db-local',
+  new LocalStrategy(
+    {
+      usernameField: 'loginUsername', //useful for custom id's on your credentials fields, if this is incorrect you get a missing credentials error
+      passwordField: 'loginPassword', //useful for custom id's on your credentials fields
+    },
+    function (username, password, cb) {
+      db.users.findByUsername(username, function (err, user) {
+        if (err) {
+          return cb(err);
+        }
+        if (!user) {
+          return cb(null, false, { message: 'Incorrect username.' });
+        }
+        if (user.password != password) {
+          return cb(null, false, { message: 'Incorrect password.' });
+        }
+        // If the credentials are valid, the verify callback invokes done to
+        // supply Passport with the user that authenticated.
+        return cb(null, user);
+      });
+    }
+  )
+);
 
 // Configure Passport authenticated session persistence.
 //
@@ -214,13 +232,11 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
-
 //home page
 router.get('/', function (req, res) {
-  res.render('index', {user: req.user, page_name: 'home'});
+  res.render('index', { user: req.user, page_name: 'home' });
   //res.sendFile(path.join(__dirname+'/src/index.html')); //__dirname : It will resolve to your project folder.
 });
-
 
 // error handler
 // to define an error-handling middleware, we simply define a middleware in our server.js with four arguments: err, req, res, and next.
@@ -230,9 +246,9 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-// render the error page
+  // render the error page
   res.status(err.status || 500);
-  res.render('error', {user: req.user, page_name: 'error'});
+  res.render('error', { user: req.user, page_name: 'error' });
 });
 
 // alternative error handlers based on mode
@@ -248,14 +264,19 @@ app.use(function (err, req, res, next) {
 //
 // console.log('Running at Port 3000');
 
-sequelise.authenticate().then(() => {
-  console.log('Database connected...');
-}).catch(err => {
-  console.log('Error connecting to database: ' + err);
-})
+sequelise
+  .authenticate()
+  .then(() => {
+    console.log('Database connected...');
+  })
+  .catch(err => {
+    console.log('Error connecting to database: ' + err);
+  });
 
 const PORT = process.env.PORT || 3000;
-sequelise.sync().then(() => {
-  app.listen(PORT, console.log(`Server started on port ${PORT}`));
-}).catch(err => console.log("Error synching models: " + err));
-
+sequelise
+  .sync()
+  .then(() => {
+    app.listen(PORT, console.log(`Server started on port ${PORT}`));
+  })
+  .catch(err => console.log('Error synching models: ' + err));
