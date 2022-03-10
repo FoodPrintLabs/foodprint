@@ -15,10 +15,73 @@
       <div class="row align-items-center justify-content-center">
         <!-- START ADMIN DASHBOARD-->
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-12">
           <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
           <h3 class="heading text-center">Admin Dashboard</h3>
         </div>
+
+        <div class="row my-5 align-items-center justify-content-center">
+          <!--Admin Harvests Card-->
+          <div class="col-3 col-lg-4 col-xl-3">
+            <div class="card border-0">
+              <div class="card-body text-center py-4">
+                <h4 class="card-title">Total Harvests</h4>
+                <h4 class="display-5 my-4 text-primary fw-bold">200</h4>
+                <a href="" class="btn btn-outline-primary btn-lg mt-3">Harvest Data</a>
+              </div>
+            </div>
+          </div>
+          <!--Farmer Supply Handover Card-->
+          <div class="col-3 col-lg-4 col-xl-3">
+            <div class="card border-0">
+              <div class="card-body text-center py-4">
+                <h4 class="card-title">Total Handovers</h4>
+                <h4 class="display-5 my-4 text-primary fw-bold">100</h4>
+                <a href="" class="btn btn-outline-primary btn-lg mt-3">Handover Data</a>
+              </div>
+            </div>
+          </div>
+
+          <!--Farmer Recent Activity Card-->
+          <div class="col-6 col-lg-4 col-xl-3">
+            <h4 class="card-title">Recent Activity</h4>
+            <table class="table table-dark table-striped">
+              <th>User</th>
+              <th>Activity</th>
+              <th>Suppler</th>
+              <th>Produce</th>
+              <tr>
+                <td>Farmer Brown</td>
+                <td>Harvest</td>
+                <td>Eikelaan Farm</td>
+                <td>Beetroot</td>
+              </tr>
+              <tr>
+                <td>Farmer Brown</td>
+                <td>Supply</td>
+                <td>EKLN</td>
+                <td>EKLN_Cauliflower</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!--Table of Data ie: Harvests or storage-->
+        <div class="col-12 col-lg-12 col-xl-12">
+          <h4 class="card-title">Harvest Data</h4>
+          <table class="table table-dark table-striped">
+            <th>Harvest ID</th>
+            <th>Harvest Date Time</th>
+            <th>Supplier</th>
+            <th>Produce</th>
+            <tr>
+              <td>87c5bd1f-0657-43b9-bada-5ad7a0a2a480</td>
+              <td>Tue Jan 04 2022 14:49:00 GMT+0200 (South Africa Standard Time)</td>
+              <td>Eikelaan Farm</td>
+              <td>Beetroot</td>
+            </tr>
+          </table>
+        </div>
+
         <!-- END ADMIN DASHBOARD-->
       </div>
     </div>
