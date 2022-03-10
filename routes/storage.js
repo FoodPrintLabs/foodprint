@@ -7,7 +7,7 @@ var moment = require('moment'); //datetime
 var ROLES = require('../utils/roles');
 
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
+var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 

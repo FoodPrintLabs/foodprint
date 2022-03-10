@@ -3,8 +3,8 @@ const { check, validationResult, sanitizeParam } = require('express-validator');
 const { Op, Sequelize } = require('sequelize');
 var router = express.Router();
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
-const CUSTOM_ENUMS = require('../src/js/enums');
+var sequelise = require('../config/db/db_sequelise');
+const CUSTOM_ENUMS = require('../utils/enums');
 const uuidv4 = require('uuid/v4');
 
 var models = initModels(sequelise);

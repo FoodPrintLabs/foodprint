@@ -10,12 +10,12 @@ var cors = require('cors');
 var path = require('path');
 var router = express.Router();
 // var connection = require('./src/js/db');
-var CUSTOM_ENUMS = require('./src/js/enums');
+var CUSTOM_ENUMS = require('./utils/enums');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 // var nodemailer = require('nodemailer');
 var fs = require('fs');
-var sequelise = require('./src/js/db_sequelise');
+var sequelise = require('./config/db/db_sequelise');
 
 //only load the .env file if the server isn’t started in production mode
 if (process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION) {
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION) {
 //expressValidator.sanitizeBody, expressValidator.sanitizeParam, expressValidator.body etc
 
 // const uuidv4 = require('uuid/v4')
-var db = require('./dbxml/localdb');
+var db = require('./config/passport/localdb');
 var app = express();
 var configRouter = require('./routes/config');
 var harvestRouter = require('./routes/harvest');

@@ -4,7 +4,7 @@ var passport = require('passport');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
+var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
