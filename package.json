@@ -18,7 +18,7 @@
     "heroku-postbuild": "npm run bundle",
     "dev": "npm run watch & nodemon server.js --host 0.0.0.0",
     "start": "node server.js",
-    "format": "prettier --write 'server.js' 'utils/*.js' 'routes/*.js' 'models/*.js' 'dbxml/*.js'"
+    "format": "prettier --write 'README.md' 'server.js' 'utils/*.js' 'routes/*.js' 'models/*.js' 'dbxml/*.js'"
   },
   "author": "Julian Kanjere, Deirdre Van de Heever, Thandeka Chehore, Natasha Oates",
   "license": "ISC",
