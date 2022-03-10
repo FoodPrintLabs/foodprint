@@ -1,12 +1,12 @@
-var DataTypes = require("sequelize").DataTypes;
-var _FoodprintConfig = require("./foodprint_config");
-var _FoodprintHarvest = require("./foodprint_harvest");
-var _FoodprintQrcount = require("./foodprint_qrcount");
-var _FoodprintStorage = require("./foodprint_storage");
-var _FoodprintSubscription = require("./foodprint_subscription");
-var _FoodprintWeeklyview = require("./foodprint_weeklyview");
-var _MarketSubscription = require("./market_subscription");
-var _User = require("./user");
+var DataTypes = require('sequelize').DataTypes;
+var _FoodprintConfig = require('./foodprint_config');
+var _FoodprintHarvest = require('./foodprint_harvest');
+var _FoodprintQrcount = require('./foodprint_qrcount');
+var _FoodprintStorage = require('./foodprint_storage');
+var _FoodprintSubscription = require('./foodprint_subscription');
+var _FoodprintWeeklyview = require('./foodprint_weeklyview');
+var _MarketSubscription = require('./market_subscription');
+var _User = require('./user');
 
 function initModels(sequelize) {
   var FoodprintConfig = _FoodprintConfig(sequelize, DataTypes);
@@ -17,7 +17,6 @@ function initModels(sequelize) {
   var FoodprintWeeklyview = _FoodprintWeeklyview(sequelize, DataTypes);
   var MarketSubscription = _MarketSubscription(sequelize, DataTypes);
   var User = _User(sequelize, DataTypes);
-
 
   return {
     FoodprintConfig,
