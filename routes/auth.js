@@ -117,29 +117,6 @@ router.post('/register/whatsapp', async function (req, res) {
         console.log(err);
         res.status(400).send({ message: err.message });
       });
-
-    /*let sql = "INSERT INTO user SET ?";
-
-      connection.query(sql, req.body, function (err, results) {
-        if (err) {
-          console.log(err)
-          res.status(400).send({ message: err.message });
-        } else {
-          let sql = "select ID, firstName, middleName, lastName, email, phoneNumber, role, createdAt, registrationChannel from user where phoneNumber = ?";
-
-          connection.execute(sql, [req.body.phoneNumber],
-            function (err, users) {
-              if (err) {
-                console.log(err)
-                res.status(400).send({ message: err.message });
-              } else if (users.length === 0) {
-                res.status(404).send({ message: "user not found" });
-              } else {
-                res.status(201).send(users[0]);
-              }
-            });
-        }
-      });*/
   } catch (e) {
     console.log(e);
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
@@ -177,20 +154,6 @@ router.get('/register/status/:phoneNumber', function (req, res) {
         console.log(err);
         res.status(400).send({ message: err.message });
       });
-
-    /*let sql = "select ID, firstName, middleName, lastName, email, phoneNumber, role, createdAt, registrationChannel from user where phoneNumber = ?";
-
-      connection.execute(sql, [phoneNumber],
-        function (err, users) {
-          if (err) {
-            console.log(err)
-            res.status(400).send({ message: err.message });
-          } else if (users.length === 0) {
-            res.status(404).send({ message: "user not found" });
-          } else {
-            res.status(200).send(users[0]);
-          }
-        });*/
   } catch (e) {
     console.log(e);
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
