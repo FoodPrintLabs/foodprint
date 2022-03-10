@@ -3,7 +3,6 @@ var router = express.Router();
 const { check, validationResult } = require('express-validator');
 const uuidv4 = require('uuid/v4');
 var body = require('express-validator'); //validation
-var connection = require('../src/js/db');
 var ROLES = require('../utils/roles');
 
 var initModels = require('../models/init-models');

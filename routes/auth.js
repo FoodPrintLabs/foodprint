@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var connection = require('../src/js/db');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 var initModels = require('../models/init-models');
