@@ -16,7 +16,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "watchify src/js/app.js -o src/js/bundle.js -v",
     "heroku-postbuild": "npm run bundle",
-    "dev": "npm run watch & nodemon server.js --host 0.0.0.0",
+    "dev": "nodemon server.js --host 0.0.0.0",
     "start": "node server.js"
   },
   "author": "Julian Kanjere, Deirdre Van de Heever, Thandeka Chehore, Natasha Oates",
