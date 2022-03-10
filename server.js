@@ -54,8 +54,6 @@ var qrCodeRouter = require('./routes/qrcode');
 var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
 var websiteRouter = require('./routes/website');
-var legacyRouter = require('./routes/legacy');
-
 var apiV1Router = require('./routes/api_v1');
 
 // var ROLES = require('./utils/roles');
@@ -141,7 +139,6 @@ app.use('/', searchRouter);
 app.use('/', qrCodeRouter);
 
 app.use('/app/api/v1', apiV1Router);
-app.use('/', legacyRouter);
 
 app.use(express.static(path.join(__dirname, 'src')));
 app.use(express.static(path.join(__dirname, 'build')));
