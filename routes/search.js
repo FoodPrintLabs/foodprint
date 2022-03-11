@@ -37,13 +37,7 @@ router.get(
 //traceproduce (i.e. produce search) XmlHTTP request
 router.post(
   '/app/traceproduce',
-  [
-    check('search_term', 'Search term is not valid')
-      .not()
-      .isEmpty()
-      .trim()
-      .escape(),
-  ],
+  [check('search_term', 'Search term is not valid').not().isEmpty().trim().escape()],
   function (req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -70,7 +64,7 @@ router.post(
             ],
           },
         })
-          .then((storage_rows) => {
+          .then(storage_rows => {
             models.FoodprintHarvest.findAll({
               attributes: [
                 'harvest_logid',
@@ -92,7 +86,7 @@ router.post(
                 ],
               },
             })
-              .then((harvest_rows) => {
+              .then(harvest_rows => {
                 console.log('Search DB success');
                 res.json({
                   success: true,
@@ -100,12 +94,12 @@ router.post(
                   produce_storage_data: storage_rows,
                 });
               })
-              .catch((err) => {
+              .catch(err => {
                 console.error('error', err);
                 res.status.json({ err: err });
               });
           })
-          .catch((err) => {
+          .catch(err => {
             console.error('error', err);
             res.status.json({ err: err });
           });

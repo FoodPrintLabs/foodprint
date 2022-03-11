@@ -54,8 +54,6 @@ var qrCodeRouter = require('./routes/qrcode');
 var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
 var websiteRouter = require('./routes/website');
-var legacyRouter = require('./routes/legacy');
-
 var apiV1Router = require('./routes/api_v1');
 
 // var ROLES = require('./utils/roles');
@@ -141,7 +139,6 @@ app.use('/', searchRouter);
 app.use('/', qrCodeRouter);
 
 app.use('/app/api/v1', apiV1Router);
-app.use('/', legacyRouter);
 
 app.use(express.static(path.join(__dirname, 'src')));
 app.use(express.static(path.join(__dirname, 'build')));
@@ -268,7 +265,7 @@ sequelise
   .then(() => {
     console.log('Database connected...');
   })
-  .catch((err) => {
+  .catch(err => {
     console.log('Error connecting to database: ' + err);
   });
 
@@ -278,4 +275,4 @@ sequelise
   .then(() => {
     app.listen(PORT, console.log(`Server started on port ${PORT}`));
   })
-  .catch((err) => console.log('Error synching models: ' + err));
+  .catch(err => console.log('Error synching models: ' + err));
