@@ -49,8 +49,7 @@ var harvestRouter = require('./routes/harvest');
 var storageRouter = require('./routes/storage');
 var authRouter = require('./routes/auth');
 var blockchainRouter = require('./routes/blockchain');
-var dashboardAdminRouter = require('./routes/dashboard-admin');
-var dashboardFarmerRouter = require('./routes/dashboard-farmer');
+var dashboardsRouter = require('./routes/dashboards');
 
 var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
@@ -133,8 +132,7 @@ app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
 app.use('/app/harvest', harvestRouter);
 app.use('/app/storage', storageRouter);
-app.use('/app/dashboard-farmer', dashboardFarmerRouter);
-app.use('/app/dashboard-admin', dashboardAdminRouter);
+app.use('/app/dashboards', dashboardsRouter);
 
 app.use('/', websiteRouter);
 app.use('/', testRouter);

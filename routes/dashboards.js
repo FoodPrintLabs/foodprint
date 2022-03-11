@@ -1,10 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
-/*Render user_management */
-router.get('/', function (req, res) {
+/*Render admin dashboard */
+router.get('/admin', function (req, res) {
   res.render('dashboard_admin', {
     title: 'FoodPrint - Admin Dashboard',
+    user: req.user,
+    page_name: 'Dashboard',
+  });
+});
+
+/*Render farmer dashboard */
+router.get('/farmer', function (req, res) {
+  res.render('dashboard_farmer', {
+    title: 'FoodPrint - Farmer Dashboard',
     user: req.user,
     page_name: 'Dashboard',
   });
