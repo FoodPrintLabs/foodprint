@@ -1,9 +1,9 @@
 const env = process.env.NODE_ENV || 'development';
 const SequelizeAuto = require('sequelize-auto');
-const config = require("../../dbconfig")[env];
+const config = require('../../dbconfig')[env];
 
 const options = {
-  directory: "../../models",
+  directory: '../../models',
   caseFile: 'l',
   caseModel: 'p', // p
   caseProp: 's', // c
@@ -12,9 +12,10 @@ const options = {
   spaces: true,
   indentation: 2,
   additional: {
-    timestamps: false
+    timestamps: false,
   },
-  tables: [ // use all tables, if omitted
+  tables: [
+    // use all tables, if omitted
     'foodprint_harvest',
     'foodprint_storage',
     'foodprint_qrcount',
@@ -22,17 +23,17 @@ const options = {
     'foodprint_weeklyview',
     'foodprint_config',
     'user',
-    'market_subscription'
-  ]
+    'market_subscription',
+  ],
 };
 
 const auto = new SequelizeAuto(config.database, config.username, config.password, {
   host: config.host,
   dialect: config.dialect,
-  ...options
+  ...options,
 });
 
 auto.run().then(data => {
   const tableNames = Object.keys(data.tables);
-  console.log(tableNames);      // table list
+  console.log(tableNames); // table list
 });

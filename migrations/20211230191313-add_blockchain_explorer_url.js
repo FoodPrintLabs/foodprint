@@ -8,8 +8,9 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.addColumn('foodprint_harvest', 'blockchain_explorer_url',
-        { type: Sequelize.STRING });
+    await queryInterface.addColumn('foodprint_harvest', 'blockchain_explorer_url', {
+      type: Sequelize.STRING,
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -20,5 +21,5 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
     await queryInterface.removeColumn('foodprint_harvest', 'blockchain_explorer_url');
-  }
+  },
 };
