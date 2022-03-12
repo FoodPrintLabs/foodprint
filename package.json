@@ -13,7 +13,7 @@
   "scripts": {
     "bundle": "./node_modules/browserify/bin/cmd.js src/js/app.js | uglifyjs -mc  > src/js/bundle.js",
     "preinstall": "rm -rf node_modules/*/.git/",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test mocha --timeout 30000 test/api/*.js",
     "heroku-postbuild": "npm run bundle",
     "dev": "nodemon server.js --host 0.0.0.0",
     "start": "node server.js",
@@ -23,6 +23,8 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "latest",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "gulp": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-clean-css": "latest",
@@ -34,6 +36,7 @@
     "gulp-sass": "latest",
     "gulp-sourcemaps": "latest",
     "gulp-uglify": "latest",
+    "mocha": "^9.2.2",
     "nodemon": "^1.19.1",
     "prettier": "2.5.1",
     "sequelize-auto": "^0.8.4",

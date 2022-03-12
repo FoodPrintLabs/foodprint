@@ -580,7 +580,7 @@ router.post(
                 let weeklyViewData = {
                   logid: logid_uuid,
                   harvest_logid: harvest_logid_uuid,
-                  harvest_supplierShortcode: req_harvest_suppliershortcode,
+                  harvest_supplierShortcode: req_harvest_supplierShortcode,
                   harvest_supplierName: harvest_rows[0].harvest_supplierName,
                   harvest_farmerName: harvest_rows[0].harvest_farmerName,
                   harvest_supplierAddress: harvest_rows[0].harvest_supplierAddress,
@@ -625,7 +625,7 @@ router.post(
 
                 models.FoodprintWeeklyview.create(weeklyViewData)
                   .then(_ => {
-                    console.log('Add weekly view successful');
+                    // console.log('Add weekly view successful');
                   })
                   .catch(err => {
                     console.error('Add weekly view error occured');
@@ -735,7 +735,7 @@ router.post(
         message: error_message,
       });
     } else {
-      console.log('req.body.harvest_logid ' + req.body.harvest_logid);
+      // console.log('req.body.harvest_logid ' + req.body.harvest_logid);
       let storage_TimeStamp = moment(new Date(req.body.market_storageTimeStamp)).format(
         'YYYY-MM-DD HH:mm:ss'
       );
