@@ -16,20 +16,11 @@ const hash = crypto.createHash('sha256');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
+var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
 /* GET harvest page. */
-/* Changed to MySQL2 library which gives prepared statements (changed from connection.query to connection.execute).
-With prepared statements MySQL doesn't have to prepare
-query execution plan for same query everytime, which results in better performance.
-
-If you execute same statement again, it will be picked from a Least Recently Used (LRU) cache which will save query
-preparation time and give better performance.
-
-TODO - Need to replicate this change to other SQL queries
-  */
 router.get(
   '/',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
@@ -60,22 +51,6 @@ router.get(
             page_name: 'harvestlogbook',
           });
         });
-      //   connection.execute('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
-      //       if(err){
-      //            req.flash('error', err);
-      //            res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook",
-      //                                   data:'', user: req.user, page_name:'harvestlogbook' });
-      //       }else{
-      //           for (i=0; i<rows.length; i++)
-      //           {
-      //               rows[i].harvest_photoHash = 'data:image/png;base64,' +
-      //                   new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
-      //           }
-      //           res.render('harvestlogbook',{   page_title:"FoodPrint - Harvest Logbook",
-      //                                   data:rows, user: req.user,
-      //                                   page_name:'harvestlogbook' });
-      //       }
-      //    });
     } else {
       res.render('error', {
         message: 'You are not authorised to view this resource.',
@@ -245,18 +220,6 @@ router.post(
               // redirect to harvest logbook page
               res.redirect('/app/harvest');
             });
-
-          // connection.query(sql, data, function(err, results) {
-          //     if(err) {
-          //         //throw err;
-          //         req.flash('error', err.message)
-          //         // redirect to harvest logbook page
-          //         res.redirect('/app/harvest')
-          //     } else{
-          //         req.flash('success', 'New Harvest entry added successfully! Harvest ID = ' + harvest_logid_uuid);
-          //         res.redirect('/app/harvest');
-          //     }
-          // });
         });
       } catch (e) {
         //this will eventually be handled by your error handling middleware
@@ -289,19 +252,6 @@ router.post(
                 errors: e.array(),
               });
             });
-          // connection.execute('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
-          //     if(err){
-          //         req.flash('error', err.message);
-          //         res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook",
-          //                                 data:'', user: req.user, page_name:'harvestlogbook',
-          //                                 success: false, errors: e.array(), });
-          //     }else{
-          //         res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook",
-          //                                 success: false, errors: e.array(),
-          //                                 data:rows, user: req.user,
-          //                                 page_name:'harvestlogbook' });
-          //     }
-          // });
         }
       }
     }
@@ -358,15 +308,6 @@ router.post('/save/whatsapp', async function (req, res) {
         //throw err;
         res.status(400).send({ message: err.message });
       });
-    /*connection.query(sql, data, function (err, results) {
-                if (err) {
-                    //throw err;
-                    res.status(400).send({ message: err.message });
-
-                } else {
-                    res.status(201).send({ message: "harvest created", harvest_logid: data.harvest_logid });
-                }
-            });*/
   } catch (e) {
     //this will eventually be handled by your error handling middleware
     //res.json({success: false, errors:errors.array()});
@@ -579,35 +520,6 @@ router.post(
       let lastmodifieddatetime = moment(new Date(req.body.viewmodal_lastmodifieddatetime)).format(
         'YYYY-MM-DD HH:mm:ss'
       );
-      //TODO - should rather update only the fields have changed!
-
-      /*   let sql = "UPDATE foodprint_harvest SET harvest_supplierShortcode='" + req.body.viewmodal_harvest_suppliershortcode + "', " +
-         "harvest_supplierName='" + req.body.viewmodal_harvest_suppliername +
-         "',harvest_farmerName='" + req.body.viewmodal_harvest_farmername +
-         "',harvest_supplierAddress='" + req.body.viewmodal_harvest_supplieraddress +
-         "',year_established='" + req.body.viewmodal_harvest_year_established +
-         "',covid19_response='" + req.body.viewmodal_harvest_covid19_response +
-         "',harvest_produceName='" + req.body.viewmodal_harvest_producename +
-        // "',harvest_photoHash='" + req.body.viewmodal_harvest_photohash +
-         "',harvest_TimeStamp='" + harvest_TimeStamp +
-         "',harvest_CaptureTime='" + harvest_CaptureTime +
-         "',harvest_Description='" + req.body.viewmodal_harvest_description +
-         "',harvest_geolocation='" + req.body.viewmodal_harvest_geolocation +
-         "',harvest_quantity='" + req.body.viewmodal_harvest_quantity +
-         "',harvest_unitOfMeasure='" + req.body.viewmodal_harvest_unitofmeasure +
-       //  "',harvest_description_json='" + req.body.viewmodal_harvest_description_json +
-         "',harvest_BlockchainHashID='" + req.body.viewmodal_harvest_blockchainhashid +
-         "',harvest_BlockchainHashData='" + req.body.viewmodal_harvest_blockchainhashdata +
-         "',supplierproduce='" + req.body.viewmodal_supplierproduce +
-         "',harvest_bool_added_to_blockchain='" + req.body.viewmodal_harvest_bool_added_to_blockchain +
-        // "',harvest_added_to_blockchain_date='" + req.body.viewmodal_harvest_added_to_blockchain_date +
-         "',harvest_added_to_blockchain_by='" + req.body.viewmodal_harvest_added_to_blockchain_by +
-         "',harvest_blockchain_uuid='" + req.body.viewmodal_harvest_blockchain_uuid +
-         "',harvest_user='" + req.body.viewmodal_harvest_user +
-         "',logdatetime='" + logdatetime +
-         "',lastmodifieddatetime='" + lastmodifieddatetime +
-         "' WHERE harvest_logid='" + req.body.viewmodal_harvest_logid + "'";
-     //console.log('UPDATE Harvestsql ' + sql);*/
 
       let data = {
         harvest_supplierShortcode: req.body.viewmodal_harvest_suppliershortcode,
@@ -657,20 +569,6 @@ router.post(
             // redirect to harvest logbook page
             res.redirect('/app/harvest');
           });
-        //   connection.query(sql, function(err, results){
-        //       if(err) {
-        //           //throw err;
-        //           console.log('Error - Update Harvest failed');
-        //           console.log(err);
-        //           req.flash('error', err.message)
-        //           // redirect to harvest logbook page
-        //           res.redirect('/app/harvest')
-        //       }
-        //       else{
-        //           req.flash('success', 'Harvest entry updated successfully! Harvest ID = ' + req.body.viewmodal_harvest_logid);
-        //           res.redirect('/app/harvest');
-        //         }
-        // });
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
@@ -702,19 +600,6 @@ router.post(
                 errors: e.array(),
               });
             });
-          //  connection.execute('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
-          //    if(err){
-          //         req.flash('error', err.message);
-          //         res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook",
-          //                                data:'', user: req.user, page_name:'harvestlogbook',
-          //                                success: false, errors: e.array(), });
-          //    }else{
-          //        res.render('harvestlogbook',{page_title:"FoodPrint - Harvest Logbook",
-          //                                success: false, errors: e.array(),
-          //                                data:rows, user: req.user,
-          //                                page_name:'harvestlogbook' });
-          //    }
-          // });
         }
       }
     }
@@ -734,9 +619,6 @@ router.post(
       .escape(),
   ],
   function (req, res) {
-    // let sql = "DELETE FROM foodprint_harvest WHERE harvest_logid='"+req.body.viewmodal_harvest_logid+"'";
-
-    //console.log('DELETE Harvest sql ' + sql);
     console.log('configid ' + req.body.viewmodal_harvest_logid);
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       models.FoodprintHarvest.destroy({
@@ -757,18 +639,6 @@ router.post(
           // redirect to harvest logbook page
           res.redirect('/app/harvest');
         });
-
-      /* let query = connection.execute(sql, (err, results) => {
-           if(err) {
-               //throw err;
-               req.flash('error', err.message)
-               // redirect to harvest logbook page
-               res.redirect('/app/harvest')
-           } else{
-               req.flash('success', 'Harvest entry deleted successfully! Harvest ID = ' + req.body.viewmodal_harvest_logid);
-               res.redirect('/app/harvest');
-           }
-       });*/
     }
   }
 );

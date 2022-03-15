@@ -4,13 +4,16 @@ const { check, validationResult, sanitizeParam } = require('express-validator');
 var router = express.Router();
 
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
-const CUSTOM_ENUMS = require('../src/js/enums');
+var sequelise = require('../config/db/db_sequelise');
+const CUSTOM_ENUMS = require('../utils/enums');
 const uuidv4 = require('uuid/v4');
 
 var models = initModels(sequelise);
 
 //emailer configuration
+// Testing Emails Pattern
+// when testing emails, in NODE_ENV=development, set EMAIL_OVERRIDE
+// if EMAIL_OVERRIDE is set, send email to it's value, prepend subject line with [TEST EMAIL], include intended recipients in the body
 let transporter = nodemailer.createTransport({
   service: CUSTOM_ENUMS.GMAIL,
   auth: {

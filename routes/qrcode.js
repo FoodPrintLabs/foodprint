@@ -3,8 +3,8 @@ const { check, validationResult, sanitizeParam } = require('express-validator');
 const { Op, Sequelize } = require('sequelize');
 var router = express.Router();
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
-const CUSTOM_ENUMS = require('../src/js/enums');
+var sequelise = require('../config/db/db_sequelise');
+const CUSTOM_ENUMS = require('../utils/enums');
 const uuidv4 = require('uuid/v4');
 
 var models = initModels(sequelise);
@@ -391,23 +391,6 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
       var request_useragent = req.headers['user-agent'];
       var logdatetime = new Date();
 
-      //TODO - cross check marketID and supplierProduceID against existing marketID's from foodprint_market and foodPrint_supplierproduceid
-      // connection.query( 'INSERT INTO foodprint_qrcount (' +
-      //                   'logid , qrid, qrurl, marketid, request_host,' +
-      //                   'request_origin, request_useragent,logdatetime) ' +
-      //                   ' VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-      //                   [
-      //                     logid, qrid, qrurl, marketID, request_host,
-      //                     request_origin, request_useragent, logdatetime
-      //                 ]
-      //                 ,function(err, res2) {
-      //                     if (err) {
-      //                       console.error('Produce scan tracking error occured');
-      //                       console.error('error', err);
-      //                     }
-      //                     console.log('Produce scan tracking successful');
-      //                     //callback(null, res2); // think 'return'
-      //                     });
       //END Track QR Scan
       provenance_data['user'] = req.user;
       provenance_data['showTracedOnBlockchain'] = boolTracedOnBlockchain;

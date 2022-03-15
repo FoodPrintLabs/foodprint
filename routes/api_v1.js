@@ -6,7 +6,7 @@ const uuidv4 = require('uuid/v4');
 let moment = require('moment');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 let initModels = require('../models/init-models');
-let sequelise = require('../src/js/db_sequelise');
+let sequelise = require('../config/db/db_sequelise');
 const { Op } = require('sequelize');
 let models = initModels(sequelise);
 const { Sequelize } = require('sequelize');
