@@ -4,13 +4,12 @@ const { check, validationResult } = require('express-validator');
 const uuidv4 = require('uuid/v4');
 var body = require('express-validator'); //validation
 
-var connection = require('../src/js/db');
 var ROLES = require('../utils/roles');
 var fs = require('fs');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
+var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
