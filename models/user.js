@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    "User",
+    'User',
     {
       ID: {
         autoIncrement: true,
@@ -24,12 +24,12 @@ module.exports = function (sequelize, DataTypes) {
       email: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        unique: "email",
+        unique: 'email',
       },
       phoneNumber: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        unique: "phoneNumber",
+        unique: 'phoneNumber',
       },
       role: {
         type: DataTypes.STRING(255),
@@ -42,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
       createdAt: {
         type: DataTypes.DATE,
         allowNull: true,
-        defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
+        defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       registrationChannel: {
         type: DataTypes.STRING(255),
@@ -52,45 +52,29 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.BLOB,
         allowNull: true,
       },
-      farmName: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      organisationName: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      organisationType: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      city: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
     },
     {
       sequelize,
-      tableName: "user",
+      tableName: 'user',
       timestamps: false,
       indexes: [
         {
-          name: "PRIMARY",
+          name: 'PRIMARY',
           unique: true,
-          using: "BTREE",
-          fields: [{ name: "ID" }],
+          using: 'BTREE',
+          fields: [{ name: 'ID' }],
         },
         {
-          name: "email",
+          name: 'email',
           unique: true,
-          using: "BTREE",
-          fields: [{ name: "email" }],
+          using: 'BTREE',
+          fields: [{ name: 'email' }],
         },
         {
-          name: "phoneNumber",
+          name: 'phoneNumber',
           unique: true,
-          using: "BTREE",
-          fields: [{ name: "phoneNumber" }],
+          using: 'BTREE',
+          fields: [{ name: 'phoneNumber' }],
         },
       ],
     }

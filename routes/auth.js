@@ -1,49 +1,43 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
-var passport = require("passport");
-var connection = require("../src/js/db");
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+var passport = require('passport');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-var initModels = require("../models/init-models");
-var sequelise = require("../src/js/db_sequelise");
+var initModels = require('../models/init-models');
+var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
 /* Render Login page. */
-router.get("/login", function (req, res) {
+router.get('/login', function (req, res) {
   if (req.user) {
-    res.redirect("/");
+    res.redirect('/');
   } else {
-    res.render("login", {
-      title: "FoodPrint - User Login",
-      user: req.user,
-      page_name: "login",
-    });
+    res.render('login', { title: 'FoodPrint - User Login', user: req.user, page_name: 'login' });
   }
 });
 
 /* Process Login form submission (File Based Auth). */
 /* TODO add a user not found message */
 router.post(
-  "/login",
-  passport.authenticate("file-local", {
-    successReturnToOrRedirect: "/",
-    successFlash: "You are now logged in.",
-    failureRedirect: "/app/auth/login",
+  '/login',
+  passport.authenticate('file-local', {
+    successReturnToOrRedirect: '/',
+    successFlash: 'You are now logged in.',
+    failureRedirect: '/app/auth/login',
     failureFlash: true,
   }) //instruct Passport to flash an error message using the message given by the strategy's verify callback, if any
 );
 
 /* Render DB Login page. */
-router.get("/dblogin", function (req, res) {
+router.get('/dblogin', function (req, res) {
   if (req.user) {
-    res.redirect("/");
+    res.redirect('/');
   } else {
-    res.render("dblogin", {
-      title: "FoodPrint - User Login",
+    res.render('dblogin', {
+      title: 'FoodPrint - User Login',
       user: req.user,
-      page_name: "login",
+      page_name: 'login',
     });
   }
 });
@@ -51,50 +45,50 @@ router.get("/dblogin", function (req, res) {
 /* Process  Login form submission (DB Based Auth). */
 /* TODO add a user not found message */
 router.post(
-  "/dblogin",
-  passport.authenticate("db-local", {
-    successReturnToOrRedirect: "/",
-    failureRedirect: "/app/auth/login",
+  '/dblogin',
+  passport.authenticate('db-local', {
+    successReturnToOrRedirect: '/',
+    failureRedirect: '/app/auth/login',
     failureFlash: true,
   }) //instruct Passport to flash an error message using the message given by the strategy's verify callback, if any
 );
 
 /* Logout. */
-router.get("/logout", function (req, res) {
+router.get('/logout', function (req, res) {
   req.logout();
-  req.flash("success", "You are now logged out.");
-  res.redirect("/app/auth/login");
+  req.flash('success', 'You are now logged out.');
+  res.redirect('/app/auth/login');
 });
 
 /* Render Register page. */
-router.get("/register/:message?", function (req, res) {
+router.get('/register/:message?', function (req, res) {
   req.params.message
-    ? res.render("message", {
-        title: "FoodPrint - User Registration",
+    ? res.render('message', {
+        title: 'FoodPrint - User Registration',
         user: req.user,
-        page_name: "message",
+        page_name: 'message',
         message:
-          "Your registration has been submitted and is currently under review by the FoodPrint Team! You will be notified of status updates via the email you provided.",
+          'Your registration has been submitted and is currently under review by the FoodPrint Team! You will be notified of status updates via the email you provided.',
       })
-    : res.render("register", {
-        title: "FoodPrint - User Registration",
+    : res.render('register', {
+        title: 'FoodPrint - User Registration',
         user: req.user,
-        page_name: "register",
+        page_name: 'register',
       });
 });
 
 /*Render register_options */
-router.get("/register_options", function (req, res) {
-  res.render("register_options", {
-    title: "FoodPrint - User Registration",
+router.get('/register_options', function (req, res) {
+  res.render('register_options', {
+    title: 'FoodPrint - User Registration',
     user: req.user,
-    page_name: "register",
+    page_name: 'register',
   });
 });
 
 /* Process register form submission . */
 /*NOT FINISHED */
-router.post("/register", function (req, res) {
+router.post('/register', function (req, res) {
   //TODO - Log registration to table and send email to FoodPrint Admin
 
   //res.redirect("/app/auth/register/message");
@@ -113,51 +107,51 @@ router.post("/register", function (req, res) {
     */
 
     models.User.create(req.body)
-      .then((_) => {
+      .then(_ => {
         models.User.findAll({
           attributes: [
-            "ID",
-            "firstName",
-            "middleName",
-            "lastName",
-            "phoneNumber",
-            "email",
-            "role",
-            "createdAt",
-            "registrationChannel",
-            "nationalIdPhotoHash",
-            "organisationName",
-            "organisationType",
-            "city",
+            'ID',
+            'firstName',
+            'middleName',
+            'lastName',
+            'phoneNumber',
+            'email',
+            'role',
+            'createdAt',
+            'registrationChannel',
+            'nationalIdPhotoHash',
+            'organisationName',
+            'organisationType',
+            'city',
           ],
           where: {
             email: req.body.registerEmail,
           },
         })
-          .then((users) => {
+          .then(users => {
             if (users.length === 0) {
-              res.status(404).send({ message: "user not found" });
+              res.status(404).send({ message: 'user not found' });
             } else {
               res.status(201).send(users[0]);
             }
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             res.status(400).send({ message: err.message });
           });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         res.status(400).send({ message: err.message });
       });
   } catch (e) {
     console.log(e);
-    res.status(500).send({ error: e, message: "Unexpected error occurred 😤" });
+    res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
 });
 
 /* Process register for WhatsApp*/
-router.post("/register/whatsapp", async function (req, res) {
+router.post('/register/whatsapp', async function (req, res) {
   try {
     if (req.body.idURL) {
       try {
@@ -170,116 +164,79 @@ router.post("/register/whatsapp", async function (req, res) {
     }
 
     models.User.create(req.body)
-      .then((_) => {
+      .then(_ => {
         models.User.findAll({
           attributes: [
-            "ID",
-            "firstName",
-            "middleName",
-            "lastName",
-            "email",
-            "phoneNumber",
-            "role",
-            "createdAt",
-            "registrationChannel",
+            'ID',
+            'firstName',
+            'middleName',
+            'lastName',
+            'email',
+            'phoneNumber',
+            'role',
+            'createdAt',
+            'registrationChannel',
           ],
           where: {
             phoneNumber: req.body.phoneNumber,
           },
         })
-          .then((users) => {
+          .then(users => {
             if (users.length === 0) {
-              res.status(404).send({ message: "user not found" });
+              res.status(404).send({ message: 'user not found' });
             } else {
               res.status(201).send(users[0]);
             }
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             res.status(400).send({ message: err.message });
           });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         res.status(400).send({ message: err.message });
       });
-
-    /*let sql = "INSERT INTO user SET ?";
-
-      connection.query(sql, req.body, function (err, results) {
-        if (err) {
-          console.log(err)
-          res.status(400).send({ message: err.message });
-        } else {
-          let sql = "select ID, firstName, middleName, lastName, email, phoneNumber, role, createdAt, registrationChannel from user where phoneNumber = ?";
-
-          connection.execute(sql, [req.body.phoneNumber],
-            function (err, users) {
-              if (err) {
-                console.log(err)
-                res.status(400).send({ message: err.message });
-              } else if (users.length === 0) {
-                res.status(404).send({ message: "user not found" });
-              } else {
-                res.status(201).send(users[0]);
-              }
-            });
-        }
-      });*/
   } catch (e) {
     console.log(e);
-    res.status(500).send({ error: e, message: "Unexpected error occurred 😤" });
+    res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
 });
 
 /* check user registration status relevent for whatsapp*/
-router.get("/register/status/:phoneNumber", function (req, res) {
+router.get('/register/status/:phoneNumber', function (req, res) {
   const { phoneNumber } = req.params;
   try {
     models.User.findAll({
       attributes: [
-        "ID",
-        "firstName",
-        "middleName",
-        "lastName",
-        "email",
-        "phoneNumber",
-        "role",
-        "createdAt",
-        "registrationChannel",
+        'ID',
+        'firstName',
+        'middleName',
+        'lastName',
+        'email',
+        'phoneNumber',
+        'role',
+        'createdAt',
+        'registrationChannel',
       ],
       where: {
         phoneNumber: phoneNumber,
       },
     })
-      .then((users) => {
+      .then(users => {
         if (users.length === 0) {
-          res.status(404).send({ message: "user not found" });
+          res.status(404).send({ message: 'user not found' });
         } else {
           res.status(200).send(users[0]);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         res.status(400).send({ message: err.message });
       });
-
-    /*let sql = "select ID, firstName, middleName, lastName, email, phoneNumber, role, createdAt, registrationChannel from user where phoneNumber = ?";
-
-      connection.execute(sql, [phoneNumber],
-        function (err, users) {
-          if (err) {
-            console.log(err)
-            res.status(400).send({ message: err.message });
-          } else if (users.length === 0) {
-            res.status(404).send({ message: "user not found" });
-          } else {
-            res.status(200).send(users[0]);
-          }
-        });*/
   } catch (e) {
     console.log(e);
-    res.status(500).send({ error: e, message: "Unexpected error occurred 😤" });
+    res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
 });
 
