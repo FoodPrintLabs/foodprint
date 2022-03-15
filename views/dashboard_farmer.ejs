@@ -65,17 +65,67 @@
         <!--Table of Data ie: Harvests or storage-->
         <div class="col-12 col-lg-12 col-xl-12">
           <h4 class="card-title">Harvest Data</h4>
-          <table class="table table-dark table-striped">
-            <th>Harvest ID</th>
-            <th>Harvest Date Time</th>
-            <th>Supplier</th>
-            <th>Produce</th>
-            <tr>
-              <td>87c5bd1f-0657-43b9-bada-5ad7a0a2a480</td>
-              <td>Tue Jan 04 2022 14:49:00 GMT+0200 (South Africa Standard Time)</td>
-              <td>Eikelaan Farm</td>
-              <td>Beetroot</td>
-            </tr>
+          <table class="table table-dark table-striped" harvesttable>
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Harvest ID</th>
+                  <th scope="col">Harvest Datetime</th>
+                  <th scope="col">Supplier</th>
+                  <th scope="col">Produce</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(data.length){
+                    for(var i = 0; i< data.length; i++) {%>
+                    <tr>
+                      <td scope="row"><%= (i+1) %></td>
+                      <td><%= data[i].harvest_logid %></td>
+                      <td><%= data[i].harvest_TimeStamp %></td>
+                      <td><%= data[i].harvest_supplierName %></td>
+                      <td><%= data[i].harvest_produceName %></td>
+                      <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                          <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')"  class="btn btn-xs btn-info view"
+                             id="<%= ("harvest_view_" + data[i].harvest_logid) %>"
+                             data-harvest_logid="<%= data[i].harvest_logid%>"
+                            data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
+                            data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
+                            data-harvest_farmername="<%=data[i].harvest_farmerName%>"
+                            data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
+                            data-harvest_producename="<%=data[i].harvest_produceName%>"
+                            data-harvest_photohash="<%=data[i].harvest_photoHash%>"
+                            data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
+                            data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
+                            data-harvest_description="<%=data[i].harvest_Description%>"
+                            data-harvest_geolocation="<%=data[i].harvest_geolocation%>"
+                            data-harvest_quantity="<%=data[i].harvest_quantity%>"
+                            data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>"
+                            data-harvest_description_json="<%=data[i].harvest_description_json%>"
+                            data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>"
+                            data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>"
+                            data-supplierproduce="<%=data[i].supplierproduce%>"
+                            data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>"
+                            data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>"
+                            data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
+                            data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
+                            data-harvest_user="<%=data[i].harvest_user%>"
+                            data-year_established="<%=data[i].year_established%>"
+                            data-covid19_response="<%=data[i].covid19_response%>"
+                            data-logdatetime="<%=data[i].logdatetime%>"
+                            data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
+                            View</a>
+                          </div>
+                      </td>
+                    </tr>
+                    <% }
+                 }else{ %>
+                     <tr>
+                        <td colspan="5">No Data</td>
+                     </tr>
+                  <% } %>
+              </tbody>
           </table>
         </div>
 
