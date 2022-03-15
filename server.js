@@ -5,10 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan'); //Morgan is an HTTP request logger middleware for Node.js. It simplifies the process of logging requests to your application.
 var flash = require('express-flash');
 var session = require('express-session');
-// var QRCode = require('qrcode');
 var cors = require('cors');
 var path = require('path');
 var router = express.Router();
+<<<<<<< HEAD
 // var connection = require('./src/js/db');
 var CUSTOM_ENUMS = require('./src/js/enums');
 var passport = require('passport');
@@ -16,33 +16,21 @@ var LocalStrategy = require('passport-local').Strategy;
 // var nodemailer = require('nodemailer');
 var fs = require('fs');
 var sequelise = require('./src/js/db_sequelise');
+=======
+var CUSTOM_ENUMS = require('./utils/enums');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var fs = require('fs');
+var sequelise = require('./config/db/db_sequelise');
+>>>>>>> 5b716fd4230874ae70508989661c5b7125675d00
 
 //only load the .env file if the server isn’t started in production mode
 if (process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION) {
   require('dotenv').config();
 }
 
-//emailer configuration
-// let transporter = nodemailer.createTransport({
-//   service: CUSTOM_ENUMS.GMAIL,
-//   auth: {
-//     user: process.env.EMAIL_ADDRESS,
-//     pass: process.env.EMAIL_PASSWORD
-//   }
-// });
-
-// Testing Emails Pattern
-// when testing emails, in NODE_ENV=development, set EMAIL_OVERRIDE
-// if EMAIL_OVERRIDE is set, send email to it's value, prepend subject line with [TEST EMAIL], include intended recipients in the body
-
-//sanitization and validation
-// const {check, validationResult, sanitizeParam} = require('express-validator');
-//alternative import
-//var expressValidator  = require('express-validator');
-//expressValidator.sanitizeBody, expressValidator.sanitizeParam, expressValidator.body etc
-
 // const uuidv4 = require('uuid/v4')
-var db = require('./dbxml/localdb');
+var db = require('./config/passport/localdb');
 var app = express();
 var configRouter = require('./routes/config');
 var harvestRouter = require('./routes/harvest');
@@ -50,16 +38,12 @@ var storageRouter = require('./routes/storage');
 var authRouter = require('./routes/auth');
 var blockchainRouter = require('./routes/blockchain');
 var dashboardsRouter = require('./routes/dashboards');
+var qrCodeRouter = require('./routes/qrcode');
 
 var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
 var websiteRouter = require('./routes/website');
-var legacyRouter = require('./routes/legacy');
-
 var apiV1Router = require('./routes/api_v1');
-
-// var ROLES = require('./utils/roles');
-// const {Sequelize} = require("sequelize");
 
 // enable ssl redirect
 app.use(
@@ -77,7 +61,9 @@ app.set('view engine', 'ejs');
 // You can set morgan to log differently depending on your environment
 
 // create a write stream (in append mode), to current directory
-var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
+  flags: 'a',
+});
 
 // only log error responses, write log lines to process.stdout
 if (app.get('env') == CUSTOM_ENUMS.PRODUCTION) {
@@ -137,10 +123,9 @@ app.use('/app/dashboards', dashboardsRouter);
 app.use('/', websiteRouter);
 app.use('/', testRouter);
 app.use('/', searchRouter);
+app.use('/', qrCodeRouter);
 
 app.use('/app/api/v1', apiV1Router);
-
-app.use('/', legacyRouter);
 
 app.use(express.static(path.join(__dirname, 'src')));
 app.use(express.static(path.join(__dirname, 'build')));

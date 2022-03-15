@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FoodPrint - Fresh food, from farm-to-fork.</title>
-    <meta name="description" content="FoodPrint. Fresh food, from farm-to-fork.">
-    <meta name="keywords" content="food supply chain, traceability, blockchain, farmers, food markets, retailers, customers, restaurants">
+    <meta
+      name="description"
+      content="FoodPrint. Fresh food, from farm-to-fork."
+    />
+    <meta
+      name="keywords"
+      content="food supply chain, traceability, blockchain, farmers, food markets, retailers, customers, restaurants"
+    />
 
-    <link href="https://fonts.googleapis.com/css?family=Just+Another+Hand|Open+Sans:300,400" rel="stylesheet">
-    <link rel="stylesheet" href="/css/styles-merged.css">
-    <link rel="stylesheet" href="/css/style.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
+    <link
+      href="https://fonts.googleapis.com/css?family=Just+Another+Hand|Open+Sans:300,400"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles-merged.css" />
+    <link rel="stylesheet" href="/css/style.min.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
     <link rel="stylesheet" href="/css/timeline.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+      crossorigin="anonymous"
+    />
 
     <!--[if lt IE 9]>
       <script src="/js/vendor/html5shiv.min.js"></script>
@@ -20,16 +34,22 @@
     <![endif]-->
   </head>
   <body>
-   <!-- START: header -->
+    <!-- START: header -->
 
-  <div class="probootstrap-loader"></div>
+    <div class="probootstrap-loader"></div>
 
-  <header role="banner" class="probootstrap-header">
-    <div class="container">
-      <img class="logo" src="/img/FoodPrintLogo.png" height="40px" align="left" vertical-align="middle">
+    <header role="banner" class="probootstrap-header">
+      <div class="container">
+        <img
+          class="logo"
+          src="/img/FoodPrintLogo.png"
+          height="40px"
+          align="left"
+          vertical-align="middle"
+        />
         <a href="/" class="probootstrap-logo">FoodPrint<span>.</span></a>
 
-        <a href="#" class="probootstrap-burger-menu visible-xs" ><i>Menu</i></a>
+        <a href="#" class="probootstrap-burger-menu visible-xs"><i>Menu</i></a>
         <div class="mobile-menu-overlay"></div>
 
         <nav role="navigation" class="probootstrap-nav hidden-xs">
@@ -48,16 +68,22 @@
             <a href="#" class="probootstrap-burger-menu"><i>Menu</i></a>
             <h5>Connect</h5>
             <ul class="social-buttons">
-              <li><a href="#"><i class="icon-twitter"></i></a></li>
-              <li><a href="#"><i class="icon-facebook2"></i></a></li>
-              <li><a href="#"><i class="icon-instagram2"></i></a></li>
+              <li>
+                <a href="#"><i class="icon-twitter"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="icon-facebook2"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="icon-instagram2"></i></a>
+              </li>
             </ul>
           </div>
         </nav>
-    </div>
-  </header>
-  <!-- END: header -->
-   <!-- <section class="probootstrap-slider flexslider">
+      </div>
+    </header>
+    <!-- END: header -->
+    <!-- <section class="probootstrap-slider flexslider">
     <div style="position: absolute; top: 0; left: 0; width: 100%; z-index: 49;">
         <div class="container">
             <div class="row">
@@ -75,157 +101,206 @@
     </ul>
     <ol class="flex-control-nav flex-control-paging"><li><a href="#" class="flex-active">1</a></li><li><a href="#" class="">2</a></li></ol><ul class="flex-direction-nav"><li class="flex-nav-prev"><a class="flex-prev" href="#"></a></li><li class="flex-nav-next"><a class="flex-next" href="#"></a></li></ul>
    </section> -->
-  <!-- END: slider  -->
+    <!-- END: slider  -->
 
-   <!--<div class="container" style="width: 100%;">-->
-       <% if(data.length){%>
-        <div class="probootstrap-section-heading text-center mb50 probootstrap-animate fadeInUp probootstrap-animated">
-            <h4 class="sub-heading">Check-in Complete.</h4>
-            <h2 class="heading">Thanks for joining us today. The produce awaits your tender harvest.</h2>
-        </div>
-          <!-- START: CHECKIN FORM  -->
-          <% if (showCheckinForm){ %>
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3 probootstrap-animate ">
-                    <form id="checkin_form">
-                      <div class="form-field">
-                        <input type="email" id="checkin_email" class="form-control" placeholder="Enter your email" required>
-                        <input type="hidden" id="checkin_market_id" value="<%=data%>"/>
-                        <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
-                      </div>
-                    </form>
-                    <text id="checkin_result"></text>
-                    <div class="alert-danger" id = "checkin_error_group" style="display: none">
-                    <ul id="checkin_errors"></ul>
-                </div>
-                </div>
-              </div>
-            <% } %>
-            <!-- END: CHECKIN FORM  -->
-    <hr>
-          <% }
-           else{ %>
-            <h2 class="heading">Complete your check-in to the market.</h2>
-            <h4>Oops, something went wrong.</h4>
-        <% } %>
-
-       <div class="row">
-            <section class="probootstrap-section probootstrap-bg" style="background-image: url(/img/slider_2.jpg);">
-                <div class="container text-center">
-                    <h2 class="heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">Food Traceability coming soon...</h2>
-                    <p class="sub-heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">We are working on introducing produce traceability to the market in the coming weeks. You will be
-                      able to scan a QR Code and see where your produce is coming from, when it was harvested etc. Stay Tuned!</p>
-                </div>
-            </section>
-       </div>
-   <!--</div>-->
-
-
-    <footer class="probootstrap-footer probootstrap-bg" style="background-image: url(/img/slider_3.jpg)">
-    <div class="container">
-      <div class="row mb60">
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">About FoodPrint</h4>
-            <ul class="stack-link">
-              <li><a href="/about">About</a></li>
-              <li><a href="/contact">Contact</a></li>
-              <!--<li><a href="#">Locations</a></li>-->
-              <li><a href="/how">How it works?</a></li>
-              <li><a href="/terms">Terms of Use</a></li>
-              <!--<li><a href="#">FAQ</a></li>-->
-            </ul>
+    <!--<div class="container" style="width: 100%;">-->
+    <% if(data.length){%>
+    <div
+      class="probootstrap-section-heading text-center mb50 probootstrap-animate fadeInUp probootstrap-animated"
+    >
+      <h4 class="sub-heading">Check-in Complete.</h4>
+      <h2 class="heading">
+        Thanks for joining us today. The produce awaits your tender harvest.
+      </h2>
+    </div>
+    <!-- START: CHECKIN FORM  -->
+    <% if (showCheckinForm){ %>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3 probootstrap-animate">
+        <form id="checkin_form">
+          <div class="form-field">
+            <input
+              type="email"
+              id="checkin_email"
+              class="form-control"
+              placeholder="Enter your email"
+              required
+            />
+            <input type="hidden" id="checkin_market_id" value="<%=data%>" />
+            <button class="btn btn-subscribe">
+              <i class="icon-arrow-long-right"></i>
+            </button>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">Features</h4>
-            <ul class="stack-link">
-              <li><a href="#">Harvest Data Capture</a></li>
-              <li><a href="#">Storage Data Capture</a></li>
-              <li><a href="#">Barcode Scanning</a></li>
-              <li><a href="#">Analytics</a></li>
-              <li><a href="#">Support</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">Products</h4>
-            <ul class="stack-link">
-              <li><a href="#">Organic Fruits</a></li>
-              <li><a href="#">Organic Vegetables</a></li>
-              <li><a href="#">Non-GMO Products</a></li>
-              <li><a href="#">Locally Grown Products</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">FoodPrint</h4>
-            <p>Tracing the world's food, from farm-to-fork.</p>
-          </div>
-        </div>
-      </div>
-      <div class="row copyright">
-        <div class="col-md-9">
-          <div class="probootstrap-footer-widget">
-            <p>&copy; 2019 - 2021 <a href="http://foodprintapp.com/">FoodPrint. Fresh food, from farm-to-fork</a>. Hosting sponsor <a href="https://jskdezign.com/" target="_blank">JSKDEZIGN</a>.</p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget right">
-            <ul class="probootstrap-footer-social">
-              <li><span class="badge badge-secondary">ALPHA VERSION</span></li>
-              <li><a href="#"><i class="icon-twitter"></i></a></li>
-              <li><a href="#"><i class="icon-facebook"></i></a></li>
-              <li><a href="#"><i class="icon-instagram2"></i></a></li>
-            </ul>
-          </div>
+        </form>
+        <text id="checkin_result"></text>
+        <div
+          class="alert-danger"
+          id="checkin_error_group"
+          style="display: none"
+        >
+          <ul id="checkin_errors"></ul>
         </div>
       </div>
     </div>
-  </footer>
-   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-    <script src="/js/scripts.min.js"></script>
-  <script src="/js/main.min.js"></script>
-  <script src="/js/custom.js"></script>
-  <script>
-  $(document).ready(function () {
-           $('#checkin_form').submit(function (event) {
-                        event.preventDefault();
-                        //collect the form data using Id Selector what ever data you need to send to server
-                        var data = {};
-                        data.checkin_email=$('#checkin_email').val();
-                        data.checkin_market_id=$('#checkin_market_id').val();
-                        $.ajax({
-                            url: '/marketcheckin',
-                            data: JSON.stringify(data),
-                            processData: false,
-                            type: 'POST',
-                            contentType: 'application/json'
-                        }).done(function(res) {
-                            if (res.success) {
-                                //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
-                                $("#checkin_calltoaction").hide();
-                                $("#checkin_form").hide();
-                                $('#checkin_error_group').hide();
-                                $('#checkin_result').html('Thanks for checking in (' + res.email + ') and enjoy your visit!');
-                            } else {
-                                $('#checkin_error_group').css('display', 'block');
-                                  var errors = JSON.parse(JSON.stringify(res.errors));
-                                  var errorsContainer = $('#checkin_errors');
-                                  errorsContainer.innerHTML = '';
-                                  var errorsList = '';
+    <% } %>
+    <!-- END: CHECKIN FORM  -->
+    <hr />
+    <% } else{ %>
+    <h2 class="heading">Complete your check-in to the market.</h2>
+    <h4>Oops, something went wrong.</h4>
+    <% } %>
 
-                                  for (var i = 0; i < errors.length; i++) {
-                                    errorsList += '<li>' + errors[i].msg + '</li>';
-                                  }
-                                  errorsContainer.html(errorsList);
-                                }
-                          });
-                    });
-                });
-  </script>
+    <div class="row">
+      <section
+        class="probootstrap-section probootstrap-bg"
+        style="background-image: url(/img/slider_2.jpg)"
+      >
+        <div class="container text-center">
+          <h2
+            class="heading probootstrap-animate fadeIn probootstrap-animated"
+            data-animate-effect="fadeIn"
+          >
+            Food Traceability coming soon...
+          </h2>
+          <p
+            class="sub-heading probootstrap-animate fadeIn probootstrap-animated"
+            data-animate-effect="fadeIn"
+          >
+            We are working on introducing produce traceability to the market in
+            the coming weeks. You will be able to scan a QR Code and see where
+            your produce is coming from, when it was harvested etc. Stay Tuned!
+          </p>
+        </div>
+      </section>
+    </div>
+    <!--</div>-->
+
+    <footer
+      class="probootstrap-footer probootstrap-bg"
+      style="background-image: url(/img/slider_3.jpg)"
+    >
+      <div class="container">
+        <div class="row mb60">
+          <div class="col-md-3">
+            <div class="probootstrap-footer-widget">
+              <h4 class="heading">About FoodPrint</h4>
+              <ul class="stack-link">
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <!--<li><a href="#">Locations</a></li>-->
+                <li><a href="/how">How it works?</a></li>
+                <li><a href="/terms">Terms of Use</a></li>
+                <!--<li><a href="#">FAQ</a></li>-->
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="probootstrap-footer-widget">
+              <h4 class="heading">Features</h4>
+              <ul class="stack-link">
+                <li><a href="#">Harvest Data Capture</a></li>
+                <li><a href="#">Storage Data Capture</a></li>
+                <li><a href="#">Barcode Scanning</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Support</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="probootstrap-footer-widget">
+              <h4 class="heading">Products</h4>
+              <ul class="stack-link">
+                <li><a href="#">Organic Fruits</a></li>
+                <li><a href="#">Organic Vegetables</a></li>
+                <li><a href="#">Non-GMO Products</a></li>
+                <li><a href="#">Locally Grown Products</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="probootstrap-footer-widget">
+              <h4 class="heading">FoodPrint</h4>
+              <p>Tracing the world's food, from farm-to-fork.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row copyright">
+          <div class="col-md-9">
+            <div class="probootstrap-footer-widget">
+              <p>
+                &copy; 2019 - 2021
+                <a href="http://foodprintapp.com/"
+                  >FoodPrint. Fresh food, from farm-to-fork</a
+                >. Hosting sponsor
+                <a href="https://jskdezign.com/" target="_blank">JSKDEZIGN</a>.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="probootstrap-footer-widget right">
+              <ul class="probootstrap-footer-social">
+                <li>
+                  <span class="badge badge-secondary">ALPHA VERSION</span>
+                </li>
+                <li>
+                  <a href="#"><i class="icon-twitter"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="icon-facebook"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="icon-instagram2"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+    <script src="/js/main.min.js"></script>
+    <script src="/js/custom.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#checkin_form').submit(function (event) {
+          event.preventDefault();
+          //collect the form data using Id Selector what ever data you need to send to server
+          var data = {};
+          data.checkin_email = $('#checkin_email').val();
+          data.checkin_market_id = $('#checkin_market_id').val();
+          $.ajax({
+            url: '/app/marketcheckin',
+            data: JSON.stringify(data),
+            processData: false,
+            type: 'POST',
+            contentType: 'application/json',
+          }).done(function (res) {
+            if (res.success) {
+              //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
+              $('#checkin_calltoaction').hide();
+              $('#checkin_form').hide();
+              $('#checkin_error_group').hide();
+              $('#checkin_result').html(
+                'Thanks for checking in (' +
+                  res.email +
+                  ') and enjoy your visit!'
+              );
+            } else {
+              $('#checkin_error_group').css('display', 'block');
+              var errors = JSON.parse(JSON.stringify(res.errors));
+              var errorsContainer = $('#checkin_errors');
+              errorsContainer.innerHTML = '';
+              var errorsList = '';
+
+              for (var i = 0; i < errors.length; i++) {
+                errorsList += '<li>' + errors[i].msg + '</li>';
+              }
+              errorsContainer.html(errorsList);
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
