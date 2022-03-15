@@ -6,8 +6,13 @@ var body = require('express-validator'); //validation
 var moment = require('moment'); //datetime
 const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
 const upload = multer({ dest: './static/images/produce_images/' }); //path.join(__dirname, 'static/images/produce_images/)
+var connection = require('../src/js/db');
 var ROLES = require('../utils/roles');
 var fs = require('fs');
+const axios = require('axios');
+const crypto = require('crypto');
+const hash = crypto.createHash('sha256');
+
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 var initModels = require('../models/init-models');
@@ -312,6 +317,8 @@ router.post('/save/whatsapp', async function (req, res) {
   let lastmodifieddatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 
   let harvest_photoHash = '';
+  let host = req.get('host');
+  let protocol = req.protocol;
 
   if (req.body.harvestURL) {
     try {
@@ -346,6 +353,7 @@ router.post('/save/whatsapp', async function (req, res) {
       .then(_ => {
         res.status(201).send({ message: 'harvest created', harvest_logid: data.harvest_logid });
       })
+      .then(_ => whatsappHarvestToBlockchain(data, protocol, host))
       .catch(err => {
         //throw err;
         res.status(400).send({ message: err.message });
@@ -366,6 +374,85 @@ router.post('/save/whatsapp', async function (req, res) {
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
 });
+
+function whatsappHarvestToBlockchain(data, protocol, host) {
+  console.log('logging log data');
+  console.log(data);
+
+  let postUrl = protocol + '://' + host + '/app/harvest/save/blockchain';
+  console.log('logging postUrl');
+  console.log(postUrl);
+
+  // we don't have this data from WhatsApp, WhatsApp is harvest lite.
+  let harvestDescription = '';
+  let harvestSupplierShortcode = '';
+  let harvestDescriptionJSON = '';
+
+  //buyerID is generic version of marketID, it represents an intermediary buying the produce
+  let otherIdentifiers = '{' + 'sourceID:' + harvestSupplierShortcode + ', ' + 'buyerID:' + '}';
+
+  //actionTimestamp is generic for harvest time, storage time etc
+  let logDetail =
+    '{' +
+    'produce:' +
+    data.harvest_produceName +
+    ', ' +
+    'description:' +
+    harvestDescription +
+    ', ' +
+    'actionTimeStamp:' +
+    data.harvest_TimeStamp +
+    ', ' +
+    'logQuantity:' +
+    data.harvest_quantity +
+    '(' +
+    data.harvest_unitOfMeasure +
+    ')' +
+    '}';
+
+  let logExtendedDetail = '{' + 'growingConditions:' + harvestDescriptionJSON + '}';
+
+  let photoHash = hash.update(data.harvest_photoHash).digest('base64');
+
+  console.log('harvest_photohash successfully hashed (hash value ' + photoHash + ').');
+  let logMetadata =
+    '{' +
+    'logUser:' +
+    data.harvest_user +
+    ', ' +
+    'logType:' +
+    'harvest' +
+    ', ' +
+    'logTableName:' +
+    'foodprint_harvest' +
+    ', ' +
+    'harvestPhotoHash:' +
+    photoHash +
+    ',' +
+    'logSource:' +
+    'WhatsApp' +
+    '}';
+
+  var summaryData = {};
+  summaryData.logID = data.harvest_logid;
+  summaryData.previouslogID = '';
+  summaryData.otherIdentifiers = otherIdentifiers;
+  summaryData.logDetail = logDetail;
+  summaryData.logExtendedDetail = logExtendedDetail;
+  summaryData.logMetadata = logMetadata;
+
+  console.log('logging summaryData for blockchain');
+  console.log(summaryData);
+
+  axios
+    .post(postUrl, summaryData, {})
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 
 //route for update data
 router.post(
