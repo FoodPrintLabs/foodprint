@@ -8,21 +8,11 @@ var session = require('express-session');
 var cors = require('cors');
 var path = require('path');
 var router = express.Router();
-<<<<<<< HEAD
-// var connection = require('./src/js/db');
-var CUSTOM_ENUMS = require('./src/js/enums');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-// var nodemailer = require('nodemailer');
-var fs = require('fs');
-var sequelise = require('./src/js/db_sequelise');
-=======
 var CUSTOM_ENUMS = require('./utils/enums');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
 var sequelise = require('./config/db/db_sequelise');
->>>>>>> 5b716fd4230874ae70508989661c5b7125675d00
 
 //only load the .env file if the server isn’t started in production mode
 if (process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION) {
