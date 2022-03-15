@@ -193,14 +193,14 @@ passport.serializeUser(function (user, cb) {
 
 passport.deserializeUser(function (id, cb) {
   //NEED TO LOOK INTO HOW TO DESERIALIZE BOTH WAYS - using just the models version for DB Testing so long
-  /*db.users.findById(id, function (err, user) {
+  db.users.findById(id, function (err, user) {
     if (err) {
       return cb(err);
     }
     cb(null, user);
   });
-  */
-  models.User.findUserById(id, function (err, user) {
+  //Models currently giving error upon login
+  /*models.User.findUserById(id, function (err, user) {
     if (err) {
       return cb(err);
     }
@@ -211,7 +211,7 @@ passport.deserializeUser(function (id, cb) {
       return cb(err);
     }
     cb(null, user);
-  });
+  });*/
 });
 
 // catch 404 and forward to error handler
