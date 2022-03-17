@@ -10,6 +10,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 
 var initModels = require('../models/init-models');
 var sequelise = require('../config/db/db_sequelise');
+const user = require('../models/user');
 
 var models = initModels(sequelise);
 
@@ -21,17 +22,22 @@ router.get(
       models.FoodprintHarvest.findAll({
         order: [['pk', 'DESC']],
       })
-        .then(rows => {
-          for (let i = 0; i < rows.length; i++) {
-            rows[i].harvest_photoHash =
+        .then(harvest_rows => {
+          for (let i = 0; i < harvest_rows.length; i++) {
+            harvest_rows[i].harvest_photoHash =
               'data:image/png;base64,' +
-              new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
+              new Buffer(harvest_rows[i].harvest_photoHash, 'binary').toString('base64');
           }
-          res.render('dashboard_admin', {
-            title: 'FoodPrint - Admin Dashboard',
-            data: rows,
-            user: req.user,
-            page_name: 'Dashboard',
+          models.FoodprintStorage.findAll({
+            order: [['pk', 'DESC']],
+          }).then(storage_rows => {
+            res.render('dashboard_admin', {
+              title: 'FoodPrint - Admin Dashboard',
+              harvest_data: harvest_rows,
+              storage_data: storage_rows,
+              user: req.user,
+              page_name: 'Dashboard',
+            });
           });
         })
         .catch(err => {
@@ -43,22 +49,6 @@ router.get(
             page_name: 'harvestlogbook',
           });
         });
-      //   connection.execute('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
-      //       if(err){
-      //            req.flash('error', err);
-      //            res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook",
-      //                                   data:'', user: req.user, page_name:'harvestlogbook' });
-      //       }else{
-      //           for (i=0; i<rows.length; i++)
-      //           {
-      //               rows[i].harvest_photoHash = 'data:image/png;base64,' +
-      //                   new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
-      //           }
-      //           res.render('harvestlogbook',{   page_title:"FoodPrint - Harvest Logbook",
-      //                                   data:rows, user: req.user,
-      //                                   page_name:'harvestlogbook' });
-      //       }
-      //    });
     } else {
       res.render('error', {
         message: 'You are not authorised to view this resource.',
@@ -76,19 +66,29 @@ router.get(
   function (req, res, next) {
     if (req.user.role === ROLES.Farmer) {
       models.FoodprintHarvest.findAll({
-        order: [['pk', 'DESC']],
+        where: {
+          harvest_user: req.user.email,
+        },
       })
-        .then(rows => {
-          for (let i = 0; i < rows.length; i++) {
-            rows[i].harvest_photoHash =
+        .then(harvest_rows => {
+          for (let i = 0; i < harvest_rows.length; i++) {
+            harvest_rows[i].harvest_photoHash =
               'data:image/png;base64,' +
-              new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
+              new Buffer(harvest_rows[i].harvest_photoHash, 'binary').toString('base64');
           }
-          res.render('dashboard_farmer', {
-            title: 'FoodPrint - Farmer Dashboard',
-            data: rows,
-            user: req.user,
-            page_name: 'Dashboard',
+          models.FoodprintStorage.findAll({
+            where: {
+              storage_user: req.user.email,
+            },
+            order: [['pk', 'DESC']],
+          }).then(storage_rows => {
+            res.render('dashboard_farmer', {
+              title: 'FoodPrint - Farmer Dashboard',
+              harvest_data: harvest_rows,
+              storage_data: storage_rows,
+              user: req.user,
+              page_name: 'Dashboard',
+            });
           });
         })
         .catch(err => {
@@ -100,22 +100,6 @@ router.get(
             page_name: 'harvestlogbook',
           });
         });
-      //   connection.execute('SELECT * FROM foodprint_harvest ORDER BY pk desc',function(err,rows)     {
-      //       if(err){
-      //            req.flash('error', err);
-      //            res.render('harvestlogbook',{  page_title:"FoodPrint - Harvest Logbook",
-      //                                   data:'', user: req.user, page_name:'harvestlogbook' });
-      //       }else{
-      //           for (i=0; i<rows.length; i++)
-      //           {
-      //               rows[i].harvest_photoHash = 'data:image/png;base64,' +
-      //                   new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
-      //           }
-      //           res.render('harvestlogbook',{   page_title:"FoodPrint - Harvest Logbook",
-      //                                   data:rows, user: req.user,
-      //                                   page_name:'harvestlogbook' });
-      //       }
-      //    });
     } else {
       res.render('error', {
         message: 'You are not authorised to view this resource.',
