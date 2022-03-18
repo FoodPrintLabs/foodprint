@@ -14,6 +14,7 @@ const user = require('../models/user');
 
 var models = initModels(sequelise);
 
+//Initial Render of Admin Dashboard
 router.get(
   '/admin',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
@@ -60,6 +61,54 @@ router.get(
   }
 );
 
+//Render of Admin Dashboard with filtering
+router.get(
+  '/admin/filter/:range',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin) {
+      models.FoodprintHarvest.findAll({
+        order: [['pk', 'DESC']],
+      })
+        .then(harvest_rows => {
+          for (let i = 0; i < harvest_rows.length; i++) {
+            harvest_rows[i].harvest_photoHash =
+              'data:image/png;base64,' +
+              new Buffer(harvest_rows[i].harvest_photoHash, 'binary').toString('base64');
+          }
+          models.FoodprintStorage.findAll({
+            order: [['pk', 'DESC']],
+          }).then(storage_rows => {
+            res.render('dashboard_admin', {
+              title: 'FoodPrint - Admin Dashboard',
+              harvest_data: harvest_rows,
+              storage_data: storage_rows,
+              user: req.user,
+              page_name: 'Dashboard',
+            });
+          });
+        })
+        .catch(err => {
+          req.flash('error', err);
+          res.render('harvestlogbook', {
+            page_title: 'FoodPrint - Harvest Logbook',
+            data: '',
+            user: req.user,
+            page_name: 'harvestlogbook',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        page_name: 'error',
+      });
+    }
+  }
+);
+
+//Initial Render of Farmer Dashboard
 router.get(
   '/farmer',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
@@ -111,30 +160,6 @@ router.get(
   }
 );
 
-/*Render admin dashboard 
-router.get('/admin', function (req, res) {
-  res.render('dashboard_admin', {
-    title: 'FoodPrint - Admin Dashboard',
-    user: req.user,
-    page_name: 'Dashboard',
-  });
-});
-
-/*Render farmer dashboard 
-router.get('/farmer', function (req, res) {
-  res.render('dashboard_farmer', {
-    title: 'FoodPrint - Farmer Dashboard',
-    user: req.user,
-    page_name: 'Dashboard',
-  });
-});
-*/
-
-//TODO
-//GET ALL CROPS HARVESTED
-
-//GET TOTAL AMOUNT FOR EACH CROP (PASS PARAMETER)
-
-//GET TOTAL AMOUNT FOR EACH FARMER (PASS PARAMETERS)
+//Render of Farmer Dashboard with FIltering
 
 module.exports = router;
