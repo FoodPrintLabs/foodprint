@@ -2,6 +2,24 @@
 <html lang="en">
   <head>
     <% include ./partials/head %>
+    <script async>
+      async function showGraph(option)
+{     
+  if(option == 'harvest')
+    { document.getElementById('harvesttable').style.display = "block";
+      document.getElementById('harvesttable_heading').style.display = "block"
+      document.getElementById('storagetable').style.display = "none";
+      document.getElementById('storagetable_heading').style.display = "none";
+  }
+  if(option == 'storage')
+    { document.getElementById('harvesttable').style.display = "none";
+      document.getElementById('harvesttable_heading').style.display = "none";
+      document.getElementById('storagetable').style.display = "block";
+      document.getElementById('storagetable_heading').style.display = "block"
+  }
+
+}
+</script>
   </head>
   <body>
     <!-- START: header -->
@@ -26,7 +44,7 @@
                 <h4 class="card-title">My Harvests</h4>
                 <p class="lead card-subtitle">Total</p>
                 <h4 class="display-5 my-4 text-primary fw-bold"><%=harvest_data.length %></h4>
-                <a href="" class="btn btn-outline-primary btn-lg mt-3">Harvest Data</a>
+                <button class="btn btn-outline-primary btn-lg mt-3" onclick="showGraph('harvest')">Harvest Data</button>
               </div>
             </div>
           </div>
@@ -37,7 +55,7 @@
                 <h4 class="card-title">My Handovers</h4>
                 <p class="lead card-subtitle">Total</p>
                 <h4 class="display-5 my-4 text-primary fw-bold"><%=storage_data.length %></h4>
-                <a href="" class="btn btn-outline-primary btn-lg mt-3">Handover Data</a>
+                <button  class="btn btn-outline-primary btn-lg mt-3" onclick="showGraph('storage')">Handover Data</button>
               </div>
             </div>
           </div>
@@ -97,8 +115,14 @@
         </div>
         <!--Table of Data ie: Harvests or storage-->
         <div class="col-12 col-lg-12 col-xl-12">
-          <h4 class="card-title">Harvest Data</h4>
-          <table class="table table-dark table-striped" id="harvesttable">
+          <div id="harvesttable_heading" style="display: none;">
+          <h4 class="card-title"  >Harvest Data</h4>
+            <a href="farmer/filter/1-month" class="btn btn-sm mt-3">1 month</a>
+            <a href="farmer/filter/3-month" class="btn btn-sm mt-3">3 month</a>
+            <a href="farmer/filter/6-month" class="btn btn-sm mt-3">6 month</a>
+            <a href="farmer/filter/1-year" class="btn btn-sm mt-3">1 year</a>
+          </div>
+          <table class="table table-dark table-striped" id="harvesttable"  style="display: none;">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -163,8 +187,14 @@
           </div>
         <!--STORAGE DATA-->
         <div class="col-12 col-lg-12 col-xl-12">
-        <h4 class="card-title">Storage Data</h4>
-        <table class="table table-dark table-striped table-condensed table-responsive" id="storagetable">
+          <div id="storagetable_heading" style="display: none;">
+            <h4 class="card-title"  >Storage Data</h4>
+              <a href="farmer/filter/1-month" class="btn btn-sm mt-3">1 month</a>
+              <a href="farmer/filter/3-month" class="btn btn-sm mt-3">3 month</a>
+              <a href="farmer/filter/6-month" class="btn btn-sm mt-3">6 month</a>
+              <a href="farmer/filter/1-year" class="btn btn-sm mt-3">1 year</a>
+            </div>
+        <table class="table table-dark table-striped table-condensed table-responsive" id="storagetable" style="display: none;">
           <thead>
             <tr>
               <th scope="col">#</th>
