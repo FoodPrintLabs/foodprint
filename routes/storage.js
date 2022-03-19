@@ -206,7 +206,6 @@ router.post(
         'viewmodal_market_storageTimeStamp - ' + req.body.viewmodal_market_storageTimeStamp
       );
 
-      // let sql = "INSERT INTO foodprint_storage SET ?";
       try {
         models.FoodprintStorage.create(data)
           .then(_ => {
@@ -373,7 +372,6 @@ router.post('/save/whatsapp', function (req, res) {
     lastmodifieddatetime: lastmodifieddatetime,
   };
 
-  // let sql = "INSERT INTO foodprint_storage SET ?";
   try {
     models.FoodprintStorage.create(data)
       .then(_ => {
@@ -593,8 +591,6 @@ router.post(
       .escape(),
   ],
   function (req, res) {
-    // let sql = "DELETE FROM foodprint_storage WHERE storage_logid='"+req.body.viewmodal_storage_logid+"'";
-    //console.log('sql ' + sql);
     console.log('configid ' + req.body.viewmodal_storage_logid);
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       models.FoodprintStorage.destroy({
