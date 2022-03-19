@@ -6,7 +6,6 @@ var body = require('express-validator'); //validation
 var moment = require('moment'); //datetime
 const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
 const upload = multer({ dest: './static/images/produce_images/' }); //path.join(__dirname, 'static/images/produce_images/)
-var connection = require('../src/js/db');
 var ROLES = require('../utils/roles');
 var fs = require('fs');
 const axios = require('axios');
@@ -201,7 +200,6 @@ router.post(
         logdatetime: logdatetime,
         lastmodifieddatetime: lastmodifieddatetime,
       };
-      // let sql = "INSERT INTO foodprint_harvest SET ?";
       try {
         fs.readFile(img.path, function (err, img_datadata) {
           data['harvest_photoHash'] = img_datadata;
@@ -297,7 +295,6 @@ router.post('/save/whatsapp', async function (req, res) {
     lastmodifieddatetime: lastmodifieddatetime,
     harvest_photoHash,
   };
-  // let sql = "INSERT INTO foodprint_harvest SET ?";
   try {
     models.FoodprintHarvest.create(data)
       .then(_ => {
