@@ -14,10 +14,10 @@
     "bundle": "./node_modules/browserify/bin/cmd.js src/js/app.js | uglifyjs -mc  > src/js/bundle.js",
     "preinstall": "rm -rf node_modules/*/.git/",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify src/js/app.js -o src/js/bundle.js -v",
     "heroku-postbuild": "npm run bundle",
-    "dev": "npm run watch & nodemon server.js --host 0.0.0.0",
-    "start": "node server.js"
+    "dev": "nodemon server.js --host 0.0.0.0",
+    "start": "node server.js",
+    "format": "prettier --write 'README.md' 'server.js' 'utils/*.js' 'migrations/*.js' 'routes/*.js' 'models/*.js' 'dbxml/*.js' 'config/*.js'"
   },
   "author": "Julian Kanjere, Deirdre Van de Heever, Thandeka Chehore, Natasha Oates",
   "license": "ISC",
@@ -35,6 +35,7 @@
     "gulp-sourcemaps": "latest",
     "gulp-uglify": "latest",
     "nodemon": "^1.19.1",
+    "prettier": "2.5.1",
     "sequelize-auto": "^0.8.4",
     "sequelize-cli": "^6.3.0",
     "watchify": "^3.11.1"
