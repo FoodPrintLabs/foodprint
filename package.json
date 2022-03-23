@@ -14,12 +14,14 @@
     "bundle": "./node_modules/browserify/bin/cmd.js src/js/app.js | uglifyjs -mc  > src/js/bundle.js",
     "preinstall": "rm -rf node_modules/*/.git/",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build-dev": "sequelize db:migrate --config ./dbconfig.json --env development",
+    "build": "sequelize db:migrate --config ./dbconfig.json --env production",
     "heroku-postbuild": "npm run bundle",
-    "dev": "nodemon server.js --host 0.0.0.0",
+    "dev": "npm run build-dev && nodemon server.js --host 0.0.0.0",
     "start": "node server.js",
     "format": "prettier --write 'README.md' 'server.js' 'utils/*.js' 'migrations/*.js' 'routes/*.js' 'models/*.js' 'dbxml/*.js' 'config/*.js'"
   },
-  "author": "Julian Kanjere, Deirdre Van de Heever, Thandeka Chehore, Natasha Oates",
+  "author": "Julian Kanjere, FoodPrint Labs",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "latest",

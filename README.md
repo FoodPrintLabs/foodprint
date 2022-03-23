@@ -196,9 +196,12 @@ $node
 
 ## Deploy to Heroku
 
+Summary
+
+```
 Create app on Heroku
 
-login to heroku via command line i.e. heroku login
+login to Heroku via command line i.e. heroku login
 
 add heroku remote to your local repo i.e. heroku git:remote -a app name
 
@@ -209,19 +212,19 @@ Update env variables
 Create database addon Postgres (natively supported by Heroku) or ClearDB which is MySQL -
 https://devcenter.heroku.com/articles/cleardb
 
-```
+
 $ heroku addons:create cleardb:ignite
 $ heroku config | findstr CLEARDB_DATABASE_URL
 $ heroku config | set DATABASE_URL= # MySQL database url retrieved from above line
 ```
 
-Deploy repo to heroku
+Deploy repo to Heroku
 
 ```
 $ git push heroku main
 ```
 
-Install heroku releases retry plugin (if you deploy to heroku and it fails, you no longer have to
+Install Heroku releases retry plugin (if you deploy to heroku and it fails, you no longer have to
 commit a dummy txt file in order to bump up the latest commit hash so that your next push up to
 heroku will trigger a deploy.)
 
@@ -235,23 +238,68 @@ Then to retry failed deploy
 $ heroku releases:retry
 ```
 
-Login to heroku bash
+Login to Heroku bash
 
 ```
 $ heroku run bash
 ```
 
-If everything went well, you’ve successfully deployed your Django app. To open your app, run:
+If everything went well, you’ve successfully deployed your Node.js app to Heroku. To open your app,
+run:
 
 ```
 $ heroku open
 ```
 
-If you ever need to restart/stop the app
+If you ever need to restart/stop the Heroku app
 
 ```
 $ heroku ps:restart web -a nameofapp
 $ heroku ps:stop web -a nameofapp
+```
+
+If you need to run sequelize migrations in Heroku (although this is included in the build step in
+`package.json`)
+
+```
+$ heroku run npx sequelize-cli db:migrate --url 'mysql://root:password@mysql_host.com/database_name' --app nameofapp
+```
+
+Tail Heroku logs
+
+```
+$ heroku logs --tail
+```
+
+Migrate data from MySQL to local Postgres using `pgloader`
+
+```
+$ pgloader mysql://username:password@localhost/mysqldbname postgresql:///pgdbname
+```
+
+Push local Postgres to Heroku (v1)
+
+```
+$ heroku pg:psql heroku-db-name --app nameofapp
+```
+
+Push local Postgres to Heroku (v2)
+
+```
+$ PGUSER=postgres PGPASSWORD=password123  heroku pg:push postgres://localhost/example <heroku-db-name>
+```
+
+Reset Heroku Postgres database (i.e. truncate)
+
+```
+$ heroku pg:reset
+```
+
+Backup Heroku Postgres database
+
+```
+$ heroku pg:backups:capture
+$ heroku pg:backups:download
 ```
 
 ## Previous contract details

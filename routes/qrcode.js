@@ -203,7 +203,7 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function (req
         // convert your binary data to base64 format & then pass it to ejs
         rows[0].harvest_photoHash =
           'data:image/png;base64,' +
-          new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
+          Buffer.from(rows[0].harvest_photoHash, 'binary').toString('base64');
       }
       provenance_data = rows;
       console.log('Provenance scan successful');
@@ -352,7 +352,7 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
         // convert your binary data to base64 format & then pass it to ejs
         rows[0].harvest_photoHash =
           'data:image/png;base64,' +
-          new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
+          Buffer.from(rows[0].harvest_photoHash, 'binary').toString('base64');
         provenance_data = rows[0]; // return 1st row only
       } else {
         provenance_data = []; // return empty list for no data
