@@ -32,7 +32,7 @@ router.get(
           for (let i = 0; i < rows.length; i++) {
             rows[i].harvest_photoHash =
               'data:image/png;base64,' +
-              new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
+              Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
           }
           res.render('harvestlogbook', {
             page_title: 'FoodPrint - Harvest Logbook',
