@@ -21,6 +21,7 @@ router.get(
         order: [['pk', 'DESC']],
       })
         .then(rows => {
+          console.log('All storage rows:' + rows.length.toString());
           models.FoodprintHarvest.findAll({
             attributes: [
               'harvest_logid',
@@ -32,6 +33,7 @@ router.get(
             order: [['pk', 'DESC']],
           })
             .then(harvest_rows => {
+              console.log('All harvests:' + harvest_rows.length.toString());
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
                 data: rows,
@@ -41,6 +43,7 @@ router.get(
               });
             })
             .catch(err => {
+              console.log('All storage err:' + err);
               req.flash('error', err.message); //TODO- flash does not seem to be working on render, to test add an invalid column to the SQL query
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
@@ -314,6 +317,7 @@ router.post(
               });
             })
             .catch(err => {
+              console.log('All storage err:' + err);
               req.flash('error', err.message);
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
