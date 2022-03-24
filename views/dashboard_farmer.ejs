@@ -19,6 +19,12 @@
   }
 
 }
+function activatefilter(month) {
+      window.location = '/app/dashboards/farmer/filter/'+ month;}
+
+function removefilter() {
+      window.location = '/app/dashboards/farmer'}
+
 </script>
   </head>
   <body>
@@ -32,13 +38,13 @@
     <div class="container" style="width: 100%">
       <div class="row align-items-center justify-content-center">
         <!-- START FARMER DASHBOARD-->
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-12">
           <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
           <h3 class="heading text-center">Farmer Dashboard</h3>
         </div>
         <div class="row my-5 align-items-center justify-content-center">
           <!--Farmer Harvests Card-->
-          <div class="col-4 col-lg-4 col-xl-3">
+          <div class="col-3 col-lg-3 col-xl-3">
             <div class="card border-0">
               <div class="card-body text-center py-4">
                 <h4 class="card-title">My Harvests</h4>
@@ -49,7 +55,7 @@
             </div>
           </div>
           <!--Farmer Supply Handover Card-->
-          <div class="col-4 col-lg-4 col-xl-3">
+          <div class="col-3 col-lg-3 col-xl-3">
             <div class="card border-0">
               <div class="card-body text-center py-4">
                 <h4 class="card-title">My Handovers</h4>
@@ -61,7 +67,7 @@
           </div>
 
           <!--Farmer Recent Activity Card-->
-          <div class="col-4 col-lg-4 col-xl-3">
+          <div class="col-6 col-lg-6 col-xl-6">
             <h4 class="card-title">Recent Activity</h4>
             <table class="table table-dark table-striped">
               <thead>
@@ -74,10 +80,10 @@
                 <% if(harvest_data.length){ %>
                     <tr>
                       
-                      <td>Harvest</td>
-                      <td><%= harvest_data[0].harvest_logid %></td>
-                      <td><%= harvest_data[0].harvest_supplierName %></td>
-                      <td><%= harvest_data[0].harvest_produceName %></td>
+                      <td style="width: 20%;">Harvest</td>
+                      <td style="width: 40%;"><%= harvest_data[0].harvest_logid %></td>
+                      <td style="width: 20%;"><%= harvest_data[0].harvest_supplierName %></td>
+                      <td style="width: 20%;"><%= harvest_data[0].harvest_produceName %></td>
                       </tbody>
               </tr>
               <% 
@@ -98,10 +104,10 @@
                   <% if(storage_data.length){ %>
                     <tr>
                       
-                      <td>Storage</td>
-                      <td><%= storage_data[0].storage_logid %></td>
-                      <td><%= storage_data[0].market_Shortcode %></td>
-                      <td><%= storage_data[0].supplierproduce %></td>
+                      <td style="width: 20%;">Storage</td>
+                      <td style="width: 40%;"><%= storage_data[0].storage_logid %></td>
+                      <td style="width: 20%;"><%= storage_data[0].market_Shortcode %></td>
+                      <td style="width: 20%;"><%= storage_data[0].supplierproduce %></td>
                       </tbody>
               </tr>
               <% 
@@ -117,10 +123,11 @@
         <div class="col-12 col-lg-12 col-xl-12">
           <div id="harvesttable_heading" style="display: none;">
           <h4 class="card-title"  >Harvest Data</h4>
-            <a href="farmer/filter/1-month" class="btn btn-sm mt-3">1 month</a>
-            <a href="farmer/filter/3-month" class="btn btn-sm mt-3">3 month</a>
-            <a href="farmer/filter/6-month" class="btn btn-sm mt-3">6 month</a>
-            <a href="farmer/filter/1-year" class="btn btn-sm mt-3">1 year</a>
+          <button onclick="removefilter()" class="btn btn-sm mt-3">All</button>
+          <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3">1 month</button>
+            <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3">3 month</button>
+              <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3">6 month</button>
+                <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3">1 year</button>
           </div>
           <table class="table table-dark table-striped" id="harvesttable"  style="display: none;">
               <thead>
@@ -135,13 +142,14 @@
               </thead>
               <tbody>
                 <% if(harvest_data.length){
+
                     for(var i = 0; i< harvest_data.length; i++) {%>
                     <tr>
-                      <td scope="harvest_rows"><%= (i+1) %></td>
-                      <td><%= harvest_data[i].harvest_logid %></td>
-                      <td><%= harvest_data[i].harvest_TimeStamp %></td>
-                      <td><%= harvest_data[i].harvest_supplierName %></td>
-                      <td><%= harvest_data[i].harvest_produceName %></td>
+                      <td scope="harvest_rows" style="width: 3%;"><%= (i+1) %></td>
+                      <td style="width: 25%;"><%= harvest_data[i].harvest_logid %></td>
+                      <td style="width: 39%;"><%= harvest_data[i].harvest_TimeStamp %></td>
+                      <td style="width: 20%;"><%= harvest_data[i].harvest_supplierName %></td>
+                      <td style="width: 7%;"><%= harvest_data[i].harvest_produceName %></td>
                       <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="...">
                           <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')"  class="btn btn-xs btn-info view"
@@ -189,15 +197,16 @@
         <div class="col-12 col-lg-12 col-xl-12">
           <div id="storagetable_heading" style="display: none;">
             <h4 class="card-title"  >Storage Data</h4>
-              <a href="farmer/filter/1-month" class="btn btn-sm mt-3">1 month</a>
-              <a href="farmer/filter/3-month" class="btn btn-sm mt-3">3 month</a>
-              <a href="farmer/filter/6-month" class="btn btn-sm mt-3">6 month</a>
-              <a href="farmer/filter/1-year" class="btn btn-sm mt-3">1 year</a>
+            <button onclick="removefilter()" class="btn btn-sm mt-3">All</button>
+            <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3">1 month</button>
+              <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3">3 month</button>
+                <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3">6 month</button>
+                  <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3">1 year</button>
             </div>
         <table class="table table-dark table-striped table-condensed table-responsive" id="storagetable" style="display: none;">
           <thead>
             <tr>
-              <th scope="col">#</th>
+              <th scope="col" >#</th>
               <th scope="col">Storage ID</th>
               <th scope="col">Storage Datetime</th>
               <th scope="col">Supplier Shortcode</th>
@@ -209,13 +218,13 @@
             <% if(storage_data.length){
                 for(var i = 0; i< storage_data.length; i++) {%>
                 <tr>
-                  <td scope="storage_rows"><%= (i+1) %></td>
+                  <td scope="storage_rows" style="width: 5%;"><%= (i+1) %></td>
                   <!-- <td><%= storage_data[i].harvest_logid %></td> -->
-                  <td><%= storage_data[i].storage_logid %></td>
-                  <td><%= storage_data[i].market_storageTimeStamp %></td>
-                  <td><%= storage_data[i].harvest_supplierShortcode %></td>
-                  <td><%= storage_data[i].supplierproduce %></td>
-                  <td>
+                  <td style="width: 23%;"><%= storage_data[i].storage_logid %></td>
+                  <td style="width: 35%;"><%= storage_data[i].market_storageTimeStamp %></td>
+                  <td style="width: 8%;"><%= storage_data[i].harvest_supplierShortcode %></td>
+                  <td style="width: 15%;"><%= storage_data[i].supplierproduce %></td>
+                  <td style="width: 5%;">
                     <div class="btn-group btn-group-sm" role="group" aria-label="...">
                       <a onclick="ShowStorageModal(this, 'view', 'View Storage Entry','viewCSS')"  class="btn btn-xs btn-info view"
                         id="<%= ("storage_view_" + storage_data[i].storage_logid) %>"
