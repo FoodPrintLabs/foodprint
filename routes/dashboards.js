@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
+let moment = require('moment');
 const { check, validationResult } = require('express-validator');
 const uuidv4 = require('uuid/v4');
 var body = require('express-validator'); //validation
+const { Op } = require('sequelize');
 
 var ROLES = require('../utils/roles');
 var fs = require('fs');
@@ -67,7 +69,26 @@ router.get(
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
     if (req.user.role === ROLES.Admin) {
+      //Dates
+      let start_date = 0;
+      let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+      if (req.params.range == '1-month') {
+        start_date = moment(new Date()).subtract('1', 'months').format('YYYY-MM-DD HH:mm:ss');
+      } else if (req.params.range == '3-month') {
+        start_date = moment(new Date()).subtract('3', 'months').format('YYYY-MM-DD HH:mm:ss');
+      } else if (req.params.range == '6-month') {
+        start_date = moment(new Date()).subtract('6', 'months').format('YYYY-MM-DD HH:mm:ss');
+      } else if (req.params.range == '1-year') {
+        start_date = moment(new Date()).subtract('1', 'years').format('YYYY-MM-DD HH:mm:ss');
+      }
+
+      //Query
       models.FoodprintHarvest.findAll({
+        where: {
+          harvest_TimeStamp: {
+            [Op.between]: [start_date, finish_date],
+          },
+        },
         order: [['pk', 'DESC']],
       })
         .then(harvest_rows => {
@@ -77,12 +98,18 @@ router.get(
               new Buffer(harvest_rows[i].harvest_photoHash, 'binary').toString('base64');
           }
           models.FoodprintStorage.findAll({
+            where: {
+              market_storageTimeStamp: {
+                [Op.between]: [start_date, finish_date],
+              },
+            },
             order: [['pk', 'DESC']],
           }).then(storage_rows => {
             res.render('dashboard_admin', {
               title: 'FoodPrint - Admin Dashboard',
               harvest_data: harvest_rows,
               storage_data: storage_rows,
+              filter: req.params.range,
               user: req.user,
               page_name: 'Dashboard',
             });
@@ -161,5 +188,86 @@ router.get(
 );
 
 //Render of Farmer Dashboard with FIltering
+
+router.get(
+  '/farmer/filter/:range',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Farmer) {
+      //Dates
+      let start_date = 0;
+      let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+      if (req.params.range == '1-month') {
+        start_date = moment(new Date()).subtract('1', 'months').format('YYYY-MM-DD HH:mm:ss');
+      } else if (req.params.range == '3-month') {
+        start_date = moment(new Date()).subtract('3', 'months').format('YYYY-MM-DD HH:mm:ss');
+      } else if (req.params.range == '6-month') {
+        start_date = moment(new Date()).subtract('6', 'months').format('YYYY-MM-DD HH:mm:ss');
+      } else if (req.params.range == '1-year') {
+        start_date = moment(new Date()).subtract('1', 'years').format('YYYY-MM-DD HH:mm:ss');
+      }
+
+      //Query
+      models.FoodprintHarvest.findAll({
+        where: {
+          [Op.and]: [
+            { harvest_user: req.user.email },
+            {
+              harvest_TimeStamp: {
+                [Op.between]: [start_date, finish_date],
+              },
+            },
+          ],
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(harvest_rows => {
+          for (let i = 0; i < harvest_rows.length; i++) {
+            harvest_rows[i].harvest_photoHash =
+              'data:image/png;base64,' +
+              new Buffer(harvest_rows[i].harvest_photoHash, 'binary').toString('base64');
+          }
+          models.FoodprintStorage.findAll({
+            where: {
+              [Op.and]: [
+                { storage_user: req.user.email },
+                {
+                  market_storageTimeStamp: {
+                    [Op.between]: [start_date, finish_date],
+                  },
+                },
+              ],
+            },
+            order: [['pk', 'DESC']],
+          }).then(storage_rows => {
+            res.render('dashboard_farmer', {
+              title: 'FoodPrint - Farmer Dashboard',
+              harvest_data: harvest_rows,
+              storage_data: storage_rows,
+              filter: req.params.range,
+              user: req.user,
+              page_name: 'Dashboard',
+            });
+          });
+        })
+        .catch(err => {
+          req.flash('error', err);
+          res.render('harvestlogbook', {
+            page_title: 'FoodPrint - Harvest Logbook',
+            data: '',
+            user: req.user,
+            page_name: 'harvestlogbook',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        page_name: 'error',
+      });
+    }
+  }
+);
 
 module.exports = router;
