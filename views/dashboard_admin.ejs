@@ -3,8 +3,8 @@
   <head>
     <% include ./partials/head %>
     <script async>
-          async function showGraph(option)
-    {     
+         async function showGraph(option)
+        { 
       if(option == 'harvest')
         { document.getElementById('harvesttable').style.display = "block";
           document.getElementById('harvesttable_heading').style.display = "block"
@@ -18,8 +18,8 @@
           document.getElementById('storagetable_heading').style.display = "block"
       }
 
-}
- function activatefilter(month) {
+        }
+      function activatefilter(month) {
       window.location = '/app/dashboards/admin/filter/'+ month;}
     
       function removefilter() {
@@ -143,7 +143,7 @@
             </thead>
             <tbody>
               <% if(harvest_data.length){
-                
+
                   for(var i = 0; i< harvest_data.length; i++) {%>
                   <tr>
                     <td scope="harvest_rows" style="width: 3%;"><%= (i+1) %></td>
@@ -194,7 +194,6 @@
             </tbody>
         </table>
         </div>
-            <br>
           <!--STORAGE DATA-->
           <div class="col-12 col-lg-12 col-xl-12">
             <div id="storagetable_heading" style="display: none;">
@@ -211,7 +210,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Storage ID</th>
                 <th scope="col">Storage Datetime</th>
-                <th scope="col">Supplier Shortcode</th>
+                <th scope="col">Shortcode</th>
                 <th scope="col">Produce</th>
                 <th scope="col">Action</th>
               </tr>
