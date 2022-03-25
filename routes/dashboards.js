@@ -109,7 +109,6 @@ router.get(
               title: 'FoodPrint - Admin Dashboard',
               harvest_data: harvest_rows,
               storage_data: storage_rows,
-              filter: req.params.range,
               user: req.user,
               page_name: 'Dashboard',
             });
