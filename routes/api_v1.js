@@ -15,6 +15,58 @@ var passport = require('passport');
 /*
  *  HARVEST ROUTES
  */
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    Harvest:
+ *      type: object
+ *      required:
+ *        - harvest_logid
+ *        - harvest_supplierShortcode
+ *      properties:
+ *        harvest_logid:
+ *          type: string
+ *          description: The auto generated id of the harvest entry
+ *        harvest_supplierShortcode:
+ *          type: string
+ *          description: The supplier shortcode
+ *      example:
+ *        harvest_logid: 615ecb84-1d7b-461f-a1e8-ff41be2a1ecb
+ *        harvest_supplierShortcode: OZCF
+ *
+ *
+ */
+
+/**
+ * @swagger
+ * tags:
+ *  - name: Harvest
+ *    description: Harvest API
+ *  - name: QR Count
+ *    description: QR Count
+ *
+ *
+ */
+
+/**
+ * @swagger
+ * /app/api/v1/harvest:
+ *  get:
+ *    summary: Returns a list of all the harvest items
+ *    tags: [Harvest]
+ *    responses:
+ *      200:
+ *        description: The list of harvest items
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Harvest'
+ *
+ */
 router.get('/harvest', function (req, res) {
   try {
     models.FoodprintHarvest.findAll({
@@ -266,7 +318,7 @@ router.post(
         message: error_message,
       });
     } else {
-      console.log('req.body.harvest_logid ' + req.body.harvest_logid);
+      // console.log('req.body.harvest_logid ' + req.body.harvest_logid);
       let harvest_TimeStamp = moment(new Date(req.body.harvest_timestamp)).format(
         'YYYY-MM-DD HH:mm:ss'
       );
@@ -915,6 +967,7 @@ router.get('/storage/whatsapp', function (req, res, next) {
 /*
  * QR COUNT
  */
+
 router.get('/qrcount/scans/:startDate', function (req, res) {
   const { startDate } = req.params;
   try {

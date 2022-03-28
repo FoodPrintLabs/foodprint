@@ -74,6 +74,8 @@
     "passport-local": "^1.0.0",
     "qrcode": "^1.4.0",
     "sequelize": "^6.6.5",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
     "uglify-js": "^3.13.7",
     "uuid": "^3.3.3"
   }
