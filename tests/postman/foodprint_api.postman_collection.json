@@ -1,0 +1,400 @@
+{
+	"info": {
+		"_postman_id": "83bfcd7f-948f-4579-8497-8afcb7c253b5",
+		"name": "foodprint_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "api/v1/login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"loginUsername\": \"\",\n    \"loginPassword\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/qrcount/scans/2021-11-24",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/qrcount/scans/2021-11-24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"qrcount",
+								"scans",
+								"2021-11-24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/harvest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/harvest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"harvest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/harvest/save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"harvest_supplierShortcode\": \"OZCF\",\n    \"harvest_supplierName\": \"Oranjezicht City Farm\",\n    \"supplierproduce\": \"OZCF_Beetroot\",\n    \"harvest_produceName\": \"Beetroot\",\n    \"harvest_supplierAddress\": \"37 Test Street, Goodwood\",\n    \"harvest_farmerName\": \"Oranjezicht City Farm\",\n    \"harvest_year_established\": \"\",\n    \"harvest_covid19_response\": \"\",\n    \"harvest_timestamp\": \"01/17/2022 9:25 AM\",\n    \"harvest_capturetime\": \"01/17/2022 9:25 AM\",\n    \"harvest_description\": \"Good quality Beetroot\",\n    \"harvest_geolocation\": \"Cape Town\",\n    \"harvest_quantity\": \"50\",\n    \"harvest_unitofmeasure\": \"kilogram\",\n    \"harvest_blockchainhashid\": \"-\",\n    \"harvest_blockchainhashdata\": \"-\",\n    \"harvest_bool_added_to_blockchain\": \"false\",\n    \"harvest_added_to_blockchain_date\": \"\",\n    \"harvest_added_to_blockchain_by\": \"-\",\n    \"harvest_blockchain_uuid\": \"-\",\n    \"harvest_user\": \"superuserjulz@example.com\",\n    \"logdatetime\": \"01/23/2022 9:25 AM\",\n    \"lastmodifieddatetime\": \"01/23/2022 9:25 AM\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/harvest/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"harvest",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/harvest/update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"harvest_logid\": \"615ecb84-1d7b-461f-a1e8-ff41be2a1ecb\",\n    \"harvest_supplierShortcode\": \"OZCF\",\n    \"harvest_supplierName\": \"Oranjezicht City Farm\",\n    \"supplierproduce\": \"OZCF_Beetroot\",\n    \"harvest_produceName\": \"Beetroot\",\n    \"harvest_supplierAddress\": \"37 Test Street, Goodwood\",\n    \"harvest_farmerName\": \"Oranjezicht City Farm\",\n    \"harvest_year_established\": \"\",\n    \"harvest_covid19_response\": \"\",\n    \"harvest_timestamp\": \"01/17/2022 9:25 AM\",\n    \"harvest_capturetime\": \"01/17/2022 9:25 AM\",\n    \"harvest_description\": \"Good quality Beetroot\",\n    \"harvest_geolocation\": \"Cape Town\",\n    \"harvest_quantity\": \"60\",\n    \"harvest_unitofmeasure\": \"kilogram\",\n    \"harvest_blockchainhashid\": \"-\",\n    \"harvest_blockchainhashdata\": \"-\",\n    \"harvest_bool_added_to_blockchain\": \"false\",\n    \"harvest_added_to_blockchain_date\": \"\",\n    \"harvest_added_to_blockchain_by\": \"-\",\n    \"harvest_blockchain_uuid\": \"-\",\n    \"harvest_user\": \"superuserjulz@example.com\",\n    \"logdatetime\": \"01/23/2022 9:25 AM\",\n    \"lastmodifieddatetime\": \"01/23/2022 9:25 AM\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/harvest/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"harvest",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/harvest/delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"harvest_logid\":\"0aa60f6d-e565-40c9-ad5c-b8279fae66d1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/harvest/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"harvest",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/harvest/whatsapp",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"harvest_logid\": \"615ecb84-1d7b-461f-a1e8-ff41be2a1ecb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/harvest/whatsapp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"harvest",
+								"whatsapp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/storage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/storage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"storage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "app/api/v1/storage/save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"harvest_logid\": \"b0773049-a975-4a7b-af6c-f994c54ac53d\",\n    \"harvest_supplierShortcode\": \"OZCF\",\n    \"supplierproduce\": \"OZCF_Beetroot\",\n    \"market_Shortcode\": \"OZCFM\",\n    \"market_Name\": \"Oranjezicht City Farm Market\",\n    \"market_Address\": \"OZCFM - Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051\",\n    \"market_quantity\": \"50\",\n    \"market_unitOfMeasure\": \"kilogram\",\n    \"market_storageTimeStamp\": \"Sun Jan 23 2022 09:24:00 GMT 0200 (Central Africa Time)\",\n    \"market_storageCaptureTime\": \"Sun Jan 23 2022 09:24:46 GMT 0200 (Central Africa Time)\",\n    \"market_URL\": \"testm.com\",\n    \"storage_BlockchainHashID\": \"-\",\n    \"storage_BlockchainHashData\": \"-\",\n    \"storage_Description\": \"good quality\",\n    \"storage_bool_added_to_blockchain\": \"false\",\n    \"storage_added_to_blockchain_by\": \"-\",\n    \"storage_blockchain_uuid\": \"-\",\n    \"storage_user\": \"superuserjulz@example.com\",\n    \"logdatetime\": \"Sun Jan 23 2022 09:24:46 GMT 0200 (Central Africa Time)\",\n    \"lastmodifieddatetime\": \"Sun Jan 23 2022 09:24:46 GMT 0200 (Central Africa Time)\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/storage/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"storage",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/storage/update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"storage_logid\": \"18c955d2-e0be-4be9-8eaa-8aff07e55c8c\",\n    \"harvest_logid\": \"f5e7b653-1ca4-4b52-9dac-ca7ee187d989\",\n    \"harvest_supplierShortcode\": \"OZCF\",\n    \"supplierproduce\": \"OZCF_Beetroot\",\n    \"market_Shortcode\": \"OZCFM\",\n    \"market_Name\": \"Oranjezicht City Farm Market\",\n    \"market_Address\": \"OZCFM - Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051\",\n    \"market_quantity\": \"60\",\n    \"market_unitOfMeasure\": \"kilogram\",\n    \"market_storageTimeStamp\": \"Sun Jan 23 2022 09:24:00 GMT 0200 (Central Africa Time)\",\n    \"market_storageCaptureTime\": \"Sun Jan 23 2022 09:24:46 GMT 0200 (Central Africa Time)\",\n    \"market_URL\": \"testm.com\",\n    \"storage_BlockchainHashID\": \"-\",\n    \"storage_BlockchainHashData\": \"-\",\n    \"storage_Description\": \"good quality\",\n    \"storage_bool_added_to_blockchain\": \"false\",\n    \"storage_added_to_blockchain_by\": \"-\",\n    \"storage_blockchain_uuid\": \"-\",\n    \"storage_user\": \"superuserjulz@example.com\",\n    \"logdatetime\": \"Sun Jan 23 2022 09:24:46 GMT 0200 (Central Africa Time)\",\n    \"lastmodifieddatetime\": \"Sun Jan 23 2022 09:24:46 GMT 0200 (Central Africa Time)\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/storage/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"storage",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/storage/delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"storage_logid\":\"b7aea51e-59dd-4795-9c87-64c5c77fb5d1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/storage/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"storage",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/storage/whatsapp",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"storage_logid\": \"18c955d2-e0be-4be9-8eaa-8aff07e55c8c\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/storage/whatsapp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"storage",
+								"whatsapp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/app/api/v1/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

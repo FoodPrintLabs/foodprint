@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 
 let initModels = require('../../models/init-models');
-let sequelise = require('../../src/js/db_sequelise');
+let sequelise = require('../../config/db/db_sequelise');
 let models = initModels(sequelise);
 
 let chai = require('chai');

@@ -13,7 +13,7 @@
   "scripts": {
     "bundle": "./node_modules/browserify/bin/cmd.js src/js/app.js | uglifyjs -mc  > src/js/bundle.js",
     "preinstall": "rm -rf node_modules/*/.git/",
-    "test": "NODE_ENV=test mocha --timeout 30000 test/api/*.js",
+    "test": "NODE_ENV=test mocha --timeout 30000 tests/api/*.js",
     "build-dev": "sequelize db:migrate --config ./dbconfig.json --env development",
     "build": "sequelize db:migrate --config ./dbconfig.json --env production",
     "heroku-postbuild": "npm run bundle",
