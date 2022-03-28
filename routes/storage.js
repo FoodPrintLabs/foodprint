@@ -7,20 +7,9 @@ var moment = require('moment'); //datetime
 var ROLES = require('../utils/roles');
 
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
+var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
-
-/*
-const sqlQuery = "INSERT INTO table_name (field1, field2) VALUES ?";
-const values =  [ ['field1', 'NULL'] ];
-
-con.query(sqlQuery, [values], function (err, result) {
-    if (err) throw err;
-    console.log("Number of records inserted: " + result.affectedRows);
-  });
-
-*/
 
 /* GET storage page. */
 router.get(
@@ -32,6 +21,7 @@ router.get(
         order: [['pk', 'DESC']],
       })
         .then(rows => {
+          console.log('All storage rows:' + rows.length.toString());
           models.FoodprintHarvest.findAll({
             attributes: [
               'harvest_logid',
@@ -43,6 +33,7 @@ router.get(
             order: [['pk', 'DESC']],
           })
             .then(harvest_rows => {
+              console.log('All harvests:' + harvest_rows.length.toString());
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
                 data: rows,
@@ -52,6 +43,7 @@ router.get(
               });
             })
             .catch(err => {
+              console.log('All storage err:' + err);
               req.flash('error', err.message); //TODO- flash does not seem to be working on render, to test add an invalid column to the SQL query
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
@@ -71,39 +63,6 @@ router.get(
             page_name: 'storagelogbook',
           });
         });
-
-      /*connection.execute('SELECT * FROM foodprint_storage ORDER BY pk desc', function (err, rows) {
-        if (err) {
-          req.flash('error', err.message);
-          res.render('storagelogbook', {
-            page_title: "FoodPrint - Storage Logbook",
-            data: '', user: req.user, page_name: 'storagelogbook'
-          });
-        } else {
-          connection.execute('SELECT harvest_logid, supplierproduce, harvest_quantity, harvest_unitofmeasure, harvest_TimeStamp FROM foodprint_harvest ORDER BY pk desc', function (err, harvest_rows) {
-            if (err) {
-              //console.log("err harvest_rows - " + err);
-              req.flash('error', err.message);//TODO- flash does not seem to be working on render, to test add an invalid column to the SQL query
-              res.render('storagelogbook', {
-                page_title: "FoodPrint - Storage Logbook",
-                data: rows, harvest_data: '', user: req.user, page_name: 'storagelogbook'
-              });
-            } else {
-              //console.log("harvest_rows - " + harvest_rows);
-              res.render('storagelogbook', {
-                page_title: "FoodPrint - Storage Logbook",
-                data: rows, harvest_data: harvest_rows, user: req.user,
-                page_name: 'storagelogbook'
-              });
-            }
-          });
-
-
-          // res.render('storagelogbook',{   page_title:"FoodPrint - Storage Logbook",
-          //                         data:rows, user: req.user,
-          //                         page_name:'storagelogbook' });
-        }
-      });*/
     } else {
       res.render('error', {
         message: 'You are not authorised to view this resource.',
@@ -250,7 +209,6 @@ router.post(
         'viewmodal_market_storageTimeStamp - ' + req.body.viewmodal_market_storageTimeStamp
       );
 
-      // let sql = "INSERT INTO foodprint_storage SET ?";
       try {
         models.FoodprintStorage.create(data)
           .then(_ => {
@@ -338,66 +296,6 @@ router.post(
             // redirect to Storage Logbook page
             res.redirect('/app/storage');
           });
-
-        /*connection.query(sql, data, function (err, results) {
-          if (err) {
-            //throw err;
-            req.flash('error', err.message)
-            // redirect to Storage Logbook page
-            res.redirect('/app/storage')
-          } else {
-            console.log('Add storage entry successful');
-
-            //there should be one harvest entry for the harvest_logid
-            connection.execute('SELECT * FROM foodprint_harvest WHERE harvest_logid = ?;',
-              [
-                harvest_logid_uuid
-              ],
-              function (err, harvest_rows) {
-                if (err) {
-                  console.error("err pulling harvest_row - " + err);
-                } else {
-                  console.log("success getting harvest_row - " + harvest_rows);
-                  console.log("harvest_rows[0].harvest_supplierName - " + harvest_rows[0].harvest_supplierName);
-
-                  // insert into weekly_view
-                  //TODO this really needs to be in a transaction with the add storage, if either fails then rollback
-                  let logid_uuid = uuidv4();
-                  connection.query('INSERT INTO foodprint_weeklyview (' +
-                    'logid, harvest_logid, harvest_supplierShortcode, harvest_supplierName,  harvest_farmerName, harvest_supplierAddress,' +
-                    'year_established, covid19_response, harvest_produceName, harvest_photoHash, harvest_TimeStamp, harvest_CaptureTime,' +
-                    'harvest_Description, harvest_geolocation, harvest_quantity, harvest_unitOfMeasure, harvest_description_json,' +
-                    'harvest_BlockchainHashID, harvest_BlockchainHashData,  supplierproduce,  storage_logid, market_Address, market_quantity,' +
-                    'market_unitOfMeasure, market_storageTimeStamp, market_storageCaptureTime, market_URL, storage_BlockchainHashID,' +
-                    'storage_BlockchainHashData, storage_Description, storage_bool_added_to_blockchain,' +
-                    'storage_added_to_blockchain_by, storage_blockchain_uuid, harvest_bool_added_to_blockchain, harvest_added_to_blockchain_date,' +
-                    'harvest_added_to_blockchain_by, harvest_blockchain_uuid, harvest_user, storage_user, logdatetime, lastmodifieddatetime)' +
-                    ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
-
-                    [
-                      logid_uuid, harvest_logid_uuid, req_harvest_suppliershortcode, harvest_rows[0].harvest_supplierName, harvest_rows[0].harvest_farmerName, harvest_rows[0].harvest_supplierAddress,
-                      harvest_rows[0].year_established, harvest_rows[0].covid19_response, harvest_rows[0].harvest_produceName, harvest_rows[0].harvest_photoHash, harvest_rows[0].harvest_TimeStamp, harvest_rows[0].harvest_CaptureTime,
-                      harvest_rows[0].harvest_Description, harvest_rows[0].harvest_geolocation, harvest_rows[0].harvest_quantity, harvest_rows[0].harvest_unitOfMeasure, harvest_rows[0].harvest_description_json,
-                      harvest_rows[0].harvest_BlockchainHashID, harvest_rows[0].harvest_BlockchainHashData, req_supplierproduce, storage_logid_uuid, req_market_Address, req_market_quantity,
-                      req_market_unitOfMeasure, storage_TimeStamp, storage_CaptureTime, req_market_URL, sys_storage_BlockchainHashID,
-                      sys_storage_BlockchainHashData, req_storage_Description, sys_storage_bool_added_to_blockchain,
-                      sys_storage_added_to_blockchain_by, sys_storage_blockchain_uuid, harvest_rows[0].harvest_bool_added_to_blockchain, harvest_rows[0].harvest_added_to_blockchain_date,
-                      harvest_rows[0].harvest_added_to_blockchain_by, harvest_rows[0].harvest_blockchain_uuid, harvest_rows[0].harvest_user, req_email, logdatetime, lastmodifieddatetime
-                    ], function (err, res2) {
-                      if (err) {
-                        console.error('Add weekly view error occured');
-                        console.error('error', err);
-                      } else {
-                        console.log('Add weekly view successful');
-                      }
-                    });
-                }
-              });
-
-            req.flash('success', 'New Storage entry added successfully! Storage ID = ' + storage_logid_uuid);
-            res.redirect('/app/storage');
-          }
-        });*/
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
@@ -419,6 +317,7 @@ router.post(
               });
             })
             .catch(err => {
+              console.log('All storage err:' + err);
               req.flash('error', err.message);
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
@@ -429,23 +328,6 @@ router.post(
                 errors: e.array(),
               });
             });
-          /*connection.execute('SELECT * FROM foodprint_storage ORDER BY pk desc', function (err, rows) {
-            if (err) {
-              req.flash('error', err.message);
-              res.render('storagelogbook', {
-                page_title: "FoodPrint - Storage Logbook",
-                data: '', user: req.user, page_name: 'storagelogbook',
-                success: false, errors: e.array(),
-              });
-            } else {
-              res.render('storagelogbook', {
-                page_title: "FoodPrint - Storage Logbook",
-                success: false, errors: e.array(),
-                data: rows, user: req.user,
-                page_name: 'storagelogbook'
-              });
-            }
-          });*/
         }
       }
     }
@@ -494,7 +376,6 @@ router.post('/save/whatsapp', function (req, res) {
     lastmodifieddatetime: lastmodifieddatetime,
   };
 
-  // let sql = "INSERT INTO foodprint_storage SET ?";
   try {
     models.FoodprintStorage.create(data)
       .then(_ => {
@@ -505,15 +386,6 @@ router.post('/save/whatsapp', function (req, res) {
         //throw err;
         res.status(400).send({ error: err.message });
       });
-    /*connection.query(sql, data, function (err, results) {
-        if (err) {
-          //throw err;
-          res.status(400).send({ error: err.message });
-        } else {
-          console.log('Add storage entry successful');
-          res.status(201).send({ message: "storage created", storage_logid: data.storage_logid });
-        }
-      });*/
   } catch (e) {
     console.log('Error occurred', e);
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
@@ -629,30 +501,7 @@ router.post(
       let lastmodifieddatetime = moment(new Date(req.body.viewmodal_lastmodifieddatetime)).format(
         'YYYY-MM-DD HH:mm:ss'
       );
-      //TODO - should rather update only the fields have changed!
-      /*let sql = "UPDATE foodprint_storage SET harvest_logid='" + req.body.viewmodal_harvest_logid + "', " +
-      "harvest_supplierShortcode='" + req.body.viewmodal_harvest_suppliershortcode +
-      "',supplierproduce='" + req.body.viewmodal_supplierproduce +
-      "',market_Shortcode='" + req.body.viewmodal_market_Shortcode +
-      "',market_Name='" + req.body.viewmodal_market_Name +
-      "',market_Address='" + req.body.viewmodal_market_Address +
-      "',market_quantity='" + req.body.viewmodal_market_quantity +
-      "',market_unitOfMeasure='" + req.body.viewmodal_market_unitOfMeasure +
-      "',market_storageTimeStamp='" + storage_TimeStamp +
-      "',market_storageCaptureTime='" + storage_CaptureTime +
-      "',market_URL='" + req.body.viewmodal_market_URL +
-      "',storage_BlockchainHashID='" + req.body.viewmodal_storage_BlockchainHashID +
-      "',storage_BlockchainHashData='" + req.body.viewmodal_storage_BlockchainHashData +
-      "',storage_Description='" + req.body.viewmodal_storage_Description +
-      "',storage_bool_added_to_blockchain='" + req.body.viewmodal_storage_bool_added_to_blockchain +
-      //  "',storage_added_to_blockchain_date='" + req.body.viewmodal_storage_added_to_blockchain_date +
-      "',storage_added_to_blockchain_by='" + req.body.viewmodal_storage_added_to_blockchain_by +
-      "',storage_blockchain_uuid='" + req.body.viewmodal_storage_blockchain_uuid +
-      "',storage_user='" + req.body.viewmodal_storage_user +
-      "',logdatetime='" + logdatetime +
-      "',lastmodifieddatetime='" + lastmodifieddatetime +
-      "' WHERE storage_logid='" + req.body.viewmodal_storage_logid + "'";
-    console.log('sql ' + sql);*/
+
       let data = {
         harvest_logid: req.body.viewmodal_harvest_logid,
         harvest_supplierShortcode: req.body.viewmodal_harvest_suppliershortcode,
@@ -697,19 +546,6 @@ router.post(
             // redirect to Storage Logbook page
             res.redirect('/app/storage');
           });
-        /*connection.query(sql, function (err, results) {
-        if (err) {
-          //throw err;
-          console.log('Error - Update Harvest failed');
-          console.log(err);
-          req.flash('error', err.message)
-          // redirect to Storage Logbook page
-          res.redirect('/app/storage')
-        } else {
-          req.flash('success', 'Storage entry updated successfully! Storage ID = ' + req.body.viewmodal_storage_logid);
-          res.redirect('/app/storage');
-        }
-      });*/
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
@@ -741,20 +577,6 @@ router.post(
                 errors: e.array(),
               });
             });
-
-          /*connection.execute('SELECT * FROM foodprint_storage ORDER BY pk desc',function(err,rows)     {
-            if(err){
-                 req.flash('error', err.message);
-                 res.render('storagelogbook',{  page_title:"FoodPrint - Storage Logbook",
-                                        data:'', user: req.user, page_name:'storagelogbook',
-                                        success: false, errors: e.array(), });
-            }else{
-                res.render('storagelogbook',{page_title:"FoodPrint - Storage Logbook",
-                                        success: false, errors: e.array(),
-                                        data:rows, user: req.user,
-                                        page_name:'storagelogbook' });
-            }
-         });*/
         }
       }
     }
@@ -773,8 +595,6 @@ router.post(
       .escape(),
   ],
   function (req, res) {
-    // let sql = "DELETE FROM foodprint_storage WHERE storage_logid='"+req.body.viewmodal_storage_logid+"'";
-    //console.log('sql ' + sql);
     console.log('configid ' + req.body.viewmodal_storage_logid);
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       models.FoodprintStorage.destroy({
@@ -795,17 +615,6 @@ router.post(
           // redirect to Storage Logbook page
           res.redirect('/app/storage');
         });
-      /*let query = connection.execute(sql, (err, results) => {
-          if(err) {
-              //throw err;
-              req.flash('error', err.message)
-              // redirect to Storage Logbook page
-              res.redirect('/app/storage')
-          } else{
-              req.flash('success', 'Storage entry deleted successfully! Storage ID = ' + req.body.viewmodal_storage_logid);
-              res.redirect('/app/storage');
-          }
-      });*/
     }
   }
 );

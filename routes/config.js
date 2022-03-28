@@ -6,7 +6,7 @@ var body = require('express-validator'); //validation
 var ROLES = require('../utils/roles');
 
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
+var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
@@ -36,17 +36,6 @@ router.get(
             page_name: 'config',
           });
         });
-
-      /*connection.query('SELECT * FROM foodprint_config ORDER BY pk desc',function(err,rows)     {
-                if(err){
-                     req.flash('error', err);
-                     res.render('config',{  page_title:"FoodPrint - Global Configuration",
-                                            data:'', user: req.user, page_name:'config' });
-                }else{
-                    res.render('config',{   page_title:"FoodPrint - Global Configuration",
-                                            data:rows, user: req.user, page_name:'config' });
-                }
-             });*/
     } else {
       res.render('error', {
         message: 'You are not authorised to view this resource.',
@@ -103,7 +92,6 @@ router.post(
         logdatetime: config_datetime,
         configid: config_uuid,
       };
-      //let sql = "INSERT INTO foodprint_config SET ?";
       try {
         models.FoodprintConfig.create(data)
           .then(_ => {
@@ -119,17 +107,6 @@ router.post(
             // redirect to configuration list page
             res.redirect('/app/config');
           });
-        /*connection.query(sql, data, function(err, results) {
-                      if(err) {
-                          //throw err;
-                          req.flash('error', err)
-                          // redirect to configuration list page
-                          res.redirect('/app/config')
-                      } else{
-                          req.flash('success', 'New Configuration added successfully! Config Name = ' + req.body.config_name);
-                          res.redirect('/app/config');
-                      }
-                  });*/
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
@@ -172,12 +149,6 @@ router.post(
         page_name: 'config',
       }); //should add error array here
     } else {
-      /*let sql = "UPDATE foodprint_config SET configname='" + req.body.config_name + "', " +
-                  "configdescription='" + req.body.config_description + "',configvalue='" + req.body.config_value +
-                  "' WHERE configid='" + req.body.config_id + "'";*/
-      //console.log('sql ' + sql);
-      //console.log('configid ' + req.body.config_id);
-
       let data = {
         configname: req.body.config_name,
         configdescription: req.body.config_description,
@@ -202,18 +173,6 @@ router.post(
             // redirect to configuration list page
             res.redirect('/app/config');
           });
-
-        /* connection.query(sql, function(err, results){
-                      if(err) {
-                          //throw err;
-                          req.flash('error', err)
-                          // redirect to configuration list page
-                          res.redirect('/app/config')
-                      } else{
-                          req.flash('success', 'Configuration updated successfully! Config Name = ' + req.body.config_name);
-                  res.redirect('/app/config');
-              }
-              });*/
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
@@ -232,8 +191,6 @@ router.post(
 
 //route for delete data
 router.post('/delete', (req, res) => {
-  //let sql = "DELETE FROM foodprint_config WHERE configid='"+req.body.config_id2+"'";
-  // console.log('sql ' + sql);
   // console.log('configname ' + req.body.config_name2);
   // console.log('configid ' + req.body.config_id2);
 
@@ -255,17 +212,6 @@ router.post('/delete', (req, res) => {
       // redirect to configuration list page
       res.redirect('/app/config');
     });
-  /*let query = connection.query(sql, (err, results) => {
-    if(err) {
-        //throw err;
-        req.flash('error', err)
-        // redirect to configuration list page
-        res.redirect('/app/config')
-    } else{
-        req.flash('success', 'Configuration deleted successfully! Config Name = ' + req.body.config_name2);
-        res.redirect('/app/config');
-      }
-  });*/
 });
 
 module.exports = router;

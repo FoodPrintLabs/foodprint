@@ -6,7 +6,7 @@ const uuidv4 = require('uuid/v4');
 let moment = require('moment');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 let initModels = require('../models/init-models');
-let sequelise = require('../src/js/db_sequelise');
+let sequelise = require('../config/db/db_sequelise');
 const { Op } = require('sequelize');
 let models = initModels(sequelise);
 const { Sequelize } = require('sequelize');
@@ -25,9 +25,13 @@ router.get('/harvest', function (req, res) {
           res.status(200).json([]);
         } else {
           for (let i = 0; i < rows.length; i++) {
-            rows[i].harvest_photoHash =
-              'data:image/png;base64,' +
-              new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
+            if (rows[i].harvest_photoHash === null) {
+              rows[i].harvest_photoHash = '';
+            } else {
+              rows[i].harvest_photoHash =
+                'data:image/png;base64,' +
+                Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
+            }
           }
           res.status(200).json(rows);
         }

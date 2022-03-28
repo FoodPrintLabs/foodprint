@@ -1,5 +1,5 @@
 const env = process.env.NODE_ENV || 'development';
-const config = require("../../dbconfig")[env];
+const config = require('../../dbconfig')[env];
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
@@ -10,8 +10,8 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
     max: 10,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
+    idle: 10000,
+  },
 });
 
 module.exports = sequelize;

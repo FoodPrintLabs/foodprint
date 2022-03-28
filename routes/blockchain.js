@@ -4,7 +4,7 @@ const algosdk = require('algosdk');
 var moment = require('moment'); //datetime
 var crypto = require('crypto');
 var initModels = require('../models/init-models');
-var sequelise = require('../src/js/db_sequelise');
+var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
@@ -231,13 +231,19 @@ function updateHarvestBlockchainHash(logId, supplyChainData, user, transactionId
 
   let logdatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 
+  // update database with blockchain transaction details etc
+  let addToBlockchainUser = 'FoodPrint Service';
+  if (user !== undefined) {
+    addToBlockchainUser = user.email;
+  }
+
   let data = {
     harvest_logid: logId,
     harvest_BlockchainHashID: supplyChainDataHash,
     harvest_BlockchainHashData: supplyChainData,
     harvest_added_to_blockchain_date: logdatetime,
     harvest_bool_added_to_blockchain: true,
-    harvest_added_to_blockchain_by: user.email,
+    harvest_added_to_blockchain_by: addToBlockchainUser,
     harvest_blockchain_uuid: transactionId,
     blockchain_explorer_url:
       'https://goalseeker.purestake.io/algorand/testnet/transaction/' + transactionId,
