@@ -81,9 +81,9 @@ function removefilter() {
                     <tr>
                       
                       <td style="width: 20%;">Harvest</td>
-                      <td style="width: 40%;"><%= harvest_data[0].harvest_logid %></td>
-                      <td style="width: 20%;"><%= harvest_data[0].harvest_supplierName %></td>
-                      <td style="width: 20%;"><%= harvest_data[0].harvest_produceName %></td>
+                      <td style="width: 40%;"><%= harvest_data[(harvest_data.length) -1].harvest_logid %></td>
+                      <td style="width: 20%;"><%= harvest_data[(harvest_data.length) -1].harvest_supplierName %></td>
+                      <td style="width: 20%;"><%= harvest_data[(harvest_data.length) -1].harvest_produceName %></td>
                       </tbody>
               </tr>
               <% 
@@ -105,9 +105,9 @@ function removefilter() {
                     <tr>
                       
                       <td style="width: 20%;">Storage</td>
-                      <td style="width: 40%;"><%= storage_data[0].storage_logid %></td>
-                      <td style="width: 20%;"><%= storage_data[0].market_Shortcode %></td>
-                      <td style="width: 20%;"><%= storage_data[0].supplierproduce %></td>
+                      <td style="width: 40%;"><%= storage_data[(storage_data.length) -1].storage_logid %></td>
+                      <td style="width: 20%;"><%= storage_data[(storage_data.length) -1].market_Shortcode %></td>
+                      <td style="width: 20%;"><%= storage_data[(storage_data.length) -1].supplierproduce %></td>
                       </tbody>
               </tr>
               <% 
