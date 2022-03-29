@@ -45,11 +45,11 @@ router.get(
         })
         .catch(err => {
           req.flash('error', err);
-          res.render('harvestlogbook', {
-            page_title: 'FoodPrint - Harvest Logbook',
+          res.render('error', {
+            message: 'Unexpected Error occured',
             data: '',
             user: req.user,
-            page_name: 'harvestlogbook',
+            page_name: 'error',
           });
         });
     } else {
@@ -116,11 +116,11 @@ router.get(
         })
         .catch(err => {
           req.flash('error', err);
-          res.render('harvestlogbook', {
-            page_title: 'FoodPrint - Harvest Logbook',
+          res.render('error', {
+            message: 'Unexpected Error occured',
             data: '',
             user: req.user,
-            page_name: 'harvestlogbook',
+            page_name: 'error',
           });
         });
     } else {
@@ -168,11 +168,11 @@ router.get(
         })
         .catch(err => {
           req.flash('error', err);
-          res.render('harvestlogbook', {
-            page_title: 'FoodPrint - Harvest Logbook',
+          res.render('error', {
+            message: 'Unexpected Error occured',
             data: '',
             user: req.user,
-            page_name: 'harvestlogbook',
+            page_name: 'error',
           });
         });
     } else {
@@ -251,11 +251,11 @@ router.get(
         })
         .catch(err => {
           req.flash('error', err);
-          res.render('harvestlogbook', {
-            page_title: 'FoodPrint - Harvest Logbook',
+          res.render('error', {
+            message: 'Unexpected Error occured',
             data: '',
             user: req.user,
-            page_name: 'harvestlogbook',
+            page_name: 'error',
           });
         });
     } else {
