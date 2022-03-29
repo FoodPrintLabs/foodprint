@@ -33,6 +33,7 @@ var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
 var websiteRouter = require('./routes/website');
 var apiV1Router = require('./routes/api_v1');
+var produceRouter = require('./routes/produce');
 
 // enable ssl redirect
 app.use(
@@ -107,6 +108,7 @@ app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
 app.use('/app/harvest', harvestRouter);
 app.use('/app/storage', storageRouter);
+app.use('/app/produce', produceRouter);
 
 app.use('/', websiteRouter);
 app.use('/', testRouter);
