@@ -21,6 +21,7 @@ router.get(
         order: [['pk', 'DESC']],
       })
         .then(rows => {
+          console.log('All storage rows:' + rows.length.toString());
           models.FoodprintHarvest.findAll({
             attributes: [
               'harvest_logid',
@@ -32,6 +33,7 @@ router.get(
             order: [['pk', 'DESC']],
           })
             .then(harvest_rows => {
+              console.log('All harvests:' + harvest_rows.length.toString());
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
                 data: rows,
@@ -41,6 +43,7 @@ router.get(
               });
             })
             .catch(err => {
+              console.log('All storage err:' + err);
               req.flash('error', err.message); //TODO- flash does not seem to be working on render, to test add an invalid column to the SQL query
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
@@ -206,7 +209,6 @@ router.post(
         'viewmodal_market_storageTimeStamp - ' + req.body.viewmodal_market_storageTimeStamp
       );
 
-      // let sql = "INSERT INTO foodprint_storage SET ?";
       try {
         models.FoodprintStorage.create(data)
           .then(_ => {
@@ -315,6 +317,7 @@ router.post(
               });
             })
             .catch(err => {
+              console.log('All storage err:' + err);
               req.flash('error', err.message);
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
@@ -373,7 +376,6 @@ router.post('/save/whatsapp', function (req, res) {
     lastmodifieddatetime: lastmodifieddatetime,
   };
 
-  // let sql = "INSERT INTO foodprint_storage SET ?";
   try {
     models.FoodprintStorage.create(data)
       .then(_ => {
@@ -593,8 +595,6 @@ router.post(
       .escape(),
   ],
   function (req, res) {
-    // let sql = "DELETE FROM foodprint_storage WHERE storage_logid='"+req.body.viewmodal_storage_logid+"'";
-    //console.log('sql ' + sql);
     console.log('configid ' + req.body.viewmodal_storage_logid);
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       models.FoodprintStorage.destroy({

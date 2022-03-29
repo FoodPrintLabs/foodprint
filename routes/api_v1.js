@@ -25,9 +25,13 @@ router.get('/harvest', function (req, res) {
           res.status(200).json([]);
         } else {
           for (let i = 0; i < rows.length; i++) {
-            rows[i].harvest_photoHash =
-              'data:image/png;base64,' +
-              new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
+            if (rows[i].harvest_photoHash === null) {
+              rows[i].harvest_photoHash = '';
+            } else {
+              rows[i].harvest_photoHash =
+                'data:image/png;base64,' +
+                Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
+            }
           }
           res.status(200).json(rows);
         }

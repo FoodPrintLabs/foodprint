@@ -29,10 +29,16 @@ router.get(
         order: [['pk', 'DESC']],
       })
         .then(rows => {
+          console.log('All harvests:' + rows.length.toString());
+
           for (let i = 0; i < rows.length; i++) {
-            rows[i].harvest_photoHash =
-              'data:image/png;base64,' +
-              new Buffer(rows[i].harvest_photoHash, 'binary').toString('base64');
+            if (rows[i].harvest_photoHash === null) {
+              rows[i].harvest_photoHash = '';
+            } else {
+              rows[i].harvest_photoHash =
+                'data:image/png;base64,' +
+                Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
+            }
           }
           res.render('harvestlogbook', {
             page_title: 'FoodPrint - Harvest Logbook',
@@ -42,6 +48,7 @@ router.get(
           });
         })
         .catch(err => {
+          console.log('All harvests err:' + err);
           req.flash('error', err);
           res.render('harvestlogbook', {
             page_title: 'FoodPrint - Harvest Logbook',
@@ -200,7 +207,6 @@ router.post(
         logdatetime: logdatetime,
         lastmodifieddatetime: lastmodifieddatetime,
       };
-      // let sql = "INSERT INTO foodprint_harvest SET ?";
       try {
         fs.readFile(img.path, function (err, img_datadata) {
           data['harvest_photoHash'] = img_datadata;
@@ -241,6 +247,7 @@ router.post(
               });
             })
             .catch(err => {
+              console.log('All harvests err:' + err);
               req.flash('error', err.message);
               res.render('harvestlogbook', {
                 page_title: 'FoodPrint - Harvest Logbook',
@@ -296,7 +303,6 @@ router.post('/save/whatsapp', async function (req, res) {
     lastmodifieddatetime: lastmodifieddatetime,
     harvest_photoHash,
   };
-  // let sql = "INSERT INTO foodprint_harvest SET ?";
   try {
     models.FoodprintHarvest.create(data)
       .then(_ => {

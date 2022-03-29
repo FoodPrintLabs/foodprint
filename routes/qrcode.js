@@ -201,9 +201,13 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function (req
         //  https://stackoverflow.com/questions/51010423/how-to-resize-base64-image-in-javascript
 
         // convert your binary data to base64 format & then pass it to ejs
-        rows[0].harvest_photoHash =
-          'data:image/png;base64,' +
-          new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
+        if (rows[0].harvest_photoHash === null) {
+          rows[0].harvest_photoHash = '';
+        } else {
+          rows[0].harvest_photoHash =
+            'data:image/png;base64,' +
+            Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
+        }
       }
       provenance_data = rows;
       console.log('Provenance scan successful');
@@ -350,9 +354,13 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
         //  https://stackoverflow.com/questions/51010423/how-to-resize-base64-image-in-javascript
 
         // convert your binary data to base64 format & then pass it to ejs
-        rows[0].harvest_photoHash =
-          'data:image/png;base64,' +
-          new Buffer(rows[0].harvest_photoHash, 'binary').toString('base64');
+        if (rows[0].harvest_photoHash === null) {
+          rows[i].harvest_photoHash = '';
+        } else {
+          rows[0].harvest_photoHash =
+            'data:image/png;base64,' +
+            Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
+        }
         provenance_data = rows[0]; // return 1st row only
       } else {
         provenance_data = []; // return empty list for no data
