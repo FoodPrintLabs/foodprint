@@ -12,9 +12,6 @@ let models = initModels(sequelise);
 const { Sequelize } = require('sequelize');
 var passport = require('passport');
 
-/*
- *  HARVEST ROUTES
- */
 
 /**
  * @swagger
@@ -25,6 +22,28 @@ var passport = require('passport');
  *      required:
  *        - harvest_logid
  *        - harvest_supplierShortcode
+ *        - harvest_supplierName
+ *        - supplierproduce
+ *        - harvest_produceName
+ *        - harvest_supplierAddress
+ *        - harvest_farmerName
+ *        - harvest_year_established
+ *        - harvest_covid19_response
+ *        - harvest_timestamp
+ *        - harvest_capturetime
+ *        - harvest_description
+ *        - harvest_geolocation
+ *        - harvest_quantity
+ *        - harvest_unitofmeasure
+ *        - harvest_blockchainhashid
+ *        - harvest_blockchainhashdata
+ *        - harvest_bool_added_to_blockchain
+ *        - harvest_added_to_blockchain_date
+ *        - harvest_added_to_blockchain_by
+ *        - harvest_blockchain_uuid
+ *        - harvest_user
+ *        - logdatetime
+ *        - lastmodifieddatetime
  *      properties:
  *        harvest_logid:
  *          type: string
@@ -32,11 +51,228 @@ var passport = require('passport');
  *        harvest_supplierShortcode:
  *          type: string
  *          description: The supplier shortcode
+ *        harvest_supplierName:
+ *          type: string
+ *          description: Supplier name
+ *        supplierproduce:
+ *          type: string
+ *          description: Supplier produce
+ *        harvest_produceName:
+ *          type: string
+ *          description: Harverst produce name
+ *        harvest_supplierAddress:
+ *          type: string
+ *          description: Harvest supplier address
+ *        harvest_farmerName:
+ *          type: string
+ *          description: Harverst farmer name
+ *        harvest_year_established:
+ *          type: string
+ *          description: Year farm established
+ *        harvest_covid19_response:
+ *          type: string
+ *          description: Covid19 response
+ *        harvest_timestamp:
+ *          type: string
+ *          description: Harvest timestamp
+ *        harvest_capturetime:
+ *          type: string
+ *          description: Harvest capture time
+ *        harvest_description:
+ *          type: string
+ *          description: Harvest description
+ *        harvest_geolocation:
+ *          type: string
+ *          description: Harvest geolocation
+ *        harvest_quantity:
+ *          type: string
+ *          description: Harvest quantity
+ *        harvest_unitofmeasure:
+ *          type: string
+ *          description: Harvest unit of measure
+ *        harvest_blockchainhashid:
+ *          type: string
+ *          description: Harvest blockchain hash id
+ *        harvest_blockchainhashdata:
+ *          type: string
+ *          description: Harvest blockchain hash data
+ *        harvest_bool_added_to_blockchain:
+ *          type: string
+ *          description: Harvest added to blockchain
+ *        harvest_added_to_blockchain_date:
+ *          type: string
+ *          description: Harvest added to blockchain date
+ *        harvest_added_to_blockchain_by:
+ *          type: string
+ *          description: Harvest added to blockchain by
+ *        harvest_blockchain_uuid:
+ *          type: string
+ *          description: Harvest blockchain uuid
+ *        harvest_user:
+ *          type: string
+ *          description: User who added the harvest
+ *        logdatetime:
+ *          type: string
+ *          description: Date and time the harvest was added
+ *        lastmodifieddatetime:
+ *          type: string
+ *          description: Date and time the record was last modified
  *      example:
  *        harvest_logid: 615ecb84-1d7b-461f-a1e8-ff41be2a1ecb
  *        harvest_supplierShortcode: OZCF
- *
- *
+ *        harvest_supplierName: Oranjezicht City Farm
+ *        supplierproduce: OZCF_Beetroot
+ *        harvest_produceName: Beetroot
+ *        harvest_supplierAddress: 37 Test Street, Goodwood
+ *        harvest_farmerName: Oranjezicht City Farm
+ *        harvest_year_established:
+ *        harvest_covid19_response:
+ *        harvest_timestamp: 01/17/2022 9:25 AM
+ *        harvest_capturetime: 01/17/2022 9:25 AM
+ *        harvest_description: Good quality Beetroot
+ *        harvest_geolocation: Cape Town
+ *        harvest_quantity: 50
+ *        harvest_unitofmeasure: kilogram
+ *        harvest_blockchainhashid:
+ *        harvest_blockchainhashdata:
+ *        harvest_bool_added_to_blockchain: false
+ *        harvest_added_to_blockchain_date:
+ *        harvest_added_to_blockchain_by:
+ *        harvest_blockchain_uuid:
+ *        harvest_user: superuserjulz@example.com
+ *        logdatetime: 01/23/2022 9:25 AM
+ *        lastmodifieddatetime: 01/23/2022 9:25 AM
+ *    Storage:
+ *       type: object
+ *       required:
+ *         - harvest_logid
+ *         - harvest_logid
+ *         - harvest_supplierShortcode
+ *         - supplierproduce
+ *         - market_Shortcode
+ *         - market_Name
+ *         - market_Address
+ *         - market_quantity
+ *         - market_unitOfMeasure
+ *         - market_storageTimeStamp
+ *         - market_storageCaptureTime
+ *         - market_URL
+ *         - storage_BlockchainHashID
+ *         - storage_BlockchainHashData
+ *         - storage_Description
+ *         - storage_bool_added_to_blockchain
+ *         - storage_added_to_blockchain_by
+ *         - storage_blockchain_uuid
+ *         - storage_user
+ *         - logdatetime
+ *         - lastmodifieddatetime
+ *       properties:
+ *          harvest_logid:
+ *            type: string
+ *            description: ----
+ *          harvest_supplierShortcode:
+ *            type: string
+ *            description: ----
+ *          supplierproduce:
+ *            type: string
+ *            description: ----
+ *          market_Shortcode:
+ *            type: string
+ *            description: ----
+ *          market_Name:
+ *            type: string
+ *            description: ----
+ *          market_Address:
+ *            type: string
+ *            description: ----
+ *          market_quantity:
+ *            type: string
+ *            description: ----
+ *          market_unitOfMeasure:
+ *            type: string
+ *            description: ----
+ *          market_storageTimeStamp:
+ *            type: string
+ *            description: ----
+ *          market_storageCaptureTime:
+ *            type: string
+ *            description: ----
+ *          market_URL:
+ *            type: string
+ *            description: ----
+ *          storage_BlockchainHashID:
+ *            type: string
+ *            description: ----
+ *          storage_BlockchainHashData:
+ *            type: string
+ *            description: ----
+ *          storage_Description:
+ *            type: string
+ *            description: ----
+ *          storage_bool_added_to_blockchain:
+ *            type: string
+ *            description: ----
+ *          storage_added_to_blockchain_by:
+ *            type: string
+ *            description: ----
+ *          storage_blockchain_uuid:
+ *            type: string
+ *            description: ----
+ *          storage_user:
+ *            type: string
+ *            description: ----
+ *          logdatetime:
+ *            type: string
+ *            description: ----
+ *          lastmodifieddatetime:
+ *            type: string
+ *            description: ----
+ *       example:
+ *          harvest_logid: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *          harvest_supplierShortcode: OZCF
+ *          supplierproduce: OZCF_Beetroot
+ *          market_Shortcode: OZCFM
+ *          market_Name: Oranjezicht City Farm Market
+ *          market_Address: OZCFM Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051
+ *          market_quantity: 50
+ *          market_unitOfMeasure: kilogram
+ *          market_storageTimeStamp: Sun Jan 23 2022 09:24:00 GMT 0200 (Central Africa Time)
+ *          market_storageCaptureTime: Sun Jan 23 2022 09:24:46 GMT 0200 (Central Africa Time)
+ *          market_URL: testm.com
+ *          storage_BlockchainHashID:
+ *          storage_BlockchainHashData:
+ *          storage_Description: good quality
+ *          storage_bool_added_to_blockchain: false
+ *          storage_added_to_blockchain_by:
+ *          storage_blockchain_uuid:
+ *          storage_user: superuserjulz@example.com
+ *          logdatetime: Sun Jan 23 2022 09:24:46 GMT 0200 (Central Africa Time)
+ *          lastmodifieddatetime: Sun Jan 23 2022 09:24:46 GMT 0200 (Central Africa Time)
+ *  requestBodies:
+ *    HarvestLogID:
+ *      description: A JSON object containing the logid of a harvest entry
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              harvest_logid:
+ *                type: string
+ *                description: id of the harvest entry
+ *                example: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *    StorageLogID:
+ *      description: A JSON object containing the logid of a storage entry
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              storage_logid:
+ *                type: string
+ *                description: id of the storage entry
+ *                example: b0773049-a975-4a7b-af6c-f994c54ac53d
  */
 
 /**
@@ -44,9 +280,10 @@ var passport = require('passport');
  * tags:
  *  - name: Harvest
  *    description: Harvest API
- *  - name: QR Count
+ *  - name: Storage
+ *    description: Storage API
+ *  - name: QRCount
  *    description: QR Count
- *
  *
  */
 
@@ -65,7 +302,31 @@ var passport = require('passport');
  *              type: array
  *              items:
  *                $ref: '#/components/schemas/Harvest'
- *
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: An error occurred
+ *      500:
+ *        description: An internal server error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: object
+ *                  description: Error object
+ *                message:
+ *                  type: string
+ *                  description: Error message
+ *                  example: Internal server error
  */
 router.get('/harvest', function (req, res) {
   try {
@@ -101,6 +362,60 @@ router.get('/harvest', function (req, res) {
   }
 });
 
+/**
+ * @swagger
+ * /app/api/v1/harvest/save:
+ *  post:
+ *    summary: Creates a new harvest entry in the database
+ *    tags: [Harvest]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Harvest'
+ *    responses:
+ *      201:
+ *        description: Harvest entry was successfully created
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Success message
+ *                  example: Harvest created successfully
+ *                harvest_logid:
+ *                  type: string
+ *                  description: The UUID of the created harvest entry
+ *                  example: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: error message
+ *                   example: An error occurred
+ *      500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: error object
+ *                  message:
+ *                    type: string
+ *                    description: error message
+ *                    example: Internal server error
+ */
 router.post(
   '/harvest/save',
   [
@@ -228,6 +543,60 @@ router.post(
   }
 );
 
+/**
+ * @swagger
+ * /app/api/v1/harvest/update:
+ *  post:
+ *    summary: Updates harvest entry in the database
+ *    tags: [Harvest]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Harvest'
+ *    responses:
+ *      200:
+ *        description: Harvest entry was successfully updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Success message
+ *                  example: Harvest entry updated successfully
+ *                harvest_logid:
+ *                  type: string
+ *                  description: The UUID of the updated harvest entry
+ *                  example: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: error message
+ *                   example: An error occurred
+ *      500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: error object
+ *                  message:
+ *                    type: string
+ *                    description: error message
+ *                    example: Internal server error
+ */
 router.post(
   '/harvest/update',
   [
@@ -383,6 +752,56 @@ router.post(
   }
 );
 
+/**
+ * @swagger
+ * /app/api/v1/harvest/delete:
+ *  post:
+ *    summary: Deletes harvest entry from the database
+ *    tags: [Harvest]
+ *    requestBody:
+ *      $ref: '#/components/requestBodies/HarvestLogID'
+ *    responses:
+ *      200:
+ *        description: Harvest entry was successfully deleted
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Success message
+ *                  example: Harvest entry deleted successfully!
+ *                harvest_logid:
+ *                  type: string
+ *                  description: The id of the deleted harvest entry
+ *                  example: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: error message
+ *                   example: An error occurred
+ *      500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: error object
+ *                  message:
+ *                    type: string
+ *                    description: error message
+ *                    example: Internal server error
+ */
 router.post(
   '/harvest/delete',
   [check('harvest_logid', 'Harvest ID value is not valid').not().isEmpty().trim().escape()],
@@ -413,6 +832,60 @@ router.post(
   }
 );
 
+/**
+ * @swagger
+ * /app/api/v1/harvest/save/whatsapp:
+ *  post:
+ *    summary: Creates a new harvest entry in the database
+ *    tags: [Harvest]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Harvest'
+ *    responses:
+ *      201:
+ *        description: Harvest entry was successfully created
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Success message
+ *                  example: Harvest created successfully
+ *                harvest_logid:
+ *                  type: string
+ *                  description: The UUID of the created harvest entry
+ *                  example: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: error message
+ *                   example: An error occurred
+ *      500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: error object
+ *                  message:
+ *                    type: string
+ *                    description: error message
+ *                    example: Internal server error
+ */
 router.post('/harvest/save/whatsapp', async function (req, res) {
   let harvest_logid_uuid = uuidv4();
   let harvest_TimeStamp = moment(new Date(req.body.harvest_date)).format('YYYY-MM-DD');
@@ -470,6 +943,49 @@ router.post('/harvest/save/whatsapp', async function (req, res) {
   }
 });
 
+/**
+ * @swagger
+ * /app/api/v1/harvest/whatsapp:
+ *  get:
+ *    summary: Returns a list of harvest entries for the supplied harvest id
+ *    tags: [Harvest]
+ *    requestBody:
+ *      $ref: '#/components/requestBodies/HarvestLogID'
+ *    responses:
+ *      200:
+ *        description: The list of harvest items
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Harvest'
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: An error occurred
+ *      500:
+ *        description: An internal server error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: object
+ *                  description: Error object
+ *                message:
+ *                  type: string
+ *                  description: Error message
+ *                  example: Internal server error
+ */
 router.get('/harvest/whatsapp', function (req, res, next) {
   try {
     models.FoodprintHarvest.findAll({
@@ -499,10 +1015,48 @@ router.get('/harvest/whatsapp', function (req, res, next) {
   }
 });
 
-/*
- *  STORAGE ROUTES
- */
 
+/**
+ * @swagger
+ * /app/api/v1/storage:
+ *  get:
+ *    summary: Returns a list of all the storage items
+ *    tags: [Storage]
+ *    responses:
+ *      200:
+ *        description: The list of storage items
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Storage'
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: An error occurred
+ *      500:
+ *        description: An internal server error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: object
+ *                  description: Error object
+ *                message:
+ *                  type: string
+ *                  description: Error message
+ *                  example: Internal server error
+ */
 router.get('/storage', function (req, res, next) {
   try {
     models.FoodprintStorage.findAll({
@@ -524,6 +1078,60 @@ router.get('/storage', function (req, res, next) {
   }
 });
 
+/**
+ * @swagger
+ * /app/api/v1/storage/save:
+ *  post:
+ *    summary: Creates a new storage entry in the database
+ *    tags: [Storage]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Storage'
+ *    responses:
+ *      201:
+ *        description: Storage entry was successfully created
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Success message
+ *                  example: New Storage entry added successfully
+ *                storage_logid:
+ *                  type: string
+ *                  description: The id of the created storage entry
+ *                  example: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: error message
+ *                   example: An error occurred
+ *      500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: error object
+ *                  message:
+ *                    type: string
+ *                    description: error message
+ *                    example: Internal server error
+ */
 router.post(
   '/storage/save',
   [
@@ -712,7 +1320,60 @@ router.post(
   }
 );
 
-//route for update data
+/**
+ * @swagger
+ * /app/api/v1/storage/update:
+ *  post:
+ *    summary: Updates Storage entry in the database
+ *    tags: [Storage]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Storage'
+ *    responses:
+ *      200:
+ *        description: Storage entry was successfully updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Success message
+ *                  example: Storage entry updated successfully
+ *                storage_logid:
+ *                  type: string
+ *                  description: The id of the updated storage entry
+ *                  example: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: error message
+ *                   example: An error occurred
+ *      500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: error object
+ *                  message:
+ *                    type: string
+ *                    description: error message
+ *                    example: Internal server error
+ */
 router.post(
   '/storage/update',
   [
@@ -852,6 +1513,56 @@ router.post(
   }
 );
 
+/**
+ * @swagger
+ * /app/api/v1/storage/delete:
+ *  post:
+ *    summary: Deletes a storage entry from the database
+ *    tags: [Storage]
+ *    requestBody:
+ *      $ref: '#/components/requestBodies/StorageLogID'
+ *    responses:
+ *      200:
+ *        description: Storage entry was successfully deleted
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Success message
+ *                  example: Storage entry deleted successfully
+ *                storage_logid:
+ *                  type: string
+ *                  description: The id of the deleted storage entry
+ *                  example: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: error message
+ *                   example: An error occurred
+ *      500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: error object
+ *                  message:
+ *                    type: string
+ *                    description: error message
+ *                    example: Internal server error
+ */
 router.post(
   '/storage/delete',
   [check('storage_logid', 'Storage ID value is not valid').not().isEmpty().trim().escape()],
@@ -882,6 +1593,60 @@ router.post(
   }
 );
 
+/**
+ * @swagger
+ * /app/api/v1/storage/save/whatsapp:
+ *  post:
+ *    summary: Creates a new storage entry in the database
+ *    tags: [Storage]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Storage'
+ *    responses:
+ *      201:
+ *        description: Storage entry was successfully created
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Success message
+ *                  example: Storage entry created successfully
+ *                storage_logid:
+ *                  type: string
+ *                  description: The id of the created storage entry
+ *                  example: b0773049-a975-4a7b-af6c-f994c54ac53d
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: error message
+ *                   example: An error occurred
+ *      500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: error object
+ *                  message:
+ *                    type: string
+ *                    description: error message
+ *                    example: Internal server error
+ */
 router.post('/storage/save/whatsapp', function (req, res) {
   let storage_logid_uuid = uuidv4();
   let storage_TimeStamp = moment(new Date(req.body.storage_date)).format('YYYY-MM-DD');
@@ -940,6 +1705,49 @@ router.post('/storage/save/whatsapp', function (req, res) {
   }
 });
 
+/**
+ * @swagger
+ * /app/api/v1/storage/whatsapp:
+ *  get:
+ *    summary: Returns a list of storage entries for the supplied storage id
+ *    tags: [Storage]
+ *    requestBody:
+ *      $ref: '#/components/requestBodies/StorageLogID'
+ *    responses:
+ *      200:
+ *        description: The list of storage items
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Storage'
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: An error occurred
+ *      500:
+ *        description: An internal server error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: object
+ *                  description: Error object
+ *                message:
+ *                  type: string
+ *                  description: Error message
+ *                  example: Internal server error
+ */
 router.get('/storage/whatsapp', function (req, res, next) {
   try {
     models.FoodprintStorage.findAll({
@@ -964,8 +1772,53 @@ router.get('/storage/whatsapp', function (req, res, next) {
   }
 });
 
-/*
- * QR COUNT
+
+/**
+ * @swagger
+ * /app/api/v1/qrcount/scans/{startDate}:
+ *    get:
+ *      summary: Get a list of scanned QR Codes and scan count from the start date upto current date
+ *      tags: [QRCount]
+ *      parameters:
+ *        - in: path
+ *          name: startDate
+ *          schema:
+ *            type: string
+ *            example: 2021-11-24
+ *          required: true
+ *          description: The start date to query the database against in the format yyyy-mm-dd
+ *      responses:
+ *        200:
+ *          description: The list of scanned QR Codes with their respective scan count
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *        400:
+ *           description: An error happened whilst querying the database
+ *           content:
+ *             application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    message:
+ *                      type: string
+ *                      description: Error message
+ *                      example: An error occurred
+ *        500:
+ *          description: An internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: Error object
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: Internal server error
  */
 
 router.get('/qrcount/scans/:startDate', function (req, res) {
