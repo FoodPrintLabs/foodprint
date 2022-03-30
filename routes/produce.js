@@ -60,7 +60,7 @@ router.get(
 /* GET Produce Price Page */
 /* GET Produce page. */
 router.get(
-  '/price',
+  '/pricepage',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
