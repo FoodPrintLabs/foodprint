@@ -960,4 +960,32 @@ router.get('/logout', function (req, res) {
   res.status(200).json({ message: 'You are now logged out' });
 });
 
+/*
+ * PRODUCE/PRICE
+ */
+router.get('/price', function (req, res) {
+  try {
+    models.FoodprintProducePrice.findAll({
+      order: [['pk', 'DESC']],
+    })
+      .then(rows => {
+        if (rows.length === 0) {
+          res.status(200).json([]);
+        } else {
+          res.status(200).json(rows);
+        }
+      })
+      .catch(err => {
+        res.status(400).json({
+          message: err.message,
+        });
+      });
+  } catch (e) {
+    res.status(500).json({
+      error: e,
+      message: 'Internal Server Error',
+    });
+  }
+});
+
 module.exports = router;
