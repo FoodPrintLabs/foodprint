@@ -208,8 +208,8 @@ describe('Harvest', function() {
     });
   });
 
-  describe('/GET harvest/whatsapp', () => {
-    it('should GET all the harvest', (done) => {
+  describe('/POST harvest/whatsapp', () => {
+    it('should return a harvest entry for the supplied harvest id', (done) => {
 
       let harvest = {
         harvest_farmerName: 'Bergsoom Farm',
@@ -234,7 +234,7 @@ describe('Harvest', function() {
           };
 
           chai.request(server)
-            .get('/app/api/v1/harvest/whatsapp')
+            .post('/app/api/v1/harvest/whatsapp')
             .send(data)
             .end((err, res) => {
               res.should.have.status(200);
@@ -549,8 +549,8 @@ describe('Storage', function() {
     });
   });
 
-  describe('/GET storage/whatsapp', () => {
-    it('should GET all the storage', (done) => {
+  describe('/POST storage/whatsapp', () => {
+    it('should return a storage entry for the supplied id', (done) => {
       let storage = {
         harvest_supplierShortcode: 'OZCF',
         supplierproduce: 'OZCF_Beetroot',
@@ -574,7 +574,7 @@ describe('Storage', function() {
           };
 
           chai.request(server)
-            .get('/app/api/v1/storage/whatsapp')
+            .post('/app/api/v1/storage/whatsapp')
             .send(data)
             .end((err, res) => {
               res.should.have.status(200);

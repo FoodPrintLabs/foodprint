@@ -880,8 +880,8 @@ router.post('/harvest/save/whatsapp', async function (req, res) {
 /**
  * @swagger
  * /app/api/v1/harvest/whatsapp:
- *  get:
- *    summary: Returns a list of harvest entries for the supplied harvest id
+ *  post:
+ *    summary: Returns harvest entry for the supplied harvest id
  *    tags: [Harvest]
  *    requestBody:
  *      $ref: '#/components/requestBodies/HarvestLogID'
@@ -923,7 +923,7 @@ router.post('/harvest/save/whatsapp', async function (req, res) {
  *                  description: Error message
  *                  example: Internal server error
  */
-router.get('/harvest/whatsapp', function (req, res, next) {
+router.post('/harvest/whatsapp', function (req, res, next) {
   try {
     models.FoodprintHarvest.findAll({
       attributes: [
@@ -1645,8 +1645,8 @@ router.post('/storage/save/whatsapp', function (req, res) {
 /**
  * @swagger
  * /app/api/v1/storage/whatsapp:
- *  get:
- *    summary: Returns a list of storage entries for the supplied storage id
+ *  post:
+ *    summary: Returns a storage entry for the supplied storage id
  *    tags: [Storage]
  *    requestBody:
  *      $ref: '#/components/requestBodies/StorageLogID'
@@ -1688,7 +1688,7 @@ router.post('/storage/save/whatsapp', function (req, res) {
  *                  description: Error message
  *                  example: Internal server error
  */
-router.get('/storage/whatsapp', function (req, res, next) {
+router.post('/storage/whatsapp', function (req, res, next) {
   try {
     models.FoodprintStorage.findAll({
       attributes: ['supplierproduce', 'market_quantity', 'market_unitOfMeasure', 'logdatetime'],
