@@ -10,7 +10,7 @@ let sequelise = require('../config/db/db_sequelise');
 const { Op } = require('sequelize');
 let models = initModels(sequelise);
 const { Sequelize } = require('sequelize');
-var passport = require('passport');
+let passport = require('passport');
 
 
 /**
@@ -27,98 +27,62 @@ var passport = require('passport');
  *        - harvest_produceName
  *        - harvest_supplierAddress
  *        - harvest_farmerName
- *        - harvest_year_established
- *        - harvest_covid19_response
  *        - harvest_timestamp
  *        - harvest_capturetime
  *        - harvest_description
  *        - harvest_geolocation
  *        - harvest_quantity
  *        - harvest_unitofmeasure
- *        - harvest_blockchainhashid
- *        - harvest_blockchainhashdata
- *        - harvest_bool_added_to_blockchain
- *        - harvest_added_to_blockchain_date
- *        - harvest_added_to_blockchain_by
- *        - harvest_blockchain_uuid
- *        - harvest_user
- *        - logdatetime
- *        - lastmodifieddatetime
  *      properties:
  *        harvest_logid:
  *          type: string
- *          description: The auto generated id of the harvest entry
  *        harvest_supplierShortcode:
  *          type: string
- *          description: The supplier shortcode
  *        harvest_supplierName:
  *          type: string
- *          description: Supplier name
  *        supplierproduce:
  *          type: string
- *          description: Supplier produce
  *        harvest_produceName:
  *          type: string
- *          description: Harverst produce name
  *        harvest_supplierAddress:
  *          type: string
- *          description: Harvest supplier address
  *        harvest_farmerName:
  *          type: string
- *          description: Harverst farmer name
  *        harvest_year_established:
  *          type: string
- *          description: Year farm established
  *        harvest_covid19_response:
  *          type: string
- *          description: Covid19 response
  *        harvest_timestamp:
  *          type: string
- *          description: Harvest timestamp
  *        harvest_capturetime:
  *          type: string
- *          description: Harvest capture time
  *        harvest_description:
  *          type: string
- *          description: Harvest description
  *        harvest_geolocation:
  *          type: string
- *          description: Harvest geolocation
  *        harvest_quantity:
  *          type: string
- *          description: Harvest quantity
  *        harvest_unitofmeasure:
  *          type: string
- *          description: Harvest unit of measure
  *        harvest_blockchainhashid:
  *          type: string
- *          description: Harvest blockchain hash id
  *        harvest_blockchainhashdata:
  *          type: string
- *          description: Harvest blockchain hash data
  *        harvest_bool_added_to_blockchain:
  *          type: string
- *          description: Harvest added to blockchain
  *        harvest_added_to_blockchain_date:
  *          type: string
- *          description: Harvest added to blockchain date
  *        harvest_added_to_blockchain_by:
  *          type: string
- *          description: Harvest added to blockchain by
  *        harvest_blockchain_uuid:
  *          type: string
- *          description: Harvest blockchain uuid
  *        harvest_user:
  *          type: string
- *          description: User who added the harvest
  *        logdatetime:
  *          type: string
- *          description: Date and time the harvest was added
  *        lastmodifieddatetime:
  *          type: string
- *          description: Date and time the record was last modified
  *      example:
- *        harvest_logid: 615ecb84-1d7b-461f-a1e8-ff41be2a1ecb
  *        harvest_supplierShortcode: OZCF
  *        harvest_supplierName: Oranjezicht City Farm
  *        supplierproduce: OZCF_Beetroot
@@ -146,7 +110,6 @@ var passport = require('passport');
  *       type: object
  *       required:
  *         - harvest_logid
- *         - harvest_logid
  *         - harvest_supplierShortcode
  *         - supplierproduce
  *         - market_Shortcode
@@ -157,76 +120,48 @@ var passport = require('passport');
  *         - market_storageTimeStamp
  *         - market_storageCaptureTime
  *         - market_URL
- *         - storage_BlockchainHashID
- *         - storage_BlockchainHashData
  *         - storage_Description
- *         - storage_bool_added_to_blockchain
- *         - storage_added_to_blockchain_by
- *         - storage_blockchain_uuid
- *         - storage_user
- *         - logdatetime
- *         - lastmodifieddatetime
  *       properties:
  *          harvest_logid:
  *            type: string
- *            description: ----
  *          harvest_supplierShortcode:
  *            type: string
- *            description: ----
  *          supplierproduce:
  *            type: string
- *            description: ----
  *          market_Shortcode:
  *            type: string
- *            description: ----
  *          market_Name:
  *            type: string
- *            description: ----
  *          market_Address:
  *            type: string
- *            description: ----
  *          market_quantity:
  *            type: string
- *            description: ----
  *          market_unitOfMeasure:
  *            type: string
- *            description: ----
  *          market_storageTimeStamp:
  *            type: string
- *            description: ----
  *          market_storageCaptureTime:
  *            type: string
- *            description: ----
  *          market_URL:
  *            type: string
- *            description: ----
  *          storage_BlockchainHashID:
  *            type: string
- *            description: ----
  *          storage_BlockchainHashData:
  *            type: string
- *            description: ----
  *          storage_Description:
  *            type: string
- *            description: ----
  *          storage_bool_added_to_blockchain:
  *            type: string
- *            description: ----
  *          storage_added_to_blockchain_by:
  *            type: string
- *            description: ----
  *          storage_blockchain_uuid:
  *            type: string
- *            description: ----
  *          storage_user:
  *            type: string
- *            description: ----
  *          logdatetime:
  *            type: string
- *            description: ----
  *          lastmodifieddatetime:
  *            type: string
- *            description: ----
  *       example:
  *          harvest_logid: b0773049-a975-4a7b-af6c-f994c54ac53d
  *          harvest_supplierShortcode: OZCF
@@ -283,8 +218,7 @@ var passport = require('passport');
  *  - name: Storage
  *    description: Storage API
  *  - name: QRCount
- *    description: QR Count
- *
+ *    description: QR Count API
  */
 
 /**
@@ -958,8 +892,11 @@ router.post('/harvest/save/whatsapp', async function (req, res) {
  *          application/json:
  *            schema:
  *              type: array
- *              items:
- *                $ref: '#/components/schemas/Harvest'
+ *              example:
+ *                - harvest_produceName: Beetroot
+ *                  harvest_quantity: 60
+ *                  harvest_unitOfMeasure: kilogram
+ *                  logdatetime: 2022-01-23T07:25:00.000Z
  *      400:
  *         description: An error happened whilst querying the database
  *         content:
@@ -1720,8 +1657,11 @@ router.post('/storage/save/whatsapp', function (req, res) {
  *          application/json:
  *            schema:
  *              type: array
- *              items:
- *                $ref: '#/components/schemas/Storage'
+ *              example:
+ *                - supplierproduce: OZCF_Beetroot
+ *                  market_quantity: 60
+ *                  market_unitOfMeasure: kilogram
+ *                  logdatetime: 2022-01-23T09:24:46.000Z
  *      400:
  *         description: An error happened whilst querying the database
  *         content:
