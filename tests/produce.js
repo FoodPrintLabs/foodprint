@@ -9,7 +9,7 @@ var models = initModels(sequelise);
 // Insert all produce
 // Raw SQL: SELECT harvest_logid', 'harvest_produceName' FROM foodprint_harvest;
 const InsertProduce = async () => {
-  models.FoodprintProduce.bulkCreate([
+  const produce = await models.FoodprintProduce.bulkCreate([
     { pk: 1, produce_name: 'Artichoke', produce_type: 'FANCY VEG' },
     { pk: 2, produce_name: 'Asparagus', produce_type: 'FANCY VEG' },
     { pk: 3, produce_name: 'Basil', produce_type: 'HERBS' },
@@ -152,7 +152,7 @@ const InsertProduce = async () => {
   ]).then(() => console.log('Produce data has been saved'));
 };
 const InsertProducePrice = async () => {
-  models.FoodprintProducePrice.bulkCreate([
+  const producePrice = await models.FoodprintProducePrice.bulkCreate([
     {
       pk: 1,
       produce_name: 'Artichoke',
@@ -1136,7 +1136,7 @@ const createTables = async () => {
 };
 
 const run = async () => {
-  //await createTables();
+  await createTables();
   await InsertProduce();
   await InsertProducePrice();
   await process.exit();
