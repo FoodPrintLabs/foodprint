@@ -33,19 +33,19 @@ const swaggerDefinition = {
     description: 'Foodprint API to allow external apps to communicate with Foodprint',
     license: {
       name: 'Licensed Under MIT',
-      url: 'https://github.com/FoodPrintLabs/foodprint/blob/master/LICENSE'
+      url: 'https://github.com/FoodPrintLabs/foodprint/blob/master/LICENSE',
     },
     contact: {
       name: 'Foodprint Labs',
-      url: 'https://github.com/FoodPrintLabs'
-    }
+      url: 'https://github.com/FoodPrintLabs',
+    },
   },
   servers: [
     {
-      url: "http://localhost:3000",
-      description: "dev"
-    }
-  ]
+      url: 'http://localhost:3000',
+      description: 'dev',
+    },
+  ],
 };
 
 const swaggerOptions = {
@@ -68,6 +68,7 @@ var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
 var websiteRouter = require('./routes/website');
 var apiV1Router = require('./routes/api_v1');
+var produceRouter = require('./routes/produce');
 
 // enable ssl redirect
 app.use(
@@ -144,6 +145,7 @@ app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
 app.use('/app/harvest', harvestRouter);
 app.use('/app/storage', storageRouter);
+app.use('/app/produce', produceRouter);
 app.use('/app/dashboards', dashboardsRouter);
 
 app.use('/', websiteRouter);
