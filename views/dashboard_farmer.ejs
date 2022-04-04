@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ./partials/head %>
+    <script async>
+      async function showGraph(option)
+{     
+  if(option == 'harvest')
+    { document.getElementById('harvesttable').style.display = "block";
+      document.getElementById('harvesttable_heading').style.display = "block"
+      document.getElementById('storagetable').style.display = "none";
+      document.getElementById('storagetable_heading').style.display = "none";
+  }
+  if(option == 'storage')
+    { document.getElementById('harvesttable').style.display = "none";
+      document.getElementById('harvesttable_heading').style.display = "none";
+      document.getElementById('storagetable').style.display = "block";
+      document.getElementById('storagetable_heading').style.display = "block"
+  }
+
+}
+function activatefilter(month) {
+      window.location = '/app/dashboards/farmer/filter/'+ month;}
+
+function removefilter() {
+      window.location = '/app/dashboards/farmer'}
+
+</script>
+  </head>
+  <body>
+    <!-- START: header -->
+
+    <div class="probootstrap-loader"></div>
+
+    <header role="banner" class="probootstrap-header"><% include ./partials/header %></header>
+    <!-- END: header -->
+
+    <div class="container" style="width: 100%">
+      <div class="row align-items-center justify-content-center">
+        <!-- START FARMER DASHBOARD-->
+        <div class="col-md-12">
+          <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
+          <h3 class="heading text-center">Farmer Dashboard</h3>
+        </div>
+        <div class="row my-5 align-items-center justify-content-center">
+          <!--Farmer Harvests Card-->
+          <div class="col-3 col-lg-3 col-xl-3">
+            <div class="card border-0">
+              <div class="card-body text-center py-4">
+                <h4 class="card-title">My Harvests</h4>
+                <p class="lead card-subtitle">Total</p>
+                <h4 class="display-5 my-4 text-primary fw-bold"><%=harvest_data.length %></h4>
+                <button class="btn btn-outline-primary btn-lg mt-3" onclick="showGraph('harvest')">Harvest Data</button>
+              </div>
+            </div>
+          </div>
+          <!--Farmer Supply Handover Card-->
+          <div class="col-3 col-lg-3 col-xl-3">
+            <div class="card border-0">
+              <div class="card-body text-center py-4">
+                <h4 class="card-title">My Handovers</h4>
+                <p class="lead card-subtitle">Total</p>
+                <h4 class="display-5 my-4 text-primary fw-bold"><%=storage_data.length %></h4>
+                <button  class="btn btn-outline-primary btn-lg mt-3" onclick="showGraph('storage')">Handover Data</button>
+              </div>
+            </div>
+          </div>
+
+          <!--Farmer Recent Activity Card-->
+          <div class="col-6 col-lg-6 col-xl-6">
+            <h4 class="card-title">Recent Activity</h4>
+            <table class="table table-dark table-striped">
+              <thead>
+                <th>Activity</th>
+                <th>Activity ID</th>
+                <th>Supplier</th>
+                <th>Produce</th>
+              </thead>
+              <tbody>
+                <% if(harvest_data.length){ %>
+                    <tr>
+                      
+                      <td style="width: 20%;">Harvest</td>
+                      <td style="width: 40%;"><%= harvest_data[(harvest_data.length) -1].harvest_logid %></td>
+                      <td style="width: 20%;"><%= harvest_data[(harvest_data.length) -1].harvest_supplierName %></td>
+                      <td style="width: 20%;"><%= harvest_data[(harvest_data.length) -1].harvest_produceName %></td>
+                      </tbody>
+              </tr>
+              <% 
+                 }else{ %>
+                     <tr>
+                        <td colspan="5">No Data</td>
+                     </tr>
+                  <% } %>
+            </table>
+                  <table class="table table-dark table-striped">
+                    <thead>
+                      <th>Activity</th>
+                      <th>Activity ID</th>
+                      <th>Market</th>
+                      <th>Produce</th>
+                    </thead>
+                    <tbody>
+                  <% if(storage_data.length){ %>
+                    <tr>
+                      
+                      <td style="width: 20%;">Storage</td>
+                      <td style="width: 40%;"><%= storage_data[(storage_data.length) -1].storage_logid %></td>
+                      <td style="width: 20%;"><%= storage_data[(storage_data.length) -1].market_Shortcode %></td>
+                      <td style="width: 20%;"><%= storage_data[(storage_data.length) -1].supplierproduce %></td>
+                      </tbody>
+              </tr>
+              <% 
+                 }else{ %>
+                     <tr>
+                        <td colspan="5">No Data</td>
+                     </tr>
+                  <% } %>
+            </table>
+          </div>
+        </div>
+        <!--Table of Data ie: Harvests or storage-->
+        <div class="col-12 col-lg-12 col-xl-12">
+          <div id="harvesttable_heading" style="display: none;">
+          <h4 class="card-title"  >Harvest Data</h4>
+          <button onclick="removefilter()" class="btn btn-sm mt-3">All</button>
+          <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3">1 month</button>
+            <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3">3 month</button>
+              <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3">6 month</button>
+                <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3">1 year</button>
+          </div>
+          <table class="table table-dark table-striped" id="harvesttable"  style="display: none;">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Harvest ID</th>
+                  <th scope="col">Harvest Datetime</th>
+                  <th scope="col">Supplier</th>
+                  <th scope="col">Produce</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(harvest_data.length){
+
+                    for(var i = 0; i< harvest_data.length; i++) {%>
+                    <tr>
+                      <td scope="harvest_rows" style="width: 3%;"><%= (i+1) %></td>
+                      <td style="width: 25%;"><%= harvest_data[i].harvest_logid %></td>
+                      <td style="width: 39%;"><%= harvest_data[i].harvest_TimeStamp %></td>
+                      <td style="width: 20%;"><%= harvest_data[i].harvest_supplierName %></td>
+                      <td style="width: 7%;"><%= harvest_data[i].harvest_produceName %></td>
+                      <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                          <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')"  class="btn btn-xs btn-info view"
+                             id="<%= ("harvest_view_" + harvest_data[i].harvest_logid) %>"
+                             harvest_data-harvest_logid="<%= harvest_data[i].harvest_logid%>"
+                            harvest_data-harvest_suppliershortcode="<%=harvest_data[i].harvest_supplierShortcode%>"
+                            harvest_data-harvest_suppliername="<%=harvest_data[i].harvest_supplierName%>"
+                            harvest_data-harvest_farmername="<%=harvest_data[i].harvest_farmerName%>"
+                            harvest_data-harvest_supplieraddress="<%=harvest_data[i].harvest_supplierAddress%>"
+                            harvest_data-harvest_producename="<%=harvest_data[i].harvest_produceName%>"
+                            harvest_data-harvest_photohash="<%=harvest_data[i].harvest_photoHash%>"
+                            harvest_data-harvest_timestamp="<%=harvest_data[i].harvest_TimeStamp%>"
+                            harvest_data-harvest_capturetime="<%=harvest_data[i].harvest_CaptureTime%>"
+                            harvest_data-harvest_description="<%=harvest_data[i].harvest_Description%>"
+                            harvest_data-harvest_geolocation="<%=harvest_data[i].harvest_geolocation%>"
+                            harvest_data-harvest_quantity="<%=harvest_data[i].harvest_quantity%>"
+                            harvest_data-harvest_unitofmeasure="<%=harvest_data[i].harvest_unitOfMeasure%>"
+                            harvest_data-harvest_description_json="<%=harvest_data[i].harvest_description_json%>"
+                            harvest_data-harvest_blockchainhashid="<%=harvest_data[i].harvest_BlockchainHashID%>"
+                            harvest_data-harvest_blockchainhashdata="<%=harvest_data[i].harvest_BlockchainHashData%>"
+                            harvest_data-supplierproduce="<%=harvest_data[i].supplierproduce%>"
+                            harvest_data-harvest_bool_added_to_blockchain="<%=harvest_data[i].harvest_bool_added_to_blockchain%>"
+                            harvest_data-harvest_added_to_blockchain_date="<%=harvest_data[i].harvest_added_to_blockchain_date%>"
+                            harvest_data-harvest_added_to_blockchain_by="<%=harvest_data[i].harvest_added_to_blockchain_by%>"
+                            harvest_data-harvest_blockchain_uuid="<%=harvest_data[i].harvest_blockchain_uuid%>"
+                            harvest_data-harvest_user="<%=harvest_data[i].harvest_user%>"
+                            harvest_data-year_established="<%=harvest_data[i].year_established%>"
+                            harvest_data-covid19_response="<%=harvest_data[i].covid19_response%>"
+                            harvest_data-logdatetime="<%=harvest_data[i].logdatetime%>"
+                            harvest_data-lastmodifieddatetime="<%=harvest_data[i].lastmodifieddatetime%>">
+                            View</a>
+                          </div>
+                      </td>
+                    </tr>
+                    <% }
+                 }else{ %>
+                     <tr>
+                        <td colspan="5">No Data</td>
+                     </tr>
+                  <% } %>
+              </tbody>
+          </table>
+          </div>
+        <!--STORAGE DATA-->
+        <div class="col-12 col-lg-12 col-xl-12">
+          <div id="storagetable_heading" style="display: none;">
+            <h4 class="card-title"  >Storage Data</h4>
+            <button onclick="removefilter()" class="btn btn-sm mt-3">All</button>
+            <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3">1 month</button>
+              <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3">3 month</button>
+                <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3">6 month</button>
+                  <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3">1 year</button>
+            </div>
+        <table class="table table-dark table-striped table-condensed table-responsive" id="storagetable" style="display: none;">
+          <thead>
+            <tr>
+              <th scope="col" >#</th>
+              <th scope="col">Storage ID</th>
+              <th scope="col">Storage Datetime</th>
+              <th scope="col">Shortcode</th>
+              <th scope="col">Produce</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(storage_data.length){
+                for(var i = 0; i< storage_data.length; i++) {%>
+                <tr>
+                  <td scope="storage_rows" style="width: 5%;"><%= (i+1) %></td>
+                  <!-- <td><%= storage_data[i].harvest_logid %></td> -->
+                  <td style="width: 23%;"><%= storage_data[i].storage_logid %></td>
+                  <td style="width: 35%;"><%= storage_data[i].market_storageTimeStamp %></td>
+                  <td style="width: 8%;"><%= storage_data[i].harvest_supplierShortcode %></td>
+                  <td style="width: 15%;"><%= storage_data[i].supplierproduce %></td>
+                  <td style="width: 5%;">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                      <a onclick="ShowStorageModal(this, 'view', 'View Storage Entry','viewCSS')"  class="btn btn-xs btn-info view"
+                        id="<%= ("storage_view_" + storage_data[i].storage_logid) %>"
+                        storage_data-harvest_logid="<%= storage_data[i].harvest_logid%>"
+                        storage_data-harvest_suppliershortcode="<%=storage_data[i].harvest_supplierShortcode%>"
+                        storage_data-supplierproduce="<%=storage_data[i].supplierproduce%>"
+                        storage_data-storage_logid="<%=storage_data[i].storage_logid%>"
+                        storage_data-market_shortcode="<%=storage_data[i].market_Shortcode%>"
+                        storage_data-market_name="<%=storage_data[i].market_Name%>"
+                        storage_data-market_address="<%=storage_data[i].market_Address%>"
+                        storage_data-market_quantity="<%=storage_data[i].market_quantity%>"
+                        storage_data-market_unitofmeasure="<%=storage_data[i].market_unitOfMeasure%>"
+                        storage_data-market_storagetimestamp="<%=storage_data[i].market_storageTimeStamp%>"
+                        storage_data-market_storagecapturetime="<%=storage_data[i].market_storageCaptureTime%>"
+                        storage_data-market_url="<%=storage_data[i].market_URL%>"
+                        storage_data-storage_blockchainhashid="<%=storage_data[i].storage_BlockchainHashID%>"
+                        storage_data-storage_blockchainhashdata="<%=storage_data[i].storage_BlockchainHashData%>"
+                        storage_data-storage_description="<%=storage_data[i].storage_Description%>"
+                        storage_data-storage_bool_added_to_blockchain="<%=storage_data[i].storage_bool_added_to_blockchain%>"
+                        storage_data-storage_added_to_blockchain_date="<%=storage_data[i].storage_added_to_blockchain_date%>"
+                        storage_data-storage_added_to_blockchain_by="<%=storage_data[i].storage_added_to_blockchain_by%>"
+                        storage_data-storage_blockchain_uuid="<%=storage_data[i].storage_blockchain_uuid%>"
+                        storage_data-storage_user="<%=storage_data[i].storage_user%>"
+                        storage_data-logdatetime="<%=storage_data[i].logdatetime%>"
+                        storage_data-lastmodifieddatetime="<%=storage_data[i].lastmodifieddatetime%>">
+                        View</a>
+                      </div>
+                  </td>
+                </tr>
+                <% }
+            }else{ %>
+                <tr>
+                    <td colspan="5">No Data</td>
+                </tr>
+              <% } %>
+          </tbody>
+        </table>
+        </div>
+         
+        <!--End of container-->
+        </div>
+        <!-- END FARMER DASHBOARD-->
+    </div>
+
+    <!-- start footer -->
+    <% include ./partials/footer %>
+    <!-- end footer -->
+
+    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+    <script src="/js/main.min.js"></script>
+    <script src="/js/custom.js"></script>
+  </body>
+</html>
