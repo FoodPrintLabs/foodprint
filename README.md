@@ -91,21 +91,24 @@ $npm install
     "password": <PASSWORD>,
     "database": <DATABASENAME>,
     "host": <HOSTNAME>,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": true
   },
   "test": {
     "username": <USERNAME>,
     "password": <PASSWORD>,
     "database": <DATABASENAME>,
     "host": <HOSTNAME>,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   },
   "production": {
     "username": <USERNAME>,
     "password": <PASSWORD>,
     "database": <DATABASENAME>,
     "host": <HOSTNAME>,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   }
 }
 ```
