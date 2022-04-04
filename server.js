@@ -14,6 +14,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
 var sequelise = require('./config/db/db_sequelise');
 
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 //only load the .env file if the server isn’t started in production mode
 if (process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION) {
   require('dotenv').config();
@@ -21,6 +24,37 @@ if (process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION) {
 
 // const uuidv4 = require('uuid/v4')
 var db = require('./config/passport/localdb');
+
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Foodprint API',
+    version: '1.0.0',
+    description: 'Foodprint API to allow external apps to communicate with Foodprint',
+    license: {
+      name: 'Licensed Under MIT',
+      url: 'https://github.com/FoodPrintLabs/foodprint/blob/master/LICENSE'
+    },
+    contact: {
+      name: 'Foodprint Labs',
+      url: 'https://github.com/FoodPrintLabs'
+    }
+  },
+  servers: [
+    {
+      url: "http://localhost:3000",
+      description: "dev"
+    }
+  ]
+};
+
+const swaggerOptions = {
+  swaggerDefinition,
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpecs = swaggerJSDoc(swaggerOptions);
+
 var app = express();
 var configRouter = require('./routes/config');
 var harvestRouter = require('./routes/harvest');
@@ -100,6 +134,8 @@ app.use(function (req, res, next) {
   res.locals.success = req.flash('success');
   next();
 });
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 // Mount routers
 app.use('/', router);
@@ -253,3 +289,5 @@ sequelise
     app.listen(PORT, console.log(`Server started on port ${PORT}`));
   })
   .catch(err => console.log('Error synching models: ' + err));
+
+module.exports = app;
