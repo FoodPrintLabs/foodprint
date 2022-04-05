@@ -21,7 +21,7 @@ router.get(
   '/admin',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Admin) {
+    if (req.user.role === ROLES.Admin && ROLES.Superuser) {
       models.FoodprintHarvest.findAll({
         order: [['pk', 'DESC']],
       })
@@ -68,7 +68,7 @@ router.get(
   '/admin/filter/:range',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Admin) {
+    if (req.user.role === ROLES.Admin && ROLES.Superuser) {
       //Dates
       let start_date = 0;
       let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
@@ -80,6 +80,7 @@ router.get(
         start_date = moment(new Date()).subtract('6', 'months').format('YYYY-MM-DD HH:mm:ss');
       } else if (req.params.range == '1-year') {
         start_date = moment(new Date()).subtract('1', 'years').format('YYYY-MM-DD HH:mm:ss');
+      } else {
       }
 
       //Query
