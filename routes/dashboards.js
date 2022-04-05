@@ -70,17 +70,20 @@ router.get(
   function (req, res, next) {
     if (req.user.role === ROLES.Admin && ROLES.Superuser) {
       //Dates
-      let start_date = 0;
+      let current_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+      let start_date = null;
       let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
       if (req.params.range == '1-month') {
-        start_date = moment(new Date()).subtract('1', 'months').format('YYYY-MM-DD HH:mm:ss');
+        start_date = moment(current_date).subtract('1', 'months').format('YYYY-MM-DD HH:mm:ss');
       } else if (req.params.range == '3-month') {
-        start_date = moment(new Date()).subtract('3', 'months').format('YYYY-MM-DD HH:mm:ss');
+        start_date = moment(current_date).subtract('3', 'months').format('YYYY-MM-DD HH:mm:ss');
       } else if (req.params.range == '6-month') {
-        start_date = moment(new Date()).subtract('6', 'months').format('YYYY-MM-DD HH:mm:ss');
+        start_date = moment(current_date).subtract('6', 'months').format('YYYY-MM-DD HH:mm:ss');
       } else if (req.params.range == '1-year') {
-        start_date = moment(new Date()).subtract('1', 'years').format('YYYY-MM-DD HH:mm:ss');
+        start_date = moment(current_date).subtract('1', 'years').format('YYYY-MM-DD HH:mm:ss');
       } else {
+        start_date = moment(current_date).subtract('1', 'months').format('YYYY-MM-DD HH:mm:ss');
+        console.log('Unexpected filter received');
       }
 
       //Query
@@ -195,16 +198,21 @@ router.get(
   function (req, res, next) {
     if (req.user.role === ROLES.Farmer) {
       //Dates
-      let start_date = 0;
+
+      let current_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+      let start_date = null;
       let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
       if (req.params.range == '1-month') {
-        start_date = moment(new Date()).subtract('1', 'months').format('YYYY-MM-DD HH:mm:ss');
+        start_date = moment(current_date).subtract('1', 'months').format('YYYY-MM-DD HH:mm:ss');
       } else if (req.params.range == '3-month') {
-        start_date = moment(new Date()).subtract('3', 'months').format('YYYY-MM-DD HH:mm:ss');
+        start_date = moment(current_date).subtract('3', 'months').format('YYYY-MM-DD HH:mm:ss');
       } else if (req.params.range == '6-month') {
-        start_date = moment(new Date()).subtract('6', 'months').format('YYYY-MM-DD HH:mm:ss');
+        start_date = moment(current_date).subtract('6', 'months').format('YYYY-MM-DD HH:mm:ss');
       } else if (req.params.range == '1-year') {
-        start_date = moment(new Date()).subtract('1', 'years').format('YYYY-MM-DD HH:mm:ss');
+        start_date = moment(current_date).subtract('1', 'years').format('YYYY-MM-DD HH:mm:ss');
+      } else {
+        start_date = moment(current_date).subtract('1', 'months').format('YYYY-MM-DD HH:mm:ss');
+        console.log('Unexpected filter received');
       }
 
       //Query
