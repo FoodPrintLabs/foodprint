@@ -2,32 +2,71 @@
 <html lang="en">
   <head>
     <% include ./partials/head %>
-    <script async>
-         async function showGraph(option)
-        { 
-      if(option == 'harvest')
-        { document.getElementById('harvesttable').style.display = "block";
-          document.getElementById('harvesttable_heading').style.display = "block"
-          document.getElementById('storagetable').style.display = "none";
-          document.getElementById('storagetable_heading').style.display = "none";
-      }
-      if(option == 'storage')
-        { document.getElementById('harvesttable').style.display = "none";
-          document.getElementById('harvesttable_heading').style.display = "none";
-          document.getElementById('storagetable').style.display = "block";
-          document.getElementById('storagetable_heading').style.display = "block"
-      }
-
-        }
-      function activatefilter(month) {
-      window.location = '/app/dashboards/admin/filter/'+ month;}
     
-      function removefilter() {
-      window.location = '/app/dashboards/admin'}
-      
-    </script>
+    <script async>
+      async function showGraph(option)
+     { 
+   if(option == 'harvest')
+     { document.getElementById('harvesttable').style.display = "block";
+       document.getElementById('harvesttable_heading').style.display = "block"
+       document.getElementById('storagetable').style.display = "none";
+       document.getElementById('storagetable_heading').style.display = "none";
+   }
+   if(option == 'storage')
+     { document.getElementById('harvesttable').style.display = "none";
+       document.getElementById('harvesttable_heading').style.display = "none";
+       document.getElementById('storagetable').style.display = "block";
+       document.getElementById('storagetable_heading').style.display = "block"
+   }
+     }
+   function activatefilter(month) {
+   window.location = '/app/dashboards/admin/filter/'+ month;}
+  
+   function removefilter() {
+   window.location = '/app/dashboards/admin'}
+  
+   async function filterCheck(filter)
+   {
+     
+     if(filter == '1-month')
+     {
+       var btn1 = document.getElementById('1-month-btn-harvest');
+       btn1.style["background-color"] == "green";
+       var btn2 =document.getElementById('1-month-btn-storage');
+       btn2.style.background-color == "green";
+     }
+     else if(filter == '3-month')
+     {  //document.querySelector('3-month-btn-harvest').  == "Hello";
+       document.getElementById('3-month-btn-harvest').style.background = "green";
+       document.getElementById('3-month-btn-storage').style.backgroundColor = "green";
+     }
+     else if(filter == '6-month')
+     {
+       document.getElementById('6-month-btn-harvest').style.backgroundColor = "green";
+       document.getElementById('6-month-btn-storage').style.backgroundColor = "green";
+     }
+     else if(filter == '1-year')
+     {
+       document.getElementById('1-year-btn-harvest').style.backgroundColor = "green";
+       document.getElementById('1-year-btn-storage').style.backgroundColor = "green";
+     }
+     else if(filter == null)
+     {
+       document.getElementById('all-btn-harvest').style.backgroundColor = "green";
+       document.getElementById('all-btn-storage').style.backgroundColor = "green";
+     }
+     else
+     {//1 month default
+       console.log("Unexpected Filter received");
+       document.getElementById('1-month-btn-harvest').style.backgroundColor = "green";
+       document.getElementById('1-month-btn-storage').style.backgroundColor = "green";
+     }
+   }
+   
+  </script>
+
   </head>
-  <body>
+  <body onload="filterCheck(filter_data)">
     
     <!-- START: header -->
 
@@ -124,11 +163,11 @@
         <div class="col-12 col-lg-12 col-xl-12">
           <div id="harvesttable_heading" style="display: none;">
             <h4 class="card-title"  >Harvest Data</h4>
-            <button onclick="removefilter()" class="btn btn-sm mt-3">All</button>
-            <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3">1 month</button>
-              <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3">3 month</button>
-                <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3">6 month</button>
-                  <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3">1 year</button>
+            <button onclick="removefilter()" class="btn btn-sm mt-3 active" id="all-btn-harvest" style="background-color: white;">All</button>
+            <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3" id="1-month-btn-harvest" style="background-color: whitesmoke;">1 month</button>
+              <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3" id="3-month-btn-harvest" style="background-color: whitesmoke;">3 month</button>
+                <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3" id="6-month-btn-harvest" style="background-color: whitesmoke;">6 month</button>
+                  <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3" id="1-year-btn-harvest" style="background-color: whitesmoke;">1 year</button>
             </div>
           <table class="table table-dark table-striped table-condensed table-responsive" id="harvesttable" style="display: none;">
             <thead>
@@ -198,11 +237,11 @@
           <div class="col-12 col-lg-12 col-xl-12">
             <div id="storagetable_heading" style="display: none;">
               <h4 class="card-title"  >Storage Data</h4>
-              <button onclick="removefilter()" class="btn btn-sm mt-3">All</button>
-              <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3">1 month</button>
-                <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3">3 month</button>
-                  <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3">6 month</button>
-                    <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3">1 year</abutton>
+              <button onclick="removefilter()" class="btn btn-sm mt-3" id="all-btn-storage">All</button>
+              <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3" id="1-month-btn-storage" style="background-color: whitesmoke;">1 month</button>
+                <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3" id="3-month-btn-storage" style="background-color: whitesmoke;"> 3 month</button>
+                  <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3" id="6-month-btn-storage" style="background-color: whitesmoke;">6 month</button>
+                    <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3" id="1-year-btn-storage" style="background-color: whitesmoke;">1 year</abutton>
               </div>
           <table class="table table-dark table-striped table-condensed table-responsive" id="storagetable" style="display: none;">
             <thead>
@@ -280,4 +319,5 @@
     <script src="/js/main.min.js"></script>
     <script src="/js/custom.js"></script>
   </body>
+  
 </html>
