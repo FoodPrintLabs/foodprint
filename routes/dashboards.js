@@ -255,7 +255,7 @@ router.get(
               title: 'FoodPrint - Farmer Dashboard',
               harvest_data: harvest_rows,
               storage_data: storage_rows,
-              filter: req.params.range,
+              filter_data: req.params.range,
               user: req.user,
               page_name: 'Dashboard',
             });
