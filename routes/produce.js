@@ -57,6 +57,144 @@ router.get(
   }
 );
 
+//route for insert data
+router.post(
+  '/save',
+  [
+    check('produce_name', 'Your produce name is not valid').not().isEmpty().trim().escape(),
+    check('produce_type', 'Your produce Type is not valid').not().isEmpty().trim().escape(),
+  ],
+  function (req, res) {
+    const result = validationResult(req);
+    var errors = result.errors;
+    for (var key in errors) {
+      console.log('Validation error - ' + errors[key].msg);
+    }
+    if (!result.isEmpty()) {
+      req.flash('error', errors);
+      res.render('produce', {
+        page_title: 'FoodPrint - Produce Page',
+        data: '',
+        page_name: 'produce',
+      }); //should add error array here
+    } else {
+      let data = {
+        produce_name: req.body.produce_name,
+        produce_type: req.body.produce_type,
+      };
+      try {
+        models.FoodprintProduce.create(data)
+          .then(_ => {
+            req.flash(
+              'success',
+              'New Produce added successfully! Produce Name = ' + req.body.produce_name
+            );
+            res.redirect('/app/produce');
+          })
+          .catch(err => {
+            //throw err;
+            req.flash('error', err);
+            // redirect to Produce page
+            res.redirect('/app/produce');
+          });
+      } catch (e) {
+        //this will eventually be handled by your error handling middleware
+        next(e);
+        //res.json({success: false, errors: e});
+        res.render('produce', {
+          page_title: 'FoodPrint - Produce Page',
+          data: '',
+          success: false,
+          errors: e.array(),
+          page_name: 'produce',
+        });
+      }
+    }
+  }
+);
+
+//route for update data
+router.post(
+  '/update',
+  [
+    check('produce_name', 'Your produce name is not valid').not().isEmpty().trim().escape(),
+    check('produce_type', 'Your produce type is not valid').not().isEmpty().trim().escape(),
+  ],
+  function (req, res) {
+    const result = validationResult(req);
+    var errors = result.errors;
+    for (var key in errors) {
+      console.log('Validation error - ' + errors[key].msg);
+    }
+    if (!result.isEmpty()) {
+      req.flash('error', errors);
+      res.render('produce', {
+        page_title: 'FoodPrint - Produce Page',
+        data: '',
+        page_name: 'produce',
+      }); //should add error array here
+    } else {
+      let data = {
+        produce_name: req.body.produce_name,
+        produce_type: req.body.produce_type,
+      };
+      try {
+        models.FoodprintProduce.update(data, {
+          where: {
+            pk: req.body.pk,
+          },
+        })
+          .then(_ => {
+            req.flash(
+              'success',
+              'Produce updated successfully! Produce Name = ' + req.body.produce_name
+            );
+            res.redirect('/app/produce');
+          })
+          .catch(err => {
+            //throw err;
+            req.flash('error', err);
+            // redirect to produce page
+            res.redirect('/app/produce');
+          });
+      } catch (e) {
+        //this will eventually be handled by your error handling middleware
+        next(e);
+        //res.json({success: false, errors:errors.array()});
+        res.render('produce', {
+          page_title: 'FoodPrint - Produce Page',
+          data: '',
+          success: false,
+          errors: e.array(),
+          page_name: 'produce',
+        });
+      }
+    }
+  }
+);
+
+//route for delete data
+router.post('/delete', (req, res) => {
+  models.FoodprintProduce.destroy({
+    where: {
+      pk: req.body.pk2,
+    },
+  })
+    .then(_ => {
+      req.flash(
+        'success',
+        'Produce deleted successfully! Produce Name = ' + req.body.produce_name2
+      );
+      res.redirect('/app/produce');
+    })
+    .catch(err => {
+      //throw err;
+      req.flash('error', err);
+      // redirect to Produce page
+      res.redirect('/app/produce');
+    });
+});
+
 /* GET Produce Price Page */
 /* GET Produce page. */
 router.get(
