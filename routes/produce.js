@@ -234,4 +234,159 @@ router.get(
   }
 );
 
+//route for insert data
+router.post(
+  '/pricepage/save',
+  [
+    check('produce_name', 'Your produce name is not valid').not().isEmpty().trim().escape(),
+    check('produce_price', 'Your produce price is not valid').not().isEmpty().trim().escape(),
+    check('produce_date', 'Your date is not valid').not().isEmpty().trim().escape(),
+    check('produce_province', 'Your province is not valid').not().isEmpty().trim().escape(),
+  ],
+  function (req, res) {
+    const result = validationResult(req);
+    var errors = result.errors;
+    for (var key in errors) {
+      console.log('Validation error - ' + errors[key].msg);
+    }
+    if (!result.isEmpty()) {
+      req.flash('error', errors);
+      res.render('pricepage', {
+        page_title: 'FoodPrint - Price Page',
+        data: '',
+        page_name: 'pricepage',
+      }); //should add error array here
+    } else {
+      let data = {
+        produce_name: req.body.produce_name,
+        produce_price: req.body.produce_price,
+        produce_date: req.body.produce_date,
+        produce_province: req.body.produce_province,
+      };
+      try {
+        models.FoodprintProducePrice.create(data)
+          .then(_ => {
+            req.flash(
+              'success',
+              'New Produce and Price added successfully! Produce Name = ' +
+                req.body.produce_name +
+                ' and Produce Price = ' +
+                req.body.produce_price
+            );
+            res.redirect('/app/produce/pricepage');
+          })
+          .catch(err => {
+            //throw err;
+            req.flash('error', err);
+            // redirect to Produce page
+            res.redirect('/app/produce/pricepage');
+          });
+      } catch (e) {
+        //this will eventually be handled by your error handling middleware
+        next(e);
+        //res.json({success: false, errors: e});
+        res.render('pricepage', {
+          page_title: 'FoodPrint - Price Page',
+          data: '',
+          success: false,
+          errors: e.array(),
+          page_name: 'pricepage',
+        });
+      }
+    }
+  }
+);
+
+//route for update data
+router.post(
+  '/pricepage/update',
+  [
+    check('produce_name', 'Your produce name is not valid').not().isEmpty().trim().escape(),
+    check('produce_price', 'Your produce price is not valid').not().isEmpty().trim().escape(),
+    check('produce_date', 'Your date is not valid').not().isEmpty().trim().escape(),
+    check('produce_province', 'Your province is not valid').not().isEmpty().trim().escape(),
+  ],
+  function (req, res) {
+    const result = validationResult(req);
+    var errors = result.errors;
+    for (var key in errors) {
+      console.log('Validation error - ' + errors[key].msg);
+    }
+    if (!result.isEmpty()) {
+      req.flash('error', errors);
+      res.render('pricepage', {
+        page_title: 'FoodPrint - Price Page',
+        data: '',
+        page_name: 'pricepage',
+      }); //should add error array here
+    } else {
+      let data = {
+        produce_name: req.body.produce_name,
+        produce_price: req.body.produce_price,
+        produce_date: req.body.produce_date,
+        produce_province: req.body.produce_province,
+      };
+      try {
+        models.FoodprintProducePrice.update(data, {
+          where: {
+            pk: req.body.pk,
+          },
+        })
+          .then(_ => {
+            req.flash(
+              'success',
+              'Produce and Price updated successfully! Produce Name = ' +
+                req.body.produce_name +
+                ' and Produce Price = ' +
+                req.body.produce_price
+            );
+            res.redirect('/app/produce/pricepage');
+          })
+          .catch(err => {
+            //throw err;
+            req.flash('error', err);
+            // redirect to produce page
+            res.redirect('/app/produce/pricepage');
+          });
+      } catch (e) {
+        //this will eventually be handled by your error handling middleware
+        next(e);
+        //res.json({success: false, errors:errors.array()});
+        res.render('pricepage', {
+          page_title: 'FoodPrint - Price Page',
+          data: '',
+          success: false,
+          errors: e.array(),
+          page_name: 'pricepage',
+        });
+      }
+    }
+  }
+);
+
+//route for delete data
+router.post('/pricepage/delete', (req, res) => {
+  models.FoodprintProducePrice.destroy({
+    where: {
+      pk: req.body.pk2,
+    },
+  })
+    .then(_ => {
+      req.flash(
+        'success',
+        'Produce and Price deleted successfully! Produce Name = ' +
+          req.body.produce_name2 +
+          ' and Produce Price = ' +
+          req.body.produce_price2
+      );
+      res.redirect('/app/produce/pricepage');
+    })
+    .catch(err => {
+      //throw err;
+      req.flash('error', err);
+      // redirect to Produce page
+      res.redirect('/app/produce/pricepage');
+    });
+});
+
 module.exports = router;
