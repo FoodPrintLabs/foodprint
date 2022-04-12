@@ -33,6 +33,53 @@ router.get(
             page_title: 'FoodPrint - Produce Page',
             data: rows,
             user: req.user,
+            filter_data: '',
+            page_name: 'produce',
+          });
+        })
+        .catch(err => {
+          console.log('All produce err:' + err);
+          req.flash('error', err);
+          res.render('produce', {
+            page_title: 'FoodPrint - Produce Page',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'produce',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
+
+//Filter for Produce Page
+//Render of Admin Dashboard with filtering
+router.get(
+  '/filter/:range',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin && ROLES.Superuser) {
+      //Query
+      models.FoodprintProduce.findAll({
+        where: {
+          produce_type: req.params.range,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('produce', {
+            page_title: 'FoodPrint - Produce Page',
+            data: rows,
+            user: req.user,
+            filter_data: req.params.range,
             page_name: 'produce',
           });
         })

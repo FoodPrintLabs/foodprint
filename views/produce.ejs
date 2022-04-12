@@ -2,8 +2,45 @@
 <html lang="en">
   <head>
       <% include ./partials/head %>  
+      <script async>
+        function activatefilter(veg) {
+          console.log(veg)
+        window.location = '/app/produce/filter/'+ veg;}
+  
+        function removefilter() {
+        window.location = '/app/produce/'}
+  
+   async function filterCheck(filter)
+   { 
+     if(filter == 'BASIC VEG')
+     {
+      document.getElementById('basic-veg-btn').style.background = "#65a947";
+      document.getElementById('basic-veg-btn').style.color = "white";
+     }
+     else if(filter == 'OTHER VEG')
+     {  
+      document.getElementById('other-veg-btn').style.background = "#65a947";
+      document.getElementById('other-veg-btn').style.color = "white";
+     }
+     else if(filter == 'HERBS')
+     {
+      document.getElementById('herbs-btn').style.background = "#65a947";
+      document.getElementById('herbs-btn').style.color = "white";  
+    }
+     else if(filter == "")
+     {
+      document.getElementById('all-veg-btn').style.background = "#65a947";
+      document.getElementById('all-veg-btn').style.color = "white";
+     }
+     else
+     {//1 month default
+       console.log("Unexpected Filter received");
+       window.location = '/app/produce/'
+     }
+   }
+      </script>
   </head>
-  <body>
+  <body  onload="filterCheck('<%=filter_data%>')">
    <!-- START: header -->
 
   <div class="probootstrap-loader"></div>
@@ -24,6 +61,10 @@
       <% include ./partials/notificationbar %>
   
       <br>
+      <button onclick="removefilter()" class="btn btn-sm mt-3" id="all-veg-btn" style="background-color: white;">All Veg</button>
+      <button onclick="activatefilter('BASIC VEG')" class="btn btn-sm mt-3" id="basic-veg-btn" style="background-color: white;">Basic Veg</button>
+      <button onclick="activatefilter('OTHER VEG')" class="btn btn-sm mt-3" id="other-veg-btn" style="background-color: white;">Other Veg</button>
+      <button onclick="activatefilter('HERBS')" class="btn btn-sm mt-3" id="herbs-btn" style="background-color: white;">Herbs</button>
         <table class="table table-hover table-sm" id="produceTable">
           <thead>
             <tr>
