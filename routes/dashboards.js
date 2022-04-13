@@ -21,7 +21,7 @@ router.get(
   '/admin',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Admin && ROLES.Superuser) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       models.FoodprintHarvest.findAll({
         order: [['pk', 'DESC']],
       })
@@ -69,7 +69,7 @@ router.get(
   '/admin/filter/:range',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Admin && ROLES.Superuser) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       //Dates
       let current_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
       let start_date = null;
