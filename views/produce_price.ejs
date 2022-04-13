@@ -2,8 +2,70 @@
 <html lang="en">
   <head>
       <% include ./partials/head %>  
+<script>
+      async function activatefilter()
+      {
+        var filter = document.getElementById('province_filter').value;
+        if(filter == "All"){
+          window.location = '/app/produce/pricepage'}
+          else if (filter)
+          { window.location = '/app/produce/pricepage/filter/'+ filter;}
+          
+      }
+        
+      
+
+
+      async function filterCheck(filter)
+      { if( filter == "Western Cape")
+        {
+          document.getElementById('province_filter').value = "Western Cape";
+        }
+        else if( filter == "Eastern Cape")
+        {
+          document.getElementById('province_filter').value = "Eastern Cape";
+        }
+        else if( filter == "Northern Cape")
+        {
+          document.getElementById('province_filter').value = "Northern Cape";
+        }
+        else if( filter == "North West")
+        {
+          document.getElementById('province_filter').value = "North West";
+        }
+        else if( filter == "KZN")
+        {
+          document.getElementById('province_filter').value = "KZN";
+        }
+        else if( filter == "Free State")
+        {
+          document.getElementById('province_filter').value = "Free State";
+        }
+        else if( filter == "Gauteng")
+        {
+          document.getElementById('province_filter').value = "Gauteng";
+        }
+        else if( filter == "Mpumalanga")
+        {
+          document.getElementById('province_filter').value = "Mpumalanga";
+        }
+        else if( filter == "Limpopo")
+        {
+          document.getElementById('province_filter').value = "Limpopo";
+        }
+        else if( filter == "")
+        {
+        }
+        else
+        {//default
+          console.log("Unexpected Filter received");
+          window.location = '/app/produce/pricepage'
+        }
+      }
+         </script>
+
   </head>
-  <body>
+  <body onload="filterCheck('<%=filter_data%>')">
    <!-- START: header -->
 
   <div class="probootstrap-loader"></div>
@@ -22,7 +84,22 @@
       </div>
       
       <% include ./partials/notificationbar %>
-  
+      <div class="col text-right">
+      <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+        <option value="" selected disabled>Choose a Province to filter</option>
+        <option>All</option>
+        <option>Western Cape</option>
+        <option>Eastern Cape</option>
+        <option>Northern Cape</option>
+        <option>North West</option>
+        <option>KZN</option>
+        <option>Free State</option>
+        <option>Gauteng</option>
+        <option>Mpumalanga</option>
+        <option>Limpopo</option>
+      </select>
+      <button onclick="activatefilter()" class="btn btn-sm mt-3" id="province-veg-btn" style="background-color: white;">Search</button>
+    </div>
       <br>
         <table class="table table-hover table-sm" id="producePriceTable">
           <thead>

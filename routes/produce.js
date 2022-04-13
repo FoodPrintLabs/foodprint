@@ -61,7 +61,6 @@ router.get(
 );
 
 //Filter for Produce Page
-//Render of Admin Dashboard with filtering
 router.get(
   '/filter/:range',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
@@ -257,6 +256,7 @@ router.get(
             page_title: 'FoodPrint - Produce Price Page',
             data: rows,
             user: req.user,
+            filter_data: '',
             page_name: 'produce price',
           });
         })
@@ -267,6 +267,51 @@ router.get(
             page_title: 'FoodPrint - Produce Price Page',
             data: '',
             user: req.user,
+            filter_data: '',
+            page_name: 'produce price',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        page_name: 'error',
+      });
+    }
+  }
+);
+
+//Filter for Pricepage
+router.get(
+  '/pricepage/filter/:range',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin && ROLES.Superuser) {
+      //Query
+      models.FoodprintProducePrice.findAll({
+        where: {
+          produce_province: req.params.range,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('produce_price', {
+            page_title: 'FoodPrint - Produce Price Page',
+            data: rows,
+            user: req.user,
+            filter_data: req.params.range,
+            page_name: 'produce price',
+          });
+        })
+        .catch(err => {
+          console.log('All produce err:' + err);
+          req.flash('error', err);
+          res.render('produce_price', {
+            page_title: 'FoodPrint - Produce Price Page',
+            data: '',
+            user: req.user,
+            filter_data: '',
             page_name: 'produce price',
           });
         });
