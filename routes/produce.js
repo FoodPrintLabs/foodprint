@@ -351,7 +351,7 @@ router.post(
     } else {
       let data = {
         produce_name: req.body.produce_name,
-        produce_price: req.body.produce_price,
+        produce_price: 'R' + req.body.produce_price,
         produce_date: req.body.produce_date,
         produce_province: req.body.produce_province,
       };
@@ -362,7 +362,7 @@ router.post(
               'success',
               'New Produce and Price added successfully! Produce Name = ' +
                 req.body.produce_name +
-                ' and Produce Price = ' +
+                ' and Produce Price = R' +
                 req.body.produce_price
             );
             res.redirect('/app/produce/pricepage');
@@ -414,7 +414,7 @@ router.post(
     } else {
       let data = {
         produce_name: req.body.produce_name,
-        produce_price: req.body.produce_price,
+        produce_price: 'R' + req.body.produce_price,
         produce_date: req.body.produce_date,
         produce_province: req.body.produce_province,
       };

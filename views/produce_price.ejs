@@ -4,7 +4,7 @@
       <% include ./partials/head %>  
 <script>
       async function activatefilter()
-      {
+      { 
         var filter = document.getElementById('province_filter').value;
         if(filter == "All"){
           window.location = '/app/produce/pricepage'}
@@ -17,7 +17,8 @@
 
 
       async function filterCheck(filter)
-      { if( filter == "Western Cape")
+      { 
+        if( filter == "Western Cape")
         {
           document.getElementById('province_filter').value = "Western Cape";
         }
@@ -98,7 +99,7 @@
         <option>Mpumalanga</option>
         <option>Limpopo</option>
       </select>
-      <button onclick="activatefilter()" class="btn btn-sm mt-3" id="province-veg-btn" style="background-color: white;">Search</button>
+      <button onclick="activatefilter()" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
     </div>
       <br>
         <table class="table table-hover table-sm" id="producePriceTable">
@@ -165,7 +166,7 @@
                  <input type="text" name="produce_name" class="form-control" placeholder="Produce Name" required>
              </div>
               <div class="form-group">
-                  <label for="produce_price">Price</label>
+                  <label for="produce_price">Price (Format: 00,00)</label>
                   <input type="text" name="produce_price" class="form-control" placeholder="Price" required>
               </div>
                 <div class="form-group">
