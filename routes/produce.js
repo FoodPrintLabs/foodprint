@@ -65,7 +65,7 @@ router.get(
   '/filter/:range',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Admin && ROLES.Superuser) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       //Query
       models.FoodprintProduce.findAll({
         where: {
@@ -287,7 +287,7 @@ router.get(
   '/pricepage/filter/:range',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Admin && ROLES.Superuser) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       //Query
       models.FoodprintProducePrice.findAll({
         where: {
