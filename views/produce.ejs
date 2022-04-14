@@ -236,7 +236,7 @@
             var produce_type = $(this).data('produce_type');
             $('#EditModal').modal('show');
             $('.produce_name').val(produce_name);
-            $('.produce_type').val(produce_type);
+            $('select[name="produce_type"]').val(produce_type);
             $('.pk').val(pk);
       });
 
