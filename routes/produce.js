@@ -332,7 +332,6 @@ router.post(
   [
     check('produce_name', 'Your produce name is not valid').not().isEmpty().trim().escape(),
     check('produce_price', 'Your produce price is not valid').not().isEmpty().trim().escape(),
-    check('produce_date', 'Your date is not valid').not().isEmpty().trim().escape(),
     check('produce_province', 'Your province is not valid').not().isEmpty().trim().escape(),
   ],
   function (req, res) {
@@ -352,7 +351,7 @@ router.post(
       let data = {
         produce_name: req.body.produce_name,
         produce_price: 'R' + req.body.produce_price,
-        produce_date: req.body.produce_date,
+        produce_date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         produce_province: req.body.produce_province,
       };
       try {
@@ -395,7 +394,6 @@ router.post(
   [
     check('produce_name', 'Your produce name is not valid').not().isEmpty().trim().escape(),
     check('produce_price', 'Your produce price is not valid').not().isEmpty().trim().escape(),
-    check('produce_date', 'Your date is not valid').not().isEmpty().trim().escape(),
     check('produce_province', 'Your province is not valid').not().isEmpty().trim().escape(),
   ],
   function (req, res) {
@@ -415,7 +413,7 @@ router.post(
       let data = {
         produce_name: req.body.produce_name,
         produce_price: 'R' + req.body.produce_price,
-        produce_date: req.body.produce_date,
+        produce_date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         produce_province: req.body.produce_province,
       };
       try {

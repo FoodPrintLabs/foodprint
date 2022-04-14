@@ -109,7 +109,7 @@
               <th scope="col">Produce ID</th>
               <th scope="col">Produce Name</th>
               <th scope="col">Price</th>
-              <th scope="col">Date</th>
+              <th scope="col" width="20%">Date</th>
               <th scope="col">Province</th>
               <th width="200px">Action</th>
             </tr>
@@ -169,10 +169,6 @@
                   <label for="produce_price">Price (Format: 00,00)</label>
                   <input type="text" name="produce_price" class="form-control" placeholder="Price" required>
               </div>
-                <div class="form-group">
-                    <label for="produce_date">Date</label>
-                    <input type="text" name="produce_date" class="form-control" placeholder="Date" required>
-                </div>
 
              <div class="form-group">
                  <label for="produce_type">Province</label>
@@ -220,10 +216,6 @@
              <label for="produce_price">Price</label>
              <input type="text" name="produce_price" class="form-control produce_price" placeholder="Price" required>
          </div>
-           <div class="form-group">
-               <label for="produce_date">Date</label>
-               <input type="text" name="produce_date" class="form-control produce_date"  placeholder="Date" required>
-           </div>
            <div class="form-group">
             <label for="produce_province">Province</label>
             <input type="text" name="produce_province" class="form-control produce_province" placeholder="Province" required>
@@ -310,12 +302,10 @@
             var pk = $(this).data('pk');
             var produce_name = $(this).data('produce_name');
             var produce_price = $(this).data('produce_price');
-            var produce_date = $(this).data('produce_date');
             var produce_province = $(this).data('produce_province');
             $('#EditModal').modal('show');
             $('.produce_name').val(produce_name);
             $('.produce_price').val(produce_price);
-            $('.produce_date').val(produce_date);
             $('.produce_province').val(produce_province);
             $('.pk').val(pk);
       });
