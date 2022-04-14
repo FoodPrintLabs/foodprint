@@ -167,7 +167,7 @@
              </div>
               <div class="form-group">
                   <label for="produce_price">Price (Format: 00,00)</label>
-                  <input type="text" name="produce_price" class="form-control" placeholder="Price" required>
+                  <input type="number" name="produce_price" class="form-control" placeholder="Price" required>
               </div>
 
              <div class="form-group">
@@ -213,8 +213,11 @@
             <input type="text" name="produce_name" class="form-control produce_name" placeholder="Produce Name" required>
         </div>
          <div class="form-group">
-             <label for="produce_price">Price</label>
-             <input type="text" name="produce_price" class="form-control produce_price" placeholder="Price" required>
+             <label for="produce_price_input">Price</label>
+             <p >Current Price:  
+              <input type="text" name="produce_price" class="form-control produce_price" placeholder="Price" disabled></p>
+              <p >New Price:  
+             <input type="number" name="produce_price" class="form-control produce_price_input" placeholder="Price" required></p>
          </div>
            <div class="form-group">
             <label for="produce_province">Province</label>
