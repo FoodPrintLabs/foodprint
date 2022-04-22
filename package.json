@@ -17,7 +17,7 @@
     "build-dev": "sequelize db:migrate --config ./dbconfig.json --env development",
     "build": "sequelize db:migrate --config ./dbconfig.json --env production",
     "heroku-postbuild": "npm run bundle",
-    "dev": "npm run build-dev && nodemon server.js --host 0.0.0.0",
+    "dev": "nodemon server.js --host 0.0.0.0",
     "start": "node server.js",
     "format": "prettier --write 'README.md' 'server.js' 'utils/*.js' 'migrations/*.js' 'routes/*.js' 'models/*.js' 'dbxml/*.js' 'config/*.js'"
   },
