@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+      <script async>
+        function activatefilter(veg) {
+        window.location = '/app/produce/filter/'+ veg;}
+  
+        function removefilter() {
+        window.location = '/app/produce/'}
+  
+   async function filterCheck(filter)
+   { 
+     if(filter == 'BASIC VEG')
+     {
+      document.getElementById('basic-veg-btn').style.background = "#65a947";
+      document.getElementById('basic-veg-btn').style.color = "white";
+     }
+     else if(filter == 'OTHER VEG')
+     {  
+      document.getElementById('other-veg-btn').style.background = "#65a947";
+      document.getElementById('other-veg-btn').style.color = "white";
+     }
+     else if(filter == 'HERBS')
+     {
+      document.getElementById('herbs-btn').style.background = "#65a947";
+      document.getElementById('herbs-btn').style.color = "white";  
+    }
+     else if(filter == "")
+     {
+      document.getElementById('all-veg-btn').style.background = "#65a947";
+      document.getElementById('all-veg-btn').style.color = "white";
+     }
+     else
+     {//1 month default
+       console.log("Unexpected Filter received");
+       window.location = '/app/produce/'
+     }
+   }
+      </script>
+  </head>
+  <body  onload="filterCheck('<%=filter_data%>')">
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+   <!-- START TABLE-->
+   <div class="container" style="width: 100%;">
+    <h3>Produce Page</h3>
+    
+      <div>
+          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Produce</button>
+      </div>
+      
+      <% include ./partials/notificationbar %>
+  
+      <br>
+      <button onclick="removefilter()" class="btn btn-sm mt-3" id="all-veg-btn" style="background-color: white;">All Veg</button>
+      <button onclick="activatefilter('BASIC VEG')" class="btn btn-sm mt-3" id="basic-veg-btn" style="background-color: white;">Basic Veg</button>
+      <button onclick="activatefilter('OTHER VEG')" class="btn btn-sm mt-3" id="other-veg-btn" style="background-color: white;">Other Veg</button>
+      <button onclick="activatefilter('HERBS')" class="btn btn-sm mt-3" id="herbs-btn" style="background-color: white;">Herbs</button>
+        <table class="table table-hover table-sm" id="produceTable">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Produce ID</th>
+              <th scope="col">Produce Name</th>
+              <th scope="col">Produce Type</th>
+              <th width="200px">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(data.length){
+  
+                for(var i = 0; i< data.length; i++) {%>
+                <tr>
+                  <th scope="row"><%= (i+1) %></th>
+                  <td><%= data[i].pk%></td>
+                  <td><%= data[i].produce_name%></td>
+                  <td><%= data[i].produce_type%></td>
+                  <td>
+                      <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-pk="<%= data[i].pk%>"
+                         data-produce_name="<%= data[i].produce_name%>" 
+                          data-produce_type="<%= data[i].produce_type%>">Edit</a>
+                      <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-pk2="<%= data[i].pk%>"
+                         data-produce_name2="<%= data[i].produce_name%>">Delete</a>
+                  </td>
+                </tr>
+                <% }
+  
+             }else{ %>
+                 <tr>
+                    <td colspan="5">No Produce</td>
+                 </tr>
+              <% } %>
+  
+          </tbody>
+      </table>
+     </div>
+     <!-- END TABLE-->
+  
+     <!-- Modal Add Produce-->
+      <form action="/app/produce/save" method="post">
+          <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+           <div class="modal-dialog" role="document">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">Add New Produce</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+               </div>
+               <div class="modal-body">
+                 <div class="form-group">
+                     <label for="produce_name">Produce Name</label>
+                     <input type="text" name="produce_name" class="form-control" placeholder="Produce Name" required>
+                 </div>
+  
+                 <div class="form-group">
+                     <label for="produce_type">Produce Type</label>
+                     <select class="custom-select d-block w-100 form-control" name="produce_type" id="produce_type" required>
+                      <option value="" selected disabled>Choose a Produce Type...</option>
+                      <option>BASIC VEG</option>
+                      <option>HERBS</option>
+                      <option>OTHER VEG</option>
+                    </select>
+                 </div>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                 <button type="submit" class="btn btn-primary">Save</button>
+               </div>
+             </div>
+           </div>
+          </div>
+     </form>
+     <!-- End Modal Add Produce-->
+  
+     <!-- Modal Update Produce-->
+     <form action="/app/produce/update" method="post">
+         <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Produce</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <label for="produce_name">Produce Name</label>
+                    <input type="text" name="produce_name" class="form-control produce_name" placeholder="Produce Name" required>
+                </div>
+  
+                <div class="form-group">
+                    <label for="produce_type">Produce Type</label>
+                    <select class="custom-select d-block w-100 form-control" name="produce_type" id="produce_type" required>
+                      <option value="" selected disabled >Choose a Produce Type...</option>
+                      <option>BASIC VEG</option>
+                      <option>HERBS</option>
+                      <option>OTHER VEG</option>
+                    </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <input type="hidden" name="pk" class="pk">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Update</button>
+              </div>
+            </div>
+          </div>
+         </div>
+    </form>
+     <!-- End Modal Update Produce-->
+  
+     <!-- Modal Delete Produce-->
+       <form id="add-row-form" action="/app/produce/delete" method="post">
+          <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+             <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+              <h5 class="modal-title" id="myModalLabel">Delete Produce</h5>
+                         <strong>Are you sure to delete this produce item?</strong>
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                         <div class="form-group">
+                             <label for="produce_name2">Produce Name</label>
+                             <input type="text" name="produce_name2" id="produce_name2" class="form-control produce_name2" readonly>
+                         </div>
+                    </div>
+                    <div class="modal-footer">
+              <input type="hidden" name="pk2" class="form-control pk2" required>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                         <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                 </div>
+             </div>
+          </div>
+      </form>
+      <!-- End Modal Delete Produce-->
+    
+    <% include ./partials/notificationbar %>
+    
+    
+
+    <!-- start footer -->
+    <% include ./partials/footer %>
+    <!-- end footer -->
+    
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    
+  <script src="/js/scripts.min.js"></script><!--/*! jQuery v1.12.4 | (c) jQuery Foundation | jquery.org/license */-->
+  <script src="/js/main.min.js"></script>  <!--  Bootstrap v3.3.7 -->
+   
+   <script type="text/javascript" src="/js/moment-with-locales.min.js"></script> <!--datetime picker -->
+   <script type="text/javascript" src="/js/moment-timezone-with-data-2012-2022.min.js"></script> <!--datetime picker -->
+   <script src="/js/tempusdominus-bootstrap-3.js"></script> <!--datetime picker -->
+
+  <script src="/js/custom.js"></script><!-- Subscribe-->
+  <script src="/js/sha256.min.js"></script><!-- Blockchain -->
+
+  <script>
+    $(document).ready(function(){
+
+        //showing data to edit modal
+        $('#produceTable').on('click','.edit',function(){
+            var pk = $(this).data('pk');
+            var produce_name = $(this).data('produce_name');
+            var produce_type = $(this).data('produce_type');
+            $('#EditModal').modal('show');
+            $('.produce_name').val(produce_name);
+            $('select[name="produce_type"]').val(produce_type);
+            $('.pk').val(pk);
+      });
+
+        //showing delete record modal
+        $('#produceTable').on('click','.delete',function(){
+            var pk2 = $(this).data('pk2');
+            var produce_name2 = $(this).data('produce_name2');
+            $('#DeleteModal').modal('show');
+            $('.pk2').val(pk2);
+            $('.produce_name2').val(produce_name2);
+        });
+    });
+    </script>
+
+  </body>
+</html>
