@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ./partials/head %>
+    <script async>
+      async function showGraph(option)
+{     
+  if(option == 'harvest')
+    { document.getElementById('harvesttable').style.display = "block";
+      document.getElementById('harvesttable_heading').style.display = "block"
+      document.getElementById('storagetable').style.display = "none";
+      document.getElementById('storagetable_heading').style.display = "none";
+  }
+  if(option == 'storage')
+    { document.getElementById('harvesttable').style.display = "none";
+      document.getElementById('harvesttable_heading').style.display = "none";
+      document.getElementById('storagetable').style.display = "block";
+      document.getElementById('storagetable_heading').style.display = "block"
+  }
+
+}
+function activatefilter(month) {
+      window.location = '/app/dashboards/farmer/filter/'+ month;}
+
+function removefilter() {
+      window.location = '/app/dashboards/farmer'}
+
+      async function filterCheck(filter)
+   {  console.log(filter)
+     if(filter == '1-month')
+     {
+      document.getElementById('1-month-btn-harvest').style.background = "#65a947";
+      document.getElementById('1-month-btn-harvest').style.color = "white";
+       document.getElementById('1-month-btn-storage').style.background = "#65a947";
+       document.getElementById('1-month-btn-storage').style.color = "white";
+     }
+     else if(filter == '3-month')
+     {  //document.querySelector('3-month-btn-harvest').  == "Hello";
+       document.getElementById('3-month-btn-harvest').style.background = "#65a947";
+       document.getElementById('3-month-btn-harvest').style.color = "white";
+       document.getElementById('3-month-btn-storage').style.background = "#65a947";
+       document.getElementById('3-month-btn-storage').style.color = "white";
+     }
+     else if(filter == '6-month')
+     {
+       document.getElementById('6-month-btn-harvest').style.background = "#65a947";
+       document.getElementById('6-month-btn-harvest').style.color = "white";
+       document.getElementById('6-month-btn-storage').style.background = "#65a947";
+       document.getElementById('6-month-btn-storage').style.color = "white";}
+     else if(filter == '1-year')
+     {
+       document.getElementById('1-year-btn-harvest').style.background = "#65a947";
+       document.getElementById('1-year-btn-harvest').style.color = "white";
+       document.getElementById('1-year-btn-storage').style.background = "#65a947";
+       document.getElementById('1-year-btn-storage').style.color = "white";
+     }
+     else if(filter == "")
+     {
+       document.getElementById('all-btn-harvest').style.background = "#65a947";
+       document.getElementById('all-btn-harvest').style.color = "white";
+       document.getElementById('all-btn-storage').style.background = "#65a947";
+       document.getElementById('all-btn-storage').style.color = "white";
+     }
+     else
+     {//1 month default
+       console.log("Unexpected Filter received");
+       document.getElementById('1-month-btn-harvest').style.background = "#65a947";
+       document.getElementById('1-month-btn-harvest').style.color = "white";
+       document.getElementById('1-month-btn-storage').style.background = "#65a947";
+       document.getElementById('1-month-btn-storage').style.color = "white";
+     }
+   }
+
+</script>
+  </head>
+  <body onload="filterCheck('<%=filter_data%>')">
+    <!-- START: header -->
+
+    <div class="probootstrap-loader"></div>
+
+    <header role="banner" class="probootstrap-header"><% include ./partials/header %></header>
+    <!-- END: header -->
+
+    <div class="container" style="width: 100%">
+      <div class="row align-items-center justify-content-center">
+        <!-- START FARMER DASHBOARD-->
+        <div class="col-md-12">
+          <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
+          <h3 class="heading text-center">Farmer Dashboard</h3>
+        </div>
+        <div class="row my-5 align-items-center justify-content-center">
+          <!--Farmer Harvests Card-->
+          <div class="col-3 col-lg-3 col-xl-3">
+            <div class="card border-0">
+              <div class="card-body text-center py-4">
+                <h4 class="card-title">My Harvests</h4>
+                <p class="lead card-subtitle">Total</p>
+                <h4 class="display-5 my-4 text-primary fw-bold"><%=harvest_data.length %></h4>
+                <button class="btn btn-outline-primary btn-lg mt-3" onclick="showGraph('harvest')">Harvest Data</button>
+              </div>
+            </div>
+          </div>
+          <!--Farmer Supply Handover Card-->
+          <div class="col-3 col-lg-3 col-xl-3">
+            <div class="card border-0">
+              <div class="card-body text-center py-4">
+                <h4 class="card-title">My Handovers</h4>
+                <p class="lead card-subtitle">Total</p>
+                <h4 class="display-5 my-4 text-primary fw-bold"><%=storage_data.length %></h4>
+                <button  class="btn btn-outline-primary btn-lg mt-3" onclick="showGraph('storage')">Handover Data</button>
+              </div>
+            </div>
+          </div>
+
+          <!--Farmer Recent Activity Card-->
+          <div class="col-6 col-lg-6 col-xl-6">
+            <h4 class="card-title">Recent Activity</h4>
+            <table class="table table-dark table-striped">
+              <thead>
+                <th>Activity</th>
+                <th>Activity ID</th>
+                <th>Supplier</th>
+                <th>Produce</th>
+              </thead>
+              <tbody>
+                <% if(harvest_data.length){ %>
+                    <tr>
+                      
+                      <td style="width: 20%;">Harvest</td>
+                      <td style="width: 40%;"><%= harvest_data[(harvest_data.length) -1].harvest_logid %></td>
+                      <td style="width: 20%;"><%= harvest_data[(harvest_data.length) -1].harvest_supplierName %></td>
+                      <td style="width: 20%;"><%= harvest_data[(harvest_data.length) -1].harvest_produceName %></td>
+                      </tbody>
+              </tr>
+              <% 
+                 }else{ %>
+                     <tr>
+                        <td colspan="5">No Data</td>
+                     </tr>
+                  <% } %>
+            </table>
+                  <table class="table table-dark table-striped">
+                    <thead>
+                      <th>Activity</th>
+                      <th>Activity ID</th>
+                      <th>Market</th>
+                      <th>Produce</th>
+                    </thead>
+                    <tbody>
+                  <% if(storage_data.length){ %>
+                    <tr>
+                      
+                      <td style="width: 20%;">Storage</td>
+                      <td style="width: 40%;"><%= storage_data[(storage_data.length) -1].storage_logid %></td>
+                      <td style="width: 20%;"><%= storage_data[(storage_data.length) -1].market_Shortcode %></td>
+                      <td style="width: 20%;"><%= storage_data[(storage_data.length) -1].supplierproduce %></td>
+                      </tbody>
+              </tr>
+              <% 
+                 }else{ %>
+                     <tr>
+                        <td colspan="5">No Data</td>
+                     </tr>
+                  <% } %>
+            </table>
+          </div>
+        </div>
+        <!--Table of Data ie: Harvests or storage-->
+        <div class="col-12 col-lg-12 col-xl-12">
+          <div id="harvesttable_heading" style="display: none;">
+          <h4 class="card-title"  >Harvest Data</h4>
+          <button onclick="removefilter()" class="btn btn-sm mt-3" id="all-btn-harvest" style="background-color: white;">All</button>
+            <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3" id="1-month-btn-harvest" style="background-color: white;">1 month</button>
+              <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3" id="3-month-btn-harvest" style="background-color: white;">3 month</button>
+                <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3" id="6-month-btn-harvest" style="background-color: white;">6 month</button>
+                  <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3" id="1-year-btn-harvest" style="background-color: white;">1 year</button>
+          </div>
+          <table class="table table-dark table-striped" id="harvesttable"  style="display: none;">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Harvest ID</th>
+                  <th scope="col">Harvest Datetime</th>
+                  <th scope="col">Supplier</th>
+                  <th scope="col">Produce</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(harvest_data.length){
+
+                    for(var i = 0; i< harvest_data.length; i++) {%>
+                    <tr>
+                      <td scope="harvest_rows" style="width: 3%;"><%= (i+1) %></td>
+                      <td style="width: 25%;"><%= harvest_data[i].harvest_logid %></td>
+                      <td style="width: 39%;"><%= harvest_data[i].harvest_TimeStamp %></td>
+                      <td style="width: 20%;"><%= harvest_data[i].harvest_supplierName %></td>
+                      <td style="width: 7%;"><%= harvest_data[i].harvest_produceName %></td>
+                      <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                          <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')"  class="btn btn-xs btn-info view"
+                             id="<%= ("harvest_view_" + harvest_data[i].harvest_logid) %>"
+                             data-harvest_logid="<%= harvest_data[i].harvest_logid%>"
+                             data-harvest_suppliershortcode="<%=harvest_data[i].harvest_supplierShortcode%>"
+                             data-harvest_suppliername="<%=harvest_data[i].harvest_supplierName%>"
+                             data-harvest_farmername="<%=harvest_data[i].harvest_farmerName%>"
+                             data-harvest_supplieraddress="<%=harvest_data[i].harvest_supplierAddress%>"
+                             data-harvest_producename="<%=harvest_data[i].harvest_produceName%>"
+                             data-harvest_photohash="<%=harvest_data[i].harvest_photoHash%>"
+                             data-harvest_timestamp="<%=harvest_data[i].harvest_TimeStamp%>"
+                            data-harvest_capturetime="<%=harvest_data[i].harvest_CaptureTime%>"
+                            data-harvest_description="<%=harvest_data[i].harvest_Description%>"
+                            data-harvest_geolocation="<%=harvest_data[i].harvest_geolocation%>"
+                            data-harvest_quantity="<%=harvest_data[i].harvest_quantity%>"
+                            data-harvest_unitofmeasure="<%=harvest_data[i].harvest_unitOfMeasure%>"
+                            data-harvest_description_json="<%=harvest_data[i].harvest_description_json%>"
+                            data-harvest_blockchainhashid="<%=harvest_data[i].harvest_BlockchainHashID%>"
+                            data-harvest_blockchainhashdata="<%=harvest_data[i].harvest_BlockchainHashData%>"
+                            data-supplierproduce="<%=harvest_data[i].supplierproduce%>"
+                            data-harvest_bool_added_to_blockchain="<%=harvest_data[i].harvest_bool_added_to_blockchain%>"
+                            data-harvest_added_to_blockchain_date="<%=harvest_data[i].harvest_added_to_blockchain_date%>"
+                            data-harvest_added_to_blockchain_by="<%=harvest_data[i].harvest_added_to_blockchain_by%>"
+                            data-harvest_blockchain_uuid="<%=harvest_data[i].harvest_blockchain_uuid%>"
+                            data-harvest_user="<%=harvest_data[i].harvest_user%>"
+                            data-year_established="<%=harvest_data[i].year_established%>"
+                            data-covid19_response="<%=harvest_data[i].covid19_response%>"
+                            data-logdatetime="<%=harvest_data[i].logdatetime%>"
+                            data-lastmodifieddatetime="<%=harvest_data[i].lastmodifieddatetime%>">
+                            View</a>
+                          </div>
+                      </td>
+                    </tr>
+                    <% }
+                 }else{ %>
+                     <tr>
+                        <td colspan="5">No Data</td>
+                     </tr>
+                  <% } %>
+              </tbody>
+          </table>
+          </div>
+        <!--STORAGE DATA-->
+        <div class="col-12 col-lg-12 col-xl-12">
+          <div id="storagetable_heading" style="display: none;">
+            <h4 class="card-title"  >Storage Data</h4>
+            <button onclick="removefilter()" class="btn btn-sm mt-3" id="all-btn-storage" style="background-color: white;">All</button>
+              <button onclick="activatefilter('1-month')" class="btn btn-sm mt-3" id="1-month-btn-storage" style="background-color: white;">1 month</button>
+                <button onclick="activatefilter('3-month')" class="btn btn-sm mt-3" id="3-month-btn-storage" style="background-color: white;"> 3 month</button>
+                  <button onclick="activatefilter('6-month')" class="btn btn-sm mt-3" id="6-month-btn-storage" style="background-color: white;">6 month</button>
+                    <button onclick="activatefilter('1-year')" class="btn btn-sm mt-3" id="1-year-btn-storage" style="background-color: white;">1 year</abutton>
+              </div>
+            <table class="table table-dark table-striped table-condensed table-responsive" id="storagetable" style="display: none;">
+            <thead>
+              <tr>
+                <th scope="col" >#</th>
+                <th scope="col">Storage ID</th>
+                <th scope="col">Storage Datetime</th>
+                <th scope="col">Shortcode</th>
+                <th scope="col">Produce</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% if(storage_data.length){
+                for(var i = 0; i< storage_data.length; i++) {%>
+                <tr>
+                  <td scope="storage_rows" style="width: 5%;"><%= (i+1) %></td>
+                  <!-- <td><%= storage_data[i].harvest_logid %></td> -->
+                  <td style="width: 23%;"><%= storage_data[i].storage_logid %></td>
+                  <td style="width: 35%;"><%= storage_data[i].market_storageTimeStamp %></td>
+                  <td style="width: 8%;"><%= storage_data[i].harvest_supplierShortcode %></td>
+                  <td style="width: 15%;"><%= storage_data[i].supplierproduce %></td>
+                  <td style="width: 5%;">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                      <a onclick="ShowStorageModal(this, 'view', 'View Storage Entry','viewCSS')"  class="btn btn-xs btn-info view"
+                        id="<%= ("storage_view_" + storage_data[i].storage_logid) %>"
+                        data-harvest_logid="<%= storage_data[i].harvest_logid%>"
+                        data-harvest_suppliershortcode="<%=storage_data[i].harvest_supplierShortcode%>"
+                        data-supplierproduce="<%=storage_data[i].supplierproduce%>"
+                        data-storage_logid="<%=storage_data[i].storage_logid%>"
+                        data-market_shortcode="<%=storage_data[i].market_Shortcode%>"
+                        data-market_name="<%=storage_data[i].market_Name%>"
+                        data-market_address="<%=storage_data[i].market_Address%>"
+                        data-market_quantity="<%=storage_data[i].market_quantity%>"
+                        data-market_unitofmeasure="<%=storage_data[i].market_unitOfMeasure%>"
+                        data-market_storagetimestamp="<%=storage_data[i].market_storageTimeStamp%>"
+                        data-market_storagecapturetime="<%=storage_data[i].market_storageCaptureTime%>"
+                        data-market_url="<%=storage_data[i].market_URL%>"
+                        data-storage_blockchainhashid="<%=storage_data[i].storage_BlockchainHashID%>"
+                        data-storage_blockchainhashdata="<%=storage_data[i].storage_BlockchainHashData%>"
+                        data-storage_description="<%=storage_data[i].storage_Description%>"
+                        data-storage_bool_added_to_blockchain="<%=storage_data[i].storage_bool_added_to_blockchain%>"
+                        data-storage_added_to_blockchain_date="<%=storage_data[i].storage_added_to_blockchain_date%>"
+                        data-storage_added_to_blockchain_by="<%=storage_data[i].storage_added_to_blockchain_by%>"
+                        data-storage_blockchain_uuid="<%=storage_data[i].storage_blockchain_uuid%>"
+                        data-storage_user="<%=storage_data[i].storage_user%>"
+                        data-logdatetime="<%=storage_data[i].logdatetime%>"
+                        data-lastmodifieddatetime="<%=storage_data[i].lastmodifieddatetime%>">
+                        View</a>
+                      </div>
+                  </td>
+                </tr>
+                <% }
+            }else{ %>
+                <tr>
+                    <td colspan="5">No Data</td>
+                </tr>
+              <% } %>
+          </tbody>
+        </table>
+        </div>
+         
+        <!--End of container-->
+        </div>
+        <!-- END FARMER DASHBOARD-->
+    </div>
+
+    <!-- Modal View Harvest-->
+    <form id="harvestModalForm" enctype="multipart/form-data" action="/app/harvest/save" method="post">
+      <div class="modal fade" id="harvestViewModal" tabindex="-1" role="dialog" aria-labelledby="harvestModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="harvestModalLabel">View Harvest</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
+                    <option value="" selected disabled >Choose Supplier...</option>
+                    <option>BGSM</option>
+                    <option>EKLN</option>
+                    <option>OZCF</option>
+                    <option>PEDI</option>
+                    <option>QCGF</option>
+                    <option>WMNP</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_suppliername">Farmer Name</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
+                    <option value="" selected disabled >Choose Farmer Name...</option>
+                    <option>Bergsoom Farm</option>
+                    <option>Eikelaan Farm</option>
+                    <option>Oranjezicht City Farm</option>
+                    <option>Pedi AgriHub</option>
+                    <option>Quick Crop Growers Farm</option>
+                    <option>White Mountain Natural Produce</option>
+                  </select>
+                </div>
+              
+                <div class="form-group">
+                  <label for="viewmodal_supplierproduce">Supplier Produce Code</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                    <option value="" selected disabled >Choose Supplier Produce...</option>
+                    <option>BGSM_Bergamot</option>
+                    <option>BGSM_Lemon</option>
+                    <option>BGSM_Mor</option>
+                    <option>BGSM_Oranges</option>
+                    <option>EKLN_Cauliflower</option>
+                    <option>EKLN_Eggs</option>
+                    <option>EKLN_Granadilla</option>
+                    <option>EKLN_Limes</option>
+                    <option>EKLN_Sorrel</option>
+                    <option>OZCF_Beetroot</option>
+                    <option>OZCF_Chard</option>
+                    <option>OZCF_Herbs</option>
+                    <option>OZCF_Leeks</option>
+                    <option>OZCF_Lettuce</option>
+                    <option>OZCF_Radish</option>
+                    <option>PEDI_Cabbage</option>
+                    <option>PEDI_Carrots</option>
+                    <option>PEDI_Onion</option>
+                    <option>PEDI_Turnips</option>
+                    <option>PEDI_Spinach</option>
+                    <option>QCGF_Basil</option>
+                    <option>QCGF_Beetroot</option>
+                    <option>QCGF_CayennePepper</option>
+                    <option>QCGF_Leeks</option>
+                    <option>QCGF_PakChoi</option>
+                    <option>QCGF_Parsley</option>
+                    <option>QCGF_Radish</option>
+                    <option>WMNP_BabyMarrow</option>
+                    <option>WMNP_Basil</option>
+                    <option>WMNP_Cucumber</option>
+                    <option>WMNP_Fennel</option>
+                    <option>WMNP_GreenBeans</option>
+                    <option>WMNP_Radish</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_producename">Produce Name</label>
+                  <select class="custom-select d-block w-100" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename" >
+                    <option value="" selected disabled >Choose Produce...</option>
+                    <option>Baby Marrow</option>
+                    <option>Baby Leeks</option>
+                    <option>Basil</option>
+                    <option>Beetroot</option>
+                    <option>Bergamot</option>
+                    <option>Blood Oranges</option>
+                    <option>Cabbage</option>
+                    <option>Carrots</option>
+                    <option>Cauliflower</option>
+                    <option>Cayenne Pepper</option>
+                    <option>Cucumber</option>
+                    <option>Eggs</option>
+                    <option>Fennel</option>
+		                <option>Granadilla</option>
+                    <option>Green Beans</option>
+                    <option>Herbs</option>
+                    <option>Lebanese Cucumber</option>
+                    <option>Leeks</option>
+                    <option>Lemon</option>
+                    <option>Lettuce</option>
+		                <option>Limes</option>
+                    <option>Mor</option>
+	                  <option>Onion</option>
+		                <option>Pak Choi</option>
+		                <option>Parsley</option>
+                    <option>Radish</option>
+                    <option>Sorrel</option>
+                    <option>Swiss Chard</option>
+                    <option>Spinach</option>
+                    <option>Turnips</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_supplieraddress">Farmer Address</label>
+                  <input type="text" name="viewmodal_harvest_supplieraddress" class="form-control" id="viewmodal_harvest_supplieraddress" placeholder="Supplier Address">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_farmername">Farmer Name</label>
+                  <input type="text" name="viewmodal_harvest_farmername" class="form-control" id="viewmodal_harvest_farmername" placeholder="Farmer Name">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_year_established">Year Farm Established</label>
+                  <input type="text" name="viewmodal_harvest_year_established" class="form-control" id="viewmodal_harvest_year_established" placeholder="Year Farm Established">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_covid19_response">Brief description of response to COVID-19</label>
+                  <input type="text" name="viewmodal_harvest_covid19_response" class="form-control" id="viewmodal_harvest_covid19_response" placeholder="Brief description of response to COVID-19">
+                </div>
+
+                <!--NB name="viewmodal_harvest_photohash_uploaded_file" and enctype="multipart/form-data" on the from required for multer library-->
+                <div class="form-group">
+                  <label for="viewmodal_harvest_photohash">Harvest Photo</label>
+                  <input type="file" name="viewmodal_harvest_photohash_uploaded_file" class="form-control" id="viewmodal_harvest_photohash" placeholder="Photo hash">
+                  <div id="viewmodal_harvest_photoimageDiv">
+                    <img id="viewmodal_harvest_photoimage" width='100%' alt="Harvest Image" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="viewmodal_harvest_timestamp">Harvest Timestamp</label>
+                    <div class="input-group form_datetime" id="viewmodal_harvest_timestamp_datetimepicker" data-target-input="viewmodal_harvest_timestamp">
+                        <input type="text" class="form-control datetimepicker-input" id="viewmodal_harvest_timestamp" name="viewmodal_harvest_timestamp" placeholder="Actual time of Harvest in the field (Harvest Timestamp)" data-target="#viewmodal_harvest_timestamp"/>
+                        <span class="input-group-addon" data-target="#viewmodal_harvest_timestamp" data-toggle="datetimepicker">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_capturetimeDiv">
+                  <label for="viewmodal_harvest_capturetime">Harvest Data Capture Time</label>
+                  <div class="input-group form_datetime" id="viewmodal_harvest_capturetime_datetimepicker" data-target-input="viewmodal_harvest_capturetime">
+                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_harvest_capturetime" name="viewmodal_harvest_capturetime" placeholder="Harvest Data Capture Time" data-target="#viewmodal_harvest_capturetime"/>
+                      <span class="input-group-addon" data-target="#viewmodal_harvest_capturetime" data-toggle="datetimepicker">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_description">Description of Harvest</label>
+                  <input type="text" name="viewmodal_harvest_description" class="form-control" id="viewmodal_harvest_description" placeholder="Harvest Description">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_geolocation">Harvest Geolocation</label>
+                  <input type="text" name="viewmodal_harvest_geolocation" class="form-control" id="viewmodal_harvest_geolocation" placeholder="Harvest Geolocation">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_quantity">Produce Quantity</label>
+                  <input type="number" name="viewmodal_harvest_quantity" class="form-control" id="viewmodal_harvest_quantity" placeholder="Quantity of produce harvested">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_unitofmeasure">Unit of Measure</label>
+                  <select class="custom-select d-block w-100" id="viewmodal_harvest_unitofmeasure" name="viewmodal_harvest_unitofmeasure">
+                    <option value="" selected disabled >Choose Unit of Measure...</option>
+                    <option>bunch</option>
+                    <option>kilogram</option>
+                    <option>none</option>
+                    <option>box</option>
+                  </select>
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_description_jsonDiv">
+                  <label>Additional Information</label> <br />
+                  <!-- <input type="text" name="viewmodal_harvest_description_json" class="form-control" id="viewmodal_harvest_description_json" placeholder="Harvest Description JSON"> -->
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_pestfree" value="Pesticide Free" /> Pesticide Free<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_certorganic" value="Certified Organic" /> Certified Organic<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_noncertorganic" value="Non-Certified Organic" /> Non-Certified Organic<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_conventional" value="Conventional" /> Conventional<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_freerange" value="Free Range" /> Free Range<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_greenhouse" value="Greenhouse Grown" /> Greenhouse Grown<br />
+                  <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_gmo" value="Non-GMO" /> Non-GMO<br />
+                </div>
+
+                <div class="form-group", id="viewmodal_harvest_blockchainhashidDiv">
+                  <label for="viewmodal_harvest_blockchainhashid">Harvest Blockchain Hash ID</label>
+                  <input type="text" name="viewmodal_harvest_blockchainhashid" class="form-control" id="viewmodal_harvest_blockchainhashid" placeholder="Harvest Blockchain Hash ID">
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_blockchainhashdataDiv">
+                  <label for="viewmodal_harvest_blockchainhashdata">Blockchain Hash Data</label>
+                  <input type="text" name="viewmodal_harvest_blockchainhashdata" class="form-control" id="viewmodal_harvest_blockchainhashdata" placeholder="Blockchain Hash Data">
+                </div>
+
+                <!-- <div class="form-group">
+                  <label for="viewmodal_supplierproduce">Supplier Produce</label>
+                  <input type="text" name="viewmodal_supplierproduce" class="form-control" id="viewmodal_supplierproduce" placeholder="Supplier Produce">
+                </div> -->
+                
+                <div class="form-group" id="viewmodal_harvest_bool_added_to_blockchainDiv">
+                  <label for="viewmodal_harvest_bool_added_to_blockchain">Harvest Added to Blockchain - Yes / No</label>
+                  <input type="text" name="viewmodal_harvest_bool_added_to_blockchain" class="form-control" id="viewmodal_harvest_bool_added_to_blockchain" placeholder="Harvest Added to Blockchain - Yes / No">
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_added_to_blockchain_dateDiv">
+                  <label for="viewmodal_harvest_added_to_blockchain_date">Harvest Added to Blockchain Datetime</label>
+                  <div class="input-group form_datetime" id="viewmodal_harvest_added_to_blockchain_date_datetimepicker" data-target-input="viewmodal_harvest_added_to_blockchain_date">
+                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_harvest_added_to_blockchain_date" name="viewmodal_harvest_added_to_blockchain_date" placeholder="Harvest Added to Blockchain Datetime" data-target="#viewmodal_harvest_added_to_blockchain_date"/>
+                      <span class="input-group-addon" data-target="#viewmodal_harvest_added_to_blockchain_date" data-toggle="datetimepicker">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_added_to_blockchain_byDiv">
+                  <label for="viewmodal_harvest_added_to_blockchain_by">Harvest Added to Blockchain By User</label>
+                  <input type="text" name="viewmodal_harvest_added_to_blockchain_by" class="form-control" id="viewmodal_harvest_added_to_blockchain_by" placeholder="Harvest Added to Blockchain By User">
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_blockchain_uuidDiv">
+                  <label for="viewmodal_harvest_blockchain_uuid">Harvest Blockchain ID</label>
+                  <input type="text" name="viewmodal_harvest_blockchain_uuid" class="form-control" id="viewmodal_harvest_blockchain_uuid" placeholder="Harvest Blockchain ID">
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_userDiv">
+                  <label for="viewmodal_harvest_user">Harvest Logged By User</label>
+                  <input type="text" name="viewmodal_harvest_user" class="form-control" id="viewmodal_harvest_user" placeholder="Harvest Logged By User">
+                </div>
+
+                <div class="form-group" id="viewmodal_logdatetimeDiv">
+                  <label for="viewmodal_logdatetime">Log Datetime</label>
+                  <div class="input-group form_datetime" id="viewmodal_logdatetime_datetimepicker" data-target-input="viewmodal_logdatetime">
+                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_logdatetime" name="viewmodal_logdatetime" placeholder="Log Datetime" data-target="#viewmodal_logdatetime"/>
+                      <span class="input-group-addon" data-target="#viewmodal_logdatetime" id="viewmodal_logdatetime_calendar" data-toggle="datetimepicker">
+                          <span class="glyphicon glyphicon-calendar" id="viewmodal_logdatetime_calendar_icon"></span>
+                      </span>
+                  </div>
+                </div>
+            
+                <div class="form-group" id="viewmodal_lastmodifieddatetimeDiv">
+                  <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
+                  <div class="input-group form_datetime" id="viewmodal_lastmodifieddatetime_datetimepicker" data-target-input="viewmodal_lastmodifieddatetime">
+                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime"/>
+                      <span class="input-group-addon" data-target="#viewmodal_lastmodifieddatetime" data-toggle="datetimepicker">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_logidDiv">
+                  <label for="viewmodal_harvest_logid">Harvest ID</label>
+                  <input type="text" name="viewmodal_harvest_logid" class="form-control" id="viewmodal_harvest_logid" placeholder="Harvest ID">
+                </div> 
+                
+              <!-- <div class="form-group">
+                <div class="input-group date" id="datetimepicker1" data-target-input="#inputdatetimepicker1">
+                    <input type="text" class="form-control datetimepicker-input" placeholder="Last Modified Datetime"  id="inputdatetimepicker1" data-target="#inputdatetimepicker1"/>
+                    <span class="input-group-addon" data-target="#inputdatetimepicker1" data-toggle="datetimepicker">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div> -->
+
+                <div class="form-check" id="harvestCheckDiv">
+                  <input type="checkbox" class="form-check-input" id="harvestCheck" required>
+                  <label class="form-check-label" for="harvestCheck">I confirm the above harvest entry is correct</label>
+                </div>
+              </div>
+              <div class="form-check" id="harvestDeleteDiv">
+                <input type="checkbox" class="form-check-input" id="harvestDelete" required>
+                <label class="form-check-label" for="harvestDelete">I confirm I wish to delete this harvest entry</label>
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer" id="modalFooter">
+              <input type="hidden" name="viewmodal_harvest_logid" class="" id="viewmodal_harvest_logid">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- End Modal View Harvest-->
+
+    <!-- Modal View Storage-->
+    <form id="storageModalForm" action="/app/storage/save" method="post">
+      <div class="modal fade" id="storageViewModal" tabindex="-1" role="dialog" aria-labelledby="storageModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="storageModalLabel">View Storage</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
+
+                <div class="form-group" id="viewmodal_harvest_logidSelectDiv">
+                  <label for="viewmodal_harvest_logidSelect">Select Harvest ID</label>
+                  <select class="custom-select d-block w-100 form-control""  name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID" style="width:100%; >
+                    <option value="" selected disabled>Select Harvest ID...</option>
+                    <% if(typeof harvest_data != "undefined" && harvest_data.length){
+                      for(var i = 0; i< harvest_data.length; i++) {%>
+                        <option value="<%=harvest_data[i].harvest_logid%>"><%= harvest_data[i].harvest_TimeStamp +  "/"  + harvest_data[i].supplierproduce + "/"  + harvest_data[i].harvest_quantity + "("+ harvest_data[i].harvest_unitOfMeasure + ")"%></option>
+                          <% }
+                        }else{ %>
+                          <option>No data</option>
+                         <% } %>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
+                    <option value="" selected disabled >Choose Supplier...</option>
+                    <option>BGSM</option>
+                    <option>EKLN</option>
+                    <option>OZCF</option>
+                    <option>PEDI</option>
+                    <option>QCGF</option>
+                    <option>WMNP</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_supplierproduce">Supplier Produce</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                    <option value="" selected disabled >Choose Supplier Produce...</option>
+                    <option>BGSM_Bergamot</option>
+                    <option>BGSM_Lemon</option>
+                    <option>BGSM_Mor</option>
+                    <option>BGSM_Oranges</option>
+                    <option>EKLN_Cauliflower</option>
+                    <option>EKLN_Eggs</option>
+                    <option>EKLN_Granadilla</option>
+                    <option>EKLN_Limes</option>
+                    <option>EKLN_Sorrel</option>
+                    <option>OZCF_Beetroot</option>
+                    <option>OZCF_Chard</option>
+                    <option>OZCF_Herbs</option>
+                    <option>OZCF_Leeks</option>
+                    <option>OZCF_Lettuce</option>
+                    <option>OZCF_Radish</option>
+                    <option>PEDI_Cabbage</option>
+                    <option>PEDI_Carrots</option>
+                    <option>PEDI_Onion</option>
+                    <option>PEDI_Turnips</option>
+                    <option>PEDI_Spinach</option>
+                    <option>QCGF_Basil</option>
+                    <option>QCGF_Beetroot</option>
+                    <option>QCGF_CayennePepper</option>
+                    <option>QCGF_Leeks</option>
+                    <option>QCGF_PakChoi</option>
+                    <option>QCGF_Parsley</option>
+                    <option>QCGF_Radish</option>
+                    <option>WMNP_BabyMarrow</option>
+                    <option>WMNP_Basil</option>
+                    <option>WMNP_Cucumber</option>
+                    <option>WMNP_Fennel</option>
+                    <option>WMNP_GreenBeans</option>
+                    <option>WMNP_Radish</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_market_Shortcode">Market Shortcode</label>
+                  <select class="custom-select d-block w-100 form-control" name="viewmodal_market_Shortcode" id="viewmodal_market_Shortcode">
+                    <option value="" selected disabled >Choose Market Shortcode...</option>
+                    <option>OZCFM</option>
+                    <option>OBM</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_market_Name">Market Name</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_market_Name" id="viewmodal_market_Name">
+                    <option value="" selected disabled >Choose Market Name...</option>
+                    <option>Oranjezicht City Farm Market</option>
+                    <option>Neighbourgoods Market - The Old Biscuit Mill</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_market_Address">Market Address</label>
+                  <select class="custom-select d-block w-100" name="viewmodal_market_Address" id="viewmodal_market_Address">
+                    <option value="" selected disabled >Choose Market Address...</option>
+                    <option>OBM - 375 Albert Rd, Woodstock, Cape Town, 7915</option>
+                    <option>OZCFM - Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_market_quantity">Produce Quantity</label>
+                  <input type="number" name="viewmodal_market_quantity" class="form-control" id="viewmodal_market_quantity" placeholder="Quantity of produce received by Market">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_market_unitOfMeasure">Unit of Measure</label>
+                  <select class="custom-select d-block w-100" id="viewmodal_market_unitOfMeasure" name="viewmodal_market_unitOfMeasure">
+                    <option value="" selected disabled >Choose Unit of Measure...</option>
+                    <option>bunch</option>
+                    <option>kilogram</option>
+                    <option>none</option>
+                    <option>box</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="viewmodal_market_storageTimeStamp">Storage/Handover Time</label>
+                    <div class="input-group form_datetime" id="viewmodal_market_storageTimeStamp_datetimepicker" data-target-input="viewmodal_market_storageTimeStamp">
+                        <input type="text" class="form-control datetimepicker-input" id="viewmodal_market_storageTimeStamp" name="viewmodal_market_storageTimeStamp" placeholder="Actual time of Storage/Handover with farmer (Storage Timestamp)" data-target="#viewmodal_market_storageTimeStamp"/>
+                        <span class="input-group-addon" data-target="#viewmodal_market_storageTimeStamp" data-toggle="datetimepicker">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" id="viewmodal_market_storageCaptureTimeDiv">
+                  <label for="viewmodal_market_storageCaptureTime">Storage/Handover Data Capture Time</label>
+                  <div class="input-group form_datetime" id="viewmodal_market_storageCaptureTime_datetimepicker" data-target-input="viewmodal_market_storageCaptureTime">
+                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_market_storageCaptureTime" name="viewmodal_market_storageCaptureTime" placeholder="Storage/Handover Data Capture Time" data-target="#viewmodal_market_storageCaptureTime"/>
+                      <span class="input-group-addon" data-target="#viewmodal_market_storageCaptureTime" data-toggle="datetimepicker">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_market_URL">Market URL</label>
+                  <input type="text" name="viewmodal_market_URL" class="form-control" id="viewmodal_market_URL" placeholder="Market URL">
+                </div>
+
+                <div class="form-group", id="viewmodal_storage_BlockchainHashIDDiv">
+                  <label for="viewmodal_storage_BlockchainHashID">Storage Blockchain Hash ID</label>
+                  <input type="text" name="viewmodal_storage_BlockchainHashID" class="form-control" id="viewmodal_storage_BlockchainHashID" placeholder="Storage Blockchain Hash ID">
+                </div>
+
+                <div class="form-group" id="viewmodal_storage_BlockchainHashDataDiv">
+                  <label for="viewmodal_storage_BlockchainHashData">Blockchain Hash Data</label>
+                  <input type="text" name="viewmodal_storage_BlockchainHashData" class="form-control" id="viewmodal_storage_BlockchainHashData" placeholder="Blockchain Hash Data">
+                </div>
+
+                <div class="form-group">
+                  <label for="viewmodal_storage_Description">Description of Produce Storage/Handover</label>
+                  <input type="text" name="viewmodal_storage_Description" class="form-control" id="viewmodal_storage_Description" placeholder="Storage Description">
+                </div>
+
+                <div class="form-group" id="viewmodal_storage_bool_added_to_blockchainDiv">
+                  <label for="viewmodal_storage_bool_added_to_blockchain">Storage Added to Blockchain - Yes / No</label>
+                  <input type="text" name="viewmodal_storage_bool_added_to_blockchain" class="form-control" id="viewmodal_storage_bool_added_to_blockchain" placeholder="Storage Added to Blockchain - Yes / No">
+                </div>
+
+                <div class="form-group" id="viewmodal_storage_added_to_blockchain_dateDiv">
+                  <label for="viewmodal_storage_added_to_blockchain_date">Storage Added to Blockchain Datetime</label>
+                  <div class="input-group form_datetime" id="viewmodal_storage_added_to_blockchain_date_datetimepicker" data-target-input="viewmodal_storage_added_to_blockchain_date">
+                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_storage_added_to_blockchain_date" name="viewmodal_storage_added_to_blockchain_date" placeholder="Storage Added to Blockchain Datetime" data-target="#viewmodal_storage_added_to_blockchain_date"/>
+                      <span class="input-group-addon" data-target="#viewmodal_storage_added_to_blockchain_date" data-toggle="datetimepicker">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+
+                <div class="form-group" id="viewmodal_storage_added_to_blockchain_byDiv">
+                  <label for="viewmodal_storage_added_to_blockchain_by">Storage Added to Blockchain By User</label>
+                  <input type="text" name="viewmodal_storage_added_to_blockchain_by" class="form-control" id="viewmodal_storage_added_to_blockchain_by" placeholder="Storage Added to Blockchain By User">
+                </div>
+
+                <div class="form-group" id="viewmodal_storage_blockchain_uuidDiv">
+                  <label for="viewmodal_storage_blockchain_uuid">Storage Blockchain ID</label>
+                  <input type="text" name="viewmodal_storage_blockchain_uuid" class="form-control" id="viewmodal_storage_blockchain_uuid" placeholder="Storage Blockchain ID">
+                </div>
+
+                <div class="form-group" id="viewmodal_storage_userDiv">
+                  <label for="viewmodal_storage_user">Storage Logged By User</label>
+                  <input type="text" name="viewmodal_storage_user" class="form-control" id="viewmodal_storage_user" placeholder="Storage Logged By User">
+                </div>
+
+                <div class="form-group" id="viewmodal_logdatetimeDiv">
+                  <label for="viewmodal_logdatetime">Log Datetime</label>
+                  <div class="input-group form_datetime" id="viewmodal_logdatetime_datetimepicker" data-target-input="viewmodal_logdatetime">
+                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_logdatetime" name="viewmodal_logdatetime" placeholder="Log Datetime" data-target="#viewmodal_logdatetime"/>
+                      <span class="input-group-addon" data-target="#viewmodal_logdatetime" id="viewmodal_logdatetime_calendar" data-toggle="datetimepicker">
+                          <span class="glyphicon glyphicon-calendar" id="viewmodal_logdatetime_calendar_icon"></span>
+                      </span>
+                  </div>
+                </div>
+
+                <div class="form-group" id="viewmodal_lastmodifieddatetimeDiv">
+                  <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
+                  <div class="input-group form_datetime" id="viewmodal_lastmodifieddatetime_datetimepicker" data-target-input="viewmodal_lastmodifieddatetime">
+                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime"/>
+                      <span class="input-group-addon" data-target="#viewmodal_lastmodifieddatetime" data-toggle="datetimepicker">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+
+                <div class="form-group" id="viewmodal_harvest_logidDiv">
+                  <label for="viewmodal_harvest_logid">Harvest ID</label>
+                  <input type="text" name="viewmodal_harvest_logid" class="form-control" id="viewmodal_harvest_logid" placeholder="Harvest ID">
+                </div>
+
+                <div class="form-group" id="viewmodal_storage_logidDiv">
+                  <label for="viewmodal_storage_logid">Storage/Handover ID</label>
+                  <input type="text" name="viewmodal_storage_logid" class="form-control" id="viewmodal_storage_logid" placeholder="Storage/Handover ID">
+                </div>
+
+                <div class="form-check" id="storageCheckDiv">
+                  <input type="checkbox" class="form-check-input" id="storageCheck" required>
+                  <label class="form-check-label" for="storageCheck">I confirm the above storage entry is correct</label>
+                </div>
+              </div>
+              <div class="form-check" id="storageDeleteDiv">
+                <input type="checkbox" class="form-check-input" id="storageDelete" required>
+                <label class="form-check-label" for="storageDelete">I confirm I wish to delete this storage entry</label>
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer" id="modalFooter">
+              <input type="hidden" name="viewmodal_harvest_logid" class="" id="viewmodal_harvest_logid">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- End Modal View Storage-->
+
+    <!-- start footer -->
+    <% include ./partials/footer %>
+    <!-- end footer -->
+
+    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+    <script src="/js/main.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+    <script type="text/javascript">
+      //HARVEST MODAL
+      function ShowModal(obj_identifier, action, header, contentClassID) {
+
+      var closeButton=$('<input/>').attr({
+          type: "submit",
+          id: "harvestModalClose",
+          value: 'Close',
+          class:"btn btn-secondary",
+          'data-dismiss':"modal"
+      });
+
+      var harvest_logid = $(obj_identifier).data('harvest_logid');
+      var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode'); 
+      var harvest_suppliername = $(obj_identifier).data('harvest_suppliername');
+      var harvest_farmername = $(obj_identifier).data('harvest_farmername');
+      var harvest_supplieraddress = $(obj_identifier).data('harvest_supplieraddress');
+      var harvest_producename = $(obj_identifier).data('harvest_producename');
+      var harvest_photohash = $(obj_identifier).data('harvest_photohash');
+      var harvest_photoimage = harvest_photohash;
+      var harvest_timestamp = $(obj_identifier).data('harvest_timestamp');
+      var harvest_capturetime = $(obj_identifier).data('harvest_capturetime');
+      var harvest_description = $(obj_identifier).data('harvest_description');
+      var harvest_geolocation = $(obj_identifier).data('harvest_geolocation');
+      var harvest_quantity = $(obj_identifier).data('harvest_quantity');
+      var harvest_unitofmeasure = $(obj_identifier).data('harvest_unitofmeasure');
+      var harvest_description_json = $(obj_identifier).data('harvest_description_json');
+      var harvest_blockchainhashid = $(obj_identifier).data('harvest_blockchainhashid');
+      var harvest_blockchainhashdata = $(obj_identifier).data('harvest_blockchainhashdata');
+      var supplierproduce = $(obj_identifier).data('supplierproduce');
+      var harvest_bool_added_to_blockchain = $(obj_identifier).data('harvest_bool_added_to_blockchain');
+      var harvest_added_to_blockchain_date = $(obj_identifier).data('harvest_added_to_blockchain_date');
+      var harvest_added_to_blockchain_by = $(obj_identifier).data('harvest_added_to_blockchain_by');
+      var harvest_blockchain_uuid = $(obj_identifier).data('harvest_blockchain_uuid');
+      var harvest_user = $(obj_identifier).data('harvest_user');
+      var year_established = $(obj_identifier).data('year_established');
+      var covid19_response = $(obj_identifier).data('covid19_response');
+      var logdatetime = $(obj_identifier).data('logdatetime');
+      var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
+
+      console.log("harvest_logid - " + harvest_logid);
+      // console.log("supplierproduce - " + supplierproduce);
+      // console.log("harvest_TimeStamp - " + harvest_TimeStamp);
+      // console.log("harvest_supplierName - " + harvest_supplierName);
+      // console.log("harvest_photohash - " + harvest_photohash);
+      //console.log("harvest_photoimage - " + harvest_photoimage);
+
+      console.log("harvest_description_json - " + harvest_description_json);
+      if(typeof harvest_description_json !== "undefined")
+      {
+        if (harvest_description_json.indexOf("Pesticide Free") != -1)
+        {
+          $("#viewmodal_harvest_description_json_pestfree").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Certified Organic") != -1)
+        {
+          $("viewmodal_harvest_description_json_certorganic").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Non-Certified Organic") != -1)
+        {
+          $("#viewmodal_harvest_description_json_noncertorganic").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Conventional") != -1)
+        {
+          $("#viewmodal_harvest_description_json_conventional").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Free Range") != -1)
+        {
+          $("#viewmodal_harvest_description_json_freerange").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Greenhouse Grown") != -1)
+        {
+          $("#viewmodal_harvest_description_json_greenhouse").prop("checked", true);
+        }
+
+        if (harvest_description_json.indexOf("Non-GMO") != -1)
+        {
+          $("#viewmodal_harvest_description_json_gmo").prop("checked", true);
+        }
+      }
+      $('#viewmodal_harvest_logid').val(harvest_logid);
+      $('#viewmodal_harvest_suppliershortcode').val(harvest_suppliershortcode);
+      $('#viewmodal_harvest_suppliername').val(harvest_suppliername);
+      $('#viewmodal_harvest_farmername').val(harvest_farmername);
+      $('#viewmodal_harvest_supplieraddress').val(harvest_supplieraddress);
+      $('#viewmodal_harvest_producename').val(harvest_producename);
+      //$('#viewmodal_harvest_photohash').val(harvest_photohash);            
+      $('#viewmodal_harvest_photoimage').attr("src", harvest_photoimage);
+
+      $('#viewmodal_harvest_timestamp').val(harvest_timestamp);
+      $('#viewmodal_harvest_capturetime').val(harvest_capturetime);
+      $('#viewmodal_harvest_description').val(harvest_description);
+      $('#viewmodal_harvest_geolocation').val(harvest_geolocation);
+      $('#viewmodal_harvest_quantity').val(harvest_quantity);
+      $('#viewmodal_harvest_unitofmeasure').val(harvest_unitofmeasure);
+      $('#viewmodal_harvest_description_json').val(harvest_description_json);
+      $('#viewmodal_harvest_blockchainhashid').val(harvest_blockchainhashid);
+      $('#viewmodal_harvest_blockchainhashdata').val(harvest_blockchainhashdata);
+      $('#viewmodal_supplierproduce').val(supplierproduce);
+      $('#viewmodal_harvest_bool_added_to_blockchain').val(harvest_bool_added_to_blockchain);
+      $('#viewmodal_harvest_added_to_blockchain_date').val(harvest_added_to_blockchain_date);
+      $('#viewmodal_harvest_added_to_blockchain_by').val(harvest_added_to_blockchain_by);
+      $('#viewmodal_harvest_blockchain_uuid').val(harvest_blockchain_uuid);
+      $('#viewmodal_harvest_user').val(harvest_user);
+      $('#viewmodal_harvest_year_established').val(year_established);
+      $('#viewmodal_harvest_covid19_response').val(covid19_response);
+      $('#viewmodal_logdatetime').val(logdatetime);
+      $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
+
+    //remove modal buttons, then re-add
+      $('#harvestModalClose').remove();
+    
+     if (action==='view'){
+      $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
+      // $('#form1 input').attr('readonly', 'readonly');    
+
+      //SHOW DIVS
+      //System populated:
+      //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
+      //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
+      //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv
+
+      $("#viewmodal_harvest_photoimageDiv").show(); 
+      $("#viewmodal_harvest_blockchainhashidDiv").show();  
+      $("#viewmodal_harvest_blockchainhashdataDiv").show();  
+      $("#viewmodal_harvest_bool_added_to_blockchainDiv").show();  
+      $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
+      $("#viewmodal_harvest_userDiv").show();  
+      $("#viewmodal_harvest_blockchain_uuidDiv").show();  
+      $("#viewmodal_harvest_added_to_blockchain_byDiv").show();  
+      
+      $("#viewmodal_harvest_capturetimeDiv").show();  
+      $("#viewmodal_logdatetimeDiv").show();  
+      $("#viewmodal_lastmodifieddatetimeDiv").show();  
+      $("#viewmodal_harvest_logidDiv").show();  
+
+      $("#harvestCheckDiv").hide();  // hide confirm add/edit checkbox
+      $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
+      $("#modalFooter").append(closeButton);  
+    }
+    
+    
+
+    $('#harvestModalLabel').html(header);
+    $('#modalBodyContainer').removeAttr('class'); //if already exists remove it
+    $('#modalBodyContainer').addClass(contentClassID);
+    $('#harvestViewModal').modal('show');
+  }
+
+  //STORAGE MODAL
+  function ShowStorageModal(obj_identifier, action, header, contentClassID) {
+
+      var closeButton=$('<input/>').attr({
+          type: "submit",
+          id: "storageModalClose",
+          value: 'Close',
+          class:"btn btn-secondary",
+          'data-dismiss':"modal"
+      });
+
+            //retrieve data values on click of view/edit/delete. These datavalues need to be lowercase
+            var harvest_logid = $(obj_identifier).data('harvest_logid');
+            var storage_logid = $(obj_identifier).data('storage_logid');
+            var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode');
+            var supplierproduce = $(obj_identifier).data('supplierproduce');
+            var market_Shortcode = $(obj_identifier).data('market_shortcode');
+            var market_Name = $(obj_identifier).data('market_name');
+            var market_Address = $(obj_identifier).data('market_address');
+            var market_quantity = $(obj_identifier).data('market_quantity');
+            var market_unitOfMeasure = $(obj_identifier).data('market_unitofmeasure');
+            var market_storageTimeStamp = $(obj_identifier).data('market_storagetimestamp');
+            var market_storageCaptureTime = $(obj_identifier).data('market_storagecapturetime');
+            var market_URL = $(obj_identifier).data('market_url');
+            var storage_BlockchainHashID = $(obj_identifier).data('storage_blockchainhashid');
+            var storage_BlockchainHashData = $(obj_identifier).data('storage_blockchainhashdata');
+            var storage_Description = $(obj_identifier).data('storage_description');
+            var storage_bool_added_to_blockchain = $(obj_identifier).data('storage_bool_added_to_blockchain');
+            var storage_added_to_blockchain_date = $(obj_identifier).data('storage_added_to_blockchain_date');
+            var storage_added_to_blockchain_by = $(obj_identifier).data('storage_added_to_blockchain_by');
+            var storage_blockchain_uuid = $(obj_identifier).data('storage_blockchain_uuid');
+            var storage_user = $(obj_identifier).data('storage_user');
+            var logdatetime = $(obj_identifier).data('logdatetime');
+            var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
+
+            //populate Modal elements
+            $('#viewmodal_harvest_logid').val(harvest_logid);
+            $('#viewmodal_storage_logid').val(storage_logid);
+            $('#viewmodal_harvest_suppliershortcode').val(harvest_suppliershortcode);
+            $('#viewmodal_supplierproduce').val(supplierproduce);
+            $('#viewmodal_market_Shortcode').val(market_Shortcode);
+            $('#viewmodal_market_Name').val(market_Name);
+            $('#viewmodal_market_Address').val(market_Address);
+            $('#viewmodal_market_quantity').val(market_quantity);
+            $('#viewmodal_market_unitOfMeasure').val(market_unitOfMeasure);
+            $('#viewmodal_market_storageTimeStamp').val(market_storageTimeStamp);
+            $('#viewmodal_market_storageCaptureTime').val(market_storageCaptureTime);
+            $('#viewmodal_market_URL').val(market_URL);
+            $('#viewmodal_storage_BlockchainHashID').val(storage_BlockchainHashID);
+            $('#viewmodal_storage_BlockchainHashData').val(storage_BlockchainHashData);
+            $('#viewmodal_storage_Description').val(storage_Description);
+            $('#viewmodal_storage_bool_added_to_blockchain').val(storage_bool_added_to_blockchain);
+            $('#viewmodal_storage_added_to_blockchain_date').val(storage_added_to_blockchain_date);
+            $('#viewmodal_storage_added_to_blockchain_by').val(storage_added_to_blockchain_by);
+            $('#viewmodal_storage_blockchain_uuid').val(storage_blockchain_uuid);
+            $('#viewmodal_storage_user').val(storage_user);
+            $('#viewmodal_logdatetime').val(logdatetime);
+            $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
+
+          //remove modal buttons, then re-add
+            $('#storageModalClose').remove();
+
+           if (action==='view'){
+            $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
+            // $('#form1 input').attr('readonly', 'readonly');
+
+              //System populated:
+            //viewmodal_storage_BlockchainHashIDDiv, viewmodal_storage_BlockchainHashDataDiv,
+            //viewmodal_storage_bool_added_to_blockchainDiv, viewmodal_storage_added_to_blockchain_dateDiv,
+            //viewmodal_storage_userDiv, viewmodal_storage_blockchain_uuidDiv, viewmodal_storage_added_to_blockchain_byDiv
+
+            $("#viewmodal_storage_BlockchainHashIDDiv").show();
+            $("#viewmodal_storage_BlockchainHashDataDiv").show();
+            $("#viewmodal_storage_bool_added_to_blockchainDiv").show();
+            $("#viewmodal_storage_added_to_blockchain_dateDiv").show();
+            $("#viewmodal_storage_userDiv").show();
+            $("#viewmodal_storage_blockchain_uuidDiv").show();
+            $("#viewmodal_storage_added_to_blockchain_byDiv").show();
+
+            $("#viewmodal_market_storageCaptureTimeDiv").show();
+            $("#viewmodal_logdatetimeDiv").show();
+            $("#viewmodal_lastmodifieddatetimeDiv").show();
+            $("#viewmodal_harvest_logidDiv").show();
+            $("#viewmodal_storage_logidDiv").show();
+
+            $("#viewmodal_harvest_logidSelectDiv").hide();
+            $("#viewmodal_harvest_logidSelect").attr("required", false); // make Harvest Logid Select box not required otherwise form will not submit
+
+            $("#storageCheckDiv").hide();  // hide confirm add/edit checkbox
+            $("#storageDeleteDiv").hide();  // hide confirm delete checkbox
+            $("#modalFooter").append(closeButton);
+          }
+
+          $('#storageModalLabel').html(header);
+          $('#modalBodyContainer').removeAttr('class'); //if already exists remove it
+          $('#modalBodyContainer').addClass(contentClassID);
+          $('#storageViewModal').modal('show');
+        }
+    </script>
+
+  </body>
+</html>
