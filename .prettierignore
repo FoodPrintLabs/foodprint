@@ -5,3 +5,7 @@ coverage
 # Ignore all HTML files:
 *.html
 *.ejs
+
+# Ignore minified files:
+*.min.css
+*.min.js
