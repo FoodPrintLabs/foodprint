@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+      <link rel="stylesheet" href="css/timeline.css" />
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+  <section class="probootstrap-slider flexslider">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; z-index: 49;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="probootstrap-slider-text text-center">
+                        <!-- <h1 class="probootstrap-heading probootstrap-animate mb20 fadeIn probootstrap-animated" data-animate-effect="fadeIn">Features</h1> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="slides">
+        <li style="background-image: url(/img/slider_5.jpg); width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;" class="flex-active-slide" data-thumb-alt=""></li>
+    </ul>
+    <ol class="flex-control-nav flex-control-paging"><li><a href="#" class="flex-active">1</a></li><li><a href="#" class="">2</a></li></ol><ul class="flex-direction-nav"><li class="flex-nav-prev"><a class="flex-prev" href="#"></a></li><li class="flex-nav-next"><a class="flex-next" href="#"></a></li></ul>
+</section>
+<!-- END: slider  -->
+
+  <section class="probootstrap-section">
+    <div class="container">
+      <div class="probootstrap-section-heading text-center mb50 probootstrap-animate">
+        <h4 class="sub-heading">Features and Benefits</h4>
+        <h2 class="heading">Why use FoodPrint?</h2>
+      </div>
+      
+      <% include ./partials/notificationbar %>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+        <div class="service">
+          <div class="icon"><i class="icon-leaf"></i></div>
+          <h2 class="heading">Farmers</h2>
+          <hr>
+          <p><b>Features</b></p>
+          <ul>
+            <li>Digital Harvest Logbook</li>
+            <li>Wholesale Marketplace</li>
+            <li>Produce Reporting & Analytics</li>
+            <li>Market Directory (farm-to-fork markets)</li>
+            <li>Retailer Directory (farm-to-fork retailers)</li>
+          </ul> 
+          <hr>
+          <p><b>Benefits</b></p>
+          <ul>
+            <li>Direct access to markets and services</li>
+            <li>Get rid of paper records</li>
+            <li>View, store and search produce information on demand</li>
+            <li>Improve your credibility</li>
+            <li>Communicate your contribution to ethical and sustainable farming</li>
+            <li>Increase profitability</li>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix visible-sm-block"></div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+        <div class="service">
+          <div class="icon"><i class="icon-office"></i></div>
+          <h2 class="heading">Agri-Processors/Markets/Retailers</h2>
+          <hr>
+          <p><b>Features</b></p>
+          <ul>
+            <li>Digital Storage/Handover Logbook</li>
+            <li>Bulk Wholesale Produce Ordering</li>
+            <li>Produce Reporting & Analytics</li>
+            <li>Digital Produce Traceability</li>
+            <li>Farmer Directory</li>
+          </ul>
+          <hr>
+          <p><b>Benefits</b></p>
+          <ul>
+            <li>Direct access to farmers and produce</li>
+            <li>View, store and search produce information on demand</li>
+            <li>Get rid of paper records</li>
+            <li>Reliably track produce chain-of-custody</li>
+            <li>Demonstrate your commitment to fair, ethical and sustainable food systems</li>
+            <li>Increase supply chain efficiency</li>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix visible-sm-block"></div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+        <div class="service">
+          <div class="icon"><i class="icon-users2"></i></div>
+          <h2 class="heading">Consumers</h2>
+          <hr>
+          <p><b>Features</b></p>
+          <ul>
+            <li>Buy Fresh Produce Online</li>
+            <li>QR Codes for Produce Provenance</li>
+            <li>Weekly Produce View</li>
+            <li>Market Directory (farm-to-fork markets)</li>
+            <li>Retailer Directory (farm-to-fork retailers)</li>
+          </ul>
+          <hr>
+          <p><b>Benefits</b></p>
+          <ul>
+            <li>Schedule your fresh produce purchases by subscribing to seasonal produce boxes delivered weekly</li>
+            <li>Scan a QR code to see where your produce is coming from, who the farmer is & when it was harvested</li>
+            <li>Buy responsibly</li>
+            <li>Buy local and support local producers</li>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix visible-sm-block"></div>
+      <div class="clearfix visible-lg-block visible-md-block"></div>
+    </div>
+</section>
+
+  <section class="probootstrap-section" style="background-image: url(/img/slider_4.jpg)">
+    <div class="container">
+      <div class="probootstrap-section-heading text-center mb50 probootstrap-animate">
+        <h3 class="heading" style="color: white">ALIGNMENT WITH SDGs</h3>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="media-item">
+            <figure><img src="img/E_WEB_02.png" alt="SDG 2 - Zero Hunger" class="img-responsive"></figure>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="media-item">
+            <figure><img src="img/E_WEB_08.png" alt="SDG 8 - Decent Work and Economic Growth" class="img-responsive" ></figure>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="media-item">
+            <figure><img src="img/E_WEB_09.png" alt="SDG 9 - Industry, Innovation and Infrastructure" class="img-responsive"></figure>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="media-item">
+            <figure><img src="img/E_WEB_12.png" alt="SDG 12 - Responsible Consumption and Production" class="img-responsive"></figure>
+          </div>
+        </div>
+
+        <div class="clearfix visible-lg-block visible-md-block visible-sm-block"></div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <section class="probootstrap-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="service">
+            <div class="icon"><i class="icon-location"></i></div>
+            <h2 class="heading">Locally Grown Vegetables</h2>
+            <p>The majority of the produce at OZCF is grown at farms in and around the western cape, all the way from the West Cost to George</p>
+            <p>This helps support the small scale farmers making use of sustainable farming methods</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="service">
+            <div class="icon"><i class="icon-tree"></i></div>
+            <h2 class="heading">Natural As It's In Nature</h2>
+            <p>Not all produce at the market is organically certified but it is pesticide free. You are given the knowledge so that you can choose accordingly.</p>
+            <p>The produce is grown using sustainable farming methods that are good for the land and the people.</p>
+          </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+          <div class="service">
+            <div class="icon"><i class="icon-heart-outlined"></i></div>
+            <h2 class="heading">Food for Thought</h2>
+            <p>Knowing more about the provenance of your produce offers you better agency to support farmers making use of ethical farming methods.</p>
+            <p>It gives you the chance to put your support behind produce that is good for the land and for</p>
+          </div>
+        <div class="clearfix visible-lg-block visible-md-block"></div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- start footer -->
+  <% include ./partials/footer %>
+  <!-- end footer -->  
+
+  <div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="icon-chevron-thin-up"></i></a>
+  </div>
+
+  <script src="js/scripts.min.js"></script>
+  <script src="js/main.min.js"></script>
+  <script src="js/custom.js"></script>
+
+  <!-- Sweet Alert Javascript-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+  </body>
+</html>
