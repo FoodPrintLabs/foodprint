@@ -1637,6 +1637,12 @@ h4 {
     height: 0;
   }
 }
+/*Bigger resolution storage to market stall width change*/
+@media only screen and (min-width: 1440px) {
+  p.description.res-change {
+    padding-bottom: 50px;
+  }
+}
 
 /******************* Timeline Demo - 8 *****************/
 .main-timeline8 {
