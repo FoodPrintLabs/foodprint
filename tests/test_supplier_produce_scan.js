@@ -3,15 +3,16 @@ const { Op, Sequelize } = require('sequelize');
 var initModels = require('../models/init-models');
 var sequelise = require('../config/db/db_sequelise');
 var models = initModels(sequelise);
+var moment = require('moment'); //datetime
 
 const InsertProduce = async () => {
   const data = models.FoodprintWeeklyview.count({
-    where: { harvest_supplierShortcode: 'TEST' },
+    where: { logid: 'test8c7c-9d4e-49dd-8b57-09e08df01234' },
   }).then(count => {
-    if (count != 0) {
+    if (count !== 0) {
       console.log('TEST Weekly view already exists');
     } else {
-      const insert = await models.FoodprintWeeklyview.create({
+      const insert = models.FoodprintWeeklyview.create({
         logid: 'test8c7c-9d4e-49dd-8b57-09e08df01234',
         harvest_logid: 'test51a0-e0e2-4b8f-8468-a00291ee1234',
         harvest_supplierShortcode: 'TEST',
@@ -51,7 +52,7 @@ const InsertProduce = async () => {
         harvest_blockchain_uuid: '-',
         harvest_user: 'PLACEHOLDER - harvest_user',
         storage_user: 'PLACEHOLDER - storage_user',
-        logdatetime: '2020-11-10 11:00:00',
+        logdatetime: '2022-01-01 11:00:00',
         lastmodifieddatetime: '2020-11-10 11:00:00',
         year_established: '2020',
         covid19_response: 'Covid-19 protocols observed',
@@ -62,8 +63,9 @@ const InsertProduce = async () => {
 
 const updateLogDateTime = async () => {
   try {
+    await sleep(5000);
     const result = await models.FoodprintWeeklyview.update(
-      { logdatetime: '2020-04-25 11:00:00' },
+      { logdatetime: moment().format('YYYY-MM-DD HH:mm:ss') /*current date and time*/ },
       {
         where: {
           logid: 'test8c7c-9d4e-49dd-8b57-09e08df01234',
@@ -77,6 +79,11 @@ const updateLogDateTime = async () => {
 
 const createTable = async () => {
   models.FoodprintWeeklyview.sync();
+};
+//------A custom sleep function to call in an async function------\\
+
+const sleep = milliseconds => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
 };
 
 const run = async () => {
