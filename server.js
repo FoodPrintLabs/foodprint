@@ -60,9 +60,10 @@ var configRouter = require('./routes/config');
 var harvestRouter = require('./routes/harvest');
 var storageRouter = require('./routes/storage');
 var authRouter = require('./routes/auth');
-var blockchainRouter = require('./routes/blockchain');
+// var blockchainRouter = require('./routes/blockchain');
 var dashboardsRouter = require('./routes/dashboards');
 var qrCodeRouter = require('./routes/qrcode');
+var umsRouter = require('./routes/usermanagement');
 
 var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
@@ -140,9 +141,10 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 // Mount routers
 app.use('/', router);
-app.use('/', blockchainRouter);
+// app.use('/', blockchainRouter);
 app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
+app.use('/app/usermanagement', umsRouter);
 app.use('/app/harvest', harvestRouter);
 app.use('/app/storage', storageRouter);
 app.use('/app/produce', produceRouter);
@@ -236,6 +238,19 @@ passport.deserializeUser(function (id, cb) {
     }
     cb(null, user);
   });
+  //Models currently giving error upon login
+  /*models.User.findUserById(id, function (err, user) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, user);
+  });
+  models.User.findByUsername(id, function (err, user) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, user);
+  });*/
 });
 
 // catch 404 and forward to error handler

@@ -9,6 +9,14 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true,
       },
+      user_uuid: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      userId: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
       firstName: {
         type: DataTypes.STRING(255),
         allowNull: true,
@@ -39,10 +47,21 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      createdAt: {
-        type: DataTypes.DATE,
+      farmName: {
+        type: DataTypes.STRING(255),
         allowNull: true,
-        defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+      organisationName: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      organisationType: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      city: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
       },
       registrationChannel: {
         type: DataTypes.STRING(255),
@@ -51,6 +70,19 @@ module.exports = function (sequelize, DataTypes) {
       nationalIdPhotoHash: {
         type: DataTypes.BLOB,
         allowNull: true,
+      },
+      emailVerificationToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      isEmailVerified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     },
     {

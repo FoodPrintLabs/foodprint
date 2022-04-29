@@ -12,7 +12,6 @@ let models = initModels(sequelise);
 const { Sequelize } = require('sequelize');
 let passport = require('passport');
 
-
 /**
  * @swagger
  * components:
@@ -952,7 +951,6 @@ router.post('/harvest/whatsapp', function (req, res, next) {
   }
 });
 
-
 /**
  * @swagger
  * /app/api/v1/storage:
@@ -1711,7 +1709,6 @@ router.post('/storage/whatsapp', function (req, res, next) {
     });
   }
 });
-
 
 /**
  * @swagger
