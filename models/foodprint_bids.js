@@ -13,15 +13,15 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      bid_UserName: {
+      bid_userName: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      bid_UserID: {
+      bid_userID: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      Bid_TimeStamp: {
+      bid_timeStamp: {
         type: DataTypes.DATE,
         allowNull: true,
       },
@@ -41,19 +41,23 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      bid_SaleTime: {
+      bid_status: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_saleTime: {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      bid_SaleUserName: {
+      bid_saleUserName: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      bid_SaleUserId: {
+      bid_saleUserId: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      bid_SalePrice: {
+      bid_salePrice: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
