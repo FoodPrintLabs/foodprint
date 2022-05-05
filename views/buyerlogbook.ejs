@@ -17,20 +17,23 @@
    <div class="container" style="width: 100%;">
     <h3>Buyer Logbook</h3>
     <div>
-        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Configuration</button>
+        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Bid</button>
     </div>
     
     <% include ./partials/notificationbar %>
 
     <br>
-      <table class="table table-hover table-sm" id="configtable">
+      <table class="table table-hover table-sm" id="bidTable">
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Config ID</th>
-            <th scope="col">Config Name</th>
-            <th scope="col">Config Description</th>
-            <th scope="col">Config Value</th>
+            <th scope="col">Bid logID</th>
+            <th scope="col">Produce Name</th>
+            <th scope="col">Bid Timestamp</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Unit of Measure</th>
+            <th scope="col">Bid Price</th>
+            <th scope="col">Bid Status</th>
             <th width="200px">Action</th>
           </tr>
         </thead>
@@ -40,23 +43,30 @@
               for(var i = 0; i< data.length; i++) {%>
               <tr>
                 <th scope="row"><%= (i+1) %></th>
-                <td><%= data[i].configid%></td>
-                <td><%= data[i].configname%></td>
-                <td><%= data[i].configdescription%></td>
-                <td><%= data[i].configvalue%></td>
+                <td><%= data[i].bid_logid%></td>
+                <td><%= data[i].bid_produceName%></td>
+                <td><%= data[i].bid_timeStamp%></td>
+                <td><%= data[i].bid_quantity%></td>
+                <td><%= data[i].bid_unitOfMeasure%></td>
+                <td><%= data[i].bid_price%></td>
+                <td><%= data[i].bid_status%></td>
                 <td>
-                    <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-configid="<%= data[i].configid%>"
-                       data-configname="<%= data[i].configname%>" data-configdescription="<%=data[i].configdescription%>"
-                        data-configvalue="<%= data[i].configvalue%>">Edit</a>
-                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-configid2="<%= data[i].configid%>"
-                       data-configname2="<%= data[i].configname%>">Delete</a>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-bid_logid="<%= data[i].bid_logid%>"
+                      data-bid_produceName="<%= data[i].bid_produceName%>" data-bid_timeStamp="<%=data[i].bid_timeStamp%>"
+                      data-bid_quantity="<%= data[i].bid_quantity%>" data-bid_price="<%= data[i].bid_price%>" 
+                      data-bid_status="<%= data[i].bid_status%>"
+                      data-bid_userName="<%= data[i].bid_userName%>" data-bid_unitOfMeasure="<%= data[i].bid_unitOfMeasure%>"  
+                      data-bid_saleTime="<%= data[i].bid_saleTime%>" data-bid_saleUserName="<%= data[i].bid_saleUserName%>" 
+                      data-bid_salePrice="<%= data[i].bid_salePrice%>" data-bid_userID="<%= data[i].bid_userID%>" 
+                      data-bid_saleUserId="<%= data[i].bid_saleUserId%>"
+                      >View</a>
                 </td>
               </tr>
               <% }
 
            }else{ %>
                <tr>
-                  <td colspan="5">No Configuration</td>
+                  <td colspan="5">No Bidding data available for user</td>
                </tr>
             <% } %>
 
@@ -66,31 +76,35 @@
    <!-- END TABLE-->
 
    <!-- Modal Add Configuration-->
-	  <form action="/app/config/save" method="post">
+	  <form action="/app/order/buyer/bid/save" method="post">
         <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
            <div class="modal-content">
              <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Add New Configuration</h5>
+               <h5 class="modal-title" id="exampleModalLabel">PLACE NEW BID</h5>
                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                  <span aria-hidden="true">&times;</span>
                </button>
              </div>
              <div class="modal-body">
                <div class="form-group">
-                   <label for="config_name">Config Name</label>
-                   <input type="text" name="config_name" class="form-control" placeholder="Config Name" required>
+                   <label for="config_name">Produce Name</label>
+                   <input type="text" name="bid_produceName" class="form-control" placeholder="Produce Name" required>
                </div>
 
                <div class="form-group">
-                   <label for="config_description">Config Description</label>
-                   <input type="text" name="config_description" class="form-control" placeholder="Config Description" required>
+                   <label for="config_description">Produce quantity</label>
+                   <input type="text" name="bid_quantity" class="form-control" placeholder="Quantity" required>
                </div>
 
                <div class="form-group">
-                   <label for="config_value">Config Value</label>
-                   <input type="text" name="config_value" class="form-control" placeholder="Config Value" required>
+                   <label for="config_value">Unit of Measure</label>
+                   <input type="text" name="bid_unitOfMeasure" class="form-control" placeholder="Unit of Measure" required>
                </div>
+               <div class="form-group">
+                <label for="config_name">Price</label>
+                <input type="text" name="bid_price" class="form-control" placeholder="Bid Price" required>
+            </div>
              </div>
              <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -102,13 +116,13 @@
 	 </form>
    <!-- End Modal Add Configuration-->
 
-   <!-- Modal Update Configuration-->
+   <!-- Modal View Configuration-->
    <form action="/app/config/update" method="post">
        <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Configuration</h5>
+              <h5 class="modal-title" id="exampleModalLabel">View Bid</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -140,32 +154,7 @@
   </form>
    <!-- End Modal Update Configuration-->
 
-	 <!-- Modal Delete Configuration-->
- 	  <form id="add-row-form" action="/app/config/delete" method="post">
- 	     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
- 	        <div class="modal-dialog">
- 	           <div class="modal-content">
- 	               <div class="modal-header">
-					  <h5 class="modal-title" id="myModalLabel">Delete Configuration</h5>
-                       <strong>Are you sure to delete this data?</strong>
- 	                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
- 	               </div>
- 	               <div class="modal-body">
-                       <div class="form-group">
-                           <label for="config_name2">Config Name</label>
-                           <input type="text" name="config_name2" id="config_name2" class="form-control config_name2" readonly>
-                       </div>
- 	               </div>
- 	               <div class="modal-footer">
-						<input type="hidden" name="config_id2" class="form-control config_id2" required>
- 	                   	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
- 	                  	<button type="submit" class="btn btn-danger">Delete</button>
- 	               </div>
- 	      			</div>
- 	        </div>
- 	     </div>
- 	 </form>
-    <!-- End Modal Delete Configuration-->
+	 
 
     <!-- start footer -->
     <% include ./partials/footer %>
@@ -179,7 +168,7 @@
     $(document).ready(function(){
 
         //showing data to edit modal
-        $('#configtable').on('click','.edit',function(){
+        $('#bidTable').on('click','.edit',function(){
             var config_id = $(this).data('configid');
             var config_name = $(this).data('configname');
             var config_description = $(this).data('configdescription');
@@ -190,15 +179,6 @@
             $('.config_value').val(config_value);
             $('.config_id').val(config_id);
       });
-
-        //showing delete record modal
-        $('#configtable').on('click','.delete',function(){
-            var config_id2 = $(this).data('configid2');
-            var config_name2 = $(this).data('configname2');
-            $('#DeleteModal').modal('show');
-            $('.config_id2').val(config_id2);
-            $('.config_name2').val(config_name2);
-        });
     });
     </script>
   </body>
