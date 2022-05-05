@@ -24,8 +24,12 @@ router.get(
   '/',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Buyer || req.user.role === ROLES.Admin) {
-      models.FoodPrintBids.findAll({
+    if (req.user.role === ROLES.Buyer) {
+      console.log('In buyer if');
+      models.Buyer_bid.findAll({
+        where: {
+          bid_user: req.user.email,
+        },
         order: [['pk', 'DESC']],
       })
         .then(rows => {
@@ -48,8 +52,9 @@ router.get(
             page_name: 'buyerlogbook',
           });
         });
-    } else if (req.user.role === ROLES.Seller || req.user.role === ROLES.Admin) {
-      models.FoodPrintOffers.findAll({
+    } else if (req.user.role === ROLES.Seller) {
+      console.log('In seller if');
+      models.Seller_offer.findAll({
         order: [['pk', 'DESC']],
       })
         .then(rows => {
@@ -90,7 +95,7 @@ router.get(
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
     if (req.user.role === ROLES.Buyer || req.user.role === ROLES.Admin) {
-      models.FoodPrintBids.findAll({
+      models.Buyer_bid.findAll({
         order: [['pk', 'DESC']],
       })
         .then(rows => {
@@ -126,7 +131,7 @@ router.get(
 );
 */
 
-//route for save data
+//route for save Bid
 router.post(
   '/bid/save',
   [
@@ -150,17 +155,21 @@ router.post(
       }); //should add error array here
     } else {
       let data = {
+        bid_logid: uuidv4(),
+        bid_user: req.user.email,
         bid_produceName: req.body.bid_produceName,
         bid_quantity: req.body.bid_quantity,
         bid_unitOfMeasure: req.body.bid_unitOfMeasure,
-        bid_price: req.body.bid_price,
+        bid_price: 'R' + req.body.bid_price,
+        bid_timeStamp: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+        bid_status: 'Placed',
       };
       try {
-        models.FoodPrintBids.create(data)
+        models.Buyer_bid.create(data)
           .then(_ => {
             req.flash(
               'success',
-              'New Bid placed successfully! Bid for Produce (' + req.body.produce_name + ')'
+              'New Bid placed successfully! Bid for Produce (' + req.body.bid_produceName + ')'
             );
             res.redirect('/app/order');
           })
@@ -180,6 +189,76 @@ router.post(
           success: false,
           errors: e.array(),
           page_name: 'buyerlogbook',
+        });
+      }
+    }
+  }
+);
+
+//route for save Offer
+router.post(
+  '/offer/save',
+  [
+    check('offer_produceName', 'Your produce name is not valid').not().isEmpty().trim().escape(),
+    check('offer_quantity', 'Your quantity is not valid').not().isEmpty().trim().escape(),
+    check('offer_unitOfMeasure', 'Your unit of measure is not valid')
+      .not()
+      .isEmpty()
+      .trim()
+      .escape(),
+    check('offer_price', 'Your offer price is not valid').not().isEmpty().trim().escape(),
+  ],
+  function (req, res) {
+    const result = validationResult(req);
+    var errors = result.errors;
+    for (var key in errors) {
+      console.log('Validation error - ' + errors[key].msg);
+    }
+    if (!result.isEmpty()) {
+      req.flash('error', errors);
+      res.render('sellerlogbook', {
+        page_title: 'FoodPrint - Seller Logbook Page',
+        data: '',
+        page_name: 'sellerlogbook',
+      }); //should add error array here
+    } else {
+      let data = {
+        offer_logid: uuidv4(),
+        offer_user: req.user.email,
+        offer_produceName: req.body.offer_produceName,
+        offer_quantity: req.body.offer_quantity,
+        offer_unitOfMeasure: req.body.offer_unitOfMeasure,
+        offer_price: 'R' + req.body.offer_price,
+        offer_timeStamp: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+        offer_status: 'Placed',
+      };
+      try {
+        models.Seller_offer.create(data)
+          .then(_ => {
+            req.flash(
+              'success',
+              'New Offer placed successfully! Offer for Produce (' +
+                req.body.offer_produceName +
+                ')'
+            );
+            res.redirect('/app/order');
+          })
+          .catch(err => {
+            //throw err;
+            req.flash('error', err);
+            // redirect to Produce page
+            res.redirect('/app/order');
+          });
+      } catch (e) {
+        //this will eventually be handled by your error handling middleware
+        next(e);
+        //res.json({success: false, errors: e});
+        res.render('sellerlogbook', {
+          page_title: 'FoodPrint - Seller logbook Page',
+          data: '',
+          success: false,
+          errors: e.array(),
+          page_name: 'sellerlogbook',
         });
       }
     }
