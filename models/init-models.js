@@ -8,7 +8,8 @@ var _FoodprintWeeklyview = require('./foodprint_weeklyview');
 var _MarketSubscription = require('./market_subscription');
 var _FoodprintProduce = require('./foodprint_produce');
 var _FoodprintProducePrice = require('./foodprint_produce_price');
-var _FoodPrintBids = require('./foodprint_bids');
+var _Buyer_bid = require('./buyer_bid');
+var _Seller_offer = require('./seller_offer');
 var _User = require('./user');
 
 function initModels(sequelize) {
@@ -21,7 +22,8 @@ function initModels(sequelize) {
   var MarketSubscription = _MarketSubscription(sequelize, DataTypes);
   var FoodprintProduce = _FoodprintProduce(sequelize, DataTypes);
   var FoodprintProducePrice = _FoodprintProducePrice(sequelize, DataTypes);
-  var FoodPrintBids = _FoodPrintBids(sequelize, DataTypes);
+  var Buyer_bid = _Buyer_bid(sequelize, DataTypes);
+  var Seller_offer = _Seller_offer(sequelize, DataTypes);
   var User = _User(sequelize, DataTypes);
 
   return {
@@ -35,7 +37,8 @@ function initModels(sequelize) {
     User,
     FoodprintProduce,
     FoodprintProducePrice,
-    FoodPrintBids,
+    Buyer_bid,
+    Seller_offer,
   };
 }
 module.exports = initModels;
