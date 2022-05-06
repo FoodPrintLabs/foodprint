@@ -56,7 +56,7 @@ const InsertProduce = async () => {
         lastmodifieddatetime: '2020-11-10 11:00:00',
         year_established: '2020',
         covid19_response: 'Covid-19 protocols observed',
-      }).then(() => console.log('Produce Price data has been saved'));
+      }).then(() => console.log('TEST Farm to Fork data added'));
     }
   });
 };
