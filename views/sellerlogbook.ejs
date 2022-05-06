@@ -52,11 +52,11 @@
                 <td><%= data[i].offer_status%></td>
                 <td>
                     <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-offer_logid="<%= data[i].offer_logid%>"
-                      data-offer_produceName="<%= data[i].offer_produceName%>" data-offer_timeStamp="<%=data[i].offer_timeStamp%>"
+                      data-offer_producename="<%= data[i].offer_produceName%>" data-offer_timestamp="<%=data[i].offer_timeStamp%>"
                       data-offer_quantity="<%= data[i].offer_quantity%>" data-offer_price="<%= data[i].offer_price%>" 
                       data-offer_status="<%= data[i].offer_status%>"
-                      data-offer_user="<%= data[i].offer_user%>" data-offer_unitOfMeasure="<%= data[i].offer_unitOfMeasure%>"  
-                      data-offer_saleTime="<%= data[i].offer_saleTime%>" data-offer_saleUser="<%= data[i].offer_saleUser%>" 
+                      data-offer_user="<%= data[i].offer_user%>" data-offer_unitofmeasure="<%= data[i].offer_unitOfMeasure%>"  
+                      data-offer_saletime="<%= data[i].offer_saleTime%>" data-offer_saleuser="<%= data[i].offer_saleUser%>" 
                       >View</a>
                 </td>
               </tr>
@@ -232,16 +232,16 @@
         //showing data to edit modal
         $('#OfferTable').on('click','.edit',function(){
             var offer_logid = $(this).data('offer_logid');
-            var offer_produceName = $(this).data('offer_produceName');
+            var offer_produceName = $(this).data('offer_producename');
             var offer_quantity = $(this).data('offer_quantity');
-            var offer_unitOfMeasure = $(this).data('offer_unitOfMeasure');
+            var offer_unitOfMeasure = $(this).data('offer_unitofmeasure');
             var offer_price = $(this).data('offer_price');
             var offer_user = $(this).data('offer_user');
-            var offer_timeStamp= $(this).data('offer_timeStamp');
+            var offer_timeStamp= $(this).data('offer_timestamp');
             var offer_status = $(this).data('offer_status');
-            var offer_saleTime = $(this).data('offer_saleTime');
-            var offer_saleUser = $(this).data('offer_saleUser');
-            var offer_salePrice = $(this).data('offer_salePrice');
+            var offer_saleTime = $(this).data('offer_saletime');
+            var offer_saleUser = $(this).data('offer_saleuser');
+            var offer_salePrice = $(this).data('offer_saleprice');
             $('#viewModal').modal('show');
             $('.offer_logid').val(offer_logid);
             $('.offer_produceName').val(offer_produceName);

@@ -25,7 +25,6 @@ router.get(
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
     if (req.user.role === ROLES.Buyer) {
-      console.log('In buyer if');
       models.Buyer_bid.findAll({
         where: {
           bid_user: req.user.email,
@@ -53,7 +52,6 @@ router.get(
           });
         });
     } else if (req.user.role === ROLES.Seller) {
-      console.log('In seller if');
       models.Seller_offer.findAll({
         order: [['pk', 'DESC']],
       })

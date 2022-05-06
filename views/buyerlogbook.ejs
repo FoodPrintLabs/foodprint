@@ -52,11 +52,11 @@
                 <td><%= data[i].bid_status%></td>
                 <td>
                     <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-bid_logid="<%= data[i].bid_logid%>"
-                      data-bid_produceName="<%= data[i].bid_produceName%>" data-bid_timeStamp="<%=data[i].bid_timeStamp%>"
+                      data-bid_producename="<%= data[i].bid_produceName%>" data-bid_timestamp="<%=data[i].bid_timeStamp%>"
                       data-bid_quantity="<%= data[i].bid_quantity%>" data-bid_price="<%= data[i].bid_price%>" 
                       data-bid_status="<%= data[i].bid_status%>"
-                      data-bid_user="<%= data[i].bid_user%>" data-bid_unitOfMeasure="<%= data[i].bid_unitOfMeasure%>"  
-                      data-bid_saleTime="<%= data[i].bid_saleTime%>" data-bid_saleUser="<%= data[i].bid_saleUser%>" 
+                      data-bid_user="<%= data[i].bid_user%>" data-bid_unitofmeasure="<%= data[i].bid_unitOfMeasure%>"  
+                      data-bid_saletime="<%= data[i].bid_saleTime%>" data-bid_saleuser="<%= data[i].bid_saleUser%>" 
                       >View</a>
                 </td>
               </tr>
@@ -232,15 +232,16 @@
         //showing data to edit modal
         $('#bidTable').on('click','.edit',function(){
             var bid_logid = $(this).data('bid_logid');
-            var bid_produceName = $(this).data('bid_produceName');
+            var bid_produceName = $(this).data('bid_producename');
             var bid_quantity = $(this).data('bid_quantity');
-            var bid_unitOfMeasure = $(this).data('bid_unitOfMeasure');
+            var bid_unitOfMeasure = $(this).data('bid_unitofmeasure');
             var bid_price = $(this).data('bid_price');
             var bid_user = $(this).data('bid_user');
-            var bid_timeStamp= $(this).data('bid_timeStamp');
+            var bid_timeStamp= $(this).data('bid_timestamp');
             var bid_status = $(this).data('bid_status');
-            var bid_saleTime = $(this).data('bid_saleTime');
-            var bid_saleUser = $(this).data('bid_saleUser');
+            var bid_saleTime = $(this).data('bid_saletime');
+            var bid_saleUser = $(this).data('bid_saleuser');
+            console.log($(this).data('bid_produceName'))
             $('#viewModal').modal('show');
             $('.bid_logid').val(bid_logid);
             $('.bid_produceName').val(bid_produceName);
