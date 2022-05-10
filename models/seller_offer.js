@@ -49,7 +49,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      offer_description_json: {
+      offer_description: {
         type: DataTypes.STRING(1000),
         allowNull: true,
       },
@@ -60,7 +60,7 @@ module.exports = function (sequelize, DataTypes) {
       timestamps: false,
       indexes: [
         {
-          name: 'PRIMARY',
+          name: 'seller_offer_PRIMARY',
           unique: true,
           using: 'BTREE',
           fields: [{ name: 'pk' }],
