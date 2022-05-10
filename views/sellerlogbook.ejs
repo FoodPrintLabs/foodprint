@@ -56,7 +56,7 @@
                       data-offer_quantity="<%= data[i].offer_quantity%>" data-offer_price="<%= data[i].offer_price%>" 
                       data-offer_status="<%= data[i].offer_status%>"
                       data-offer_user="<%= data[i].offer_user%>" data-offer_unitofmeasure="<%= data[i].offer_unitOfMeasure%>"  
-                      data-offer_saletime="<%= data[i].offer_saleTime%>" data-offer_saleuser="<%= data[i].offer_saleUser%>" 
+                      data-offer_saletime="<%= data[i].offer_saleTime%>" data-offer_saleuser="<%= data[i].offer_saleUser%>" data-offer_description="<%= data[i].offer_description%>"
                       >View</a>
                 </td>
               </tr>
@@ -74,7 +74,7 @@
    <!-- END TABLE-->
 
    <!-- Modal Add Offer-->
-	  <form action="/app/order/offer/save" method="post">
+	  <form action="/app/seller/offer/save" method="post">
         <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
            <div class="modal-content">
@@ -131,16 +131,20 @@
                    <label for="config_value">Unit of Measure</label>
                    <select class="custom-select d-block w-100" id="offer_unitOfMeasure" name="offer_unitOfMeasure">
                     <option value="" selected disabled >Choose Unit of Measure...</option>
-                    <option>bunch</option>
                     <option>kilogram</option>
-                    <option>none</option>
-                    <option>box</option>
                   </select>
                </div>
                <div class="form-group">
                 <label for="config_name">Price</label>
                 <input type="number" name="offer_price" class="form-control" placeholder="offer Price" required>
             </div>
+            <div class="form-group">
+              <label for="offer_description">Description *[Optional]</label> 
+              <br>            
+              <textarea id="offer_description" class="descriptionTextAreaInput" name="offer_description" rows="4">
+              </textarea>
+              <br>
+          </div>
              </div>
              <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -153,7 +157,7 @@
    <!-- End Modal Add Offer-->
 
    <!-- Modal View Offer-->
-   <form action="app/order" method="POST">
+   <form action="app/seller" method="POST">
        <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -206,6 +210,13 @@
                 <label for="offer_saleUserName">Sale User Name</label>
                 <input type="text" name="offer_saleUserName" class="form-control offer_saleUserName" placeholder="Not yet acquired by buyer" disabled>
                </div>
+               <div class="form-group">
+                <label for="offer_description">Description </label> 
+                <br>            
+                <textarea id="offer_description" class="descriptionTextAreaInput" name="offer_description" rows="4" disabled>
+                </textarea>
+                <br>
+            </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -242,6 +253,7 @@
             var offer_saleTime = $(this).data('offer_saletime');
             var offer_saleUser = $(this).data('offer_saleuser');
             var offer_salePrice = $(this).data('offer_saleprice');
+            var offer_description = $(this).data('offer_description');
             $('#viewModal').modal('show');
             $('.offer_logid').val(offer_logid);
             $('.offer_produceName').val(offer_produceName);
@@ -254,6 +266,7 @@
             $('.offer_saleTime').val(offer_saleTime);
             $('.offer_saleUser').val(offer_saleUser);
             $('.offer_salePrice').val(offer_salePrice);
+            $('textarea[name="offer_description"]').val(offer_description);
       });
     });
     </script>
