@@ -70,6 +70,8 @@ var websiteRouter = require('./routes/website');
 var apiV1Router = require('./routes/api_v1');
 var produceRouter = require('./routes/produce');
 var orderRouter = require('./routes/order');
+var buyerRouter = require('./routes/buyer');
+var sellerRouter = require('./routes/seller');
 
 // enable ssl redirect
 app.use(
@@ -149,6 +151,8 @@ app.use('/app/storage', storageRouter);
 app.use('/app/produce', produceRouter);
 app.use('/app/dashboards', dashboardsRouter);
 app.use('/app/order', orderRouter);
+app.use('/app/buyer', buyerRouter);
+app.use('/app/seller', sellerRouter);
 
 app.use('/', websiteRouter);
 app.use('/', testRouter);
