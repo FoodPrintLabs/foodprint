@@ -16,9 +16,8 @@
     "test": "NODE_ENV=test mocha --timeout 30000 tests/api/*.js",
     "build-dev": "sequelize db:migrate --config ./dbconfig.json --env development",
     "build": "sequelize db:migrate --config ./dbconfig.json --env production",
-    "TEST_F2F": "node tests/test_supplier_produce_scan.js",
     "heroku-postbuild": "npm run bundle",
-    "dev": "npm run TEST_F2F && nodemon server.js --host 0.0.0.0",
+    "dev": "nodemon server.js --host 0.0.0.0",
     "start": "node server.js",
     "format": "prettier --write 'README.md' 'server.js' 'utils/*.js' 'migrations/*.js' 'routes/*.js' 'models/*.js' 'dbxml/*.js' 'config/*.js'"
   },
