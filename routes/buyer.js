@@ -63,6 +63,51 @@ router.get(
   }
 );
 
+//GET Filtered buyer dashboard
+router.get(
+  '/filter/produce/:range',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Buyer) {
+      //Query
+      models.Buyer_bid.findAll({
+        where: {
+          bid_produceName: req.params.range,
+          bid_user: req.user.email,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('buyerlogbook', {
+            page_title: 'FoodPrint - Buyer Logbook Page',
+            data: rows,
+            user: req.user,
+            filter_data: req.params.range,
+            page_name: 'buyerlogbook',
+          });
+        })
+        .catch(err => {
+          console.log('All produce err:' + err);
+          req.flash('error', err);
+          res.render('buyerlogbook', {
+            page_title: 'FoodPrint - Buyer Logbook Page',
+            data: '',
+            user: req.user,
+            filter_data: '',
+            page_name: 'buyerlogbook',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        page_name: 'error',
+      });
+    }
+  }
+);
+
 //route for save Bid
 router.post(
   '/bid/save',

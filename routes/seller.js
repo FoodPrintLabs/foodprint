@@ -63,6 +63,51 @@ router.get(
   }
 );
 
+//GET Filtered seller dashboard
+router.get(
+  '/filter/produce/:range',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Seller) {
+      //Query
+      models.Seller_offer.findAll({
+        where: {
+          offer_produceName: req.params.range,
+          offer_user: req.user.email,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('sellerlogbook', {
+            page_title: 'FoodPrint - Seller Logbook Page',
+            data: rows,
+            user: req.user,
+            filter_data: req.params.range,
+            page_name: 'sellerlogbook',
+          });
+        })
+        .catch(err => {
+          console.log('All produce err:' + err);
+          req.flash('error', err);
+          res.render('sellerlogbook', {
+            page_title: 'FoodPrint - Seller Logbook Page',
+            data: '',
+            user: req.user,
+            filter_data: '',
+            page_name: 'sellerlogbook',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        page_name: 'error',
+      });
+    }
+  }
+);
+
 //route for save Offer
 router.post(
   '/offer/save',
