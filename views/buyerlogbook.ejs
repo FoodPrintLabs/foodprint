@@ -2,8 +2,127 @@
 <html lang="en">
   <head>
       <% include ./partials/head %>  
+
+
+      <script>
+        function activateProduceFilter()
+        { 
+          var filter = document.getElementById('produce_filter').value;
+          if(filter == "All"){
+            window.location = '/app/buyer'}
+            else if (filter)
+            { window.location = '/app/buyer/filter/produce/'+ filter;}
+            
+        }
+        
+        async function filterCheck(filter)
+        { 
+          //switch to check if filter range is part of produce else if it isnt display unexpected filter in console
+          switch(filter){
+          case "All":
+          ocument.getElementById('produce_filter').value = filter;
+          break;
+          case "Baby Marrow":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Baby Leeks":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Basil":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Beetroot":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Bergamot":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Blood Oranges":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Cabbage":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Carrots":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Cauliflower":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Cayenne Pepper":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Cucumber":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Eggs":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Fennel":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Granadilla":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Green Beans":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Herbs":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Lebanese Cucumber":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Leeks":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Lemon":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Lettuce":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Limes":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Mor":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Onion":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Pak Choi":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Parsley":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Radish":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Sorrel":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Swiss Chard":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Spinach":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "Turnips":
+          document.getElementById('produce_filter').value = filter;
+          break;
+          case "":
+            break;
+          default:
+          console.log("Unexpected filter")
+          window.location = '/app/buyer'
+        }
+        
+        }
+           </script>
   </head>
-  <body>
+  <body onload="filterCheck('<%=filter_data%>')">
    <!-- START: header -->
 
   <div class="probootstrap-loader"></div>
@@ -21,8 +140,43 @@
     </div>
     
     <% include ./partials/notificationbar %>
-
-    <br>
+    <div class="col text-right">
+      <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
+        <option value="" selected disabled>Choose a a Produce filter</option>
+        <option>All</option>
+        <option>Baby Marrow</option>
+        <option>Baby Leeks</option>
+        <option>Basil</option>
+        <option>Beetroot</option>
+        <option>Bergamot</option>
+        <option>Blood Oranges</option>
+        <option>Cabbage</option>
+        <option>Carrots</option>
+        <option>Cauliflower</option>
+        <option>Cayenne Pepper</option>
+        <option>Cucumber</option>
+        <option>Eggs</option>
+        <option>Fennel</option>
+        <option>Granadilla</option>
+        <option>Green Beans</option>
+        <option>Herbs</option>
+        <option>Lebanese Cucumber</option>
+        <option>Leeks</option>
+        <option>Lemon</option>
+        <option>Lettuce</option>
+        <option>Limes</option>
+        <option>Mor</option>
+        <option>Onion</option>
+        <option>Pak Choi</option>
+        <option>Parsley</option>
+        <option>Radish</option>
+        <option>Sorrel</option>
+        <option>Swiss Chard</option>
+        <option>Spinach</option>
+        <option>Turnips</option>
+      </select>
+      <button onclick="activateProduceFilter()" class="btn btn-sm mt-3" id="produce-filter-btn" style="background-color: white;">Search</button>
+    </div>
       <table class="table table-hover table-sm" id="bidTable">
         <thead>
           <tr>
