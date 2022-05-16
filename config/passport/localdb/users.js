@@ -45,6 +45,24 @@ var records = [
     email: 'superuserjulz@example.com',
     role: 'Superuser',
   },
+  {
+    id: 6,
+    username: 'buyerman',
+    password: 'birthday',
+    displayName: 'Buyer Man',
+    prefs: [{ value: 'buyerman@example.com' }],
+    email: 'buyerman@example.com',
+    role: 'Buyer',
+  },
+  {
+    id: 7,
+    username: 'sellerman',
+    password: 'birthday',
+    displayName: 'Seller Man',
+    prefs: [{ value: 'sellerman@example.com' }],
+    email: 'sellerman@example.com',
+    role: 'Seller',
+  },
 ];
 
 exports.findById = function (id, cb) {
