@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+   <!-- START TABLE-->
+   <div class="container" style="width: 100%;">
+    <h3>Order Dashboard</h3>
+
+    <% include ./partials/notificationbar %>
+
+    <div class="col-4 col-lg-4 col-xl-4">
+        <h4>Bid Filters</h4>
+        <p>Produce Type</p>
+        <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+          <option value="" selected disabled>Select Produce Type</option>
+          <option>All</option>
+          <option>Basic Veg</option>
+          <option>Herbs</option>
+          <option>Other Veg</option>
+        </select>
+        <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
+        <p>Province:</p>
+        <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+          <option value="" selected disabled>Select a Province</option>
+          <option>All</option>
+          <option>Western Cape</option>
+          <option>Eastern Cape</option>
+          <option>Northern Cape</option>
+          <option>North West</option>
+          <option>KZN</option>
+          <option>Free State</option>
+          <option>Gauteng</option>
+          <option>Mpumalanga</option>
+          <option>Limpopo</option>
+        </select>
+        <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
+    </div>
+    <div class="col-8 col-lg-8 col-xl-8">
+        <h4>Bids</h4>
+        <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                      <div class="card" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+                        <div class="card-header">
+                          Bid
+                        </div>
+                        <div class="card-body">
+                          <h5 class="card-title">Cauliflower</h5>
+                          <p class="card-text">
+                            User: Buyerman <br>
+                            Quantity: 100kgs <br>
+                            Price: R2000                            
+                          </p>
+                          <a href="#" class="btn-sm btn-primary">Accept</a>
+                          <a href="#" class="btn-sm btn-info">Compare</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+        </div>
+    </div>
+    
+
+    <!--START of Offer Section-->
+    <div class="col-4 col-lg-4 col-xl-4">
+      <h4>Offer Filters</h4>
+      <p>Produce Type</p>
+        <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+          <option value="" selected disabled>Select Produce Type</option>
+          <option>All</option>
+          <option>Basic Veg</option>
+          <option>Herbs</option>
+          <option>Other Veg</option>
+        </select>
+        <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
+        <p>Province:</p>
+        <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+          <option value="" selected disabled>Select a Province</option>
+          <option>All</option>
+          <option>Western Cape</option>
+          <option>Eastern Cape</option>
+          <option>Northern Cape</option>
+          <option>North West</option>
+          <option>KZN</option>
+          <option>Free State</option>
+          <option>Gauteng</option>
+          <option>Mpumalanga</option>
+          <option>Limpopo</option>
+        </select>
+        <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
+  </div>
+  <div class="col-8 col-lg-8 col-xl-8">
+      <h4>Offers</h4>
+      <div class="container">
+              <div class="row">
+                  <div class="col-sm-3">
+                    <div class="card" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+                      <div class="card-header">
+                        Offer
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">Beetroot</h5>
+                        <p class="card-text">
+                          User: FarmerBrown <br>
+                          Quantity: 10kgs <br>
+                          Price: R300                           
+                        </p>
+                        <a href="#" class="btn-sm btn-primary">Accept</a>
+                        <a href="#" class="btn-sm btn-info">Compare</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+      </div>
+  </div>
+     
+   </div>
+   <!--END of offers section-->
+
+    <!-- start footer -->
+    <% include ./partials/footer %>
+    <!-- end footer -->
+    
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  </body>
+</html>
