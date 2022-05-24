@@ -19,113 +19,231 @@
 
     <% include ./partials/notificationbar %>
 
-    <div class="col-4 col-lg-4 col-xl-4">
-        <h4>Bid Filters</h4>
-        <p>Produce Type</p>
-        <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
-          <option value="" selected disabled>Select Produce Type</option>
-          <option>All</option>
-          <option>Basic Veg</option>
-          <option>Herbs</option>
-          <option>Other Veg</option>
-        </select>
-        <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
-        <p>Province:</p>
-        <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
-          <option value="" selected disabled>Select a Province</option>
-          <option>All</option>
-          <option>Western Cape</option>
-          <option>Eastern Cape</option>
-          <option>Northern Cape</option>
-          <option>North West</option>
-          <option>KZN</option>
-          <option>Free State</option>
-          <option>Gauteng</option>
-          <option>Mpumalanga</option>
-          <option>Limpopo</option>
-        </select>
-        <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
-    </div>
-    <div class="col-8 col-lg-8 col-xl-8">
-        <h4>Bids</h4>
-        <div class="container">
-                <div class="row">
-                    <div class="col-sm-3">
-                      <div class="card" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-                        <div class="card-header">
-                          Bid
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">Cauliflower</h5>
-                          <p class="card-text">
-                            User: Buyerman <br>
-                            Quantity: 100kgs <br>
-                            Price: R2000                            
-                          </p>
-                          <a href="#" class="btn-sm btn-primary">Accept</a>
-                          <a href="#" class="btn-sm btn-info">Compare</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
+    <!--FILTERS SECTION-->
+    <div class="row">
+    <div class="col-12 col-lg-12 col-xl-12">
+          <div class="col-12 col-lg-12 col-xl-12">
+            <h4>Filters</h4>
+          </div>
+        <div class="col-4 col-lg-4 col-xl-4">
+          <p>Produce Type</p>
+          <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+            <option value="" selected disabled>Select Produce Type</option>
+            <option>All</option>
+            <option>Basic Veg</option>
+            <option>Herbs</option>
+            <option>Other Veg</option>
+          </select>
+          <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
         </div>
+        <div class="col-4 col-lg-4 col-xl-4">
+          <p>Province:</p>
+          <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+            <option value="" selected disabled>Select a Province</option>
+            <option>All</option>
+            <option>Western Cape</option>
+            <option>Eastern Cape</option>
+            <option>Northern Cape</option>
+            <option>North West</option>
+            <option>KZN</option>
+            <option>Free State</option>
+            <option>Gauteng</option>
+            <option>Mpumalanga</option>
+            <option>Limpopo</option>
+          </select>
+          <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
+        </div>
+        <div class="col-4 col-lg-4 col-xl-4">
+          <p>Date Filter:</p>
+          <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+            <option value="" selected disabled>Select a timeframe</option>
+            <option>All</option>
+            <option>1 Week</option>
+            <option>1 Month</option>
+            <option>6 Months</option>
+            <option>1 Year</option>
+          </select>
+          <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
+        </div>
+      </div>
     </div>
     
+    
 
-    <!--START of Offer Section-->
-    <div class="col-4 col-lg-4 col-xl-4">
-      <h4>Offer Filters</h4>
-      <p>Produce Type</p>
-        <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
-          <option value="" selected disabled>Select Produce Type</option>
-          <option>All</option>
-          <option>Basic Veg</option>
-          <option>Herbs</option>
-          <option>Other Veg</option>
-        </select>
-        <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
-        <p>Province:</p>
-        <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
-          <option value="" selected disabled>Select a Province</option>
-          <option>All</option>
-          <option>Western Cape</option>
-          <option>Eastern Cape</option>
-          <option>Northern Cape</option>
-          <option>North West</option>
-          <option>KZN</option>
-          <option>Free State</option>
-          <option>Gauteng</option>
-          <option>Mpumalanga</option>
-          <option>Limpopo</option>
-        </select>
-        <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
-  </div>
-  <div class="col-8 col-lg-8 col-xl-8">
-      <h4>Offers</h4>
-      <div class="container">
-              <div class="row">
-                  <div class="col-sm-3">
-                    <div class="card" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-                      <div class="card-header">
-                        Offer
-                      </div>
-                      <div class="card-body">
-                        <h5 class="card-title">Beetroot</h5>
-                        <p class="card-text">
-                          User: FarmerBrown <br>
-                          Quantity: 10kgs <br>
-                          Price: R300                           
-                        </p>
-                        <a href="#" class="btn-sm btn-primary">Accept</a>
-                        <a href="#" class="btn-sm btn-info">Compare</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+    <!--OFFERS AND BIDS SECTIONS-->
+    <div class="col-12 col-lg-12 col-xl-12">
+      <div class="row">
+          <!--PRODUCE HEADING-->
+          <div class="col-2 col-lg-2 col-xl-2">
+            <h4>LETTUCE</h4>
+          </div>
+          <!--BIDS COL-->
+          <div class="col-5 col-lg-5 col-xl-5">
+            <h4>BIDS</h4>
+            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+              <div class="card-header">
+                Bid
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Lettuce</h5>
+                <p class="card-text">
+                  User: John Doe <br>
+                  Quantity: 100kgs <br>
+                  Price: R2500                            
+                </p>
+                <a href="#" class="btn-sm btn-primary">Accept</a>
+                <a href="#" class="btn-sm btn-info">Compare</a>
+              </div>
+            </div>
+            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+              <div class="card-header">
+                Bid
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Lettuce</h5>
+                <p class="card-text">
+                  User: Jean Paul <br>
+                  Quantity: 100kgs <br>
+                  Price: R2500                            
+                </p>
+                <a href="#" class="btn-sm btn-primary">Accept</a>
+                <a href="#" class="btn-sm btn-info">Compare</a>
+              </div>
+            </div>
+            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+              <div class="card-header">
+                Bid
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Lettuce</h5>
+                <p class="card-text">
+                  User: Greg Davids <br>
+                  Quantity: 30kgs <br>
+                  Price: R350                           
+                </p>
+                <a href="#" class="btn-sm btn-primary">Accept</a>
+                <a href="#" class="btn-sm btn-info">Compare</a>
+              </div>
+            </div>
+            
+          </div>
+          <!--OFFERS COL-->
+          <div class="col-5 col-lg-5 col-xl-5">
+           <h4>OFFERS</h4>
+            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+              <div class="card-header">
+                Offer
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Lettuce</h5>
+                <p class="card-text">
+                  User: Farmer Brown <br>
+                  Quantity: 10kgs <br>
+                  Price: R300                           
+                </p>
+                <a href="#" class="btn-sm btn-primary">Accept</a>
+                <a href="#" class="btn-sm btn-info">Compare</a>
+              </div>
+            </div>
+            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+              <div class="card-header">
+                Offer
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Lettuce</h5>
+                <p class="card-text">
+                  User: Farmer Romaine <br>
+                  Quantity: 20kgs <br>
+                  Price: R550                           
+                </p>
+                <a href="#" class="btn-sm btn-primary">Accept</a>
+                <a href="#" class="btn-sm btn-info">Compare</a>
+              </div>
+            </div>
+
+          </div>
+    </div>
+    <div class="row">
+      <!--PRODUCE HEADING-->
+      <div class="col-2 col-lg-2 col-xl-2">
+        <h4>LIMES</h4>
+      </div>
+      <!--BIDS COL-->
+      <div class="col-5 col-lg-5 col-xl-5">
+        <h4>BIDS</h4>
+        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+          <div class="card-header">
+            Bid
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Limes</h5>
+            <p class="card-text">
+              User: Jack Gold <br>
+              Quantity: 10kgs <br>
+              Price: R250                            
+            </p>
+            <a href="#" class="btn-sm btn-primary">Accept</a>
+            <a href="#" class="btn-sm btn-info">Compare</a>
+          </div>
+        </div>
+        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+          <div class="card-header">
+            Bid
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Limes</h5>
+            <p class="card-text">
+              User: John Doe <br>
+              Quantity: 15kgs <br>
+              Price: R350                           
+            </p>
+            <a href="#" class="btn-sm btn-primary">Accept</a>
+            <a href="#" class="btn-sm btn-info">Compare</a>
+          </div>
+        </div>
+        
+      </div>
+      <!--OFFERS COL-->
+      <div class="col-5 col-lg-5 col-xl-5">
+       <h4>OFFERS</h4>
+        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+          <div class="card-header">
+            Offer
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Limes</h5>
+            <p class="card-text">
+              User: Farmer Lyme <br>
+              Quantity: 40kgs <br>
+              Price: R1200                           
+            </p>
+            <a href="#" class="btn-sm btn-primary">Accept</a>
+            <a href="#" class="btn-sm btn-info">Compare</a>
+          </div>
+        </div>
+        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+          <div class="card-header">
+            Offer
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Limes</h5>
+            <p class="card-text">
+              User: Farmer Brown <br>
+              Quantity: 150kgs <br>
+              Price: R3400                          
+            </p>
+            <a href="#" class="btn-sm btn-primary">Accept</a>
+            <a href="#" class="btn-sm btn-info">Compare</a>
+          </div>
+        </div>
 
       </div>
-  </div>
+</div>
+
+    <!--END OF OFFER SECTION-->
+    </div>
+
+
      
    </div>
    <!--END of offers section-->
