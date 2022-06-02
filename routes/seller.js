@@ -120,6 +120,7 @@ router.post(
       .trim()
       .escape(),
     check('offer_price', 'Your offer price is not valid').not().isEmpty().trim().escape(),
+    check('offer_province', 'Your offer province is not valid').not().isEmpty().trim().escape(),
   ],
   function (req, res) {
     const result = validationResult(req);
@@ -142,6 +143,7 @@ router.post(
         offer_quantity: req.body.offer_quantity,
         offer_unitOfMeasure: req.body.offer_unitOfMeasure,
         offer_price: 'R' + req.body.offer_price,
+        offer_province: req.body.offer_province,
         offer_timeStamp: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         offer_status: 'Placed',
         offer_description: req.body.offer_description,

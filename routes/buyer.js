@@ -116,6 +116,7 @@ router.post(
     check('bid_quantity', 'Your quantity is not valid').not().isEmpty().trim().escape(),
     check('bid_unitOfMeasure', 'Your unit of measure is not valid').not().isEmpty().trim().escape(),
     check('bid_price', 'Your bid price is not valid').not().isEmpty().trim().escape(),
+    check('bid_province', 'Your bid province is not valid').not().isEmpty().trim().escape(),
   ],
   function (req, res) {
     const result = validationResult(req);
@@ -138,6 +139,7 @@ router.post(
         bid_quantity: req.body.bid_quantity,
         bid_unitOfMeasure: req.body.bid_unitOfMeasure,
         bid_price: 'R' + req.body.bid_price,
+        bid_province: req.body.bid_province,
         bid_timeStamp: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         bid_status: 'Placed',
         bid_description: req.body.bid_description,

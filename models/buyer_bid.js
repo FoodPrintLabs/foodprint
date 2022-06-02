@@ -37,6 +37,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
+      bid_province: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
       bid_status: {
         type: DataTypes.STRING(255),
         allowNull: true,
