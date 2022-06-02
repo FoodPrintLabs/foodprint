@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
       <% include ./partials/head %>  
+
   </head>
   <body>
    <!-- START: header -->
@@ -68,180 +69,78 @@
       </div>
     </div>
     
-    
+<!--OFFERS AND BIDS SECTIONS-->
+<div class="col-12 col-lg-12 col-xl-12">
+  <% if(bid_rows.length || offer_rows.length) {
 
-    <!--OFFERS AND BIDS SECTIONS-->
-    <div class="col-12 col-lg-12 col-xl-12">
-      <div class="row">
-          <!--PRODUCE HEADING-->
-          <div class="col-2 col-lg-2 col-xl-2">
-            <h4>LETTUCE</h4>
-          </div>
-          <!--BIDS COL-->
-          <div class="col-5 col-lg-5 col-xl-5">
-            <h4>BIDS</h4>
-            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-              <div class="card-header">
-                Bid
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Lettuce</h5>
-                <p class="card-text">
-                  User: John Doe <br>
-                  Quantity: 100kgs <br>
-                  Price: R2500                            
-                </p>
-                <a href="#" class="btn-sm btn-primary">Accept</a>
-                <a href="#" class="btn-sm btn-info">Compare</a>
-              </div>
-            </div>
-            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-              <div class="card-header">
-                Bid
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Lettuce</h5>
-                <p class="card-text">
-                  User: Jean Paul <br>
-                  Quantity: 100kgs <br>
-                  Price: R2500                            
-                </p>
-                <a href="#" class="btn-sm btn-primary">Accept</a>
-                <a href="#" class="btn-sm btn-info">Compare</a>
-              </div>
-            </div>
-            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-              <div class="card-header">
-                Bid
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Lettuce</h5>
-                <p class="card-text">
-                  User: Greg Davids <br>
-                  Quantity: 30kgs <br>
-                  Price: R350                           
-                </p>
-                <a href="#" class="btn-sm btn-primary">Accept</a>
-                <a href="#" class="btn-sm btn-info">Compare</a>
-              </div>
-            </div>
-            
-          </div>
-          <!--OFFERS COL-->
-          <div class="col-5 col-lg-5 col-xl-5">
-           <h4>OFFERS</h4>
-            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-              <div class="card-header">
-                Offer
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Lettuce</h5>
-                <p class="card-text">
-                  User: Farmer Brown <br>
-                  Quantity: 10kgs <br>
-                  Price: R300                           
-                </p>
-                <a href="#" class="btn-sm btn-primary">Accept</a>
-                <a href="#" class="btn-sm btn-info">Compare</a>
-              </div>
-            </div>
-            <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-              <div class="card-header">
-                Offer
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Lettuce</h5>
-                <p class="card-text">
-                  User: Farmer Romaine <br>
-                  Quantity: 20kgs <br>
-                  Price: R550                           
-                </p>
-                <a href="#" class="btn-sm btn-primary">Accept</a>
-                <a href="#" class="btn-sm btn-info">Compare</a>
-              </div>
-            </div>
-
-          </div>
-    </div>
-    <div class="row">
+    for(var i = 0; i< produce_rows.length; i++){
+  %>
+  <div class="row" style="border-bottom-style: solid;">
       <!--PRODUCE HEADING-->
       <div class="col-2 col-lg-2 col-xl-2">
-        <h4>LIMES</h4>
+        <h4><%=produce_rows[i]%></h4>
       </div>
       <!--BIDS COL-->
-      <div class="col-5 col-lg-5 col-xl-5">
+      <div class="col-5 col-lg-5 col-xl-5" >
         <h4>BIDS</h4>
+        <!--Each card-->
+        <% for(var k = 0; k< bid_rows.length; k++){ 
+            if(bid_rows[k].bid_produceName == produce_rows[i]) {
+          %>
         <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
           <div class="card-header">
             Bid
           </div>
           <div class="card-body">
-            <h5 class="card-title">Limes</h5>
+            <h5 class="card-title"><%=bid_rows[k].bid_produceName%></h5>
             <p class="card-text">
-              User: Jack Gold <br>
-              Quantity: 10kgs <br>
-              Price: R250                            
+              User: <%=bid_rows[k].bid_user%> <br>
+              Quantity: <%=bid_rows[k].bid_quantity%>kgs <br>
+              Price: <%=bid_rows[k].bid_price%>                            
             </p>
             <a href="#" class="btn-sm btn-primary">Accept</a>
             <a href="#" class="btn-sm btn-info">Compare</a>
           </div>
         </div>
-        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-          <div class="card-header">
-            Bid
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Limes</h5>
-            <p class="card-text">
-              User: John Doe <br>
-              Quantity: 15kgs <br>
-              Price: R350                           
-            </p>
-            <a href="#" class="btn-sm btn-primary">Accept</a>
-            <a href="#" class="btn-sm btn-info">Compare</a>
-          </div>
-        </div>
-        
+        <%}} %>
       </div>
       <!--OFFERS COL-->
       <div class="col-5 col-lg-5 col-xl-5">
        <h4>OFFERS</h4>
-        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-          <div class="card-header">
-            Offer
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Limes</h5>
-            <p class="card-text">
-              User: Farmer Lyme <br>
-              Quantity: 40kgs <br>
-              Price: R1200                           
-            </p>
-            <a href="#" class="btn-sm btn-primary">Accept</a>
-            <a href="#" class="btn-sm btn-info">Compare</a>
-          </div>
+         <!--Each card-->
+         <% for(var k = 0; k< offer_rows.length; k++){ 
+          if(offer_rows[k].offer_produceName == produce_rows[i]) {
+        %>
+      <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
+        <div class="card-header">
+          Offer
         </div>
-        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 10px;">
-          <div class="card-header">
-            Offer
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Limes</h5>
-            <p class="card-text">
-              User: Farmer Brown <br>
-              Quantity: 150kgs <br>
-              Price: R3400                          
-            </p>
-            <a href="#" class="btn-sm btn-primary">Accept</a>
-            <a href="#" class="btn-sm btn-info">Compare</a>
-          </div>
+        <div class="card-body">
+          <h5 class="card-title"><%=offer_rows[k].offer_produceName%></h5>
+          <p class="card-text">
+            User: <%=offer_rows[k].offer_user%> <br>
+            Quantity: <%=offer_rows[k].offer_quantity%>kgs <br>
+            Price: <%=offer_rows[k].offer_price%>                            
+          </p>
+          <a href="#" class="btn-sm btn-primary">Accept</a>
+          <a href="#" class="btn-sm btn-info">Compare</a>
         </div>
-
+      </div>
+      <%}} %>
       </div>
 </div>
 
-    <!--END OF OFFER SECTION-->
-    </div>
+<!--END OF OFFER SECTION-->
+<% }
+
+           }else{ %>
+               
+                <div class="col-12 col-lg-12 col-xl-12"> 
+                  <h3>No Biddings or Offers available at the moment</h3>
+                </div>
+              
+            <% } %>
+</div>
 
 
      
