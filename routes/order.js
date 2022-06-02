@@ -28,14 +28,64 @@ router.get(
       models.Buyer_bid.findAll({
         order: [['pk', 'DESC']],
       })
-        .then(bids_rows => {
+        .then(bid_rows => {
           models.Seller_offer.findAll({
             order: [['pk', 'DESC']],
           }).then(offer_rows => {
+            produce_rows = [
+              'Baby Marrow',
+              'Baby Leeks',
+              'Basil',
+              'Beetroot',
+              'Bergamot',
+              'Blood Oranges',
+              'Cabbage',
+              'Carrots',
+              'Cauliflower',
+              'Cayenne Pepper',
+              'Cucumber',
+              'Eggs',
+              'Fennel',
+              'Granadilla',
+              'Green Beans',
+              'Herbs',
+              'Lebanese Cucumber',
+              'Leeks',
+              'Lemon',
+              'Lettuce',
+              'Limes',
+              'Mor',
+              'Onion',
+              'Pak Choi',
+              'Parsley',
+              'Radish',
+              'Sorrel',
+              'Swiss Chard',
+              'Spinach',
+              'Turnips',
+            ];
+            const produceArray = [];
+            if (bid_rows.length || offer_rows.length) {
+              for (var i = 0; i < produce_rows.length; i++) {
+                for (var k = 0; k < bid_rows.length; k++) {
+                  if (bid_rows[k].bid_produceName == produce_rows[i]) {
+                    produceArray.push(produce_rows[i]);
+                  }
+                }
+                for (var k = 0; k < offer_rows.length; k++) {
+                  if (offer_rows[k].offer_produceName == produce_rows[i]) {
+                    produceArray.push(produce_rows[i]);
+                  }
+                }
+              }
+            }
+            finalProduceArray = [...new Set(produceArray)];
             res.render('order_dashboard', {
               title: 'FoodPrint - Order Dashboard',
-              bids_rows: bids_rows,
+              bid_rows: bid_rows,
               offer_rows: offer_rows,
+              //return list of produce
+              produce_rows: finalProduceArray,
               filter_data: null,
               user: req.user,
               page_name: 'Order Dashboard',
