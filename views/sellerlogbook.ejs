@@ -206,7 +206,7 @@
                 <td>
                     <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-offer_logid="<%= data[i].offer_logid%>"
                       data-offer_producename="<%= data[i].offer_produceName%>" data-offer_timestamp="<%=data[i].offer_timeStamp%>"
-                      data-offer_quantity="<%= data[i].offer_quantity%>" data-offer_price="<%= data[i].offer_price%>" 
+                      data-offer_quantity="<%= data[i].offer_quantity%>" data-offer_price="<%= data[i].offer_price%>" data-offer_province="<%= data[i].offer_province%>" 
                       data-offer_status="<%= data[i].offer_status%>"
                       data-offer_user="<%= data[i].offer_user%>" data-offer_unitofmeasure="<%= data[i].offer_unitOfMeasure%>"  
                       data-offer_saletime="<%= data[i].offer_saleTime%>" data-offer_saleuser="<%= data[i].offer_saleUser%>" data-offer_description="<%= data[i].offer_description%>"
@@ -292,6 +292,21 @@
                 <input type="number" name="offer_price" class="form-control" placeholder="Offer Price" required>
             </div>
             <div class="form-group">
+              <label for="offer_province">Province</label>
+              <select class="custom-select d-block w-100 form-control" name="offer_province" id="offer_province" required>
+               <option value="" selected disabled>Choose a Province</option>
+               <option>Western Cape</option>
+               <option>Eastern Cape</option>
+               <option>Northern Cape</option>
+               <option>North West</option>
+               <option>KZN</option>
+               <option>Free State</option>
+               <option>Gauteng</option>
+               <option>Mpumalanga</option>
+               <option>Limpopo</option>
+             </select>
+          </div>
+            <div class="form-group">
               <label for="offer_description">Description *[Optional]</label> 
               <br>            
               <textarea id="offer_description" class="descriptionTextAreaInput" name="offer_description" rows="4">
@@ -343,6 +358,10 @@
                <label for="offer_price">Price</label>
                <input type="text" name="offer_price" class="form-control offer_price" placeholder="Offer Price" disabled>
               </div>
+              <div class="form-group">
+                <label for="offer_province">Province</label>
+                <input type="text" name="offer_province" class="form-control offer_province" placeholder="Offer province" disabled>
+               </div>
               <div class="form-group">
                 <label for="offer_user">Placed by</label>
                 <input type="text" name="offer_user" class="form-control offer_user" placeholder="Offer user" disabled>
@@ -400,6 +419,7 @@
             var offer_quantity = $(this).data('offer_quantity');
             var offer_unitOfMeasure = $(this).data('offer_unitofmeasure');
             var offer_price = $(this).data('offer_price');
+            var offer_province = $(this).data('offer_province');
             var offer_user = $(this).data('offer_user');
             var offer_timeStamp= $(this).data('offer_timestamp');
             var offer_status = $(this).data('offer_status');
@@ -413,6 +433,7 @@
             $('.offer_quantity').val(offer_quantity);
             $('.offer_unitOfMeasure').val(offer_unitOfMeasure);
             $('.offer_price').val(offer_price);
+            $('.offer_province').val(offer_province);
             $('.offer_user').val(offer_user);
             $('.offer_timeStamp').val(offer_timeStamp);
             $('.offer_status').val(offer_status);
