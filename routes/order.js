@@ -26,7 +26,11 @@ router.get(
   '/',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Buyer || req.user.role === ROLES.Seller) {
+    if (
+      req.user.role === ROLES.Buyer ||
+      req.user.role === ROLES.Seller ||
+      req.user.role === ROLES.Admin
+    ) {
       models.Buyer_bid.findAll({
         order: [['pk', 'DESC']],
       })
@@ -122,7 +126,11 @@ router.get(
   '/filter/produce/:range',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Buyer || req.user.role === ROLES.Seller) {
+    if (
+      req.user.role === ROLES.Buyer ||
+      req.user.role === ROLES.Seller ||
+      req.user.role === ROLES.Admin
+    ) {
       models.Buyer_bid.findAll({
         where: {
           bid_produceName: req.params.range,
@@ -224,7 +232,11 @@ router.get(
   '/filter/province/:range',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Buyer || req.user.role === ROLES.Seller) {
+    if (
+      req.user.role === ROLES.Buyer ||
+      req.user.role === ROLES.Seller ||
+      req.user.role === ROLES.Admin
+    ) {
       models.Buyer_bid.findAll({
         where: {
           bid_province: req.params.range,
@@ -326,7 +338,11 @@ router.get(
   '/filter/timeframe/:range',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Buyer || req.user.role === ROLES.Seller) {
+    if (
+      req.user.role === ROLES.Buyer ||
+      req.user.role === ROLES.Seller ||
+      req.user.role === ROLES.Admin
+    ) {
       let current_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
       let start_date = null;
       let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
