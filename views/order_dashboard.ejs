@@ -3,8 +3,248 @@
   <head>
       <% include ./partials/head %>  
 
+      <script>
+        
+        //activate filter and checks which one is being activated
+        async function activatefilter(filterType)
+        { 
+          if(filterType == "produce")
+          {
+          var filter = document.getElementById('produce_filter').value;
+          if(filter == "All"){
+            window.location = '/app/order'}
+            else if (filter)
+            { window.location = '/app/order/filter/produce/'+ filter;}
+          } 
+          if(filterType == "province")
+          {
+          var filter = document.getElementById('province_filter').value;
+          if(filter == "All"){
+            window.location = '/app/order'}
+            else if (filter)
+            { window.location = '/app/order/filter/province/'+ filter;}
+          }
+          if(filterType == "timeframe")
+          {
+          var filter = document.getElementById('timeframe_filter').value;
+          if(filter == "All"){
+            window.location = '/app/order'}
+            else if (filter)
+            { window.location = '/app/order/filter/timeframe/'+ filter;}
+          } 
+        }
+          
+        
+  
+        //checks current active filter when rendering
+        async function filterCheck(filter,filterType)
+        { console.log(filter);
+          console.log(filterType)
+          if(filterType == "produce"){
+                if( filter == "All")
+                {
+                  document.getElementById('produce_filter').value = "All";
+                }
+                if( filter == "Baby Marrow")
+                {
+                  document.getElementById('produce_filter').value = "Baby Marrow";
+                }
+                if( filter == "Baby Leeks")
+                {
+                  document.getElementById('produce_filter').value = "Baby Leeks";
+                }
+                if( filter == "Basil")
+                {
+                  document.getElementById('produce_filter').value = "Basil";
+                }
+                if( filter == "Beetroot")
+                {
+                  document.getElementById('produce_filter').value = "Beetroot";
+                }
+                if( filter == "Bergamot")
+                {
+                  document.getElementById('produce_filter').value = "Bergamot";
+                }
+                if( filter == "Blood Oranges")
+                {
+                  document.getElementById('produce_filter').value = "Blood Oranges";
+                }
+                if( filter == "Cabbage")
+                {
+                  document.getElementById('produce_filter').value = "Cabbage";
+                }
+                if( filter == "Carrots")
+                {
+                  document.getElementById('produce_filter').value = "Carrots";
+                }
+                if( filter == "Cauliflower")
+                {
+                  document.getElementById('produce_filter').value = "Cauliflower";
+                }
+                if( filter == "Cayenne Pepper")
+                {
+                  document.getElementById('produce_filter').value = "Cayenne Pepper";
+                }
+                if( filter == "Cucumber")
+                {
+                  document.getElementById('produce_filter').value = "Cucumber";
+                }
+                if( filter == "Eggs")
+                {
+                  document.getElementById('produce_filter').value = "Eggs";
+                }
+                if( filter == "Fennel")
+                {
+                  document.getElementById('produce_filter').value = "Fennel";
+                }
+                if( filter == "Granadilla")
+                {
+                  document.getElementById('produce_filter').value = "Granadilla";
+                }
+                if( filter == "Green Beans")
+                {
+                  document.getElementById('produce_filter').value = "Green Beans";
+                }
+                if( filter == "Herbs")
+                {
+                  document.getElementById('produce_filter').value = "Herbs";
+                }
+                if( filter == "Lebanese Cucumber")
+                {
+                  document.getElementById('produce_filter').value = "Lebanese Cucumber";
+                }
+                if( filter == "Leeks")
+                {
+                  document.getElementById('produce_filter').value = "Leeks";
+                }
+                if( filter == "Lemon")
+                {
+                  document.getElementById('produce_filter').value = "Lemon";
+                }
+                if( filter == "Lettuce")
+                {
+                  document.getElementById('produce_filter').value = "Lettuce";
+                }
+                if( filter == "Limes")
+                {
+                  document.getElementById('produce_filter').value = "Limes";
+                }
+                if( filter == "Mor")
+                {
+                  document.getElementById('produce_filter').value = "Mor";
+                }
+                if( filter == "Onion")
+                {
+                  document.getElementById('produce_filter').value = "Onion";
+                }
+                if( filter == "Pak Choi")
+                {
+                  document.getElementById('produce_filter').value = "Pak Choi";
+                }
+                if( filter == "Parsley")
+                {
+                  document.getElementById('produce_filter').value = "Parsley";
+                }
+                if( filter == "Radish")
+                {
+                  document.getElementById('produce_filter').value = "Radish";
+                }
+                if( filter == "Sorrel")
+                {
+                  document.getElementById('produce_filter').value = "Sorrel";
+                }
+                if( filter == "Swiss Chard")
+                {
+                  document.getElementById('produce_filter').value = "Swiss Chard";
+                }
+                if( filter == "Spinach")
+                {
+                  document.getElementById('produce_filter').value = "Spinach";
+                }
+                if( filter == "Turnips")
+                {
+                  document.getElementById('produce_filter').value = "Turnips";
+                }
+
+          }
+          else if(filterType == "province"){
+                if( filter == "All")
+                {
+                  document.getElementById('province_filter').value = "All";
+                }
+                if( filter == "Western Cape")
+                {
+                  document.getElementById('province_filter').value = "Western Cape";
+                }
+                if( filter == "Eastern Cape")
+                {
+                  document.getElementById('province_filter').value = "Eastern Cape";
+                }
+                if( filter == "Northern Cape")
+                {
+                  document.getElementById('province_filter').value = "Northern Cape";
+                }
+                if( filter == "North West")
+                {
+                  document.getElementById('province_filter').value = "North West";
+                }
+                if( filter == "KZN")
+                {
+                  document.getElementById('province_filter').value = "KZN";
+                }
+                if( filter == "Free State")
+                {
+                  document.getElementById('province_filter').value = "Free State";
+                }
+                if( filter == "Gauteng")
+                {
+                  document.getElementById('province_filter').value = "Gauteng";
+                }
+                if( filter == "Mpumalanga")
+                {
+                  document.getElementById('province_filter').value = "Mpumalanga";
+                }
+                if( filter == "Limpopo")
+                {
+                  document.getElementById('province_filter').value = "Limpopo";
+                }
+          }
+          else if(filterType == "timeframe"){
+              if( filter == "All")
+                {
+                  document.getElementById('timeframe_filter').value = "All";
+                }
+                if( filter == "1 Week")
+                {
+                  document.getElementById('timeframe_filter').value = "1-Week";
+                }
+                if( filter == "1 Month")
+                {
+                  document.getElementById('timeframe_filter').value = "1-Month";
+                }
+                if( filter == "6 Months")
+                {
+                  document.getElementById('timeframe_filter').value = "6-Month";
+                }
+                if( filter == "1 Year")
+                {
+                  document.getElementById('timeframe_filter').value = "1-Year";
+                }
+          }
+          else if( filter == "")
+          {
+          }
+          else
+          {//default
+            console.log("Unexpected Filter received");
+            window.location = '/app/order'
+          }
+
+        }
+           </script>
+
   </head>
-  <body>
+  <body onload="filterCheck('<%=filter_data%>','<%=filter_type%>')">
    <!-- START: header -->
 
   <div class="probootstrap-loader"></div>
@@ -28,14 +268,41 @@
           </div>
         <div class="col-4 col-lg-4 col-xl-4">
           <p>Produce Type</p>
-          <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+          <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
             <option value="" selected disabled>Select Produce Type</option>
             <option>All</option>
-            <option>Basic Veg</option>
-            <option>Herbs</option>
-            <option>Other Veg</option>
+        <option>Baby Marrow</option>
+        <option>Baby Leeks</option>
+        <option>Basil</option>
+        <option>Beetroot</option>
+        <option>Bergamot</option>
+        <option>Blood Oranges</option>
+        <option>Cabbage</option>
+        <option>Carrots</option>
+        <option>Cauliflower</option>
+        <option>Cayenne Pepper</option>
+        <option>Cucumber</option>
+        <option>Eggs</option>
+        <option>Fennel</option>
+        <option>Granadilla</option>
+        <option>Green Beans</option>
+        <option>Herbs</option>
+        <option>Lebanese Cucumber</option>
+        <option>Leeks</option>
+        <option>Lemon</option>
+        <option>Lettuce</option>
+        <option>Limes</option>
+        <option>Mor</option>
+        <option>Onion</option>
+        <option>Pak Choi</option>
+        <option>Parsley</option>
+        <option>Radish</option>
+        <option>Sorrel</option>
+        <option>Swiss Chard</option>
+        <option>Spinach</option>
+        <option>Turnips</option>
           </select>
-          <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
+          <button onclick="activatefilter('produce')" class="btn btn-sm mt-3" id="produce-filter-btn" style="background-color: white;">Search</button>
         </div>
         <div class="col-4 col-lg-4 col-xl-4">
           <p>Province:</p>
@@ -52,19 +319,19 @@
             <option>Mpumalanga</option>
             <option>Limpopo</option>
           </select>
-          <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
+          <button onclick="activatefilter('province')" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
         </div>
         <div class="col-4 col-lg-4 col-xl-4">
           <p>Date Filter:</p>
-          <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+          <select class="custom-select d-block w-100 " name="timeframe_filter" id="timeframe_filter" required>
             <option value="" selected disabled>Select a timeframe</option>
             <option>All</option>
-            <option>1 Week</option>
-            <option>1 Month</option>
-            <option>6 Months</option>
-            <option>1 Year</option>
+            <option>1-Week</option>
+            <option>1-Month</option>
+            <option>6-Month</option>
+            <option>1-Year</option>
           </select>
-          <button onclick="" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
+          <button onclick="activatefilter('timeframe')" class="btn btn-sm mt-3" id="timeframe-filter-btn" style="background-color: white;">Search</button>
         </div>
       </div>
     </div>
