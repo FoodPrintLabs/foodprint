@@ -268,7 +268,7 @@
           </div>
         <div class="col-4 col-lg-4 col-xl-4">
           <p>Produce Type</p>
-          <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
+          <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required onchange="activatefilter('produce')">
             <option value="" selected disabled>Select Produce Type</option>
             <option>All</option>
         <option>Baby Marrow</option>
@@ -302,11 +302,10 @@
         <option>Spinach</option>
         <option>Turnips</option>
           </select>
-          <button onclick="activatefilter('produce')" class="btn btn-sm mt-3" id="produce-filter-btn" style="background-color: white;">Search</button>
         </div>
         <div class="col-4 col-lg-4 col-xl-4">
           <p>Province:</p>
-          <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+          <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required onchange="activatefilter('province')">
             <option value="" selected disabled>Select a Province</option>
             <option>All</option>
             <option>Western Cape</option>
@@ -319,11 +318,10 @@
             <option>Mpumalanga</option>
             <option>Limpopo</option>
           </select>
-          <button onclick="activatefilter('province')" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
         </div>
         <div class="col-4 col-lg-4 col-xl-4">
           <p>Date Filter:</p>
-          <select class="custom-select d-block w-100 " name="timeframe_filter" id="timeframe_filter" required>
+          <select class="custom-select d-block w-100 " name="timeframe_filter" id="timeframe_filter" required onchange="activatefilter('timeframe')">
             <option value="" selected disabled>Select a timeframe</option>
             <option>All</option>
             <option>1-Week</option>
@@ -331,7 +329,6 @@
             <option>6-Month</option>
             <option>1-Year</option>
           </select>
-          <button onclick="activatefilter('timeframe')" class="btn btn-sm mt-3" id="timeframe-filter-btn" style="background-color: white;">Search</button>
         </div>
       </div>
     </div>
