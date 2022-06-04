@@ -72,6 +72,7 @@
     "nodemailer": "^6.4.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "pg": "^8.7.3",
     "qrcode": "^1.4.0",
     "sequelize": "^6.6.5",
     "swagger-jsdoc": "^6.1.0",
