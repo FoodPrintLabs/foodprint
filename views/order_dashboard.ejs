@@ -334,7 +334,7 @@
     </div>
     
 <!--OFFERS AND BIDS SECTIONS-->
-<div class="col-12 col-lg-12 col-xl-12">
+<div class="col-12 col-lg-12 col-xl-12" id="orderRows">
   <% if(bid_rows.length || offer_rows.length) {
 
     for(var i = 0; i< produce_rows.length; i++){
@@ -351,9 +351,11 @@
         <% for(var k = 0; k< bid_rows.length; k++){ 
             if(bid_rows[k].bid_produceName == produce_rows[i]) {
           %>
-        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px;">
+          
+        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
+        box-shadow: 2px 2px 4px 5px #ccc;">
           <div class="card-header">
-            Bid
+            <b>Bid</b>
           </div>
           <div class="card-body">
             <h5 class="card-title"><%=bid_rows[k].bid_produceName%></h5>
@@ -362,8 +364,10 @@
               Quantity: <%=bid_rows[k].bid_quantity%>kgs <br>
               Price: <%=bid_rows[k].bid_price%>                            
             </p>
-            <a href="#" class="btn-sm btn-primary">Accept</a>
-            <a href="#" class="btn-sm btn-info">Compare</a>
+            <a href="javascript:void(0);" class="btn-sm btn-primary acceptBid " data-bid_user="<%= bid_rows[k].bid_user%>" data-bid_quantity="<%= bid_rows[k].bid_quantity%>" 
+              data-bid_price="<%= bid_rows[k].bid_price%>" data-bid_producename="<%= bid_rows[k].bid_produceName%>" data-bid_timestamp="<%= bid_rows[k].bid_timeStamp%>" 
+              data-bid_logid="<%= bid_rows[k].bid_logid%>" data-bid_province="<%= bid_rows[k].bid_province%>" 
+              >Accept</a>
           </div>
         </div>
         <%}} %>
@@ -375,9 +379,9 @@
          <% for(var k = 0; k< offer_rows.length; k++){ 
           if(offer_rows[k].offer_produceName == produce_rows[i]) {
         %>
-      <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px;">
+      <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; box-shadow: 2px 2px 4px 5px #ccc;">
         <div class="card-header">
-          Offer
+          <b>Offer</b>
         </div>
         <div class="card-body">
           <h5 class="card-title"><%=offer_rows[k].offer_produceName%></h5>
@@ -386,8 +390,9 @@
             Quantity: <%=offer_rows[k].offer_quantity%>kgs <br>
             Price: <%=offer_rows[k].offer_price%>                            
           </p>
-          <a href="#" class="btn-sm btn-primary">Accept</a>
-          <a href="#" class="btn-sm btn-info">Compare</a>
+          <a href="javascript:void(0);" class="btn-sm btn-primary acceptOffer" data-offer_user="<%= offer_rows[k].offer_user%>" data-offer_quantity="<%= offer_rows[k].offer_quantity%>" 
+            data-offer_price="<%= offer_rows[k].offer_price%>" data-offer_producename="<%= offer_rows[k].offer_produceName%>" data-offer_timestamp="<%= offer_rows[k].offer_timeStamp%>" 
+            data-offer_logid="<%= offer_rows[k].offer_logid%>" data-offer_province="<%= offer_rows[k].offer_province%>">Accept</a>
         </div>
       </div>
       <%}} %>
@@ -409,6 +414,112 @@
 
      
    </div>
+
+   <!-- Modal Accept bid-->
+ <form action="/app/order/bid/accept" method="post">
+  <div class="modal fade" id="AcceptBidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="exampleModalLabel">Accept Bid</h4>
+         <h5 class="bid_logid"></h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+        <div class="form-group">
+            <label for="bid_produceName">Produce</label>
+            <input type="text" name="bid_produceName" class="form-control bid_produceName" placeholder="Produce">
+        </div>
+        <div class="form-group">
+          <label for="bid_quantity">Produce Quantity</label>
+          <input type="text" name="bid_quantity" class="form-control bid_quantity" placeholder="Quantity">
+      </div>
+      <div class="form-group">
+        <label for="bid_price">Price</label>
+        <input type="text" name="bid_price" class="form-control bid_price" placeholder="Price">
+    </div>
+           <div class="form-group">
+            <label for="bid_province">Province</label>
+            <input type="text" name="bid_province" class="form-control bid_province" placeholder="Province">
+        </div>
+        <div class="form-group">
+          <label for="bid_user">User</label>
+          <input type="text" name="bid_user" class="form-control bid_user" placeholder="User">
+      </div>
+      <div class="form-group">
+        <label for="bid_timeStamp">Time Placed</label>
+        <input type="text" name="bid_timeStamp" class="form-control bid_timeStamp" placeholder="TimeStamp">
+    </div>
+    <div class="form-group">
+      <label for="bid_logid">LogID</label>
+      <input type="text" name="bid_logid" class="form-control bid_logid" placeholder="logid">
+  </div>
+        </div>
+      </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="submit" class="btn btn-primary">Accept</button>
+       </div>
+     </div>
+   </div>
+  </div>
+</form>
+<!-- End Modal Accept Bid-->
+
+<!-- Modal Accept offer-->
+<form action="/app/order/offer/accept" method="post">
+  <div class="modal fade" id="AcceptOfferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="exampleModalLabel">Accept Offer</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+        <div class="form-group">
+            <label for="offer_produceName">Produce</label>
+            <input type="text" name="offer_produceName" class="form-control offer_produceName" placeholder="Produce" >
+        </div>
+        <div class="form-group">
+          <label for="offer_quantity">Produce Quantity</label>
+          <input type="text" name="offer_quantity" class="form-control offer_quantity" placeholder="Quantity" >
+      </div>
+      <div class="form-group">
+        <label for="offer_price">Price</label>
+        <input type="text" name="offer_price" class="form-control offer_price" placeholder="Price" >
+    </div>
+           <div class="form-group">
+            <label for="offer_province">Province</label>
+            <input type="text" name="offer_province" class="form-control offer_province" placeholder="Province" >
+        </div>
+        <div class="form-group">
+          <label for="offer_user">User</label>
+          <input type="text" name="offer_user" class="form-control offer_user" placeholder="User" >
+      </div>
+      <div class="form-group">
+        <label for="offer_timeStamp">Time Placed</label>
+        <input type="text" name="offer_timeStamp" class="form-control offer_timeStamp" placeholder="TimeStamp" >
+    </div>
+    <div class="form-group">
+      <label for="offer_logid">LogID</label>
+      <input type="text" name="offer_logid" class="form-control offer_logid" placeholder="logid">
+  </div>
+        </div>
+      </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="submit" class="btn btn-primary">Accept</button>
+       </div>
+     </div>
+   </div>
+  </div>
+</form>
+<!-- End Modal Accept Offer-->
+
    <!--END of offers section-->
 
     <!-- start footer -->
@@ -419,5 +530,50 @@
     <script src="/js/scripts.min.js"></script>
   <script src="/js/main.min.js"></script>
   <script src="/js/custom.js"></script>
+
+  <script>
+    $(document).ready(function(){
+
+        //showing data to acceot Bid
+        $('#orderRows').on('click','.acceptBid',function(){
+            var bid_produceName = $(this).data('bid_producename');
+            var bid_quantity = $(this).data('bid_quantity');
+            var bid_user = $(this).data('bid_user');
+            var bid_logid = $(this).data('bid_logid');
+            var bid_timeStamp = $(this).data('bid_timestamp');
+            var bid_price = $(this).data('bid_price');
+            var bid_province = $(this).data('bid_province');
+            $('#AcceptBidModal').modal('show');
+            $('.bid_produceName').val(bid_produceName);
+            $('.bid_quantity').val(bid_quantity);
+            $('.bid_user').val(bid_user);
+            $('.bid_logid').val(bid_logid);
+            $('.bid_timeStamp').val(bid_timeStamp);
+            $('.bid_price').val(bid_price);
+            $('.bid_province').val(bid_province);
+      });
+
+      //showing data to accept Offer
+      $('#orderRows').on('click','.acceptOffer',function(){
+            var offer_produceName = $(this).data('offer_producename');
+            var offer_quantity = $(this).data('offer_quantity');
+            var offer_user = $(this).data('offer_user');
+            var offer_logid = $(this).data('offer_logid');
+            var offer_timeStamp = $(this).data('offer_timestamp');
+            var offer_price = $(this).data('offer_price');
+            var offer_province = $(this).data('offer_province');
+            $('#AcceptOfferModal').modal('show');
+            $('.offer_produceName').val(offer_produceName);
+            $('.offer_quantity').val(offer_quantity);
+            $('.offer_user').val(offer_user);
+            $('.offer_logid').val(offer_logid);
+            $('.offer_timeStamp').val(offer_timeStamp);
+            $('.offer_price').val(offer_price);
+            $('.offer_province').val(offer_province);
+      });
+
+    });
+    </script>
+
   </body>
 </html>
