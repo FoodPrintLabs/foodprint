@@ -471,4 +471,142 @@ router.get(
   }
 );
 
+//Save bid
+router.post(
+  '/bid/accept',
+  [
+    //validation area
+    //check('bid_produceName', 'Your produce name is not valid').not().isEmpty().trim().escape(),
+  ],
+  function (req, res) {
+    console.log(req.body.bid_logid);
+    const result = validationResult(req);
+    var errors = result.errors;
+    for (var key in errors) {
+      console.log('Validation error - ' + errors[key].msg);
+    }
+    if (!result.isEmpty()) {
+      req.flash('error', errors);
+      res.render('order_dashboard', {
+        page_title: 'FoodPrint - Order Dashboard',
+        data: '',
+        page_name: 'order_dashboard',
+      }); //should add error array here
+    } else {
+      let data = {
+        order_produceName: req.body.bid_produceName,
+        order_quantity: req.body.bid_quantity,
+        bid_user: req.body.bid_user,
+        offer_user: req.user.email,
+        order_original_logid: req.body.bid_logid,
+        order_logid: uuidv4(),
+        order_original_timeStamp: req.body.bid_timeStamp,
+        order_timeStamp: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+        order_price: req.body.bid_price,
+        order_province: req.body.bid_province,
+      };
+      try {
+        models.My_orders.create(data)
+          .then(_ => {
+            req.flash(
+              'success',
+              'New order accepted successfully! A order of ' +
+                req.body.bid_produceName +
+                ' has been added to your account.'
+            );
+            res.redirect('/app/order');
+          })
+          .catch(err => {
+            //throw err;
+            req.flash('error', err);
+            // redirect to Order page
+            res.redirect('/app/order');
+          });
+      } catch (e) {
+        //this will eventually be handled by your error handling middleware
+        next(e);
+        //res.json({success: false, errors: e});
+        res.render('order_dashboard', {
+          page_title: 'FoodPrint - Order Dashboard',
+          data: '',
+          filter_data: '',
+          filter_type: '',
+          success: false,
+          errors: e.array(),
+          page_name: 'order_dashboard',
+        });
+      }
+    }
+  }
+);
+
+//Save Offer
+router.post(
+  '/offer/accept',
+  [
+    //validation area
+    //check('bid_produceName', 'Your produce name is not valid').not().isEmpty().trim().escape(),
+  ],
+  function (req, res) {
+    console.log(req.body.bid_logid);
+    const result = validationResult(req);
+    var errors = result.errors;
+    for (var key in errors) {
+      console.log('Validation error - ' + errors[key].msg);
+    }
+    if (!result.isEmpty()) {
+      req.flash('error', errors);
+      res.render('order_dashboard', {
+        page_title: 'FoodPrint - Order Dashboard',
+        data: '',
+        page_name: 'order_dashboard',
+      }); //should add error array here
+    } else {
+      let data = {
+        order_produceName: req.body.offer_produceName,
+        order_quantity: req.body.offer_quantity,
+        offer_user: req.body.offer_user,
+        bid_user: req.user.email,
+        order_original_logid: req.body.offer_logid,
+        order_logid: uuidv4(),
+        order_original_timeStamp: req.body.offer_timeStamp,
+        order_timeStamp: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+        order_price: req.body.offer_price,
+        order_province: req.body.offer_province,
+      };
+      try {
+        models.My_orders.create(data)
+          .then(_ => {
+            req.flash(
+              'success',
+              'New order accepted successfully! A order sale of ' +
+                req.body.offer_produceName +
+                ' has been added to your account.'
+            );
+            res.redirect('/app/order');
+          })
+          .catch(err => {
+            //throw err;
+            req.flash('error', err);
+            // redirect to Order page
+            res.redirect('/app/order');
+          });
+      } catch (e) {
+        //this will eventually be handled by your error handling middleware
+        next(e);
+        //res.json({success: false, errors: e});
+        res.render('order_dashboard', {
+          page_title: 'FoodPrint - Order Dashboard',
+          data: '',
+          filter_data: '',
+          filter_type: '',
+          success: false,
+          errors: e.array(),
+          page_name: 'order_dashboard',
+        });
+      }
+    }
+  }
+);
+
 module.exports = router;
