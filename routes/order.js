@@ -70,22 +70,10 @@ router.get(
               'Spinach',
               'Turnips',
             ];
-            const produceArray = [];
+            let finalProduceArray = [];
             if (bid_rows.length || offer_rows.length) {
-              for (var i = 0; i < produce_rows.length; i++) {
-                for (var k = 0; k < bid_rows.length; k++) {
-                  if (bid_rows[k].bid_produceName == produce_rows[i]) {
-                    produceArray.push(produce_rows[i]);
-                  }
-                }
-                for (var k = 0; k < offer_rows.length; k++) {
-                  if (offer_rows[k].offer_produceName == produce_rows[i]) {
-                    produceArray.push(produce_rows[i]);
-                  }
-                }
-              }
+              finalProduceArray = returnRelevantProduce(produce_rows, bid_rows, offer_rows);
             }
-            finalProduceArray = [...new Set(produceArray)];
             res.render('order_dashboard', {
               title: 'FoodPrint - Order Dashboard',
               bid_rows: bid_rows,
@@ -120,6 +108,25 @@ router.get(
     }
   }
 );
+
+//function returning produce that match orders and offers
+function returnRelevantProduce(produce_rows, bid_rows, offer_rows) {
+  let produceArray = [];
+  for (var i = 0; i < produce_rows.length; i++) {
+    for (var k = 0; k < bid_rows.length; k++) {
+      if (bid_rows[k].bid_produceName == produce_rows[i]) {
+        produceArray.push(produce_rows[i]);
+      }
+    }
+    for (var k = 0; k < offer_rows.length; k++) {
+      if (offer_rows[k].offer_produceName == produce_rows[i]) {
+        produceArray.push(produce_rows[i]);
+      }
+    }
+  }
+  let relevantProduceArray = [];
+  return (relevantProduceArray = [...new Set(produceArray)]);
+}
 
 //GET filtered dashboard by (PRODUCE)
 router.get(
@@ -176,22 +183,10 @@ router.get(
               'Spinach',
               'Turnips',
             ];
-            const produceArray = [];
+            let finalProduceArray = [];
             if (bid_rows.length || offer_rows.length) {
-              for (var i = 0; i < produce_rows.length; i++) {
-                for (var k = 0; k < bid_rows.length; k++) {
-                  if (bid_rows[k].bid_produceName == produce_rows[i]) {
-                    produceArray.push(produce_rows[i]);
-                  }
-                }
-                for (var k = 0; k < offer_rows.length; k++) {
-                  if (offer_rows[k].offer_produceName == produce_rows[i]) {
-                    produceArray.push(produce_rows[i]);
-                  }
-                }
-              }
+              finalProduceArray = returnRelevantProduce(produce_rows, bid_rows, offer_rows);
             }
-            finalProduceArray = [...new Set(produceArray)];
             res.render('order_dashboard', {
               title: 'FoodPrint - Order Dashboard',
               bid_rows: bid_rows,
@@ -282,22 +277,10 @@ router.get(
               'Spinach',
               'Turnips',
             ];
-            const produceArray = [];
+            let finalProduceArray = [];
             if (bid_rows.length || offer_rows.length) {
-              for (var i = 0; i < produce_rows.length; i++) {
-                for (var k = 0; k < bid_rows.length; k++) {
-                  if (bid_rows[k].bid_produceName == produce_rows[i]) {
-                    produceArray.push(produce_rows[i]);
-                  }
-                }
-                for (var k = 0; k < offer_rows.length; k++) {
-                  if (offer_rows[k].offer_produceName == produce_rows[i]) {
-                    produceArray.push(produce_rows[i]);
-                  }
-                }
-              }
+              finalProduceArray = returnRelevantProduce(produce_rows, bid_rows, offer_rows);
             }
-            finalProduceArray = [...new Set(produceArray)];
             res.render('order_dashboard', {
               title: 'FoodPrint - Order Dashboard',
               bid_rows: bid_rows,
@@ -420,22 +403,10 @@ router.get(
               'Spinach',
               'Turnips',
             ];
-            const produceArray = [];
+            let finalProduceArray = [];
             if (bid_rows.length || offer_rows.length) {
-              for (var i = 0; i < produce_rows.length; i++) {
-                for (var k = 0; k < bid_rows.length; k++) {
-                  if (bid_rows[k].bid_produceName == produce_rows[i]) {
-                    produceArray.push(produce_rows[i]);
-                  }
-                }
-                for (var k = 0; k < offer_rows.length; k++) {
-                  if (offer_rows[k].offer_produceName == produce_rows[i]) {
-                    produceArray.push(produce_rows[i]);
-                  }
-                }
-              }
+              finalProduceArray = returnRelevantProduce(produce_rows, bid_rows, offer_rows);
             }
-            finalProduceArray = [...new Set(produceArray)];
             res.render('order_dashboard', {
               title: 'FoodPrint - Order Dashboard',
               bid_rows: bid_rows,
