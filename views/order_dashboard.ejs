@@ -386,7 +386,7 @@
         <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
         box-shadow: 2px 2px 4px 5px #ccc;">
           <div class="card-header">
-          <p class="card-title h4">Bid- <%=bid_rows[k].bid_produceName%></p>
+          <p class="card-title h4">Bid - <%=bid_rows[k].bid_produceName%></p>
           </div>
           <div class="card-body">
             
@@ -413,10 +413,9 @@
         %>
       <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; box-shadow: 2px 2px 4px 5px #ccc;">
         <div class="card-header">
-          <b>Offer</b>
+          <p class="card-title h4">Offer - <%=offer_rows[k].offer_produceName%></p>
         </div>
         <div class="card-body">
-          <p class="card-title h4"><%=offer_rows[k].offer_produceName%></p>
           <p class="card-text">
             <b>User:</b> <%=offer_rows[k].offer_user%> <br>
             <b>Quantity:</b> <%=offer_rows[k].offer_quantity%>kgs <br>
@@ -425,7 +424,7 @@
           </p>
           <a href="javascript:void(0);" class="btn-sm btn-primary acceptOffer" data-offer_user="<%= offer_rows[k].offer_user%>" data-offer_quantity="<%= offer_rows[k].offer_quantity%>" 
             data-offer_price="<%= offer_rows[k].offer_price%>" data-offer_producename="<%= offer_rows[k].offer_produceName%>" data-offer_timestamp="<%= offer_rows[k].offer_timeStamp%>" 
-            data-offer_logid="<%= offer_rows[k].offer_logid%>" data-offer_province="<%= offer_rows[k].offer_province%>">Accept</a>
+            data-offer_logid="<%= offer_rows[k].offer_logid%>" data-offer_province="<%= offer_rows[k].offer_province%>">View</a>
         </div>
       </div>
       <%}} %>
@@ -493,7 +492,13 @@
       </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="submit" class="btn btn-primary">View</button>
+
+         <% if (user.role == "Seller" ) { %>
+          <button type="submit" class="btn btn-primary">Accept</button></a>
+        <% } else { %>
+          <button type="submit" class="btn btn-secondary" disabled>Accept</button>
+        <% } %>
+         
        </div>
      </div>
    </div>
@@ -545,7 +550,12 @@
       </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="submit" class="btn btn-primary">Accept</button>
+       
+         <% if (user.role == "Buyer" ) { %>
+          <button type="submit" class="btn btn-primary">Accept</button></a>
+        <% } else { %>
+          <button type="submit" class="btn btn-secondary" disabled>Accept</button>
+        <% } %>
        </div>
      </div>
    </div>
