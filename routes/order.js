@@ -32,10 +32,16 @@ router.get(
       req.user.role === ROLES.Admin
     ) {
       models.Buyer_bid.findAll({
+        where: {
+          bid_status: 'Placed',
+        },
         order: [['pk', 'DESC']],
       })
         .then(bid_rows => {
           models.Seller_offer.findAll({
+            where: {
+              offer_status: 'Placed',
+            },
             order: [['pk', 'DESC']],
           }).then(offer_rows => {
             produce_rows = [
@@ -141,6 +147,7 @@ router.get(
       models.Buyer_bid.findAll({
         where: {
           bid_produceName: req.params.range,
+          bid_status: 'Placed',
         },
         order: [['pk', 'DESC']],
       })
@@ -148,6 +155,7 @@ router.get(
           models.Seller_offer.findAll({
             where: {
               offer_produceName: req.params.range,
+              offer_status: 'Placed',
             },
             order: [['pk', 'DESC']],
           }).then(offer_rows => {
@@ -235,6 +243,7 @@ router.get(
       models.Buyer_bid.findAll({
         where: {
           bid_province: req.params.range,
+          bid_status: 'Placed',
         },
         order: [['pk', 'DESC']],
       })
@@ -242,6 +251,7 @@ router.get(
           models.Seller_offer.findAll({
             where: {
               offer_province: req.params.range,
+              offer_status: 'Placed',
             },
             order: [['pk', 'DESC']],
           }).then(offer_rows => {
@@ -355,6 +365,7 @@ router.get(
               },
             },
           ],
+          bid_status: 'Placed',
         },
         order: [['pk', 'DESC']],
       })
@@ -368,6 +379,7 @@ router.get(
                   },
                 },
               ],
+              offer_status: 'Placed',
             },
             order: [['pk', 'DESC']],
           }).then(offer_rows => {
@@ -645,22 +657,31 @@ router.post(
         order_province: req.body.bid_province,
       };
       try {
-        models.My_orders.create(data)
-          .then(_ => {
-            req.flash(
-              'success',
-              'New order accepted successfully! A order of ' +
-                req.body.bid_produceName +
-                ' has been added to your account.'
-            );
-            res.redirect('/app/order');
-          })
-          .catch(err => {
-            //throw err;
-            req.flash('error', err);
-            // redirect to Order page
-            res.redirect('/app/order');
-          });
+        models.My_orders.create(data).then(_ =>
+          models.Buyer_bid.update(
+            {
+              bid_status: 'Settled',
+            },
+            {
+              where: { bid_logid: req.body.bid_logid },
+            }
+          )
+            .then(_ => {
+              req.flash(
+                'success',
+                'New order accepted successfully! A order of ' +
+                  req.body.bid_produceName +
+                  ' has been added to your account.'
+              );
+              res.redirect('/app/order');
+            })
+            .catch(err => {
+              //throw err;
+              req.flash('error', err);
+              // redirect to Order page
+              res.redirect('/app/order');
+            })
+        );
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
@@ -715,22 +736,31 @@ router.post(
         order_province: req.body.offer_province,
       };
       try {
-        models.My_orders.create(data)
-          .then(_ => {
-            req.flash(
-              'success',
-              'New order accepted successfully! A order sale of ' +
-                req.body.offer_produceName +
-                ' has been added to your account.'
-            );
-            res.redirect('/app/order');
-          })
-          .catch(err => {
-            //throw err;
-            req.flash('error', err);
-            // redirect to Order page
-            res.redirect('/app/order');
-          });
+        models.My_orders.create(data).then(_ =>
+          models.Seller_offer.update(
+            {
+              offer_status: 'Settled',
+            },
+            {
+              where: { offer_logid: req.body.offer_logid },
+            }
+          )
+            .then(_ => {
+              req.flash(
+                'success',
+                'New order accepted successfully! A order sale of ' +
+                  req.body.offer_produceName +
+                  ' has been added to your account.'
+              );
+              res.redirect('/app/order');
+            })
+            .catch(err => {
+              //throw err;
+              req.flash('error', err);
+              // redirect to Order page
+              res.redirect('/app/order');
+            })
+        );
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
