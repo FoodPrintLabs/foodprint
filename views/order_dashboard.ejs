@@ -387,6 +387,9 @@
         box-shadow: 2px 2px 4px 5px #ccc;">
           <div class="card-header">
           <p class="card-title h4">Bid - <%=bid_rows[k].bid_produceName%></p>
+          <% if (bid_rows[k].bid_status == "Settled" ) { %>
+            <b>SETTLED</b>
+          <% }%>   
           </div>
           <div class="card-body">
             
@@ -394,7 +397,7 @@
               <b>User:</b> <%=bid_rows[k].bid_user%> <br>
               <b>Quantity:</b> <%=bid_rows[k].bid_quantity%>kgs <br>
               <b>Price:</b> <%=bid_rows[k].bid_price%> <br>
-              <b>Placed:</b><%=bid_rows[k].bid_timeStamp%>                            
+              <b>Placed:</b><%=bid_rows[k].bid_timeStamp%>                           
             </p>
             <a href="javascript:void(0);" class="btn-sm btn-primary acceptBid " data-bid_user="<%= bid_rows[k].bid_user%>" data-bid_quantity="<%= bid_rows[k].bid_quantity%>" 
               data-bid_price="<%= bid_rows[k].bid_price%>" data-bid_producename="<%= bid_rows[k].bid_produceName%>" data-bid_timestamp="<%= bid_rows[k].bid_timeStamp%>" 
@@ -414,13 +417,17 @@
       <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; box-shadow: 2px 2px 4px 5px #ccc;">
         <div class="card-header">
           <p class="card-title h4">Offer - <%=offer_rows[k].offer_produceName%></p>
+          <% if (offer_rows[k].offer_status == "Settled" ) { %>
+            <b>SETTLED</b>
+          <% }%>  
         </div>
         <div class="card-body">
           <p class="card-text">
             <b>User:</b> <%=offer_rows[k].offer_user%> <br>
             <b>Quantity:</b> <%=offer_rows[k].offer_quantity%>kgs <br>
             <b>Price:</b> <%=offer_rows[k].offer_price%> <br>
-            <b>Placed:</b><%=offer_rows[k].offer_timeStamp%>                             
+            <b>Placed:</b><%=offer_rows[k].offer_timeStamp%>
+                                     
           </p>
           <a href="javascript:void(0);" class="btn-sm btn-primary acceptOffer" data-offer_user="<%= offer_rows[k].offer_user%>" data-offer_quantity="<%= offer_rows[k].offer_quantity%>" 
             data-offer_price="<%= offer_rows[k].offer_price%>" data-offer_producename="<%= offer_rows[k].offer_produceName%>" data-offer_timestamp="<%= offer_rows[k].offer_timeStamp%>" 
