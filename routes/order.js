@@ -442,6 +442,173 @@ router.get(
   }
 );
 
+//GET filtered dashboard by (Status)
+router.get(
+  '/filter/status/:range',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (
+      req.user.role === ROLES.Buyer ||
+      req.user.role === ROLES.Seller ||
+      req.user.role === ROLES.Admin
+    ) {
+      //IF STATUS IS ALL -> Select all
+      if (req.params.range == 'All') {
+        models.Buyer_bid.findAll({
+          order: [['pk', 'DESC']],
+        })
+          .then(bid_rows => {
+            models.Seller_offer.findAll({
+              order: [['pk', 'DESC']],
+            }).then(offer_rows => {
+              produce_rows = [
+                'Baby Marrow',
+                'Baby Leeks',
+                'Basil',
+                'Beetroot',
+                'Bergamot',
+                'Blood Oranges',
+                'Cabbage',
+                'Carrots',
+                'Cauliflower',
+                'Cayenne Pepper',
+                'Cucumber',
+                'Eggs',
+                'Fennel',
+                'Granadilla',
+                'Green Beans',
+                'Herbs',
+                'Lebanese Cucumber',
+                'Leeks',
+                'Lemon',
+                'Lettuce',
+                'Limes',
+                'Mor',
+                'Onion',
+                'Pak Choi',
+                'Parsley',
+                'Radish',
+                'Sorrel',
+                'Swiss Chard',
+                'Spinach',
+                'Turnips',
+              ];
+              let finalProduceArray = [];
+              if (bid_rows.length || offer_rows.length) {
+                finalProduceArray = returnRelevantProduce(produce_rows, bid_rows, offer_rows);
+              }
+              res.render('order_dashboard', {
+                title: 'FoodPrint - Order Dashboard',
+                bid_rows: bid_rows,
+                offer_rows: offer_rows,
+                //return list of produce
+                produce_rows: finalProduceArray,
+                filter_data: req.params.range,
+                filter_type: 'status',
+                user: req.user,
+                page_name: 'Order Dashboard',
+              });
+            });
+          })
+          .catch(err => {
+            req.flash('error', err);
+            res.render('error', {
+              message: 'Unexpected Error occured',
+              data: '',
+              filter_data: '',
+              filter_type: '',
+              user: req.user,
+              page_name: 'error',
+            });
+          });
+      }
+      //IF STATUS IS PLACED OR SETTLED
+      else {
+        models.Buyer_bid.findAll({
+          where: {
+            bid_status: req.params.range,
+          },
+          order: [['pk', 'DESC']],
+        })
+          .then(bid_rows => {
+            models.Seller_offer.findAll({
+              where: {
+                offer_status: req.params.range,
+              },
+              order: [['pk', 'DESC']],
+            }).then(offer_rows => {
+              produce_rows = [
+                'Baby Marrow',
+                'Baby Leeks',
+                'Basil',
+                'Beetroot',
+                'Bergamot',
+                'Blood Oranges',
+                'Cabbage',
+                'Carrots',
+                'Cauliflower',
+                'Cayenne Pepper',
+                'Cucumber',
+                'Eggs',
+                'Fennel',
+                'Granadilla',
+                'Green Beans',
+                'Herbs',
+                'Lebanese Cucumber',
+                'Leeks',
+                'Lemon',
+                'Lettuce',
+                'Limes',
+                'Mor',
+                'Onion',
+                'Pak Choi',
+                'Parsley',
+                'Radish',
+                'Sorrel',
+                'Swiss Chard',
+                'Spinach',
+                'Turnips',
+              ];
+              let finalProduceArray = [];
+              if (bid_rows.length || offer_rows.length) {
+                finalProduceArray = returnRelevantProduce(produce_rows, bid_rows, offer_rows);
+              }
+              res.render('order_dashboard', {
+                title: 'FoodPrint - Order Dashboard',
+                bid_rows: bid_rows,
+                offer_rows: offer_rows,
+                //return list of produce
+                produce_rows: finalProduceArray,
+                filter_data: req.params.range,
+                filter_type: 'status',
+                user: req.user,
+                page_name: 'Order Dashboard',
+              });
+            });
+          })
+          .catch(err => {
+            req.flash('error', err);
+            res.render('error', {
+              message: 'Unexpected Error occured',
+              data: '',
+              filter_data: '',
+              filter_type: '',
+              user: req.user,
+              page_name: 'error',
+            });
+          });
+      }
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        page_name: 'error',
+      });
+    }
+  }
+);
+
 //Save bid
 router.post(
   '/bid/accept',
@@ -471,6 +638,7 @@ router.post(
         offer_user: req.user.email,
         order_original_logid: req.body.bid_logid,
         order_logid: uuidv4(),
+        order_type: 'Bid',
         order_original_timeStamp: req.body.bid_timeStamp,
         order_timeStamp: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         order_price: req.body.bid_price,
@@ -540,6 +708,7 @@ router.post(
         bid_user: req.user.email,
         order_original_logid: req.body.offer_logid,
         order_logid: uuidv4(),
+        order_type: 'Offer',
         order_original_timeStamp: req.body.offer_timeStamp,
         order_timeStamp: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         order_price: req.body.offer_price,

@@ -32,6 +32,14 @@
             else if (filter)
             { window.location = '/app/order/filter/timeframe/'+ filter;}
           } 
+          if(filterType == "status")
+          {
+          var filter = document.getElementById('status_filter').value;
+          if(filter == "All"){
+            window.location = '/app/order/filter/status/All'}
+            else if (filter)
+            { window.location = '/app/order/filter/status/'+ filter;}
+          } 
         }
           
         
@@ -231,6 +239,20 @@
                   document.getElementById('timeframe_filter').value = "1-Year";
                 }
           }
+          else if(filterType == "status"){
+              if( filter == "All")
+                {
+                  document.getElementById('status_filter').value = "All";
+                }
+                if( filter == "Placed")
+                {
+                  document.getElementById('status_filter').value = "Placed";
+                }
+                if( filter == "Settled")
+                {
+                  document.getElementById('status_filter').value = "Settled";
+                }
+          }
           else if( filter == "")
           {
           }
@@ -266,7 +288,7 @@
           <div class="col-12 col-lg-12 col-xl-12">
             <h4>Filters</h4>
           </div>
-        <div class="col-4 col-lg-4 col-xl-4">
+        <div class="col-3 col-lg-3 col-xl-3">
           <p>Produce Type</p>
           <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required onchange="activatefilter('produce')">
             <option value="" selected disabled>Select Produce Type</option>
@@ -303,7 +325,7 @@
         <option>Turnips</option>
           </select>
         </div>
-        <div class="col-4 col-lg-4 col-xl-4">
+        <div class="col-3 col-lg-3 col-xl-3">
           <p>Province:</p>
           <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required onchange="activatefilter('province')">
             <option value="" selected disabled>Select a Province</option>
@@ -319,7 +341,7 @@
             <option>Limpopo</option>
           </select>
         </div>
-        <div class="col-4 col-lg-4 col-xl-4">
+        <div class="col-3 col-lg-3 col-xl-3">
           <p>Date Filter:</p>
           <select class="custom-select d-block w-100 " name="timeframe_filter" id="timeframe_filter" required onchange="activatefilter('timeframe')">
             <option value="" selected disabled>Select a timeframe</option>
@@ -328,6 +350,15 @@
             <option>1-Month</option>
             <option>6-Month</option>
             <option>1-Year</option>
+          </select>
+        </div>
+        <div class="col-3 col-lg-3 col-xl-3">
+          <p>Date Filter:</p>
+          <select class="custom-select d-block w-100 " name="status_filter" id="status_filter" required onchange="activatefilter('status')">
+            <option value="" selected disabled>Select a status</option>
+            <option>All</option>
+            <option>Placed</option>
+            <option>Settled</option>
           </select>
         </div>
       </div>
@@ -355,19 +386,20 @@
         <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
         box-shadow: 2px 2px 4px 5px #ccc;">
           <div class="card-header">
-            <b>Bid</b>
+          <p class="card-title h4">Bid- <%=bid_rows[k].bid_produceName%></p>
           </div>
           <div class="card-body">
-            <h5 class="card-title"><%=bid_rows[k].bid_produceName%></h5>
+            
             <p class="card-text">
-              User: <%=bid_rows[k].bid_user%> <br>
-              Quantity: <%=bid_rows[k].bid_quantity%>kgs <br>
-              Price: <%=bid_rows[k].bid_price%>                            
+              <b>User:</b> <%=bid_rows[k].bid_user%> <br>
+              <b>Quantity:</b> <%=bid_rows[k].bid_quantity%>kgs <br>
+              <b>Price:</b> <%=bid_rows[k].bid_price%> <br>
+              <b>Placed:</b><%=bid_rows[k].bid_timeStamp%>                            
             </p>
             <a href="javascript:void(0);" class="btn-sm btn-primary acceptBid " data-bid_user="<%= bid_rows[k].bid_user%>" data-bid_quantity="<%= bid_rows[k].bid_quantity%>" 
               data-bid_price="<%= bid_rows[k].bid_price%>" data-bid_producename="<%= bid_rows[k].bid_produceName%>" data-bid_timestamp="<%= bid_rows[k].bid_timeStamp%>" 
               data-bid_logid="<%= bid_rows[k].bid_logid%>" data-bid_province="<%= bid_rows[k].bid_province%>" 
-              >Accept</a>
+              >View</a>
           </div>
         </div>
         <%}} %>
@@ -384,11 +416,12 @@
           <b>Offer</b>
         </div>
         <div class="card-body">
-          <h5 class="card-title"><%=offer_rows[k].offer_produceName%></h5>
+          <p class="card-title h4"><%=offer_rows[k].offer_produceName%></p>
           <p class="card-text">
-            User: <%=offer_rows[k].offer_user%> <br>
-            Quantity: <%=offer_rows[k].offer_quantity%>kgs <br>
-            Price: <%=offer_rows[k].offer_price%>                            
+            <b>User:</b> <%=offer_rows[k].offer_user%> <br>
+            <b>Quantity:</b> <%=offer_rows[k].offer_quantity%>kgs <br>
+            <b>Price:</b> <%=offer_rows[k].offer_price%> <br>
+            <b>Placed:</b><%=offer_rows[k].offer_timeStamp%>                             
           </p>
           <a href="javascript:void(0);" class="btn-sm btn-primary acceptOffer" data-offer_user="<%= offer_rows[k].offer_user%>" data-offer_quantity="<%= offer_rows[k].offer_quantity%>" 
             data-offer_price="<%= offer_rows[k].offer_price%>" data-offer_producename="<%= offer_rows[k].offer_produceName%>" data-offer_timestamp="<%= offer_rows[k].offer_timeStamp%>" 
@@ -460,7 +493,7 @@
       </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="submit" class="btn btn-primary">Accept</button>
+         <button type="submit" class="btn btn-primary">View</button>
        </div>
      </div>
    </div>
