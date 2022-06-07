@@ -17,6 +17,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
+      order_type: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
       offer_user: {
         type: DataTypes.STRING(255),
         allowNull: true,
