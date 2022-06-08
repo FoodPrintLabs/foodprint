@@ -296,20 +296,14 @@
                 <div class="form-group">
                     <label for="viewmodal_market_storageTimeStamp">Storage/Handover Time</label>
                     <div class="input-group form_datetime" id="viewmodal_market_storageTimeStamp_datetimepicker" data-target-input="viewmodal_market_storageTimeStamp">
-                        <input type="text" class="form-control datetimepicker-input" id="viewmodal_market_storageTimeStamp" name="viewmodal_market_storageTimeStamp" placeholder="Actual time of Storage/Handover with farmer (Storage Timestamp)" data-target="#viewmodal_market_storageTimeStamp"/>
-                        <span class="input-group-addon" data-target="#viewmodal_market_storageTimeStamp" data-toggle="datetimepicker">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
+                        <input type="datetime-local" class="form-control" id="viewmodal_market_storageTimeStamp" name="viewmodal_market_storageTimeStamp" placeholder="Actual time of Storage/Handover with farmer (Storage Timestamp)" data-target="#viewmodal_market_storageTimeStamp"/>
                     </div>
                 </div>
 
                 <div class="form-group" id="viewmodal_market_storageCaptureTimeDiv">
                   <label for="viewmodal_market_storageCaptureTime">Storage/Handover Data Capture Time</label>
                   <div class="input-group form_datetime" id="viewmodal_market_storageCaptureTime_datetimepicker" data-target-input="viewmodal_market_storageCaptureTime">
-                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_market_storageCaptureTime" name="viewmodal_market_storageCaptureTime" placeholder="Storage/Handover Data Capture Time" data-target="#viewmodal_market_storageCaptureTime"/>
-                      <span class="input-group-addon" data-target="#viewmodal_market_storageCaptureTime" data-toggle="datetimepicker">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
+                      <input type="datetime-local" class="form-control" id="viewmodal_market_storageCaptureTime" name="viewmodal_market_storageCaptureTime" placeholder="Storage/Handover Data Capture Time" data-target="#viewmodal_market_storageCaptureTime"/>
                   </div>
                 </div>
 
@@ -341,10 +335,7 @@
                 <div class="form-group" id="viewmodal_storage_added_to_blockchain_dateDiv">
                   <label for="viewmodal_storage_added_to_blockchain_date">Storage Added to Blockchain Datetime</label>
                   <div class="input-group form_datetime" id="viewmodal_storage_added_to_blockchain_date_datetimepicker" data-target-input="viewmodal_storage_added_to_blockchain_date">
-                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_storage_added_to_blockchain_date" name="viewmodal_storage_added_to_blockchain_date" placeholder="Storage Added to Blockchain Datetime" data-target="#viewmodal_storage_added_to_blockchain_date"/>
-                      <span class="input-group-addon" data-target="#viewmodal_storage_added_to_blockchain_date" data-toggle="datetimepicker">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
+                      <input type="datetime-local" class="form-control" id="viewmodal_storage_added_to_blockchain_date" name="viewmodal_storage_added_to_blockchain_date" placeholder="Storage Added to Blockchain Datetime" data-target="#viewmodal_storage_added_to_blockchain_date"/>
                   </div>
                 </div>
 
@@ -366,20 +357,14 @@
                 <div class="form-group" id="viewmodal_logdatetimeDiv">
                   <label for="viewmodal_logdatetime">Log Datetime</label>
                   <div class="input-group form_datetime" id="viewmodal_logdatetime_datetimepicker" data-target-input="viewmodal_logdatetime">
-                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_logdatetime" name="viewmodal_logdatetime" placeholder="Log Datetime" data-target="#viewmodal_logdatetime"/>
-                      <span class="input-group-addon" data-target="#viewmodal_logdatetime" id="viewmodal_logdatetime_calendar" data-toggle="datetimepicker">
-                          <span class="glyphicon glyphicon-calendar" id="viewmodal_logdatetime_calendar_icon"></span>
-                      </span>
+                      <input type="datetime-local" class="form-control" id="viewmodal_logdatetime" name="viewmodal_logdatetime" placeholder="Log Datetime" data-target="#viewmodal_logdatetime"/>
                   </div>
                 </div>
 
                 <div class="form-group" id="viewmodal_lastmodifieddatetimeDiv">
                   <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
                   <div class="input-group form_datetime" id="viewmodal_lastmodifieddatetime_datetimepicker" data-target-input="viewmodal_lastmodifieddatetime">
-                      <input type="text" class="form-control datetimepicker-input" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime"/>
-                      <span class="input-group-addon" data-target="#viewmodal_lastmodifieddatetime" data-toggle="datetimepicker">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
+                      <input type="datetime-local" class="form-control" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime"/>
                   </div>
                 </div>
 
@@ -430,32 +415,10 @@
   <script src="/js/custom.js"></script><!-- Subscribe-->
   <script src="/js/sha256.min.js"></script><!-- Blockchain -->
 
-
-  <script type="text/javascript">
-    $(function () {
-                    $('#datetimepicker1').datetimepicker();
-                });
-
-    $(function () {
-        $('.form_datetime').datetimepicker({
-          weekStart: 1,
-          todayBtn:  1,
-      autoclose: 1,
-      todayHighlight: 1,
-      startView: 2,
-      forceParse: 0,
-          showMeridian: 1
-      });
-    });
-  </script>
-
   <script type="text/javascript">
     function addToBlockchain(obj_identifier) {
       var storageLogid = $(obj_identifier).data('storage_logid');
       var storageAddBlockchainBtnId = "#storage_add_blockchain_" + storageLogid;
-
-      //$(harvestAddBlockchainBtnId).click(function (event) {
-      //event.preventDefault();
 
       // add spinner and disable button
       $(storageAddBlockchainBtnId).addClass('disabled');
@@ -587,6 +550,19 @@
             var logdatetime = $(obj_identifier).data('logdatetime');
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
 
+            console.log("market_storageTimeStamp - " + market_storageTimeStamp);
+            // market_storageTimeStamp - Wed May 25 2022 13:49:00 GMT+0200 (South Africa Standard Time)
+            //NB - this is the format the datetime-local HTML input will accept i.e. something like an ISOString without the Z
+            // var harvest_timestamp_iso = "2014-01-02T11:42:13.510";
+            //var harvest_timestamp_iso = new Date(harvest_timestamp).toISOString();
+            // 2022-05-25T11:49:00.000Z The Z on the end means UTC
+            var market_storageTimeStampAdjusted = moment(new Date(market_storageTimeStamp)).format("YYYY-MM-DDTHH:mm")
+            console.log("market_storageTimeStampAdjusted - " +  market_storageTimeStampAdjusted);
+            market_storageCaptureTime = moment(new Date(market_storageCaptureTime)).format("YYYY-MM-DDTHH:mm");
+            storage_added_to_blockchain_date = moment(new Date(storage_added_to_blockchain_date)).format("YYYY-MM-DDTHH:mm");
+            logdatetime = moment(new Date(logdatetime)).format("YYYY-MM-DDTHH:mm");
+            lastmodifieddatetime = moment(new Date(lastmodifieddatetime)).format("YYYY-MM-DDTHH:mm");
+
             //check console
             // console.log("harvest_logid - " + harvest_logid);
             // console.log("storage_logid - " + storage_logid);
@@ -620,7 +596,7 @@
             $('#viewmodal_market_Address').val(market_Address);
             $('#viewmodal_market_quantity').val(market_quantity);
             $('#viewmodal_market_unitOfMeasure').val(market_unitOfMeasure);
-            $('#viewmodal_market_storageTimeStamp').val(market_storageTimeStamp);
+            $('#viewmodal_market_storageTimeStamp').val(market_storageTimeStampAdjusted);
             $('#viewmodal_market_storageCaptureTime').val(market_storageCaptureTime);
             $('#viewmodal_market_URL').val(market_URL);
             $('#viewmodal_storage_BlockchainHashID').val(storage_BlockchainHashID);
