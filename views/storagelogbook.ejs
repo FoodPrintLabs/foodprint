@@ -415,32 +415,10 @@
   <script src="/js/custom.js"></script><!-- Subscribe-->
   <script src="/js/sha256.min.js"></script><!-- Blockchain -->
 
-
-  <script type="text/javascript">
-    $(function () {
-                    $('#datetimepicker1').datetimepicker();
-                });
-
-    $(function () {
-        $('.form_datetime').datetimepicker({
-          weekStart: 1,
-          todayBtn:  1,
-      autoclose: 1,
-      todayHighlight: 1,
-      startView: 2,
-      forceParse: 0,
-          showMeridian: 1
-      });
-    });
-  </script>
-
   <script type="text/javascript">
     function addToBlockchain(obj_identifier) {
       var storageLogid = $(obj_identifier).data('storage_logid');
       var storageAddBlockchainBtnId = "#storage_add_blockchain_" + storageLogid;
-
-      //$(harvestAddBlockchainBtnId).click(function (event) {
-      //event.preventDefault();
 
       // add spinner and disable button
       $(storageAddBlockchainBtnId).addClass('disabled');
@@ -572,6 +550,19 @@
             var logdatetime = $(obj_identifier).data('logdatetime');
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
 
+            console.log("market_storageTimeStamp - " + market_storageTimeStamp);
+            // market_storageTimeStamp - Wed May 25 2022 13:49:00 GMT+0200 (South Africa Standard Time)
+            //NB - this is the format the datetime-local HTML input will accept i.e. something like an ISOString without the Z
+            // var harvest_timestamp_iso = "2014-01-02T11:42:13.510";
+            //var harvest_timestamp_iso = new Date(harvest_timestamp).toISOString();
+            // 2022-05-25T11:49:00.000Z The Z on the end means UTC
+            var market_storageTimeStampAdjusted = moment(new Date(market_storageTimeStamp)).format("YYYY-MM-DDTHH:mm")
+            console.log("market_storageTimeStampAdjusted - " +  market_storageTimeStampAdjusted);
+            market_storageCaptureTime = moment(new Date(market_storageCaptureTime)).format("YYYY-MM-DDTHH:mm");
+            storage_added_to_blockchain_date = moment(new Date(storage_added_to_blockchain_date)).format("YYYY-MM-DDTHH:mm");
+            logdatetime = moment(new Date(logdatetime)).format("YYYY-MM-DDTHH:mm");
+            lastmodifieddatetime = moment(new Date(lastmodifieddatetime)).format("YYYY-MM-DDTHH:mm");
+
             //check console
             // console.log("harvest_logid - " + harvest_logid);
             // console.log("storage_logid - " + storage_logid);
@@ -605,7 +596,7 @@
             $('#viewmodal_market_Address').val(market_Address);
             $('#viewmodal_market_quantity').val(market_quantity);
             $('#viewmodal_market_unitOfMeasure').val(market_unitOfMeasure);
-            $('#viewmodal_market_storageTimeStamp').val(market_storageTimeStamp);
+            $('#viewmodal_market_storageTimeStamp').val(market_storageTimeStampAdjusted);
             $('#viewmodal_market_storageCaptureTime').val(market_storageCaptureTime);
             $('#viewmodal_market_URL').val(market_URL);
             $('#viewmodal_storage_BlockchainHashID').val(storage_BlockchainHashID);
