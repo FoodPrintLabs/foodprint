@@ -40,12 +40,12 @@
           <% if(data.length){
               for(var i = 0; i< data.length; i++) {%>
               <tr>
-                <td scope="row"><%= (i+1) %></td>
-                <td><%= data[i].harvest_logid %></td>
-                <td><%= data[i].harvest_TimeStamp %></td>
-                <td><%= data[i].harvest_supplierName %></td>
-                <td><%= data[i].harvest_produceName %></td>
-                <td>
+                <td scope="row" style="width: 2%;"><%= (i+1) %></td>
+                <td style="width: 25%;"><%= data[i].harvest_logid %></td>
+                <td style="width: 38%;"><%= data[i].harvest_TimeStamp %></td>
+                <td style="width: 10%;"><%= data[i].harvest_supplierName %></td>
+                <td style="width: 10%;"><%= data[i].harvest_produceName %></td>
+                <td style="width: 15%;">
                   <div class="btn-group btn-group-sm" role="group" aria-label="...">
                     <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')"  class="btn btn-xs btn-info view"
                        id="<%= ("harvest_view_" + data[i].harvest_logid) %>"
