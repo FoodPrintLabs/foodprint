@@ -77,7 +77,7 @@
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
 
-                    <a onclick="ShowModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit"
+                    <a onclick="ShowModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit" style="background-color: rgb(0, 160, 246);"
                        id="<%= ("harvest_edit_" + data[i].harvest_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -107,7 +107,7 @@
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Edit</a>
 
-                    <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete"
+                    <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete" 
                        id="<%= ("harvest_delete_" + data[i].harvest_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -138,9 +138,11 @@
                       Delete</a>
 
                       <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%>
-                        <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank">
+                        <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank" style="padding-right: 20px;
+                          padding-left: 18px;">
                           View on Blockchain</a>  <%}else{ %>
-                    <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addHarvestToBlockchainBtn"
+                    <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addHarvestToBlockchainBtn" style="padding-right: 20px;
+                    padding-left: 20px;" 
                        id="<%= ("harvest_add_blockchain_" + data[i].harvest_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                         data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"

@@ -74,7 +74,7 @@
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
 
-                    <a onclick="ShowStorageModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit"
+                    <a onclick="ShowStorageModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit" style="background-color: rgb(0, 160, 246);"
                        id="<%= ("storage_edit_" + data[i].storage_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -127,9 +127,11 @@
                       Delete</a>
 
                     <% if(data[i].storage_bool_added_to_blockchain!=='false'){%>
-                    <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank">
+                    <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank" style="padding-right: 18px;
+                      padding-left: 20px; background-color: rgb(16, 202, 16);">
                       View on Blockchain</a>  <%}else{ %>
-                      <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn"
+                      <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn" style="padding-right: 22px;
+                      padding-left: 20px;"
                        id="<%= ("storage_add_blockchain_" + data[i].storage_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
