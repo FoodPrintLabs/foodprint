@@ -284,12 +284,13 @@
 
     <!--FILTERS SECTION-->
     <div class="row">
-    <div class="col-12 col-lg-12 col-xl-12">
-          <div class="col-12 col-lg-12 col-xl-12">
+    <div class="col-12 col-lg-12 col-xl-12" style="width: 100% ;background-color: white;padding: 10px; 
+    box-shadow: 2px 2px 4px 5px #ccc;">
+          <div class="col-12 col-lg-12 col-xl-12" >
             <h4>Filters</h4>
           </div>
         <div class="col-3 col-lg-3 col-xl-3">
-          <p>Produce Type</p>
+          <p><strong>Produce Type</strong></p>
           <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required onchange="activatefilter('produce')">
             <option value="" selected disabled>Select Produce Type</option>
             <option>All</option>
@@ -326,7 +327,7 @@
           </select>
         </div>
         <div class="col-3 col-lg-3 col-xl-3">
-          <p>Province:</p>
+          <p><strong>Province:</strong></p>
           <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required onchange="activatefilter('province')">
             <option value="" selected disabled>Select a Province</option>
             <option>All</option>
@@ -342,7 +343,7 @@
           </select>
         </div>
         <div class="col-3 col-lg-3 col-xl-3">
-          <p>Date Filter:</p>
+          <p><strong>Date:</strong></p>
           <select class="custom-select d-block w-100 " name="timeframe_filter" id="timeframe_filter" required onchange="activatefilter('timeframe')">
             <option value="" selected disabled>Select a timeframe</option>
             <option>All</option>
@@ -353,7 +354,7 @@
           </select>
         </div>
         <div class="col-3 col-lg-3 col-xl-3">
-          <p>Date Filter:</p>
+          <p><strong>Status:</strong></p>
           <select class="custom-select d-block w-100 " name="status_filter" id="status_filter" required onchange="activatefilter('status')">
             <option value="" selected disabled>Select a status</option>
             <option>All</option>

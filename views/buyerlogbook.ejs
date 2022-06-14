@@ -196,16 +196,16 @@
 
               for(var i = 0; i< data.length; i++) {%>
               <tr>
-                <th scope="row"><%= (i+1) %></th>
-                <td><%= data[i].bid_logid%></td>
-                <td><%= data[i].bid_produceName%></td>
-                <td><%= data[i].bid_timeStamp%></td>
-                <td><%= data[i].bid_quantity%></td>
-                <td><%= data[i].bid_unitOfMeasure%></td>
-                <td><%= data[i].bid_price%></td>
-                <td><%= data[i].bid_status%></td>
-                <td>
-                    <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-bid_logid="<%= data[i].bid_logid%>"
+                <th scope="row" style="width: 2%;"><%= (i+1) %></th>
+                <td style="width: 27%;"><%= data[i].bid_logid%></td>
+                <td style="width: 10%;"><%= data[i].bid_produceName%></td>
+                <td style="width: 45%;"><%= data[i].bid_timeStamp%></td>
+                <td style="width: 2%;"><%= data[i].bid_quantity%></td>
+                <td style="width: 3%;"><%= data[i].bid_unitOfMeasure%></td>
+                <td style="width: 5%;"><%= data[i].bid_price%></td>
+                <td style="width: 5%;"><%= data[i].bid_status%></td>
+                <td  class="btn-group btn-group-sm" style="width: 2%;">
+                    <a href="javascript:void(0);" class="btn btn-xs btn-info edit" data-bid_logid="<%= data[i].bid_logid%>"
                       data-bid_producename="<%= data[i].bid_produceName%>" data-bid_timestamp="<%=data[i].bid_timeStamp%>"
                       data-bid_quantity="<%= data[i].bid_quantity%>" data-bid_price="<%= data[i].bid_price%>" data-bid_province="<%= data[i].bid_province%>" 
                       data-bid_status="<%= data[i].bid_status%>"

@@ -40,13 +40,13 @@
           <% if(data.length){
               for(var i = 0; i< data.length; i++) {%>
               <tr>
-                <td scope="row"><%= (i+1) %></td>
+                <td scope="row" style="width: 2%;"><%= (i+1) %></td>
                 <!-- <td><%= data[i].harvest_logid %></td> -->
-                <td><%= data[i].storage_logid %></td>
-                <td><%= data[i].market_storageTimeStamp %></td>
-                <td><%= data[i].harvest_supplierShortcode %></td>
-                <td><%= data[i].supplierproduce %></td>
-                <td>
+                <td style="width: 25%;"><%= data[i].storage_logid %></td>
+                <td style="width: 40%;"><%= data[i].market_storageTimeStamp %></td>
+                <td style="width: 5%;"> <%= data[i].harvest_supplierShortcode %></td>
+                <td style="width: 13%;"> <%= data[i].supplierproduce %></td>
+                <td style="width: 15%;">
                   <div class="btn-group btn-group-sm" role="group" aria-label="...">
                     <a onclick="ShowStorageModal(this, 'view', 'View Storage Entry','viewCSS')"  class="btn btn-xs btn-info view"
                        id="<%= ("storage_view_" + data[i].storage_logid) %>"
@@ -74,7 +74,7 @@
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       View</a>
 
-                    <a onclick="ShowStorageModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit"
+                    <a onclick="ShowStorageModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit" style="background-color: rgb(0, 160, 246);"
                        id="<%= ("storage_edit_" + data[i].storage_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -127,9 +127,11 @@
                       Delete</a>
 
                     <% if(data[i].storage_bool_added_to_blockchain!=='false'){%>
-                    <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank">
+                    <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank" style="padding-right: 18px;
+                      padding-left: 20px; background-color: rgb(16, 202, 16);">
                       View on Blockchain</a>  <%}else{ %>
-                      <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn"
+                      <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn" style="padding-right: 22px;
+                      padding-left: 20px;"
                        id="<%= ("storage_add_blockchain_" + data[i].storage_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
