@@ -12,6 +12,9 @@ const axios = require('axios');
 const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 
+//email functionality
+const email = require('../config/email/email');
+
 const { Op } = require('sequelize');
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
@@ -745,6 +748,14 @@ router.post(
               where: { offer_logid: req.body.offer_logid },
             }
           )
+            .then(
+              //FOR TESTING EMAILS
+              email.customSendEmail(
+                'daniela@foodprintlabs.com',
+                'Testing',
+                'Hello you accepted an offer'
+              )
+            )
             .then(_ => {
               req.flash(
                 'success',
