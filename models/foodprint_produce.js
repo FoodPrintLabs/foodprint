@@ -24,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
       timestamps: false,
       indexes: [
         {
-          name: 'PRIMARY',
+          name: 'foodprint_produce_PRIMARY',
           unique: true,
           using: 'BTREE',
           fields: [{ name: 'pk' }],

@@ -77,8 +77,8 @@ router.get(
 );
 
 //return template for how
-router.get('/how', function (req, res) {
-  res.render('how', { user: req.user, page_name: 'how' });
+router.get('/features', function (req, res) {
+  res.render('features', { user: req.user, page_name: 'features' });
 });
 
 //return template for terms and conditions

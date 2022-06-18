@@ -121,9 +121,9 @@ router.get(
   }
 );
 
-//return template with scan results for produce i.e. http://localhost:3000/app/scan/WMNP_Fennel
+//return template with scan results for produce 0.e. http://localhost:3000/app/scan/WMNP_Fennel
 //TODO Return Farmers email address as part of provenance_data
-//TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/scan/ozcf/WMNP_Fennel
+//TODO Update to include marketid '/app/scan/:marketid/:id' 0.e. http://localhost:3000/app/scan/ozcf/WMNP_Fennel
 router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function (req, res) {
   var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
 
@@ -206,7 +206,7 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function (req
         } else {
           rows[0].harvest_photoHash =
             'data:image/png;base64,' +
-            Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
+            Buffer.from(rows[0].harvest_photoHash, 'binary').toString('base64');
         }
       }
       provenance_data = rows;
@@ -278,7 +278,7 @@ router.get('/app/scan/:id', [sanitizeParam('id').escape().trim()], function (req
 
 //REST API Get a single produce data record (twin to router.get('/app/scan/:id'))
 //return json with scan results for produce http://localhost:3000/app/api/v1/scan/WMNP_Fennel
-//TODO Update to include marketid '/app/scan/:marketid/:id' i.e. http://localhost:3000/app/api/v1/scan/ozcf/WMNP_Fennel
+//TODO Update to include marketid '/app/scan/:marketid/:id' 0.e. http://localhost:3000/app/api/v1/scan/ozcf/WMNP_Fennel
 router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], function (req, res) {
   var supplierProduceID = req.params.id; //OZCF_Apples or WMNP_Fennel
 
@@ -355,11 +355,11 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
 
         // convert your binary data to base64 format & then pass it to ejs
         if (rows[0].harvest_photoHash === null) {
-          rows[i].harvest_photoHash = '';
+          rows[0].harvest_photoHash = '';
         } else {
           rows[0].harvest_photoHash =
             'data:image/png;base64,' +
-            Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
+            Buffer.from(rows[0].harvest_photoHash, 'binary').toString('base64');
         }
         provenance_data = rows[0]; // return 1st row only
       } else {

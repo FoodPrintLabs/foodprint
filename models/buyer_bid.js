@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    'FoodprintQrcount',
+    'Buyer_bid',
     {
       pk: {
         autoIncrement: true,
@@ -9,46 +9,62 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true,
       },
-      logid: {
+      bid_logid: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      qrid: {
+      bid_user: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      qrurl: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      marketid: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      request_host: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      request_origin: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      request_useragent: {
-        type: DataTypes.STRING(500),
-        allowNull: true,
-      },
-      logdatetime: {
+      bid_timeStamp: {
         type: DataTypes.DATE,
+        allowNull: true,
+      },
+      bid_produceName: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_quantity: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_unitOfMeasure: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_price: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_province: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_status: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_saleTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      bid_saleUser: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_description: {
+        type: DataTypes.STRING(1000),
         allowNull: true,
       },
     },
     {
       sequelize,
-      tableName: 'foodprint_qrcount',
+      tableName: 'buyer_bid',
       timestamps: false,
       indexes: [
         {
-          name: 'foodprint_qrcount_PRIMARY',
+          name: 'buyer_bid_PRIMARY',
           unique: true,
           using: 'BTREE',
           fields: [{ name: 'pk' }],
