@@ -7,8 +7,6 @@ const uuidv4 = require('uuid/v4');
 var initModels = require('../../models/init-models');
 var sequelise = require('../../config/db/db_sequelise');
 var models = initModels(sequelise);
-let email_logid = uuidv4();
-let logdatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 
 //emailer configuration
 // Testing Emails Pattern
@@ -31,9 +29,10 @@ customSendEmail = function (recipient, subject, body) {
     subject: subject,
     text: body,
   };
-  //send Mail with details
+  let email_logid = uuidv4();
+  let logdatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 
-  //emailTransport.verify().then(console.log).catch(console.error);
+  emailTransport.verify().then(console.log).catch(console.error);
   emailTransport.sendMail(mailOptions, function (error, data) {
     if (error) {
       console.log('Error sending email - ', error);
