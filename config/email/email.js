@@ -6,6 +6,7 @@ var moment = require('moment'); //datetime
 const uuidv4 = require('uuid/v4');
 var initModels = require('../../models/init-models');
 var sequelise = require('../../config/db/db_sequelise');
+const { clearConfigCache } = require('prettier');
 var models = initModels(sequelise);
 
 //emailer configuration
@@ -21,7 +22,7 @@ const emailTransport = nodemailer.createTransport({
   },
 });
 
-customSendEmail = function (recipient, subject, body) {
+const customSendEmail = function (recipient, subject, body) {
   //Details for email sent to customSendEmail
   let mailOptions = {
     from: process.env.EMAIL_ADDRESS,
@@ -31,8 +32,12 @@ customSendEmail = function (recipient, subject, body) {
   };
   let email_logid = uuidv4();
   let logdatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+  //TEST PARAMS
+  console.log(recipient);
+  console.log(subject);
+  console.log(body);
 
-  emailTransport.verify().then(console.log).catch(console.error);
+  //emailTransport.verify().then(console.log).catch(console.error);
   emailTransport.sendMail(mailOptions, function (error, data) {
     if (error) {
       console.log('Error sending email - ', error);
@@ -92,4 +97,4 @@ customSendEmail = function (recipient, subject, body) {
   });
 };
 
-module.exports = customSendEmail();
+module.exports = customSendEmail;
