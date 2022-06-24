@@ -13,7 +13,7 @@ const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 
 //email functionality
-const email = require('../config/email/email');
+let customSendEmail = require('../config/email/email');
 
 const { Op } = require('sequelize');
 
@@ -669,6 +669,27 @@ router.post(
               where: { bid_logid: req.body.bid_logid },
             }
           )
+          .then(
+            //FOR TESTING EMAILS
+            customSendEmail(
+              'daniela@foodprintlabs.com',
+              'You Accepted a Bid',
+              'Thank you ' +
+                req.user.email +
+                ' for accepting a bid for ' +
+                req.body.bid_produceName +
+                ' from user - ' +
+                req.body.bid_user
+            ),
+            customSendEmail(
+              'daniela@foodprintlabs.com',
+              'Bid Accepted',
+              'Hello your bid of ' +
+                req.body.bid_produceName +
+                ' was accepted from from user - ' +
+                req.user.email
+            )
+          )
             .then(_ => {
               req.flash(
                 'success',
@@ -711,7 +732,7 @@ router.post(
     //check('bid_produceName', 'Your produce name is not valid').not().isEmpty().trim().escape(),
   ],
   function (req, res) {
-    console.log(req.body.bid_logid);
+    console.log(req.body.offer_logid);
     const result = validationResult(req);
     var errors = result.errors;
     for (var key in errors) {
@@ -750,10 +771,23 @@ router.post(
           )
             .then(
               //FOR TESTING EMAILS
-              email.customSendEmail(
+              customSendEmail(
                 'daniela@foodprintlabs.com',
-                'Testing',
-                'Hello you accepted an offer'
+                'You Accepted an offer',
+                'Thank you ' +
+                  req.user.email +
+                  ' for accepting an offer for ' +
+                  req.body.offer_produceName +
+                  ' from user - ' +
+                  req.body.offer_user
+              ),
+              customSendEmail(
+                'daniela@foodprintlabs.com',
+                'Offer Accepted',
+                'Hello your offer of ' +
+                  req.body.offer_produceName +
+                  ' was accepted from from user - ' +
+                  req.user.email
               )
             )
             .then(_ => {
