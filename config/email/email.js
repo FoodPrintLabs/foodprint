@@ -14,8 +14,8 @@ var models = initModels(sequelise);
 // when testing emails, in NODE_ENV=development, set EMAIL_OVERRIDE
 // if EMAIL_OVERRIDE is set, send email to it's value, prepend subject line with [TEST EMAIL], include intended recipients in the body
 const emailTransport = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
   auth: {
     user: process.env.EMAIL_ADDRESS,
     pass: process.env.WEBAPP_PASSWORD,
