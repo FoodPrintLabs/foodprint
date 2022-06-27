@@ -27,8 +27,8 @@ const customSendEmail = function (recipient, subject, body) {
   let mailOptions = {
     from: process.env.EMAIL_ADDRESS,
     to: recipient,
-    subject: subject,
-    text: body,
+    subject: '[FoodPrint] - ' + subject,
+    html: body,
   };
   let email_logid = uuidv4();
   let logdatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
