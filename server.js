@@ -14,6 +14,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
 var sequelise = require('./config/db/db_sequelise');
 
+const bcrypt = require('bcrypt');
+var initModels = require('./models/init-models');
+var models = initModels(sequelise);
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -208,7 +211,49 @@ passport.use(
       passwordField: 'loginPassword', //useful for custom id's on your credentials fields
     },
     function (username, password, cb) {
-      db.users.findByUsername(username, function (err, user) {
+      models.User.findOne({
+        attributes: [
+          'ID',
+          'firstName',
+          'middleName',
+          'lastName',
+          'email',
+          'password',
+          'isEmailVerified',
+        ],
+        where: {
+          email: username,
+        },
+      })
+        .then(async data => {
+          let user = {
+            id: data.ID,
+            username: 'adminjack',
+            password: data.password,
+            displayName: `${data.firstName} ${data.lastName}`,
+            prefs: [{ value: data.email }],
+            email: data.email,
+            role: 'Admin',
+          };
+          if (!data) {
+            return cb(null, false, { message: 'Incorrect login details.' });
+          }
+
+          const match = await bcrypt.compare(password, user.password);
+          if (!match) {
+            return cb(null, false, { message: 'Incorrect login details.' });
+          }
+
+          if (!data.isEmailVerified) {
+            return cb(null, false, { message: 'Please verify your email first.' });
+          }
+          // console.log(user);
+          return cb(null, user);
+        })
+        .catch(err => {
+          return cb(err);
+        });
+      /*db.users.findByUsername(username, function (err, user) {
         if (err) {
           return cb(err);
         }
@@ -221,7 +266,7 @@ passport.use(
         // If the credentials are valid, the verify callback invokes done to
         // supply Passport with the user that authenticated.
         return cb(null, user);
-      });
+      });*/
     }
   )
 );
@@ -238,12 +283,39 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-  db.users.findById(id, function (err, user) {
-    if (err) {
+  // db.users.findById(id, function(err, user) {
+  //   if (err) {
+  //     return cb(err);
+  //   }
+  //   cb(null, user);
+  // });
+
+  models.User.findOne({
+    attributes: ['ID', 'firstName', 'middleName', 'lastName', 'email', 'password'],
+    where: {
+      ID: id,
+    },
+  })
+    .then(data => {
+      let user = {
+        id: data.ID,
+        username: data.email,
+        password: data.password,
+        displayName: `${data.firstName} ${data.lastName}`,
+        prefs: [{ value: data.email }],
+        email: data.email,
+        role: 'Admin',
+      };
+      if (!data) {
+        return cb(err);
+      }
+
+      // console.log(user);
+      return cb(null, user);
+    })
+    .catch(err => {
       return cb(err);
-    }
-    cb(null, user);
-  });
+    });
   //Models currently giving error upon login
   /*models.User.findUserById(id, function (err, user) {
     if (err) {

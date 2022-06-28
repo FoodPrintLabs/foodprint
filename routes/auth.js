@@ -13,6 +13,10 @@ var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
+const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+
 /* Render Login page. */
 router.get('/login', function (req, res) {
   if (req.user) {
@@ -53,7 +57,7 @@ router.post(
   '/dblogin',
   passport.authenticate('db-local', {
     successReturnToOrRedirect: '/',
-    failureRedirect: '/app/auth/login',
+    failureRedirect: '/app/auth/dblogin',
     failureFlash: true,
   }) //instruct Passport to flash an error message using the message given by the strategy's verify callback, if any
 );
@@ -76,7 +80,7 @@ router.get('/register/:message?', function (req, res) {
         user: req.user,
         page_name: 'message',
         message:
-          'Your registration has been submitted and is currently under review by the FoodPrint Team! You will be notified of status updates via the email you provided.',
+          'Your registration has been submitted. Please check you email to verify your email address.',
       })
     : res.render('register', {
         title: 'FoodPrint - User Registration',
@@ -99,6 +103,10 @@ router.get('/register_options', function (req, res) {
 /* Process register form submission . */
 router.post('/register', upload.single('registerIDPhoto'), async function (req, res) {
   //TODO - Log registration to table and send email to FoodPrint Admin
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  const confirmationCode = jwt.sign({ email: req.body.registerEmail }, process.env.TOKEN_SIGN);
 
   //res.redirect('/app/auth/register/message');
   try {
@@ -114,12 +122,14 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
       phoneNumber: req.body.registerPhoneNumber,
       email: req.body.registerEmail,
       role: req.body.role,
-      password: req.body.password,
+      password: hashedPassword,
       ...(req.body.role === 'farmer' && { farmName: req.body.farmName }),
       ...(req.body.role === 'intermediary' && { organisationName: req.body.registerOrgName }),
       ...(req.body.role === 'intermediary' && { organisationType: req.body.registerOrgType }),
       ...(req.body.role === 'agent' && { city: req.body.city }),
       registrationChannel: 'web',
+      emailVerificationToken: confirmationCode,
+      isEmailVerified: false,
     };
 
     const img = req.file;
@@ -157,6 +167,38 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
               res.status(404).send({ message: 'user not found' });
             } else {
               // res.status(201).send(users[0]);
+
+              // TODO change to use gmail
+              let transport = nodemailer.createTransport({
+                host: process.env.EMAIL_HOST,
+                port: process.env.EMAIL_PORT,
+                auth: {
+                  user: process.env.EMAIL_ADDRESS,
+                  pass: process.env.EMAIL_PASSWORD,
+                },
+              });
+
+              transport.sendMail(
+                {
+                  from: process.env.EMAIL_ADDRESS,
+                  to: req.body.registerEmail,
+                  subject: 'Foodprint registration confirmation email',
+                  html: `<h2>Hi ${req.body.registerName} ${req.body.registerSurname}</h2>
+                        <p>Thank you for joining FoodPrint.</p>
+                        <p>Please confirm your email by clicking on the following link</p>
+                        <a href=http://localhost:3000/app/auth/confirm/${confirmationCode}> Click here</a>
+                        </div>`,
+                },
+                (err, info) => {
+                  if (err) {
+                    console.log('Error occurred. ' + err.message);
+                    // return process.exit(1);
+                  }
+
+                  console.log('Message sent: %s', info.messageId);
+                  console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                }
+              );
               res.redirect('/app/auth/register/message');
             }
           })
@@ -173,6 +215,44 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
     console.log(e);
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
+});
+
+router.get('/confirm/:confirmationCode', async function (req, res) {
+  models.User.findOne({
+    where: {
+      emailVerificationToken: req.params.confirmationCode,
+    },
+  })
+    .then(user => {
+      if (user) {
+        models.User.update(
+          { isEmailVerified: true },
+          {
+            where: {
+              emailVerificationToken: req.params.confirmationCode,
+            },
+          }
+        );
+
+        res.render('message', {
+          title: 'FoodPrint - User Confirmation',
+          user: req.user,
+          page_name: 'message',
+          message: 'Verification successful',
+        });
+      } else {
+        res.render('message', {
+          title: 'FoodPrint - User Confirmation',
+          user: req.user,
+          page_name: 'message',
+          message: 'User not found',
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send({ error: err, message: 'Unexpected error occurred 😤' });
+    });
 });
 
 /* Process register for WhatsApp*/
