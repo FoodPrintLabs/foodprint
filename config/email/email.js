@@ -30,19 +30,28 @@ emailTransport
   .catch(console.error);
 
 const customSendEmail = function (recipient, subject, body) {
+  //check var
+  const toCheck = () => {
+    return process.env.NODE_ENV == 'development' ? '' + process.env.EMAIL_OVERRIDE : recipient;
+  };
+  const subjectCheck = () => {
+    return process.env.NODE_ENV == 'production'
+      ? '[FoodPrint] -' + subject
+      : '[FoodPrint Development] -' + subject;
+  };
   //Details for email sent to customSendEmail
   let mailOptions = {
     from: process.env.EMAIL_ADDRESS,
-    to: recipient,
-    subject: '[FoodPrint] - ' + subject,
+    to: toCheck(),
+    subject: subjectCheck(),
     html: body,
   };
   let email_logid = uuidv4();
   let logdatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
   //TEST PARAMS
-  console.log(recipient);
-  console.log(subject);
-  console.log(body);
+  //console.log(recipient);
+  //console.log(subject);
+  //console.log(body);
 
   emailTransport.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -51,10 +60,10 @@ const customSendEmail = function (recipient, subject, body) {
       //log to emailModel here
       let data = {
         email_logid: email_logid,
-        email_recipient: mailOptions.recipient,
-        email_subject: mailOptions.subject,
+        email_recipient: recipient,
+        email_subject: subject,
         email_timestamp: logdatetime,
-        email_content: mailOptions.body,
+        email_content: body,
         email_status: 'FAILED',
       };
       models.FoodprintEmail.create(data)
