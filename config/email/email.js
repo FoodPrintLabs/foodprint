@@ -48,10 +48,6 @@ const customSendEmail = function (recipient, subject, body) {
   };
   let email_logid = uuidv4();
   let logdatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-  //TEST PARAMS
-  //console.log(recipient);
-  //console.log(subject);
-  //console.log(body);
 
   emailTransport.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -63,7 +59,7 @@ const customSendEmail = function (recipient, subject, body) {
         email_recipient: recipient,
         email_subject: subject,
         email_timestamp: logdatetime,
-        email_content: body,
+        email_content: mailOptions.html,
         email_status: 'FAILED',
       };
       models.FoodprintEmail.create(data)
@@ -88,7 +84,7 @@ const customSendEmail = function (recipient, subject, body) {
         email_recipient: recipient,
         email_subject: subject,
         email_timestamp: logdatetime,
-        email_content: body,
+        email_content: mailOptions.html,
         email_status: 'SENT',
       };
       models.FoodprintEmail.create(data)
