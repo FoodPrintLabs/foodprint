@@ -1,7 +1,7 @@
 <!-- views/partials/header.ejs -->
 <!-- START: header -->
 <!-- add immediately after body tag-->
-<div class="container">
+<div class="container-fluid">
 <img class="logo" src="/img/FoodPrintLogo.png" height="40px" align="left" vertical-align="middle">
     <a href="/" class="probootstrap-logo">FoodPrint<span>.</span></a>
 
@@ -11,42 +11,73 @@
     <nav role="navigation" class="probootstrap-nav hidden-xs">
     <ul class="probootstrap-main-nav">
         <li <% if (page_name === 'home') { %>class="active" <% } %> ><a href="/">Home</a></li>
-        <li <% if (page_name === 'about') { %>class="active" <% } %> ><a href="/about">About</a></li>
-        <li <% if (page_name === 'gallery') { %>class="active" <% } %> ><a href="/gallery">Produce</a></li>
-       <!-- <li <% if (page_name === 'farmers') { %>class="active" <% } %> ><a href="/farmers">Farmers</a></li> -->
-        <li <% if (page_name === 'markets') { %>class="active" <% } %> ><a href="/markets">Markets</a></li>
-        <li <% if (page_name === 'retailers') { %>class="active" <% } %> ><a href="/retailers">Retailers</a></li>
 
+        
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Track & Trace
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/harvest">Harvest Logbook</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/storage">Storage/Handover Logbook</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/trace_produce">Trace Produce</a>
+            </div>
+            </li>
+        
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Wholesale Marketplace
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="/app/buyer">Buyer Logbook</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/seller">Seller Logbook</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/dashboards/admin">Order Dashboard</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/dashboards/farmer">My Orders</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/produce">Produce List</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/produce/pricepage">Produce Pricing</a>
+            </div>
+            </li>
+        
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Operations
+            Reporting & Dashboards
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="/app/buyer">Buyer Logbook</a>
+            <a class="dropdown-item" href="/app/buyer">QR Code Analytics</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/app/seller">Seller Logbook</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/app/dashboards/admin">Admin Dashboard</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/app/dashboards/farmer">Farmer Dashboard</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/app/produce">Produce</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/app/produce/pricepage">Produce and Price</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/app/auth/login">Reporting & Analytics</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/app/harvest">Harvest Logbook</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/app/storage">Storage/Handover Logbook</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/app/trace_produce">Trace Produce</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/app/blockchain_explorer">Blockchain Explorer</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/weekly">Weekly View</a>
         </div>
         </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Configuration
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/blockchain_explorer">QR Codes</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/blockchain_explorer">Users</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/test_db">Testing UI</a>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/app/produce">Produce List</a>
+                <a class="dropdown-item" href="/app/produce/pricepage">Produce Pricing</a>
+            </div>
+            </li>
 
         <!-- <li <% if (page_name === 'supplychain') { %>class="active" <% } %> ><a href="/app/supplychain">Supply Chain</a></li> This was from very first pilot with harvest and storage on one page July 2019 -->
         <!--<li <% if (page_name === 'config') { %>class="active" <% } %> ><a href="/config">Config</a></li> --> 
