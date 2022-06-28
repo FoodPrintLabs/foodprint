@@ -22,6 +22,13 @@ const emailTransport = nodemailer.createTransport({
   },
 });
 
+// test email connection and authentication
+console.log('Checking email connection and authentication');
+emailTransport
+  .verify()
+  .then(console.log('Success - email connects and authenticates.'))
+  .catch(console.error);
+
 const customSendEmail = function (recipient, subject, body) {
   //Details for email sent to customSendEmail
   let mailOptions = {
@@ -37,8 +44,7 @@ const customSendEmail = function (recipient, subject, body) {
   console.log(subject);
   console.log(body);
 
-  //emailTransport.verify().then(console.log).catch(console.error);
-  emailTransport.sendMail(mailOptions, function (error, data) {
+  emailTransport.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log('Error sending email - ', error);
       //res.status.json({ err: error });
@@ -60,8 +66,13 @@ const customSendEmail = function (recipient, subject, body) {
           console.log('Error - Failed email not saved ' + email_logid);
         });
     } else {
-      console.log('Email successfully sent - ', data);
-      //res.json({ success: true });
+      console.log(
+        'Success - Email successfully sent. Response - %s, Message ID - %s, email record ID - %s',
+        info.response,
+        info.messageId,
+        email_logid
+      );
+
       //log to emailModel here
       let data = {
         email_logid: email_logid,
@@ -73,7 +84,7 @@ const customSendEmail = function (recipient, subject, body) {
       };
       models.FoodprintEmail.create(data)
         .then(_ => {
-          console.log('Success - Email sent ' + email_logid);
+          console.log('Success - Email saved to DB ' + email_logid);
         })
         .catch(err => {
           //throw err;
@@ -86,11 +97,11 @@ const customSendEmail = function (recipient, subject, body) {
             },
           })
             .then(_ => {
-              console.log('Updated email to FAILED status ' + email_logid);
+              console.log('Success - Updated email to FAILED status ' + email_logid);
             })
             .catch(err => {
               //throw err;
-              console.log('ERROR -Email record not updated to FAILED status ' + email_logid);
+              console.log('Error - Email record not updated to FAILED status ' + email_logid);
             });
         });
     }
