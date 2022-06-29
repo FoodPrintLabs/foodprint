@@ -278,8 +278,13 @@
 
    <!-- START TABLE-->
    <div class="container" style="width: 100%;">
+   
     <h3>Order Dashboard</h3>
-
+   
+    <div class="col text-right">
+      <a href="/app/order/myorders" class="btn btn-primary btn-sm" >My Order Logbook</a>
+    </div>
+    <br>
     <% include ./partials/notificationbar %>
 
     <!--FILTERS SECTION-->
@@ -398,6 +403,7 @@
               <b>User:</b> <%=bid_rows[k].bid_user%> <br>
               <b>Quantity:</b> <%=bid_rows[k].bid_quantity%>kgs <br>
               <b>Price:</b> <%=bid_rows[k].bid_price%> <br>
+              <b>Province:</b> <%=bid_rows[k].bid_province%> <br>
               <b>Placed:</b><%=bid_rows[k].bid_timeStamp%>                           
             </p>
             <a href="javascript:void(0);" class="btn-sm btn-primary acceptBid " data-bid_user="<%= bid_rows[k].bid_user%>" data-bid_quantity="<%= bid_rows[k].bid_quantity%>" 
@@ -427,6 +433,7 @@
             <b>User:</b> <%=offer_rows[k].offer_user%> <br>
             <b>Quantity:</b> <%=offer_rows[k].offer_quantity%>kgs <br>
             <b>Price:</b> <%=offer_rows[k].offer_price%> <br>
+            <b>Province:</b> <%=bid_rows[k].offer_province%> <br>
             <b>Placed:</b><%=offer_rows[k].offer_timeStamp%>
                                      
           </p>
