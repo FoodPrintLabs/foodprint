@@ -1,13 +1,14 @@
 const nodemailer = require('nodemailer');
 const env = process.env.NODE_ENV || 'development';
 const config = require('../../dbconfig')[env];
-var moment = require('moment'); //datetime
+const CUSTOM_ENUMS = require('../../utils/enums');
 const uuidv4 = require('uuid/v4');
+const { clearConfigCache } = require('prettier');
+
+var moment = require('moment'); //datetime
 var initModels = require('../../models/init-models');
 var sequelise = require('../../config/db/db_sequelise');
-const { clearConfigCache } = require('prettier');
 var models = initModels(sequelise);
-var CUSTOM_ENUMS = require('../../utils/enums');
 
 //emailer configuration
 // Testing Emails Pattern
