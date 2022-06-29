@@ -32,3 +32,32 @@
   overflow: auto;
   width: 100%;
 }
+
+.login {
+  background-color: #fff;
+  color: #333;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+/* position footer at bottom of page https://stackoverflow.com/questions/10470241/how-to-position-a-footer-element-relative-to-the-bottom-of-the-page */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  color: #333;
+  height: 50px; /* same height as the margin to the bottom of the body */
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 50px;
+}
