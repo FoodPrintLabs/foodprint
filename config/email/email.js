@@ -1,13 +1,13 @@
 const nodemailer = require('nodemailer');
 const env = process.env.NODE_ENV || 'development';
 const config = require('../../dbconfig')[env];
-const CUSTOM_ENUMS = require('../../utils/enums');
 var moment = require('moment'); //datetime
 const uuidv4 = require('uuid/v4');
 var initModels = require('../../models/init-models');
 var sequelise = require('../../config/db/db_sequelise');
 const { clearConfigCache } = require('prettier');
 var models = initModels(sequelise);
+var CUSTOM_ENUMS = require('../../utils/enums');
 
 //emailer configuration
 // Testing Emails Pattern
@@ -32,12 +32,14 @@ emailTransport
 const customSendEmail = function (recipient, subject, body) {
   //check var
   const toCheck = () => {
-    return process.env.NODE_ENV == 'development' ? '' + process.env.EMAIL_OVERRIDE : recipient;
+    return process.env.NODE_ENV == CUSTOM_ENUMS.DEVELOPMENT
+      ? '' + process.env.EMAIL_OVERRIDE
+      : recipient;
   };
   const subjectCheck = () => {
-    return process.env.NODE_ENV == 'production'
-      ? '[FoodPrint] -' + subject
-      : '[FoodPrint Development] -' + subject;
+    return process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION
+      ? '[FoodPrint Development] -' + subject
+      : '[FoodPrint] -' + subject;
   };
   //Details for email sent to customSendEmail
   let mailOptions = {
@@ -69,6 +71,7 @@ const customSendEmail = function (recipient, subject, body) {
         .catch(err => {
           //throw err;
           console.log('Error - Failed email not saved ' + email_logid);
+          console.log(err.message);
         });
     } else {
       console.log(
@@ -94,6 +97,7 @@ const customSendEmail = function (recipient, subject, body) {
         .catch(err => {
           //throw err;
           console.log('Error - Email not sent ' + email_logid);
+          console.log(err.message);
           //Update previous saved email in db
           let data_update = { email_status: 'FAILED' };
           models.FoodprintEmail.update(data_update, {
@@ -107,6 +111,7 @@ const customSendEmail = function (recipient, subject, body) {
             .catch(err => {
               //throw err;
               console.log('Error - Email record not updated to FAILED status ' + email_logid);
+              console.log(err.message);
             });
         });
     }
