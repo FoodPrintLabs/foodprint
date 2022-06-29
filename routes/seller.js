@@ -24,7 +24,11 @@ router.get(
   '/',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Seller) {
+    if (
+      req.user.role === ROLES.Seller ||
+      req.user.role === ROLES.Admin ||
+      req.user.role === ROLES.Superuser
+    ) {
       models.Seller_offer.findAll({
         where: {
           offer_user: req.user.email,
@@ -68,7 +72,11 @@ router.get(
   '/filter/produce/:range',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Seller) {
+    if (
+      req.user.role === ROLES.Seller ||
+      req.user.role === ROLES.Admin ||
+      req.user.role === ROLES.Superuser
+    ) {
       //Query
       models.Seller_offer.findAll({
         where: {

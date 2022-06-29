@@ -129,9 +129,9 @@
                     <tr>
                       
                       <td style="width: 20%;">Harvest</td>
-                      <td style="width: 40px;"><%= harvest_data[(harvest_data.length) - 1].harvest_logid %></td>
-                      <td style="width: 20%;"><%= harvest_data[(harvest_data.length) - 1].harvest_supplierName %></td>
-                      <td style="width: 20%;"><%= harvest_data[(harvest_data.length) - 1].harvest_produceName %></td>
+                      <td style="width: 40px;"><%= harvest_data[0].harvest_logid %></td>
+                      <td style="width: 20%;"><%= harvest_data[0].harvest_supplierName %></td>
+                      <td style="width: 20%;"><%= harvest_data[0].harvest_produceName %></td>
                       </tbody>
               </tr>
               <% 
@@ -153,9 +153,9 @@
                     <tr>
                       
                       <td style="width: 20%;">Storage</td>
-                      <td style="width: 40%;"><%= storage_data[(storage_data.length) -1].storage_logid %></td>
-                      <td style="width: 20%;"><%= storage_data[(storage_data.length) -1].market_Shortcode %></td>
-                      <td style="width: 20%;"><%= storage_data[(storage_data.length) -1].supplierproduce %></td>
+                      <td style="width: 40%;"><%= storage_data[0].storage_logid %></td>
+                      <td style="width: 20%;"><%= storage_data[0].market_Shortcode %></td>
+                      <td style="width: 20%;"><%= storage_data[0].supplierproduce %></td>
                       </tbody>
               </tr>
               <% 
@@ -193,11 +193,11 @@
 
                   for(var i = 0; i< harvest_data.length; i++) {%>
                   <tr>
-                    <td scope="harvest_rows" style="width: 3%;"><%= (i+1) %></td>
+                    <td scope="harvest_rows" style="width: 5%;"><%= (i+1) %></td>
                     <td style="width: 25%;"><%= harvest_data[i].harvest_logid %></td>
                     <td style="width: 39%;"><%= harvest_data[i].harvest_TimeStamp %></td>
                     <td style="width: 20%;"><%= harvest_data[i].harvest_supplierName %></td>
-                    <td style="width: 7%;"><%= harvest_data[i].harvest_produceName %></td>
+                    <td style="width: 11%;"><%= harvest_data[i].harvest_produceName %></td>
                     <td >
                       <div class="btn-group btn-group-sm" role="group" aria-label="...">
                         <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')"  class="btn btn-xs btn-info view"

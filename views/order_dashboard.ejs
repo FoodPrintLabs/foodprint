@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+
+      <script>
+        
+        //activate filter and checks which one is being activated
+        async function activatefilter(filterType)
+        { 
+          if(filterType == "produce")
+          {
+          var filter = document.getElementById('produce_filter').value;
+          if(filter == "All"){
+            window.location = '/app/order'}
+            else if (filter)
+            { window.location = '/app/order/filter/produce/'+ filter;}
+          } 
+          if(filterType == "province")
+          {
+          var filter = document.getElementById('province_filter').value;
+          if(filter == "All"){
+            window.location = '/app/order'}
+            else if (filter)
+            { window.location = '/app/order/filter/province/'+ filter;}
+          }
+          if(filterType == "timeframe")
+          {
+          var filter = document.getElementById('timeframe_filter').value;
+          if(filter == "All"){
+            window.location = '/app/order'}
+            else if (filter)
+            { window.location = '/app/order/filter/timeframe/'+ filter;}
+          } 
+          if(filterType == "status")
+          {
+          var filter = document.getElementById('status_filter').value;
+          if(filter == "All"){
+            window.location = '/app/order/filter/status/All'}
+            else if (filter)
+            { window.location = '/app/order/filter/status/'+ filter;}
+          } 
+        }
+          
+        
+  
+        //checks current active filter when rendering
+        async function filterCheck(filter,filterType)
+        { console.log(filter);
+          console.log(filterType)
+          if(filterType == "produce"){
+                if( filter == "All")
+                {
+                  document.getElementById('produce_filter').value = "All";
+                }
+                if( filter == "Baby Marrow")
+                {
+                  document.getElementById('produce_filter').value = "Baby Marrow";
+                }
+                if( filter == "Baby Leeks")
+                {
+                  document.getElementById('produce_filter').value = "Baby Leeks";
+                }
+                if( filter == "Basil")
+                {
+                  document.getElementById('produce_filter').value = "Basil";
+                }
+                if( filter == "Beetroot")
+                {
+                  document.getElementById('produce_filter').value = "Beetroot";
+                }
+                if( filter == "Bergamot")
+                {
+                  document.getElementById('produce_filter').value = "Bergamot";
+                }
+                if( filter == "Blood Oranges")
+                {
+                  document.getElementById('produce_filter').value = "Blood Oranges";
+                }
+                if( filter == "Cabbage")
+                {
+                  document.getElementById('produce_filter').value = "Cabbage";
+                }
+                if( filter == "Carrots")
+                {
+                  document.getElementById('produce_filter').value = "Carrots";
+                }
+                if( filter == "Cauliflower")
+                {
+                  document.getElementById('produce_filter').value = "Cauliflower";
+                }
+                if( filter == "Cayenne Pepper")
+                {
+                  document.getElementById('produce_filter').value = "Cayenne Pepper";
+                }
+                if( filter == "Cucumber")
+                {
+                  document.getElementById('produce_filter').value = "Cucumber";
+                }
+                if( filter == "Eggs")
+                {
+                  document.getElementById('produce_filter').value = "Eggs";
+                }
+                if( filter == "Fennel")
+                {
+                  document.getElementById('produce_filter').value = "Fennel";
+                }
+                if( filter == "Granadilla")
+                {
+                  document.getElementById('produce_filter').value = "Granadilla";
+                }
+                if( filter == "Green Beans")
+                {
+                  document.getElementById('produce_filter').value = "Green Beans";
+                }
+                if( filter == "Herbs")
+                {
+                  document.getElementById('produce_filter').value = "Herbs";
+                }
+                if( filter == "Lebanese Cucumber")
+                {
+                  document.getElementById('produce_filter').value = "Lebanese Cucumber";
+                }
+                if( filter == "Leeks")
+                {
+                  document.getElementById('produce_filter').value = "Leeks";
+                }
+                if( filter == "Lemon")
+                {
+                  document.getElementById('produce_filter').value = "Lemon";
+                }
+                if( filter == "Lettuce")
+                {
+                  document.getElementById('produce_filter').value = "Lettuce";
+                }
+                if( filter == "Limes")
+                {
+                  document.getElementById('produce_filter').value = "Limes";
+                }
+                if( filter == "Mor")
+                {
+                  document.getElementById('produce_filter').value = "Mor";
+                }
+                if( filter == "Onion")
+                {
+                  document.getElementById('produce_filter').value = "Onion";
+                }
+                if( filter == "Pak Choi")
+                {
+                  document.getElementById('produce_filter').value = "Pak Choi";
+                }
+                if( filter == "Parsley")
+                {
+                  document.getElementById('produce_filter').value = "Parsley";
+                }
+                if( filter == "Radish")
+                {
+                  document.getElementById('produce_filter').value = "Radish";
+                }
+                if( filter == "Sorrel")
+                {
+                  document.getElementById('produce_filter').value = "Sorrel";
+                }
+                if( filter == "Swiss Chard")
+                {
+                  document.getElementById('produce_filter').value = "Swiss Chard";
+                }
+                if( filter == "Spinach")
+                {
+                  document.getElementById('produce_filter').value = "Spinach";
+                }
+                if( filter == "Turnips")
+                {
+                  document.getElementById('produce_filter').value = "Turnips";
+                }
+
+          }
+          else if(filterType == "province"){
+                if( filter == "All")
+                {
+                  document.getElementById('province_filter').value = "All";
+                }
+                if( filter == "Western Cape")
+                {
+                  document.getElementById('province_filter').value = "Western Cape";
+                }
+                if( filter == "Eastern Cape")
+                {
+                  document.getElementById('province_filter').value = "Eastern Cape";
+                }
+                if( filter == "Northern Cape")
+                {
+                  document.getElementById('province_filter').value = "Northern Cape";
+                }
+                if( filter == "North West")
+                {
+                  document.getElementById('province_filter').value = "North West";
+                }
+                if( filter == "KZN")
+                {
+                  document.getElementById('province_filter').value = "KZN";
+                }
+                if( filter == "Free State")
+                {
+                  document.getElementById('province_filter').value = "Free State";
+                }
+                if( filter == "Gauteng")
+                {
+                  document.getElementById('province_filter').value = "Gauteng";
+                }
+                if( filter == "Mpumalanga")
+                {
+                  document.getElementById('province_filter').value = "Mpumalanga";
+                }
+                if( filter == "Limpopo")
+                {
+                  document.getElementById('province_filter').value = "Limpopo";
+                }
+          }
+          else if(filterType == "timeframe"){
+              if( filter == "All")
+                {
+                  document.getElementById('timeframe_filter').value = "All";
+                }
+                if( filter == "1 Week")
+                {
+                  document.getElementById('timeframe_filter').value = "1-Week";
+                }
+                if( filter == "1 Month")
+                {
+                  document.getElementById('timeframe_filter').value = "1-Month";
+                }
+                if( filter == "6 Months")
+                {
+                  document.getElementById('timeframe_filter').value = "6-Month";
+                }
+                if( filter == "1 Year")
+                {
+                  document.getElementById('timeframe_filter').value = "1-Year";
+                }
+          }
+          else if(filterType == "status"){
+              if( filter == "All")
+                {
+                  document.getElementById('status_filter').value = "All";
+                }
+                if( filter == "Placed")
+                {
+                  document.getElementById('status_filter').value = "Placed";
+                }
+                if( filter == "Settled")
+                {
+                  document.getElementById('status_filter').value = "Settled";
+                }
+          }
+          else if( filter == "")
+          {
+          }
+          else
+          {//default
+            console.log("Unexpected Filter received");
+            window.location = '/app/order'
+          }
+
+        }
+           </script>
+
+  </head>
+  <body onload="filterCheck('<%=filter_data%>','<%=filter_type%>')">
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+   <!-- START TABLE-->
+   <div class="container" style="width: 100%;">
+    <h3>Order Dashboard</h3>
+
+    <% include ./partials/notificationbar %>
+
+    <!--FILTERS SECTION-->
+    <div class="row">
+    <div class="col-12 col-lg-12 col-xl-12" style="width: 100% ;background-color: white;padding: 10px; 
+    box-shadow: 2px 2px 4px 5px #ccc;">
+          <div class="col-12 col-lg-12 col-xl-12" >
+            <h4>Filters</h4>
+          </div>
+        <div class="col-3 col-lg-3 col-xl-3">
+          <p><strong>Produce Type</strong></p>
+          <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required onchange="activatefilter('produce')">
+            <option value="" selected disabled>Select Produce Type</option>
+            <option>All</option>
+        <option>Baby Marrow</option>
+        <option>Baby Leeks</option>
+        <option>Basil</option>
+        <option>Beetroot</option>
+        <option>Bergamot</option>
+        <option>Blood Oranges</option>
+        <option>Cabbage</option>
+        <option>Carrots</option>
+        <option>Cauliflower</option>
+        <option>Cayenne Pepper</option>
+        <option>Cucumber</option>
+        <option>Eggs</option>
+        <option>Fennel</option>
+        <option>Granadilla</option>
+        <option>Green Beans</option>
+        <option>Herbs</option>
+        <option>Lebanese Cucumber</option>
+        <option>Leeks</option>
+        <option>Lemon</option>
+        <option>Lettuce</option>
+        <option>Limes</option>
+        <option>Mor</option>
+        <option>Onion</option>
+        <option>Pak Choi</option>
+        <option>Parsley</option>
+        <option>Radish</option>
+        <option>Sorrel</option>
+        <option>Swiss Chard</option>
+        <option>Spinach</option>
+        <option>Turnips</option>
+          </select>
+        </div>
+        <div class="col-3 col-lg-3 col-xl-3">
+          <p><strong>Province:</strong></p>
+          <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required onchange="activatefilter('province')">
+            <option value="" selected disabled>Select a Province</option>
+            <option>All</option>
+            <option>Western Cape</option>
+            <option>Eastern Cape</option>
+            <option>Northern Cape</option>
+            <option>North West</option>
+            <option>KZN</option>
+            <option>Free State</option>
+            <option>Gauteng</option>
+            <option>Mpumalanga</option>
+            <option>Limpopo</option>
+          </select>
+        </div>
+        <div class="col-3 col-lg-3 col-xl-3">
+          <p><strong>Date:</strong></p>
+          <select class="custom-select d-block w-100 " name="timeframe_filter" id="timeframe_filter" required onchange="activatefilter('timeframe')">
+            <option value="" selected disabled>Select a timeframe</option>
+            <option>All</option>
+            <option>1-Week</option>
+            <option>1-Month</option>
+            <option>6-Month</option>
+            <option>1-Year</option>
+          </select>
+        </div>
+        <div class="col-3 col-lg-3 col-xl-3">
+          <p><strong>Status:</strong></p>
+          <select class="custom-select d-block w-100 " name="status_filter" id="status_filter" required onchange="activatefilter('status')">
+            <option value="" selected disabled>Select a status</option>
+            <option>All</option>
+            <option>Placed</option>
+            <option>Settled</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+<!--OFFERS AND BIDS SECTIONS-->
+<div class="col-12 col-lg-12 col-xl-12" id="orderRows">
+  <% if(bid_rows.length || offer_rows.length) {
+
+    for(var i = 0; i< produce_rows.length; i++){
+  %>
+  <div class="row" style="border-bottom-style: solid;">
+      <!--PRODUCE HEADING-->
+      <div class="col-2 col-lg-2 col-xl-2">
+        <h4><%=produce_rows[i]%></h4>
+      </div>
+      <!--BIDS COL-->
+      <div class="col-5 col-lg-5 col-xl-5" >
+        <h4>BIDS</h4>
+        <!--Each card-->
+        <% for(var k = 0; k< bid_rows.length; k++){ 
+            if(bid_rows[k].bid_produceName == produce_rows[i]) {
+          %>
+          
+        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
+        box-shadow: 2px 2px 4px 5px #ccc;">
+          <div class="card-header">
+          <p class="card-title h4">Bid - <%=bid_rows[k].bid_produceName%></p>
+          <% if (bid_rows[k].bid_status == "Settled" ) { %>
+            <b>SETTLED</b>
+          <% }%>   
+          </div>
+          <div class="card-body">
+            
+            <p class="card-text">
+              <b>User:</b> <%=bid_rows[k].bid_user%> <br>
+              <b>Quantity:</b> <%=bid_rows[k].bid_quantity%>kgs <br>
+              <b>Price:</b> <%=bid_rows[k].bid_price%> <br>
+              <b>Placed:</b><%=bid_rows[k].bid_timeStamp%>                           
+            </p>
+            <a href="javascript:void(0);" class="btn-sm btn-primary acceptBid " data-bid_user="<%= bid_rows[k].bid_user%>" data-bid_quantity="<%= bid_rows[k].bid_quantity%>" 
+              data-bid_price="<%= bid_rows[k].bid_price%>" data-bid_producename="<%= bid_rows[k].bid_produceName%>" data-bid_timestamp="<%= bid_rows[k].bid_timeStamp%>" 
+              data-bid_logid="<%= bid_rows[k].bid_logid%>" data-bid_province="<%= bid_rows[k].bid_province%>" 
+              >View</a>
+          </div>
+        </div>
+        <%}} %>
+      </div>
+      <!--OFFERS COL-->
+      <div class="col-5 col-lg-5 col-xl-5">
+       <h4>OFFERS</h4>
+         <!--Each card-->
+         <% for(var k = 0; k< offer_rows.length; k++){ 
+          if(offer_rows[k].offer_produceName == produce_rows[i]) {
+        %>
+      <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; box-shadow: 2px 2px 4px 5px #ccc;">
+        <div class="card-header">
+          <p class="card-title h4">Offer - <%=offer_rows[k].offer_produceName%></p>
+          <% if (offer_rows[k].offer_status == "Settled" ) { %>
+            <b>SETTLED</b>
+          <% }%>  
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            <b>User:</b> <%=offer_rows[k].offer_user%> <br>
+            <b>Quantity:</b> <%=offer_rows[k].offer_quantity%>kgs <br>
+            <b>Price:</b> <%=offer_rows[k].offer_price%> <br>
+            <b>Placed:</b><%=offer_rows[k].offer_timeStamp%>
+                                     
+          </p>
+          <a href="javascript:void(0);" class="btn-sm btn-primary acceptOffer" data-offer_user="<%= offer_rows[k].offer_user%>" data-offer_quantity="<%= offer_rows[k].offer_quantity%>" 
+            data-offer_price="<%= offer_rows[k].offer_price%>" data-offer_producename="<%= offer_rows[k].offer_produceName%>" data-offer_timestamp="<%= offer_rows[k].offer_timeStamp%>" 
+            data-offer_logid="<%= offer_rows[k].offer_logid%>" data-offer_province="<%= offer_rows[k].offer_province%>">View</a>
+        </div>
+      </div>
+      <%}} %>
+      </div>
+</div>
+
+<!--END OF OFFER SECTION-->
+<% }
+
+           }else{ %>
+               
+                <div class="col-12 col-lg-12 col-xl-12"> 
+                  <h3>No Biddings or Offers available at the moment</h3>
+                </div>
+              
+            <% } %>
+</div>
+
+
+     
+   </div>
+
+   <!-- Modal Accept bid-->
+ <form action="/app/order/bid/accept" method="post">
+  <div class="modal fade" id="AcceptBidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="exampleModalLabel">Accept Bid</h4>
+         <h5 class="bid_logid"></h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+        <div class="form-group">
+            <label for="bid_produceName">Produce</label>
+            <input type="text" name="bid_produceName" class="form-control bid_produceName" placeholder="Produce" readonly>
+        </div>
+        <div class="form-group">
+          <label for="bid_quantity">Produce Quantity</label>
+          <input type="text" name="bid_quantity" class="form-control bid_quantity" placeholder="Quantity" readonly>
+      </div>
+      <div class="form-group">
+        <label for="bid_price">Price</label>
+        <input type="text" name="bid_price" class="form-control bid_price" placeholder="Price" readonly>
+    </div>
+           <div class="form-group">
+            <label for="bid_province">Province</label>
+            <input type="text" name="bid_province" class="form-control bid_province" placeholder="Province" readonly>
+        </div>
+        <div class="form-group">
+          <label for="bid_user">User</label>
+          <input type="text" name="bid_user" class="form-control bid_user" placeholder="User" readonly>
+      </div>
+      <div class="form-group">
+        <label for="bid_timeStamp">Time Placed</label>
+        <input type="text" name="bid_timeStamp" class="form-control bid_timeStamp" placeholder="TimeStamp" readonly>
+    </div>
+    <div class="form-group">
+      <label for="bid_logid">LogID</label>
+      <input type="text" name="bid_logid" class="form-control bid_logid" placeholder="logid" readonly>
+  </div>
+        </div>
+      </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+         <% if (user.role == "Seller" ) { %>
+          <button type="submit" class="btn btn-primary">Accept</button></a>
+        <% } else { %>
+          <button type="submit" class="btn btn-secondary" disabled>Accept</button>
+        <% } %>
+         
+       </div>
+     </div>
+   </div>
+  </div>
+</form>
+<!-- End Modal Accept Bid-->
+
+<!-- Modal Accept offer-->
+<form action="/app/order/offer/accept" method="post">
+  <div class="modal fade" id="AcceptOfferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="exampleModalLabel">Accept Offer</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+        <div class="form-group">
+            <label for="offer_produceName">Produce</label>
+            <input type="text" name="offer_produceName" class="form-control offer_produceName" placeholder="Produce" readonly>
+        </div>
+        <div class="form-group">
+          <label for="offer_quantity">Produce Quantity</label>
+          <input type="text" name="offer_quantity" class="form-control offer_quantity" placeholder="Quantity" readonly>
+      </div>
+      <div class="form-group">
+        <label for="offer_price">Price</label>
+        <input type="text" name="offer_price" class="form-control offer_price" placeholder="Price" readonly>
+    </div>
+           <div class="form-group">
+            <label for="offer_province">Province</label>
+            <input type="text" name="offer_province" class="form-control offer_province" placeholder="Province" readonly>
+        </div>
+        <div class="form-group">
+          <label for="offer_user">User</label>
+          <input type="text" name="offer_user" class="form-control offer_user" placeholder="User" readonly>
+      </div>
+      <div class="form-group">
+        <label for="offer_timeStamp">Time Placed</label>
+        <input type="text" name="offer_timeStamp" class="form-control offer_timeStamp" placeholder="TimeStamp" readonly>
+    </div>
+    <div class="form-group">
+      <label for="offer_logid">LogID</label>
+      <input type="text" name="offer_logid" class="form-control offer_logid" placeholder="logid" readonly>
+  </div>
+        </div>
+      </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+         <% if (user.role == "Buyer" ) { %>
+          <button type="submit" class="btn btn-primary">Accept</button></a>
+        <% } else { %>
+          <button type="submit" class="btn btn-secondary" disabled>Accept</button>
+        <% } %>
+       </div>
+     </div>
+   </div>
+  </div>
+</form>
+<!-- End Modal Accept Offer-->
+
+   <!--END of offers section-->
+
+    <!-- start footer -->
+    <% include ./partials/footer %>
+    <!-- end footer -->
+    
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+
+  <script>
+    $(document).ready(function(){
+
+        //showing data to acceot Bid
+        $('#orderRows').on('click','.acceptBid',function(){
+            var bid_produceName = $(this).data('bid_producename');
+            var bid_quantity = $(this).data('bid_quantity');
+            var bid_user = $(this).data('bid_user');
+            var bid_logid = $(this).data('bid_logid');
+            var bid_timeStamp = $(this).data('bid_timestamp');
+            var bid_price = $(this).data('bid_price');
+            var bid_province = $(this).data('bid_province');
+            $('#AcceptBidModal').modal('show');
+            $('.bid_produceName').val(bid_produceName);
+            $('.bid_quantity').val(bid_quantity);
+            $('.bid_user').val(bid_user);
+            $('.bid_logid').val(bid_logid);
+            $('.bid_timeStamp').val(bid_timeStamp);
+            $('.bid_price').val(bid_price);
+            $('.bid_province').val(bid_province);
+      });
+
+      //showing data to accept Offer
+      $('#orderRows').on('click','.acceptOffer',function(){
+            var offer_produceName = $(this).data('offer_producename');
+            var offer_quantity = $(this).data('offer_quantity');
+            var offer_user = $(this).data('offer_user');
+            var offer_logid = $(this).data('offer_logid');
+            var offer_timeStamp = $(this).data('offer_timestamp');
+            var offer_price = $(this).data('offer_price');
+            var offer_province = $(this).data('offer_province');
+            $('#AcceptOfferModal').modal('show');
+            $('.offer_produceName').val(offer_produceName);
+            $('.offer_quantity').val(offer_quantity);
+            $('.offer_user').val(offer_user);
+            $('.offer_logid').val(offer_logid);
+            $('.offer_timeStamp').val(offer_timeStamp);
+            $('.offer_price').val(offer_price);
+            $('.offer_province').val(offer_province);
+      });
+
+    });
+    </script>
+
+  </body>
+</html>

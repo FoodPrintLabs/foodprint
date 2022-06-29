@@ -24,7 +24,11 @@ router.get(
   '/',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+    if (
+      req.user.role === ROLES.Farmer ||
+      req.user.role === ROLES.Admin ||
+      req.user.role === ROLES.Superuser
+    ) {
       models.FoodprintHarvest.findAll({
         order: [['pk', 'DESC']],
       })
@@ -232,7 +236,11 @@ router.post(
         //res.json({success: false, errors:errors.array()});
         console.log('Error - error handling middleware');
 
-        if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+        if (
+          req.user.role === ROLES.Farmer ||
+          req.user.role === ROLES.Admin ||
+          req.user.role === ROLES.Superuser
+        ) {
           models.FoodprintHarvest.findAll({
             order: [['pk', 'DESC']],
           })
@@ -580,7 +588,11 @@ router.post(
         //res.json({success: false, errors:errors.array()});
         console.log('Error - error handling middleware');
 
-        if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+        if (
+          req.user.role === ROLES.Farmer ||
+          req.user.role === ROLES.Admin ||
+          req.user.role === ROLES.Superuser
+        ) {
           models.FoodprintHarvest.findAll({
             order: [['pk', 'DESC']],
           })
