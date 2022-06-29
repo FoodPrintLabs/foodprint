@@ -33,6 +33,26 @@
   width: 100%;
 }
 
+/* landing dash */
+.landing {
+  background-color: #fff;
+  color: #333;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+/* /bootstrap-3-equal-height-cards */
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.thumbnail {
+  height: 100%;
+}
+
+/* Login form */
 .login {
   background-color: #fff;
   color: #333;
@@ -45,6 +65,9 @@
 /* position footer at bottom of page https://stackoverflow.com/questions/10470241/how-to-position-a-footer-element-relative-to-the-bottom-of-the-page */
 
 .footer {
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
   position: absolute;
   bottom: 0;
   width: 100%;
