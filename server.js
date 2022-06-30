@@ -8,12 +8,12 @@ var session = require('express-session');
 var cors = require('cors');
 var path = require('path');
 var router = express.Router();
-var CUSTOM_ENUMS = require('./utils/enums');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
 var sequelise = require('./config/db/db_sequelise');
 
+const CUSTOM_ENUMS = require('./utils/enums');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -66,7 +66,6 @@ var qrCodeRouter = require('./routes/qrcode');
 
 var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
-var websiteRouter = require('./routes/website');
 var apiV1Router = require('./routes/api_v1');
 var produceRouter = require('./routes/produce');
 var buyerRouter = require('./routes/buyer');
@@ -154,7 +153,6 @@ app.use('/app/buyer', buyerRouter);
 app.use('/app/seller', sellerRouter);
 app.use('/app/order', orderRouter);
 
-app.use('/', websiteRouter);
 app.use('/', testRouter);
 app.use('/', searchRouter);
 app.use('/', qrCodeRouter);

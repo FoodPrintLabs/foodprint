@@ -17,7 +17,10 @@
    <div class="container" style="width: 100%;">
     <h3>Error</h3>
         <h4><%= message %></h4>
-        <% if (error) { %>
+        <% console.log(message) %>
+        <% console.log(error) %>
+        <% if (typeof error != "undefined" && error.length) { %>
+           <%= error %>
             <h6><%= error.status %></h6>
             <pre><%= error.stack %></pre>
         <% } %>
