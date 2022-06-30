@@ -864,4 +864,83 @@ router.post(
   }
 );
 
+//Render My order logbook
+router.get(
+  '/myorders',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (
+      req.user.role === ROLES.Buyer ||
+      req.user.role === ROLES.Admin ||
+      req.user.role === ROLES.Superuser
+    ) {
+      models.My_orders.findAll({
+        where: {
+          bid_user: req.user.email,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('myorderlogbook', {
+            page_title: 'FoodPrint - Order Logbook',
+            data: rows,
+            user: req.user,
+            filter_data: '',
+            page_name: 'myorderlogbook',
+          });
+        })
+        .catch(err => {
+          console.log('All myorderlogbook err:' + err);
+          req.flash('error', err);
+          res.render('myorderlogbook', {
+            page_title: 'FoodPrint - Order Logbook',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'myorderlogbook',
+          });
+        });
+    } else if (
+      req.user.role === ROLES.Seller ||
+      req.user.role === ROLES.Admin ||
+      req.user.role === ROLES.Superuser
+    ) {
+      models.My_orders.findAll({
+        where: {
+          offer_user: req.user.email,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('myorderlogbook', {
+            page_title: 'FoodPrint - Order Logbook',
+            data: rows,
+            user: req.user,
+            filter_data: '',
+            page_name: 'myorderlogbook',
+          });
+        })
+        .catch(err => {
+          console.log('All myorderlogbook err:' + err);
+          req.flash('error', err);
+          res.render('myorderlogbook', {
+            page_title: 'FoodPrint - Order Logbook',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'myorderlogbook',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
+
 module.exports = router;
