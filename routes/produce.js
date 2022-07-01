@@ -499,7 +499,8 @@ router.get(
             'Content-Disposition': 'attachment;filename=produceprice.pdf',
           });
           pdfService.buildPDF(
-            'PRODUCE PRICE LIST AS OF ' + moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+            'PRODUCE PRICE LIST FOR WESTERN PROVINCE AS OF ' +
+              moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
             producepricepdf(rows),
             chunk => stream.write(chunk),
             () => stream.end()
