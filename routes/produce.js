@@ -12,10 +12,14 @@ const axios = require('axios');
 const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 
+//pdfservice
+const pdfService = require('../config/pdf/pdf-service');
+
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 var initModels = require('../models/init-models');
 var sequelise = require('../config/db/db_sequelise');
+const { producepricepdf } = require('../config/pdf/producepricepdf');
 
 var models = initModels(sequelise);
 
@@ -478,5 +482,42 @@ router.post('/pricepage/delete', (req, res) => {
       res.redirect('/app/produce/pricepage');
     });
 });
+
+/* GET PDF of Produce and Price. */
+router.get(
+  '/produceprice',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintProducePrice.findAll({
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          //send PDF of gathered Data
+          const stream = res.writeHead(200, {
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': 'attachment;filename=produceprice.pdf',
+          });
+          pdfService.buildPDF(
+            producepricepdf(rows),
+            chunk => stream.write(chunk),
+            () => stream.end()
+          );
+        })
+        .catch(err => {
+          console.log('PDF produce err:' + err);
+          req.flash('error', err);
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
 
 module.exports = router;
