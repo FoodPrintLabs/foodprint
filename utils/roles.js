@@ -4,6 +4,8 @@ const ROLES = {
   Market: 'Market',
   Consumer: 'Consumer',
   Superuser: 'Superuser',
+  Buyer: 'Buyer',
+  Seller: 'Seller',
 };
 
 module.exports = ROLES;

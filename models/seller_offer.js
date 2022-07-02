@@ -1,80 +1,73 @@
 const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    'User',
+    'Seller_offer',
     {
-      ID: {
+      pk: {
         autoIncrement: true,
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
       },
-      firstName: {
+      offer_logid: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      middleName: {
+      offer_user: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      lastName: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      email: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-        unique: 'email',
-      },
-      phoneNumber: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-        unique: 'phoneNumber',
-      },
-      role: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      password: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      createdAt: {
+      offer_timeStamp: {
         type: DataTypes.DATE,
         allowNull: true,
-        defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       },
-      registrationChannel: {
+      offer_produceName: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      nationalIdPhotoHash: {
-        type: DataTypes.BLOB,
+      offer_quantity: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      offer_unitOfMeasure: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      offer_price: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      offer_province: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      offer_status: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      offer_saleTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      offer_saleUser: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      offer_description: {
+        type: DataTypes.STRING(1000),
         allowNull: true,
       },
     },
     {
       sequelize,
-      tableName: 'user',
+      tableName: 'seller_offer',
       timestamps: false,
       indexes: [
         {
-          name: 'user_PRIMARY',
+          name: 'seller_offer_PRIMARY',
           unique: true,
           using: 'BTREE',
-          fields: [{ name: 'ID' }],
-        },
-        {
-          name: 'user_email',
-          unique: true,
-          using: 'BTREE',
-          fields: [{ name: 'email' }],
-        },
-        {
-          name: 'user_phoneNumber',
-          unique: true,
-          using: 'BTREE',
-          fields: [{ name: 'phoneNumber' }],
+          fields: [{ name: 'pk' }],
         },
       ],
     }

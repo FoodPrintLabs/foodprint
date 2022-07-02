@@ -1,26 +1,86 @@
 /* Your custom css code goes here */
-.imgGrid{
-    width:350px;
-    height:250px;
-    overflow: hidden;
+.imgGrid {
+  width: 350px;
+  height: 250px;
+  overflow: hidden;
 }
 
 /*  spinner CSS */
 @keyframes spinner-border {
-    to { transform: rotate(360deg); }
-  } 
-  .spinner-border{
-      display: inline-block;
-      width: 1rem;
-      height: 1rem;
-      vertical-align: text-bottom;
-      border: .25em solid currentColor;
-      border-right-color: transparent;
-      border-radius: 50%;
-      -webkit-animation: spinner-border .75s linear infinite;
-      animation: spinner-border .75s linear infinite;
+  to {
+    transform: rotate(360deg);
   }
-  .spinner-border-sm{
-      height: 1rem;
-      border-width: .2em;
-  }
+}
+.spinner-border {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: text-bottom;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  -webkit-animation: spinner-border 0.75s linear infinite;
+  animation: spinner-border 0.75s linear infinite;
+}
+.spinner-border-sm {
+  height: 1rem;
+  border-width: 0.2em;
+}
+
+/*textare for bbuyer seller*/
+.descriptionTextAreaInput {
+  overflow: auto;
+  width: 100%;
+}
+
+/* landing dash */
+.landing {
+  background-color: #fff;
+  color: #333;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+/* /bootstrap-3-equal-height-cards */
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.thumbnail {
+  height: 100%;
+}
+
+/* Login form */
+.login {
+  background-color: #fff;
+  color: #333;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+/* position footer at bottom of page https://stackoverflow.com/questions/10470241/how-to-position-a-footer-element-relative-to-the-bottom-of-the-page */
+
+.footer {
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  color: #333;
+  height: 50px; /* same height as the margin to the bottom of the body */
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 50px;
+}

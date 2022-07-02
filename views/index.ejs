@@ -13,142 +13,112 @@
   </header>
   <!-- END: header -->
   
-  <section class="probootstrap-slider flexslider">
-    <div class="probootstrap-text-intro">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-10 col-md-offset-1">
-            <div class="probootstrap-slider-text text-center">
-              <h2 class="probootstrap-heading probootstrap-animate mb20" data-animate-effect="fadeIn">Fresh. Food. </h2>
-              <div class="probootstrap-animate probootstrap-sub-wrap mb30" data-animate-effect="fadeIn">From farm-to-fork.</div>
-              <p class="probootstrap-animate" data-animate-effect="fadeIn"><a href="/how" class="btn btn-ghost btn-ghost-white">TELL ME MORE</a></p>
+  
+   
+  <div class="container" style="width: 100%;">
+    <div class="row align-items-center justify-content-center">
+      <!-- START  LANDING PAGE-->
+        <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
+          <h3>HOME</h3>
+          <% include ./partials/notificationbar %>
+          <div class="row display-flex">
+            <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
+            box-shadow: 2px 2px 4px 5px #ccc;">
+              <div class="card-header">
+                <p class="card-title h4">Track & Trace</p>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <div class="card-text">
+                  <p><a href="/app/harvest">Harvest Logbook</a></p>
+                  <p><a href="/app/storage">Handover Logbook</a></p>
+                  <p><a href="/app/trace_produce">Trace Produce</a></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
+            box-shadow: 2px 2px 4px 5px #ccc;">
+              <div class="card-header">
+                <p class="card-title h4">Wholesale Marketplace</p>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <div class="card-text">
+                  <p><a href="/app/buyer">Buyer Logbook</a></p>
+                  <p><a href="/app/seller">Seller Logbook</a></p>
+                  <p><a href="/app/order">Order Dashboard</a></p>
+                  <p><a href="/app/order/myorders">My Orders</a></p>
+                  <p><a href="/app/produce">Produce List</a></p>
+                  <p><a href="/app/produce/pricepage">Produce Pricing</a></p>
+                  <p><a href="/app/produce/pricepage/pdf">Download Produce Price PDF</a></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
+            box-shadow: 2px 2px 4px 5px #ccc;">
+              <div class="card-header">
+                <p class="card-title h4">Reporting & Dashboards</p>
+              </div>
+                <div class="card-body d-flex flex-column">
+                  <div class="card-text">
+                    <p><a href="/app/buyer">QR Code Analytics</a></p>
+                    <p><a href="/app/seller">Seller Logbook</a></p>
+                    <p><a href="/app/order">Order Dashboard</a></p>
+                    <p><a href="/app/dashboards/admin">Admin Dashboard</a></p>
+                    <p><a href="/app/dashboards/farmer">Farmer Dashboard</a></p>
+                  </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <ul class="slides">
-      <li style="background-image: url(/img/orangebowl_bg.jpg);"></li>
-      <li style="background-image: url(/img/pumpkin_bg.jpg);"></li>
-<!--      <li style="background-image: url(/img/oranges_bg.jpg);"></li>-->
-    </ul>
-  </section>
-  <!-- END: slider  -->
 
-  <div class="container">
-      
-    <% include ./partials/notificationbar %>
+          <div class="row display-flex">
+            <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
+            box-shadow: 2px 2px 4px 5px #ccc;">
+              <div class="card-header">
+                <p class="card-title h4">Configuration</p>
+              </div>
+                <div class="card-body d-flex flex-column">
+                  <div class="card-text">
+                    <p><a href="/app/blockchain_explorer">QR Codes</a></p>
+                    <p><a href="/app/blockchain_explorer">Users</a></p>
+                    <p><a href="/test_db">Testing UI</a></p>
+                    <p><a href="/app/produce">Produce List</a></p>
+                    <p><a href="/app/produce/pricepage">Produce Pricing</a></p>
+                  </div>
+              </div>
+            </div>
+            
+          <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
+          box-shadow: 2px 2px 4px 5px #ccc;">
+            <div class="card-header">
+              <p class="card-title h4">Support</p>
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="card-text">
+                <p></p><a href="knowledge.foodprintlabs.com">Knowledge Base</a></p>
+                <p><a href="mailto:support@foodprintlabs.com">FoodPrint Support</a></p>
+  
+                <p><a target="_blank" href="http://foodprintlabs.com/">FoodPrint Labs Website</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
+          box-shadow: 2px 2px 4px 5px #ccc;">
+            <div class="card-header">
+              <p class="card-title h4">Other</p>
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="card-text">
+                <p>My Account</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- END LANDING PAGE-->
+    </div>
   </div>
-
-  <section class="probootstrap-section probootstrap-bg" style="background-image: url(img/slider_2.jpg);">
-    <div class="container text-center">
-      <h2 class="heading probootstrap-animate" data-animate-effect="fadeIn">SMALLHOLDER FARMERS</h2>
-      <p class="sub-heading probootstrap-animate" data-animate-effect="fadeIn">Quick & Easy Production and Harvest Data Collection. Direct Access to Market Opportunities.</p>
-      <a class="btn btn-primary"  href="/app/auth/login">LOGIN TO FOODPRINT SUPPLY CHAIN</a>
-    </div>
-  </section>
-
-   <section class="probootstrap-section probootstrap-bg" style="background-image: url(img/darkproduce_bg.jpg);">
-     <div class="container text-center">
-       <h2 class="heading probootstrap-animate" data-animate-effect="fadeIn">AGRI-PROCESSORS/MARKETS/RETAILERS</h2>
-       <p class="sub-heading probootstrap-animate" data-animate-effect="fadeIn">Bulk Produce Orders for Wholesale. Direct Access to Local Producers.</p>
-       <a class="btn btn-primary"  href="/app/auth/login">LOGIN TO FOODPRINT WHOLESALE</a>
-     </div>
-   </section>
-
-   <section class="probootstrap-section probootstrap-bg" style="background-image: url(img/slider_4.jpg);">
-     <div class="container text-center">
-       <h2 class="heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">CONSUMERS</h2>
-       <p class="sub-heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">Eat Well. Support Local Producers. Experience Convenience. Buy our weekly fresh produce box!</p>
-       <a class="btn btn-primary"  href="/app/auth/login">LOGIN TO FOODPRINT MARKETPLACE</a>
-     </div>
-   </section>
-
-
-   <section class="probootstrap-section">
-    <div class="container">
-      <div class="row">
-        <h3 class="heading text-center">PARTNERS AND SUPPORT</h3>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
-          <div class="service" style="text-align: center;">
-            <div class="icon"><img src="/img/algorand_foundation.jpg" alt="Algorand Foundation" height="50%"></i></div>
-          </div>
-        </div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
-          <div class="service" style="text-align: center;">
-            <div class="icon"><img src="/img/feed.jpg" alt="Food Equity, Equality and Democracy" height="50%"></i></div>
-          </div>
-        </div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
-          <div class="service" style="text-align: center;">
-            <div class="icon"><img src="/img/ozcf.jpg" alt="Oranjezicht City Farm" height="50%"></i></div>
-          </div>
-        </div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="clearfix visible-lg-block visible-md-block"></div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
-          <div class="service" style="text-align: center;">
-            <div class="icon"><img src="/img/pedi.jpg" alt="Philippi Economic Development Initiative" height="50%"></i></div>
-          </div>
-        </div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
-          <div class="service" style="text-align: center;">
-            <div class="icon"><img src="/img/uct.jpg" alt="University of Cape Town" height="50%"></i></div>
-          </div>
-        </div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
-          <div class="service" style="text-align: center;">
-            <div class="icon"><img src="/img/oribi.jpg" alt="Oribi Village Impact Incubator" height="50%"></i></div>
-          </div>
-        </div>
-        <div class="clearfix visible-sm-block"></div>
-        <!-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
-          <div class="service">
-            <div class="icon"><i class="icon-leaf"></i></div>
-            <h2 class="heading">Accepted into the Oribi Food Systems Incubation Programme [2020, 2021]</h2>
-          </div>
-        </div>
-        <div class="clearfix visible-sm-block"></div> -->
-        <!-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
-          <div class="service">
-            <div class="icon"><i class="icon-heart-outlined"></i></div>
-            <h2 class="heading">Pilot at Oranjezicht City Farm Market [2019, 2020]</h2>
-            <p>Knowing more about the provenance of your produce offers you better agency to support farmers making use of ethical farming methods.</p>
-            <p>It gives you the chance to put your support behind produce that is good for the land and for</p>
-          </div>
-        </div>
-        <div class="clearfix visible-sm-block"></div> -->
-        <div class="clearfix visible-lg-block visible-md-block"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="probootstrap-section probootstrap-bg" style="background-image: url(img/slider_2.jpg);">
-    <div class="container text-center">
-      <h2 class="heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">Fresh. Sustainable. Seasonal. Local. Produce.</h2>
-<!--      <p class="sub-heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">We simplify production and harvest data collection for smallholder farmers and connect them to market opportunities.</p>-->
-      <p class="sub-heading probootstrap-animate" data-animate-effect="fadeIn" id="share_to_socials">
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffoodprintapp.com" class="icon" target="_blank" aria-pressed="true" id="facebookMenuButton"><i class="icon-facebook"></i></a>
-        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Ffoodprintapp.com&amp;text=FoodPrint uses cutting-edge and secure technology to track produce all the way from farm-to-fork %20%23FoodPrint%20%23FarmToFork%20%23Tech4Good%20%23Blockchain%20%23ProudlySouthAfrican" class="icon"  target="_blank" aria-pressed="true" id="twitterMenuButton"><i class="icon-twitter"></i></a>
-      </p>  
-    </div>
-  </section>
-
-  <!-- Scan QR Code to see our technology in action - add a FoodPrint QR Code -->
-  <!-- <section class="probootstrap-section probootstrap-bg" style="background-image: url(img/food_bg.jpg);">
-    <div class="container text-center">
-    <h2 class="heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">Join the food revolution</h2>
-    <p class="sub-heading probootstrap-animate fadeIn probootstrap-animated" data-animate-effect="fadeIn">Get more information or request a consultation.</p>
-    <a class="btn btn-primary"  href="/contact">GET STARTED WITH FOODPRINT</a> 
-    </div>
-  </section> -->
 
   <!-- start footer -->
   <% include ./partials/footer %>

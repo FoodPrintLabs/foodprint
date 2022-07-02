@@ -1,80 +1,73 @@
 const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    'User',
+    'Buyer_bid',
     {
-      ID: {
+      pk: {
         autoIncrement: true,
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
       },
-      firstName: {
+      bid_logid: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      middleName: {
+      bid_user: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      lastName: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      email: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-        unique: 'email',
-      },
-      phoneNumber: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-        unique: 'phoneNumber',
-      },
-      role: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      password: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
-      createdAt: {
+      bid_timeStamp: {
         type: DataTypes.DATE,
         allowNull: true,
-        defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       },
-      registrationChannel: {
+      bid_produceName: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      nationalIdPhotoHash: {
-        type: DataTypes.BLOB,
+      bid_quantity: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_unitOfMeasure: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_price: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_province: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_status: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_saleTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      bid_saleUser: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      bid_description: {
+        type: DataTypes.STRING(1000),
         allowNull: true,
       },
     },
     {
       sequelize,
-      tableName: 'user',
+      tableName: 'buyer_bid',
       timestamps: false,
       indexes: [
         {
-          name: 'user_PRIMARY',
+          name: 'buyer_bid_PRIMARY',
           unique: true,
           using: 'BTREE',
-          fields: [{ name: 'ID' }],
-        },
-        {
-          name: 'user_email',
-          unique: true,
-          using: 'BTREE',
-          fields: [{ name: 'email' }],
-        },
-        {
-          name: 'user_phoneNumber',
-          unique: true,
-          using: 'BTREE',
-          fields: [{ name: 'phoneNumber' }],
+          fields: [{ name: 'pk' }],
         },
       ],
     }

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    'MarketSubscription',
+    'foodprintemail',
     {
       pk: {
         autoIncrement: true,
@@ -9,34 +9,38 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true,
       },
-      market_id: {
+      email_logid: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      firstname: {
+      email_recipient: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      surname: {
+      email_subject: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      email: {
+      email_timestamp: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      logdatetime: {
-        type: DataTypes.DATE,
+      email_content: {
+        type: DataTypes.STRING(2000),
+        allowNull: true,
+      },
+      email_status: {
+        type: DataTypes.STRING(255),
         allowNull: true,
       },
     },
     {
       sequelize,
-      tableName: 'market_subscription',
+      tableName: 'foodprint_email',
       timestamps: false,
       indexes: [
         {
-          name: 'market_subscription_PRIMARY',
+          name: 'foodprint_email_PRIMARY',
           unique: true,
           using: 'BTREE',
           fields: [{ name: 'pk' }],

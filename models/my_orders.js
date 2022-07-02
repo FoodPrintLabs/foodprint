@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    'MarketSubscription',
+    'My_orders',
     {
       pk: {
         autoIncrement: true,
@@ -9,34 +9,58 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true,
       },
-      market_id: {
+      order_logid: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      firstname: {
+      order_original_logid: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      surname: {
+      order_type: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      email: {
+      offer_user: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
-      logdatetime: {
+      bid_user: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      order_timeStamp: {
         type: DataTypes.DATE,
+        allowNull: true,
+      },
+      order_original_timeStamp: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      order_produceName: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      order_quantity: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      order_price: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      order_province: {
+        type: DataTypes.STRING(255),
         allowNull: true,
       },
     },
     {
       sequelize,
-      tableName: 'market_subscription',
+      tableName: 'my_orders',
       timestamps: false,
       indexes: [
         {
-          name: 'market_subscription_PRIMARY',
+          name: 'my_order_PRIMARY',
           unique: true,
           using: 'BTREE',
           fields: [{ name: 'pk' }],
