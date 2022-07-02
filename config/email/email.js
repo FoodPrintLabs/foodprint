@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 const env = process.env.NODE_ENV || 'development';
 const CUSTOM_ENUMS = require('../../utils/enums');
 const uuidv4 = require('uuid/v4');
-const { clearConfigCache } = require('prettier');
 
 var moment = require('moment'); //datetime
 var initModels = require('../../models/init-models');
