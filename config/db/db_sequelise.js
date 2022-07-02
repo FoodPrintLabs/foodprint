@@ -1,6 +1,11 @@
 const env = process.env.NODE_ENV || 'development';
-const config = require('../../dbconfig')[env];
+const config = require('./dbconfig')[env];
 const Sequelize = require('sequelize');
+
+/*if (process.env.DB_URL) {
+  console.log("There is a DB URL")
+  const sequelize = new Sequelize(process.env.DB_URL)
+}*/
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
