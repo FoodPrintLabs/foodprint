@@ -1,9 +1,9 @@
-/* TODO import users from a gitignored json file */
+require('dotenv').config();
 var records = [
   {
     id: 1,
     username: 'adminjack',
-    password: 'birthday',
+    password: process.env.USER1_PASSWORD,
     displayName: 'Admin Jack',
     prefs: [{ value: 'adminjack@example.com' }],
     email: 'adminjack@example.com',
@@ -12,7 +12,7 @@ var records = [
   {
     id: 2,
     username: 'marketjenny',
-    password: 'birthday',
+    password: process.env.USER2_PASSWORD,
     displayName: 'Market Jenny',
     prefs: [{ value: 'marketjenny@example.com' }],
     email: 'marketjenny@example.com',
@@ -21,7 +21,7 @@ var records = [
   {
     id: 3,
     username: 'farmerbrown',
-    password: 'birthday',
+    password: process.env.USER3_PASSWORD,
     displayName: 'Farmer Brown ',
     prefs: [{ value: 'farmerbrown@example.com' }],
     email: 'farmerbrown@example.com',
@@ -30,7 +30,7 @@ var records = [
   {
     id: 4,
     username: 'consumerjill',
-    password: 'birthday',
+    password: process.env.USER4_PASSWORD,
     displayName: 'Consumer Jill',
     prefs: [{ value: 'consumerjill@example.com' }],
     email: 'consumerjill@example.com',
@@ -39,7 +39,7 @@ var records = [
   {
     id: 5,
     username: 'superuserjulz',
-    password: 'birthday',
+    password: process.env.USER5_PASSWORD,
     displayName: 'Super User Julz',
     prefs: [{ value: 'superuserjulz@example.com' }],
     email: 'superuserjulz@example.com',
@@ -48,7 +48,7 @@ var records = [
   {
     id: 6,
     username: 'buyerman',
-    password: 'birthday',
+    password: process.env.USER6_PASSWORD,
     displayName: 'Buyer Man',
     prefs: [{ value: 'buyerman@example.com' }],
     email: 'buyerman@example.com',
@@ -57,7 +57,7 @@ var records = [
   {
     id: 7,
     username: 'sellerman',
-    password: 'birthday',
+    password: process.env.USER7_PASSWORD,
     displayName: 'Seller Man',
     prefs: [{ value: 'sellerman@example.com' }],
     email: 'sellerman@example.com',
