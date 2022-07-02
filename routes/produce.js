@@ -485,7 +485,7 @@ router.post('/pricepage/delete', (req, res) => {
 
 /* GET PDF of Produce and Price. */
 router.get(
-  '/produceprice',
+  '/pricepage/pdf',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
@@ -493,10 +493,12 @@ router.get(
         order: [['pk', 'DESC']],
       })
         .then(rows => {
+          let pdfFilename =
+            'FoodPrint_ProducePrice_' + moment(new Date()).format('YYYY-MM-DD') + '.pdf';
           //send PDF of gathered Data
           const stream = res.writeHead(200, {
             'Content-Type': 'application/pdf',
-            'Content-Disposition': 'attachment;filename=produceprice.pdf',
+            'Content-Disposition': 'attachment;filename=' + pdfFilename,
           });
           pdfService.buildPDF(
             'PRODUCE PRICE LIST FOR WESTERN PROVINCE AS OF ' +

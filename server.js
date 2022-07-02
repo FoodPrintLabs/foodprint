@@ -248,10 +248,14 @@ app.use(function (req, res, next) {
 });
 
 //home page
-router.get('/', function (req, res) {
-  res.render('index', { user: req.user, page_name: 'home' });
-  //res.sendFile(path.join(__dirname+'/src/index.html')); //__dirname : It will resolve to your project folder.
-});
+router.get(
+  '/',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res) {
+    res.render('index', { user: req.user, page_name: 'home' });
+    //res.sendFile(path.join(__dirname+'/src/index.html')); //__dirname : It will resolve to your project folder.
+  }
+);
 
 // error handler
 // to define an error-handling middleware, we simply define a middleware in our server.js with four arguments: err, req, res, and next.
