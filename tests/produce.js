@@ -1,4 +1,4 @@
-// node ./tests/sequelize.js
+// node ./tests/produce.js
 
 const { Op, Sequelize } = require('sequelize');
 
