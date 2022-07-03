@@ -51,7 +51,7 @@ router.post('/app/testemail', function (req, res) {
 });
 
 router.get(
-  '/test_db',
+  '/test_config',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   async (req, res, next) => {
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
@@ -61,21 +61,21 @@ router.get(
         })
           .then(rows => {
             console.log('Render SQL results');
-            res.render('./test_db', {
+            res.render('./test_config', {
               page_title: 'Farmers - FarmPrint',
               data: rows,
               user: req.user,
-              page_name: 'testdb',
+              page_name: 'test_config',
             });
           })
           .catch(err => {
             //req.flash('error', err);
             console.error('error', err);
-            res.render('./test_db', {
-              page_title: 'Farmers - Farm Print',
+            res.render('./test_config', {
+              page_title: 'Configuration Testing',
               data: '',
               user: req.user,
-              page_name: 'testdb',
+              page_name: 'test_config',
             });
           });
       } catch (e) {

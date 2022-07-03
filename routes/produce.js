@@ -483,7 +483,7 @@ router.post('/pricepage/delete', (req, res) => {
     });
 });
 
-/* GET PDF of Produce and Price. */
+/* GET PDF of Produce and Price - web app. */
 router.get(
   '/pricepage/pdf',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
@@ -523,5 +523,37 @@ router.get(
     }
   }
 );
+
+/* GET PDF of Produce and Price - whatsapp */
+router.get('/pricepage/pdf/whatsapp', function (req, res, next) {
+  try {
+    models.FoodprintProducePrice.findAll({
+      order: [['pk', 'DESC']],
+    })
+      .then(rows => {
+        let pdfFilename =
+          'FoodPrint_ProducePrice_' + moment(new Date()).format('YYYY-MM-DD') + '.pdf';
+        //send PDF of gathered Data
+        const stream = res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment;filename=' + pdfFilename,
+        });
+        pdfService.buildPDF(
+          'PRODUCE PRICE LIST FOR WESTERN PROVINCE AS OF ' +
+            moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+          producepricepdf(rows),
+          chunk => stream.write(chunk),
+          () => stream.end()
+        );
+      })
+      .catch(err => {
+        console.log('PDF produce err:' + err);
+        req.flash('error', err);
+      });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
+  }
+});
 
 module.exports = router;
