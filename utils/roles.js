@@ -6,6 +6,8 @@ const ROLES = {
   Superuser: 'Superuser',
   Buyer: 'Buyer',
   Seller: 'Seller',
+  Intermediary: 'Intermediary',
+  Agent: 'Agent'
 };
 
 module.exports = ROLES;

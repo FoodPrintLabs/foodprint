@@ -10,6 +10,7 @@ var crypto = require('crypto');
 const uuidv4 = require('uuid/v4');
 var initModels = require('../models/init-models');
 var sequelise = require('../config/db/db_sequelise');
+var ROLES = require('../utils/roles');
 
 var models = initModels(sequelise);
 
@@ -123,17 +124,20 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
       email: req.body.registerEmail,
       role: req.body.role,
       password: hashedPassword,
-      ...(req.body.role === 'farmer' && { farmName: req.body.farmName }),
-      ...(req.body.role === 'intermediary' && { organisationName: req.body.registerOrgName }),
-      ...(req.body.role === 'intermediary' && { organisationType: req.body.registerOrgType }),
-      ...(req.body.role === 'agent' && { city: req.body.city }),
+      ...(req.body.role === ROLES.Farmer && { farmName: req.body.farmName, isAdminVerified: true }),
+      ...(req.body.role === ROLES.Intermediary && {
+        organisationName: req.body.registerOrgName,
+        organisationType: req.body.registerOrgType,
+        isAdminVerified: true,
+      }),
+      ...(req.body.role === ROLES.Agent && { city: req.body.city, isAdminVerified: false }),
       registrationChannel: 'web',
       emailVerificationToken: confirmationCode,
       isEmailVerified: false,
     };
 
     const img = req.file;
-    if (user.role === 'agent') {
+    if (user.role === ROLES.Agent || user.role === ROLES.Farmer) {
       fs.readFile(img.path, function (err, img_datadata) {
         user['nationalIdPhotoHash'] = img_datadata;
       });

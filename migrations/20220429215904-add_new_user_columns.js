@@ -14,6 +14,9 @@ module.exports = {
     await queryInterface.addColumn('user', 'user_uuid', {
       type: Sequelize.STRING(255),
     });
+    await queryInterface.addColumn('user', 'isAdminVerified', {
+      type: Sequelize.BOOLEAN,
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -26,5 +29,6 @@ module.exports = {
 
     await queryInterface.removeColumn('user', 'userId');
     await queryInterface.removeColumn('user', 'user_uuid');
+    await queryInterface.removeColumn('user', 'isAdminVerified');
   },
 };

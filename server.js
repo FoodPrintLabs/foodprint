@@ -219,7 +219,9 @@ passport.use(
           'lastName',
           'email',
           'password',
+          'role',
           'isEmailVerified',
+          'isAdminVerified',
         ],
         where: {
           email: username,
@@ -228,12 +230,12 @@ passport.use(
         .then(async data => {
           let user = {
             id: data.ID,
-            username: 'adminjack',
+            username: '',
             password: data.password,
             displayName: `${data.firstName} ${data.lastName}`,
             prefs: [{ value: data.email }],
             email: data.email,
-            role: 'Admin',
+            role: data.role,
           };
           if (!data) {
             return cb(null, false, { message: 'Incorrect login details.' });
@@ -246,6 +248,12 @@ passport.use(
 
           if (!data.isEmailVerified) {
             return cb(null, false, { message: 'Please verify your email first.' });
+          }
+
+          if (!data.isAdminVerified) {
+            return cb(null, false, {
+              message: 'Your profile is being reviewed by the Foodprint team.',
+            });
           }
           // console.log(user);
           return cb(null, user);
@@ -291,7 +299,7 @@ passport.deserializeUser(function (id, cb) {
   // });
 
   models.User.findOne({
-    attributes: ['ID', 'firstName', 'middleName', 'lastName', 'email', 'password'],
+    attributes: ['ID', 'firstName', 'middleName', 'lastName', 'email', 'password', 'role'],
     where: {
       ID: id,
     },
@@ -304,7 +312,7 @@ passport.deserializeUser(function (id, cb) {
         displayName: `${data.firstName} ${data.lastName}`,
         prefs: [{ value: data.email }],
         email: data.email,
-        role: 'Admin',
+        role: data.role, // TODO roles have title case in enum
       };
       if (!data) {
         return cb(err);

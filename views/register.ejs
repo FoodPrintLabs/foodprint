@@ -57,7 +57,7 @@
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="text" style="color: black;" id="password" name="password" class="form-control" placeholder="Password" required>
+                    <input type="password" style="color: black;" id="password" name="password" class="form-control" placeholder="Password" required>
                 </div>
 
                 <!--<div class="form-group">
@@ -67,13 +67,17 @@
 
                 <input name='role' type='text' value='<%= choice %>' hidden>
 
-                  <!--IF agent SELECTED display and required-->
-                <%if(choice && choice.length > 0 && choice === 'agent'){%>
+                <%if(choice && choice.length > 0 && (choice === 'Agent' || choice === 'Farmer' )){%>
                     <div class="form-group">
                         <label for="registerIDPhoto">ID Photo</label>
                         <input type="file" style="color: black;" id="registerIDPhoto" name="registerIDPhoto" class="form-control"  required>
                     </div>
 
+                <%}%>
+
+
+                  <!--IF agent SELECTED display and required-->
+                <%if(choice && choice.length > 0 && choice === 'Agent'){%>
                     <div class="form-group">
                         <label for="city">City</label>
                         <input type="text" style="color: black;" id="city" name="city" class="form-control" placeholder="Enter City" required>
@@ -82,21 +86,28 @@
 
 
                 <!--IF intermediary SELECTED display and required-->
-                <%if(choice && choice.length > 0 && choice === 'intermediary'){%>
+                <%if(choice && choice.length > 0 && choice === 'Intermediary'){%>
                     <div class="form-group">
                         <label for="registerOrgName">Organisation Name</label>
                         <input type="text" style="color: black;" id="registerOrgName" name="registerOrgName" class="form-control" placeholder="Enter Organisation Name" required>
                     </div>
 
+
                     <div class="form-group">
                         <label for="registerOrgType">Organisation Type</label>
-                        <input type="text" style="color: black;" id="registerOrgType" name="registerOrgType" class="form-control" placeholder="Enter Type of Organisation" required>
+                        <select class="custom-select d-block w-100" name="registerOrgType" id="registerOrgType">
+                            <option value="" selected disabled >Choose Organisation Type...</option>
+                            <option>Retailer</option>
+                            <option>Restaurant</option>
+                            <option>Market</option>
+                            <option>AgriHub</option>
+                        </select>
                     </div>
                 <%}%>
 
 
                 <!--IF agent display SELECTED and required-->
-                <%if(choice && choice.length > 0 && choice === 'farmer'){%>
+                <%if(choice && choice.length > 0 && choice === 'Farmer'){%>
                     <div class="form-group">
                         <label for="farmName">Farm Name</label>
                         <input type="text" style="color: black;" id="farmName" name="farmName" class="form-control" placeholder="Enter Farm Name" required>
