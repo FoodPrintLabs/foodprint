@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-var fs = require('fs');
+var fs = require('fs').promises;
 const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
 const upload = multer({ dest: './static/images/produce_images/' }); //path.join(__dirname, 'static/images/produce_images/)
 
@@ -138,9 +138,9 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
 
     const img = req.file;
     if (user.role === ROLES.Agent || user.role === ROLES.Farmer) {
-      fs.readFile(img.path, function (err, img_datadata) {
-        user['nationalIdPhotoHash'] = img_datadata;
-      });
+      user['nationalIdPhotoHash'] = await fs
+        .readFile(img.path)
+        .catch(err => console.log('Failed to read file', err));
     }
 
     models.User.create(user)
