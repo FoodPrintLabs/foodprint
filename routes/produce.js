@@ -4,13 +4,17 @@ const { check, validationResult } = require('express-validator');
 const uuidv4 = require('uuid/v4');
 var body = require('express-validator'); //validation
 var moment = require('moment'); //datetime
-const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
-const upload = multer({ dest: './static/images/produce_images/' }); //path.join(__dirname, 'static/images/produce_images/)
 var ROLES = require('../utils/roles');
 var fs = require('fs');
 const axios = require('axios');
 const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
+
+// Digital Ocean imports
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+const AWS = require('aws-sdk');
 
 //pdfservice
 const pdfService = require('../config/pdf/pdf-service');
@@ -22,6 +26,36 @@ var sequelise = require('../config/db/db_sequelise');
 const { producepricepdf } = require('../config/pdf/producepricepdf');
 
 var models = initModels(sequelise);
+
+// Digital Ocean config. // Set S3 endpoint to DigitalOcean Spaces
+const bucketEndpoint = process.env.DO_ENDPOINT;
+const bucketKey = process.env.DO_KEY_ID;
+const bucketSecret = process.env.DO_SECRET;
+
+let space = new AWS.S3({
+  //Get the endpoint from the DO website for your space
+  endpoint: bucketEndpoint,
+  useAccelerateEndpoint: false,
+  //Create a credential using DO Spaces API key (https://cloud.digitalocean.com/account/api/tokens)
+  credentials: new AWS.Credentials(bucketKey, bucketSecret, null),
+});
+
+//Name of your DO bucket here
+const BucketName = process.env.DO_BUCKET_NAME;
+
+// DO Check if file exists by returning metadata
+/*
+import HeadObjectCommand from aws-sdk
+const config = {}
+const input = {
+    Bucket: 'your-bucket',
+    Key: 'test.txt'
+}
+const client = new S3Client(config)
+const command = new HeadObjectCommand(input)
+const response = await client.send(command)
+console.log(response)
+*/
 
 /* GET Produce page. */
 router.get(
@@ -534,13 +568,8 @@ router.get('/pricepage/pdf/whatsapp', function (req, res, next) {
         let pdfFilename =
           'FoodPrint_ProducePrice_' + moment(new Date()).format('YYYY-MM-DD') + '.pdf';
 
+        // stream pdf in chunks to response
         let chunks = [];
-
-        //send PDF of gathered Data
-        /*  const stream = res.writeHead(200, {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': 'attachment;filename=' + pdfFilename,
-        }); */
         pdfService.buildPDF(
           'PRODUCE PRICE LIST FOR WESTERN PROVINCE AS OF ' +
             moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
@@ -552,22 +581,34 @@ router.get('/pricepage/pdf/whatsapp', function (req, res, next) {
               res.status(400).send({ message: err.message });
             }
             const result = Buffer.concat(chunks);
-            res
-              .set({
-                'content-type': 'application/octet-stream',
-                // 'content-type': 'application/pdf',
-                'content-disposition': 'attachment;filename=' + pdfFilename,
-              })
-              .status(200)
-              // .send({ pdf_doc: 'data:application/pdf;base64,' + result.toString('base64') });
-              .send({ pdf_doc: result });
-            //stream.end();
+
+            //DO upload params
+            let uploadParameters = {
+              Bucket: BucketName,
+              ContentType: 'application/pdf',
+              Body: result,
+              ACL: 'public-read', //set file to public access
+              Key: pdfFilename,
+            };
+
+            const fullPdfUrl = 'https://' + BucketName + '.' + bucketEndpoint + '/' + pdfFilename;
+
+            //DO upload
+            space.upload(uploadParameters, function (error, data) {
+              if (error) {
+                console.error(error);
+                res.status(500).send({ error: error, message: 'Unexpected error occurred 😤' });
+                return;
+              }
+              console.log('File uploaded ' + fullPdfUrl);
+              res.status(200).send({ message: 'file uploaded', pdf_url: fullPdfUrl });
+            });
           }
         );
       })
       .catch(err => {
         console.log('PDF produce err:' + err);
-        req.flash('error', err);
+        res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
       });
   } catch (e) {
     console.log(e);
