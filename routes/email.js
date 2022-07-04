@@ -25,7 +25,7 @@ var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
-//Render My order logbook
+//Render email EJS
 router.get(
   '/',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
