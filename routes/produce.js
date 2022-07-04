@@ -568,6 +568,9 @@ router.get('/pricepage/pdf/whatsapp', function (req, res, next) {
         let pdfFilename =
           'FoodPrint_ProducePrice_' + moment(new Date()).format('YYYY-MM-DD') + '.pdf';
 
+        // force filename to lower case so that string matching in chatbot is not an issue
+        pdfFilename = pdfFilename.toLowerCase();
+
         // stream pdf in chunks to response
         let chunks = [];
         pdfService.buildPDF(
