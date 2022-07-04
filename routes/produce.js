@@ -533,17 +533,36 @@ router.get('/pricepage/pdf/whatsapp', function (req, res, next) {
       .then(rows => {
         let pdfFilename =
           'FoodPrint_ProducePrice_' + moment(new Date()).format('YYYY-MM-DD') + '.pdf';
+
+        let chunks = [];
+
         //send PDF of gathered Data
-        const stream = res.writeHead(200, {
+        /*  const stream = res.writeHead(200, {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment;filename=' + pdfFilename,
-        });
+        }); */
         pdfService.buildPDF(
           'PRODUCE PRICE LIST FOR WESTERN PROVINCE AS OF ' +
             moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
           producepricepdf(rows),
-          chunk => stream.write(chunk),
-          () => stream.end()
+          chunk => chunks.push(chunk), // stream.write(chunk),
+          (err, data) => {
+            if (err) {
+              console.log(err);
+              res.status(400).send({ message: err.message });
+            }
+            const result = Buffer.concat(chunks);
+            res
+              .set({
+                'content-type': 'application/octet-stream',
+                // 'content-type': 'application/pdf',
+                'content-disposition': 'attachment;filename=' + pdfFilename,
+              })
+              .status(200)
+              // .send({ pdf_doc: 'data:application/pdf;base64,' + result.toString('base64') });
+              .send({ pdf_doc: result });
+            //stream.end();
+          }
         );
       })
       .catch(err => {
