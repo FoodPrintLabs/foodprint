@@ -31,13 +31,13 @@ emailTransport
 const customSendEmail = function (recipient, subject, body) {
   //check var
   const toCheck = () => {
-    return process.env.NODE_ENV == CUSTOM_ENUMS.DEVELOPMENT
+    return process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION
       ? '' + process.env.EMAIL_OVERRIDE
       : recipient;
   };
   const subjectCheck = () => {
     return process.env.NODE_ENV !== CUSTOM_ENUMS.PRODUCTION
-      ? '[FoodPrint Development] -' + subject
+      ? '[FoodPrint ' + process.env.NODE_ENV + '] -' + subject
       : '[FoodPrint] -' + subject;
   };
   //Details for email sent to customSendEmail
