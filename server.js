@@ -71,6 +71,7 @@ var produceRouter = require('./routes/produce');
 var buyerRouter = require('./routes/buyer');
 var sellerRouter = require('./routes/seller');
 var orderRouter = require('./routes/order');
+var emailRouter = require('./routes/email');
 
 // enable ssl redirect
 app.use(
@@ -152,6 +153,7 @@ app.use('/app/dashboards', dashboardsRouter);
 app.use('/app/buyer', buyerRouter);
 app.use('/app/seller', sellerRouter);
 app.use('/app/order', orderRouter);
+app.use('/app/email', emailRouter);
 
 app.use('/', testRouter);
 app.use('/', searchRouter);
