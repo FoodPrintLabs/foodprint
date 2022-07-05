@@ -6,6 +6,7 @@ var initModels = require('../models/init-models');
 var sequelise = require('../config/db/db_sequelise');
 const CUSTOM_ENUMS = require('../utils/enums');
 const uuidv4 = require('uuid/v4');
+var ROLES = require('../utils/roles');
 
 var models = initModels(sequelise);
 
@@ -407,5 +408,46 @@ router.get('/app/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], functi
       res.end(JSON.stringify(provenance_data, null, 4));
     });
 });
+
+//Render qrcode EJS
+router.get(
+  '/app/qrcode',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintQrcount.findAll({
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('dashboard_qrcode', {
+            page_title: 'FoodPrint - QR Code Dashboard',
+            data: rows,
+            user: req.user,
+            filter_data: '',
+            page_name: 'dashboard_qrcode',
+          });
+        })
+        .catch(err => {
+          console.log('All dashboard_qrcode err:' + err);
+          req.flash('error', err);
+          res.render('dashboard_qrcode', {
+            page_title: 'FoodPrint - QR Code Dashboard',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'dashboard_qrcode',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
 
 module.exports = router;
