@@ -3,7 +3,7 @@ const config = require('./dbconfig')[env];
 const Sequelize = require('sequelize');
 
 let sequelize;
-if (process.env.CLEARDB_DATABASE_URL) {
+if (process.env.DB_URL) {
   sequelize = new Sequelize(config.url, config);
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
