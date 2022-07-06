@@ -81,39 +81,7 @@ $npm install
 
 2. Create a blank MySQL database
 
-3. Create a database configuration file in the root folder - `dbconfig.json` and populate with
-   updated json config as below
-
-```json
-{
-  "development": {
-    "username": <USERNAME>,
-    "password": <PASSWORD>,
-    "database": <DATABASENAME>,
-    "host": <HOSTNAME>,
-    "dialect": "mysql",
-    "logging": true
-  },
-  "test": {
-    "username": <USERNAME>,
-    "password": <PASSWORD>,
-    "database": <DATABASENAME>,
-    "host": <HOSTNAME>,
-    "dialect": "mysql",
-    "logging": false
-  },
-  "production": {
-    "username": <USERNAME>,
-    "password": <PASSWORD>,
-    "database": <DATABASENAME>,
-    "host": <HOSTNAME>,
-    "dialect": "mysql",
-    "logging": false
-  }
-}
-```
-
-4. Create a .env file in the root directory of your project. Add environment-specific variables on
+3. Create a .env file in the root directory of your project. Add environment-specific variables on
    new lines in the form of NAME=VALUE. For example
 
 ```
@@ -123,6 +91,10 @@ APP_NAME=REPLACE_ME
 SESSION_SECRET=REPLACE_ME
 EMAIL_ADDRESS=GMAIL_EMAIL_ADDRESS
 EMAIL_PASSWORD=GMAIL_EMAIL_PASSWORD
+WEBAPP_PASSWORD=WEBAPP_PASSWORD
+EMAIL_HOST=EMAIL_HOST
+EMAIL_PORT=EMAIL_PORT
+TEST_EMAIL_ADDRESS=TEST_EMAIL_ADDRESS
 EMAIL_OVERRIDE=OVERRIDE_EMAIL_ADDRESS
 BLOCKCHAINENV=TESTNET
 DEV_ALGOD_API_KEY=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -141,12 +113,28 @@ ACCOUNT1_ADDRESS=REPLACE_ME
 ACCOUNT1_MNEMONIC=REPLACE_ME
 ACCOUNT2_ADDRESS=REPLACE_ME
 ACCOUNT2_MNEMONIC=REPLACE_ME
+DB_USERNAME=REPLACE_ME
+DB_PASSWORD=REPLACE_ME
+DB_DATABASE=REPLACE_ME
+DB_HOST=REPLACE_ME
+DB_DIALECT=REPLACE_ME
+USER1_PASSWORD=REPLACE_ME
+USER2_PASSWORD=REPLACE_ME
+USER3_PASSWORD=REPLACE_ME
+USER4_PASSWORD=REPLACE_ME
+USER5_PASSWORD=REPLACE_ME
+USER6_PASSWORD=REPLACE_ME
+USER7_PASSWORD=REPLACE_ME
+DO_BUCKET_NAME=REPLACE_ME
+DO_KEY_ID=REPLACE_ME
+DO_SECRET=REPLACE_ME
+DO_ENDPOINT=REPLACE_ME
 ```
 
 You can then access the variables in your code using process.env e.g.
 `console.log(process.env.NODE_ENV)`
 
-5. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
+4. Start the web server (Express) and navigate to http://localhost:3000/ in your browser.
 
 ```
 $npm run dev

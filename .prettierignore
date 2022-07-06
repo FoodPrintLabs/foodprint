@@ -9,3 +9,4 @@ coverage
 # Ignore minified files:
 *.min.css
 *.min.js
+.env

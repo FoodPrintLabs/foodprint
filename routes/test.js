@@ -6,19 +6,11 @@ var router = express.Router();
 var initModels = require('../models/init-models');
 var sequelise = require('../config/db/db_sequelise');
 const ROLES = require('../utils/roles');
-var models = initModels(sequelise);
 
-//emailer configuration
-// Testing Emails Pattern
-// when testing emails, in NODE_ENV=development, set EMAIL_OVERRIDE
-// if EMAIL_OVERRIDE is set, send email to it's value, prepend subject line with [TEST EMAIL], include intended recipients in the body
-let transporter = nodemailer.createTransport({
-  service: CUSTOM_ENUMS.GMAIL,
-  auth: {
-    user: process.env.EMAIL_ADDRESS,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+//email functionality
+let customSendEmail = require('../config/email/email');
+
+var models = initModels(sequelise);
 
 router.post('/test_qrcode', async (req, res, next) => {
   try {
@@ -48,20 +40,18 @@ router.post('/app/testemail', function (req, res) {
     subject: 'Test Email',
     html: '<h2>Welcome to FoodPrint</h2><p>This is a test email.</p>',
   };
-
-  transporter.sendMail(mailOptions, function (error, data) {
-    if (error) {
-      console.log('Error sending email - ', error);
-      res.status.json({ err: error });
-    } else {
-      console.log('Email successfully sent - ', data);
-      res.json({ success: true });
-    }
-  });
+  try {
+    customSendEmail(mailOptions.to, mailOptions.subject, mailOptions.html);
+    console.log('Email successfully sent');
+    res.json({ success: true });
+  } catch (e) {
+    console.log('Error sending email - ', e);
+    res.status.json({ err: e });
+  }
 });
 
 router.get(
-  '/test_db',
+  '/test_config',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   async (req, res, next) => {
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
@@ -71,21 +61,21 @@ router.get(
         })
           .then(rows => {
             console.log('Render SQL results');
-            res.render('./test_db', {
+            res.render('./test_config', {
               page_title: 'Farmers - FarmPrint',
               data: rows,
               user: req.user,
-              page_name: 'testdb',
+              page_name: 'test_config',
             });
           })
           .catch(err => {
             //req.flash('error', err);
             console.error('error', err);
-            res.render('./test_db', {
-              page_title: 'Farmers - Farm Print',
+            res.render('./test_config', {
+              page_title: 'Configuration Testing',
               data: '',
               user: req.user,
-              page_name: 'testdb',
+              page_name: 'test_config',
             });
           });
       } catch (e) {

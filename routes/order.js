@@ -11,6 +11,10 @@ var fs = require('fs');
 const axios = require('axios');
 const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
+let acceptOrderEmail = require('../config/email/orderEmailTemplate');
+
+//email functionality
+let customSendEmail = require('../config/email/email');
 
 const { Op } = require('sequelize');
 
@@ -666,6 +670,45 @@ router.post(
               where: { bid_logid: req.body.bid_logid },
             }
           )
+            .then(
+              //FOR TESTING EMAILS
+              customSendEmail(
+                req.user.email,
+                'You Accepted a Bid',
+                acceptOrderEmail(
+                  req.body.bid_produceName,
+                  req.body.bid_quantity,
+                  req.body.bid_user,
+                  req.user.email,
+                  req.body.bid_logid,
+                  uuidv4(),
+                  'Bid',
+                  req.body.bid_timeStamp,
+                  moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                  req.body.bid_price,
+                  req.body.bid_province,
+                  'Seller'
+                )
+              ),
+              customSendEmail(
+                req.body.bid_user,
+                'Your bid was accepted',
+                acceptOrderEmail(
+                  req.body.bid_produceName,
+                  req.body.bid_quantity,
+                  req.body.bid_user,
+                  req.user.email,
+                  req.body.bid_logid,
+                  uuidv4(),
+                  'Bid',
+                  req.body.bid_timeStamp,
+                  moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                  req.body.bid_price,
+                  req.body.bid_province,
+                  'Accepted'
+                )
+              )
+            )
             .then(_ => {
               req.flash(
                 'success',
@@ -708,7 +751,7 @@ router.post(
     //check('bid_produceName', 'Your produce name is not valid').not().isEmpty().trim().escape(),
   ],
   function (req, res) {
-    console.log(req.body.bid_logid);
+    console.log(req.body.offer_logid);
     const result = validationResult(req);
     var errors = result.errors;
     for (var key in errors) {
@@ -745,6 +788,48 @@ router.post(
               where: { offer_logid: req.body.offer_logid },
             }
           )
+            .then(
+              //FOR TESTING EMAILS
+              //EMAIL TO BUYER
+              customSendEmail(
+                req.user.email,
+                'You accepted an offer',
+                //body for email
+                acceptOrderEmail(
+                  req.body.offer_produceName,
+                  req.body.offer_quantity,
+                  req.body.offer_user,
+                  req.user.email,
+                  req.body.offer_logid,
+                  uuidv4(),
+                  'Offer',
+                  req.body.offer_timeStamp,
+                  moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                  req.body.offer_price,
+                  req.body.offer_province,
+                  'Buyer'
+                )
+              ),
+              //EMAIL TO SELLER
+              customSendEmail(
+                req.body.offer_user,
+                'Your offer was accepted',
+                acceptOrderEmail(
+                  req.body.offer_produceName,
+                  req.body.offer_quantity,
+                  req.body.offer_user,
+                  req.user.email,
+                  req.body.offer_logid,
+                  uuidv4(),
+                  'Offer',
+                  req.body.offer_timeStamp,
+                  moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                  req.body.offer_price,
+                  req.body.offer_province,
+                  'Accepted'
+                )
+              )
+            )
             .then(_ => {
               req.flash(
                 'success',
@@ -775,6 +860,85 @@ router.post(
           page_name: 'order_dashboard',
         });
       }
+    }
+  }
+);
+
+//Render My order logbook
+router.get(
+  '/myorders',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (
+      req.user.role === ROLES.Buyer ||
+      req.user.role === ROLES.Admin ||
+      req.user.role === ROLES.Superuser
+    ) {
+      models.My_orders.findAll({
+        where: {
+          bid_user: req.user.email,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('myorderlogbook', {
+            page_title: 'FoodPrint - Order Logbook',
+            data: rows,
+            user: req.user,
+            filter_data: '',
+            page_name: 'myorderlogbook',
+          });
+        })
+        .catch(err => {
+          console.log('All myorderlogbook err:' + err);
+          req.flash('error', err);
+          res.render('myorderlogbook', {
+            page_title: 'FoodPrint - Order Logbook',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'myorderlogbook',
+          });
+        });
+    } else if (
+      req.user.role === ROLES.Seller ||
+      req.user.role === ROLES.Admin ||
+      req.user.role === ROLES.Superuser
+    ) {
+      models.My_orders.findAll({
+        where: {
+          offer_user: req.user.email,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('myorderlogbook', {
+            page_title: 'FoodPrint - Order Logbook',
+            data: rows,
+            user: req.user,
+            filter_data: '',
+            page_name: 'myorderlogbook',
+          });
+        })
+        .catch(err => {
+          console.log('All myorderlogbook err:' + err);
+          req.flash('error', err);
+          res.render('myorderlogbook', {
+            page_title: 'FoodPrint - Order Logbook',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'myorderlogbook',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        page_name: 'error',
+      });
     }
   }
 );

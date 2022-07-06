@@ -1,94 +1,11 @@
 <!-- views/partials/footer.ejs -->
 <!-- start footer -->
 <!-- add after close of last section but still inside body-->
-<footer class="probootstrap-footer probootstrap-bg" style="background-image: url(/img/slider_3.jpg)">
-    <div class="container">
-      <div class="row mb60">
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">About FoodPrint</h4>
-            <ul class="stack-link">
-              <% if (user) { %>
-                <li><a href="/app/auth/logout">Log out</a></li>
-              <% } else { %>
-                <li><a href="/app/auth/login">Login</a></li>
-                <li><a href="/app/auth/register">Register</a></li>
-              <% } %>
-              <li><a href="/about">About</a></li>
-              <li><a href="/contact">Contact</a></li>
-              <!--<li><a href="#">Locations</a></li>-->
-              <li><a href="/pricing">Pricing</a></li>
-              <li><a href="/features">Features & Benefits</a></li>
-              <li><a href="/terms">Terms of Use</a></li>
-              <li><a href="/privacy">Privacy Policy</a></li>
-              <!--<li><a href="#">FAQ</a></li>-->
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">Features</h4>
-            <ul class="stack-link">
-              <li><a href="/app/harvest">Harvest Logbook</a></li>
-              <li><a href="/app/storage">Storage/Handover Logbook</a></li>
-              <li><a href="/app/trace_produce">Trace Produce</a></li>
-              <li><a href="/app/blockchain_explorer">Blockchain Explorer</a></li>
-              <li><a href="/weekly">Weekly View</a></li>
-              <li><a href="/img/demo_qrcode.png">QR Code Scanning</a></li>
-              <li><a href="/app/auth/login">Reporting & Analytics</a></li>
-              <li><a href="/app/auth/login">Dashboard</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget">
-            <h4 class="heading">Resources and Tools</h4> <!--<li><a href="#">Knowledge Center</a></li>-->
-            <ul class="stack-link">
-              <li><a href="https://sacoronavirus.co.za" target="_blank">COVID-19 South African Online Portal</a></li>
-              <li><a href="/tech101">Blockchain and Technology 101</a></li>
-              <li><a href="/food101">Food Facts 101</a></li>
-              <!-- <li><a href="#">Frequently Asked Questions (FAQ)</a></li> -->
-              <li><a href="/app/auth/login">FoodPrint Support</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget" id = "footerWidget">
-            <h4 class="heading">Subscribe</h4>
-            <p>Be part of the FoodPrint community and receive updates.</p>
-            <form id="subscribe_form">
-              <div class="form-field">
-                <input type="email" id="subscribe_email" class="form-control" placeholder="Enter your email" required>
-                <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
-              </div>
-            </form>
-            <text id="subscribe_result"></text>
-            <div class="alert-danger" id = "error-group" style="display: none">
-                <ul id="errors"></ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row copyright">
-        <div class="col-md-9">
-          <div class="probootstrap-footer-widget">
-            <p>&copy; FoodPrint Labs (Pty) Ltd (South Africa Reg 2021 / 838342 / 07). <a href="http://foodprintapp.com/">FoodPrint. Fresh food, from farm-to-fork</a>. Website - <a href="https://jskdezign.com/" target="_blank">JSKDEZIGN</a>.</p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="probootstrap-footer-widget right">
 
-            <ul class="probootstrap-footer-social">
-              <li><span class="badge badge-secondary">ALPHA VERSION</span></li>
-              <li><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Ffoodprintapp.com&text=FoodPrint%3A%20Fresh%20food,%20from%20farm-to-fork.%20Follow%20@foodprintlabs%20%23FoodPrint%20%23FarmToFork%20%23Tech4Good%20%23Blockchain%20%23ProudlySouthAfrican" class="icon"  target="_blank" aria-pressed="true" id="twitterMenuButton"><i class="icon-twitter"></i></a></li>
-              <li><a href="https://www.facebook.com/foodprintlabs"><i class="icon-facebook"></i></a></li>
-              <li><a href="https://www.linkedin.com/company/foodprintlabs"><i class="icon-linkedin"></i></a></li>
-<!--              <li><a href="#"><i class="icon-facebook"></i></a></li>-->
-<!--              <li><a href="#"><i class="icon-instagram2"></i></a></li>-->
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- end footer -->
+
+<footer class="footer navbar-fixed-bottom row-fluid">
+  <div>
+    <p>FoodPrint Supply Chain Platform <span class="badge badge-secondary">ALPHA VERSION</span> &copy; FoodPrint Labs (Pty) Ltd. Visit <a href="https://www.foodprintlabs.com/" target="_blank">https://www.foodprintlabs.com/</a></p>
+  </div>
+</footer>
+<!-- end footer -->

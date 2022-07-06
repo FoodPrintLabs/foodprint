@@ -8,12 +8,12 @@ var session = require('express-session');
 var cors = require('cors');
 var path = require('path');
 var router = express.Router();
-var CUSTOM_ENUMS = require('./utils/enums');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
 var sequelise = require('./config/db/db_sequelise');
 
+const CUSTOM_ENUMS = require('./utils/enums');
 const bcrypt = require('bcrypt');
 var initModels = require('./models/init-models');
 var models = initModels(sequelise);
@@ -70,12 +70,12 @@ var umsRouter = require('./routes/usermanagement');
 
 var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
-var websiteRouter = require('./routes/website');
 var apiV1Router = require('./routes/api_v1');
 var produceRouter = require('./routes/produce');
 var buyerRouter = require('./routes/buyer');
 var sellerRouter = require('./routes/seller');
 var orderRouter = require('./routes/order');
+var emailRouter = require('./routes/email');
 
 // enable ssl redirect
 app.use(
@@ -158,8 +158,8 @@ app.use('/app/dashboards', dashboardsRouter);
 app.use('/app/buyer', buyerRouter);
 app.use('/app/seller', sellerRouter);
 app.use('/app/order', orderRouter);
+app.use('/app/email', emailRouter);
 
-app.use('/', websiteRouter);
 app.use('/', testRouter);
 app.use('/', searchRouter);
 app.use('/', qrCodeRouter);
@@ -345,10 +345,14 @@ app.use(function (req, res, next) {
 });
 
 //home page
-router.get('/', function (req, res) {
-  res.render('index', { user: req.user, page_name: 'home' });
-  //res.sendFile(path.join(__dirname+'/src/index.html')); //__dirname : It will resolve to your project folder.
-});
+router.get(
+  '/',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res) {
+    res.render('index', { user: req.user, page_name: 'home' });
+    //res.sendFile(path.join(__dirname+'/src/index.html')); //__dirname : It will resolve to your project folder.
+  }
+);
 
 // error handler
 // to define an error-handling middleware, we simply define a middleware in our server.js with four arguments: err, req, res, and next.
