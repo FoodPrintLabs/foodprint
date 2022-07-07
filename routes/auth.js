@@ -16,7 +16,8 @@ var models = initModels(sequelise);
 
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
+const customSendEmail = require('../config/email/email');
 
 /* Render Login page. */
 router.get('/login', function (req, res) {
@@ -29,9 +30,8 @@ router.get('/login', function (req, res) {
 
 /* Process Login form submission (File Based Auth). */
 /* TODO add a user not found message */
-router.post(
-  '/login',
-  passport.authenticate('file-local', {
+router.post('/login',
+  passport.authenticate(process.env.AUTH_STATEGY? process.env.AUTH_STATEGY:'db-local' , {
     successReturnToOrRedirect: '/',
     successFlash: 'You are now logged in.',
     failureRedirect: '/app/auth/login',
@@ -111,6 +111,7 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
 
   //res.redirect('/app/auth/register/message');
   try {
+    // TODO make user id short
     let user = {
       user_uuid: uuidv4(),
       userId: `${req.body.role.charAt(0).toUpperCase()}-${crypto
@@ -171,39 +172,24 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
               res.status(404).send({ message: 'user not found' });
             } else {
               // res.status(201).send(users[0]);
-
-              // TODO change to use gmail
-              let transport = nodemailer.createTransport({
-                host: process.env.EMAIL_HOST,
-                port: process.env.EMAIL_PORT,
-                auth: {
-                  user: process.env.EMAIL_ADDRESS,
-                  pass: process.env.EMAIL_PASSWORD,
-                },
-              });
-
-              transport.sendMail(
-                {
-                  from: process.env.EMAIL_ADDRESS,
-                  to: req.body.registerEmail,
-                  subject: 'Foodprint registration confirmation email',
-                  html: `<h2>Hi ${req.body.registerName} ${req.body.registerSurname}</h2>
-                        <p>Thank you for joining FoodPrint.</p>
+              let mailOptions = {
+                to: process.env.TEST_EMAIL_ADDRESS,
+                subject: 'Foodprint registration confirmation email',
+                html: `<p>Thank you for joining FoodPrint.</p>
                         <p>Please confirm your email by clicking on the following link</p>
-                        <a href=http://localhost:3000/app/auth/confirm/${confirmationCode}> Click here</a>
-                        </div>`,
-                },
-                (err, info) => {
-                  if (err) {
-                    console.log('Error occurred. ' + err.message);
-                    // return process.exit(1);
-                  }
+                        <a href=${process.env.CONFIRM_URL}/${confirmationCode}> Click here</a>
+                        <p>Regards</p>
+                        <p>Foodprint Team</p>
+                        `,
+              };
+              try {
+                customSendEmail(mailOptions.to, mailOptions.subject, mailOptions.html);
+                res.redirect('/app/auth/register/message');
+                console.log('Email successfully sent');
+              } catch (e) {
+                console.log('Error sending email - ', e);
+              }
 
-                  console.log('Message sent: %s', info.messageId);
-                  console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-                }
-              );
-              res.redirect('/app/auth/register/message');
             }
           })
           .catch(err => {

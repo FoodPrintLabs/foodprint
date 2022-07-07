@@ -12,7 +12,7 @@
     <ul class="probootstrap-main-nav">
         <li <% if (page_name === 'home') { %>class="active" <% } %> ><a href="/">Home</a></li>
 
-        
+
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Track & Trace
@@ -26,7 +26,7 @@
                 <a class="dropdown-item" href="/app/trace_produce">Trace Produce</a>
             </div>
             </li>
-        
+
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Wholesale Marketplace
@@ -45,7 +45,7 @@
                 <a class="dropdown-item" href="/app/produce/pricepage">Produce Pricing</a>
             </div>
             </li>
-        
+
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Reporting & Dashboards
@@ -71,7 +71,7 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/app/blockchain_explorer">QR Codes</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/app/blockchain_explorer">Users</a>
+                <a class="dropdown-item" href="/app/user/management">Users</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/test_config">Testing UI</a>
                 <div class="dropdown-divider"></div>
@@ -82,7 +82,7 @@
             </li>
 
         <!-- <li <% if (page_name === 'supplychain') { %>class="active" <% } %> ><a href="/app/supplychain">Supply Chain</a></li> This was from very first pilot with harvest and storage on one page July 2019 -->
-        <!--<li <% if (page_name === 'config') { %>class="active" <% } %> ><a href="/config">Config</a></li> --> 
+        <!--<li <% if (page_name === 'config') { %>class="active" <% } %> ><a href="/config">Config</a></li> -->
         <li <% if (page_name === 'login') { %>class="active" <% } %> >
             <% if (user) { %>
                 <a href="/app/auth/logout">Log out (<%=user.username%>)</a>

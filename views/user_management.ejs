@@ -15,12 +15,66 @@
 
 
 <div class="container" style="width: 100%;">
-    <div class="row align-items-center justify-content-center">
-        <!-- START USER MANAGEMENT TABLE -->
+    <h4>Users</h4>
 
+    <% include ./partials/notificationbar %>
 
-        <!-- END USER MANAGEMENT TABLE-->
-    </div>
+    <br>
+    <table class="table table-hover table-condensed table-responsive" id="storagetable">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <!--            <th scope="col">Last Name</th>-->
+            <th scope="col">email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Role</th>
+            <th scope="col">Email Verified</th>
+            <th scope="col">Profile Active</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if(data.length){
+        for(var i = 0; i < data.length; i++) { %>
+            <tr>
+                <td scope="row" style="width: 2%;"><%= (i + 1) ;%></td>
+                <td style="width: 20%;"><%= data[i].firstName ;%> <%= data[i].lastName ;%></td>
+                <td style="width: 20%;"> <%= data[i].email ;%></td>
+                <td style="width: 10%;"> <%= data[i].phoneNumber ;%></td>
+                <td style="width: 10%;"> <%= data[i].role ;%></td>
+                <td style="width: 10%;"> <%= data[i].isEmailVerified ;%></td>
+                <td style="width: 10%;"> <%= data[i].isAdminVerified ;%></td>
+
+                <td style="width: 20%;">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        <a class="btn btn-xs btn-info view">
+                            View</a>
+
+                        <a class="btn btn-xs btn-info edit" style="background-color: rgb(0, 160, 246);">
+                            Edit</a>
+
+                        <% if (data[i].isAdminVerified) { %>
+                            <a class="btn btn-xs btn-danger delete">
+                                Disable</a>
+                        <% }else{ %>
+
+                            <a class="btn btn-xs btn-info edit" style="background-color: rgb(30,127,58);">
+                                Enable</a>
+                        <% } %>
+
+                    </div>
+                </td>
+            </tr>
+        <% }
+        }else{ %>
+            <tr>
+                <td colspan="5">No Data</td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
+
 </div>
 
 <!-- start footer -->
