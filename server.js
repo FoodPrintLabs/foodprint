@@ -63,7 +63,7 @@ var configRouter = require('./routes/config');
 var harvestRouter = require('./routes/harvest');
 var storageRouter = require('./routes/storage');
 var authRouter = require('./routes/auth');
-// var blockchainRouter = require('./routes/blockchain');
+var blockchainRouter = require('./routes/blockchain');
 var dashboardsRouter = require('./routes/dashboards');
 var qrCodeRouter = require('./routes/qrcode');
 var umsRouter = require('./routes/users');
@@ -147,7 +147,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 // Mount routers
 app.use('/', router);
-// app.use('/', blockchainRouter);
+app.use('/', blockchainRouter);
 app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
 app.use('/app/user', umsRouter);
@@ -192,7 +192,7 @@ passport.use(
         if (!user) {
           return cb(null, false, { message: 'Incorrect username.' });
         }
-        if (user.password != password) {
+        if (user.password !== password) {
           return cb(null, false, { message: 'Incorrect password.' });
         }
         // If the credentials are valid, the verify callback invokes done to supply
@@ -291,44 +291,41 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-  const  strategy = process.env.AUTH_STATEGY ? process.env.AUTH_STATEGY: CUSTOM_ENUMS.DB_STRATEGY
-  if (strategy === CUSTOM_ENUMS.FILE_STRATEGY ) {
-    db.users.findById(id, function(err, user) {
+  const strategy = process.env.AUTH_STATEGY ? process.env.AUTH_STATEGY : CUSTOM_ENUMS.DB_STRATEGY;
+  if (strategy === CUSTOM_ENUMS.FILE_STRATEGY) {
+    db.users.findById(id, function (err, user) {
       if (err) {
         return cb(err);
       }
       cb(null, user);
     });
-
   } else {
     models.User.findOne({
-      attributes: ['ID', 'firstName', 'middleName', 'lastName', 'email', 'password', 'role'],
+      attributes: ['ID', 'firstName', 'lastName', 'email', 'password', 'role'],
       where: {
         ID: id,
       },
     })
       .then(data => {
-        let user = {
+        const user = {
           id: data.ID,
           username: data.email,
           password: data.password,
           displayName: `${data.firstName} ${data.lastName}`,
           prefs: [{ value: data.email }],
           email: data.email,
-          role: data.role, // TODO roles have title case in enum
+          role: data.role,
         };
         if (!data) {
           return cb(err);
         }
 
-        // console.log(user);
         return cb(null, user);
       })
       .catch(err => {
         return cb(err);
       });
   }
-
 });
 
 // catch 404 and forward to error handler

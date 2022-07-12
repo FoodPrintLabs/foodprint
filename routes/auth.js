@@ -4,9 +4,8 @@ var passport = require('passport');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 var fs = require('fs').promises;
 const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
-const upload = multer({ dest: './static/images/produce_images/' }); //path.join(__dirname, 'static/images/produce_images/)
+const upload = multer({ dest: './static/images/id_images/' }); //path.join(__dirname, 'static/images/produce_images/)
 
-var crypto = require('crypto');
 const uuidv4 = require('uuid/v4');
 var initModels = require('../models/init-models');
 var sequelise = require('../config/db/db_sequelise');
@@ -16,7 +15,6 @@ var models = initModels(sequelise);
 
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
-// const nodemailer = require('nodemailer');
 const customSendEmail = require('../config/email/email');
 
 /* Render Login page. */
@@ -30,8 +28,9 @@ router.get('/login', function (req, res) {
 
 /* Process Login form submission (File Based Auth). */
 /* TODO add a user not found message */
-router.post('/login',
-  passport.authenticate(process.env.AUTH_STATEGY? process.env.AUTH_STATEGY:'db-local' , {
+router.post(
+  '/login',
+  passport.authenticate(process.env.AUTH_STATEGY ? process.env.AUTH_STATEGY : 'db-local', {
     successReturnToOrRedirect: '/',
     successFlash: 'You are now logged in.',
     failureRedirect: '/app/auth/login',
@@ -103,21 +102,19 @@ router.get('/register_options', function (req, res) {
 
 /* Process register form submission . */
 router.post('/register', upload.single('registerIDPhoto'), async function (req, res) {
-  //TODO - Log registration to table and send email to FoodPrint Admin
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
   const confirmationCode = jwt.sign({ email: req.body.registerEmail }, process.env.TOKEN_SIGN);
+  const latestUser =  await models.User.findOne({
+    attributes: [ 'ID'],
+    order: [[ 'ID', 'DESC' ]],
+  });
+  const user_uuid = uuidv4();
 
-  //res.redirect('/app/auth/register/message');
   try {
-    // TODO make user id short
     let user = {
-      user_uuid: uuidv4(),
-      userId: `${req.body.role.charAt(0).toUpperCase()}-${crypto
-        .createHash('md5')
-        .update(req.body.registerEmail)
-        .digest('hex')}`,
+      user_uuid: user_uuid,
+      userId: `${req.body.role.charAt(0).toUpperCase()}${user_uuid.substring(0,6)}${latestUser?latestUser.ID + 1:0}`,
       firstName: req.body.registerName,
       middleName: '',
       lastName: req.body.registerSurname,
@@ -146,33 +143,21 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
 
     models.User.create(user)
       .then(_ => {
-        models.User.findAll({
+        models.User.findOne({
           attributes: [
             'ID',
             'firstName',
-            'middleName',
             'lastName',
-            'phoneNumber',
             'email',
-            'role',
-            'createdAt',
-            'farmName',
-            'registrationChannel',
-            'nationalIdPhotoHash',
-            'organisationName',
-            'organisationType',
-            'city',
           ],
           where: {
+            user_uuid: user_uuid,
             email: req.body.registerEmail,
           },
         })
-          .then(users => {
-            if (users.length === 0) {
-              res.status(404).send({ message: 'user not found' });
-            } else {
-              // res.status(201).send(users[0]);
-              let mailOptions = {
+          .then(user => {
+            if (user) {
+              const mailOptions = {
                 to: process.env.TEST_EMAIL_ADDRESS,
                 subject: 'Foodprint registration confirmation email',
                 html: `<p>Thank you for joining FoodPrint.</p>
@@ -189,7 +174,9 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
               } catch (e) {
                 console.log('Error sending email - ', e);
               }
-
+            }
+            else {
+              res.status(404).send({ message: 'user not found' });
             }
           })
           .catch(err => {

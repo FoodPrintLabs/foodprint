@@ -7,6 +7,6 @@ const CUSTOM_ENUMS = {
   DEVELOPMENT: 'development',
   OZCF: 'ozcf',
   FILE_STRATEGY: 'file-local',
-  DB_STRATEGY: 'db-local'
+  DB_STRATEGY: 'db-local',
 };
 module.exports = CUSTOM_ENUMS;
