@@ -105,16 +105,18 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
   const confirmationCode = jwt.sign({ email: req.body.registerEmail }, process.env.TOKEN_SIGN);
-  const latestUser =  await models.User.findOne({
-    attributes: [ 'ID'],
-    order: [[ 'ID', 'DESC' ]],
+  const latestUser = await models.User.findOne({
+    attributes: ['ID'],
+    order: [['ID', 'DESC']],
   });
   const user_uuid = uuidv4();
 
   try {
     let user = {
       user_uuid: user_uuid,
-      userId: `${req.body.role.charAt(0).toUpperCase()}${user_uuid.substring(0,6)}${latestUser?latestUser.ID + 1:0}`,
+      userId: `${req.body.role.charAt(0).toUpperCase()}${user_uuid.substring(0, 6)}${
+        latestUser ? latestUser.ID + 1 : 0
+      }`,
       firstName: req.body.registerName,
       middleName: '',
       lastName: req.body.registerSurname,
@@ -144,12 +146,7 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
     models.User.create(user)
       .then(_ => {
         models.User.findOne({
-          attributes: [
-            'ID',
-            'firstName',
-            'lastName',
-            'email',
-          ],
+          attributes: ['ID', 'firstName', 'lastName', 'email'],
           where: {
             user_uuid: user_uuid,
             email: req.body.registerEmail,
@@ -174,8 +171,7 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
               } catch (e) {
                 console.log('Error sending email - ', e);
               }
-            }
-            else {
+            } else {
               res.status(404).send({ message: 'user not found' });
             }
           })

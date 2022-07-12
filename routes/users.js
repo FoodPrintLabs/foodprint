@@ -133,7 +133,6 @@ router.post(
   }
 );
 
-
 router.post(
   '/save',
   upload.none(),
@@ -172,18 +171,23 @@ router.post(
       req.flash('error', errors);
       res.redirect('/app/user/management');
     } else {
-
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.viewmodal_user_password, salt);
-      const confirmationCode = jwt.sign({ email: req.body.viewmodal_user_email }, process.env.TOKEN_SIGN);
-      const latestUser =  await models.User.findOne({
-        attributes: [ 'ID'],
-        order: [[ 'ID', 'DESC' ]],
+      const confirmationCode = jwt.sign(
+        { email: req.body.viewmodal_user_email },
+        process.env.TOKEN_SIGN
+      );
+      const latestUser = await models.User.findOne({
+        attributes: ['ID'],
+        order: [['ID', 'DESC']],
       });
       const user_uuid = uuidv4();
       const data = {
         user_uuid: user_uuid,
-        userId: `${req.body.viewmodal_user_role.charAt(0).toUpperCase()}${user_uuid.substring(0,6)}${latestUser?latestUser.ID + 1:0}`,
+        userId: `${req.body.viewmodal_user_role.charAt(0).toUpperCase()}${user_uuid.substring(
+          0,
+          6
+        )}${latestUser ? latestUser.ID + 1 : 0}`,
         firstName: req.body.viewmodal_user_firstName,
         lastName: req.body.viewmodal_user_lastName,
         email: req.body.viewmodal_user_email,
@@ -192,16 +196,13 @@ router.post(
         isAdminVerified: req.body.viewmodal_user_profile,
         isEmailVerified: true,
         password: hashedPassword,
-        emailVerificationToken: confirmationCode
+        emailVerificationToken: confirmationCode,
       };
 
       try {
         models.User.create(data)
           .then(_ => {
-            req.flash(
-              'success',
-              'User entry added successfully'
-            );
+            req.flash('success', 'User entry added successfully');
             res.redirect('/app/user/management');
           })
           .catch(err => {
@@ -221,13 +222,7 @@ router.post(
 router.post(
   '/delete',
   upload.none(),
-  [
-    check('viewmodal_user_uuid', 'User ID value is not valid')
-      .not()
-      .isEmpty()
-      .trim()
-      .escape(),
-  ],
+  [check('viewmodal_user_uuid', 'User ID value is not valid').not().isEmpty().trim().escape()],
   function (req, res) {
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       models.User.destroy({
@@ -246,16 +241,11 @@ router.post(
           req.flash('error', err.message);
           res.redirect('/app/user/management');
         });
-    }
-    else {
-      req.flash(
-        'error',
-        'Not authorised'
-      );
+    } else {
+      req.flash('error', 'Not authorised');
       res.redirect('/app/user/management');
     }
   }
 );
-
 
 module.exports = router;
