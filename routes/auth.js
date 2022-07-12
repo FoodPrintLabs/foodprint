@@ -3,8 +3,8 @@ var router = express.Router();
 var passport = require('passport');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 var fs = require('fs').promises;
-const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
-const upload = multer({ dest: './static/images/id_images/' }); //path.join(__dirname, 'static/images/produce_images/)
+const multer = require('multer');
+const upload = multer({ dest: './static/images/id_images/' });
 
 const uuidv4 = require('uuid/v4');
 var initModels = require('../models/init-models');

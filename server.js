@@ -261,20 +261,6 @@ passport.use(
         .catch(err => {
           return cb(err);
         });
-      /*db.users.findByUsername(username, function (err, user) {
-        if (err) {
-          return cb(err);
-        }
-        if (!user) {
-          return cb(null, false, { message: 'Incorrect username.' });
-        }
-        if (user.password != password) {
-          return cb(null, false, { message: 'Incorrect password.' });
-        }
-        // If the credentials are valid, the verify callback invokes done to
-        // supply Passport with the user that authenticated.
-        return cb(null, user);
-      });*/
     }
   )
 );
