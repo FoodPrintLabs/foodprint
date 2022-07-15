@@ -21,61 +21,64 @@
     </div>
     
     <% include ./partials/notificationbar %>
-
-    <br>
-      <table class="table table-hover table-sm" id="configtable">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Log ID</th>
-            <th scope="col">QR ID</th>
-            <th scope="col">QR URL</th>
-            <th scope="col">Market ID</th>
-            <th scope="col">Request Host</th>
-            <th scope="col">Request origin</th>
-            <th scope="col">Request User Agent</th>
-            <th scope="col">Log Date Time</th>
-            <th width="200px">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if(data.length){
-
-              for(var i = 0; i< data.length; i++) {%>
-              <tr>
-                <th scope="row"><%= (i+1) %></th>
-                <td><%= data[i].logid%></td>
-                <td><%= data[i].qrid%></td>
-                <td><%= data[i].qrurl%></td>
-                <td><%= data[i].marketid%></td>
-                <td><%= data[i].request_host%></td>
-                <td><%= data[i].request_origin%></td>
-                <td><%= data[i].request_useragent%></td>
-                <td><%= data[i].logdatetime%></td>
-                <td>
-                    <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-logid="<%= data[i].logid%>"
-                      data-qrid="<%= data[i].qrid%>" data-qrurl="<%= data[i].qrurl%>" data-marketid="<%= data[i].marketid%>"
-                      data-marketid="<%= data[i].marketid%>" data-request_host="<%= data[i].request_host%>" data-request_origin="<%= data[i].request_origin%>"
-                      data-request_useragent="<%= data[i].request_useragent%>" data-logdatetime="<%= data[i].logdatetime%>">Edit</a>
-                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-logid2="<%= data[i].logid%>"
-                       data-qrid2="<%= data[i].qrid%>">Delete</a>
-                </td>
-              </tr>
-              <% }
-
-           }else{ %>
-               <tr>
-                  <td colspan="5">No QR Configurations</td>
-               </tr>
-            <% } %>
-
-        </tbody>
-    </table>
+    <!--QR Code Section-->
+    <h4>Codes</h4>
+    <div class="row" id="qrcoderows">
+     
+    <div class="col-4 col-lg-12 col-xl-12" >
+    
+    <!--Check QR Code availability-->
+    <% 
+      if(data.length) {
+        for(var i = 0; i< data.length; i++){ 
+    %>
+    <!--QR CODE CARD-->
+    <div class="card col-2 col-lg-2 col-xl-2" style="width: 15.5rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
+        box-shadow: 2px 2px 4px 5px #ccc;">
+          <div class="card-header">
+          <p class="card-title h4">QR CODE - <%=data[i].qrcode_company_name%></p> 
+          </div>
+          <div class="card-body">
+            <div class="card-text">
+              <b>Description:</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_description%></div>
+              <b>Product:</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_product_name%> </div>
+              <b>Product Description:</b><div style="width: 15rem; height: 6rem; overflow: auto;"> <%=data[i].qrcode_product_description%> </div>       
+            </div>
+            <div class="card-footer">
+            <a href="javascript:void(0);" class="btn-sm btn-info view " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>"
+              data-qrcode_company_name="<%= data[i].qrcode_company_name%>" data-qrcode_description="<%= data[i].qrcode_description%>" 
+              data-qrcode_company_founded="<%= data[i].qrcode_company_founded%>" data-qrcode_product_name="<%= data[i].qrcode_product_name%>"
+              data-qrcode_product_description="<%= data[i].qrcode_product_description%>"  
+              data-qrcode_contact_email="<%= data[i].qrcode_contact_email%>" data-qrcode_facebook="<%= data[i].qrcode_facebook%>"
+              data-qrcode_twitter="<%= data[i].qrcode_twitter%>" data-qrcode_instagram="<%= data[i].qrcode_instagram%>"
+              data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>" data-qrcode_url="<%= data[i].qrcode_url%>"
+                data-qrcode_website="<%= data[i].qrcode_website%>">View</a>
+            <a href="javascript:void(0);" class="btn-sm btn-success edit " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>"
+              data-qrcode_company_name="<%= data[i].qrcode_company_name%>" data-qrcode_description="<%= data[i].qrcode_description%>" 
+              data-qrcode_company_founded="<%= data[i].qrcode_company_founded%>" data-qrcode_product_name="<%= data[i].qrcode_product_name%>"
+              data-qrcode_product_description="<%= data[i].qrcode_product_description%>"  
+              data-qrcode_contact_email="<%= data[i].qrcode_contact_email%>" data-qrcode_facebook="<%= data[i].qrcode_facebook%>"
+              data-qrcode_twitter="<%= data[i].qrcode_twitter%>" data-qrcode_instagram="<%= data[i].qrcode_instagram%>"
+              data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>"
+                data-qrcode_website="<%= data[i].qrcode_website%>"  data-qrcode_url="<%= data[i].qrcode_url%>" >Edit</a>
+            <a href="/app/qrcode/attribute/<%= data[i].qrcode_logid%>"  class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Attributes</a>
+            <a href="" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Download</a>
+            <a href="javascript:void(0);" class="btn-sm btn-danger delete " data-qrcode_logid2="<%= data[i].qrcode_logid%>"
+              data-qrcode_company_name2="<%= data[i].qrcode_company_name%>" style="padding-right: 1rem; padding-left: 1rem;">Delete</a>
+              </div>
+          </div>
+        </div>
+        
+        <%}}else{ %>
+             <p colspan="5">No QR Configurations</p>
+       <% } %>
+      </div>
+    </div>
    </div>
    <!-- END TABLE-->
 
    <!-- Modal Add QR CODE Configuration-->
-	  <form action="/app/qrcount/save" method="post">
+	  <form action="/app/qrcode/save" method="post">
         <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
            <div class="modal-content">
@@ -86,21 +89,54 @@
                </button>
              </div>
              <div class="modal-body">
+              <div id="modalBodyContainer">
                <div class="form-group">
-                   <label for="config_name">Config Name</label>
-                   <input type="text" name="config_name" class="form-control" placeholder="Config Name" required>
+                   <label for="qrcode_company_name">Company Name</label>
+                   <input type="text" name="qrcode_company_name" class="form-control" placeholder="Company Name" required>
                </div>
 
                <div class="form-group">
-                   <label for="config_description">Config Description</label>
-                   <input type="text" name="config_description" class="form-control" placeholder="Config Description" required>
-               </div>
-
-               <div class="form-group">
-                   <label for="config_value">Config Value</label>
-                   <input type="text" name="config_value" class="form-control" placeholder="Config Value" required>
-               </div>
+                <label for="qrcode_company_founded">Year founded</label>
+                <input type="text" name="qrcode_company_founded" class="form-control" placeholder="Year founded" required>
+                </div>
+                <div class="form-group">
+                  <label for="qrcode_contact_email">Email Address</label>
+                  <input type="text" name="qrcode_contact_email" class="form-control" placeholder="Email Address" required>
+              </div>
+              <div class="form-group">
+                <label for="qrcode_website">Company website</label>
+                <input type="text" name="qrcode_website" class="form-control" placeholder="Company website" required>
+                </div>
+                <div class="form-group">
+                  <label for="qrcode_facebook">Facebook</label>
+                  <input type="text" name="qrcode_facebook" class="form-control" placeholder="Facebook" >
+              </div>
+              <div class="form-group">
+                <label for="qrcode_twitter">Twitter</label>
+                <input type="text" name="qrcode_twitter" class="form-control" placeholder="Twitter" >
+            </div>
+            <div class="form-group">
+              <label for="qrcode_instagram">Instagram</label>
+              <input type="text" name="qrcode_instagram" class="form-control" placeholder="Instagram" >
+          </div>
+          <div class="form-group">
+            <label for="qrcode_url">QR Code URL</label>
+            <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="URL" required>
+        </div>
+              <div class="form-group">
+            <label for="qrcode_description">QR Code description</label>
+            <input type="text" name="qrcode_description" class="form-control" placeholder="QR Code description" required>
+                </div>
+                <div class="form-group">
+                  <label for="qrcode_product_name">Product Name</label>
+                  <input type="text" name="qrcode_product_name" class="form-control" placeholder="Product Name" required>
+                </div>
+                <div class="form-group">
+                  <label for="qrcode_product_description">Product Description</label>
+                  <input type="text" name="qrcode_product_description" class="form-control" placeholder="Product Description" required>
+                </div>
              </div>
+            </div>
              <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                <button type="submit" class="btn btn-primary">Save</button>
@@ -124,19 +160,54 @@
             </div>
             <div class="modal-body">
               <div class="form-group">
-                  <label for="config_name">Config Name</label>
-                  <input type="text" name="config_name" class="form-control config_name" placeholder="Config Name" required>
+                <label for="qrcode_logid">QRCODE ID</label>
+                <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QR CODE ID" readonly>
+            </div>
+              <div class="form-group">
+                  <label for="qrcode_company_name">Company Name</label>
+                  <input type="text" name="qrcode_company_name" class="form-control qrcode_company_name" placeholder="Company Name" required>
               </div>
 
               <div class="form-group">
-                  <label for="config_description">Config Description</label>
-                  <input type="text" name="config_description" class="form-control config_description" placeholder="Config Description" required>
-              </div>
-
-              <div class="form-group">
-                  <label for="config_value">Config Value</label>
-                  <input type="text" name="config_value" class="form-control config_value" placeholder="Config Value" required>
-              </div>
+               <label for="qrcode_company_founded">Year founded</label>
+               <input type="text" name="qrcode_company_founded" class="form-control qrcode_company_founded" placeholder="Year founded" required>
+               </div>
+               <div class="form-group">
+                 <label for="qrcode_contact_email">Email Address</label>
+                 <input type="text" name="qrcode_contact_email" class="form-control qrcode_contact_email" placeholder="Email Address" required>
+             </div>
+             <div class="form-group">
+               <label for="qrcode_website">Company website</label>
+               <input type="text" name="qrcode_website" class="form-control qrcode_website" placeholder="Company website" required>
+               </div>
+               <div class="form-group">
+                 <label for="qrcode_facebook">Facebook</label>
+                 <input type="text" name="qrcode_facebook" class="form-control qrcode_facebook" placeholder="Facebook">
+             </div>
+             <div class="form-group">
+               <label for="qrcode_twitter">Twitter</label>
+               <input type="text" name="qrcode_twitter" class="form-control qrcode_twitter" placeholder="Twitter">
+           </div>
+           <div class="form-group">
+             <label for="qrcode_instagram">Instagram</label>
+             <input type="text" name="qrcode_instagram" class="form-control qrcode_instagram" placeholder="Instagram">
+         </div>
+         <div class="form-group">
+          <label for="qrcode_url">QR Code URL</label>
+          <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="URL" required>
+      </div>
+             <div class="form-group">
+           <label for="qrcode_description">QR Code description</label>
+           <input type="text" name="qrcode_description" class="form-control qrcode_description" placeholder="QR Code description" required>
+               </div>
+               <div class="form-group">
+                 <label for="qrcode_product_name">Product Name</label>
+                 <input type="text" name="qrcode_product_name" class="form-control qrcode_product_name" placeholder="Product Name" required>
+               </div>
+               <div class="form-group">
+                 <label for="qrcode_product_description">Product Description</label>
+                 <input type="text" name="qrcode_product_description" class="form-control qrcode_product_description" placeholder="Product Description" required>
+               </div>
             </div>
             <div class="modal-footer">
               <input type="hidden" name="config_id" class="config_id">
@@ -149,21 +220,102 @@
   </form>
    <!-- End Modal Update QR CODE Configuration-->
 
+   <!-- Modal View QR CODE Configuration-->
+   <form action="" method="post">
+    <div class="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">View Configuration</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+          <div class="form-group">
+            <label for="qrcode_logid">QRCODE ID</label>
+            <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QR CODE ID" readonly>
+        </div>
+           <div class="form-group">
+               <label for="qrcode_company_name">Company Name</label>
+               <input type="text" name="qrcode_company_name" class="form-control qrcode_company_name" placeholder="Company Name" readonly>
+           </div>
+
+           <div class="form-group">
+            <label for="qrcode_company_founded">Year founded</label>
+            <input type="text" name="qrcode_company_founded" class="form-control qrcode_company_founded" placeholder="Year founded" readonly>
+            </div>
+            <div class="form-group">
+              <label for="qrcode_contact_email">Email Address</label>
+              <input type="text" name="qrcode_contact_email" class="form-control qrcode_contact_email" placeholder="Email Address" readonly>
+          </div>
+          <div class="form-group">
+            <label for="qrcode_website">Company website</label>
+            <input type="text" name="qrcode_website" class="form-control qrcode_website" placeholder="Company website" readonly>
+            </div>
+            <div class="form-group">
+              <label for="qrcode_facebook">Facebook</label>
+              <input type="text" name="qrcode_facebook" class="form-control qrcode_facebook" placeholder="Facebook" readonly>
+          </div>
+          <div class="form-group">
+            <label for="qrcode_twitter">Twitter</label>
+            <input type="text" name="qrcode_twitter" class="form-control qrcode_twitter" placeholder="Twitter" readonly>
+        </div>
+        <div class="form-group">
+          <label for="qrcode_instagram">Instagram</label>
+          <input type="text" name="qrcode_instagram" class="form-control qrcode_instagram" placeholder="Instagram" readonly>
+      </div>
+      <div class="form-group">
+        <label for="qrcode_url">QR Code URL</label>
+        <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="URL" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="qrcode_url">QR Image</label>
+      <!--QR CODE IMAGE FROM DIGITAL OCEAN SPACES-->
+  </div>
+          <div class="form-group">
+        <label for="qrcode_description">QR Code description</label>
+        <input type="text" name="qrcode_description" class="form-control qrcode_description" placeholder="QR Code description" readonly>
+            </div>
+            <div class="form-group">
+              <label for="qrcode_product_name">Product Name</label>
+              <input type="text" name="qrcode_product_name" class="form-control qrcode_product_name" placeholder="Product Name" readonly>
+            </div>
+            <div class="form-group">
+              <label for="qrcode_product_description">Product Description</label>
+              <input type="text" name="qrcode_product_description" class="form-control qrcode_product_description" placeholder="Product Description" readonly>
+            </div>
+         </div>
+         <div class="modal-footer">
+           <input type="hidden" name="config_id" class="config_id">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
+       </div>
+     </div>
+    </div>
+</form>
+<!-- End Modal View QR CODE Configuration-->
+
 	 <!-- Modal Delete QR CODE Configuration-->
  	  <form id="add-row-form" action="/app/qrcode/delete" method="post">
  	     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  	        <div class="modal-dialog">
  	           <div class="modal-content">
  	               <div class="modal-header">
-					  <h5 class="modal-title" id="myModalLabel">Delete Configuration</h5>
-                       <strong>Are you sure to delete this data?</strong>
+					  <h5 class="modal-title" id="myModalLabel">Delete QR Code</h5>
+                       <strong>Are you sure to delete this QR Code?</strong>
  	                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
  	               </div>
  	               <div class="modal-body">
                        <div class="form-group">
-                           <label for="config_name2">Config Name</label>
-                           <input type="text" name="config_name2" id="config_name2" class="form-control config_name2" readonly>
+                           <label for="qrcode_logid2">QR Code ID</label>
+                           <input type="text" name="qrcode_logid2" id="qrcode_logid2" class="form-control qrcode_logid2" readonly>
                        </div>
+                       <div class="form-group">
+                        <label for="qrcode_company_name2">Company Name</label>
+                        <input type="text" name="qrcode_company_name2" id="qrcode_company_name2" class="form-control qrcode_company_name2" readonly>
+                    </div>
  	               </div>
  	               <div class="modal-footer">
 						<input type="hidden" name="config_id2" class="form-control config_id2" required>
@@ -187,26 +339,80 @@
   <script>
     $(document).ready(function(){
 
+  
         //showing data to edit modal
-        $('#configtable').on('click','.edit',function(){
-            var config_id = $(this).data('configid');
-            var config_name = $(this).data('configname');
-            var config_description = $(this).data('configdescription');
-            var config_value = $(this).data('configvalue');
+        $('#qrcoderows').on('click','.edit',function(){
+            var qrcode_logid = $(this).data('qrcode_logid');
+            var qrcode_company_name = $(this).data('qrcode_company_name');
+            var qrcode_description = $(this).data('qrcode_description');
+            var qrcode_company_founded = $(this).data('qrcode_company_founded');
+            var qrcode_product_name = $(this).data('qrcode_product_name');
+            var qrcode_contact_email = $(this).data('qrcode_contact_email');
+            var qrcode_facebook = $(this).data('qrcode_facebook');
+            var qrcode_twitter = $(this).data('qrcode_twitter');
+            var qrcode_instagram = $(this).data('qrcode_instagram');
+            var user_logid = $(this).data('user_logid');
+            var qrcode_website = $(this).data('qrcode_website');
+            var qrcode_product_description = $(this).data('qrcode_product_description');
+            var qrcode_logdatetime = $(this).data('qrcode_logdatetime');
+            var qrcode_url = $(this).data('qrcode_url');
             $('#EditModal').modal('show');
-            $('.config_name').val(config_name);
-            $('.config_description').val(config_description);
-            $('.config_value').val(config_value);
-            $('.config_id').val(config_id);
+            $('.qrcode_logid').val(qrcode_logid);
+            $('.qrcode_company_name').val(qrcode_company_name);
+            $('.qrcode_description').val(qrcode_description);
+            $('.qrcode_company_founded').val(qrcode_company_founded);
+            $('.qrcode_product_name').val(qrcode_product_name);
+            $('.qrcode_contact_email').val(qrcode_contact_email);
+            $('.qrcode_facebook').val(qrcode_facebook);
+            $('.qrcode_twitter').val(qrcode_twitter);
+            $('.qrcode_instagram').val(qrcode_instagram);
+            $('.user_logid').val(user_logid);
+            $('.qrcode_website').val(qrcode_website);
+            $('.qrcode_product_description').val(qrcode_product_description);
+            $('.qrcode_logdatetime').val(qrcode_logdatetime);
+            $('.qrcode_url').val(qrcode_url);
       });
+      //showing data to view modal
+      $('#qrcoderows').on('click','.view',function(){
+            var qrcode_logid = $(this).data('qrcode_logid');
+            var qrcode_company_name = $(this).data('qrcode_company_name');
+            var qrcode_description = $(this).data('qrcode_description');
+            var qrcode_company_founded = $(this).data('qrcode_company_founded');
+            var qrcode_product_name = $(this).data('qrcode_product_name');
+            var qrcode_contact_email = $(this).data('qrcode_contact_email');
+            var qrcode_facebook = $(this).data('qrcode_facebook');
+            var qrcode_twitter = $(this).data('qrcode_twitter');
+            var qrcode_instagram = $(this).data('qrcode_instagram');
+            var user_logid = $(this).data('user_logid');
+            var qrcode_website = $(this).data('qrcode_website');
+            var qrcode_product_description = $(this).data('qrcode_product_description');
+            var qrcode_logdatetime = $(this).data('qrcode_logdatetime');
+            var qrcode_url = $(this).data('qrcode_url');
+            $('#ViewModal').modal('show');
+            $('.qrcode_logid').val(qrcode_logid);
+            $('.qrcode_company_name').val(qrcode_company_name);
+            $('.qrcode_description').val(qrcode_description);
+            $('.qrcode_company_founded').val(qrcode_company_founded);
+            $('.qrcode_product_name').val(qrcode_product_name);
+            $('.qrcode_contact_email').val(qrcode_contact_email);
+            $('.qrcode_facebook').val(qrcode_facebook);
+            $('.qrcode_twitter').val(qrcode_twitter);
+            $('.qrcode_instagram').val(qrcode_instagram);
+            $('.user_logid').val(user_logid);
+            $('.qrcode_website').val(qrcode_website);
+            $('.qrcode_product_description').val(qrcode_product_description);
+            $('.qrcode_logdatetime').val(qrcode_logdatetime);
+            $('.qrcode_url').val(qrcode_url);
+            
+          })
 
         //showing delete record modal
-        $('#configtable').on('click','.delete',function(){
-            var config_id2 = $(this).data('configid2');
-            var config_name2 = $(this).data('configname2');
+        $('#qrcoderows').on('click','.delete',function(){
+            var qrcode_logid2 = $(this).data('qrcode_logid2');
+            var qrcode_company_name2 = $(this).data('qrcode_company_name2');
             $('#DeleteModal').modal('show');
-            $('.config_id2').val(config_id2);
-            $('.config_name2').val(config_name2);
+            $('.qrcode_logid2').val(qrcode_logid2);
+            $('.qrcode_company_name2').val(qrcode_company_name2);
         });
     });
     </script>
