@@ -30,12 +30,26 @@ router.get(
           'role',
           'isEmailVerified',
           'isAdminVerified',
+          'farmName',
+          'organisationName',
+          'organisationType',
+          'city',
+          'nationalIdPhotoHash'
         ],
         /*where: {
           role: { [Op.notIn]: [ROLES.Admin, ROLES.Superuser] },
         },*/
       })
         .then(user_rows => {
+          for (let i = 0; i < user_rows.length; i++) {
+            if (user_rows[i].nationalIdPhotoHash === null) {
+              user_rows[i].nationalIdPhotoHash = '';
+            } else {
+              user_rows[i].nationalIdPhotoHash =
+                'data:image/png;base64,' +
+                Buffer.from(user_rows[i].nationalIdPhotoHash, 'binary').toString('base64');
+            }
+          }
           res.render('user_management', {
             title: 'FoodPrint - User management',
             user: req.user,
@@ -104,6 +118,14 @@ router.post(
         phoneNumber: req.body.viewmodal_user_phoneNumber,
         role: req.body.viewmodal_user_role,
         isAdminVerified: req.body.viewmodal_user_profile,
+        ...(req.body.viewmodal_user_role === ROLES.Farmer && {
+          farmName: req.body.viewmodal_user_farmname }),
+        ...(req.body.viewmodal_user_role === ROLES.Intermediary && {
+          organisationName: req.body.viewmodal_user_orgname,
+          organisationType: req.body.viewmodal_user_orgtype,
+        }),
+        ...(req.body.viewmodal_user_role === ROLES.Agent && {
+          city: req.body.viewmodal_user_city }),
       };
 
       try {
