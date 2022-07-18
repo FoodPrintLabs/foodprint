@@ -157,7 +157,7 @@ app.use('/app/email', emailRouter);
 
 app.use('/', testRouter);
 app.use('/', searchRouter);
-app.use('/', qrCodeRouter);
+app.use('/app/', qrCodeRouter);
 
 app.use('/app/api/v1', apiV1Router);
 
