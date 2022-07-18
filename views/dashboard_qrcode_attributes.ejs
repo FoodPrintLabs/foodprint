@@ -16,6 +16,8 @@
    <!-- START TABLE-->
    <div class="container" style="width: 100%;">
     <h3>Attribute configuration</h3>
+
+    <% include ./partials/notificationbar %>
     <% 
       if(qrcodedata.length) {
         for(var i = 0; i< qrcodedata.length; i++){ 
@@ -46,9 +48,8 @@
     <div>
         <button class="btn btn-primary btn-sm" data-toggle="modal" style="margin: 5px;"data-target="#myModalAdd">Add New Attribute</button>
     </div>
-    </div
+  </div>
     <br>
-    <% include ./partials/notificationbar %>
     <!--QR Code Section-->
     <div class="" id="attributeRows">
     <div class="col-12 col-lg-12 col-xl-12" >
