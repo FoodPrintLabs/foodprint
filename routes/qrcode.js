@@ -688,16 +688,24 @@ router.get(
         },
         order: [['pk', 'DESC']],
       })
-        .then(rows => {
-          res.render('dashboard_qrcode_attributes', {
-            page_title: 'FoodPrint - QR Code Dashboard',
-            data: rows,
-            qrdata: req.params.qrid,
-            user: req.user,
-            filter_data: '',
-            page_name: 'dashboard_qrcode_attributes',
-          });
-        })
+        .then(rows =>
+          models.FoodprintQRCode.findAll({
+            where: {
+              qrcode_logid: req.params.qrid,
+            },
+            order: [['pk', 'DESC']],
+          }).then(qrcoderows => {
+            res.render('dashboard_qrcode_attributes', {
+              page_title: 'FoodPrint - QR Code Dashboard',
+              data: rows,
+              qrdata: req.params.qrid,
+              user: req.user,
+              qrcodedata: qrcoderows,
+              filter_data: '',
+              page_name: 'dashboard_qrcode_attributes',
+            });
+          })
+        )
         .catch(err => {
           console.log('All dashboard_qrcode_attributes err:' + err);
           req.flash('error', err);
@@ -705,6 +713,7 @@ router.get(
             page_title: 'FoodPrint - QR Code Dashboard',
             data: '',
             qrdata: '',
+            qrcodedata: '',
             filter_data: '',
             user: req.user,
             page_name: 'dashboard_qrcode_attributes',
@@ -716,6 +725,7 @@ router.get(
         title: 'Error',
         user: req.user,
         filter_data: '',
+        qrcodedata: '',
         page_name: 'error',
       });
     }
