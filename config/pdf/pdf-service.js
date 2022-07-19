@@ -19,6 +19,8 @@ function buildPDF(heading, data, dataCallback, endCallback) {
     width: 410,
     align: 'center',
   });
+
+  // finalize the PDF and end the stream
   doc.end();
 }
 

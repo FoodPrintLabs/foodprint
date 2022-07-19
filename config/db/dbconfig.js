@@ -1,27 +1,75 @@
 require('dotenv').config();
 module.exports = {
   development: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    host: process.env.DB_HOST,
+    url: process.env.DB_URL,
     dialect: process.env.DB_DIALECT,
     logging: true,
+    dialectOptions: {
+      ssl: {
+        /* <----- Add SSL option for Postgres */
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
   },
   test: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    host: process.env.DB_HOST,
+    url: process.env.DB_URL,
     dialect: process.env.DB_DIALECT,
     logging: true,
+    dialectOptions: {
+      ssl: {
+        /* <----- Add SSL option for Postgres */
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  },
+  staging: {
+    url: process.env.DB_URL,
+    dialect: process.env.DB_DIALECT,
+    logging: true,
+    dialectOptions: {
+      ssl: {
+        /* <----- Add SSL option for Postgres */
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
   },
   production: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    host: process.env.DB_HOST,
+    url: process.env.DB_URL,
     dialect: process.env.DB_DIALECT,
     logging: false,
+    dialectOptions: {
+      ssl: {
+        /* <----- Add SSL option for Postgres */
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
   },
 };
