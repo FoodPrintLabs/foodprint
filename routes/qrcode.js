@@ -10,7 +10,8 @@ var ROLES = require('../utils/roles');
 var QRCode = require('qrcode');
 var moment = require('moment'); //datetime
 var models = initModels(sequelise);
-
+var crypto = require('crypto');
+const hash = crypto.createHash('sha256');
 const env = process.env.NODE_ENV || 'development';
 
 //market checkin XmlHTTP request
@@ -505,13 +506,23 @@ router.post(
         page_name: 'dashboard_qrcode',
       }); //should add error array here
     } else {
-      var preURL = '';
       //check environment product was saved in for URL
-      if (process.env.NODE_ENV == 'production') {
-        preURL = 'app/qrcode/static/';
-      } else {
-        preURL = 'http://localhost:3000/app/qrcode/static/';
+      let host = req.get('host');
+      let protocol = 'https';
+      // if running in dev then protocol can be http
+      if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+        protocol = req.protocol;
       }
+      let supplier_product = (
+        req.body.qrcode_company_name +
+        req.body.qrcode_product_name +
+        req.body.qrcode_contact_email
+      )
+        .split(' ')
+        .join('');
+      let hashID = hash.update(supplier_product).digest('base64');
+      let qrURL = protocol + '://' + host + '/app/qrcode/static/' + hashID;
+
       let qrid = uuidv4();
       let data = {
         qrcode_logid: qrid,
@@ -522,11 +533,13 @@ router.post(
         qrcode_facebook: req.body.qrcode_facebook,
         qrcode_twitter: req.body.qrcode_twitter,
         qrcode_instagram: req.body.qrcode_instagram,
-        qrcode_url: preURL + qrid + '/' + req.body.qrcode_product_name.split(' ').join(''),
-        qrcode_image_url: preURL + qrid + '/' + req.body.qrcode_product_name.split(' ').join(''),
+        qrcode_url: qrURL,
+        qrcode_image_url: qrURL,
         qrcode_description: req.body.qrcode_description,
         qrcode_product_name: req.body.qrcode_product_name,
         qrcode_product_description: req.body.qrcode_product_description,
+        qrcode_hashid: hashID,
+        qrcode_supplier_product: supplier_product,
         user_email: req.user.email,
         qrcode_logdatetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       };
@@ -605,14 +618,6 @@ router.post(
         page_name: 'dashboard_qrcode',
       }); //should add error array here
     } else {
-      var preURL = '';
-      //check environment product was saved in for URL
-      if (process.env.NODE_ENV == 'production') {
-        preURL = 'app/qrcode/static/';
-      } else {
-        preURL = 'http://localhost:3000/app/qrcode/static/';
-      }
-      console.log(preURL);
       let data = {
         qrcode_logid: req.body.qrcode_logid,
         qrcode_company_name: req.body.qrcode_company_name,
@@ -622,10 +627,6 @@ router.post(
         qrcode_facebook: req.body.qrcode_facebook,
         qrcode_twitter: req.body.qrcode_twitter,
         qrcode_instagram: req.body.qrcode_instagram,
-        qrcode_url:
-          preURL + req.body.qrcode_logid + '/' + req.body.qrcode_product_name.split(' ').join(''),
-        qrcode_image_url:
-          preURL + req.body.qrcode_logid + '/' + req.body.qrcode_product_name.split(' ').join(''),
         qrcode_description: req.body.qrcode_description,
         qrcode_product_name: req.body.qrcode_product_name,
         qrcode_product_description: req.body.qrcode_product_description,
@@ -762,7 +763,7 @@ router.get(
 
 //ADD Attribute to QRCODE
 router.post(
-  '/qrcode/attribute/save/',
+  '/qrcode/attribute/save',
   [
     check('product_attribute', 'Your company name is not valid').not().isEmpty().trim().escape(),
     check('product_attribute_description', 'Your your founded year is not valid')
@@ -790,6 +791,7 @@ router.post(
         attribute_id: uuidv4(),
         product_attribute: req.body.product_attribute,
         product_attribute_description: req.body.product_attribute_description,
+        qrcode_hashid: req.body.qrcode_hashid,
       };
       try {
         models.FoodprintQRCodeProductAttributes.create(data)
@@ -912,20 +914,20 @@ router.post('/qrcode/attribute/delete/', [], function (req, res) {
 
 //Render qrcode attribute timeline EJS
 router.get(
-  '/qrcode/static/:qrid/:product',
+  '/qrcode/static/:hashID',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       models.FoodprintQRCodeProductAttributes.findAll({
         where: {
-          qrcode_logid: req.params.qrid,
+          qrcode_hashid: req.params.hashID,
         },
         order: [['pk', 'DESC']],
       })
         .then(rows =>
           models.FoodprintQRCode.findAll({
             where: {
-              qrcode_logid: req.params.qrid,
+              qrcode_hashid: req.params.hashID,
             },
             order: [['pk', 'DESC']],
           }).then(qrcoderows => {
