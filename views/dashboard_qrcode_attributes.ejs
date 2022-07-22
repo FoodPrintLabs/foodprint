@@ -26,17 +26,23 @@
     box-shadow: 2px 2px 4px 5px #ccc;">
           <div class="col-12 col-lg-12 col-xl-12" >
             <h4>QRCODE</h4>
-            <div class="col-4 col-lg-4 col-xl-4">
+            <div class="col-3 col-lg-3 col-xl-3">
               <p class="h4">Name</p>
+              <div style=" overflow: auto;">
               <%=qrcodedata[i].qrcode_company_name %>
             </div>
-            <div class="col-4 col-lg-4 col-xl-4">
+            </div>
+            <div class="col-3 col-lg-3 col-xl-3">
               <p class="h4">Product</p>
+              <div style=" overflow: auto;">
               <%=qrcodedata[i].qrcode_product_name %>
             </div>
-            <div class="col-4 col-lg-4 col-xl-4">
+            </div>
+            <div class="col-6 col-lg-6 col-xl-6">
               <p class="h4">URL</p>
+              <div style=" overflow: auto;">
               <%=qrcodedata[i].qrcode_url %>
+            </div>
             </div>
           </div>
           <br>
@@ -110,6 +116,10 @@
                 <label for="product_attribute_description">Attribute Description</label>
                 <input type="text" name="product_attribute_description" class="form-control product_attribute_description" placeholder="Attribute description" >
                 </div>
+                <div class="form-group">
+                  <label for="product_attribute_description">QRCODE Hash ID</label>
+                  <input type="text" name="qrcode_hashid" class="form-control qrcode_hashid" value="<%= qrcodedata[0].qrcode_hashid %>" readonly>
+                  </div>
              </div>
              <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -138,7 +148,7 @@
                     <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QRCODE ID" readonly>
                 </div>
                <div class="form-group">
-                   <label for="attribute_id">attribute ID</label>
+                   <label for="attribute_id">Attribute ID</label>
                    <input type="text" name="attribute_id" class="form-control attribute_id" placeholder="attribute ID" readonly>
                </div>
                <div class="form-group">
