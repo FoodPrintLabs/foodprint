@@ -45,7 +45,7 @@
               <b>Product Description:</b><div style="width: 15rem; height: 6rem; overflow: auto;"> <%=data[i].qrcode_product_description%> </div>       
             </div>
             <div class="card-footer">
-            <a href="javascript:void(0);" class="btn-sm btn-info view " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>"
+            <a href="javascript:void(0);" class="btn-sm btn-info view " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>" data-qrcode_hashid="<%= data[i].qrcode_hashid%>"
               data-qrcode_company_name="<%= data[i].qrcode_company_name%>" data-qrcode_description="<%= data[i].qrcode_description%>" 
               data-qrcode_company_founded="<%= data[i].qrcode_company_founded%>" data-qrcode_product_name="<%= data[i].qrcode_product_name%>"
               data-qrcode_product_description="<%= data[i].qrcode_product_description%>"  
@@ -62,7 +62,7 @@
               data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>"
                 data-qrcode_website="<%= data[i].qrcode_website%>" >Edit</a>
             <a href="/app/qrcode/attribute/<%= data[i].qrcode_logid%>"  class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Attributes</a>
-            <a href="" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Download</a>
+            <a href="<%= qrcodes[i]%>" download="<%= data[i].qrcode_product_name%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Download</a>
             <a href="javascript:void(0);" class="btn-sm btn-danger delete " data-qrcode_logid2="<%= data[i].qrcode_logid%>"
               data-qrcode_company_name2="<%= data[i].qrcode_company_name%>" style="padding-right: 1rem; padding-left: 1rem;">Delete</a>
               </div>
@@ -228,6 +228,10 @@
             <label for="qrcode_logid">QRCODE ID</label>
             <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QR CODE ID" readonly>
         </div>
+        <div class="form-group">
+          <label for="qrcode_hashid">HASH ID</label>
+          <input type="text" name="qrcode_hashid" class="form-control qrcode_hashid" placeholder="QR CODE Hash ID" readonly>
+      </div>
            <div class="form-group">
                <label for="qrcode_company_name">Company Name</label>
                <input type="text" name="qrcode_company_name" class="form-control qrcode_company_name" placeholder="Company Name" readonly>
@@ -330,7 +334,7 @@
   <script src="/js/custom.js"></script>
   <script>
     $(document).ready(function(){
-
+      
   
         //showing data to edit modal
         $('#qrcoderows').on('click','.edit',function(){
@@ -365,6 +369,7 @@
       //showing data to view modal
       $('#qrcoderows').on('click','.view',function(){
             var qrcode_logid = $(this).data('qrcode_logid');
+            var qrcode_hashid = $(this).data('qrcode_hashid');
             var qrcode_company_name = $(this).data('qrcode_company_name');
             var qrcode_description = $(this).data('qrcode_description');
             var qrcode_company_founded = $(this).data('qrcode_company_founded');
@@ -382,6 +387,7 @@
             
             $('#ViewModal').modal('show');
             $('.qrcode_logid').val(qrcode_logid);
+            $('.qrcode_hashid').val(qrcode_hashid);
             $('.qrcode_company_name').val(qrcode_company_name);
             $('.qrcode_description').val(qrcode_description);
             $('.qrcode_company_founded').val(qrcode_company_founded);
