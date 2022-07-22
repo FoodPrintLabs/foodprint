@@ -19,30 +19,26 @@
    <div class="container" style="width: 100%;">
        <% if(qrcode_data.length){%>
             <h4>Visualise your product</h4>
+            <h3 class="company-title text-center"><%=qrcode_data[0].qrcode_product_name%></h3>
+            <p class="text-center">
+                <%=qrcode_data[0].qrcode_product_description%><br>  
+                <b>Company: </b><%=qrcode_data[0].qrcode_company_name%><br>
+                <b>Founded: </b><%=qrcode_data[0].qrcode_company_founded%><br>
+                <b>Instagram: </b><%=qrcode_data[0].qrcode_instagram%><br>
+                <b>Twitter: </b><%=qrcode_data[0].qrcode_twitter%><br>
+                <b>Facebook: </b><%=qrcode_data[0].qrcode_facebook%><br>
+                <a href="http://<%=qrcode_data[0].qrcode_website%>" target="_blank"><%=qrcode_data[0].qrcode_website%> </a>
+            </p>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="main-timeline7">
-
-                                <!--Each timeline element-->
-                                <!--QR CODE DATA-->
-                                <a href="#" class="timeline">
-                                    <div class="timeline-icon"><i class="fas fa-qrcode"></i></div>
-                                    <div class="timeline-content">
-                                        <h3 class="title"><%=qrcode_data[0].qrcode_product_name%></h3>
-                                        <p class="description res-change">
-                                            <b>Product Description: </b><%=qrcode_data[0].qrcode_product_description%><br>  
-                                            <b>Company: </b><%=qrcode_data[0].qrcode_company_name%><br>
-                                            <b><%=qrcode_data[0].qrcode_website%></b> 
-                                        </p>
-                                    </div>
-                                </a>
 
                                 <!--For each attribute of QRCODE-->
                                 <% if(product_data.length){
                                       for(var i = 0; i < product_data.length; i++){ 
                                   %>
                                 <a href="#" class="timeline">
-                                    <div class="timeline-icon"><i class="fas fa-seedling"></i></div>
+                                    <div class="timeline-icon"><i class="fas fa-qrcode"></i></div>
                                     <div class="timeline-content">
                                         <h3 class="title"><%=product_data[i].product_attribute%></h3>
                                         <p class="description res-change">
@@ -63,7 +59,7 @@
            <h4>No QR Code Product data.</h4>
         <% } %>
         <div class="text-center">
-            <h6 class="sub-heading"><a href="https://www.foodprintapp.com/" target="_blank" >Powered by FoodPrint</a>  <i class="fas fa-bolt"></i></h6>
+            <h6 class="sub-heading"><a href="https://www.foodprintlabs.com.com/" target="_blank" >Powered by FoodPrint</a>  <i class="fas fa-bolt"></i></h6>
             
         </div>
     </div>
