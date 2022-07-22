@@ -512,8 +512,9 @@ router.post(
       } else {
         preURL = 'http://localhost:3000/app/qrcode/static/';
       }
+      let qrid = uuidv4();
       let data = {
-        qrcode_logid: uuidv4(),
+        qrcode_logid: qrid,
         qrcode_company_name: req.body.qrcode_company_name,
         qrcode_company_founded: req.body.qrcode_company_founded,
         qrcode_contact_email: req.body.qrcode_contact_email,
@@ -521,10 +522,8 @@ router.post(
         qrcode_facebook: req.body.qrcode_facebook,
         qrcode_twitter: req.body.qrcode_twitter,
         qrcode_instagram: req.body.qrcode_instagram,
-        qrcode_url:
-          preURL + req.body.qrcode_logid + '/' + req.body.qrcode_product_name.split(' ').join(''),
-        qrcode_image_url:
-          preURL + req.body.qrcode_logid + '/' + req.body.qrcode_product_name.split(' ').join(''),
+        qrcode_url: preURL + qrid + '/' + req.body.qrcode_product_name.split(' ').join(''),
+        qrcode_image_url: preURL + qrid + '/' + req.body.qrcode_product_name.split(' ').join(''),
         qrcode_description: req.body.qrcode_description,
         qrcode_product_name: req.body.qrcode_product_name,
         qrcode_product_description: req.body.qrcode_product_description,
