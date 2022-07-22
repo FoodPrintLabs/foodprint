@@ -11,6 +11,8 @@ var QRCode = require('qrcode');
 var moment = require('moment'); //datetime
 var models = initModels(sequelise);
 
+const env = process.env.NODE_ENV || 'development';
+
 //market checkin XmlHTTP request
 router.post(
   '/marketcheckin',
@@ -422,11 +424,19 @@ router.get(
         },
         order: [['pk', 'DESC']],
       })
-        .then(rows => {
+        .then(async rows => {
+          //create array of URL data
+          const qrcodes = [];
+          for (var i = 0; i < rows.length; i++) {
+            var res2 = await QRCode.toDataURL(rows[i].qrcode_url);
+            qrcodes.push(res2);
+          }
+          //console.log(qrcodes);
           res.render('dashboard_qrcode', {
             page_title: 'FoodPrint - QR Code Dashboard',
             data: rows,
             user: req.user,
+            qrcodes: qrcodes,
             filter_data: '',
             page_name: 'dashboard_qrcode',
           });
@@ -495,6 +505,13 @@ router.post(
         page_name: 'dashboard_qrcode',
       }); //should add error array here
     } else {
+      var preURL = '';
+      //check environment product was saved in for URL
+      if (process.env.NODE_ENV == 'production') {
+        preURL = 'app/qrcode/static/';
+      } else {
+        preURL = 'http://localhost:3000/app/qrcode/static/';
+      }
       let data = {
         qrcode_logid: uuidv4(),
         qrcode_company_name: req.body.qrcode_company_name,
@@ -504,8 +521,10 @@ router.post(
         qrcode_facebook: req.body.qrcode_facebook,
         qrcode_twitter: req.body.qrcode_twitter,
         qrcode_instagram: req.body.qrcode_instagram,
-        qrcode_url: req.body.qrcode_url,
-        qrcode_image_url: qrcode_image_url,
+        qrcode_url:
+          preURL + req.body.qrcode_logid + '/' + req.body.qrcode_product_name.split(' ').join(''),
+        qrcode_image_url:
+          preURL + req.body.qrcode_logid + '/' + req.body.qrcode_product_name.split(' ').join(''),
         qrcode_description: req.body.qrcode_description,
         qrcode_product_name: req.body.qrcode_product_name,
         qrcode_product_description: req.body.qrcode_product_description,
@@ -587,6 +606,14 @@ router.post(
         page_name: 'dashboard_qrcode',
       }); //should add error array here
     } else {
+      var preURL = '';
+      //check environment product was saved in for URL
+      if (process.env.NODE_ENV == 'production') {
+        preURL = 'app/qrcode/static/';
+      } else {
+        preURL = 'http://localhost:3000/app/qrcode/static/';
+      }
+      console.log(preURL);
       let data = {
         qrcode_logid: req.body.qrcode_logid,
         qrcode_company_name: req.body.qrcode_company_name,
@@ -596,8 +623,10 @@ router.post(
         qrcode_facebook: req.body.qrcode_facebook,
         qrcode_twitter: req.body.qrcode_twitter,
         qrcode_instagram: req.body.qrcode_instagram,
-        qrcode_url: req.body.qrcode_url,
-        qrcode_image_url: qrcode_image_url,
+        qrcode_url:
+          preURL + req.body.qrcode_logid + '/' + req.body.qrcode_product_name.split(' ').join(''),
+        qrcode_image_url:
+          preURL + req.body.qrcode_logid + '/' + req.body.qrcode_product_name.split(' ').join(''),
         qrcode_description: req.body.qrcode_description,
         qrcode_product_name: req.body.qrcode_product_name,
         qrcode_product_description: req.body.qrcode_product_description,
@@ -881,5 +910,61 @@ router.post('/qrcode/attribute/delete/', [], function (req, res) {
       });
   }
 });
+
+//Render qrcode attribute timeline EJS
+router.get(
+  '/qrcode/static/:qrid/:product',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintQRCodeProductAttributes.findAll({
+        where: {
+          qrcode_logid: req.params.qrid,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows =>
+          models.FoodprintQRCode.findAll({
+            where: {
+              qrcode_logid: req.params.qrid,
+            },
+            order: [['pk', 'DESC']],
+          }).then(qrcoderows => {
+            res.render('qrcode_product', {
+              page_title: 'FoodPrint - QR Code Product',
+              product_data: rows,
+              qrdata: req.params.qrid,
+              user: req.user,
+              qrcode_data: qrcoderows,
+              filter_data: '',
+              page_name: 'qrcode_product',
+            });
+          })
+        )
+        .catch(err => {
+          console.log('All qrcode_product err:' + err);
+          req.flash('error', err);
+          res.render('qrcode_product', {
+            page_title: 'FoodPrint - QR Code Product',
+            product_data: '',
+            qrdata: '',
+            qrcode_data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'qrcode_product',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        qrcodedata: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
 
 module.exports = router;
