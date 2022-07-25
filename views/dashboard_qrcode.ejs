@@ -45,13 +45,13 @@
               <b>Product Description:</b><div style="width: 15rem; height: 6rem; overflow: auto;"> <%=data[i].qrcode_product_description%> </div>       
             </div>
             <div class="card-footer">
-            <a href="javascript:void(0);" class="btn-sm btn-info view " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>"
+            <a href="javascript:void(0);" class="btn-sm btn-info view " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>" data-qrcode_hashid="<%= data[i].qrcode_hashid%>"
               data-qrcode_company_name="<%= data[i].qrcode_company_name%>" data-qrcode_description="<%= data[i].qrcode_description%>" 
               data-qrcode_company_founded="<%= data[i].qrcode_company_founded%>" data-qrcode_product_name="<%= data[i].qrcode_product_name%>"
               data-qrcode_product_description="<%= data[i].qrcode_product_description%>"  
               data-qrcode_contact_email="<%= data[i].qrcode_contact_email%>" data-qrcode_facebook="<%= data[i].qrcode_facebook%>"
               data-qrcode_twitter="<%= data[i].qrcode_twitter%>" data-qrcode_instagram="<%= data[i].qrcode_instagram%>"
-              data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>" data-qrcode_url="<%= data[i].qrcode_url%>"
+              data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>" data-qrcode_url="<%= data[i].qrcode_url%>" data-qrcode_img="<%= qrcodes[i]%>"
                 data-qrcode_website="<%= data[i].qrcode_website%>">View</a>
             <a href="javascript:void(0);" class="btn-sm btn-success edit " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>"
               data-qrcode_company_name="<%= data[i].qrcode_company_name%>" data-qrcode_description="<%= data[i].qrcode_description%>" 
@@ -60,9 +60,9 @@
               data-qrcode_contact_email="<%= data[i].qrcode_contact_email%>" data-qrcode_facebook="<%= data[i].qrcode_facebook%>"
               data-qrcode_twitter="<%= data[i].qrcode_twitter%>" data-qrcode_instagram="<%= data[i].qrcode_instagram%>"
               data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>"
-                data-qrcode_website="<%= data[i].qrcode_website%>"  data-qrcode_url="<%= data[i].qrcode_url%>" >Edit</a>
+                data-qrcode_website="<%= data[i].qrcode_website%>" >Edit</a>
             <a href="/app/qrcode/attribute/<%= data[i].qrcode_logid%>"  class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Attributes</a>
-            <a href="" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Download</a>
+            <a href="<%= qrcodes[i]%>" download="<%=data[i].qrcode_company_name%> - <%=data[i].qrcode_product_name%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Download</a>
             <a href="javascript:void(0);" class="btn-sm btn-danger delete " data-qrcode_logid2="<%= data[i].qrcode_logid%>"
               data-qrcode_company_name2="<%= data[i].qrcode_company_name%>" style="padding-right: 1rem; padding-left: 1rem;">Delete</a>
               </div>
@@ -119,10 +119,6 @@
               <label for="qrcode_instagram">Instagram</label>
               <input type="text" name="qrcode_instagram" class="form-control" placeholder="Instagram" >
           </div>
-          <div class="form-group">
-            <label for="qrcode_url">QR Code URL</label>
-            <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="URL" required>
-        </div>
               <div class="form-group">
             <label for="qrcode_description">QR Code description</label>
             <input type="text" name="qrcode_description" class="form-control" placeholder="QR Code description" required>
@@ -192,10 +188,6 @@
              <label for="qrcode_instagram">Instagram</label>
              <input type="text" name="qrcode_instagram" class="form-control qrcode_instagram" placeholder="Instagram">
          </div>
-         <div class="form-group">
-          <label for="qrcode_url">QR Code URL</label>
-          <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="URL" required>
-      </div>
              <div class="form-group">
            <label for="qrcode_description">QR Code description</label>
            <input type="text" name="qrcode_description" class="form-control qrcode_description" placeholder="QR Code description" required>
@@ -236,6 +228,10 @@
             <label for="qrcode_logid">QRCODE ID</label>
             <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QR CODE ID" readonly>
         </div>
+        <div class="form-group">
+          <label for="qrcode_hashid">HASH ID</label>
+          <input type="text" name="qrcode_hashid" class="form-control qrcode_hashid" placeholder="QR CODE Hash ID" readonly>
+      </div>
            <div class="form-group">
                <label for="qrcode_company_name">Company Name</label>
                <input type="text" name="qrcode_company_name" class="form-control qrcode_company_name" placeholder="Company Name" readonly>
@@ -272,7 +268,7 @@
 
     <div class="form-group">
       <label for="qrcode_url">QR Image</label>
-      <!--QR CODE IMAGE FROM DIGITAL OCEAN SPACES-->
+      <img name="qrcode_img" src="" class="qrcode_img" id="qrcode_img" alt="QR Code Image">
   </div>
           <div class="form-group">
         <label for="qrcode_description">QR Code description</label>
@@ -338,7 +334,7 @@
   <script src="/js/custom.js"></script>
   <script>
     $(document).ready(function(){
-
+      
   
         //showing data to edit modal
         $('#qrcoderows').on('click','.edit',function(){
@@ -355,7 +351,6 @@
             var qrcode_website = $(this).data('qrcode_website');
             var qrcode_product_description = $(this).data('qrcode_product_description');
             var qrcode_logdatetime = $(this).data('qrcode_logdatetime');
-            var qrcode_url = $(this).data('qrcode_url');
             $('#EditModal').modal('show');
             $('.qrcode_logid').val(qrcode_logid);
             $('.qrcode_company_name').val(qrcode_company_name);
@@ -370,11 +365,11 @@
             $('.qrcode_website').val(qrcode_website);
             $('.qrcode_product_description').val(qrcode_product_description);
             $('.qrcode_logdatetime').val(qrcode_logdatetime);
-            $('.qrcode_url').val(qrcode_url);
       });
       //showing data to view modal
       $('#qrcoderows').on('click','.view',function(){
             var qrcode_logid = $(this).data('qrcode_logid');
+            var qrcode_hashid = $(this).data('qrcode_hashid');
             var qrcode_company_name = $(this).data('qrcode_company_name');
             var qrcode_description = $(this).data('qrcode_description');
             var qrcode_company_founded = $(this).data('qrcode_company_founded');
@@ -388,8 +383,11 @@
             var qrcode_product_description = $(this).data('qrcode_product_description');
             var qrcode_logdatetime = $(this).data('qrcode_logdatetime');
             var qrcode_url = $(this).data('qrcode_url');
+            var qrcode_img = $(this).data('qrcode_img');
+            
             $('#ViewModal').modal('show');
             $('.qrcode_logid').val(qrcode_logid);
+            $('.qrcode_hashid').val(qrcode_hashid);
             $('.qrcode_company_name').val(qrcode_company_name);
             $('.qrcode_description').val(qrcode_description);
             $('.qrcode_company_founded').val(qrcode_company_founded);
@@ -403,7 +401,7 @@
             $('.qrcode_product_description').val(qrcode_product_description);
             $('.qrcode_logdatetime').val(qrcode_logdatetime);
             $('.qrcode_url').val(qrcode_url);
-            
+            document.getElementById('qrcode_img').src = qrcode_img;
           })
 
         //showing delete record modal
