@@ -62,7 +62,7 @@
               data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>"
                 data-qrcode_website="<%= data[i].qrcode_website%>" >Edit</a>
             <a href="/app/qrcode/attribute/<%= data[i].qrcode_logid%>"  class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Attributes</a>
-            <a href="<%= qrcodes[i]%>" download="<%= data[i].qrcode_product_name%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Download</a>
+            <a href="<%= qrcodes[i]%>" download="<%=data[i].qrcode_company_name%> - <%=data[i].qrcode_product_name%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Download</a>
             <a href="javascript:void(0);" class="btn-sm btn-danger delete " data-qrcode_logid2="<%= data[i].qrcode_logid%>"
               data-qrcode_company_name2="<%= data[i].qrcode_company_name%>" style="padding-right: 1rem; padding-left: 1rem;">Delete</a>
               </div>
