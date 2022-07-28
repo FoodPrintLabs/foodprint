@@ -22,25 +22,6 @@ const config = {
 
 const uploadConnection = new AWS.S3(config);
 
-const customUpload = async function (uploadParameters, fileUrl) {
-  space.upload(uploadParameters, function (error, data) {
-    if (error) {
-      console.log('File not uploaded -' + fileUrl);
-      return {
-        success: false,
-        message: error,
-        file_url: fileUrl,
-      };
-    }
-    console.log('File uploaded ' + fileUrl);
-    return {
-      success: true,
-      message: 'File uploaded',
-      file_url: fileUrl,
-    };
-  });
-};
-
 const getUploadParams = function (bucket, contentType, result, acl, filename) {
   //returns uploadParams dict
   return (uploadParameters = {
