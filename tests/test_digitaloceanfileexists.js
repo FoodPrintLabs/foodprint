@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+require('dotenv').config();
 
 // Digital Ocean imports
 const multer = require('multer');
@@ -20,17 +21,48 @@ const config = {
   credentials: new AWS.Credentials(bucketKey, bucketSecret, null),
 };
 
+const space = new AWS.S3(config);
+
+/*
 const checkFileExists = async function () {
   // DO Check if file exists by returning metadata
 
-  const input = {
+  const uploadParams = {
     Bucket: BucketName,
     Key: 'foodprint_produceprice_2022-07-26.pdf',
   };
-  const client = new S3Client(config);
-  const command = new AWS.HeadObjectCommand(input);
-  const response = await client.send(command);
-  console.log(response);
+  // Using callbacks
+  space.headObject(uploadParams, function (err, metadata) {
+    if (err && err.name === 'NotFound') {
+      // Handle no object on cloud here
+    } else if (err) {
+      // Handle other errors here....
+      console.log(err);
+    } else {
+      console.log('File Found in Cloud');
+
+      // if you wish to give someone access to a file they do not have permissions to, you can sign the URL for them i.e. space.getSignedUrl('getObject', params, callback);
+    }
+  });
+};
+*/
+
+//// node /tests/test_digitaloceanfileexists.js
+
+//or an alternative using async/await
+const uploadParams = {
+  Bucket: BucketName,
+  Key: 'foodprint_produceprice_2022-07-28.pdf',
+};
+
+const checkFileExists = async function () {
+  // DO Check if file exists by returning metadata
+  try {
+    await space.headObject(uploadParams).promise();
+    console.log('File Found in S3');
+  } catch (err) {
+    console.log('File not Found ERROR : ' + err);
+  }
 };
 
 const run = async () => {
@@ -39,5 +71,3 @@ const run = async () => {
 };
 
 run();
-
-//// node ./tests/test_digitaloceanfileexists.js
