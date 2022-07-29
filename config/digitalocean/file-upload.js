@@ -65,4 +65,4 @@ const checkFileExists = async function () {
 };
 */
 
-module.exports = { uploadConnection, customUpload, getUploadParams, resolveFilenames };
+module.exports = { uploadConnection, getUploadParams, resolveFilenames };
