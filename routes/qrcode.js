@@ -11,6 +11,15 @@ var QRCode = require('qrcode');
 var moment = require('moment'); //datetime
 var models = initModels(sequelise);
 
+//Name of your DO bucket here
+const BucketName = process.env.DO_BUCKET_NAME;
+//Digital Ocean File Upload
+const {
+  uploadConnection,
+  getUploadParams,
+  resolveFilenames,
+} = require('../config/digitalocean/file-upload');
+
 //market checkin XmlHTTP request
 router.post(
   '/marketcheckin',
@@ -495,6 +504,29 @@ router.post(
         page_name: 'dashboard_qrcode',
       }); //should add error array here
     } else {
+      //upload company logo to Digital ocean and save URL
+      //File Names
+      let logoFilename = req.body.qrcode_company_name + moment(new Date()).format('YYYY-MM-DD');
+      let logofileextension = '.jpeg';
+      let filenames = resolveFilenames(logoFilename, logofileextension);
+      //Upload Params
+      let uploadParams = getUploadParams(
+        BucketName,
+        'image/jpeg',
+        req.body.qrcode_company_logo_uploaded_file,
+        'public-read',
+        filenames.filename
+      );
+      //Upload
+      uploadConnection.upload(uploadParams, function (error, data) {
+        if (error) {
+          console.error(error);
+          res.status(500).send({ error: error, message: 'Unexpected error occurred 😤' });
+          return;
+        }
+        console.log('File uploaded ' + filenames.fileUrl);
+        res.status(200).send({ message: 'file uploaded', pdf_url: filenames.fileUrl });
+      });
       let data = {
         qrcode_logid: uuidv4(),
         qrcode_company_name: req.body.qrcode_company_name,
@@ -505,8 +537,9 @@ router.post(
         qrcode_twitter: req.body.qrcode_twitter,
         qrcode_instagram: req.body.qrcode_instagram,
         qrcode_url: req.body.qrcode_url,
-        qrcode_image_url: qrcode_image_url,
+        qrcode_image_url: 'Test',
         qrcode_description: req.body.qrcode_description,
+        qrcode_company_logo_url: filenames.fileUrl,
         qrcode_product_name: req.body.qrcode_product_name,
         qrcode_product_description: req.body.qrcode_product_description,
         user_email: req.user.email,
