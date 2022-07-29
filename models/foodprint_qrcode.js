@@ -49,6 +49,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
+      qrcode_company_logo_url: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
       qrcode_description: {
         type: DataTypes.STRING(255),
         allowNull: true,
