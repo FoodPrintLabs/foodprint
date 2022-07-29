@@ -398,8 +398,7 @@
             var qrcode_logdatetime = $(this).data('qrcode_logdatetime');
             var qrcode_url = $(this).data('qrcode_url');
             var company_logo_photohash = $(obj_identifier).data('qrcode_company_logo');
-            var company_logo_image = company_logo_photohash;
-            $('#qrcode_company_logoimage').attr("src", company_logo_image);
+            $('#qrcode_company_logoimage').attr("src", company_logo_photohash);
             $('#ViewModal').modal('show');
             $('.qrcode_logid').val(qrcode_logid);
             $('.qrcode_company_name').val(qrcode_company_name);
