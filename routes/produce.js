@@ -495,39 +495,29 @@ router.get(
   '/pricepage/pdf',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res, next) {
-    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
-      models.FoodprintProducePrice.findAll({
-        order: [['pk', 'DESC']],
-      })
-        .then(rows => {
-          let pdfFilename =
-            'FoodPrint_ProducePrice_' + moment(new Date()).format('YYYY-MM-DD') + '.pdf';
-          //send PDF of gathered Data
-          const stream = res.writeHead(200, {
-            'Content-Type': 'application/pdf',
-            'Content-Disposition': 'attachment;filename=' + pdfFilename,
-          });
-          pdfService.buildPDF(
-            'PRODUCE PRICE LIST FOR WESTERN PROVINCE AS OF ' +
-              moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-            producepricepdf(rows),
-            chunk => stream.write(chunk),
-            () => stream.end()
-          );
-        })
-        .catch(err => {
-          console.log('PDF produce err:' + err);
-          req.flash('error', err);
+    models.FoodprintProducePrice.findAll({
+      order: [['pk', 'DESC']],
+    })
+      .then(rows => {
+        let pdfFilename =
+          'FoodPrint_ProducePrice_' + moment(new Date()).format('YYYY-MM-DD') + '.pdf';
+        //send PDF of gathered Data
+        const stream = res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment;filename=' + pdfFilename,
         });
-    } else {
-      res.render('error', {
-        message: 'You are not authorised to view this resource.',
-        title: 'Error',
-        user: req.user,
-        filter_data: '',
-        page_name: 'error',
+        pdfService.buildPDF(
+          'PRODUCE PRICE LIST FOR WESTERN PROVINCE AS OF ' +
+            moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+          producepricepdf(rows),
+          chunk => stream.write(chunk),
+          () => stream.end()
+        );
+      })
+      .catch(err => {
+        console.log('PDF produce err:' + err);
+        req.flash('error', err);
       });
-    }
   }
 );
 

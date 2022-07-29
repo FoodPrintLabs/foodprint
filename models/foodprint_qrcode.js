@@ -65,6 +65,14 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
+      qrcode_hashid: {
+        type: DataTypes.BLOB,
+        allowNull: true,
+      },
+      qrcode_supplier_product: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
       user_email: {
         type: DataTypes.STRING(255),
         allowNull: true,
