@@ -52,7 +52,7 @@
               data-qrcode_contact_email="<%= data[i].qrcode_contact_email%>" data-qrcode_facebook="<%= data[i].qrcode_facebook%>"
               data-qrcode_twitter="<%= data[i].qrcode_twitter%>" data-qrcode_instagram="<%= data[i].qrcode_instagram%>"
               data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>" data-qrcode_url="<%= data[i].qrcode_url%>"
-                data-qrcode_website="<%= data[i].qrcode_website%>">View</a>
+                data-qrcode_website="<%= data[i].qrcode_website%>" data-qrcode_company_logo="<%= data[i].qrcode_company_logo%>">View</a> 
             <a href="javascript:void(0);" class="btn-sm btn-success edit " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>"
               data-qrcode_company_name="<%= data[i].qrcode_company_name%>" data-qrcode_description="<%= data[i].qrcode_description%>" 
               data-qrcode_company_founded="<%= data[i].qrcode_company_founded%>" data-qrcode_product_name="<%= data[i].qrcode_product_name%>"
@@ -120,9 +120,12 @@
               <input type="text" name="qrcode_instagram" class="form-control" placeholder="Instagram" >
           </div>
           <div class="form-group">
-            <label for="qrcode_url">QR Code URL</label>
-            <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="URL" required>
-        </div>
+            <label for="qrcode_company_logo">Company Logo</label>
+            <input type="file" name="qrcode_company_logo_uploaded_file" class="form-control" id="qrcode_company_logo" placeholder="Company Logo">
+            <div id="qrcode_company_logoDiv">
+              <img id="qrcode_company_logoimage" width='100%' alt="Company Logo" />
+            </div>
+          </div>
               <div class="form-group">
             <label for="qrcode_description">QR Code description</label>
             <input type="text" name="qrcode_description" class="form-control" placeholder="QR Code description" required>
@@ -266,6 +269,12 @@
           <input type="text" name="qrcode_instagram" class="form-control qrcode_instagram" placeholder="Instagram" readonly>
       </div>
       <div class="form-group">
+            <label for="qrcode_company_logo">Company Logo</label>
+            <div id="qrcode_company_logoDiv">
+              <img id="qrcode_company_logoimage" width='100%' alt="Company Logo" />
+            </div>
+          </div>
+      <div class="form-group">
         <label for="qrcode_url">QR Code URL</label>
         <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="URL" readonly>
     </div>
@@ -388,6 +397,9 @@
             var qrcode_product_description = $(this).data('qrcode_product_description');
             var qrcode_logdatetime = $(this).data('qrcode_logdatetime');
             var qrcode_url = $(this).data('qrcode_url');
+            var company_logo_photohash = $(obj_identifier).data('qrcode_company_logo');
+            var company_logo_image = company_logo_photohash;
+            $('#qrcode_company_logoimage').attr("src", company_logo_image);
             $('#ViewModal').modal('show');
             $('.qrcode_logid').val(qrcode_logid);
             $('.qrcode_company_name').val(qrcode_company_name);
