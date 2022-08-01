@@ -12,7 +12,6 @@ const hash = crypto.createHash('sha256');
 
 const {
   uploadConnection,
-  customUpload,
   getUploadParams,
   resolveFilenames,
 } = require('../config/digitalocean/file-upload');

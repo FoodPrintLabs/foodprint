@@ -22,12 +22,12 @@ const config = {
 
 const uploadConnection = new AWS.S3(config);
 
-const getUploadParams = function (bucket, contentType, result, acl, filename) {
+const getUploadParams = function (bucket, contentType, buffer_data, acl, filename) {
   //returns uploadParams dict
   return (uploadParameters = {
     Bucket: bucket,
     ContentType: contentType,
-    Body: result,
+    Body: buffer_data,
     ACL: acl, //set file to public access
     Key: filename,
   });
@@ -65,4 +65,4 @@ const checkFileExists = async function () {
 };
 */
 
-module.exports = { uploadConnection, customUpload, getUploadParams, resolveFilenames };
+module.exports = { uploadConnection, getUploadParams, resolveFilenames };

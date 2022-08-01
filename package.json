@@ -19,6 +19,7 @@
     "inserttestsupplierproduce": "node tests/test_supplier_produce_scan.js",
     "build-dev": "sequelize db:migrate --env development",
     "build": "sequelize db:migrate --env production",
+    "build-dev-undo": "sequelize db:migrate:undo --env development",
     "heroku-postbuild": "sequelize db:migrate --env production && npm run bundle",
     "dev": "nodemon server.js --host 0.0.0.0",
     "start": "node server.js",
