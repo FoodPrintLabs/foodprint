@@ -558,7 +558,9 @@ router.post(
           }
           let supplier_product = (
             req.body.qrcode_company_name +
+            '-' +
             req.body.qrcode_product_name +
+            '-' +
             req.body.qrcode_contact_email
           )
             .split(' ')
