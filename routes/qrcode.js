@@ -563,7 +563,7 @@ router.post(
           )
             .split(' ')
             .join('');
-          let hashID = hash.update(supplier_product).digest('base64');
+          let hashID = hash.update(supplier_product).digest('hex');
           let qrURL = protocol + '://' + host + '/app/qrcode/static/' + hashID;
 
           let qrid = uuidv4();
