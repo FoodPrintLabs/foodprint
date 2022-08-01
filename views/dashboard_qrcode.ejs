@@ -52,7 +52,7 @@
               data-qrcode_contact_email="<%= data[i].qrcode_contact_email%>" data-qrcode_facebook="<%= data[i].qrcode_facebook%>"
               data-qrcode_twitter="<%= data[i].qrcode_twitter%>" data-qrcode_instagram="<%= data[i].qrcode_instagram%>"
               data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>" data-qrcode_url="<%= data[i].qrcode_url%>" data-qrcode_img="<%= qrcodes[i]%>"
-                data-qrcode_website="<%= data[i].qrcode_website%>" data-qrcode_company_logo="<%= data[i].qrcode_company_logo%>">View</a>
+                data-qrcode_website="<%= data[i].qrcode_website%>" data-qrcode_company_logo="<%= data[i].qrcode_company_logo_url%>">View</a>
             <a href="javascript:void(0);" class="btn-sm btn-success edit " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>"
               data-qrcode_company_name="<%= data[i].qrcode_company_name%>" data-qrcode_description="<%= data[i].qrcode_description%>" 
               data-qrcode_company_founded="<%= data[i].qrcode_company_founded%>" data-qrcode_product_name="<%= data[i].qrcode_product_name%>"
@@ -78,7 +78,7 @@
    <!-- END TABLE-->
 
    <!-- Modal Add QR CODE Configuration-->
-	  <form action="/app/qrcode/save" method="post">
+	  <form action="/app/qrcode/save" method="post" enctype="multipart/form-data">
         <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
            <div class="modal-content">
@@ -121,10 +121,10 @@
           </div>
           <div class="form-group">
             <label for="qrcode_company_logo">Company Logo</label>
-            <input type="file" name="qrcode_company_logo_uploaded_file" class="form-control" id="qrcode_company_logo" placeholder="Company Logo">
-            <div id="qrcode_company_logoDiv">
-              <img id="qrcode_company_logoimage" width='100%' alt="Company Logo" />
-            </div>
+            <input type="file" name="qrcode_company_logo_uploaded_file" class="form-control" id="qrcode_company_logo" placeholder="Company Logo" accept=".jpg, .jpeg, .png">
+            <!--<div id="qrcode_company_logoDiv">
+              <img id="qrcode_company_logoimage_add" width='100%' alt="Company Logo" />
+            </div> -->
           </div>
               <div class="form-group">
             <label for="qrcode_description">QR Code description</label>
@@ -269,18 +269,16 @@
           <input type="text" name="qrcode_instagram" class="form-control qrcode_instagram" placeholder="Instagram" readonly>
       </div>
       <div class="form-group">
-            <label for="qrcode_company_logo">Company Logo</label>
-            <div id="qrcode_company_logoDiv">
-              <img id="qrcode_company_logoimage" width='100%' alt="Company Logo" />
-            </div>
+            <label for="qrcode_company_logoimage">Company Logo</label>
+              <img name="qrcode_company_logoimage" src="" class="qrcode_company_logoimage" id="qrcode_company_logoimage" alt="Company Logo" width="200px" height="200px">
           </div>
       <div class="form-group">
         <label for="qrcode_url">QR Code URL</label>
-        <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="URL" readonly>
+        <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="URL" readonly >
     </div>
 
     <div class="form-group">
-      <label for="qrcode_url">QR Image</label>
+      <label for="qrcode_img">QR Image</label>
       <img name="qrcode_img" src="" class="qrcode_img" id="qrcode_img" alt="QR Code Image">
   </div>
           <div class="form-group">
@@ -396,10 +394,9 @@
             var qrcode_product_description = $(this).data('qrcode_product_description');
             var qrcode_logdatetime = $(this).data('qrcode_logdatetime');
             var qrcode_url = $(this).data('qrcode_url');
-            var company_logo_photohash = $(this).data('qrcode_company_logo');
-            $('#qrcode_company_logoimage').attr("src", company_logo_photohash);
+            var company_logo_photo = $(this).data('qrcode_company_logo');
             var qrcode_img = $(this).data('qrcode_img');
-            
+            console.log(company_logo_photo)
             $('#ViewModal').modal('show');
             $('.qrcode_logid').val(qrcode_logid);
             $('.qrcode_hashid').val(qrcode_hashid);
@@ -416,6 +413,7 @@
             $('.qrcode_product_description').val(qrcode_product_description);
             $('.qrcode_logdatetime').val(qrcode_logdatetime);
             $('.qrcode_url').val(qrcode_url);
+            document.getElementById('qrcode_company_logoimage').src = company_logo_photo;
             document.getElementById('qrcode_img').src = qrcode_img;
           })
 
