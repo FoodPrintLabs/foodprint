@@ -21,12 +21,14 @@ const {
   getUploadParams,
   resolveFilenames,
 } = require('../config/digitalocean/file-upload');
+
 const multerS3 = require('multer-s3');
 const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
 
 //Name of your DO bucket here
 const BucketName = process.env.DO_BUCKET_NAME;
 
+//upload header added to route
 const upload = multer({
   storage: multerS3({
     s3: uploadConnection,
@@ -36,6 +38,7 @@ const upload = multer({
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
+      //Logic for file uploaded + access to req data
       //console.log(file);
       //mimetype split for ext - safe with image mimetypes (image/png, image/jpeg) not others
       let extArray = file.mimetype.split('/');
@@ -548,33 +551,19 @@ router.post(
         page_name: 'dashboard_qrcode',
       }); //should add error array here
     } else {
-      //COMPANY LOGO
-      /*
-      const img = req.file;
-          let image_data = img_datadata;
-      */
       //File Names needed for saving
       let logoFilename = req.body.qrcode_company_name + moment(new Date()).format('YYYY-MM-DD');
-      let logofileextension = '.png';
+      //mimetype extension setting
+      let logofileextension = '';
+      if (req.files[0].mimetype == 'image/jpeg') {
+        logofileextension = '.jpeg';
+      } else if (req.files[0].mimetype == 'image/png') {
+        logofileextension = '.png';
+      } else if (req.files[0].mimetype == 'image/jpg') {
+        logofileextension = '.jpg';
+      }
+
       let filenames = resolveFilenames(logoFilename, logofileextension);
-
-      /*Upload Params
-          let uploadParams = getUploadParams(
-            BucketName,
-            'image/png',
-            image_data,
-            'public-read',
-            filenames.filename
-          );
-          //Upload
-          uploadConnection.upload(uploadParams, function (error, data) {
-            if (error) {
-              console.error(error);
-            }
-            console.log('File uploaded ' + filenames.fileUrl);
-          });
-          */
-
       //QRCODE
       //check environment product was saved in for URL
       let host = req.get('host');
