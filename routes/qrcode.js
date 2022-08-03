@@ -42,9 +42,13 @@ const upload = multer({
       let extension = extArray[extArray.length - 1];
       cb(
         null,
-        req.body.qrcode_company_name + moment(new Date()).format('YYYY-MM-DD') + '.' + extension
+        (
+          req.body.qrcode_company_name +
+          moment(new Date()).format('YYYY-MM-DD') +
+          '.' +
+          extension
+        ).toLowerCase()
       );
-      // cant use - res.redirect('/app/qrcode');
     },
   }),
 });
@@ -529,7 +533,7 @@ router.post(
       .escape(),
   ],
   function (req, res) {
-    res.send('Successfully uploaded ' + req.files.length + ' files!');
+    console.log('Successfully uploaded ' + req.files.length + ' files!');
     const result = validationResult(req);
     var errors = result.errors;
     for (var key in errors) {
@@ -612,34 +616,35 @@ router.post(
         user_email: req.user.email,
         qrcode_logdatetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       };
-
-      models.FoodprintQRCode.create(data)
-        .then(_ => {
-          req.flash(
-            'success',
-            'New QR Code Configuration added successfully! QR Code company name = ' +
-              req.body.qrcode_company_name
-          );
-          res.redirect('/app/qrcode');
-        })
-        .catch(err => {
-          //throw err;
-          req.flash('error', err);
-          // redirect to Produce page
-          res.redirect('/app/qrcode');
+      try {
+        models.FoodprintQRCode.create(data)
+          .then(_ => {
+            req.flash(
+              'success',
+              'New QR Code Configuration added successfully! QR Code company name = ' +
+                req.body.qrcode_company_name
+            );
+            res.redirect('/app/qrcode');
+          })
+          .catch(err => {
+            //throw err;
+            req.flash('error', err);
+            // redirect to Produce page
+            res.redirect('/app/qrcode');
+          });
+      } catch (e) {
+        //this will eventually be handled by your error handling middleware
+        next(e);
+        //res.json({success: false, errors: e});
+        res.render('dashboard_qrcode', {
+          page_title: 'FoodPrint - QR Code Configuration Dashboard',
+          data: '',
+          success: false,
+          user: req.user,
+          errors: e.array(),
+          page_name: 'dashboard_qrcode',
         });
-
-      //this will eventually be handled by your error handling middleware
-      next(e);
-      //res.json({success: false, errors: e});
-      res.render('dashboard_qrcode', {
-        page_title: 'FoodPrint - QR Code Configuration Dashboard',
-        data: '',
-        success: false,
-        user: req.user,
-        errors: e.array(),
-        page_name: 'dashboard_qrcode',
-      });
+      }
     }
   }
 );
@@ -999,13 +1004,20 @@ router.get(
               qrcode_hashid: req.params.hashID,
             },
             order: [['pk', 'DESC']],
-          }).then(qrcoderows => {
+          }).then(async qrcoderows => {
+            //create array of URL data
+            const qrcodes = [];
+            for (var i = 0; i < qrcoderows.length; i++) {
+              var qrcode_image = await QRCode.toDataURL(qrcoderows[i].qrcode_url);
+              qrcodes.push(qrcode_image);
+            }
             res.render('qrcode_product', {
               page_title: 'FoodPrint - QR Code Product',
               product_data: rows,
               qrdata: req.params.qrid,
               user: req.user,
               qrcode_data: qrcoderows,
+              qrcode_img: qrcodes,
               filter_data: '',
               page_name: 'qrcode_product',
             });
@@ -1019,6 +1031,7 @@ router.get(
             product_data: '',
             qrdata: '',
             qrcode_data: '',
+            qrcode_img: '',
             filter_data: '',
             user: req.user,
             page_name: 'qrcode_product',
@@ -1030,6 +1043,7 @@ router.get(
         title: 'Error',
         user: req.user,
         filter_data: '',
+        qrcode_img: '',
         qrcodedata: '',
         page_name: 'error',
       });
