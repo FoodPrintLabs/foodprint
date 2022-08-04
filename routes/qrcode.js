@@ -993,20 +993,13 @@ router.get(
               qrcode_hashid: req.params.hashID,
             },
             order: [['pk', 'DESC']],
-          }).then(async qrcoderows => {
-            //create array of URL data
-            const qrcodes = [];
-            for (var i = 0; i < qrcoderows.length; i++) {
-              var qrcode_image = await QRCode.toDataURL(qrcoderows[i].qrcode_url);
-              qrcodes.push(qrcode_image);
-            }
+          }).then(qrcoderows => {
             res.render('qrcode_product', {
               page_title: 'FoodPrint - QR Code Product',
               product_data: rows,
               qrdata: req.params.qrid,
               user: req.user,
               qrcode_data: qrcoderows,
-              qrcode_img: qrcodes,
               filter_data: '',
               page_name: 'qrcode_product',
             });
@@ -1020,7 +1013,6 @@ router.get(
             product_data: '',
             qrdata: '',
             qrcode_data: '',
-            qrcode_img: '',
             filter_data: '',
             user: req.user,
             page_name: 'qrcode_product',
@@ -1032,7 +1024,6 @@ router.get(
         title: 'Error',
         user: req.user,
         filter_data: '',
-        qrcode_img: '',
         qrcodedata: '',
         page_name: 'error',
       });
