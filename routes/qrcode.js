@@ -15,17 +15,46 @@ const hash = crypto.createHash('sha256');
 const env = process.env.NODE_ENV || 'development';
 let fs = require('fs');
 
-const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
-const upload = multer({ dest: './static/images/qr_images/' }); //path.join(__dirname, 'static/images/produce_images/)
-
-//Name of your DO bucket here
-const BucketName = process.env.DO_BUCKET_NAME;
 //Digital Ocean File Upload
 const {
   uploadConnection,
   getUploadParams,
   resolveFilenames,
 } = require('../config/digitalocean/file-upload');
+
+const multerS3 = require('multer-s3');
+const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
+
+//Name of your DO bucket here
+const BucketName = process.env.DO_BUCKET_NAME;
+
+//upload header added to route
+const upload = multer({
+  storage: multerS3({
+    s3: uploadConnection,
+    bucket: BucketName,
+    acl: 'public-read',
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      //Logic for file uploaded + access to req data
+      //console.log(file);
+      //mimetype split for ext - safe with image mimetypes (image/png, image/jpeg) not others
+      let extArray = file.mimetype.split('/');
+      let extension = extArray[extArray.length - 1];
+      cb(
+        null,
+        (
+          req.body.qrcode_company_name +
+          moment(new Date()).format('YYYY-MM-DD') +
+          '.' +
+          extension
+        ).toLowerCase()
+      );
+    },
+  }),
+});
 
 //market checkin XmlHTTP request
 router.post(
@@ -480,7 +509,7 @@ router.get(
 //ROUTE TO INSERT QRCODE DATA
 router.post(
   '/qrcode/save',
-  upload.single('qrcode_company_logo_uploaded_file'),
+  upload.array('qrcode_company_logo_uploaded_file', 1),
   [
     check('qrcode_company_name', 'Your company name is not valid').not().isEmpty().trim().escape(),
     check('qrcode_company_founded', 'Your your founded year is not valid')
@@ -507,6 +536,7 @@ router.post(
       .escape(),
   ],
   function (req, res) {
+    console.log('Successfully uploaded ' + req.files.length + ' files!');
     const result = validationResult(req);
     var errors = result.errors;
     for (var key in errors) {
@@ -521,91 +551,76 @@ router.post(
         page_name: 'dashboard_qrcode',
       }); //should add error array here
     } else {
-      //COMPANY LOGO
+      //File Names needed for saving
+      let logoFilename = req.body.qrcode_company_name + moment(new Date()).format('YYYY-MM-DD');
+      //mimetype extension setting
+      let logofileextension = '';
+      if (req.files[0].mimetype == 'image/jpeg') {
+        logofileextension = '.jpeg';
+      } else if (req.files[0].mimetype == 'image/png') {
+        logofileextension = '.png';
+      } else if (req.files[0].mimetype == 'image/jpg') {
+        logofileextension = '.jpg';
+      }
 
-      const img = req.file;
+      let filenames = resolveFilenames(logoFilename, logofileextension);
+      //QRCODE
+      //check environment product was saved in for URL
+      let host = req.get('host');
+      let protocol = 'https';
+      // if running in dev then protocol can be http
+      if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+        protocol = req.protocol;
+      }
+      let supplier_product = (
+        req.body.qrcode_company_name +
+        '-' +
+        req.body.qrcode_product_name +
+        '-' +
+        req.body.qrcode_contact_email
+      )
+        .split(' ')
+        .join('');
+      let hashID = crypto.createHash('sha256').update(supplier_product).digest('hex');
+      let qrURL = protocol + '://' + host + '/app/qrcode/static/' + hashID;
 
+      let qrid = uuidv4();
+      let data = {
+        qrcode_logid: qrid,
+        qrcode_company_name: req.body.qrcode_company_name,
+        qrcode_company_founded: req.body.qrcode_company_founded,
+        qrcode_contact_email: req.body.qrcode_contact_email,
+        qrcode_website: req.body.qrcode_website,
+        qrcode_facebook: req.body.qrcode_facebook,
+        qrcode_twitter: req.body.qrcode_twitter,
+        qrcode_instagram: req.body.qrcode_instagram,
+        qrcode_url: qrURL,
+        qrcode_image_url: qrURL,
+        qrcode_description: req.body.qrcode_description,
+        qrcode_company_logo_url: filenames.fileUrl,
+        qrcode_product_name: req.body.qrcode_product_name,
+        qrcode_product_description: req.body.qrcode_product_description,
+        qrcode_hashid: hashID,
+        qrcode_supplier_product: supplier_product,
+        user_email: req.user.email,
+        qrcode_logdatetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      };
       try {
-        fs.readFile(img.path, function (err, img_datadata) {
-          let image_data = img_datadata;
-
-          //File Names
-          let logoFilename = req.body.qrcode_company_name + moment(new Date()).format('YYYY-MM-DD');
-          let logofileextension = '.png';
-          let filenames = resolveFilenames(logoFilename, logofileextension);
-          //Upload Params
-          let uploadParams = getUploadParams(
-            BucketName,
-            'image/png',
-            image_data,
-            'public-read',
-            filenames.filename
-          );
-          //Upload
-          uploadConnection.upload(uploadParams, function (error, data) {
-            if (error) {
-              console.error(error);
-            }
-            console.log('File uploaded ' + filenames.fileUrl);
+        models.FoodprintQRCode.create(data)
+          .then(_ => {
+            req.flash(
+              'success',
+              'New QR Code Configuration added successfully! QR Code company name = ' +
+                req.body.qrcode_company_name
+            );
+            res.redirect('/app/qrcode');
+          })
+          .catch(err => {
+            //throw err;
+            req.flash('error', err);
+            // redirect to Produce page
+            res.redirect('/app/qrcode');
           });
-          //QRCODE
-          //check environment product was saved in for URL
-          let host = req.get('host');
-          let protocol = 'https';
-          // if running in dev then protocol can be http
-          if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
-            protocol = req.protocol;
-          }
-          let supplier_product = (
-            req.body.qrcode_company_name +
-            '-' +
-            req.body.qrcode_product_name +
-            '-' +
-            req.body.qrcode_contact_email
-          )
-            .split(' ')
-            .join('');
-          let hashID = hash.update(supplier_product).digest('hex');
-          let qrURL = protocol + '://' + host + '/app/qrcode/static/' + hashID;
-
-          let qrid = uuidv4();
-          let data = {
-            qrcode_logid: qrid,
-            qrcode_company_name: req.body.qrcode_company_name,
-            qrcode_company_founded: req.body.qrcode_company_founded,
-            qrcode_contact_email: req.body.qrcode_contact_email,
-            qrcode_website: req.body.qrcode_website,
-            qrcode_facebook: req.body.qrcode_facebook,
-            qrcode_twitter: req.body.qrcode_twitter,
-            qrcode_instagram: req.body.qrcode_instagram,
-            qrcode_url: qrURL,
-            qrcode_image_url: qrURL,
-            qrcode_description: req.body.qrcode_description,
-            qrcode_company_logo_url: filenames.fileUrl,
-            qrcode_product_name: req.body.qrcode_product_name,
-            qrcode_product_description: req.body.qrcode_product_description,
-            qrcode_hashid: hashID,
-            qrcode_supplier_product: supplier_product,
-            user_email: req.user.email,
-            qrcode_logdatetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-          };
-
-          models.FoodprintQRCode.create(data)
-            .then(_ => {
-              req.flash(
-                'success',
-                'New QR Code Configuration added successfully! QR Code company name = ' +
-                  req.body.qrcode_company_name
-              );
-              res.redirect('/app/qrcode');
-            })
-            .catch(err => {
-              //throw err;
-              req.flash('error', err);
-              // redirect to Produce page
-              res.redirect('/app/qrcode');
-            });
-        });
       } catch (e) {
         //this will eventually be handled by your error handling middleware
         next(e);
