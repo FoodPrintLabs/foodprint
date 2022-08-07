@@ -20,6 +20,16 @@ var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
+const {
+  getUploadParams,
+  resolveFilenames,
+  uploadConnection,
+} = require('../config/digitalocean/file-upload');
+const pdfService = require('../config/pdf/pdf-service');
+const { harvestpdf } = require('../config/pdf/harvestpdf');
+//Name of your DO bucket here
+const BucketName = process.env.DO_BUCKET_NAME;
+
 /* GET harvest page. */
 router.get(
   '/',
@@ -666,5 +676,94 @@ router.post(
     }
   }
 );
+
+router.get('/pdf/whatsapp/:phoneNumber', function (req, res) {
+  try {
+    const { phoneNumber } = req.params;
+    models.User.findOne({
+      where: {
+        phoneNumber: phoneNumber,
+      },
+    })
+      .then(user => {
+        const emailAddress = user.email;
+        models.FoodprintHarvest.findAll({
+          attributes: [
+            'harvest_logid',
+            'harvest_farmerName',
+            'harvest_produceName',
+            'harvest_TimeStamp',
+            'harvest_quantity',
+            'harvest_unitOfMeasure',
+            'blockchain_explorer_url',
+          ],
+          order: [['pk', 'DESC']],
+          where: {
+            harvest_user: emailAddress,
+          },
+        })
+          .then(rows => {
+            const pdfFilename = `FoodPrint_Harvest_${phoneNumber}`;
+            const pdffileextension = '.pdf';
+            let filenames = resolveFilenames(pdfFilename, pdffileextension);
+
+            // stream pdf in chunks to response
+            let chunks = [];
+            pdfService.buildPDF(
+              `HARVEST ENTRIES FOR ${user.firstName.toUpperCase()} ${user.lastName.toUpperCase()}
+            ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
+              harvestpdf(rows),
+              chunk => chunks.push(chunk), // stream.write(chunk),
+              (err, data) => {
+                if (err) {
+                  console.log(err);
+                  res.status(400).send({ message: err.message });
+                }
+                const result = Buffer.concat(chunks);
+                //DO upload
+                let uploadParams = getUploadParams(
+                  BucketName,
+                  'application/pdf',
+                  result,
+                  'public-read',
+                  filenames.filename
+                );
+                uploadConnection.upload(uploadParams, function (error, data) {
+                  if (error) {
+                    console.error(error);
+                    res.status(500).send({ error: error, message: 'Unexpected error occurred 😤' });
+                    return;
+                  }
+                  console.log('File uploaded ' + filenames.fileUrl);
+                  res.status(200).send({ message: 'file uploaded', pdf_url: filenames.fileUrl });
+                });
+              }
+            );
+
+            // For testing on the web app
+            /*const stream = res.writeHead(200, {
+              'Content-Type': 'application/pdf',
+              'Content-Disposition': 'attachment;filename=' + pdfFilename,
+            });
+            pdfService.buildPDF(
+              `HARVEST ENTRIES FOR ${user.firstName.toUpperCase()} ${user.lastName.toUpperCase()}
+            ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
+              harvestpdf(rows),
+              chunk => stream.write(chunk),
+              () => stream.end()
+            );*/
+          })
+          .catch(err => {
+            console.log('Harvest PDF err:' + err);
+          });
+      })
+      .catch(err => {
+        res.status(404).send({ error: err, message: 'User not found 😤' });
+      });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
+  }
+});
 
 module.exports = router;
