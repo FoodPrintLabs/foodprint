@@ -155,7 +155,7 @@ router.post('/register', upload.single('registerIDPhoto'), async function (req, 
           .then(user => {
             if (user) {
               const mailOptions = {
-                to: process.env.TEST_EMAIL_ADDRESS,
+                to: req.body.registerEmail,
                 subject: 'Foodprint registration confirmation email',
                 html: `<p>Thank you for joining FoodPrint.</p>
                         <p>Please confirm your email by clicking on the following link</p>
