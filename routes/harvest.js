@@ -408,6 +408,7 @@ function whatsappHarvestToBlockchain(data, protocol, host) {
   axios
     .post(postUrl, summaryData, {})
     .then(function (response) {
+      console.log(`statusCode: ${response.status}`);
       console.log(response);
     })
     .catch(function (error) {
