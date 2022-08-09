@@ -1,5 +1,10 @@
 'use strict';
-
+/*
+$npx sequelize-cli migration:create --name qrcode_column_updates
+$npm run build-dev will run this sequelize db:migrate --env development
+$sequelize db:migrate:undo --env development will revert most the recent migration
+$sequelize db:migrate:undo:all will undo all migrations
+*/
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -12,22 +17,20 @@ module.exports = {
       .addColumn('foodprint_qrcode', 'qrcode_supplier_product', {
         type: Sequelize.STRING,
       })
-
-      .then(
-        await queryInterface.changeColumn('foodprint_qrcode', 'qrcode_hashid', {
-          type: Sequelize.STRING,
-          allowNull: true,
-        })
-      )
+     .then(
+      await queryInterface.addColumn('foodprint_qrcode', 'qrcode_hashid', {
+        type: Sequelize.STRING,
+      })
+     )
       .then(
         await queryInterface.addColumn('foodprint_qrcode', 'qrcode_company_logo_url', {
           type: Sequelize.STRING,
         })
       )
       .then(
-        await queryInterface.changeColumn('foodprint_qrcode_product_attributes', 'qrcode_hashid', {
+        await queryInterface.addColumn('foodprint_qrcode_product_attributes', 'qrcode_hashid', {
           type: Sequelize.STRING,
-          allowNull: true,
+          allowNull: false,
         })
       );
   },
@@ -42,17 +45,12 @@ module.exports = {
     await queryInterface
       .removeColumn('foodprint_qrcode', 'qrcode_supplier_product')
       .then(
-        await queryInterface.changeColumn('foodprint_qrcode', 'qrcode_hashid', {
-          type: Sequelize.BLOB,
-          allowNull: true,
-        })
+        await queryInterface.removeColumn('foodprint_qrcode', 'qrcode_hashid')
       )
-      .then(await queryInterface.removeColumn('foodprint_qrcode', 'qrcode_company_logo_url'))
       .then(
-        await queryInterface.changeColumn('foodprint_qrcode_product_attributes', 'qrcode_hashid', {
-          type: Sequelize.BLOB,
-          allowNull: true,
-        })
+        await queryInterface.removeColumn('foodprint_qrcode', 'qrcode_company_logo_url'))
+      .then(
+        await queryInterface.removeColumn('foodprint_qrcode_product_attributes', 'qrcode_hashid')
       );
   },
 };
