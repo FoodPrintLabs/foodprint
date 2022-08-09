@@ -87,7 +87,6 @@ body {
 
 /*Qrcode attribute timeline card*/
 .qrcodedetailscardtimeline {
-  background-color: white;
   border-radius: 5px;
   margin: 10px;
   box-shadow: 2px 2px 4px 5px #ccc;
@@ -97,7 +96,7 @@ body {
 
 @media only screen and (max-width: 600px) {
   .qrcodedetailscardtimeline {
-    width: 100%;
+    width: 80%;
   }
 }
 @media only screen and (max-width: 800px) and (min-width: 550px) {
