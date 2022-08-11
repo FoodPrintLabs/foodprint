@@ -15,7 +15,7 @@
 
    <!-- START TABLE-->
    <div class="container" style="width: 100%;">
-    <h3>Attribute configuration</h3>
+    <h3>QR Code Attributes</h3>
 
     <% include ./partials/notificationbar %>
     <% 
@@ -38,13 +38,15 @@
               <%=qrcodedata[i].qrcode_product_name %>
             </div>
             </div>
-            <div class="col-6 col-lg-6 col-xl-6">
-              <p class="h4">URL</p>
-              <div style=" overflow: auto;">
-              <%=qrcodedata[i].qrcode_url %>
-            </div>
-            </div>
           </div>
+        <div class="col-12 col-lg-12 col-xl-12" >
+            <div class="col-12 col-lg-12 col-xl-12">
+                <p class="h4">URL</p>
+                <div style=" overflow: auto;">
+                    <a href="<%=qrcodedata[i].qrcode_url%>" target="_blank"><%=qrcodedata[i].qrcode_url%></a>
+                </div>
+            </div>
+        </div>
           <br>
 
     
