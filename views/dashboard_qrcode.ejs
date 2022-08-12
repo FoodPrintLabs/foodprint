@@ -15,14 +15,14 @@
 
    <!-- START TABLE-->
    <div class="container" style="width: 100%;">
-    <h3>QR Code configuration</h3>
+    <h3>QR Code Configuration</h3>
     <div>
         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New QR Code</button>
     </div>
     
     <% include ./partials/notificationbar %>
     <!--QR Code Section-->
-    <h4>Codes</h4>
+    <br>
     <div class="row" id="qrcoderows">
      
     <div class="col-4 col-lg-12 col-xl-12" >
@@ -33,16 +33,17 @@
         for(var i = 0; i< data.length; i++){ 
     %>
     <!--QR CODE CARD-->
-    <div class="card col-2 col-lg-2 col-xl-2" style="width: 15.5rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
-        box-shadow: 2px 2px 4px 5px #ccc;">
+    <div class="card col-2 col-lg-2 col-xl-2 text-center" style="width: 15.5rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px;
+        box-shadow: 2px 2px 4px 5px #ccc; ">
           <div class="card-header">
-          <p class="card-title h4">QR CODE - <%=data[i].qrcode_company_name%></p> 
+          <p class="card-title h4"><b><%=data[i].qrcode_company_name%></b></p>
           </div>
           <div class="card-body">
-            <div class="card-text">
-              <b>Description:</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_description%></div>
-              <b>Product:</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_product_name%> </div>
-              <b>Product Description:</b><div style="width: 15rem; height: 6rem; overflow: auto;"> <%=data[i].qrcode_product_description%> </div>       
+            <div class="card-text text-center">
+                  <b>Product</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_product_name%> </div>
+                  <b>Product Description</b><div style="width: 15rem; height: 6rem; overflow: auto;"> <%=data[i].qrcode_product_description%></div>
+                <b>QR Code Description</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_description%></div>
+                <img src="<%=qrcodes[i]%>" id="company_image" alt="Company Logo">
             </div>
             <div class="card-footer">
             <a href="javascript:void(0);" class="btn-sm btn-info view " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>" data-qrcode_hashid="<%= data[i].qrcode_hashid%>"
@@ -133,7 +134,8 @@
                 </div>
                 <div class="form-group">
                   <label for="qrcode_product_description">Product Description</label>
-                  <input type="text" name="qrcode_product_description" class="form-control" placeholder="Product Description" required>
+                  <textarea name="qrcode_product_description" class="form-control" rows="3" placeholder="Product Description" required>
+                  </textarea>
                 </div>
              </div>
             </div>
@@ -202,7 +204,8 @@
                </div>
                <div class="form-group">
                  <label for="qrcode_product_description">Product Description</label>
-                 <input type="text" name="qrcode_product_description" class="form-control qrcode_product_description" placeholder="Product Description" required>
+                 <textarea type="text" name="qrcode_product_description" class="form-control qrcode_product_description" placeholder="Product Description" rows="3" required>
+                 </textarea>
                </div>
             </div>
             <div class="modal-footer">
@@ -288,7 +291,8 @@
             </div>
             <div class="form-group">
               <label for="qrcode_product_description">Product Description</label>
-              <input type="text" name="qrcode_product_description" class="form-control qrcode_product_description" placeholder="Product Description" readonly>
+              <textarea name="qrcode_product_description" class="form-control qrcode_product_description" placeholder="Product Description" rows="3" readonly>
+              </textarea>
             </div>
          </div>
          <div class="modal-footer">
