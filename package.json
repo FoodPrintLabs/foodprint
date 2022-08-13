@@ -23,7 +23,7 @@
     "heroku-postbuild": "sequelize db:migrate --env production && npm run bundle",
     "dev": "nodemon server.js --host 0.0.0.0",
     "start": "node server.js",
-    "format": "prettier --write 'README.md' 'server.js' 'utils/*.js' 'migrations/*.js' 'routes/*.js' 'models/*.js' 'dbxml/*.js' 'config/*.js'"
+    "format": "prettier --write 'README.md' 'server.js' 'utils/*.js' 'migrations/*.js' 'routes/*.js' 'models/*.js' 'config/*/*.js'"
   },
   "author": "Julian Kanjere, FoodPrint Labs",
   "license": "ISC",

@@ -11,6 +11,16 @@ var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
+const {
+  getUploadParams,
+  resolveFilenames,
+  uploadConnection,
+} = require('../config/digitalocean/file-upload');
+const pdfService = require('../config/pdf/pdf-service');
+const { storagepdf } = require('../config/pdf/storagepdf');
+//Name of your DO bucket here
+const BucketName = process.env.DO_BUCKET_NAME;
+
 /* GET storage page. */
 router.get(
   '/',
@@ -630,5 +640,96 @@ router.post(
     }
   }
 );
+
+router.get('/pdf/whatsapp/:phoneNumber', function (req, res) {
+  try {
+    const { phoneNumber } = req.params;
+    models.User.findOne({
+      where: {
+        phoneNumber: phoneNumber,
+      },
+    })
+      .then(user => {
+        const emailAddress = user.email;
+        models.FoodprintStorage.findAll({
+          attributes: [
+            'harvest_logid',
+            'storage_logid',
+            'harvest_supplierShortcode',
+            'supplierproduce',
+            'market_Name',
+            'market_quantity',
+            'market_unitOfMeasure',
+            'market_storageTimeStamp',
+            'blockchain_explorer_url',
+          ],
+          order: [['pk', 'DESC']],
+          where: {
+            storage_user: emailAddress,
+          },
+        })
+          .then(rows => {
+            const pdfFilename = `FoodPrint_Storage_${phoneNumber}`;
+            const pdffileextension = '.pdf';
+            let filenames = resolveFilenames(pdfFilename, pdffileextension);
+
+            // stream pdf in chunks to response
+            let chunks = [];
+            pdfService.buildPDF(
+              `STORAGE ENTRIES FOR ${user.firstName.toUpperCase()} ${user.lastName.toUpperCase()}
+            ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
+              storagepdf(rows),
+              chunk => chunks.push(chunk), // stream.write(chunk),
+              (err, data) => {
+                if (err) {
+                  console.log(err);
+                  res.status(400).send({ message: err.message });
+                }
+                const result = Buffer.concat(chunks);
+                //DO upload
+                let uploadParams = getUploadParams(
+                  BucketName,
+                  'application/pdf',
+                  result,
+                  'public-read',
+                  filenames.filename
+                );
+                uploadConnection.upload(uploadParams, function (error, data) {
+                  if (error) {
+                    console.error(error);
+                    res.status(500).send({ error: error, message: 'Unexpected error occurred 😤' });
+                    return;
+                  }
+                  console.log('File uploaded ' + filenames.fileUrl);
+                  res.status(200).send({ message: 'file uploaded', pdf_url: filenames.fileUrl });
+                });
+              }
+            );
+
+            // For Testing on web app
+            /*const stream = res.writeHead(200, {
+              'Content-Type': 'application/pdf',
+              'Content-Disposition': 'attachment;filename=' + pdfFilename,
+            });
+            pdfService.buildPDF(
+              `STORAGE ENTRIES FOR ${user.firstName.toUpperCase()} ${user.lastName.toUpperCase()}
+            ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
+              storagepdf(rows),
+              chunk => stream.write(chunk),
+              () => stream.end()
+            );*/
+          })
+          .catch(err => {
+            console.log('Storage PDF err:' + err);
+          });
+      })
+      .catch(err => {
+        res.status(404).send({ error: err, message: 'User not found 😤' });
+      });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
+  }
+});
 
 module.exports = router;
