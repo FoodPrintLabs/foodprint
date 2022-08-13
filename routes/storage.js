@@ -641,6 +641,54 @@ router.post(
   }
 );
 
+/* GET PDF of Storage record for farmer - webapp */
+router.get('/pdf',
+    require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+    function (req, res) {
+      models.FoodprintStorage.findAll({
+        attributes: [
+          'harvest_logid',
+          'storage_logid',
+          'harvest_supplierShortcode',
+          'supplierproduce',
+          'market_Name',
+          'market_quantity',
+          'market_unitOfMeasure',
+          'market_storageTimeStamp',
+          'blockchain_explorer_url',
+        ],
+        order: [['pk', 'DESC']],
+        where: {
+          storage_user: req.user.email,
+        },
+      })
+          .then(rows => {
+            const pdffileextension = '.pdf';
+            const username = req.user.username
+            const useremail = req.user.email
+            const pdfFilename = `FoodPrint_Storage_${username}_${moment(new Date()).format('YYYY-MM-DD')}`;
+            const filenames = resolveFilenames(pdfFilename, pdffileextension);
+
+            const stream = res.writeHead(200, {
+              'Content-Type': 'application/pdf',
+              'Content-Disposition': 'attachment;filename=' + filenames.filename,
+            });
+            pdfService.buildPDF(
+                `STORAGE ENTRIES FOR ${username} ${useremail}
+                ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
+                storagepdf(rows),
+                chunk => stream.write(chunk),
+                () => stream.end()
+            );
+          })
+          .catch(err => {
+            console.log('Storage PDF err:' + err);
+            req.flash('error', err);
+          });
+    }
+);
+
+/* GET PDF of Storage record for farmer - whatsapp */
 router.get('/pdf/whatsapp/:phoneNumber', function (req, res) {
   try {
     const { phoneNumber } = req.params;
@@ -705,19 +753,6 @@ router.get('/pdf/whatsapp/:phoneNumber', function (req, res) {
                 });
               }
             );
-
-            // For Testing on web app
-            /*const stream = res.writeHead(200, {
-              'Content-Type': 'application/pdf',
-              'Content-Disposition': 'attachment;filename=' + pdfFilename,
-            });
-            pdfService.buildPDF(
-              `STORAGE ENTRIES FOR ${user.firstName.toUpperCase()} ${user.lastName.toUpperCase()}
-            ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
-              storagepdf(rows),
-              chunk => stream.write(chunk),
-              () => stream.end()
-            );*/
           })
           .catch(err => {
             console.log('Storage PDF err:' + err);

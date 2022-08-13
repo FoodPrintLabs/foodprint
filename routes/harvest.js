@@ -723,7 +723,6 @@ router.get('/pdf',
     }
 );
 
-
 /* GET PDF of Harvest record for farmer - whatsapp */
 router.get('/pdf/whatsapp/:phoneNumber', function (req, res) {
   try {
