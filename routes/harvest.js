@@ -678,6 +678,53 @@ router.post(
   }
 );
 
+/* GET PDF of Harvest record for farmer - webapp */
+router.get('/pdf',
+    require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+    function (req, res) {
+      models.FoodprintHarvest.findAll({
+            attributes: [
+              'harvest_logid',
+              'harvest_farmerName',
+              'harvest_produceName',
+              'harvest_TimeStamp',
+              'harvest_quantity',
+              'harvest_unitOfMeasure',
+              'blockchain_explorer_url',
+            ],
+            order: [['pk', 'DESC']],
+            where: {
+              harvest_user: req.user.email,
+            },
+          })
+              .then(rows => {
+                const pdffileextension = '.pdf';
+                const username = req.user.username
+                const useremail = req.user.email
+                const pdfFilename = `FoodPrint_Harvest_${username}_${moment(new Date()).format('YYYY-MM-DD')}`;
+                const filenames = resolveFilenames(pdfFilename, pdffileextension);
+
+                const stream = res.writeHead(200, {
+                  'Content-Type': 'application/pdf',
+                  'Content-Disposition': 'attachment;filename=' + filenames.filename,
+                });
+                pdfService.buildPDF(
+                  `HARVEST ENTRIES FOR ${username} ${useremail}
+                ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
+                  harvestpdf(rows),
+                  chunk => stream.write(chunk),
+                  () => stream.end()
+                );
+              })
+              .catch(err => {
+                console.log('Harvest PDF err:' + err);
+                req.flash('error', err);
+              });
+    }
+);
+
+
+/* GET PDF of Harvest record for farmer - whatsapp */
 router.get('/pdf/whatsapp/:phoneNumber', function (req, res) {
   try {
     const { phoneNumber } = req.params;
