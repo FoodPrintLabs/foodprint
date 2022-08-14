@@ -21,6 +21,28 @@ const { storagepdf } = require('../config/pdf/storagepdf');
 //Name of your DO bucket here
 const BucketName = process.env.DO_BUCKET_NAME;
 
+/*   function to determine rows of data that can be seen based on user role */
+function getStorageSqlSearchCondition(user){
+  // default permission is to see only rows the user has added
+  let sql_search_condition = {
+    where: {
+      storage_user: user.email,
+    },
+    order: [['pk', 'DESC']],
+  };
+
+  // admins and superusers can see all records
+  if (
+      user.role === ROLES.Admin ||
+      user.role === ROLES.Superuser
+  ) {
+    sql_search_condition = {
+      order: [['pk', 'DESC']],
+    }
+  }
+  return sql_search_condition;
+}
+
 /* GET storage page. */
 router.get(
   '/',
@@ -31,9 +53,10 @@ router.get(
       req.user.role === ROLES.Admin ||
       req.user.role === ROLES.Superuser
     ) {
-      models.FoodprintStorage.findAll({
-        order: [['pk', 'DESC']],
-      })
+      // admins and superusers can see all records, whilst farmers can see only records they added
+      const sql_search_condition = getStorageSqlSearchCondition(req.user);
+
+      models.FoodprintStorage.findAll(sql_search_condition)
         .then(rows => {
           console.log('All storage rows:' + rows.length.toString());
           models.FoodprintHarvest.findAll({
@@ -58,24 +81,15 @@ router.get(
             })
             .catch(err => {
               console.log('All storage err:' + err);
-              req.flash('error', err.message); //TODO- flash does not seem to be working on render, to test add an invalid column to the SQL query
-              res.render('storagelogbook', {
-                page_title: 'FoodPrint - Storage Logbook',
-                data: rows,
-                harvest_data: '',
-                user: req.user,
-                page_name: 'storagelogbook',
-              });
+              req.flash('error', err.message);
+              // redirect to Storage Logbook page
+              res.redirect('/app/storage');
             });
         })
         .catch(err => {
           req.flash('error', err.message);
-          res.render('storagelogbook', {
-            page_title: 'FoodPrint - Storage Logbook',
-            data: '',
-            user: req.user,
-            page_name: 'storagelogbook',
-          });
+          // redirect to Storage Logbook page
+          res.redirect('/app/storage');
         });
     } else {
       res.render('error', {
@@ -321,9 +335,10 @@ router.post(
           req.user.role === ROLES.Admin ||
           req.user.role === ROLES.Superuser
         ) {
-          models.FoodprintStorage.findAll({
-            order: [['pk', 'DESC']],
-          })
+          // admins and superusers can see all records, whilst farmers can see only records they added
+          const sql_search_condition = getStorageSqlSearchCondition(req.user);
+
+          models.FoodprintStorage.findAll(sql_search_condition)
             .then(_ => {
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
@@ -337,14 +352,8 @@ router.post(
             .catch(err => {
               console.log('All storage err:' + err);
               req.flash('error', err.message);
-              res.render('storagelogbook', {
-                page_title: 'FoodPrint - Storage Logbook',
-                data: '',
-                user: req.user,
-                page_name: 'storagelogbook',
-                success: false,
-                errors: e.array(),
-              });
+              // redirect to Storage Logbook page
+              res.redirect('/app/storage');
             });
         }
       }
@@ -575,9 +584,10 @@ router.post(
           req.user.role === ROLES.Admin ||
           req.user.role === ROLES.Superuser
         ) {
-          models.FoodprintStorage.findAll({
-            order: [['pk', 'DESC']],
-          })
+          // admins and superusers can see all records, whilst farmers can see only records they added
+          const sql_search_condition = getStorageSqlSearchCondition(req.user);
+
+          models.FoodprintStorage.findAll(sql_search_condition)
             .then(_ => {
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
@@ -590,14 +600,8 @@ router.post(
             })
             .catch(err => {
               req.flash('error', err.message);
-              res.render('storagelogbook', {
-                page_title: 'FoodPrint - Storage Logbook',
-                data: '',
-                user: req.user,
-                page_name: 'storagelogbook',
-                success: false,
-                errors: e.array(),
-              });
+              // redirect to Storage Logbook page
+              res.redirect('/app/storage');
             });
         }
       }
@@ -637,8 +641,59 @@ router.post(
           // redirect to Storage Logbook page
           res.redirect('/app/storage');
         });
+    } else
+    {
+      req.flash(
+          'error',
+          'You are not authorised to delete Storage records.'
+      );
+      res.redirect('/app/storage');
     }
   }
+);
+
+/* GET PDF of all Storage entries (as an admin) - webapp */
+router.get('/pdf/all',
+    require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+    function (req, res) {
+      models.FoodprintStorage.findAll({
+        attributes: [
+          'harvest_logid',
+          'storage_logid',
+          'harvest_supplierShortcode',
+          'supplierproduce',
+          'market_Name',
+          'market_quantity',
+          'market_unitOfMeasure',
+          'market_storageTimeStamp',
+          'blockchain_explorer_url',
+        ],
+        order: [['pk', 'DESC']],
+      })
+          .then(rows => {
+            const pdffileextension = '.pdf';
+            const username = req.user.username
+            const useremail = req.user.email
+            const pdfFilename = `FoodPrint_Storage_${username}_${moment(new Date()).format('YYYY-MM-DD')}`;
+            const filenames = resolveFilenames(pdfFilename, pdffileextension);
+
+            const stream = res.writeHead(200, {
+              'Content-Type': 'application/pdf',
+              'Content-Disposition': 'attachment;filename=' + filenames.filename,
+            });
+            pdfService.buildPDF(
+                `MASTER STORAGE ENTRIES GENERATED BY ADMIN ${username} ${useremail}
+                ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
+                storagepdf(rows),
+                chunk => stream.write(chunk),
+                () => stream.end()
+            );
+          })
+          .catch(err => {
+            console.log('Storage PDF err:' + err);
+            req.flash('error', err);
+          });
+    }
 );
 
 /* GET PDF of Storage record for farmer - webapp */
