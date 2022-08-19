@@ -260,7 +260,10 @@ router.get('/scan/:id', [sanitizeParam('id').escape().trim()], function (req, re
 
       var request_useragent = req.headers['user-agent'];
       var logdatetime = new Date();
-
+      var qrtype = 'supplierproduce';
+      var qrlogid = 'NA';
+      var user_email = 'FoodPrint';
+      var location = 'NA';
       //TODO - cross check marketID and supplierProduceID against existing marketID's from foodprint_market and foodPrint_supplierproduceid
       //using connection.query and not connection.execute because of
       // TypeError: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
@@ -273,6 +276,11 @@ router.get('/scan/:id', [sanitizeParam('id').escape().trim()], function (req, re
         request_origin: request_origin,
         request_useragent: request_useragent,
         logdatetime: logdatetime,
+        qrtype: qrtype,
+        qrlogid: qrlogid,
+        //Is it possible to get farmer email?
+        user_email: user_email,
+        location: location,
       };
 
       models.FoodprintQrcount.create(data)
@@ -979,6 +987,79 @@ router.get(
             },
             order: [['pk', 'DESC']],
           }).then(qrcoderows => {
+            var marketID = 'NA';
+            var logid = uuidv4();
+            var qrid = req.params.hashID; //Param similar to scan route
+            var qrurl = req.protocol + '://' + req.get('host') + req.originalUrl;
+            var request_host = req.get('host');
+            var request_origin = req.headers.referer;
+            //req.headers.referer - The Referer request header contains the address of the previous web page
+            //from which a link to the currently requested page was followed.
+            //The Referer header allows servers to identify where people are visiting them from and may use that data for analytics, logging, or optimized caching, for example.
+            var request_useragent = req.headers['user-agent'];
+            var logdatetime = new Date();
+            var qrtype = 'Static';
+            var user_email;
+            var qrlogid;
+
+            //qrlogid and user_email
+            const setValues = (id, email) => {
+              qrlogid = id;
+              user_email = email;
+              console.log('Set values ' + id + ' and ' + email);
+            };
+            //get data and call setvalues
+            const getQRCodeData = () => {
+              models.FoodprintQRCode.findAll({
+                attributes: ['qrcode_logid', 'user_email'],
+                where: { qrcode_hashid: req.params.hashID },
+              }).then(result => {
+                res_qrlogid = result[0].qrcode_logid;
+                res_user_email = result[0].user_email;
+                setValues(res_qrlogid, res_user_email);
+              });
+              return 0;
+            };
+            getQRCodeData();
+
+            //TODO location
+            var location = 'NA';
+
+            try {
+              let data = {
+                logid: logid,
+                qrid: qrid,
+                qrurl: qrurl,
+                marketID: marketID,
+                request_host: request_host,
+                request_origin: request_origin,
+                request_useragent: request_useragent,
+                logdatetime: logdatetime,
+                qrtype: qrtype,
+                qrlogid: qrlogid,
+                user_email: user_email,
+                location: location,
+              };
+              //add to QRCount
+              models.FoodprintQrcount.create(data)
+                .then(() => {
+                  console.log('Product Attribute Scan Successful');
+                })
+                .catch(err => {
+                  console.error('Product Attribute scan error');
+                });
+            } catch (e) {
+              console.error('Market checkin tracking error occured');
+              res.render('error', {
+                message: 'Cannot access resources for page.',
+                title: 'Error',
+                user: req.user,
+                filter_data: '',
+                qrcodedata: '',
+                page_name: 'error',
+              });
+            }
+
             res.render('qrcode_product', {
               page_title: 'FoodPrint - QR Code Product',
               product_data: rows,
@@ -1010,6 +1091,74 @@ router.get(
         user: req.user,
         filter_data: '',
         qrcodedata: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
+
+//Render qrcode analytics EJS
+router.get(
+  '/qrcode/analytics',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintQrcount.findAll({
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: rows,
+            user: req.user,
+            filter_data: '',
+            page_name: 'dashboard_qrcode_scans',
+          });
+        })
+        .catch(err => {
+          console.log('All dashboard_qrcode_scans err:' + err);
+          req.flash('error', err);
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'dashboard_qrcode_scans',
+          });
+        });
+    } else if (req.user.role !== ROLES.Admin) {
+      models.FoodprintQrcount.findAll({
+        where: {
+          user_email: req.user.email,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: rows,
+            user: req.user,
+            filter_data: '',
+            page_name: 'dashboard_qrcode_scans',
+          });
+        })
+        .catch(err => {
+          console.log('All dashboard_qrcode_scans err:' + err);
+          req.flash('error', err);
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'dashboard_qrcode_scans',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
         page_name: 'error',
       });
     }
