@@ -112,7 +112,7 @@
                       data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
                       Edit</a>
 
-                    <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete" 
+                    <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete"
                        id="<%= ("harvest_delete_" + data[i].harvest_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -147,7 +147,7 @@
                           padding-left: 18px; background-color: rgb(16, 202, 16);">
                           View on Blockchain</a>  <%}else{ %>
                     <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addHarvestToBlockchainBtn" style="padding-right: 20px;
-                    padding-left: 20px;" 
+                    padding-left: 20px;"
                        id="<%= ("harvest_add_blockchain_" + data[i].harvest_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                         data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -206,7 +206,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
+                  <select class="form-control" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
                     <option value="" selected disabled >Choose Supplier...</option>
                     <option>BGSM</option>
                     <option>EKLN</option>
@@ -220,7 +220,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_suppliername">Farmer Name</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
+                  <select class="form-control" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
                     <option value="" selected disabled >Choose Farmer Name...</option>
                     <option>Bergsoom Farm</option>
                     <option>Eikelaan Farm</option>
@@ -234,7 +234,7 @@
               
                 <div class="form-group">
                   <label for="viewmodal_supplierproduce">Supplier Produce Code</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                  <select class="form-control" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
                     <option value="" selected disabled >Choose Supplier Produce...</option>
                     <option>BGSM_Bergamot</option>
                     <option>BGSM_Lemon</option>
@@ -275,7 +275,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_producename">Produce Name</label>
-                  <select class="custom-select d-block w-100" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename" >
+                  <select class="form-control" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename" >
                     <option value="" selected disabled >Choose Produce...</option>
                     <option>Baby Marrow</option>
                     <option>Baby Leeks</option>
@@ -370,7 +370,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_unitofmeasure">Unit of Measure</label>
-                  <select class="custom-select d-block w-100" id="viewmodal_harvest_unitofmeasure" name="viewmodal_harvest_unitofmeasure">
+                  <select class="form-control" id="viewmodal_harvest_unitofmeasure" name="viewmodal_harvest_unitofmeasure">
                     <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>bunch</option>
                     <option>kilogram</option>
