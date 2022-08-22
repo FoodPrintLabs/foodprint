@@ -10,6 +10,51 @@ var ROLES = require('../utils/roles');
 var QRCode = require('qrcode');
 var moment = require('moment'); //datetime
 var models = initModels(sequelise);
+var crypto = require('crypto');
+const hash = crypto.createHash('sha256');
+const env = process.env.NODE_ENV || 'development';
+let fs = require('fs');
+
+//Digital Ocean File Upload
+const {
+  uploadConnection,
+  getUploadParams,
+  resolveFilenames,
+} = require('../config/digitalocean/file-upload');
+
+const multerS3 = require('multer-s3');
+const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
+
+//Name of your DO bucket here
+const BucketName = process.env.DO_BUCKET_NAME;
+
+//upload header added to route
+const upload = multer({
+  storage: multerS3({
+    s3: uploadConnection,
+    bucket: BucketName,
+    acl: 'public-read',
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      //Logic for file uploaded + access to req data
+      //console.log(file);
+      //mimetype split for ext - safe with image mimetypes (image/png, image/jpeg) not others
+      let extArray = file.mimetype.split('/');
+      let extension = extArray[extArray.length - 1];
+      cb(
+        null,
+        (
+          req.body.qrcode_company_name +
+          moment(new Date()).format('YYYY-MM-DD') +
+          '.' +
+          extension
+        ).toLowerCase()
+      );
+    },
+  }),
+});
 
 //market checkin XmlHTTP request
 router.post(
@@ -422,11 +467,19 @@ router.get(
         },
         order: [['pk', 'DESC']],
       })
-        .then(rows => {
+        .then(async rows => {
+          //create array of URL data
+          const qrcodes = [];
+          for (var i = 0; i < rows.length; i++) {
+            var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
+            qrcodes.push(qrcode_image);
+          }
+          //console.log(qrcodes);
           res.render('dashboard_qrcode', {
             page_title: 'FoodPrint - QR Code Dashboard',
             data: rows,
             user: req.user,
+            qrcodes: qrcodes,
             filter_data: '',
             page_name: 'dashboard_qrcode',
           });
@@ -456,6 +509,7 @@ router.get(
 //ROUTE TO INSERT QRCODE DATA
 router.post(
   '/qrcode/save',
+  upload.array('qrcode_company_logo_uploaded_file', 1),
   [
     check('qrcode_company_name', 'Your company name is not valid').not().isEmpty().trim().escape(),
     check('qrcode_company_founded', 'Your your founded year is not valid')
@@ -482,6 +536,7 @@ router.post(
       .escape(),
   ],
   function (req, res) {
+    console.log('Successfully uploaded ' + req.files.length + ' files!');
     const result = validationResult(req);
     var errors = result.errors;
     for (var key in errors) {
@@ -492,11 +547,46 @@ router.post(
       res.render('dashboard_qrcode', {
         page_title: 'FoodPrint - QR Code Configuration Dashboard',
         data: '',
+        user: req.user,
         page_name: 'dashboard_qrcode',
       }); //should add error array here
     } else {
+      //File Names needed for saving
+      let logoFilename = req.body.qrcode_company_name + moment(new Date()).format('YYYY-MM-DD');
+      //mimetype extension setting
+      let logofileextension = '';
+      if (req.files[0].mimetype == 'image/jpeg') {
+        logofileextension = '.jpeg';
+      } else if (req.files[0].mimetype == 'image/png') {
+        logofileextension = '.png';
+      } else if (req.files[0].mimetype == 'image/jpg') {
+        logofileextension = '.jpg';
+      }
+
+      let filenames = resolveFilenames(logoFilename, logofileextension);
+      //QRCODE
+      //check environment product was saved in for URL
+      let host = req.get('host');
+      let protocol = 'https';
+      // if running in dev then protocol can be http
+      if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+        protocol = req.protocol;
+      }
+      let supplier_product = (
+        req.body.qrcode_company_name +
+        '-' +
+        req.body.qrcode_product_name +
+        '-' +
+        req.body.qrcode_contact_email
+      )
+        .split(' ')
+        .join('');
+      let hashID = crypto.createHash('sha256').update(supplier_product).digest('hex');
+      let qrURL = protocol + '://' + host + '/app/qrcode/static/' + hashID;
+
+      let qrid = uuidv4();
       let data = {
-        qrcode_logid: uuidv4(),
+        qrcode_logid: qrid,
         qrcode_company_name: req.body.qrcode_company_name,
         qrcode_company_founded: req.body.qrcode_company_founded,
         qrcode_contact_email: req.body.qrcode_contact_email,
@@ -504,11 +594,14 @@ router.post(
         qrcode_facebook: req.body.qrcode_facebook,
         qrcode_twitter: req.body.qrcode_twitter,
         qrcode_instagram: req.body.qrcode_instagram,
-        qrcode_url: req.body.qrcode_url,
-        qrcode_image_url: qrcode_image_url,
+        qrcode_url: qrURL,
+        qrcode_image_url: qrURL,
         qrcode_description: req.body.qrcode_description,
+        qrcode_company_logo_url: filenames.fileUrl,
         qrcode_product_name: req.body.qrcode_product_name,
         qrcode_product_description: req.body.qrcode_product_description,
+        qrcode_hashid: hashID,
+        qrcode_supplier_product: supplier_product,
         user_email: req.user.email,
         qrcode_logdatetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       };
@@ -536,6 +629,7 @@ router.post(
           page_title: 'FoodPrint - QR Code Configuration Dashboard',
           data: '',
           success: false,
+          user: req.user,
           errors: e.array(),
           page_name: 'dashboard_qrcode',
         });
@@ -596,8 +690,6 @@ router.post(
         qrcode_facebook: req.body.qrcode_facebook,
         qrcode_twitter: req.body.qrcode_twitter,
         qrcode_instagram: req.body.qrcode_instagram,
-        qrcode_url: req.body.qrcode_url,
-        qrcode_image_url: qrcode_image_url,
         qrcode_description: req.body.qrcode_description,
         qrcode_product_name: req.body.qrcode_product_name,
         qrcode_product_description: req.body.qrcode_product_description,
@@ -734,7 +826,7 @@ router.get(
 
 //ADD Attribute to QRCODE
 router.post(
-  '/qrcode/attribute/save/',
+  '/qrcode/attribute/save',
   [
     check('product_attribute', 'Your company name is not valid').not().isEmpty().trim().escape(),
     check('product_attribute_description', 'Your your founded year is not valid')
@@ -762,6 +854,7 @@ router.post(
         attribute_id: uuidv4(),
         product_attribute: req.body.product_attribute,
         product_attribute_description: req.body.product_attribute_description,
+        qrcode_hashid: req.body.qrcode_hashid,
       };
       try {
         models.FoodprintQRCodeProductAttributes.create(data)
@@ -881,5 +974,61 @@ router.post('/qrcode/attribute/delete/', [], function (req, res) {
       });
   }
 });
+
+//Render qrcode attribute timeline EJS
+router.get(
+  '/qrcode/static/:hashID',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintQRCodeProductAttributes.findAll({
+        where: {
+          qrcode_hashid: req.params.hashID,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows =>
+          models.FoodprintQRCode.findAll({
+            where: {
+              qrcode_hashid: req.params.hashID,
+            },
+            order: [['pk', 'DESC']],
+          }).then(qrcoderows => {
+            res.render('qrcode_product', {
+              page_title: 'FoodPrint - QR Code Product',
+              product_data: rows,
+              qrdata: req.params.qrid,
+              user: req.user,
+              qrcode_data: qrcoderows,
+              filter_data: '',
+              page_name: 'qrcode_product',
+            });
+          })
+        )
+        .catch(err => {
+          console.log('All qrcode_product err:' + err);
+          req.flash('error', err);
+          res.render('qrcode_product', {
+            page_title: 'FoodPrint - QR Code Product',
+            product_data: '',
+            qrdata: '',
+            qrcode_data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'qrcode_product',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        qrcodedata: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
 
 module.exports = router;

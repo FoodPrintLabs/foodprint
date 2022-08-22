@@ -19,10 +19,11 @@
     "inserttestsupplierproduce": "node tests/test_supplier_produce_scan.js",
     "build-dev": "sequelize db:migrate --env development",
     "build": "sequelize db:migrate --env production",
+    "build-dev-undo": "sequelize db:migrate:undo --env development",
     "heroku-postbuild": "sequelize db:migrate --env production && npm run bundle",
     "dev": "nodemon server.js --host 0.0.0.0",
     "start": "node server.js",
-    "format": "prettier --write 'README.md' 'server.js' 'utils/*.js' 'migrations/*.js' 'routes/*.js' 'models/*.js' 'dbxml/*.js' 'config/*.js'"
+    "format": "prettier --write 'README.md' 'server.js' 'utils/*.js' 'migrations/*.js' 'routes/*.js' 'models/*.js' 'config/*/*.js'"
   },
   "author": "Julian Kanjere, FoodPrint Labs",
   "license": "ISC",
@@ -71,6 +72,7 @@
     "moment": "^2.27.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
+    "multer-s3": "2.10",
     "mysql2": "^2.2.5",
     "node-fetch": "^3.1.0",
     "nodemailer": "^6.4.2",

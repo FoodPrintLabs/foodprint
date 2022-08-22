@@ -10,11 +10,11 @@ const axios = require('axios');
 const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 
-// Digital Ocean imports
-const multer = require('multer');
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-const AWS = require('aws-sdk');
+const {
+  uploadConnection,
+  getUploadParams,
+  resolveFilenames,
+} = require('../config/digitalocean/file-upload');
 
 //pdfservice
 const pdfService = require('../config/pdf/pdf-service');
@@ -27,35 +27,8 @@ const { producepricepdf } = require('../config/pdf/producepricepdf');
 
 var models = initModels(sequelise);
 
-// Digital Ocean config. // Set S3 endpoint to DigitalOcean Spaces
-const bucketEndpoint = process.env.DO_ENDPOINT;
-const bucketKey = process.env.DO_KEY_ID;
-const bucketSecret = process.env.DO_SECRET;
-
-let space = new AWS.S3({
-  //Get the endpoint from the DO website for your space
-  endpoint: bucketEndpoint,
-  useAccelerateEndpoint: false,
-  //Create a credential using DO Spaces API key (https://cloud.digitalocean.com/account/api/tokens)
-  credentials: new AWS.Credentials(bucketKey, bucketSecret, null),
-});
-
 //Name of your DO bucket here
 const BucketName = process.env.DO_BUCKET_NAME;
-
-// DO Check if file exists by returning metadata
-/*
-import HeadObjectCommand from aws-sdk
-const config = {}
-const input = {
-    Bucket: 'your-bucket',
-    Key: 'test.txt'
-}
-const client = new S3Client(config)
-const command = new HeadObjectCommand(input)
-const response = await client.send(command)
-console.log(response)
-*/
 
 /* GET Produce page. */
 router.get(
@@ -555,11 +528,10 @@ router.get('/pricepage/pdf/whatsapp', function (req, res, next) {
       order: [['pk', 'DESC']],
     })
       .then(rows => {
-        let pdfFilename =
-          'FoodPrint_ProducePrice_' + moment(new Date()).format('YYYY-MM-DD') + '.pdf';
+        let pdfFilename = 'FoodPrint_ProducePrice_' + moment(new Date()).format('YYYY-MM-DD');
+        let pdffileextension = '.pdf';
 
-        // force filename to lower case so that string matching in chatbot is not an issue
-        pdfFilename = pdfFilename.toLowerCase();
+        let filenames = resolveFilenames(pdfFilename, pdffileextension);
 
         // stream pdf in chunks to response
         let chunks = [];
@@ -574,27 +546,22 @@ router.get('/pricepage/pdf/whatsapp', function (req, res, next) {
               res.status(400).send({ message: err.message });
             }
             const result = Buffer.concat(chunks);
-
-            //DO upload params
-            let uploadParameters = {
-              Bucket: BucketName,
-              ContentType: 'application/pdf',
-              Body: result,
-              ACL: 'public-read', //set file to public access
-              Key: pdfFilename,
-            };
-
-            const fullPdfUrl = 'https://' + BucketName + '.' + bucketEndpoint + '/' + pdfFilename;
-
             //DO upload
-            space.upload(uploadParameters, function (error, data) {
+            let uploadParams = getUploadParams(
+              BucketName,
+              'application/pdf',
+              result,
+              'public-read',
+              filenames.filename
+            );
+            uploadConnection.upload(uploadParams, function (error, data) {
               if (error) {
                 console.error(error);
                 res.status(500).send({ error: error, message: 'Unexpected error occurred 😤' });
                 return;
               }
-              console.log('File uploaded ' + fullPdfUrl);
-              res.status(200).send({ message: 'file uploaded', pdf_url: fullPdfUrl });
+              console.log('File uploaded ' + filenames.fileUrl);
+              res.status(200).send({ message: 'file uploaded', pdf_url: filenames.fileUrl });
             });
           }
         );

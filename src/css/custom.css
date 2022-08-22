@@ -84,3 +84,23 @@ html {
 body {
   margin-bottom: 50px;
 }
+
+/*Qrcode attribute timeline card*/
+.qrcodedetailscardtimeline {
+  border-radius: 5px;
+  margin: 10px;
+  box-shadow: 2px 2px 4px 5px #ccc;
+  margin: auto;
+  width: 30%;
+}
+
+@media only screen and (max-width: 600px) {
+  .qrcodedetailscardtimeline {
+    width: 80%;
+  }
+}
+@media only screen and (max-width: 800px) and (min-width: 550px) {
+  .qrcodedetailscardtimeline {
+    width: 80%;
+  }
+}
