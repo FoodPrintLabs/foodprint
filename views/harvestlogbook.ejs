@@ -18,8 +18,13 @@
     <h3>Harvest Logbook</h3>
     <div>
       <a class="btn btn-primary btn-sm" onclick="ShowModal(this, 'add', 'Add Harvest Entry','addCSS')">Add New Harvest Entry</a>
-<!--      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>-->
-<!--      <p>Connected Account: <span class="showAccount"></span></p>-->
+      <a class="btn btn-primary btn-sm" href="/app/harvest/pdf" target="_blank">View My Harvest Record (PDF)</a>
+      <% if (user.role == "Admin" || user.role == "Superuser") { %>
+        <a class="btn btn-primary btn-sm" href="/app/harvest/pdf/all" target="_blank">View All Harvest Records (PDF)</a>
+      <% } %>
+
+      <!--      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>-->
+      <!--      <p>Connected Account: <span class="showAccount"></span></p>-->
     </div>
     
     <% include ./partials/notificationbar %>
@@ -34,6 +39,7 @@
             <th scope="col">Supplier</th>
             <th scope="col">Produce</th>
             <th scope="col">Action</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -41,12 +47,12 @@
               for(var i = 0; i< data.length; i++) {%>
               <tr>
                 <td scope="row" style="width: 2%;"><%= (i+1) %></td>
-                <td style="width: 25%;"><%= data[i].harvest_logid %></td>
-                <td style="width: 38%;"><%= data[i].harvest_TimeStamp %></td>
+                <td style="width: 20%;"><%= data[i].harvest_logid %></td>
+                <td style="width: 20%;"><%= data[i].harvest_TimeStamp %></td>
                 <td style="width: 10%;"><%= data[i].harvest_supplierName %></td>
                 <td style="width: 10%;"><%= data[i].harvest_produceName %></td>
-                <td style="width: 15%;">
-                  <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                <td style="width: 10%;">
+                  <div class="btn-group-sm" role="group">
                     <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')"  class="btn btn-xs btn-info view"
                        id="<%= ("harvest_view_" + data[i].harvest_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
@@ -74,8 +80,8 @@
                       data-year_established="<%=data[i].year_established%>"
                       data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
-                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
-                      View</a>
+                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>" title="View">
+                      <i class="far fa-eye"></i></a>
 
                     <a onclick="ShowModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit" style="background-color: rgb(0, 160, 246);"
                        id="<%= ("harvest_edit_" + data[i].harvest_logid) %>"
@@ -104,10 +110,10 @@
                       data-year_established="<%=data[i].year_established%>"
                       data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
-                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
-                      Edit</a>
+                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>" title="Edit">
+                      <i class="far fa-edit"></i></a>
 
-                    <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete" 
+                    <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete"
                        id="<%= ("harvest_delete_" + data[i].harvest_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -134,50 +140,51 @@
                       data-year_established="<%=data[i].year_established%>"
                       data-covid19_response="<%=data[i].covid19_response%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
-                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
-                      Delete</a>
-
-                      <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%>
-                        <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank" style="padding-right: 20px;
-                          padding-left: 18px; background-color: rgb(16, 202, 16);">
-                          View on Blockchain</a>  <%}else{ %>
-                    <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addHarvestToBlockchainBtn" style="padding-right: 20px;
-                    padding-left: 20px;" 
-                       id="<%= ("harvest_add_blockchain_" + data[i].harvest_logid) %>"
-                       data-harvest_logid="<%= data[i].harvest_logid%>"
-                        data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
-                        data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
-                        data-harvest_farmername="<%=data[i].harvest_farmerName%>"
-                        data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
-                        data-harvest_producename="<%=data[i].harvest_produceName%>"
-                        data-harvest_photohash="<%=data[i].harvest_photoHash%>"
-                        data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
-                        data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
-                        data-harvest_description="<%=data[i].harvest_Description%>"
-                        data-harvest_geolocation="<%=data[i].harvest_geolocation%>"
-                        data-harvest_quantity="<%=data[i].harvest_quantity%>"
-                        data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>"
-                        data-harvest_description_json="<%=data[i].harvest_description_json%>"
-                        data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>"
-                        data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>"
-                        data-supplierproduce="<%=data[i].supplierproduce%>"
-                        data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>"
-                        data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>"
-                        data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
-                        data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
-                        data-harvest_user="<%=data[i].harvest_user%>"
-                        data-year_established="<%=data[i].year_established%>"
-                        data-covid19_response="<%=data[i].covid19_response%>"
-                        data-logdatetime="<%=data[i].logdatetime%>"
-                        data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
-                        Add to Blockchain</a>  <% } %>
+                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>" title="Delete">
+                      <i class="far fa-trash-alt"></i></a>
                     </div>
+                </td>
+                <td style="width: 15%;">
+                  <div class="btn-group-sm" style="width: 100%;">
+                    <% if(data[i].harvest_bool_added_to_blockchain!=='false'){%>
+                    <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-block btn-xs btn-success" target="_blank" >
+                      View on Blockchain</a>  <%}else{ %>
+                      <a onclick="addToBlockchain(this)"  class="btn btn-block btn-xs btn-success blockchain addHarvestToBlockchainBtn"
+                         id="<%= ("harvest_add_blockchain_" + data[i].harvest_logid) %>"
+                         data-harvest_logid="<%= data[i].harvest_logid%>"
+                         data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
+                         data-harvest_suppliername="<%=data[i].harvest_supplierName%>"
+                         data-harvest_farmername="<%=data[i].harvest_farmerName%>"
+                         data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
+                         data-harvest_producename="<%=data[i].harvest_produceName%>"
+                         data-harvest_photohash="<%=data[i].harvest_photoHash%>"
+                         data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
+                         data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
+                         data-harvest_description="<%=data[i].harvest_Description%>"
+                         data-harvest_geolocation="<%=data[i].harvest_geolocation%>"
+                         data-harvest_quantity="<%=data[i].harvest_quantity%>"
+                         data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>"
+                         data-harvest_description_json="<%=data[i].harvest_description_json%>"
+                         data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>"
+                         data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>"
+                         data-supplierproduce="<%=data[i].supplierproduce%>"
+                         data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>"
+                         data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>"
+                         data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>"
+                         data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
+                         data-harvest_user="<%=data[i].harvest_user%>"
+                         data-year_established="<%=data[i].year_established%>"
+                         data-covid19_response="<%=data[i].covid19_response%>"
+                         data-logdatetime="<%=data[i].logdatetime%>"
+                         data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
+                        Add to Blockchain</a>  <% } %>
+                  </div>
                 </td>
               </tr>
               <% }
            }else{ %>
                <tr>
-                  <td colspan="5">No Data</td>
+                  <td colspan="6">No Data</td>
                </tr>
             <% } %>
         </tbody>
@@ -189,20 +196,19 @@
     <form id="harvestModalForm" enctype="multipart/form-data" action="/app/harvest/save" method="post">
       <div class="modal fade" id="harvestViewModal" tabindex="-1" role="dialog" aria-labelledby="harvestModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
+          <div class="modal-content"  id="modalContentDiv">
             <div class="modal-header">
               <h5 class="modal-title" id="harvestModalLabel">View Harvest</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-
             <div class="modal-body">
               <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
+                  <select class="form-control" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
                     <option value="" selected disabled >Choose Supplier...</option>
                     <option>BGSM</option>
                     <option>EKLN</option>
@@ -216,7 +222,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_suppliername">Farmer Name</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
+                  <select class="form-control" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
                     <option value="" selected disabled >Choose Farmer Name...</option>
                     <option>Bergsoom Farm</option>
                     <option>Eikelaan Farm</option>
@@ -230,7 +236,7 @@
               
                 <div class="form-group">
                   <label for="viewmodal_supplierproduce">Supplier Produce Code</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                  <select class="form-control" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
                     <option value="" selected disabled >Choose Supplier Produce...</option>
                     <option>BGSM_Bergamot</option>
                     <option>BGSM_Lemon</option>
@@ -271,7 +277,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_producename">Produce Name</label>
-                  <select class="custom-select d-block w-100" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename" >
+                  <select class="form-control" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename" >
                     <option value="" selected disabled >Choose Produce...</option>
                     <option>Baby Marrow</option>
                     <option>Baby Leeks</option>
@@ -366,7 +372,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_unitofmeasure">Unit of Measure</label>
-                  <select class="custom-select d-block w-100" id="viewmodal_harvest_unitofmeasure" name="viewmodal_harvest_unitofmeasure">
+                  <select class="form-control" id="viewmodal_harvest_unitofmeasure" name="viewmodal_harvest_unitofmeasure">
                     <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>bunch</option>
                     <option>kilogram</option>
@@ -416,7 +422,7 @@
 
                 <div class="form-group" id="viewmodal_harvest_added_to_blockchain_byDiv">
                   <label for="viewmodal_harvest_added_to_blockchain_by">Harvest Added to Blockchain By User</label>
-                  <input type="date" name="viewmodal_harvest_added_to_blockchain_by" class="form-control" id="viewmodal_harvest_added_to_blockchain_by" placeholder="Harvest Added to Blockchain By User">
+                  <input type="text" name="viewmodal_harvest_added_to_blockchain_by" class="form-control" id="viewmodal_harvest_added_to_blockchain_by" placeholder="Harvest Added to Blockchain By User">
                 </div>
 
                 <div class="form-group" id="viewmodal_harvest_blockchain_uuidDiv">
@@ -457,7 +463,6 @@
                 <input type="checkbox" class="form-check-input" id="harvestDelete" required>
                 <label class="form-check-label" for="harvestDelete">I confirm I wish to delete this harvest entry</label>
               </div>
-            </div>
             </div>
             <div class="modal-footer" id="modalFooter">
               <input type="hidden" name="viewmodal_harvest_logid" class="" id="viewmodal_harvest_logid">
@@ -781,7 +786,6 @@
     }
     else if (action==='view'){
       $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
-  
 
       //SHOW DIVS
       //System populated:
@@ -864,6 +868,9 @@
     $('#harvestModalLabel').html(header);
     $('#modalBodyContainer').removeAttr('class'); //if already exists remove it
     $('#modalBodyContainer').addClass(contentClassID);
+
+
+     // show modal
     $('#harvestViewModal').modal('show');
   }
    </script>

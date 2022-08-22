@@ -18,8 +18,13 @@
     <h3>Storage/Handover Logbook</h3>
     <div>
       <a class="btn btn-primary btn-sm" onclick="ShowStorageModal(this, 'add', 'Add Storage Entry','addCSS')">Add New Storage Entry</a>
-<!--      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>-->
-<!--      <p>Connected Account: <span class="showAccount"></span></p>-->
+      <a class="btn btn-primary btn-sm" href="/app/storage/pdf" target="_blank">View My Storage Record (PDF)</a>
+      <% if (user.role == "Admin" || user.role == "Superuser") { %>
+        <a class="btn btn-primary btn-sm" href="/app/storage/pdf/all" target="_blank">View All Storage Records (PDF)</a>
+      <% } %>
+
+      <!--      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>-->
+      <!--      <p>Connected Account: <span class="showAccount"></span></p>-->
     </div>
 
     <% include ./partials/notificationbar %>
@@ -181,7 +186,6 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-
             <div class="modal-body">
               <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
 
@@ -391,7 +395,6 @@
                 <input type="checkbox" class="form-check-input" id="storageDelete" required>
                 <label class="form-check-label" for="storageDelete">I confirm I wish to delete this storage entry</label>
               </div>
-            </div>
             </div>
             <div class="modal-footer" id="modalFooter">
               <input type="hidden" name="viewmodal_harvest_logid" class="" id="viewmodal_harvest_logid">
