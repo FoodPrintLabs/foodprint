@@ -126,14 +126,16 @@
                   <td><%= data[i].produce_date%></td>
                   <td><%= data[i].produce_province%></td>
                   <td>
+                    <div class="btn-group-sm" role="group">
                       <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-pk="<%= data[i].pk%>"
                          data-produce_name="<%= data[i].produce_name%>" data-produce_price="<%= data[i].produce_price%>"
                          data-produce_date="<%= data[i].produce_date%>" data-produce_province="<%= data[i].produce_province%>"  
-                        >Edit</a>
+                        ><i class="far fa-edit"></i></a>
                       <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-pk2="<%= data[i].pk%>"
                         data-produce_name2="<%= data[i].produce_name%>" data-produce_price2="<%= data[i].produce_price%>"
                         data-produce_date2="<%= data[i].produce_date%>" data-produce_province2="<%= data[i].produce_province%>"  
-                       >Delete</a>
+                       ><i class="far fa-trash-alt"></i></a>
+                      </div>
                   </td>
                 </tr>
                 <% }
@@ -277,7 +279,6 @@
 </form>
 <!-- End Modal Delete Produce-->
     
-    <% include ./partials/notificationbar %>
     
     
 
