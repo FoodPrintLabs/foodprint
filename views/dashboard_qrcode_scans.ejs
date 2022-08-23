@@ -5,39 +5,42 @@
 
 
       <script>
-        /* FILTER CODE
-        function activateProduceFilter()
+        //FILTER CODE
+        function activatefilter()
         { 
-          var filter = document.getElementById('produce_filter').value;
+          var filter = document.getElementById('qrtype_filter').value;
           if(filter == "All"){
-            window.location = '/app/buyer'}
+            window.location = '/app/qrcode/analytics'}
             else if (filter)
-            { window.location = '/app/buyer/filter/produce/'+ filter;}
+            { window.location = '/app/qrcode/analytics/filter/'+ filter;}
             
         }
         
         async function filterCheck(filter)
         { 
-          //switch to check if filter range is part of produce else if it isnt display unexpected filter in console
+          //switch to check if filter range is part of qrtype else if it isnt display unexpected filter in console
           switch(filter){
           case "All":
           ocument.getElementById('qrtype_filter').value = filter;
           break;
-          case "Baby Marrow":
+          case "Supplier Produce":
+          document.getElementById('qrtype_filter').value = filter;
+          break;
+          case "Static":
           document.getElementById('qrtype_filter').value = filter;
           break;
           case "":
             break;
           default:
           console.log("Unexpected filter")
-          window.location = '/app/buyer'
+          window.location = '/app/qrcode/analytics'
         }
         
         } 
-        */
+        
            </script>
   </head>
-  <body>
+  <body onload="filterCheck('<%=filter_data%>')">
    <!-- START: header -->
 
   <div class="probootstrap-loader"></div>
@@ -53,15 +56,25 @@
     
     
     <% include ./partials/notificationbar %>
-    <!-- FILTER SELECTION SECTION
-    <div class="col text-right">
-      <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
-        <option value="" selected disabled>Choose a filter</option>
-        <option>All</option>
-      </select>
-      <button onclick="activateProduceFilter()" class="btn btn-sm mt-3" id="produce-filter-btn" style="background-color: white;">Search</button> 
-    </div>
-    -->
+     <!--FILTERS SECTION-->
+     <div class="row">
+      <div class="col-12 col-lg-12 col-xl-12" style="width: 100% ;background-color: white;padding: 10px; 
+      box-shadow: 2px 2px 4px 5px #ccc;">
+            <div class="col-12 col-lg-12 col-xl-12" >
+              <h4>Filters</h4>
+            </div>
+          <div class="col-3 col-lg-3 col-xl-3">
+            <p><strong>QR Code Type</strong></p>
+            <select class="custom-select d-block w-100 " name="qrtype_filter" id="qrtype_filter" required onchange="activatefilter()">
+              <option value="" selected disabled>Select QR Code Type</option>
+              <option>All</option>
+            <option>Supplier Produce</option>
+            <option>Static</option>
+          
+            </select>
+          </div>   
+        </div>
+      </div>
 
       <table class="table table-hover table-sm" id="qrcountTable">
         <thead>
@@ -87,17 +100,17 @@
               for(var i = 0; i< data.length; i++) {%>
               <tr>
                 <th scope="row" style="width: 2%;"><%= (i+1) %></th>
-                <td style="width:  10%;"><%= data[i].logid%> </td>
-                <td style="width:  10%;"><%= data[i].qrid%></td>
-                <td style="width:  5%;"><%= data[i].qrurl%></td>
-                <td style="width: 10%;"><%= data[i].marketid%></td>
-                <td style="width: 10%;"><%= data[i].request_origin%></td>
-                <td style="width: 10%;"><%= data[i].request_host%></td>
-                <td style="width: 10%;"><%= data[i].qrtype%></td>
-                <td style="width: 10%;"><%= data[i].qrlogid%></td>
-                <td style="width: 10%;"><%= data[i].user_email%></td>
-                <td style="width: 10%;"><%= data[i].location%></td>
-                <td style="width: 10%;"><%= data[i].logdatetime%></td>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].logid%> </td>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].qrid%></td>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].qrurl%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].marketid%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].request_origin%></td>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].request_host%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].qrtype%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].qrlogid%></td>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].user_email%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].location%></td>
+                <td style="word-wrap: break-word;min-width: 10%;max-width: 10%;"><%= data[i].logdatetime%></td>
                 <td  class="btn-group btn-group-sm" style="width: 2%;">
                      <a href="javascript:void(0);" class="btn btn-xs btn-info view" data-logid="<%= data[i].logid%>" data-qrid="<%= data[i].qrid%>" data-qrurl="<%= data[i].qrurl%>" data-marketid="<%= data[i].marketid%>" 
                       data-request_origin="<%= data[i].request_origin%>" data-request_host="<%= data[i].request_host%>" data-qrtype="<%= data[i].qrtype%>" data-user_email="<%= data[i].user_email%>" data-qrlogid="<%= data[i].qrlogid%>" 
