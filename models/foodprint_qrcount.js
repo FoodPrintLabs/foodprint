@@ -41,6 +41,22 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.DATE,
         allowNull: true,
       },
+      qrtype: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      qrlogid: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      user_email: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      location: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
     },
     {
       sequelize,
