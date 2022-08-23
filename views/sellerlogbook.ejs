@@ -210,7 +210,7 @@
                       data-offer_status="<%= data[i].offer_status%>"
                       data-offer_user="<%= data[i].offer_user%>" data-offer_unitofmeasure="<%= data[i].offer_unitOfMeasure%>"  
                       data-offer_saletime="<%= data[i].offer_saleTime%>" data-offer_saleuser="<%= data[i].offer_saleUser%>" data-offer_description="<%= data[i].offer_description%>"
-                      >View</a>
+                      ><i class="far fa-eye"></i></a>
                 </td>
               </tr>
               <% }
@@ -240,7 +240,7 @@
              <div class="modal-body">
                <div class="form-group">
                    <label for="config_name">Produce Name</label>
-                   <select class="custom-select d-block w-100" id="offer_produceName" name="offer_produceName" >
+                   <select class="form-control" id="offer_produceName" name="offer_produceName" >
                     <option value="" selected disabled >Choose Produce...</option>
                     <option>Baby Marrow</option>
                     <option>Baby Leeks</option>
@@ -282,7 +282,7 @@
 
                <div class="form-group">
                    <label for="config_value">Unit of Measure</label>
-                   <select class="custom-select d-block w-100" id="offer_unitOfMeasure" name="offer_unitOfMeasure">
+                   <select class="form-control" id="offer_unitOfMeasure" name="offer_unitOfMeasure">
                     <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>kilogram</option>
                   </select>

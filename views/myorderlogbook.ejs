@@ -49,14 +49,14 @@
                       data-order_producename="<%= data[i].order_produceName%>" data-order_timestamp="<%=data[i].order_timeStamp%>"data-order_original_timestamp="<%=data[i].order_original_timeStamp%>"
                       data-order_quantity="<%= data[i].order_quantity%>" data-order_price="<%= data[i].order_price%>" data-order_province="<%= data[i].order_province%>" 
                       data-bid_user="<%= data[i].bid_user%>" data-offer_user="<%= data[i].offer_user%>" data-order_type="<%= data[i].order_type%>"   data-order_original_logid="<%= data[i].order_original_logid%>"
-                      >View</a>
+                      ><i class="far fa-eye"></i></a>
                 </td>
               </tr>
               <% }
 
            }else{ %>
                <tr>
-                  <td colspan="5">No Bidding data available for user</td>
+                  <td colspan="5">No order data available for user</td>
                </tr>
             <% } %>
 
