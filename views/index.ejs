@@ -71,6 +71,8 @@
           </div>
 
           <div class="row display-flex">
+
+            <% if(admin_status){ %>
             <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
             box-shadow: 2px 2px 4px 5px #ccc;">
               <div class="card-header">
@@ -88,6 +90,9 @@
                   </div>
               </div>
             </div>
+            <%} else {%>
+              
+              <% } %>
             
           <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
           box-shadow: 2px 2px 4px 5px #ccc;">
