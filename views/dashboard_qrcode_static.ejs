@@ -15,7 +15,7 @@
 
    <!-- START TABLE-->
    <div class="container" style="width: 100%;">
-    <h3>QR Code Configuration</h3>
+    <h3>QR Code Configuration - Static </h3>
     <div>
         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New QR Code</button>
     </div>
@@ -36,13 +36,13 @@
     <div class="card col-2 col-lg-2 col-xl-2 text-center" style="width: 15.5rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px;
         box-shadow: 2px 2px 4px 5px #ccc; ">
           <div class="card-header">
-          <p class="card-title h4"><b><%=data[i].qrcode_company_name%></b></p>
+          <p class="card-title h4 qrcode-card-heading"><b><%=data[i].qrcode_company_name%></b></p>
           </div>
           <div class="card-body">
             <div class="card-text text-center">
-                  <b>Product</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_product_name%> </div>
-                  <b>Product Description</b><div style="width: 15rem; height: 6rem; overflow: auto;"> <%=data[i].qrcode_product_description%></div>
-                <b>QR Code Description</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_description%></div>
+                  <b class="qrcode-card-title">Product</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_product_name%> </div>
+                  <b class="qrcode-card-title">Product Description</b><div style="width: 15rem; height: 6rem; overflow: auto;"> <%=data[i].qrcode_product_description%></div>
+                <b class="qrcode-card-title">QR Code Description</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_description%></div>
                 <img src="<%=qrcodes[i]%>" id="company_image" alt="Company Logo">
             </div>
             <div class="card-footer">
