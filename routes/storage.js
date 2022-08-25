@@ -5,10 +5,11 @@ const uuidv4 = require('uuid/v4');
 var body = require('express-validator'); //validation
 var moment = require('moment'); //datetime
 var ROLES = require('../utils/roles');
-
+var QRCode = require('qrcode');
 var initModels = require('../models/init-models');
 var sequelise = require('../config/db/db_sequelise');
-
+const env = process.env.NODE_ENV || 'development';
+const CUSTOM_ENUMS = require('../utils/enums');
 var models = initModels(sequelise);
 
 const {
@@ -22,7 +23,7 @@ const { storagepdf } = require('../config/pdf/storagepdf');
 const BucketName = process.env.DO_BUCKET_NAME;
 
 /*   function to determine rows of data that can be seen based on user role */
-function getStorageSqlSearchCondition(user){
+function getStorageSqlSearchCondition(user) {
   // default permission is to see only rows the user has added
   let sql_search_condition = {
     where: {
@@ -32,13 +33,10 @@ function getStorageSqlSearchCondition(user){
   };
 
   // admins and superusers can see all records
-  if (
-      user.role === ROLES.Admin ||
-      user.role === ROLES.Superuser
-  ) {
+  if (user.role === ROLES.Admin || user.role === ROLES.Superuser) {
     sql_search_condition = {
       order: [['pk', 'DESC']],
-    }
+    };
   }
   return sql_search_condition;
 }
@@ -57,7 +55,7 @@ router.get(
       const sql_search_condition = getStorageSqlSearchCondition(req.user);
 
       models.FoodprintStorage.findAll(sql_search_condition)
-        .then(rows => {
+        .then(async rows => {
           console.log('All storage rows:' + rows.length.toString());
           models.FoodprintHarvest.findAll({
             attributes: [
@@ -69,13 +67,22 @@ router.get(
             ],
             order: [['pk', 'DESC']],
           })
-            .then(harvest_rows => {
+            .then(async harvest_rows => {
               console.log('All harvests:' + harvest_rows.length.toString());
+              //create array of URL data (cannot have black qrcode_url)
+              console.log('Generating QR Codes');
+              const qrcodes = [];
+              for (var i = 0; i < rows.length; i++) {
+                var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
+                qrcodes.push(qrcode_image);
+              }
+              console.log('Successful QRCode Generation');
               res.render('storagelogbook', {
                 page_title: 'FoodPrint - Storage Logbook',
                 data: rows,
                 harvest_data: harvest_rows,
                 user: req.user,
+                qrcodes: qrcodes,
                 page_name: 'storagelogbook',
               });
             })
@@ -96,6 +103,7 @@ router.get(
         message: 'You are not authorised to view this resource.',
         title: 'Error',
         user: req.user,
+        qrcodes: '',
         page_name: 'error',
       });
     }
@@ -208,6 +216,16 @@ router.post(
       let sys_storage_added_to_blockchain_by = '-';
       let sys_storage_blockchain_uuid = '-';
 
+      //Create and store QR Code Link
+      //check environment product was saved in for URL
+      let host = req.get('host');
+      let protocol = 'https';
+      // if running in dev then protocol can be http
+      if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+        protocol = req.protocol;
+      }
+      let final_qrcode_url = protocol + '://' + host + '/app/scan/' + req_supplierproduce;
+
       let data = {
         harvest_logid: harvest_logid_uuid,
         storage_logid: storage_logid_uuid,
@@ -231,6 +249,7 @@ router.post(
         storage_user: req_email, // user who logged storage
         logdatetime: logdatetime,
         lastmodifieddatetime: lastmodifieddatetime,
+        qrcode_url: final_qrcode_url,
       };
       console.log('storage_TimeStamp - ' + storage_TimeStamp);
       console.log(
@@ -641,106 +660,108 @@ router.post(
           // redirect to Storage Logbook page
           res.redirect('/app/storage');
         });
-    } else
-    {
-      req.flash(
-          'error',
-          'You are not authorised to delete Storage records.'
-      );
+    } else {
+      req.flash('error', 'You are not authorised to delete Storage records.');
       res.redirect('/app/storage');
     }
   }
 );
 
 /* GET PDF of all Storage entries (as an admin) - webapp */
-router.get('/pdf/all',
-    require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
-    function (req, res) {
-      models.FoodprintStorage.findAll({
-        attributes: [
-          'harvest_logid',
-          'storage_logid',
-          'harvest_supplierShortcode',
-          'supplierproduce',
-          'market_Name',
-          'market_quantity',
-          'market_unitOfMeasure',
-          'market_storageTimeStamp',
-          'blockchain_explorer_url',
-        ],
-        order: [['pk', 'DESC']],
-      })
-          .then(rows => {
-            const pdffileextension = '.pdf';
-            const username = req.user.username
-            const useremail = req.user.email
-            const pdfFilename = `FoodPrint_Storage_${username}_${moment(new Date()).format('YYYY-MM-DD')}`;
-            const filenames = resolveFilenames(pdfFilename, pdffileextension);
+router.get(
+  '/pdf/all',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res) {
+    models.FoodprintStorage.findAll({
+      attributes: [
+        'harvest_logid',
+        'storage_logid',
+        'harvest_supplierShortcode',
+        'supplierproduce',
+        'market_Name',
+        'market_quantity',
+        'market_unitOfMeasure',
+        'market_storageTimeStamp',
+        'blockchain_explorer_url',
+      ],
+      order: [['pk', 'DESC']],
+    })
+      .then(rows => {
+        const pdffileextension = '.pdf';
+        const username = req.user.username;
+        const useremail = req.user.email;
+        const pdfFilename = `FoodPrint_Storage_${username}_${moment(new Date()).format(
+          'YYYY-MM-DD'
+        )}`;
+        const filenames = resolveFilenames(pdfFilename, pdffileextension);
 
-            const stream = res.writeHead(200, {
-              'Content-Type': 'application/pdf',
-              'Content-Disposition': 'attachment;filename=' + filenames.filename,
-            });
-            pdfService.buildPDF(
-                `MASTER STORAGE ENTRIES GENERATED BY ADMIN ${username} ${useremail}
+        const stream = res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment;filename=' + filenames.filename,
+        });
+        pdfService.buildPDF(
+          `MASTER STORAGE ENTRIES GENERATED BY ADMIN ${username} ${useremail}
                 ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
-                storagepdf(rows),
-                chunk => stream.write(chunk),
-                () => stream.end()
-            );
-          })
-          .catch(err => {
-            console.log('Storage PDF err:' + err);
-            req.flash('error', err);
-          });
-    }
+          storagepdf(rows),
+          chunk => stream.write(chunk),
+          () => stream.end()
+        );
+      })
+      .catch(err => {
+        console.log('Storage PDF err:' + err);
+        req.flash('error', err);
+      });
+  }
 );
 
 /* GET PDF of Storage record for farmer - webapp */
-router.get('/pdf',
-    require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
-    function (req, res) {
-      models.FoodprintStorage.findAll({
-        attributes: [
-          'harvest_logid',
-          'storage_logid',
-          'harvest_supplierShortcode',
-          'supplierproduce',
-          'market_Name',
-          'market_quantity',
-          'market_unitOfMeasure',
-          'market_storageTimeStamp',
-          'blockchain_explorer_url',
-        ],
-        order: [['pk', 'DESC']],
-        where: {
-          storage_user: req.user.email,
-        },
-      })
-          .then(rows => {
-            const pdffileextension = '.pdf';
-            const username = req.user.username
-            const useremail = req.user.email
-            const pdfFilename = `FoodPrint_Storage_${username}_${moment(new Date()).format('YYYY-MM-DD')}`;
-            const filenames = resolveFilenames(pdfFilename, pdffileextension);
+router.get(
+  '/pdf',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res) {
+    models.FoodprintStorage.findAll({
+      attributes: [
+        'harvest_logid',
+        'storage_logid',
+        'harvest_supplierShortcode',
+        'supplierproduce',
+        'market_Name',
+        'market_quantity',
+        'market_unitOfMeasure',
+        'market_storageTimeStamp',
+        'blockchain_explorer_url',
+      ],
+      order: [['pk', 'DESC']],
+      where: {
+        storage_user: req.user.email,
+      },
+    })
+      .then(rows => {
+        const pdffileextension = '.pdf';
+        const username = req.user.username;
+        const useremail = req.user.email;
+        const pdfFilename = `FoodPrint_Storage_${username}_${moment(new Date()).format(
+          'YYYY-MM-DD'
+        )}`;
+        const filenames = resolveFilenames(pdfFilename, pdffileextension);
 
-            const stream = res.writeHead(200, {
-              'Content-Type': 'application/pdf',
-              'Content-Disposition': 'attachment;filename=' + filenames.filename,
-            });
-            pdfService.buildPDF(
-                `STORAGE ENTRIES FOR ${username} ${useremail}
+        const stream = res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment;filename=' + filenames.filename,
+        });
+        pdfService.buildPDF(
+          `STORAGE ENTRIES FOR ${username} ${useremail}
                 ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
-                storagepdf(rows),
-                chunk => stream.write(chunk),
-                () => stream.end()
-            );
-          })
-          .catch(err => {
-            console.log('Storage PDF err:' + err);
-            req.flash('error', err);
-          });
-    }
+          storagepdf(rows),
+          chunk => stream.write(chunk),
+          () => stream.end()
+        );
+      })
+      .catch(err => {
+        console.log('Storage PDF err:' + err);
+        req.flash('error', err);
+      });
+  }
 );
 
 /* GET PDF of Storage record for farmer - whatsapp */
