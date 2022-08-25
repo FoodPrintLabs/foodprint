@@ -104,3 +104,28 @@ body {
     width: 80%;
   }
 }
+
+/*Order Dashboard 2.0*/
+.order-card-title {
+  font-size: x-small;
+  letter-spacing: 1px;
+  padding-top: 0;
+  color: black;
+}
+.order-card-data {
+  padding: 0;
+  margin: 0;
+}
+
+.acceptBid {
+  margin-bottom: 1rem;
+  padding-left: 4.9rem;
+  padding-right: 4.9rem;
+  box-shadow: 2px 1px 2px 2px #ccc;
+}
+.acceptOffer {
+  margin-bottom: 1rem;
+  padding-left: 4.9rem;
+  padding-right: 4.9rem;
+  box-shadow: 2px 1px 2px 2px #ccc;
+}
