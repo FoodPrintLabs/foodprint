@@ -483,24 +483,24 @@ router.get(
             qrcodes.push(qrcode_image);
           }
           //console.log(qrcodes);
-          res.render('dashboard_qrcode', {
+          res.render('dashboard_qrcode_static', {
             page_title: 'FoodPrint - QR Code Dashboard',
             data: rows,
             user: req.user,
             qrcodes: qrcodes,
             filter_data: '',
-            page_name: 'dashboard_qrcode',
+            page_name: 'dashboard_qrcode_static',
           });
         })
         .catch(err => {
-          console.log('All dashboard_qrcode err:' + err);
+          console.log('All dashboard_qrcode_static err:' + err);
           req.flash('error', err);
-          res.render('dashboard_qrcode', {
+          res.render('dashboard_qrcode_static', {
             page_title: 'FoodPrint - QR Code Dashboard',
             data: '',
             filter_data: '',
             user: req.user,
-            page_name: 'dashboard_qrcode',
+            page_name: 'dashboard_qrcode_static',
           });
         });
     } else {
@@ -552,11 +552,11 @@ router.post(
     }
     if (!result.isEmpty()) {
       req.flash('error', errors);
-      res.render('dashboard_qrcode', {
+      res.render('dashboard_qrcode_static', {
         page_title: 'FoodPrint - QR Code Configuration Dashboard',
         data: '',
         user: req.user,
-        page_name: 'dashboard_qrcode',
+        page_name: 'dashboard_qrcode_static',
       }); //should add error array here
     } else {
       //File Names needed for saving
@@ -633,13 +633,13 @@ router.post(
         //this will eventually be handled by your error handling middleware
         next(e);
         //res.json({success: false, errors: e});
-        res.render('dashboard_qrcode', {
+        res.render('dashboard_qrcode_static', {
           page_title: 'FoodPrint - QR Code Configuration Dashboard',
           data: '',
           success: false,
           user: req.user,
           errors: e.array(),
-          page_name: 'dashboard_qrcode',
+          page_name: 'dashboard_qrcode_static',
         });
       }
     }
@@ -683,10 +683,10 @@ router.post(
     }
     if (!result.isEmpty()) {
       req.flash('error', errors);
-      res.render('dashboard_qrcode', {
+      res.render('dashboard_qrcode_static', {
         page_title: 'FoodPrint - QR Code Configuration Dashboard',
         data: '',
-        page_name: 'dashboard_qrcode',
+        page_name: 'dashboard_qrcode_static',
       }); //should add error array here
     } else {
       let data = {
@@ -728,12 +728,12 @@ router.post(
         //this will eventually be handled by your error handling middleware
         next(e);
         //res.json({success: false, errors: e});
-        res.render('dashboard_qrcode', {
+        res.render('dashboard_qrcode_static', {
           page_title: 'FoodPrint - QR Code Configuration Dashboard',
           data: '',
           success: false,
           errors: e.array(),
-          page_name: 'dashboard_qrcode',
+          page_name: 'dashboard_qrcode_static',
         });
       }
     }
@@ -1218,6 +1218,55 @@ router.get(
             filter_data: '',
             user: req.user,
             page_name: 'dashboard_qrcode_scans',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
+
+//Render qrcode EJS
+router.get(
+  '/qrcode/supplierproduce',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintStorage.findAll({
+        order: [['pk', 'DESC']],
+      })
+        .then(async rows => {
+          //create array of URL data
+          const qrcodes = [];
+          for (var i = 0; i < rows.length; i++) {
+            var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
+            qrcodes.push(qrcode_image);
+          }
+          //console.log(qrcodes);
+          res.render('dashboard_qrcode_supplier', {
+            page_title: 'FoodPrint - QR Code Dashboard',
+            data: rows,
+            user: req.user,
+            qrcodes: qrcodes,
+            filter_data: '',
+            page_name: 'dashboard_qrcode_supplier',
+          });
+        })
+        .catch(err => {
+          console.log('All dashboard_qrcode_supplier err:' + err);
+          req.flash('error', err);
+          res.render('dashboard_qrcode_supplier', {
+            page_title: 'FoodPrint - QR Code Dashboard',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'dashboard_qrcode_supplier',
           });
         });
     } else {
