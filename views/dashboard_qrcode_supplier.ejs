@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+   <!-- START TABLE-->
+   <div class="container" style="width: 100%;">
+    <h3>QR Code Configuration - Supplier Produce </h3>
+    
+    <% include ./partials/notificationbar %>
+    <!--QR Code Section-->
+    <br>
+    <div class="row" id="qrcoderows">
+     
+    <div class="col-4 col-lg-12 col-xl-12" >
+    
+    <!--Check QR Code availability-->
+    <% 
+      if(data.length) {
+        for(var i = 0; i< data.length; i++){ 
+    %>
+    <!--QR CODE CARD-->
+    <div class="card col-2 col-lg-2 col-xl-2 text-center" style="width: 15.5rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px;
+        box-shadow: 2px 2px 4px 5px #ccc; ">
+          <div class="card-header">
+          <p class="card-title h4 qrcode-card-heading"><b><%=data[i].supplierproduce%></b></p>
+          </div>
+          <div class="card-body">
+            <div class="card-text text-center">
+                  <b class="qrcode-card-title">Market Shortcode</b><div style="width: 15rem; height: 2rem; overflow: auto;"> <%=data[i].market_Shortcode%></div>
+                  <b class="qrcode-card-title">Market Quantity</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].market_quantity%>Kg</div>
+                <img src="<%=qrcodes[i]%>" id="qrcode_image" alt="QRCODE">
+            </div>
+            <div class="card-footer">
+            <a href="javascript:void(0);" class="btn-sm btn-info view " style="padding-right: 1rem; padding-left: 1rem;" data-harvest_logid="<%= data[i].harvest_logid%>" data-harvest_suppliershortcode="<%= data[i].harvest_supplierShortcode%>"
+                data-supplierproduce="<%= data[i].supplierproduce%>" data-storage_logid="<%= data[i].storage_logid%>" data-market_shortcode="<%= data[i].market_Shortcode%>" data-market_name="<%= data[i].market_Name%>"
+                data-market_address="<%= data[i].market_Address%>" data-market_quantity="<%= data[i].market_quantity%>" data-market_unitofmeasure="<%= data[i].market_unitOfMeasure%>" data-market_storagetimestamp="<%= data[i].market_storageTimeStamp%>"
+                data-market_storagecapturetime="<%= data[i].market_storageCaptureTime%>" data-market_url="<%= data[i].market_URL%>" data-storage_blockchainhashid="<%= data[i].storage_BlockchainHashID%>" data-storage_blockchainhashdata="<%= data[i].storage_BlockchainHashData%>"
+                data-storage_description="<%= data[i].storage_Description%>" data-storage_bool_added_to_blockchain="<%= data[i].storage_bool_added_to_blockchain%>" data-storage_added_to_blockchain_date="<%= data[i].storage_added_to_blockchain_date%>" data-storage_added_to_blockchain_by="<%= data[i].storage_added_to_blockchain_by%>"
+                data-storage_blockchain_uuid="<%= data[i].storage_blockchain_uuid%>" data-storage_user="<%= data[i].storage_user%>" data-logdatetime="<%= data[i].logdatetime%>" data-lastmodifieddatetime="<%= data[i].lastmodifieddatetime%>"
+                data-blockchain_explorer_url="<%= data[i].blockchain_explorer_url%>" data-qrcode_url="<%= data[i].qrcode_url%>" data-qrcode_img="<%= qrcodes[i]%>"
+                
+                >View</a>
+            <a href="<%= qrcodes[i]%>" download="<%=data[i].supplierproduce%> - <%=data[i].logdatetime%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Download</a>
+              </div>
+          </div>
+        </div>
+        
+        <%}}else{ %>
+             <p colspan="5">No Supplier QR Configurations</p>
+       <% } %>
+      </div>
+    </div>
+   </div>
+   <!-- END TABLE-->
+
+   
+
+   <!-- Modal View QR CODE Configuration-->
+   <form action="" method="post">
+    <div class="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">View Supplier Produce Configuration</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+          <div class="form-group">
+            <label for="harvest_logid">Harvest Log ID</label>
+            <input type="text" name="harvest_logid" class="form-control harvest_logid" placeholder="Harvest Log ID" readonly>
+        </div>
+        <div class="form-group">
+          <label for="harvest_supplierShortcode">Harvest Supplier Shortcode</label>
+          <input type="text" name="harvest_supplierShortcode" class="form-control harvest_supplierShortcode" placeholder="Harvest Supplier Shortcode" readonly>
+      </div>
+           <div class="form-group">
+               <label for="supplierproduce">Supplier Produce</label>
+               <input type="text" name="supplierproduce" class="form-control supplierproduce" placeholder="Supplier Produce" readonly>
+           </div>
+
+           <div class="form-group">
+            <label for="storage_logid">Storage Log ID</label>
+            <input type="text" name="storage_logid" class="form-control storage_logid" placeholder="Storage Log ID" readonly>
+            </div>
+            <div class="form-group">
+              <label for="	market_Shortcode">Market Shortcode</label>
+              <input type="text" name="	market_Shortcode" class="form-control 	market_Shortcode" placeholder="Market Shortcode" readonly>
+          </div>
+          <div class="form-group">
+            <label for="market_Name">Market Name</label>
+            <input type="text" name="market_Name" class="form-control market_Name" placeholder="Market Name" readonly>
+            </div>
+            <div class="form-group">
+              <label for="market_Address">Market Address</label>
+              <input type="text" name="market_Address" class="form-control market_Address" placeholder="Market Address" readonly>
+          </div>
+          <div class="form-group">
+            <label for="market_quantity">Market Quantity</label>
+            <input type="text" name="market_quantity" class="form-control market_quantity" placeholder="Market Quantity" readonly>
+        </div>
+        <div class="form-group">
+          <label for="market_unitOfMeasure">Market Unit of Measure</label>
+          <input type="text" name="market_unitOfMeasure" class="form-control market_unitOfMeasure" placeholder="Unit of Measure" readonly>
+      </div>
+      <div class="form-group">
+        <label for="market_storageTimeStamp">Market Storage Timestamp</label>
+        <input type="text" name="market_storageTimeStamp" class="form-control market_storageTimeStamp" placeholder="Market Storage Timestamp" readonly >
+    </div>
+    <div class="form-group">
+        <label for="market_storageCaptureTime">Market Storage Capture Time</label>
+        <input type="text" name="market_storageCaptureTime" class="form-control market_storageCaptureTime" placeholder="Market Storage Capture Time" readonly >
+    </div>
+    <div class="form-group">
+        <label for="market_URL">Market URL</label>
+        <input type="text" name="market_URL" class="form-control market_URL" placeholder="Market URL" readonly >
+    </div>
+    <div class="form-group">
+        <label for="storage_BlockchainHashID">Storage Blockchain HashID</label>
+        <input type="text" name="storage_BlockchainHashID" class="form-control storage_BlockchainHashID" placeholder="Storage Blockchain HashID" readonly >
+    </div>
+    <div class="form-group">
+        <label for="storage_BlockchainHashData">Storage Blockchain HashData</label>
+        <input type="text" name="storage_BlockchainHashData" class="form-control storage_BlockchainHashData" placeholder="Storage Blockchain HashData" readonly >
+    </div>
+    <div class="form-group">
+        <label for="storage_Description">Storage Description</label>
+        <input type="text" name="storage_Description" class="form-control storage_Description" placeholder="Storage Description" readonly >
+    </div>
+    <div class="form-group">
+        <label for="storage_bool_added_to_blockchain">Added to Blockchain</label>
+        <input type="text" name="storage_bool_added_to_blockchain" class="form-control storage_bool_added_to_blockchain" placeholder="Added to Blockchain" readonly >
+    </div>
+    <div class="form-group">
+        <label for="storage_added_to_blockchain_date">Storage added to blockchain date</label>
+        <input type="text" name="storage_added_to_blockchain_date" class="form-control storage_added_to_blockchain_date" placeholder="Storage added to blockchain date" readonly >
+    </div>
+    <div class="form-group">
+        <label for="storage_added_to_blockchain_by">Storage added to Blockchain By</label>
+        <input type="text" name="storage_added_to_blockchain_by" class="form-control storage_added_to_blockchain_by" placeholder="Storage added to Blockchain By" readonly >
+    </div>
+    <div class="form-group">
+        <label for="storage_blockchain_uuid">Storage Blockchain uuid</label>
+        <input type="text" name="storage_blockchain_uuid" class="form-control storage_blockchain_uuid" placeholder="Storage Blockchain uuid" readonly >
+    </div>
+    <div class="form-group">
+        <label for="storage_user">Storage User</label>
+        <input type="text" name="storage_user" class="form-control storage_user" placeholder="Storage User" readonly >
+    </div>
+    <div class="form-group">
+        <label for="logdatetime">Logdatetime</label>
+        <input type="text" name="logdatetime" class="form-control logdatetime" placeholder="Logdatetime" readonly >
+    </div>
+    <div class="form-group">
+        <label for="lastmodifieddatetime">Last modifed date</label>
+        <input type="text" name="lastmodifieddatetime" class="form-control lastmodifieddatetime" placeholder="Last modifed date" readonly >
+    </div>
+    <div class="form-group">
+        <label for="blockchain_explorer_url">Blockchain Explorer URL</label>
+        <input type="text" name="blockchain_explorer_url" class="form-control blockchain_explorer_url" placeholder="Blockchain Explorer URL" readonly >
+    </div>
+    <div class="form-group">
+        <label for="qrcode_url">QR Code URL</label>
+        <input type="text" name="qrcode_url" class="form-control qrcode_url" placeholder="QR Code URL" readonly >
+    </div>
+    <div class="form-group">
+        <label for="qrcode_img">QR Image</label>
+        <img name="qrcode_img" src="" class="qrcode_img" id="qrcode_img" alt="QR Code Image">
+    </div>
+         </div>
+         <div class="modal-footer">
+           <input type="hidden" name="config_id" class="config_id">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
+       </div>
+     </div>
+    </div>
+</form>
+<!-- End Modal View QR CODE Configuration-->
+
+
+    <!-- start footer -->
+    <% include ./partials/footer %>
+    <!-- end footer -->
+    
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <script>
+    $(document).ready(function(){
+      
+      //showing data to view modal
+      $('#qrcoderows').on('click','.view',function(){
+        
+
+            var harvest_logid = $(this).data('harvest_logid');
+            var  harvest_supplierShortcode = $(this).data('harvest_suppliershortcode');
+            var supplierproduce = $(this).data('supplierproduce');
+            var  storage_logid = $(this).data('storage_logid');
+            var  market_Shortcode = $(this).data('market_shortcode');
+            var  market_Name = $(this).data('market_name');
+            var market_Address = $(this).data('market_address');
+            var market_quantity = $(this).data('market_quantity');
+            var market_unitOfMeasure = $(this).data('market_unitofmeasure');
+            var  market_storageTimeStamp = $(this).data('market_storagetimestamp');
+            var  market_storageCaptureTime = $(this).data('market_storagecapturetime');
+            var market_URL = $(this).data('market_url');
+            var storage_BlockchainHashID = $(this).data('storage_blockchainhashid');
+            var storage_BlockchainHashData = $(this).data('storage_blockchainhashdata');
+            var storage_Description = $(this).data('storage_description');
+            var storage_bool_added_to_blockchain = $(this).data('storage_bool_added_to_blockchain');
+            var storage_added_to_blockchain_date = $(this).data('storage_added_to_blockchain_date');
+            var storage_added_to_blockchain_by = $(this).data('storage_added_to_blockchain_by');
+            var storage_blockchain_uuid = $(this).data('storage_blockchain_uuid');
+            var storage_user = $(this).data('storage_user');
+            var logdatetime = $(this).data('logdatetime');
+            var lastmodifieddatetime = $(this).data('lastmodifieddatetime');
+            var blockchain_explorer_url = $(this).data('blockchain_explorer_url');
+            var qrcode_url = $(this).data('qrcode_url');
+            var qrcode_img = $(this).data('qrcode_img');
+            $('#ViewModal').modal('show');
+            $('.harvest_logid').val(harvest_logid);
+            $('.harvest_supplierShortcode').val(harvest_supplierShortcode);
+            $('.supplierproduce').val(supplierproduce);
+            $('.storage_logid').val(storage_logid);
+            $('.market_Shortcode').val(market_Shortcode);
+            $('.market_Name').val(market_Name);
+            $('.market_Address').val(market_Address);
+            $('.market_quantity').val(market_quantity);
+            $('.market_unitOfMeasure').val(market_unitOfMeasure);
+            $('.market_storageTimeStamp').val(market_storageTimeStamp);
+            $('.market_storageCaptureTime').val(market_storageCaptureTime);
+            $('.market_URL').val(market_URL);
+            $('.storage_BlockchainHashID').val(storage_BlockchainHashID);
+            $('.storage_BlockchainHashData').val(storage_BlockchainHashData);
+            $('.storage_Description').val(storage_Description);
+            $('.storage_bool_added_to_blockchain').val(storage_bool_added_to_blockchain);
+            $('.storage_added_to_blockchain_date').val(storage_added_to_blockchain_date);
+            $('.storage_added_to_blockchain_by').val(storage_added_to_blockchain_by);
+            $('.storage_blockchain_uuid').val(storage_blockchain_uuid);
+            $('.storage_user').val(storage_user);
+            $('.lastmodifieddatetime').val(lastmodifieddatetime);
+            $('.logdatetime').val(logdatetime);
+            $('.blockchain_explorer_url').val(blockchain_explorer_url);
+            $('.qrcode_url').val(qrcode_url);
+            document.getElementById('qrcode_img').src = qrcode_img;
+          })
+    });
+    </script>
+  </body>
+</html>
