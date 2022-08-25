@@ -399,12 +399,12 @@
           </div>
           <div class="card-body">
             
-            <p class="card-text">
-              <b>User:</b> <%=bid_rows[k].bid_user%> <br>
-              <b>Quantity:</b> <%=bid_rows[k].bid_quantity%>kgs <br>
-              <b>Price:</b> <%=bid_rows[k].bid_price%> <br>
-              <b>Province:</b> <%=bid_rows[k].bid_province%> <br>
-              <b>Placed:</b><%=bid_rows[k].bid_timeStamp%>                           
+            <p class="">
+              <b class="small order-card-title">USER</b><br> <span class="order-card-data"><span class="order-card-data"><%=bid_rows[k].bid_user%></span><br>
+              <b class="small order-card-title">QUANTITY</b><br> <span class="order-card-data"><%=bid_rows[k].bid_quantity%>kg</span> <br>
+              <b class="small order-card-title">PRICE</b><br> <span class="order-card-data"><%=bid_rows[k].bid_price%></span> <br>
+              <b class="small order-card-title">PROVINCE</b><br> <span class="order-card-data"><%=bid_rows[k].bid_province%></span> <br>
+              <b class="small order-card-title">PLACED</b><br><span class="order-card-data"><%=bid_rows[k].bid_timeStamp%></span>                           
             </p>
             <a href="javascript:void(0);" class="btn-sm btn-primary acceptBid " data-bid_user="<%= bid_rows[k].bid_user%>" data-bid_quantity="<%= bid_rows[k].bid_quantity%>" 
               data-bid_price="<%= bid_rows[k].bid_price%>" data-bid_producename="<%= bid_rows[k].bid_produceName%>" data-bid_timestamp="<%= bid_rows[k].bid_timeStamp%>" 
@@ -430,11 +430,11 @@
         </div>
         <div class="card-body">
           <p class="card-text">
-            <b>User:</b> <%=offer_rows[k].offer_user%> <br>
-            <b>Quantity:</b> <%=offer_rows[k].offer_quantity%>kgs <br>
-            <b>Price:</b> <%=offer_rows[k].offer_price%> <br>
-            <b>Province:</b> <%=offer_rows[k].offer_province%> <br>
-            <b>Placed:</b><%=offer_rows[k].offer_timeStamp%>
+            <b class="order-card-title">USER:</b><br> <%=offer_rows[k].offer_user%> <br>
+            <b class="order-card-title">QUANTITY:</b><br> <%=offer_rows[k].offer_quantity%>kgs <br>
+            <b class="order-card-title">PRICE:</b><br> <%=offer_rows[k].offer_price%> <br>
+            <b class="order-card-title">PROVINCE:</b><br> <%=offer_rows[k].offer_province%> <br>
+            <b class="order-card-title">PLACED:</b><br><%=offer_rows[k].offer_timeStamp%>
                                      
           </p>
           <a href="javascript:void(0);" class="btn-sm btn-primary acceptOffer" data-offer_user="<%= offer_rows[k].offer_user%>" data-offer_quantity="<%= offer_rows[k].offer_quantity%>" 
