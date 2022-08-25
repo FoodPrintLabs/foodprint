@@ -77,7 +77,8 @@
                    data-storage_blockchain_uuid="<%=data[i].storage_blockchain_uuid%>"
                    data-storage_user="<%=data[i].storage_user%>"
                    data-logdatetime="<%=data[i].logdatetime%>"
-                   data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>" title="View" ><i class="far fa-eye"></i></a>
+                   data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>"
+                   data-qrcode_img="<%= qrcodes[i]%>" title="View" ><i class="far fa-eye"></i></a>
               
 
                     <a onclick="ShowStorageModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit"
@@ -380,6 +381,7 @@
                       <input type="datetime-local" class="form-control" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime"/>
                   </div>
                 </div>
+                
 
                 <div class="form-group" id="viewmodal_harvest_logidDiv">
                   <label for="viewmodal_harvest_logid">Harvest ID</label>
@@ -390,6 +392,10 @@
                   <label for="viewmodal_storage_logid">Storage/Handover ID</label>
                   <input type="text" name="viewmodal_storage_logid" class="form-control" id="viewmodal_storage_logid" placeholder="Storage/Handover ID">
                 </div>
+                <div class="form-group" id="qrcode_image_section">
+                  <label for="qrcode_img">QR Image</label>
+                  <img name="qrcode_img" src="" class="qrcode_img" id="qrcode_img" alt="QR Code Image">
+              </div>
 
                 <div class="form-check" id="storageCheckDiv">
                   <input type="checkbox" class="form-check-input" id="storageCheck" required>
@@ -561,6 +567,7 @@
             var storage_user = $(obj_identifier).data('storage_user');
             var logdatetime = $(obj_identifier).data('logdatetime');
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
+            var qrcode_img = $(obj_identifier).data('qrcode_img');
 
             console.log("market_storageTimeStamp - " + market_storageTimeStamp);
             // market_storageTimeStamp - Wed May 25 2022 13:49:00 GMT+0200 (South Africa Standard Time)
@@ -673,7 +680,7 @@
             $("#storageDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
 
             $("#storageCheckDiv").show();  // show confirm add/edit checkbox
-
+            $("#qrcode_image_section").hide(); //hide qrimage
             $("#modalFooter").append(addButton);
             $("#modalFooter").append(closeButton);
           }
@@ -699,7 +706,7 @@
             $("#viewmodal_lastmodifieddatetimeDiv").show();
             $("#viewmodal_harvest_logidDiv").show();
             $("#viewmodal_storage_logidDiv").show();
-
+            document.getElementById('qrcode_img').src = qrcode_img;
             $("#viewmodal_harvest_logidSelectDiv").hide();
             $("#viewmodal_harvest_logidSelect").attr("required", false); // make Harvest Logid Select box not required otherwise form will not submit
 
@@ -728,7 +735,7 @@
             $("#storageDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
 
             $("#storageCheckDiv").show();  // show confirm add/edit checkbox
-
+            $("#qrcode_image_section").hide(); //hide qrimage
             $("#modalFooter").append(updateButton);
             $("#modalFooter").append(closeButton);
             $('#storageModalForm').attr('action', '/app/storage/update');
@@ -754,6 +761,7 @@
             $("#modalFooter").append(deleteButton);
             $("#modalFooter").append(closeButton);
             $('#storageModalForm').attr('action', '/app/storage/delete');
+            $("#qrcode_image_section").hide(); //hide qrimage
           }
 
           $('#storageModalLabel').html(header);
