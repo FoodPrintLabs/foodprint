@@ -104,6 +104,13 @@ body {
     width: 80%;
   }
 }
+/*Order Dashboard 2.0*/
+.order-card-title {
+  font-size: x-small;
+  letter-spacing: 1px;
+  padding-top: 0;
+  color: black;
+}
 
 .order-card-data {
   padding: 0;
