@@ -1248,14 +1248,40 @@ router.get(
             var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
             qrcodes.push(qrcode_image);
           }
-          //console.log(qrcodes);
-          res.render('dashboard_qrcode_supplier', {
-            page_title: 'FoodPrint - QR Code Dashboard',
-            data: rows,
-            user: req.user,
-            qrcodes: qrcodes,
-            filter_data: '',
-            page_name: 'dashboard_qrcode_supplier',
+          models.FoodprintHarvest.findAll({
+            order: [['pk', 'DESC']],
+          }).then(async harvest_rows => {
+            const harvest_data = [];
+            //loop through harvest with storage.logid
+            for (var i = 0; i < rows.length; i++) {
+              var keyToFind = rows[i].harvest_logid;
+              for (var k in harvest_rows) {
+                //find key and add data to dict
+                if (harvest_rows[k].harvest_logid == keyToFind) {
+                  var harv_data = {
+                    qrcode_title:
+                      harvest_rows[k].harvest_supplierShortcode +
+                      ' ' +
+                      harvest_rows[k].harvest_produceName,
+                    harvest_farmer_name: harvest_rows[k].harvest_farmerName,
+                    harvest_produce_name: harvest_rows[k].harvest_produceName,
+                  };
+                  //push dict to array
+                  harvest_data.push(harv_data);
+                  break;
+                }
+              }
+            }
+
+            res.render('dashboard_qrcode_supplier', {
+              page_title: 'FoodPrint - QR Code Dashboard',
+              data: rows,
+              user: req.user,
+              qrcodes: qrcodes,
+              harvest_data: harvest_data,
+              filter_data: '',
+              page_name: 'dashboard_qrcode_supplier',
+            });
           });
         })
         .catch(err => {
@@ -1265,6 +1291,7 @@ router.get(
             page_title: 'FoodPrint - QR Code Dashboard',
             data: '',
             filter_data: '',
+            harvest_data: '',
             user: req.user,
             page_name: 'dashboard_qrcode_supplier',
           });
@@ -1275,6 +1302,7 @@ router.get(
         title: 'Error',
         user: req.user,
         filter_data: '',
+        harvest_data: '',
         page_name: 'error',
       });
     }
