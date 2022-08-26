@@ -1263,7 +1263,7 @@ router.get(
                       harvest_rows[k].harvest_supplierShortcode +
                       ' ' +
                       harvest_rows[k].harvest_produceName,
-                    harvest_farmer_name: harvest_rows[k].harvest_farmerName,
+                    harvest_farm_name: harvest_rows[k].harvest_supplierName,
                     harvest_produce_name: harvest_rows[k].harvest_produceName,
                   };
                   //push dict to array
