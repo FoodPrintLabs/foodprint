@@ -105,6 +105,24 @@ body {
   }
 }
 
+.order-card-data {
+  padding: 0;
+  margin: 0;
+}
+
+.acceptBid {
+  margin-bottom: 1rem;
+  padding-left: 4.9rem;
+  padding-right: 4.9rem;
+  box-shadow: 2px 1px 2px 2px #ccc;
+}
+.acceptOffer {
+  margin-bottom: 1rem;
+  padding-left: 4.9rem;
+  padding-right: 4.9rem;
+  box-shadow: 2px 1px 2px 2px #ccc;
+}
+
 .qrcode-card-title {
   font-size: x-small;
   letter-spacing: 1px;
