@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include ./partials/head %>  
+  </head>
+  <body>
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+      <% include ./partials/header %>
+  </header>
+  <!-- END: header -->
+
+   <!-- START TABLE-->
+   <div class="container" style="width: 100%;">
+    <h3>QR Code Configuration - Supplier Produce </h3>
+    
+    <% include ./partials/notificationbar %>
+    <!--QR Code Section-->
+    <br>
+    <div class="row" id="qrcoderows">
+     
+    <div class="col-4 col-lg-12 col-xl-12" >
+    
+    <!--Check QR Code availability-->
+    <% 
+      if(data.length) {
+        for(var i = 0; i< data.length; i++){ 
+    %>
+    <!--QR CODE CARD-->
+    <div class="card col-2 col-lg-2 col-xl-2 text-center" style="width: 15.5rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px;
+        box-shadow: 2px 2px 4px 5px #ccc; ">
+          <div class="card-header">
+          <p class="card-title h4 qrcode-card-heading"><b><%=harvest_data[i].qrcode_title%></b></p>
+          </div>
+          <div class="card-body">
+            <div class="card-text text-center">
+                  <b class="qrcode-card-title">FARM NAME</b><div style="width: 15rem; height: 2rem; overflow: auto;"> <%=harvest_data[i].harvest_farm_name%></div>
+                  <b class="qrcode-card-title">PRODUCE</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=harvest_data[i].harvest_produce_name%></div>
+                <img src="<%=qrcodes[i]%>" id="qrcode_image" alt="QRCODE">
+            </div>
+            <div class="card-footer">
+            <a href="<%= qrcodes[i]%>" download="<%=data[i].supplierproduce%> - <%=data[i].logdatetime%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" ><i class="fa fa-download"></i></a>
+              </div>
+          </div>
+        </div>
+        
+        <%}}else{ %>
+             <p colspan="5">No Supplier QR Configurations</p>
+       <% } %>
+      </div>
+    </div>
+   </div>
+   <!-- END TABLE-->
+
+   
+
+    <!-- start footer -->
+    <% include ./partials/footer %>
+    <!-- end footer -->
+    
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  
+  </body>
+</html>
