@@ -221,9 +221,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="viewmodal_harvest_suppliername">Farmer Name</label>
+                  <label for="viewmodal_harvest_suppliername">Farm Name</label>
                   <select class="form-control" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
-                    <option value="" selected disabled >Choose Farmer Name...</option>
+                    <option value="" selected disabled >Farmer Name</option>
                     <option>Bergsoom Farm</option>
                     <option>Eikelaan Farm</option>
                     <option>FoodPrint Test Farm</option>
@@ -233,11 +233,20 @@
                     <option>White Mountain Natural Produce</option>
                   </select>
                 </div>
+
+
+                <div class="form-group">
+                  <label for="viewmodal_harvest_producename">Produce Name</label>
+                  <select class="form-control" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename" >
+                    <option value="" selected disabled >Choose Produce...</option>
+                  </select>
+                </div>
               
                 <div class="form-group">
                   <label for="viewmodal_supplierproduce">Supplier Produce Code</label>
                   <select class="form-control" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
-                    <option value="" selected disabled >Choose Supplier Produce...</option>
+                    <!--Only sets to available values below on chosing produce above-->
+                    <option value="" selected disabled >Supplier Produce</option>
                     <option>BGSM_Bergamot</option>
                     <option>BGSM_Lemon</option>
                     <option>BGSM_Mor</option>
@@ -275,42 +284,6 @@
                   </select>
                 </div>
 
-                <div class="form-group">
-                  <label for="viewmodal_harvest_producename">Produce Name</label>
-                  <select class="form-control" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename" >
-                    <option value="" selected disabled >Choose Produce...</option>
-                    <option>Baby Marrow</option>
-                    <option>Baby Leeks</option>
-                    <option>Basil</option>
-                    <option>Beetroot</option>
-                    <option>Bergamot</option>
-                    <option>Blood Oranges</option>
-                    <option>Cabbage</option>
-                    <option>Carrots</option>
-                    <option>Cauliflower</option>
-                    <option>Cayenne Pepper</option>
-                    <option>Cucumber</option>
-                    <option>Eggs</option>
-                    <option>Fennel</option>
-		                <option>Granadilla</option>
-                    <option>Green Beans</option>
-                    <option>Herbs</option>
-                    <option>Lebanese Cucumber</option>
-                    <option>Leeks</option>
-                    <option>Lemon</option>
-                    <option>Lettuce</option>
-		                <option>Limes</option>
-                    <option>Mor</option>
-	                  <option>Onion</option>
-		                <option>Pak Choi</option>
-		                <option>Parsley</option>
-                    <option>Radish</option>
-                    <option>Sorrel</option>
-                    <option>Swiss Chard</option>
-                    <option>Spinach</option>
-                    <option>Turnips</option>
-                  </select>
-                </div>
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_supplieraddress">Farmer Address</label>
@@ -573,8 +546,10 @@
           }
         });
     }
+    
 
     function ShowModal(obj_identifier, action, header, contentClassID) {
+
       var updateButton=$('<input/>').attr({
           type: "submit",
           id: "harvestModalUpdate",
@@ -760,8 +735,117 @@
       $("#viewmodal_harvest_user").attr("required", false);
       $("#viewmodal_harvest_blockchain_uuid").attr("required", false);
       $("#viewmodal_harvest_added_to_blockchain_by").attr("required", false);
-      
-      //
+    
+      //set farmer name and supplier produce code to read only
+      $('#viewmodal_harvest_suppliername').attr("style", "pointer-events: none; background-color: lightgrey;");
+      $('#viewmodal_supplierproduce').attr("style", "pointer-events: none; background-color: lightgrey;");
+      //Logic for dynamic dropdowns
+      //when supploer shortcode dropdown is selected
+      $('#viewmodal_harvest_suppliershortcode').change(function () {
+        //set farmer name based on chosen shortcode
+        if( $('#viewmodal_harvest_suppliershortcode').find(":selected").text() == 'BGSM') 
+        { //set farmer name
+          $('#viewmodal_harvest_suppliername').val('Bergsoom Farm').change()
+          //empty produce list
+          $("#viewmodal_harvest_producename").empty();
+          //reset value on produce code
+          $('select[name="viewmodal_supplierproduce"]').val("")
+          //append values to dropdown list
+          $("#viewmodal_harvest_producename").append(new Option("Select Produce", ""));
+          $("#viewmodal_harvest_producename").append(new Option("Bergamot", "Bergamot"));
+          $("#viewmodal_harvest_producename").append(new Option("Lemon", "Lemon"));
+          $("#viewmodal_harvest_producename").append(new Option("Mor", "Mor"));
+          $("#viewmodal_harvest_producename").append(new Option("Oranges", "Oranges"));
+         
+                   
+        }
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'EKLN') 
+        {
+          $('#viewmodal_harvest_suppliername').val('Eikelaan Farm').change()
+          $("#viewmodal_harvest_producename").empty();
+          $('select[name="viewmodal_supplierproduce"]').val("")
+          $("#viewmodal_harvest_producename").append(new Option("Select Produce", ""));
+          $("#viewmodal_harvest_producename").append(new Option("Cauliflower", "Cauliflower"));
+          $("#viewmodal_harvest_producename").append(new Option("Eggs", "Eggs"));
+          $("#viewmodal_harvest_producename").append(new Option("Granadilla", "Granadilla"));
+          $("#viewmodal_harvest_producename").append(new Option("Limes", "Limes"));
+          $("#viewmodal_harvest_producename").append(new Option("Sorrel", "Sorrel"));
+        }
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'OZCF') 
+        {
+          $('#viewmodal_harvest_suppliername').val('Oranjezicht City Farm').change()
+          $("#viewmodal_harvest_producename").empty();
+          $('select[name="viewmodal_supplierproduce"]').val("")
+          $("#viewmodal_harvest_producename").append(new Option("Select Produce", ""));
+          $("#viewmodal_harvest_producename").append(new Option("Beetroot", "Beetroot"));
+          $("#viewmodal_harvest_producename").append(new Option("Chard", "Chard"));
+          $("#viewmodal_harvest_producename").append(new Option("Herbs", "Herbs"));
+          $("#viewmodal_harvest_producename").append(new Option("Leeks", "Leeks"));
+          $("#viewmodal_harvest_producename").append(new Option("Lettuce", "Lettuce"));
+          $("#viewmodal_harvest_producename").append(new Option("Radish", "Radish"));
+
+        }
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'PEDI') 
+        {
+          $('#viewmodal_harvest_suppliername').val('Pedi AgriHub').change()
+          $("#viewmodal_harvest_producename").empty();
+          $('select[name="viewmodal_supplierproduce"]').val("")
+          $("#viewmodal_harvest_producename").append(new Option("Select Produce", ""));
+          $("#viewmodal_harvest_producename").append(new Option("Cabbage", "Cabbage"));
+          $("#viewmodal_harvest_producename").append(new Option("Carrots", "Carrots"));
+          $("#viewmodal_harvest_producename").append(new Option("Onion", "Onion"));
+          $("#viewmodal_harvest_producename").append(new Option("Turnips", "Turnips"));
+          $("#viewmodal_harvest_producename").append(new Option("Spinach", "Spinach"));
+
+        }
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'QCGF') 
+        {
+          $('#viewmodal_harvest_suppliername').val('Quick Crop Growers Farm').change()
+          $("#viewmodal_harvest_producename").empty();
+          $('select[name="viewmodal_supplierproduce"]').val("")
+          $("#viewmodal_harvest_producename").append(new Option("Select Produce", ""));
+          $("#viewmodal_harvest_producename").append(new Option("Basil", "Basil"));
+          $("#viewmodal_harvest_producename").append(new Option("Beetroot", "Beetroot"));
+          $("#viewmodal_harvest_producename").append(new Option("CayennePepper", "CayennePepper"));
+          $("#viewmodal_harvest_producename").append(new Option("Leeks", "Leeks"));
+          $("#viewmodal_harvest_producename").append(new Option("PakChoi", "PakChoi"));
+          $("#viewmodal_harvest_producename").append(new Option("Parsley", "Parsley"));
+          $("#viewmodal_harvest_producename").append(new Option("Radish", "Radish"));
+
+        }
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'TEST') 
+        {
+          $('#viewmodal_harvest_suppliername').val('FoodPrint Test Farm').change()
+          $("#viewmodal_harvest_producename").empty();
+          $('select[name="viewmodal_supplierproduce"]').val("")
+          $("#viewmodal_harvest_producename").append(new Option("Select Produce", ""));
+          $("#viewmodal_harvest_producename").append(new Option("Beetroot", "Beetroot"));
+        }
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'WMNP') 
+        {
+          $('#viewmodal_harvest_suppliername').val('White Mountain Natural Produce').change()
+          $("#viewmodal_harvest_producename").empty();
+          $('select[name="viewmodal_supplierproduce"]').val("")
+          $("#viewmodal_harvest_producename").append(new Option("Select Produce", ""));
+          $("#viewmodal_harvest_producename").append(new Option("BabyMarrow", "BabyMarrow"));
+          $("#viewmodal_harvest_producename").append(new Option("Basil", "Basil"));
+          $("#viewmodal_harvest_producename").append(new Option("Cucumber", "Cucumber"));
+          $("#viewmodal_harvest_producename").append(new Option("Fennel", "Fennel"));
+          $("#viewmodal_harvest_producename").append(new Option("GreenBeans", "GreenBeans"));
+          $("#viewmodal_harvest_producename").append(new Option("Radish", "Radish"));
+
+        }
+    });
+      //when produce name is selected set produce shortcode val
+      $('#viewmodal_harvest_producename').change(function () {
+        //set supplier produce code based on chosen shortcode and produce
+        let shortcode = $('#viewmodal_harvest_suppliershortcode').find(":selected").text();
+        let produce = $('#viewmodal_harvest_producename').find(":selected").text();
+       //apply to supplier produce code
+        $('#viewmodal_supplierproduce').val(shortcode+"_"+produce).change()
+    });
+
+
       $("#viewmodal_harvest_capturetime").attr("required", false);
       $("#viewmodal_logdatetime").attr("required", false);
       $("#viewmodal_lastmodifieddatetime").attr("required", false);
@@ -783,6 +867,7 @@
 
       $("#modalFooter").append(addButton);  
       $("#modalFooter").append(closeButton);  
+
     }
     else if (action==='view'){
       $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
