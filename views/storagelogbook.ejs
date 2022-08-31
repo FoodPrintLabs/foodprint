@@ -277,8 +277,8 @@
                   <label for="viewmodal_market_Name">Market Name</label>
                   <select class="form-control" name="viewmodal_market_Name" id="viewmodal_market_Name">
                     <option value="" selected disabled >Choose Market Name...</option>
-                    <option>Oranjezicht City Farm Market</option>
-                    <option>Neighbourgoods Market - The Old Biscuit Mill</option>
+                    <option value="2">Oranjezicht City Farm Market</option>
+                    <option value="1">Neighbourgoods Market - The Old Biscuit Mill</option>
                   </select>
                 </div>
 
@@ -286,8 +286,8 @@
                   <label for="viewmodal_market_Address">Market Address</label>
                   <select class="form-control" name="viewmodal_market_Address" id="viewmodal_market_Address">
                     <option value="" selected disabled >Choose Market Address...</option>
-                    <option>OBM - 375 Albert Rd, Woodstock, Cape Town, 7915</option>
-                    <option>OZCFM - Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051</option>
+                    <option value="1">OBM - 375 Albert Rd, Woodstock, Cape Town, 7915</option>
+                    <option value="2">OZCFM - Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051</option>
                   </select>
                 </div>
 
@@ -659,6 +659,37 @@
             $("#viewmodal_lastmodifieddatetimeDiv").hide();
             $("#viewmodal_harvest_logidDiv").hide();
             $("#viewmodal_storage_logidDiv").hide();
+
+            //set dynamic fields grey and pointer events off
+            $('#viewmodal_harvest_suppliershortcode').attr("style", "pointer-events: none; background-color: lightgrey;");
+            $('#viewmodal_supplierproduce').attr("style", "pointer-events: none; background-color: lightgrey;");
+            $('#viewmodal_market_Name').attr("style", "pointer-events: none; background-color: lightgrey;");
+            $('#viewmodal_market_Address').attr("style", "pointer-events: none; background-color: lightgrey;");
+            //Dynamic dropdown logic
+            //when harvest id is selected
+            $('#viewmodal_harvest_logidSelect').change(function () {
+              //split harvest id text to get supplier produce shortcode
+              let harvest_id_arr = $('#viewmodal_harvest_logidSelect option:selected').text().split("/");
+              let supplier_produce = harvest_id_arr[1];
+              //split to get shortcode
+              let supplier_produce_arr = supplier_produce.split("_");
+              let supplier_shortcode = supplier_produce_arr[0];
+              //set values
+              $('#viewmodal_harvest_suppliershortcode').val(supplier_shortcode).change()
+              $('#viewmodal_supplierproduce').val(supplier_produce).change()
+            })
+            //when market shortcode is selected change market name and address to be associated with market shortcode
+            $('#viewmodal_market_Shortcode').change(function () {
+              if( $('#viewmodal_market_Shortcode').find(":selected").text() == 'OZCFM' ){
+                $('#viewmodal_market_Name').val(2).change()
+                $('#viewmodal_market_Address').val(2).change()
+
+              }
+              else if( $('#viewmodal_market_Shortcode').find(":selected").text() == 'OBM' ){
+                $('#viewmodal_market_Name').val(1).change()
+                $('#viewmodal_market_Address').val(1).change()
+              }
+            })
 
 
             //Make System populated elements not required otherwise Add Storage Form will not submit
