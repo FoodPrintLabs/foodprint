@@ -73,8 +73,24 @@ router.get(
               console.log('Generating QR Codes');
               const qrcodes = [];
               for (var i = 0; i < rows.length; i++) {
-                var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
-                qrcodes.push(qrcode_image);
+                if (rows[i].qrcode_url) {
+                  var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
+                  qrcodes.push(qrcode_image);
+                } else {
+                  //Create QR Code Link to generate QR code
+                  //check environment product was saved in for URL
+                  let host = req.get('host');
+                  let protocol = 'https';
+                  // if running in dev then protocol can be http
+                  if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+                    protocol = req.protocol;
+                  }
+                  let final_qrcode_url =
+                    protocol + '://' + host + '/app/scan/' + rows[i].supplierproduce;
+
+                  var qrcode_image = await QRCode.toDataURL(final_qrcode_url);
+                  qrcodes.push(qrcode_image);
+                }
               }
               console.log('Successful QRCode Generation');
               res.render('storagelogbook', {
