@@ -90,6 +90,12 @@ router.get(
 
                   var qrcode_image = await QRCode.toDataURL(final_qrcode_url);
                   qrcodes.push(qrcode_image);
+                  models.FoodprintStorage.update(
+                    { qrcode_url: final_qrcode_url },
+                    {
+                      where: { storage_logid: rows[i].storage_logid },
+                    }
+                  );
                 }
               }
               console.log('Successful QRCode Generation');
