@@ -90,6 +90,12 @@ router.get(
 
                   var qrcode_image = await QRCode.toDataURL(final_qrcode_url);
                   qrcodes.push(qrcode_image);
+                  models.FoodprintStorage.update(
+                    { qrcode_url: final_qrcode_url },
+                    {
+                      where: { storage_logid: rows[i].storage_logid },
+                    }
+                  );
                 }
               }
               console.log('Successful QRCode Generation');
@@ -419,6 +425,16 @@ router.post('/save/whatsapp', function (req, res) {
   let sys_storage_added_to_blockchain_by = '-';
   let sys_storage_blockchain_uuid = '-';
 
+  //Create and store QR Code Link
+  //check environment product was saved in for URL
+  let host = req.get('host');
+  let protocol = 'https';
+  // if running in dev then protocol can be http
+  if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+    protocol = req.protocol;
+  }
+  let final_qrcode_url = protocol + '://' + host + '/app/scan/' + req_supplierproduce;
+
   let data = {
     // harvest_logid: harvest_logid_uuid,
     storage_logid: storage_logid_uuid,
@@ -436,6 +452,7 @@ router.post('/save/whatsapp', function (req, res) {
     storage_user: req_email, // user who logged storage
     logdatetime: logdatetime,
     lastmodifieddatetime: lastmodifieddatetime,
+    qrcode_url: final_qrcode_url,
   };
 
   try {

@@ -26,8 +26,8 @@
     
     <!--Check QR Code availability-->
     <% 
-      if(data.length) {
-        for(var i = 0; i< data.length; i++){ 
+      if(harvest_data.length) {
+        for(var i = 0; i< harvest_data.length; i++){ 
     %>
     <!--QR CODE CARD-->
     <div class="card col-2 col-lg-2 col-xl-2 text-center" style="width: 15.5rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px;
@@ -42,13 +42,13 @@
                 <img src="<%=qrcodes[i]%>" id="qrcode_image" alt="QRCODE">
             </div>
             <div class="card-footer">
-            <a href="<%= qrcodes[i]%>" download="<%=data[i].supplierproduce%> - <%=data[i].logdatetime%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" ><i class="fa fa-download"></i></a>
+            <a href="<%= qrcodes[i]%>" download="<%=harvest_data[i].qrcode_title%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" ><i class="fa fa-download"></i></a>
               </div>
           </div>
         </div>
         
         <%}}else{ %>
-             <p colspan="5">No Supplier QR Configurations</p>
+             <p colspan="5">No Supplier QR Configurations, Check storage handover logbook</p>
        <% } %>
       </div>
     </div>

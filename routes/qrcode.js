@@ -1248,6 +1248,7 @@ router.get(
             var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
             qrcodes.push(qrcode_image);
           }
+
           models.FoodprintHarvest.findAll({
             order: [['pk', 'DESC']],
           }).then(async harvest_rows => {
@@ -1258,16 +1259,26 @@ router.get(
               for (var k in harvest_rows) {
                 //find key and add data to dict
                 if (harvest_rows[k].harvest_logid == keyToFind) {
-                  var harv_data = {
-                    qrcode_title:
+                  //checks to stop whatsapp entries that dont have enough data
+                  if (
+                    harvest_rows[k].harvest_supplierShortcode &&
+                    harvest_rows[k].harvest_supplierName
+                  ) {
+                    let qrcode_title =
                       harvest_rows[k].harvest_supplierShortcode +
                       ' ' +
-                      harvest_rows[k].harvest_produceName,
-                    harvest_farm_name: harvest_rows[k].harvest_supplierName,
-                    harvest_produce_name: harvest_rows[k].harvest_produceName,
-                  };
-                  //push dict to array
-                  harvest_data.push(harv_data);
+                      harvest_rows[k].harvest_produceName;
+                    let harvest_farm_name = harvest_rows[k].harvest_supplierName;
+                    let harvest_produce_name = harvest_rows[k].harvest_produceName;
+
+                    var harv_data = {
+                      qrcode_title: qrcode_title,
+                      harvest_farm_name: harvest_farm_name,
+                      harvest_produce_name: harvest_produce_name,
+                    };
+                    //push dict to array
+                    harvest_data.push(harv_data);
+                  }
                   break;
                 }
               }
