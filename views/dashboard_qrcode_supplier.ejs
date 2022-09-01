@@ -39,7 +39,7 @@
             <div class="card-text text-center">
                   <b class="qrcode-card-title">FARM NAME</b><div style="width: 15rem; height: 2rem; overflow: auto;"> <%=harvest_data[i].harvest_farm_name%></div>
                   <b class="qrcode-card-title">PRODUCE</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=harvest_data[i].harvest_produce_name%></div>
-                <img src="<%=qrcodes[i]%>" id="qrcode_image" alt="QRCODE">
+                <img src="<%=qrcodes[i]%>" id="qrcode_image" width="150" height="150" alt="QRCODE">
             </div>
             <div class="card-footer">
             <a href="<%= qrcodes[i]%>" download="<%=harvest_data[i].qrcode_title%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" ><i class="fa fa-download"></i></a>
