@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <% include ./partials/head %>  
+      <% include ./partials/head %>
   </head>
   <body>
    <!-- START: header -->
@@ -26,9 +26,9 @@
       <!--      <a class="btn btn-primary btn-sm enableBlockchainButton" >Enable Blockchain Wallet</a>-->
       <!--      <p>Connected Account: <span class="showAccount"></span></p>-->
     </div>
-    
+
     <% include ./partials/notificationbar %>
-    
+
     <br>
       <table class="table table-hover table-condensed table-responsive" id="harvesttable">
         <thead>
@@ -62,6 +62,7 @@
                       data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
                       data-harvest_producename="<%=data[i].harvest_produceName%>"
                       data-harvest_photohash="<%=data[i].harvest_photoHash%>"
+                      data-harvest_image_url="<%=data[i].harvest_image_url%>"
                       data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
                       data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
                       data-harvest_description="<%=data[i].harvest_Description%>"
@@ -92,6 +93,7 @@
                       data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
                       data-harvest_producename="<%=data[i].harvest_produceName%>"
                       data-harvest_photohash="<%=data[i].harvest_photoHash%>"
+                      data-harvest_image_url="<%=data[i].harvest_image_url%>"
                       data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
                       data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
                       data-harvest_description="<%=data[i].harvest_Description%>"
@@ -122,6 +124,7 @@
                       data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
                       data-harvest_producename="<%=data[i].harvest_produceName%>"
                       data-harvest_photohash="<%=data[i].harvest_photoHash%>"
+                      data-harvest_image_url="<%=data[i].harvest_image_url%>"
                       data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
                       data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
                       data-harvest_description="<%=data[i].harvest_Description%>"
@@ -158,6 +161,7 @@
                          data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
                          data-harvest_producename="<%=data[i].harvest_produceName%>"
                          data-harvest_photohash="<%=data[i].harvest_photoHash%>"
+                         data-harvest_image_url="<%=data[i].harvest_image_url%>"
                          data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>"
                          data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
                          data-harvest_description="<%=data[i].harvest_Description%>"
@@ -241,7 +245,7 @@
                     <option value="" selected disabled >Choose Produce...</option>
                   </select>
                 </div>
-              
+
                 <div class="form-group">
                   <label for="viewmodal_supplierproduce">Supplier Produce Code</label>
                   <select class="form-control" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
@@ -380,7 +384,7 @@
                   <label for="viewmodal_supplierproduce">Supplier Produce</label>
                   <input type="text" name="viewmodal_supplierproduce" class="form-control" id="viewmodal_supplierproduce" placeholder="Supplier Produce">
                 </div> -->
-                
+
                 <div class="form-group" id="viewmodal_harvest_bool_added_to_blockchainDiv">
                   <label for="viewmodal_harvest_bool_added_to_blockchain">Harvest Added to Blockchain - Yes / No</label>
                   <input type="text" name="viewmodal_harvest_bool_added_to_blockchain" class="form-control" id="viewmodal_harvest_bool_added_to_blockchain" placeholder="Harvest Added to Blockchain - Yes / No">
@@ -414,7 +418,7 @@
                       <input type="datetime-local" class="form-control " id="viewmodal_logdatetime" name="viewmodal_logdatetime" placeholder="Log Datetime" data-target="#viewmodal_logdatetime"/>
                   </div>
                 </div>
-            
+
                 <div class="form-group" id="viewmodal_lastmodifieddatetimeDiv">
                   <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
                   <div class="input-group form_datetime" id="viewmodal_lastmodifieddatetime_datetimepicker" data-target-input="viewmodal_lastmodifieddatetime">
@@ -425,7 +429,7 @@
                 <div class="form-group" id="viewmodal_harvest_logidDiv">
                   <label for="viewmodal_harvest_logid">Harvest ID</label>
                   <input type="text" name="viewmodal_harvest_logid" class="form-control" id="viewmodal_harvest_logid" placeholder="Harvest ID">
-                </div> 
+                </div>
 
                 <div class="form-check" id="harvestCheckDiv">
                   <input type="checkbox" class="form-check-input" id="harvestCheck" required>
@@ -449,12 +453,12 @@
     <!-- start footer -->
     <% include ./partials/footer %>
     <!-- end footer -->
-    
+
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-    
+
   <script src="/js/scripts.min.js"></script><!--/*! jQuery v1.12.4 | (c) jQuery Foundation | jquery.org/license */-->
   <script src="/js/main.min.js"></script>  <!--  Bootstrap v3.3.7 -->
-   
+
    <script type="text/javascript" src="/js/moment-with-locales.min.js"></script> <!--datetime picker -->
    <script type="text/javascript" src="/js/moment-timezone-with-data-2012-2022.min.js"></script> <!--datetime picker -->
    <script src="/js/tempusdominus-bootstrap-3.js"></script> <!--datetime picker -->
@@ -480,7 +484,8 @@
         var harvestSupplierAddress = $(obj_identifier).data('harvest_supplieraddress');
         var harvestProduceName = $(obj_identifier).data('harvest_producename');
         var harvestPhotoHash = $(obj_identifier).data('harvest_photohash');
-        var harvestPhotoImage = harvestPhotoHash;
+        var harvestImageUrl = $(obj_identifier).data('harvest_image_url');
+        var harvestPhotoImage = harvestImageUrl;
         var harvestTimestamp = $(obj_identifier).data('harvest_timestamp');
         var harvestCaptureTime = $(obj_identifier).data('harvest_capturetime');
         var harvestDescription = $(obj_identifier).data('harvest_description');
@@ -546,7 +551,7 @@
           }
         });
     }
-    
+
 
     function ShowModal(obj_identifier, action, header, contentClassID) {
 
@@ -580,13 +585,14 @@
       });
 
       var harvest_logid = $(obj_identifier).data('harvest_logid');
-      var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode'); 
+      var harvest_suppliershortcode = $(obj_identifier).data('harvest_suppliershortcode');
       var harvest_suppliername = $(obj_identifier).data('harvest_suppliername');
       var harvest_farmername = $(obj_identifier).data('harvest_farmername');
       var harvest_supplieraddress = $(obj_identifier).data('harvest_supplieraddress');
       var harvest_producename = $(obj_identifier).data('harvest_producename');
       var harvest_photohash = $(obj_identifier).data('harvest_photohash');
-      var harvest_photoimage = harvest_photohash;
+      var harvest_image_url = $(obj_identifier).data('harvest_image_url');
+      var harvest_photoimage = harvest_image_url;
       var harvest_timestamp = $(obj_identifier).data('harvest_timestamp');
       var harvest_capturetime = $(obj_identifier).data('harvest_capturetime');
       var harvest_description = $(obj_identifier).data('harvest_description');
@@ -671,7 +677,7 @@
       $('#viewmodal_harvest_farmername').val(harvest_farmername);
       $('#viewmodal_harvest_supplieraddress').val(harvest_supplieraddress);
       $('#viewmodal_harvest_producename').val(harvest_producename);
-      //$('#viewmodal_harvest_photohash').val(harvest_photohash);            
+      //$('#viewmodal_harvest_photohash').val(harvest_photohash);
       $('#viewmodal_harvest_photoimage').attr("src", harvest_photoimage);
 
       $('#viewmodal_harvest_timestamp').val(harvest_timestamp_adjusted);
@@ -699,32 +705,32 @@
       $('#harvestModalAdd').remove();
       $('#harvestModalDelete').remove();
       $('#harvestModalClose').remove();
-    
+
     if (action==='add'){
       $("#modalBodyContainer :input").attr("disabled", false);
       $("#modalBodyContainer :input").attr("required", true);
-      
+
       //System populated:
       //viewmodal_harvest_photoimageDiv, viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
-      //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
+      //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv,
       //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv,
-      //viewmodal_harvest_capturetime, viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid 
+      //viewmodal_harvest_capturetime, viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid
 
       //Hide divs for System populated elements
-      $("#viewmodal_harvest_photoimageDiv").hide();  
-      $("#viewmodal_harvest_blockchainhashidDiv").hide();  
-      $("#viewmodal_harvest_blockchainhashdataDiv").hide();  
-      $("#viewmodal_harvest_bool_added_to_blockchainDiv").hide();  
-      $("#viewmodal_harvest_added_to_blockchain_dateDiv").hide();  
-      $("#viewmodal_harvest_userDiv").hide();  
-      $("#viewmodal_harvest_blockchain_uuidDiv").hide();  
-      $("#viewmodal_harvest_added_to_blockchain_byDiv").hide();  
+      $("#viewmodal_harvest_photoimageDiv").hide();
+      $("#viewmodal_harvest_blockchainhashidDiv").hide();
+      $("#viewmodal_harvest_blockchainhashdataDiv").hide();
+      $("#viewmodal_harvest_bool_added_to_blockchainDiv").hide();
+      $("#viewmodal_harvest_added_to_blockchain_dateDiv").hide();
+      $("#viewmodal_harvest_userDiv").hide();
+      $("#viewmodal_harvest_blockchain_uuidDiv").hide();
+      $("#viewmodal_harvest_added_to_blockchain_byDiv").hide();
       //
-      $("#viewmodal_harvest_capturetimeDiv").hide();  
-      $("#viewmodal_logdatetimeDiv").hide();  
-      $("#viewmodal_lastmodifieddatetimeDiv").hide();  
-      $("#viewmodal_harvest_logidDiv").hide();  
-      
+      $("#viewmodal_harvest_capturetimeDiv").hide();
+      $("#viewmodal_logdatetimeDiv").hide();
+      $("#viewmodal_lastmodifieddatetimeDiv").hide();
+      $("#viewmodal_harvest_logidDiv").hide();
+
 
       //Make System populated elements not required otherwise Add Harvest Form will not submit
       $("#viewmodal_harvest_photoimage").attr("required", false);
@@ -735,7 +741,7 @@
       $("#viewmodal_harvest_user").attr("required", false);
       $("#viewmodal_harvest_blockchain_uuid").attr("required", false);
       $("#viewmodal_harvest_added_to_blockchain_by").attr("required", false);
-    
+
       //set farmer name and supplier produce code to read only
       $('#viewmodal_harvest_suppliername').attr("style", "pointer-events: none; background-color: lightgrey;");
       $('#viewmodal_supplierproduce').attr("style", "pointer-events: none; background-color: lightgrey;");
@@ -743,7 +749,7 @@
       //when supploer shortcode dropdown is selected
       $('#viewmodal_harvest_suppliershortcode').change(function () {
         //set farmer name based on chosen shortcode
-        if( $('#viewmodal_harvest_suppliershortcode').find(":selected").text() == 'BGSM') 
+        if( $('#viewmodal_harvest_suppliershortcode').find(":selected").text() == 'BGSM')
         { //set farmer name
           $('#viewmodal_harvest_suppliername').val('Bergsoom Farm').change()
           //empty produce list
@@ -756,10 +762,10 @@
           $("#viewmodal_harvest_producename").append(new Option("Lemon", "Lemon"));
           $("#viewmodal_harvest_producename").append(new Option("Mor", "Mor"));
           $("#viewmodal_harvest_producename").append(new Option("Oranges", "Oranges"));
-         
-                   
+
+
         }
-        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'EKLN') 
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'EKLN')
         {
           $('#viewmodal_harvest_suppliername').val('Eikelaan Farm').change()
           $("#viewmodal_harvest_producename").empty();
@@ -771,7 +777,7 @@
           $("#viewmodal_harvest_producename").append(new Option("Limes", "Limes"));
           $("#viewmodal_harvest_producename").append(new Option("Sorrel", "Sorrel"));
         }
-        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'OZCF') 
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'OZCF')
         {
           $('#viewmodal_harvest_suppliername').val('Oranjezicht City Farm').change()
           $("#viewmodal_harvest_producename").empty();
@@ -785,7 +791,7 @@
           $("#viewmodal_harvest_producename").append(new Option("Radish", "Radish"));
 
         }
-        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'PEDI') 
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'PEDI')
         {
           $('#viewmodal_harvest_suppliername').val('Pedi AgriHub').change()
           $("#viewmodal_harvest_producename").empty();
@@ -798,7 +804,7 @@
           $("#viewmodal_harvest_producename").append(new Option("Spinach", "Spinach"));
 
         }
-        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'QCGF') 
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'QCGF')
         {
           $('#viewmodal_harvest_suppliername').val('Quick Crop Growers Farm').change()
           $("#viewmodal_harvest_producename").empty();
@@ -813,7 +819,7 @@
           $("#viewmodal_harvest_producename").append(new Option("Radish", "Radish"));
 
         }
-        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'TEST') 
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'TEST')
         {
           $('#viewmodal_harvest_suppliername').val('FoodPrint Test Farm').change()
           $("#viewmodal_harvest_producename").empty();
@@ -821,7 +827,7 @@
           $("#viewmodal_harvest_producename").append(new Option("Select Produce", ""));
           $("#viewmodal_harvest_producename").append(new Option("Beetroot", "Beetroot"));
         }
-        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'WMNP') 
+        else if($('#viewmodal_harvest_suppliershortcode').find(":selected").text()  == 'WMNP')
         {
           $('#viewmodal_harvest_suppliername').val('White Mountain Natural Produce').change()
           $("#viewmodal_harvest_producename").empty();
@@ -865,8 +871,8 @@
 
       $("#harvestCheckDiv").show();  // show confirm add/edit checkbox
 
-      $("#modalFooter").append(addButton);  
-      $("#modalFooter").append(closeButton);  
+      $("#modalFooter").append(addButton);
+      $("#modalFooter").append(closeButton);
 
     }
     else if (action==='view'){
@@ -875,37 +881,37 @@
       //SHOW DIVS
       //System populated:
       //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
-      //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
+      //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv,
       //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv
 
-      $("#viewmodal_harvest_photoimageDiv").show(); 
-      $("#viewmodal_harvest_blockchainhashidDiv").show();  
-      $("#viewmodal_harvest_blockchainhashdataDiv").show();  
-      $("#viewmodal_harvest_bool_added_to_blockchainDiv").show();  
-      $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
-      $("#viewmodal_harvest_userDiv").show();  
-      $("#viewmodal_harvest_blockchain_uuidDiv").show();  
-      $("#viewmodal_harvest_added_to_blockchain_byDiv").show();  
-      
-      $("#viewmodal_harvest_capturetimeDiv").show();  
-      $("#viewmodal_logdatetimeDiv").show();  
-      $("#viewmodal_lastmodifieddatetimeDiv").show();  
-      $("#viewmodal_harvest_logidDiv").show();  
+      $("#viewmodal_harvest_photoimageDiv").show();
+      $("#viewmodal_harvest_blockchainhashidDiv").show();
+      $("#viewmodal_harvest_blockchainhashdataDiv").show();
+      $("#viewmodal_harvest_bool_added_to_blockchainDiv").show();
+      $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();
+      $("#viewmodal_harvest_userDiv").show();
+      $("#viewmodal_harvest_blockchain_uuidDiv").show();
+      $("#viewmodal_harvest_added_to_blockchain_byDiv").show();
+
+      $("#viewmodal_harvest_capturetimeDiv").show();
+      $("#viewmodal_logdatetimeDiv").show();
+      $("#viewmodal_lastmodifieddatetimeDiv").show();
+      $("#viewmodal_harvest_logidDiv").show();
 
       $("#harvestCheckDiv").hide();  // hide confirm add/edit checkbox
       $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
-      $("#modalFooter").append(closeButton);  
+      $("#modalFooter").append(closeButton);
     }
     else if (action==='update'){
       $("#modalBodyContainer :input").attr("disabled", false);
-      
+
       //TODO $("#viewmodal_logdatetime").attr('readonly', true);
       //$("#viewmodal_logdatetime_calendar").attr('readonly', true);
       // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
 
 
       //cannot modify image once it has been added
-      $("#viewmodal_harvest_photoimageDiv").show();  
+      $("#viewmodal_harvest_photoimageDiv").show();
       $("#viewmodal_harvest_photohash").attr('disabled', true);
 
     // Harvest description checkboxes should  be read-only
@@ -917,12 +923,12 @@
     $("#viewmodal_harvest_description_json_greenhouse").attr('disabled', true);
     $("#viewmodal_harvest_description_json_gmo").attr('disabled', true);
 
-      $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();  
+      $("#viewmodal_harvest_added_to_blockchain_dateDiv").show();
       $("#viewmodal_harvest_capturetimeDiv").show();  //TODO - this should be readonly
       $("#viewmodal_logdatetimeDiv").show();  //TODO - this should be readonly
       $("#viewmodal_lastmodifieddatetimeDiv").show();  //TODO - this should be readonly
 
-      $("#viewmodal_harvest_logidDiv").show();  
+      $("#viewmodal_harvest_logidDiv").show();
       $("#viewmodal_harvest_logid").attr('readonly', true);
 
       $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
@@ -930,8 +936,8 @@
 
       $("#harvestCheckDiv").show();  // show confirm add/edit checkbox
 
-      $("#modalFooter").append(updateButton);  
-      $("#modalFooter").append(closeButton);  
+      $("#modalFooter").append(updateButton);
+      $("#modalFooter").append(closeButton);
       $('#harvestModalForm').attr('action', '/app/harvest/update');
     }
     else if (action==='delete'){
@@ -942,11 +948,11 @@
       $("#harvestDeleteDiv").show();  // show confirm delete checkbox
 
       //make viewmodal_harvest_logid readonly not disabled so it is sent via web request
-      $("#viewmodal_harvest_logid").attr("disabled", false); 
+      $("#viewmodal_harvest_logid").attr("disabled", false);
       $("#viewmodal_harvest_logid").attr('readonly', true);
 
-      $("#modalFooter").append(deleteButton);  
-      $("#modalFooter").append(closeButton);  
+      $("#modalFooter").append(deleteButton);
+      $("#modalFooter").append(closeButton);
       $('#harvestModalForm').attr('action', '/app/harvest/delete');
     }
 

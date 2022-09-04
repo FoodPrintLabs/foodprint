@@ -12,6 +12,7 @@ const axios = require('axios');
 const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 const CUSTOM_ENUMS = require('../utils/enums');
+const path = require('path');
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
@@ -31,7 +32,7 @@ const { harvestpdf } = require('../config/pdf/harvestpdf');
 const BucketName = process.env.DO_BUCKET_NAME;
 
 /*   function to determine rows of data that can be seen based on user role */
-function getHarvestSqlSearchCondition(user){
+function getHarvestSqlSearchCondition(user) {
   // default permission is to see only rows the user has added
   let sql_search_condition = {
     where: {
@@ -40,16 +41,13 @@ function getHarvestSqlSearchCondition(user){
     order: [['pk', 'DESC']],
   };
 
-    // admins and superusers can see all records
-    if (
-        user.role === ROLES.Admin ||
-        user.role === ROLES.Superuser
-    ) {
-      sql_search_condition = {
-        order: [['pk', 'DESC']],
-      }
-    }
-    return sql_search_condition;
+  // admins and superusers can see all records
+  if (user.role === ROLES.Admin || user.role === ROLES.Superuser) {
+    sql_search_condition = {
+      order: [['pk', 'DESC']],
+    };
+  }
+  return sql_search_condition;
 }
 
 /* GET harvest page. */
@@ -71,13 +69,16 @@ router.get(
           console.log('All harvests:' + rows.length.toString());
 
           for (let i = 0; i < rows.length; i++) {
-            if (rows[i].harvest_photoHash === null) {
+            if (rows[i].harvest_image_url === null) {
+              rows[i].harvest_image_url = '';
+            }
+            /*if (rows[i].harvest_photoHash === null) {
               rows[i].harvest_photoHash = '';
             } else {
               rows[i].harvest_photoHash =
                 'data:image/png;base64,' +
                 Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
-            }
+            }*/
           }
           res.render('harvestlogbook', {
             page_title: 'FoodPrint - Harvest Logbook',
@@ -96,8 +97,7 @@ router.get(
             page_name: 'harvestlogbook',
           });
         });
-    } else
-    {
+    } else {
       res.render('error', {
         message: 'You are not authorised to view this resource.',
         title: 'Error',
@@ -219,7 +219,7 @@ router.post(
 
       // req.body will hold the text fields, if there were any
       // data is object-key-value pairs
-      let data = {
+      let harvest_entry = {
         harvest_logid: harvest_logid_uuid,
         harvest_supplierShortcode: req.body.viewmodal_harvest_suppliershortcode,
         harvest_supplierName: req.body.viewmodal_harvest_suppliername,
@@ -248,23 +248,49 @@ router.post(
         lastmodifieddatetime: lastmodifieddatetime,
       };
       try {
-        fs.readFile(img.path, function (err, img_datadata) {
-          data['harvest_photoHash'] = img_datadata;
+        fs.readFile(img.path, async function (err, img_datadata) {
+          // data['harvest_photoHash'] = img_datadata;
 
-          models.FoodprintHarvest.create(data)
-            .then(_ => {
-              req.flash(
-                'success',
-                'New Harvest entry added successfully! Harvest ID = ' + harvest_logid_uuid
-              );
+          // console.log(img)
+          // console.log(`type ${img.mimetype}`)
+          // console.log(`extension ${path.extname(img.originalname)}`)
+          const filenames = resolveFilenames(
+            harvest_logid_uuid,
+            `${path.extname(img.originalname)}`
+          );
+          const uploadParams = getUploadParams(
+            BucketName,
+            img.mimetype,
+            img_datadata,
+            'public-read',
+            filenames.filename
+          );
+          uploadConnection.upload(uploadParams, function (error, data) {
+            if (error) {
+              console.error(error);
+              req.flash('error', error.message);
               res.redirect('/app/harvest');
-            })
-            .catch(err => {
-              //throw err;
-              req.flash('error', err.message);
-              // redirect to harvest logbook page
-              res.redirect('/app/harvest');
-            });
+            } else {
+              console.log('File uploaded ' + filenames.fileUrl);
+
+              harvest_entry['harvest_image_url'] = filenames.fileUrl;
+
+              models.FoodprintHarvest.create(harvest_entry)
+                .then(_ => {
+                  req.flash(
+                    'success',
+                    'New Harvest entry added successfully! Harvest ID = ' + harvest_logid_uuid
+                  );
+                  res.redirect('/app/harvest');
+                })
+                .catch(err => {
+                  //throw err;
+                  req.flash('error', err.message);
+                  // redirect to harvest logbook page
+                  res.redirect('/app/harvest');
+                });
+            }
+          });
         });
       } catch (e) {
         //this will eventually be handled by your error handling middleware
@@ -701,102 +727,104 @@ router.post(
           // redirect to harvest logbook page
           res.redirect('/app/harvest');
         });
-    } else
-    {
-      req.flash(
-          'error',
-          'You are not authorised to delete Harvest records.'
-      );
+    } else {
+      req.flash('error', 'You are not authorised to delete Harvest records.');
       res.redirect('/app/harvest');
     }
   }
 );
 
 /* GET PDF of all Harvest records (as an admin) - webapp */
-router.get('/pdf/all',
-    require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
-    function (req, res) {
-      models.FoodprintHarvest.findAll({
-        attributes: [
-          'harvest_logid',
-          'harvest_farmerName',
-          'harvest_produceName',
-          'harvest_TimeStamp',
-          'harvest_quantity',
-          'harvest_unitOfMeasure',
-          'blockchain_explorer_url',
-        ],
-        order: [['pk', 'DESC']],
-      })
-          .then(rows => {
-            const pdffileextension = '.pdf';
-            const username = req.user.username
-            const useremail = req.user.email
-            const pdfFilename = `FoodPrint_Harvest_Admin_${username}_${moment(new Date()).format('YYYY-MM-DD')}`;
-            const filenames = resolveFilenames(pdfFilename, pdffileextension);
+router.get(
+  '/pdf/all',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res) {
+    models.FoodprintHarvest.findAll({
+      attributes: [
+        'harvest_logid',
+        'harvest_farmerName',
+        'harvest_produceName',
+        'harvest_TimeStamp',
+        'harvest_quantity',
+        'harvest_unitOfMeasure',
+        'blockchain_explorer_url',
+      ],
+      order: [['pk', 'DESC']],
+    })
+      .then(rows => {
+        const pdffileextension = '.pdf';
+        const username = req.user.username;
+        const useremail = req.user.email;
+        const pdfFilename = `FoodPrint_Harvest_Admin_${username}_${moment(new Date()).format(
+          'YYYY-MM-DD'
+        )}`;
+        const filenames = resolveFilenames(pdfFilename, pdffileextension);
 
-            const stream = res.writeHead(200, {
-              'Content-Type': 'application/pdf',
-              'Content-Disposition': 'attachment;filename=' + filenames.filename,
-            });
-            pdfService.buildPDF(
-                `MASTER HARVEST ENTRIES GENERATED BY ADMIN ${username} ${useremail}
+        const stream = res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment;filename=' + filenames.filename,
+        });
+        pdfService.buildPDF(
+          `MASTER HARVEST ENTRIES GENERATED BY ADMIN ${username} ${useremail}
                 ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
-                harvestpdf(rows),
-                chunk => stream.write(chunk),
-                () => stream.end()
-            );
-          })
-          .catch(err => {
-            console.log('Harvest PDF err:' + err);
-            req.flash('error', err);
-          });
-    }
+          harvestpdf(rows),
+          chunk => stream.write(chunk),
+          () => stream.end()
+        );
+      })
+      .catch(err => {
+        console.log('Harvest PDF err:' + err);
+        req.flash('error', err);
+      });
+  }
 );
 
 /* GET PDF of Harvest record for farmer - webapp */
-router.get('/pdf',
-    require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
-    function (req, res) {
-      models.FoodprintHarvest.findAll({
-            attributes: [
-              'harvest_logid',
-              'harvest_farmerName',
-              'harvest_produceName',
-              'harvest_TimeStamp',
-              'harvest_quantity',
-              'harvest_unitOfMeasure',
-              'blockchain_explorer_url',
-            ],
-            order: [['pk', 'DESC']],
-            where: {
-              harvest_user: req.user.email,
-            },
-          })
-              .then(rows => {
-                const pdffileextension = '.pdf';
-                const username = req.user.username
-                const useremail = req.user.email
-                const pdfFilename = `FoodPrint_Harvest_${username}_${moment(new Date()).format('YYYY-MM-DD')}`;
-                const filenames = resolveFilenames(pdfFilename, pdffileextension);
+router.get(
+  '/pdf',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res) {
+    models.FoodprintHarvest.findAll({
+      attributes: [
+        'harvest_logid',
+        'harvest_farmerName',
+        'harvest_produceName',
+        'harvest_TimeStamp',
+        'harvest_quantity',
+        'harvest_unitOfMeasure',
+        'blockchain_explorer_url',
+      ],
+      order: [['pk', 'DESC']],
+      where: {
+        harvest_user: req.user.email,
+      },
+    })
+      .then(rows => {
+        const pdffileextension = '.pdf';
+        const username = req.user.username;
+        const useremail = req.user.email;
+        const pdfFilename = `FoodPrint_Harvest_${username}_${moment(new Date()).format(
+          'YYYY-MM-DD'
+        )}`;
+        const filenames = resolveFilenames(pdfFilename, pdffileextension);
 
-                const stream = res.writeHead(200, {
-                  'Content-Type': 'application/pdf',
-                  'Content-Disposition': 'attachment;filename=' + filenames.filename,
-                });
-                pdfService.buildPDF(
-                  `HARVEST ENTRIES FOR ${username} ${useremail}
+        const stream = res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment;filename=' + filenames.filename,
+        });
+        pdfService.buildPDF(
+          `HARVEST ENTRIES FOR ${username} ${useremail}
                 ${moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}`,
-                  harvestpdf(rows),
-                  chunk => stream.write(chunk),
-                  () => stream.end()
-                );
-              })
-              .catch(err => {
-                console.log('Harvest PDF err:' + err);
-                req.flash('error', err);
-              });
-    }
+          harvestpdf(rows),
+          chunk => stream.write(chunk),
+          () => stream.end()
+        );
+      })
+      .catch(err => {
+        console.log('Harvest PDF err:' + err);
+        req.flash('error', err);
+      });
+  }
 );
 
 /* GET PDF of Harvest record for farmer - whatsapp */
@@ -875,5 +903,68 @@ router.get('/pdf/whatsapp/:phoneNumber', function (req, res) {
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
 });
+
+router.get(
+  '/migrateimages',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintHarvest.findAll({
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          for (let i = 0; i < rows.length; i++) {
+            if (rows[i].harvest_photoHash === null) {
+              console.log(`no image for harvest ${rows[i].harvest_logid}`);
+            } else {
+              try {
+                const filenames = resolveFilenames(rows[i].harvest_logid, '.png');
+                const uploadParams = getUploadParams(
+                  BucketName,
+                  'image/png',
+                  Buffer.from(rows[i].harvest_photoHash, 'binary'),
+                  'public-read',
+                  filenames.filename
+                );
+                uploadConnection.upload(uploadParams, function (error, data) {
+                  if (error) {
+                    console.error(error);
+                  } else {
+                    console.log('File uploaded ' + filenames.fileUrl);
+                    const harvest_entry = {
+                      harvest_image_url: filenames.fileUrl,
+                    };
+
+                    models.FoodprintHarvest.update(harvest_entry, {
+                      where: {
+                        harvest_logid: rows[i].harvest_logid,
+                      },
+                    })
+                      .then(_ => {
+                        console.log(`updated image for ${rows[i].harvest_logid}`);
+                      })
+                      .catch(err => {
+                        //throw err;
+                        console.log('Error - Update Harvest failed');
+                        console.log(err);
+                      });
+                  }
+                });
+              } catch (e) {
+                console.log(`error on harvest ${rows[i].harvest_logid}`);
+              }
+            }
+          }
+          res.json({ message: 'success' });
+        })
+        .catch(err => {
+          console.log('All harvests err:' + err);
+          res.json({ error: err });
+        });
+    } else {
+      res.json({ message: 'not authorised' });
+    }
+  }
+);
 
 module.exports = router;
