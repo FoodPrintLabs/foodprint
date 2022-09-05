@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <% include ./partials/head %>  
+      <% include ./partials/head %>
   </head>
   <body>
    <!-- START: header -->
@@ -12,8 +12,8 @@
       <% include ./partials/header %>
   </header>
   <!-- END: header -->
- 
-   
+
+
    <div class="container" style="width: 100%;">
     <div class="row align-items-center justify-content-center">
       <!-- START LOGIN FORM-->
@@ -28,20 +28,20 @@
                       <label for="loginUsername">Username</label>
                       <input type="text" style="color: black;" id="loginUsername" name="loginUsername"class="form-control" placeholder="Enter Username" required autofocus/>
                     </div>
-        
+
                     <div class="form-group">
                       <label for="loginPassword">Password</label>
                       <input type="password" style="color: black;" id="loginPassword" name="loginPassword" class="form-control" placeholder="Enter Password" required>
                     </div>
-        
+
                   <div class="form-group">
                     <button class="btn btn-primary" type="submit" formaction="/app/auth/login">Login</button> <!-- Local Auth -->
                   </div>
-                  
+
                   <div class="form-group">
-                    Don't have a FoodPrint account yet? <a href="/app/auth/register">Sign up now</a>.
+                    Don't have a FoodPrint account yet? <a href="/app/auth/register_options">Sign up now</a>.
                   </div>
-                </div>
+
               </form>
             </div>
           </div>
@@ -52,7 +52,7 @@
   <!-- start footer -->
   <% include ./partials/footer %>
   <!-- end footer -->
-  
+
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
     <script src="/js/scripts.min.js"></script>
   <script src="/js/main.min.js"></script>

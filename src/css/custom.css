@@ -5,6 +5,10 @@
   overflow: hidden;
 }
 
+.register-option {
+    padding: 10px;
+}
+
 /*  spinner CSS */
 @keyframes spinner-border {
   to {
