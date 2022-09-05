@@ -11,6 +11,7 @@ var fs = require('fs');
 const axios = require('axios');
 const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
+const CUSTOM_ENUMS = require('../utils/enums');
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
@@ -282,7 +283,12 @@ router.post('/save/whatsapp', async function (req, res) {
 
   let harvest_photoHash = '';
   let host = req.get('host');
-  let protocol = req.protocol;
+  let protocol = 'https';
+
+  // if running in dev then protocol can be http otherwise if you pass protocol as http for PRODUCTION, axios lib will fail when attempting to write to blockchain i.e. Error: Request failed with status code 404
+  if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+    protocol = req.protocol;
+  }
 
   if (req.body.harvestURL) {
     try {
@@ -319,6 +325,7 @@ router.post('/save/whatsapp', async function (req, res) {
       .then(_ => whatsappHarvestToBlockchain(data, protocol, host))
       .catch(err => {
         //throw err;
+        console.log(err.message);
         res.status(400).send({ message: err.message });
       });
   } catch (e) {
