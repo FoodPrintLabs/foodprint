@@ -12,6 +12,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
 var sequelise = require('./config/db/db_sequelise');
+var ROLES = require('./utils/roles');
 
 const CUSTOM_ENUMS = require('./utils/enums');
 const swaggerJSDoc = require('swagger-jsdoc');
@@ -254,7 +255,12 @@ router.get(
   '/',
   require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
   function (req, res) {
-    res.render('index', { user: req.user, page_name: 'home' });
+    if (req.user.role == ROLES.Admin || req.user.role == ROLES.Superuser) {
+      res.render('index', { user: req.user, page_name: 'home', admin_status: true });
+    } else {
+      res.render('index', { user: req.user, page_name: 'home', admin_status: false });
+    }
+
     //res.sendFile(path.join(__dirname+'/src/index.html')); //__dirname : It will resolve to your project folder.
   }
 );

@@ -71,18 +71,18 @@
     <div class="card col-2 col-lg-2 col-xl-2" style="width: 16rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
         box-shadow: 2px 2px 4px 5px #ccc;">
           <div class="card-header">
-          <p class="card-title h4">Attribute - <%=i + 1%></p> 
+          <p class="card-title h4 qrcode-card-heading">Attribute - <%=i + 1%></p> 
           </div>
           <div class="card-body">
             <div class="card-text">
-              <b>Attribute</b><div style="width: 15.5rem; height: 2rem; overflow: auto;"><%=data[i].product_attribute%> </div>
-              <b>Description</b> <div style="width: 15.5rem; height: 8rem; overflow: scroll;"><%=data[i].product_attribute_description%> </div>
+              <b class="qrcode-card-title">ATTRIBUTE</b><div style="width: 15.5rem; height: 2rem; overflow: auto;"><%=data[i].product_attribute%> </div>
+              <b class="qrcode-card-title">DESCRIPTION</b> <div style="width: 15.5rem; height: 8rem; overflow: scroll;"><%=data[i].product_attribute_description%> </div>
             </div>
             <a href="javascript:void(0);" class="btn-sm btn-success edit " data-qrcode_logid="<%= data[i].qrcode_logid%>"
               data-attribute_id="<%= data[i].attribute_id%>" data-product_attribute="<%= data[i].product_attribute%>" 
-              data-product_attribute_description="<%= data[i].product_attribute_description%>" >Edit</a>
-            <a href="javascript:void(0);" class="btn-sm btn-danger delete " data-qrcode_logid2=""="<%= data[i].qrcode_logid%>"
-              data-attribute_id2="<%= data[i].attribute_id%>">Delete</a>
+              data-product_attribute_description="<%= data[i].product_attribute_description%>" ><i class="far fa-edit"></i></a>
+            <a href="javascript:void(0);" class="btn-sm btn-danger delete " data-qrcode_logid2="<%= data[i].qrcode_logid%>"
+              data-attribute_id2="<%= data[i].attribute_id%>"><i class="far fa-trash-alt"></i></a>
           </div>
         </div>
         

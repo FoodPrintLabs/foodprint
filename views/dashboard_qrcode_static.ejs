@@ -15,7 +15,7 @@
 
    <!-- START TABLE-->
    <div class="container" style="width: 100%;">
-    <h3>QR Code Configuration</h3>
+    <h3>QR Code Configuration - Static </h3>
     <div>
         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New QR Code</button>
     </div>
@@ -36,13 +36,13 @@
     <div class="card col-2 col-lg-2 col-xl-2 text-center" style="width: 15.5rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px;
         box-shadow: 2px 2px 4px 5px #ccc; ">
           <div class="card-header">
-          <p class="card-title h4"><b><%=data[i].qrcode_company_name%></b></p>
+          <p class="card-title h4 qrcode-card-heading"><b><%=data[i].qrcode_company_name%></b></p>
           </div>
           <div class="card-body">
             <div class="card-text text-center">
-                  <b>Product</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_product_name%> </div>
-                  <b>Product Description</b><div style="width: 15rem; height: 6rem; overflow: auto;"> <%=data[i].qrcode_product_description%></div>
-                <b>QR Code Description</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_description%></div>
+                  <b class="qrcode-card-title">PRODUCT</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_product_name%> </div>
+                  <b class="qrcode-card-title">PRODUCT DESCRIPTION</b><div style="width: 15rem; height: 6rem; overflow: auto;"> <%=data[i].qrcode_product_description%></div>
+                <b class="qrcode-card-title">QR CODE DESCRIPTION</b><div style="width: 15rem; height: 2rem; overflow: auto;"><%=data[i].qrcode_description%></div>
                 <img src="<%=qrcodes[i]%>" id="company_image" alt="Company Logo">
             </div>
             <div class="card-footer">
@@ -53,7 +53,7 @@
               data-qrcode_contact_email="<%= data[i].qrcode_contact_email%>" data-qrcode_facebook="<%= data[i].qrcode_facebook%>"
               data-qrcode_twitter="<%= data[i].qrcode_twitter%>" data-qrcode_instagram="<%= data[i].qrcode_instagram%>"
               data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>" data-qrcode_url="<%= data[i].qrcode_url%>" data-qrcode_img="<%= qrcodes[i]%>"
-                data-qrcode_website="<%= data[i].qrcode_website%>" data-qrcode_company_logo="<%= data[i].qrcode_company_logo_url%>">View</a>
+                data-qrcode_website="<%= data[i].qrcode_website%>" data-qrcode_company_logo="<%= data[i].qrcode_company_logo_url%>"><i class="far fa-eye"></i></a>
             <a href="javascript:void(0);" class="btn-sm btn-success edit " style="padding-right: 1rem; padding-left: 1rem;" data-qrcode_logid="<%= data[i].qrcode_logid%>"
               data-qrcode_company_name="<%= data[i].qrcode_company_name%>" data-qrcode_description="<%= data[i].qrcode_description%>" 
               data-qrcode_company_founded="<%= data[i].qrcode_company_founded%>" data-qrcode_product_name="<%= data[i].qrcode_product_name%>"
@@ -61,11 +61,11 @@
               data-qrcode_contact_email="<%= data[i].qrcode_contact_email%>" data-qrcode_facebook="<%= data[i].qrcode_facebook%>"
               data-qrcode_twitter="<%= data[i].qrcode_twitter%>" data-qrcode_instagram="<%= data[i].qrcode_instagram%>"
               data-user_logid="<%= data[i].user_logid%>" data-qrcode_logdatetime="<%= data[i].qrcode_logdatetime%>"
-                data-qrcode_website="<%= data[i].qrcode_website%>" >Edit</a>
-            <a href="/app/qrcode/attribute/<%= data[i].qrcode_logid%>"  class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Attributes</a>
-            <a href="<%= qrcodes[i]%>" download="<%=data[i].qrcode_company_name%> - <%=data[i].qrcode_product_name%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" >Download</a>
+                data-qrcode_website="<%= data[i].qrcode_website%>" ><i class="far fa-edit"></i></a>
+            <a href="/app/qrcode/attribute/<%= data[i].qrcode_logid%>"  class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" ><i class="fa fa-plus-square" > </i></i></a>
+            <a href="<%= qrcodes[i]%>" download="<%=data[i].qrcode_company_name%> - <%=data[i].qrcode_product_name%>.jpg"  target="_blank" class="btn-sm btn-primary attribute "  style="padding-right: 1rem; padding-left: 1rem;" ><i class="fa fa-download"></i></a>
             <a href="javascript:void(0);" class="btn-sm btn-danger delete " data-qrcode_logid2="<%= data[i].qrcode_logid%>"
-              data-qrcode_company_name2="<%= data[i].qrcode_company_name%>" style="padding-right: 1rem; padding-left: 1rem;">Delete</a>
+              data-qrcode_company_name2="<%= data[i].qrcode_company_name%>" style="padding-right: 1rem; padding-left: 1rem;"><i class="far fa-trash-alt"></i></a>
               </div>
           </div>
         </div>

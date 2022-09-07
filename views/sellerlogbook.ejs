@@ -16,107 +16,28 @@
         
         async function filterCheck(filter)
         { 
-          //switch to check if filter range is part of produce else if it isnt display unexpected filter in console
-          switch(filter){
-          case "All":
-          ocument.getElementById('produce_filter').value = filter;
-          break;
-          case "Baby Marrow":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Baby Leeks":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Basil":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Beetroot":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Bergamot":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Blood Oranges":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Cabbage":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Carrots":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Cauliflower":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Cayenne Pepper":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Cucumber":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Eggs":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Fennel":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Granadilla":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Green Beans":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Herbs":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Lebanese Cucumber":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Leeks":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Lemon":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Lettuce":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Limes":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Mor":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Onion":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Pak Choi":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Parsley":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Radish":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Sorrel":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Swiss Chard":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Spinach":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "Turnips":
-          document.getElementById('produce_filter').value = filter;
-          break;
-          case "":
-            break;
-          default:
-          console.log("Unexpected filter")
-          window.location = '/app/seller'
-        }
+
+          let produce_array = [ "All", "Baby Marrow",
+                    "Baby Leeks",  "Basil", "Beetroot",  "Bergamot", "Blood Oranges",
+                    "Cabbage",  "Carrots",  "Cauliflower", "Cayenne Pepper",  "Cucumber", "Eggs",
+                    "Fennel", "Granadilla", "Green Beans",  "Herbs", "Lebanese Cucumber", "Leeks",
+                    "Lemon", "Lettuce",  "Limes",   "Mor",  "Onion", "Pak Choi",  "Parsley",  "Radish",   "Sorrel",
+                    "Swiss Chard",  "Spinach",  "Turnips"]
+                    for(var i = 0; i< produce_array.length; i++)
+                    {
+                      //check if produce is in list
+                      if(filter == produce_array[i])
+                      {
+                        document.getElementById('produce_filter').value = filter;
+                        break;
+                      }
+                      
+                    }
+                    if(document.getElementById('produce_filter').value != filter)
+                    {
+                    console.log("Unexpected filter")
+                    window.location = '/app/seller'
+                    }
         
         }
            </script>
@@ -140,7 +61,7 @@
     
     <% include ./partials/notificationbar %>
     <div class="col text-right">
-      <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
+      <select onchange="activateProduceFilter()" class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
         <option value="" selected disabled>Choose a a Produce filter</option>
         <option>All</option>
         <option>Baby Marrow</option>
@@ -174,7 +95,6 @@
         <option>Spinach</option>
         <option>Turnips</option>
       </select>
-      <button onclick="activateProduceFilter()" class="btn btn-sm mt-3" id="produce-filter-btn" style="background-color: white;">Search</button>
     </div>
       <table class="table table-hover table-sm" id="OfferTable">
         <thead>
@@ -210,7 +130,7 @@
                       data-offer_status="<%= data[i].offer_status%>"
                       data-offer_user="<%= data[i].offer_user%>" data-offer_unitofmeasure="<%= data[i].offer_unitOfMeasure%>"  
                       data-offer_saletime="<%= data[i].offer_saleTime%>" data-offer_saleuser="<%= data[i].offer_saleUser%>" data-offer_description="<%= data[i].offer_description%>"
-                      >View</a>
+                      ><i class="far fa-eye"></i></a>
                 </td>
               </tr>
               <% }
@@ -240,7 +160,7 @@
              <div class="modal-body">
                <div class="form-group">
                    <label for="config_name">Produce Name</label>
-                   <select class="custom-select d-block w-100" id="offer_produceName" name="offer_produceName" >
+                   <select class="form-control" id="offer_produceName" name="offer_produceName" >
                     <option value="" selected disabled >Choose Produce...</option>
                     <option>Baby Marrow</option>
                     <option>Baby Leeks</option>
@@ -282,7 +202,7 @@
 
                <div class="form-group">
                    <label for="config_value">Unit of Measure</label>
-                   <select class="custom-select d-block w-100" id="offer_unitOfMeasure" name="offer_unitOfMeasure">
+                   <select class="form-control" id="offer_unitOfMeasure" name="offer_unitOfMeasure">
                     <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>kilogram</option>
                   </select>

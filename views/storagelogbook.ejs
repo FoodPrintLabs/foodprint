@@ -39,6 +39,7 @@
             <th scope="col">Supplier Shortcode</th>
             <th scope="col">Produce</th>
             <th scope="col">Action</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -47,40 +48,41 @@
               <tr>
                 <td scope="row" style="width: 2%;"><%= (i+1) %></td>
                 <!-- <td><%= data[i].harvest_logid %></td> -->
-                <td style="width: 25%;"><%= data[i].storage_logid %></td>
-                <td style="width: 40%;"><%= data[i].market_storageTimeStamp %></td>
+                <td style="width: 20%;"><%= data[i].storage_logid %></td>
+                <td style="width: 20%;"><%= data[i].market_storageTimeStamp %></td>
                 <td style="width: 5%;"> <%= data[i].harvest_supplierShortcode %></td>
                 <td style="width: 13%;"> <%= data[i].supplierproduce %></td>
-                <td style="width: 15%;">
-                  <div class="btn-group btn-group-sm" role="group" aria-label="...">
-                    <a onclick="ShowStorageModal(this, 'view', 'View Storage Entry','viewCSS')"  class="btn btn-xs btn-info view"
-                       id="<%= ("storage_view_" + data[i].storage_logid) %>"
-                       data-harvest_logid="<%= data[i].harvest_logid%>"
-                      data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
-                      data-supplierproduce="<%=data[i].supplierproduce%>"
-                      data-storage_logid="<%=data[i].storage_logid%>"
-                      data-market_shortcode="<%=data[i].market_Shortcode%>"
-                      data-market_name="<%=data[i].market_Name%>"
-                      data-market_address="<%=data[i].market_Address%>"
-                      data-market_quantity="<%=data[i].market_quantity%>"
-                      data-market_unitofmeasure="<%=data[i].market_unitOfMeasure%>"
-                      data-market_storagetimestamp="<%=data[i].market_storageTimeStamp%>"
-                      data-market_storagecapturetime="<%=data[i].market_storageCaptureTime%>"
-                      data-market_url="<%=data[i].market_URL%>"
-                      data-storage_blockchainhashid="<%=data[i].storage_BlockchainHashID%>"
-                      data-storage_blockchainhashdata="<%=data[i].storage_BlockchainHashData%>"
-                      data-storage_description="<%=data[i].storage_Description%>"
-                      data-storage_bool_added_to_blockchain="<%=data[i].storage_bool_added_to_blockchain%>"
-                      data-storage_added_to_blockchain_date="<%=data[i].storage_added_to_blockchain_date%>"
-                      data-storage_added_to_blockchain_by="<%=data[i].storage_added_to_blockchain_by%>"
-                      data-storage_blockchain_uuid="<%=data[i].storage_blockchain_uuid%>"
-                      data-storage_user="<%=data[i].storage_user%>"
-                      data-logdatetime="<%=data[i].logdatetime%>"
-                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
-                      View</a>
+                <td style="width: 10%;">
+                  <div class="btn-group-sm" role="group">
+                  <a onclick="ShowStorageModal(this, 'view', 'View Storage Entry','viewCSS')" class="btn btn-xs btn-info view"
+                   id="<%= ("storage_view_" + data[i].storage_logid) %>" 
+                    data-harvest_logid="<%= data[i].harvest_logid%>"
+                   data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
+                   data-supplierproduce="<%=data[i].supplierproduce%>"
+                   data-storage_logid="<%=data[i].storage_logid%>"
+                   data-market_shortcode="<%=data[i].market_Shortcode%>"
+                   data-market_name="<%=data[i].market_Name%>"
+                   data-market_address="<%=data[i].market_Address%>"
+                   data-market_quantity="<%=data[i].market_quantity%>"
+                   data-market_unitofmeasure="<%=data[i].market_unitOfMeasure%>"
+                   data-market_storagetimestamp="<%=data[i].market_storageTimeStamp%>"
+                   data-market_storagecapturetime="<%=data[i].market_storageCaptureTime%>"
+                   data-market_url="<%=data[i].market_URL%>"
+                   data-storage_blockchainhashid="<%=data[i].storage_BlockchainHashID%>"
+                   data-storage_blockchainhashdata="<%=data[i].storage_BlockchainHashData%>"
+                   data-storage_description="<%=data[i].storage_Description%>"
+                   data-storage_bool_added_to_blockchain="<%=data[i].storage_bool_added_to_blockchain%>"
+                   data-storage_added_to_blockchain_date="<%=data[i].storage_added_to_blockchain_date%>"
+                   data-storage_added_to_blockchain_by="<%=data[i].storage_added_to_blockchain_by%>"
+                   data-storage_blockchain_uuid="<%=data[i].storage_blockchain_uuid%>"
+                   data-storage_user="<%=data[i].storage_user%>"
+                   data-logdatetime="<%=data[i].logdatetime%>"
+                   data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>"
+                   data-qrcode_img="<%= qrcodes[i]%>" title="View" ><i class="far fa-eye"></i></a>
+              
 
-                    <a onclick="ShowStorageModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit" style="background-color: rgb(0, 160, 246);"
-                       id="<%= ("storage_edit_" + data[i].storage_logid) %>"
+                    <a onclick="ShowStorageModal(this, 'update', 'Edit Harvest Entry','editCSS')"  class="btn btn-xs btn-info edit"
+                     style="background-color: rgb(0, 160, 246);" id="<%= ("storage_edit_" + data[i].storage_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                       data-supplierproduce="<%=data[i].supplierproduce%>"
@@ -102,8 +104,7 @@
                       data-storage_blockchain_uuid="<%=data[i].storage_blockchain_uuid%>"
                       data-storage_user="<%=data[i].storage_user%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
-                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
-                      Edit</a>
+                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>" title="Edit"> <i class="far fa-edit"></i></a>
 
                     <a onclick="ShowStorageModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete"
                        id="<%= ("storage_delete_" + data[i].storage_logid) %>"
@@ -128,15 +129,20 @@
                       data-storage_blockchain_uuid="<%=data[i].storage_blockchain_uuid%>"
                       data-storage_user="<%=data[i].storage_user%>"
                       data-logdatetime="<%=data[i].logdatetime%>"
-                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>">
-                      Delete</a>
+                      data-lastmodifieddatetime="<%=data[i].lastmodifieddatetime%>" title="Delete">
+                      <i class="far fa-trash-alt"></i></a>
+                      </div>
+                    </td>
 
+
+                    <td style="width: 15%;">
+                      <div class="btn-group-sm">
                     <% if(data[i].storage_bool_added_to_blockchain!=='false'){%>
-                    <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank" style="padding-right: 18px;
+                    <a href="<%=data[i].blockchain_explorer_url%>" class="btn btn-xs btn-success" target="_blank" style="padding-right: 18px; width: 100%;
                       padding-left: 20px; background-color: rgb(16, 202, 16);">
                       View on Blockchain</a>  <%}else{ %>
                       <a onclick="addToBlockchain(this)"  class="btn btn-xs btn-success blockchain addStorageToBlockchainBtn" style="padding-right: 22px;
-                      padding-left: 20px;"
+                      padding-left: 20px; width: 100%;"
                        id="<%= ("storage_add_blockchain_" + data[i].storage_logid) %>"
                        data-harvest_logid="<%= data[i].harvest_logid%>"
                       data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
@@ -167,7 +173,7 @@
               <% }
            }else{ %>
                <tr>
-                  <td colspan="5">No Data</td>
+                  <td colspan="6">No Data</td>
                </tr>
             <% } %>
         </tbody>
@@ -191,7 +197,7 @@
 
                 <div class="form-group" id="viewmodal_harvest_logidSelectDiv">
                   <label for="viewmodal_harvest_logidSelect">Select Harvest ID</label>
-                  <select class="custom-select d-block w-100 form-control""  name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID" style="width:100%; >
+                  <select class="form-control"  name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID" style="width:100%;">
                     <option value="" selected disabled>Select Harvest ID...</option>
                     <% if(typeof harvest_data != "undefined" && harvest_data.length){
                       for(var i = 0; i< harvest_data.length; i++) {%>
@@ -205,7 +211,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
+                  <select class="form-control" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
                     <option value="" selected disabled >Choose Supplier...</option>
                     <option>BGSM</option>
                     <option>EKLN</option>
@@ -219,7 +225,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_supplierproduce">Supplier Produce</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                  <select class="form-control" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
                     <option value="" selected disabled >Choose Supplier Produce...</option>
                     <option>BGSM_Bergamot</option>
                     <option>BGSM_Lemon</option>
@@ -260,7 +266,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_market_Shortcode">Market Shortcode</label>
-                  <select class="custom-select d-block w-100 form-control" name="viewmodal_market_Shortcode" id="viewmodal_market_Shortcode">
+                  <select class="form-control" name="viewmodal_market_Shortcode" id="viewmodal_market_Shortcode">
                     <option value="" selected disabled >Choose Market Shortcode...</option>
                     <option>OZCFM</option>
                     <option>OBM</option>
@@ -269,19 +275,19 @@
 
                 <div class="form-group">
                   <label for="viewmodal_market_Name">Market Name</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_market_Name" id="viewmodal_market_Name">
+                  <select class="form-control" name="viewmodal_market_Name" id="viewmodal_market_Name">
                     <option value="" selected disabled >Choose Market Name...</option>
-                    <option>Oranjezicht City Farm Market</option>
-                    <option>Neighbourgoods Market - The Old Biscuit Mill</option>
+                    <option value="2">Oranjezicht City Farm Market</option>
+                    <option value="1">Neighbourgoods Market - The Old Biscuit Mill</option>
                   </select>
                 </div>
 
                 <div class="form-group">
                   <label for="viewmodal_market_Address">Market Address</label>
-                  <select class="custom-select d-block w-100" name="viewmodal_market_Address" id="viewmodal_market_Address">
+                  <select class="form-control" name="viewmodal_market_Address" id="viewmodal_market_Address">
                     <option value="" selected disabled >Choose Market Address...</option>
-                    <option>OBM - 375 Albert Rd, Woodstock, Cape Town, 7915</option>
-                    <option>OZCFM - Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051</option>
+                    <option value="1">OBM - 375 Albert Rd, Woodstock, Cape Town, 7915</option>
+                    <option value="2">OZCFM - Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051</option>
                   </select>
                 </div>
 
@@ -292,7 +298,7 @@
 
                 <div class="form-group">
                   <label for="viewmodal_market_unitOfMeasure">Unit of Measure</label>
-                  <select class="custom-select d-block w-100" id="viewmodal_market_unitOfMeasure" name="viewmodal_market_unitOfMeasure">
+                  <select class="form-control" id="viewmodal_market_unitOfMeasure" name="viewmodal_market_unitOfMeasure">
                     <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>bunch</option>
                     <option>kilogram</option>
@@ -375,6 +381,7 @@
                       <input type="datetime-local" class="form-control" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime"/>
                   </div>
                 </div>
+                
 
                 <div class="form-group" id="viewmodal_harvest_logidDiv">
                   <label for="viewmodal_harvest_logid">Harvest ID</label>
@@ -385,6 +392,10 @@
                   <label for="viewmodal_storage_logid">Storage/Handover ID</label>
                   <input type="text" name="viewmodal_storage_logid" class="form-control" id="viewmodal_storage_logid" placeholder="Storage/Handover ID">
                 </div>
+                <div class="form-group" id="qrcode_image_section">
+                  <label for="qrcode_img">QR Image</label>
+                  <img name="qrcode_img" src="" class="qrcode_img" id="qrcode_img" alt="QR Code Image">
+              </div>
 
                 <div class="form-check" id="storageCheckDiv">
                   <input type="checkbox" class="form-check-input" id="storageCheck" required>
@@ -556,6 +567,7 @@
             var storage_user = $(obj_identifier).data('storage_user');
             var logdatetime = $(obj_identifier).data('logdatetime');
             var lastmodifieddatetime = $(obj_identifier).data('lastmodifieddatetime');
+            var qrcode_img = $(obj_identifier).data('qrcode_img');
 
             console.log("market_storageTimeStamp - " + market_storageTimeStamp);
             // market_storageTimeStamp - Wed May 25 2022 13:49:00 GMT+0200 (South Africa Standard Time)
@@ -648,6 +660,37 @@
             $("#viewmodal_harvest_logidDiv").hide();
             $("#viewmodal_storage_logidDiv").hide();
 
+            //set dynamic fields grey and pointer events off
+            $('#viewmodal_harvest_suppliershortcode').attr("style", "pointer-events: none; background-color: lightgrey;");
+            $('#viewmodal_supplierproduce').attr("style", "pointer-events: none; background-color: lightgrey;");
+            $('#viewmodal_market_Name').attr("style", "pointer-events: none; background-color: lightgrey;");
+            $('#viewmodal_market_Address').attr("style", "pointer-events: none; background-color: lightgrey;");
+            //Dynamic dropdown logic
+            //when harvest id is selected
+            $('#viewmodal_harvest_logidSelect').change(function () {
+              //split harvest id text to get supplier produce shortcode
+              let harvest_id_arr = $('#viewmodal_harvest_logidSelect option:selected').text().split("/");
+              let supplier_produce = harvest_id_arr[1];
+              //split to get shortcode
+              let supplier_produce_arr = supplier_produce.split("_");
+              let supplier_shortcode = supplier_produce_arr[0];
+              //set values
+              $('#viewmodal_harvest_suppliershortcode').val(supplier_shortcode).change()
+              $('#viewmodal_supplierproduce').val(supplier_produce).change()
+            })
+            //when market shortcode is selected change market name and address to be associated with market shortcode
+            $('#viewmodal_market_Shortcode').change(function () {
+              if( $('#viewmodal_market_Shortcode').find(":selected").text() == 'OZCFM' ){
+                $('#viewmodal_market_Name').val(2).change()
+                $('#viewmodal_market_Address').val(2).change()
+
+              }
+              else if( $('#viewmodal_market_Shortcode').find(":selected").text() == 'OBM' ){
+                $('#viewmodal_market_Name').val(1).change()
+                $('#viewmodal_market_Address').val(1).change()
+              }
+            })
+
 
             //Make System populated elements not required otherwise Add Storage Form will not submit
             $("#viewmodal_storage_BlockchainHashID").attr("required", false);
@@ -668,7 +711,7 @@
             $("#storageDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
 
             $("#storageCheckDiv").show();  // show confirm add/edit checkbox
-
+            $("#qrcode_image_section").hide(); //hide qrimage
             $("#modalFooter").append(addButton);
             $("#modalFooter").append(closeButton);
           }
@@ -694,7 +737,7 @@
             $("#viewmodal_lastmodifieddatetimeDiv").show();
             $("#viewmodal_harvest_logidDiv").show();
             $("#viewmodal_storage_logidDiv").show();
-
+            document.getElementById('qrcode_img').src = qrcode_img;
             $("#viewmodal_harvest_logidSelectDiv").hide();
             $("#viewmodal_harvest_logidSelect").attr("required", false); // make Harvest Logid Select box not required otherwise form will not submit
 
@@ -723,7 +766,7 @@
             $("#storageDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
 
             $("#storageCheckDiv").show();  // show confirm add/edit checkbox
-
+            $("#qrcode_image_section").hide(); //hide qrimage
             $("#modalFooter").append(updateButton);
             $("#modalFooter").append(closeButton);
             $('#storageModalForm').attr('action', '/app/storage/update');
@@ -749,6 +792,7 @@
             $("#modalFooter").append(deleteButton);
             $("#modalFooter").append(closeButton);
             $('#storageModalForm').attr('action', '/app/storage/delete');
+            $("#qrcode_image_section").hide(); //hide qrimage
           }
 
           $('#storageModalLabel').html(header);

@@ -8,38 +8,29 @@
         //activate filter and checks which one is being activated
         async function activatefilter(filterType)
         { 
-          if(filterType == "produce")
-          {
-          var filter = document.getElementById('produce_filter').value;
-          if(filter == "All"){
-            window.location = '/app/order'}
-            else if (filter)
-            { window.location = '/app/order/filter/produce/'+ filter;}
-          } 
-          if(filterType == "province")
-          {
-          var filter = document.getElementById('province_filter').value;
-          if(filter == "All"){
-            window.location = '/app/order'}
-            else if (filter)
-            { window.location = '/app/order/filter/province/'+ filter;}
-          }
-          if(filterType == "timeframe")
-          {
-          var filter = document.getElementById('timeframe_filter').value;
-          if(filter == "All"){
-            window.location = '/app/order'}
-            else if (filter)
-            { window.location = '/app/order/filter/timeframe/'+ filter;}
-          } 
-          if(filterType == "status")
-          {
-          var filter = document.getElementById('status_filter').value;
-          if(filter == "All"){
-            window.location = '/app/order/filter/status/All'}
-            else if (filter)
-            { window.location = '/app/order/filter/status/'+ filter;}
-          } 
+          let filter_type_array = ["produce", "province", "timeframe", "status",]
+          let check = 0;
+          for(var i = 0; i< filter_type_array.length; i++)
+                    {
+                      //check if produce is in list
+                      if(filterType == filter_type_array[i])
+                      {
+                        var filter = document.getElementById(filterType+'_filter').value;
+                        if(filter == "All"){
+                        window.location = '/app/order'
+                        break
+                        }
+                        else if (filter)
+                        { window.location = '/app/order/filter/'+filterType+'/'+ filter;}
+                        break;
+                      }
+                      check++;
+                    }
+                    //if check is 4 then whole array is checked and reroute is needed
+                    if(check == 4)
+                    {
+                      window.location = '/app/order'
+                    }
         }
           
         
@@ -49,212 +40,77 @@
         { console.log(filter);
           console.log(filterType)
           if(filterType == "produce"){
-                if( filter == "All")
-                {
-                  document.getElementById('produce_filter').value = "All";
-                }
-                if( filter == "Baby Marrow")
-                {
-                  document.getElementById('produce_filter').value = "Baby Marrow";
-                }
-                if( filter == "Baby Leeks")
-                {
-                  document.getElementById('produce_filter').value = "Baby Leeks";
-                }
-                if( filter == "Basil")
-                {
-                  document.getElementById('produce_filter').value = "Basil";
-                }
-                if( filter == "Beetroot")
-                {
-                  document.getElementById('produce_filter').value = "Beetroot";
-                }
-                if( filter == "Bergamot")
-                {
-                  document.getElementById('produce_filter').value = "Bergamot";
-                }
-                if( filter == "Blood Oranges")
-                {
-                  document.getElementById('produce_filter').value = "Blood Oranges";
-                }
-                if( filter == "Cabbage")
-                {
-                  document.getElementById('produce_filter').value = "Cabbage";
-                }
-                if( filter == "Carrots")
-                {
-                  document.getElementById('produce_filter').value = "Carrots";
-                }
-                if( filter == "Cauliflower")
-                {
-                  document.getElementById('produce_filter').value = "Cauliflower";
-                }
-                if( filter == "Cayenne Pepper")
-                {
-                  document.getElementById('produce_filter').value = "Cayenne Pepper";
-                }
-                if( filter == "Cucumber")
-                {
-                  document.getElementById('produce_filter').value = "Cucumber";
-                }
-                if( filter == "Eggs")
-                {
-                  document.getElementById('produce_filter').value = "Eggs";
-                }
-                if( filter == "Fennel")
-                {
-                  document.getElementById('produce_filter').value = "Fennel";
-                }
-                if( filter == "Granadilla")
-                {
-                  document.getElementById('produce_filter').value = "Granadilla";
-                }
-                if( filter == "Green Beans")
-                {
-                  document.getElementById('produce_filter').value = "Green Beans";
-                }
-                if( filter == "Herbs")
-                {
-                  document.getElementById('produce_filter').value = "Herbs";
-                }
-                if( filter == "Lebanese Cucumber")
-                {
-                  document.getElementById('produce_filter').value = "Lebanese Cucumber";
-                }
-                if( filter == "Leeks")
-                {
-                  document.getElementById('produce_filter').value = "Leeks";
-                }
-                if( filter == "Lemon")
-                {
-                  document.getElementById('produce_filter').value = "Lemon";
-                }
-                if( filter == "Lettuce")
-                {
-                  document.getElementById('produce_filter').value = "Lettuce";
-                }
-                if( filter == "Limes")
-                {
-                  document.getElementById('produce_filter').value = "Limes";
-                }
-                if( filter == "Mor")
-                {
-                  document.getElementById('produce_filter').value = "Mor";
-                }
-                if( filter == "Onion")
-                {
-                  document.getElementById('produce_filter').value = "Onion";
-                }
-                if( filter == "Pak Choi")
-                {
-                  document.getElementById('produce_filter').value = "Pak Choi";
-                }
-                if( filter == "Parsley")
-                {
-                  document.getElementById('produce_filter').value = "Parsley";
-                }
-                if( filter == "Radish")
-                {
-                  document.getElementById('produce_filter').value = "Radish";
-                }
-                if( filter == "Sorrel")
-                {
-                  document.getElementById('produce_filter').value = "Sorrel";
-                }
-                if( filter == "Swiss Chard")
-                {
-                  document.getElementById('produce_filter').value = "Swiss Chard";
-                }
-                if( filter == "Spinach")
-                {
-                  document.getElementById('produce_filter').value = "Spinach";
-                }
-                if( filter == "Turnips")
-                {
-                  document.getElementById('produce_filter').value = "Turnips";
-                }
+            let produce_array = [
+            "All",  "Baby Marrow",
+        "Baby Leeks",  "Basil",  "Beetroot",  "Bergamot",  "Blood Oranges",  "Cabbage",  "Carrots", "Cauliflower",
+        "Cayenne Pepper",  "Cucumber",  "Eggs",  "Fennel", "Granadilla",  "Green Beans",  "Herbs",
+        "Lebanese Cucumber",  "Leeks",   "Lemon",  "Lettuce",  "Limes",   "Mor",
+        "Onion",   "Pak Choi",  "Parsley",   "Radish",  "Sorrel",     "Swiss Chard",   "Spinach",   "Turnips"
+            ]
+            for(var i = 0; i< produce_array.length; i++)
+                    {
+                      //check if produce is in list
+                      if(filter == produce_array[i])
+                      {
+                        document.getElementById('produce_filter').value = filter;
+                        break;
+                      }
+                      
+                    }
 
           }
           else if(filterType == "province"){
-                if( filter == "All")
-                {
-                  document.getElementById('province_filter').value = "All";
-                }
-                if( filter == "Western Cape")
-                {
-                  document.getElementById('province_filter').value = "Western Cape";
-                }
-                if( filter == "Eastern Cape")
-                {
-                  document.getElementById('province_filter').value = "Eastern Cape";
-                }
-                if( filter == "Northern Cape")
-                {
-                  document.getElementById('province_filter').value = "Northern Cape";
-                }
-                if( filter == "North West")
-                {
-                  document.getElementById('province_filter').value = "North West";
-                }
-                if( filter == "KZN")
-                {
-                  document.getElementById('province_filter').value = "KZN";
-                }
-                if( filter == "Free State")
-                {
-                  document.getElementById('province_filter').value = "Free State";
-                }
-                if( filter == "Gauteng")
-                {
-                  document.getElementById('province_filter').value = "Gauteng";
-                }
-                if( filter == "Mpumalanga")
-                {
-                  document.getElementById('province_filter').value = "Mpumalanga";
-                }
-                if( filter == "Limpopo")
-                {
-                  document.getElementById('province_filter').value = "Limpopo";
-                }
+            let province_array = ["All",
+            "Western Cape",
+            "Eastern Cape",
+            "Northern Cape",
+            "North West",
+            "KZN",
+            "Free State",
+            "Gauteng",
+            "Mpumalanga",
+            "Limpopo"]
+            for(var i = 0; i< province_array.length; i++)
+                    {
+                      //check if produce is in list
+                      if(filter == province_array[i])
+                      {
+                        document.getElementById('province_filter').value = filter;
+                        break;
+                      }
+                      
+                    }
+                
           }
           else if(filterType == "timeframe"){
-              if( filter == "All")
-                {
-                  document.getElementById('timeframe_filter').value = "All";
-                }
-                if( filter == "1 Week")
-                {
-                  document.getElementById('timeframe_filter').value = "1-Week";
-                }
-                if( filter == "1 Month")
-                {
-                  document.getElementById('timeframe_filter').value = "1-Month";
-                }
-                if( filter == "6 Months")
-                {
-                  document.getElementById('timeframe_filter').value = "6-Month";
-                }
-                if( filter == "1 Year")
-                {
-                  document.getElementById('timeframe_filter').value = "1-Year";
-                }
+            let timeframe_array = ["All", "1-Week", "1-Month", "6-Month", "1-Year"]
+            for(var i = 0; i< timeframe_array.length; i++)
+                    {
+                      //check if produce is in list
+                      if(filter == timeframe_array[i])
+                      {
+                        document.getElementById('timeframe_filter').value = filter;
+                        break;
+                      }
+                      
+                    }
           }
           else if(filterType == "status"){
-              if( filter == "All")
-                {
-                  document.getElementById('status_filter').value = "All";
-                }
-                if( filter == "Placed")
-                {
-                  document.getElementById('status_filter').value = "Placed";
-                }
-                if( filter == "Settled")
-                {
-                  document.getElementById('status_filter').value = "Settled";
-                }
+            let status_array = ["All", "Placed", "Settled"]
+            for(var i = 0; i< status_array.length; i++)
+                    {
+                      //check if produce is in list
+                      if(filter == status_array[i])
+                      {
+                        document.getElementById('status_filter').value = filter;
+                        break;
+                      }
+                      
+                    }
           }
           else if( filter == "")
           {
+            console.log("Empty Value")
           }
           else
           {//default
@@ -399,12 +255,12 @@
           </div>
           <div class="card-body">
             
-            <p class="card-text">
-              <b>User:</b> <%=bid_rows[k].bid_user%> <br>
-              <b>Quantity:</b> <%=bid_rows[k].bid_quantity%>kgs <br>
-              <b>Price:</b> <%=bid_rows[k].bid_price%> <br>
-              <b>Province:</b> <%=bid_rows[k].bid_province%> <br>
-              <b>Placed:</b><%=bid_rows[k].bid_timeStamp%>                           
+            <p class="">
+              <b class="small order-card-title">USER</b><br> <span class="order-card-data"><span class="order-card-data"><%=bid_rows[k].bid_user%></span><br>
+              <b class="small order-card-title">QUANTITY</b><br> <span class="order-card-data"><%=bid_rows[k].bid_quantity%>kg</span> <br>
+              <b class="small order-card-title">PRICE</b><br> <span class="order-card-data"><%=bid_rows[k].bid_price%></span> <br>
+              <b class="small order-card-title">PROVINCE</b><br> <span class="order-card-data"><%=bid_rows[k].bid_province%></span> <br>
+              <b class="small order-card-title">PLACED</b><br><span class="order-card-data"><%=bid_rows[k].bid_timeStamp%></span>                           
             </p>
             <a href="javascript:void(0);" class="btn-sm btn-primary acceptBid " data-bid_user="<%= bid_rows[k].bid_user%>" data-bid_quantity="<%= bid_rows[k].bid_quantity%>" 
               data-bid_price="<%= bid_rows[k].bid_price%>" data-bid_producename="<%= bid_rows[k].bid_produceName%>" data-bid_timestamp="<%= bid_rows[k].bid_timeStamp%>" 
@@ -430,11 +286,11 @@
         </div>
         <div class="card-body">
           <p class="card-text">
-            <b>User:</b> <%=offer_rows[k].offer_user%> <br>
-            <b>Quantity:</b> <%=offer_rows[k].offer_quantity%>kgs <br>
-            <b>Price:</b> <%=offer_rows[k].offer_price%> <br>
-            <b>Province:</b> <%=offer_rows[k].offer_province%> <br>
-            <b>Placed:</b><%=offer_rows[k].offer_timeStamp%>
+            <b class="order-card-title">USER</b><br> <%=offer_rows[k].offer_user%> <br>
+            <b class="order-card-title">QUANTITY</b><br> <%=offer_rows[k].offer_quantity%>kgs <br>
+            <b class="order-card-title">PRICE</b><br> <%=offer_rows[k].offer_price%> <br>
+            <b class="order-card-title">PROVINCE</b><br> <%=offer_rows[k].offer_province%> <br>
+            <b class="order-card-title">PLACED</b><br><%=offer_rows[k].offer_timeStamp%>
                                      
           </p>
           <a href="javascript:void(0);" class="btn-sm btn-primary acceptOffer" data-offer_user="<%= offer_rows[k].offer_user%>" data-offer_quantity="<%= offer_rows[k].offer_quantity%>" 

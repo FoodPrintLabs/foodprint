@@ -84,11 +84,13 @@
                   <td><%= data[i].produce_name%></td>
                   <td><%= data[i].produce_type%></td>
                   <td>
+                    <div class="btn-group-sm" role="group">
                       <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-pk="<%= data[i].pk%>"
                          data-produce_name="<%= data[i].produce_name%>" 
-                          data-produce_type="<%= data[i].produce_type%>">Edit</a>
+                          data-produce_type="<%= data[i].produce_type%>"><i class="far fa-edit"></i></a>
                       <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-pk2="<%= data[i].pk%>"
-                         data-produce_name2="<%= data[i].produce_name%>">Delete</a>
+                         data-produce_name2="<%= data[i].produce_name%>"><i class="far fa-trash-alt"></i></a>
+                    </div>
                   </td>
                 </tr>
                 <% }
@@ -206,7 +208,6 @@
       </form>
       <!-- End Modal Delete Produce-->
     
-    <% include ./partials/notificationbar %>
     
     
 

@@ -18,50 +18,34 @@
 
       async function filterCheck(filter)
       { 
-        if( filter == "Western Cape")
-        {
-          document.getElementById('province_filter').value = "Western Cape";
-        }
-        else if( filter == "Eastern Cape")
-        {
-          document.getElementById('province_filter').value = "Eastern Cape";
-        }
-        else if( filter == "Northern Cape")
-        {
-          document.getElementById('province_filter').value = "Northern Cape";
-        }
-        else if( filter == "North West")
-        {
-          document.getElementById('province_filter').value = "North West";
-        }
-        else if( filter == "KZN")
-        {
-          document.getElementById('province_filter').value = "KZN";
-        }
-        else if( filter == "Free State")
-        {
-          document.getElementById('province_filter').value = "Free State";
-        }
-        else if( filter == "Gauteng")
-        {
-          document.getElementById('province_filter').value = "Gauteng";
-        }
-        else if( filter == "Mpumalanga")
-        {
-          document.getElementById('province_filter').value = "Mpumalanga";
-        }
-        else if( filter == "Limpopo")
-        {
-          document.getElementById('province_filter').value = "Limpopo";
-        }
-        else if( filter == "")
-        {
-        }
-        else
-        {//default
-          console.log("Unexpected Filter received");
-          window.location = '/app/produce/pricepage'
-        }
+
+        let province_array = ["All",
+            "Western Cape",
+            "Eastern Cape",
+            "Northern Cape",
+            "North West",
+            "KZN",
+            "Free State",
+            "Gauteng",
+            "Mpumalanga",
+            "Limpopo"]
+            for(var i = 0; i< province_array.length; i++)
+                    {
+                      //check if produce is in list
+                      if(filter == province_array[i])
+                      {
+                        document.getElementById('province_filter').value = filter;
+                        break;
+                      }
+                      
+                    }
+                    if(document.getElementById('province_filter').value != filter)
+                    {
+                      //default
+                      console.log("Unexpected Filter received");
+                      window.location = '/app/produce/pricepage'
+                    }
+       
       }
          </script>
 
@@ -86,7 +70,7 @@
       
       <% include ./partials/notificationbar %>
       <div class="col text-right">
-      <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+      <select onchange="activatefilter()" class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
         <option value="" selected disabled>Choose a Province to filter</option>
         <option>All</option>
         <option>Western Cape</option>
@@ -99,7 +83,6 @@
         <option>Mpumalanga</option>
         <option>Limpopo</option>
       </select>
-      <button onclick="activatefilter()" class="btn btn-sm mt-3" id="province-filter-btn" style="background-color: white;">Search</button>
     </div>
       <br>
         <table class="table table-hover table-sm" id="producePriceTable">
@@ -126,14 +109,16 @@
                   <td><%= data[i].produce_date%></td>
                   <td><%= data[i].produce_province%></td>
                   <td>
+                    <div class="btn-group-sm" role="group">
                       <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-pk="<%= data[i].pk%>"
                          data-produce_name="<%= data[i].produce_name%>" data-produce_price="<%= data[i].produce_price%>"
                          data-produce_date="<%= data[i].produce_date%>" data-produce_province="<%= data[i].produce_province%>"  
-                        >Edit</a>
+                        ><i class="far fa-edit"></i></a>
                       <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-pk2="<%= data[i].pk%>"
                         data-produce_name2="<%= data[i].produce_name%>" data-produce_price2="<%= data[i].produce_price%>"
                         data-produce_date2="<%= data[i].produce_date%>" data-produce_province2="<%= data[i].produce_province%>"  
-                       >Delete</a>
+                       ><i class="far fa-trash-alt"></i></a>
+                      </div>
                   </td>
                 </tr>
                 <% }
@@ -277,7 +262,6 @@
 </form>
 <!-- End Modal Delete Produce-->
     
-    <% include ./partials/notificationbar %>
     
     
 
