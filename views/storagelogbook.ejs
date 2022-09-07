@@ -711,6 +711,8 @@
             $("#storageDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
 
             $("#storageCheckDiv").show();  // show confirm add/edit checkbox
+            $("#viewmodal_harvest_logidSelectDiv").show(); // show harvest logid select when adding a new entry
+
             $("#qrcode_image_section").hide(); //hide qrimage
             $("#modalFooter").append(addButton);
             $("#modalFooter").append(closeButton);
@@ -738,6 +740,8 @@
             $("#viewmodal_harvest_logidDiv").show();
             $("#viewmodal_storage_logidDiv").show();
             document.getElementById('qrcode_img').src = qrcode_img;
+            $("#qrcode_image_section").show();
+
             $("#viewmodal_harvest_logidSelectDiv").hide();
             $("#viewmodal_harvest_logidSelect").attr("required", false); // make Harvest Logid Select box not required otherwise form will not submit
 
