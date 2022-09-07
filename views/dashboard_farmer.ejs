@@ -27,48 +27,32 @@ function removefilter() {
 
       async function filterCheck(filter)
    {  console.log(filter)
-     if(filter == '1-month')
-     {
-      document.getElementById('1-month-btn-harvest').style.background = "#65a947";
-      document.getElementById('1-month-btn-harvest').style.color = "white";
-       document.getElementById('1-month-btn-storage').style.background = "#65a947";
-       document.getElementById('1-month-btn-storage').style.color = "white";
-     }
-     else if(filter == '3-month')
-     {  //document.querySelector('3-month-btn-harvest').  == "Hello";
-       document.getElementById('3-month-btn-harvest').style.background = "#65a947";
-       document.getElementById('3-month-btn-harvest').style.color = "white";
-       document.getElementById('3-month-btn-storage').style.background = "#65a947";
-       document.getElementById('3-month-btn-storage').style.color = "white";
-     }
-     else if(filter == '6-month')
-     {
-       document.getElementById('6-month-btn-harvest').style.background = "#65a947";
-       document.getElementById('6-month-btn-harvest').style.color = "white";
-       document.getElementById('6-month-btn-storage').style.background = "#65a947";
-       document.getElementById('6-month-btn-storage').style.color = "white";}
-     else if(filter == '1-year')
-     {
-       document.getElementById('1-year-btn-harvest').style.background = "#65a947";
-       document.getElementById('1-year-btn-harvest').style.color = "white";
-       document.getElementById('1-year-btn-storage').style.background = "#65a947";
-       document.getElementById('1-year-btn-storage').style.color = "white";
-     }
-     else if(filter == "")
-     {
-       document.getElementById('all-btn-harvest').style.background = "#65a947";
-       document.getElementById('all-btn-harvest').style.color = "white";
-       document.getElementById('all-btn-storage').style.background = "#65a947";
-       document.getElementById('all-btn-storage').style.color = "white";
-     }
-     else
-     {//1 month default
-       console.log("Unexpected Filter received");
-       document.getElementById('1-month-btn-harvest').style.background = "#65a947";
-       document.getElementById('1-month-btn-harvest').style.color = "white";
-       document.getElementById('1-month-btn-storage').style.background = "#65a947";
-       document.getElementById('1-month-btn-storage').style.color = "white";
-     }
+    console.log(filter)
+      let timeframe_array = ["1-month","3-month","6-month","1-year","all"]
+      for(var i = 0; i< timeframe_array.length; i++)
+                    {
+                      //check if produce is in list
+                      if(filter == timeframe_array[i])
+                      {
+                        document.getElementById(filter+'-btn-harvest').style.background = "#65a947";
+                        document.getElementById(filter+'-btn-harvest').style.color = "white";
+                        document.getElementById(filter+'-btn-storage').style.background = "#65a947";
+                        document.getElementById(filter+'-btn-storage').style.color = "white";
+                        break;
+                      }
+                      
+                    }
+                    if(document.getElementById(filter+'-btn-harvest').style.background != "#65a947" &&
+                        document.getElementById(filter+'-btn-harvest').style.color != "white" &&
+                        document.getElementById(filter+'-btn-storage').style.background != "#65a947" &&
+                        document.getElementById(filter+'-btn-storage').style.color != "white")
+                    {
+                    console.log("Unexpected Filter received - 1 month applied");
+                    document.getElementById('1-month-btn-harvest').style.background = "#65a947";
+                    document.getElementById('1-month-btn-harvest').style.color = "white";
+                    document.getElementById('1-month-btn-storage').style.background = "#65a947";
+                    document.getElementById('1-month-btn-storage').style.color = "white";
+                    }
    }
 
 </script>
@@ -636,7 +620,7 @@ function removefilter() {
 
                 <div class="form-group" id="viewmodal_harvest_logidSelectDiv">
                   <label for="viewmodal_harvest_logidSelect">Select Harvest ID</label>
-                  <select class="custom-select d-block w-100 form-control""  name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID" style="width:100%; >
+                  <select class="custom-select d-block w-100 form-control"  name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID" style="width:100%;" >
                     <option value="" selected disabled>Select Harvest ID...</option>
                     <% if(typeof harvest_data != "undefined" && harvest_data.length){
                       for(var i = 0; i< harvest_data.length; i++) {%>
