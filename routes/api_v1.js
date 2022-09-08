@@ -218,6 +218,8 @@ let passport = require('passport');
  *    description: Storage API
  *  - name: QRCount
  *    description: QR Count API
+ *  - name: Produce
+ *    description: Produce API
  */
 
 /**
