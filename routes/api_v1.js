@@ -12,7 +12,6 @@ let models = initModels(sequelise);
 const { Sequelize } = require('sequelize');
 let passport = require('passport');
 
-
 /**
  * @swagger
  * components:
@@ -952,7 +951,6 @@ router.post('/harvest/whatsapp', function (req, res, next) {
   }
 });
 
-
 /**
  * @swagger
  * /app/api/v1/storage:
@@ -1712,7 +1710,6 @@ router.post('/storage/whatsapp', function (req, res, next) {
   }
 });
 
-
 /**
  * @swagger
  * /app/api/v1/qrcount/scans/{startDate}:
@@ -1812,6 +1809,94 @@ router.get('/logout', function (req, res) {
 router.get('/price', function (req, res) {
   try {
     models.FoodprintProducePrice.findAll({
+      order: [['pk', 'DESC']],
+    })
+      .then(rows => {
+        if (rows.length === 0) {
+          res.status(200).json([]);
+        } else {
+          res.status(200).json(rows);
+        }
+      })
+      .catch(err => {
+        res.status(400).json({
+          message: err.message,
+        });
+      });
+  } catch (e) {
+    res.status(500).json({
+      error: e,
+      message: 'Internal Server Error',
+    });
+  }
+});
+
+/*
+ * ALL OFFERS REQUEST IN 2 WEEKS
+ */
+router.get('/offers', function (req, res) {
+  try {
+    //get range variables
+    let current_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    let start_date = null;
+    let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    start_date = moment(current_date).subtract('2', 'weeks').format('YYYY-MM-DD HH:mm:ss');
+
+    models.Seller_offer.findAll({
+      where: {
+        [Op.and]: [
+          {
+            offer_timeStamp: {
+              [Op.between]: [start_date, finish_date],
+            },
+          },
+        ],
+        offer_status: 'Placed',
+      },
+      order: [['pk', 'DESC']],
+    })
+      .then(rows => {
+        if (rows.length === 0) {
+          res.status(200).json([]);
+        } else {
+          res.status(200).json(rows);
+        }
+      })
+      .catch(err => {
+        res.status(400).json({
+          message: err.message,
+        });
+      });
+  } catch (e) {
+    res.status(500).json({
+      error: e,
+      message: 'Internal Server Error',
+    });
+  }
+});
+
+/*
+ * ALL BID REQUEST IN 2 WEEKS
+ */
+router.get('/bids', function (req, res) {
+  try {
+    //get range variables
+    let current_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    let start_date = null;
+    let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    start_date = moment(current_date).subtract('2', 'weeks').format('YYYY-MM-DD HH:mm:ss');
+
+    models.Buyer_bid.findAll({
+      where: {
+        [Op.and]: [
+          {
+            bid_timeStamp: {
+              [Op.between]: [start_date, finish_date],
+            },
+          },
+        ],
+        bid_status: 'Placed',
+      },
       order: [['pk', 'DESC']],
     })
       .then(rows => {
