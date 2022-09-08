@@ -721,7 +721,10 @@
             $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
             // $('#form1 input').attr('readonly', 'readonly');
 
-              //System populated:
+            $("#viewmodal_market_Name").append(new Option(market_Name, market_Name));
+            $("#viewmodal_market_Address").append(new Option(market_Address, market_Address));
+
+            //System populated:
             //viewmodal_storage_BlockchainHashIDDiv, viewmodal_storage_BlockchainHashDataDiv,
             //viewmodal_storage_bool_added_to_blockchainDiv, viewmodal_storage_added_to_blockchain_dateDiv,
             //viewmodal_storage_userDiv, viewmodal_storage_blockchain_uuidDiv, viewmodal_storage_added_to_blockchain_byDiv
@@ -752,6 +755,9 @@
           else if (action==='update'){
             $("#modalBodyContainer :input").attr("disabled", false);
 
+            $("#viewmodal_market_Name").append(new Option(market_Name, market_Name));
+            $("#viewmodal_market_Address").append(new Option(market_Address, market_Address));
+
             //TODO $("#viewmodal_logdatetime").attr('readonly', true);
             //$("#viewmodal_logdatetime_calendar").attr('readonly', true);
            // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
@@ -779,6 +785,9 @@
             $("#modalBodyContainer :input").attr("disabled", true);
             $("#storageCheckDiv").hide();  // hide confirm add/edit checkbox
             $("#storageCheck").attr("required", false); // make confirm confirm add/edit checkbox not required in case form will not submit
+
+            $("#viewmodal_market_Name").append(new Option(market_Name, market_Name));
+            $("#viewmodal_market_Address").append(new Option(market_Address, market_Address));
 
             $("#storageDeleteDiv").show();  // show confirm delete checkbox
 
