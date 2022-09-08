@@ -1846,8 +1846,7 @@ router.get('/price', function (req, res) {
  *          application/json:
  *            schema:
  *              type: array
- *              items:
- *                $ref: '#/components/schemas/Order'
+ *
  *      400:
  *         description: An error happened whilst querying the database
  *         content:
@@ -1931,8 +1930,6 @@ router.get('/offers', function (req, res) {
  *          application/json:
  *            schema:
  *              type: array
- *              items:
- *                $ref: '#/components/schemas/Order'
  *      400:
  *         description: An error happened whilst querying the database
  *         content:
