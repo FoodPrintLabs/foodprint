@@ -295,12 +295,12 @@
                   <input type="text" name="viewmodal_harvest_farmername" class="form-control" id="viewmodal_harvest_farmername" placeholder="Farmer Name">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                   <label for="viewmodal_harvest_year_established">Year Farm Established</label>
                   <input type="text" name="viewmodal_harvest_year_established" class="form-control" id="viewmodal_harvest_year_established" placeholder="Year Farm Established">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                   <label for="viewmodal_harvest_covid19_response">Brief description of response to COVID-19</label>
                   <input type="text" name="viewmodal_harvest_covid19_response" class="form-control" id="viewmodal_harvest_covid19_response" placeholder="Brief description of response to COVID-19">
                 </div>
@@ -671,6 +671,11 @@
       $('#viewmodal_harvest_farmername').val(harvest_farmername);
       $('#viewmodal_harvest_supplieraddress').val(harvest_supplieraddress);
       $('#viewmodal_harvest_producename').val(harvest_producename);
+      console.log("harvest_producename test - " +  harvest_producename);
+
+      $('#viewmodal_supplierproduce').val(supplierproduce);
+
+
       //$('#viewmodal_harvest_photohash').val(harvest_photohash);            
       $('#viewmodal_harvest_photoimage').attr("src", harvest_photoimage);
 
@@ -683,7 +688,6 @@
       $('#viewmodal_harvest_description_json').val(harvest_description_json);
       $('#viewmodal_harvest_blockchainhashid').val(harvest_blockchainhashid);
       $('#viewmodal_harvest_blockchainhashdata').val(harvest_blockchainhashdata);
-      $('#viewmodal_supplierproduce').val(supplierproduce);
       $('#viewmodal_harvest_bool_added_to_blockchain').val(harvest_bool_added_to_blockchain);
       $('#viewmodal_harvest_added_to_blockchain_date').val(harvest_added_to_blockchain_date);
       $('#viewmodal_harvest_added_to_blockchain_by').val(harvest_added_to_blockchain_by);
@@ -694,7 +698,7 @@
       $('#viewmodal_logdatetime').val(logdatetime);
       $('#viewmodal_lastmodifieddatetime').val(lastmodifieddatetime);
 
-    //remove modal buttons, then re-add
+      //remove modal buttons, then re-add
       $('#harvestModalUpdate').remove();
       $('#harvestModalAdd').remove();
       $('#harvestModalDelete').remove();
@@ -703,7 +707,10 @@
     if (action==='add'){
       $("#modalBodyContainer :input").attr("disabled", false);
       $("#modalBodyContainer :input").attr("required", true);
-      
+      $('#viewmodal_harvest_covid19_response').attr("required", false);
+      $('#viewmodal_harvest_year_established').attr("required", false);
+
+
       //System populated:
       //viewmodal_harvest_photoimageDiv, viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
       //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
@@ -724,7 +731,6 @@
       $("#viewmodal_logdatetimeDiv").hide();  
       $("#viewmodal_lastmodifieddatetimeDiv").hide();  
       $("#viewmodal_harvest_logidDiv").hide();  
-      
 
       //Make System populated elements not required otherwise Add Harvest Form will not submit
       $("#viewmodal_harvest_photoimage").attr("required", false);
@@ -872,6 +878,9 @@
     else if (action==='view'){
       $("#modalBodyContainer :input").attr("disabled", true); //make fields read-only
 
+      //produce name drop down
+      $("#viewmodal_harvest_producename").append(new Option(harvest_producename, harvest_producename));
+
       //SHOW DIVS
       //System populated:
       //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
@@ -898,11 +907,13 @@
     }
     else if (action==='update'){
       $("#modalBodyContainer :input").attr("disabled", false);
-      
+
+      //produce name drop down
+      $("#viewmodal_harvest_producename").append(new Option(harvest_producename, harvest_producename));
+
       //TODO $("#viewmodal_logdatetime").attr('readonly', true);
       //$("#viewmodal_logdatetime_calendar").attr('readonly', true);
       // $("#viewmodal_logdatetime_calendar_icon").attr('readonly', true);
-
 
       //cannot modify image once it has been added
       $("#viewmodal_harvest_photoimageDiv").show();  
@@ -925,6 +936,9 @@
       $("#viewmodal_harvest_logidDiv").show();  
       $("#viewmodal_harvest_logid").attr('readonly', true);
 
+      $('#viewmodal_harvest_covid19_response').attr("required", false);
+      $('#viewmodal_harvest_year_established').attr("required", false);
+
       $("#harvestDeleteDiv").hide();  // hide confirm delete checkbox
       $("#harvestDelete").attr("required", false); // make confirm delete checkbox not required otherwise form will not submit
 
@@ -935,6 +949,9 @@
       $('#harvestModalForm').attr('action', '/app/harvest/update');
     }
     else if (action==='delete'){
+      //produce name drop down
+      $("#viewmodal_harvest_producename").append(new Option(harvest_producename, harvest_producename));
+
       $("#modalBodyContainer :input").attr("disabled", true);
       $("#harvestCheckDiv").hide();  // hide confirm add/edit checkbox
       $("#harvestCheck").attr("required", false); // make confirm confirm add/edit checkbox not required in case form will not submit
