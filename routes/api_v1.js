@@ -12,7 +12,6 @@ let models = initModels(sequelise);
 const { Sequelize } = require('sequelize');
 let passport = require('passport');
 
-
 /**
  * @swagger
  * components:
@@ -952,7 +951,6 @@ router.post('/harvest/whatsapp', function (req, res, next) {
   }
 });
 
-
 /**
  * @swagger
  * /app/api/v1/storage:
@@ -1712,7 +1710,6 @@ router.post('/storage/whatsapp', function (req, res, next) {
   }
 });
 
-
 /**
  * @swagger
  * /app/api/v1/qrcount/scans/{startDate}:
@@ -1806,6 +1803,47 @@ router.get('/logout', function (req, res) {
   res.status(200).json({ message: 'You are now logged out' });
 });
 
+/**
+ * @swagger
+ * /app/api/v1/price:
+ *  get:
+ *    summary: Returns a list of all produce prices
+ *    tags: [Produce]
+ *    responses:
+ *      200:
+ *        description: The list of all produce prices
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Produce'
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: An error occurred
+ *      500:
+ *        description: An internal server error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: object
+ *                  description: Error object
+ *                message:
+ *                  type: string
+ *                  description: Error message
+ *                  example: Internal server error
+ */
 /*
  * PRODUCE/PRICE
  */
