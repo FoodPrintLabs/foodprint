@@ -218,6 +218,8 @@ let passport = require('passport');
  *    description: Storage API
  *  - name: QRCount
  *    description: QR Count API
+ *  - name: Produce
+ *    description: Produce API
  *  - name: Order
  *    description: Order, Bids & Offers API
  */
@@ -1805,6 +1807,47 @@ router.get('/logout', function (req, res) {
   res.status(200).json({ message: 'You are now logged out' });
 });
 
+/**
+ * @swagger
+ * /app/api/v1/price:
+ *  get:
+ *    summary: Returns a list of all produce prices
+ *    tags: [Produce]
+ *    responses:
+ *      200:
+ *        description: The list of all produce prices
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Produce'
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: An error occurred
+ *      500:
+ *        description: An internal server error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: object
+ *                  description: Error object
+ *                message:
+ *                  type: string
+ *                  description: Error message
+ *                  example: Internal server error
+ */
 /*
  * PRODUCE/PRICE
  */
