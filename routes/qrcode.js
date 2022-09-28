@@ -1249,11 +1249,32 @@ router.get(
             //check if the url exists and not duplicate else dont create
             if (
               rows[i].qrcode_url &&
-              !supplier_shortcode_list_check1.includes(rows[i].supplierproduce)
+              !supplier_shortcode_list_check1.includes(rows[i].supplierproduce) &&
+              rows[i].market_Shortcode
             ) {
               supplier_shortcode_list_check1.push(rows[i].supplierproduce);
               var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
               qrcodes.push(qrcode_image);
+            } else {
+              //Create QR Code Link to generate QR code
+              //check environment product was saved in for URL
+              let host = req.get('host');
+              let protocol = 'https';
+              // if running in dev then protocol can be http
+              if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+                protocol = req.protocol;
+              }
+              let final_qrcode_url =
+                protocol + '://' + host + '/app/scan/' + rows[i].supplierproduce;
+
+              var qrcode_image = await QRCode.toDataURL(final_qrcode_url);
+              qrcodes.push(qrcode_image);
+              models.FoodprintStorage.update(
+                { qrcode_url: final_qrcode_url },
+                {
+                  where: { storage_logid: rows[i].storage_logid },
+                }
+              );
             }
           }
           console.log(supplier_shortcode_list_check1);
@@ -1271,7 +1292,8 @@ router.get(
                   //checks to stop whatsapp entries that dont have enough data (farm name)
                   if (
                     harvest_rows[k].harvest_supplierShortcode &&
-                    harvest_rows[k].harvest_supplierName
+                    harvest_rows[k].harvest_supplierName &&
+                    rows[i].qrcode_url
                   ) {
                     let qrcode_title =
                       harvest_rows[k].harvest_supplierShortcode +
