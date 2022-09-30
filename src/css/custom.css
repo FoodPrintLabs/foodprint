@@ -198,6 +198,18 @@ body {
 }
 
 
+/* Dropdown menu add padding */
+
+.dropdown-menu {
+    padding: 15px 20px;
+}
+
+.dropdown-menu .dropdown-divider {
+    margin: 0.4rem 0;
+    border-top: 1px solid #ddd;
+}
+
+
 /* Medium size screen  */
 
 @media only screen and (max-width: 800px) and (min-width: 550px) {
