@@ -209,6 +209,21 @@ body {
     border-top: 1px solid #ddd;
 }
 
+.login-header {
+    border: 1px solid #b2d430;
+    border-bottom: 1px solid #b2d430 !important;
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem !important;
+    color: #b2d430 !important;
+    font-weight: bold !important;
+    transition: all 0.5s ease-in-out !important;
+}
+
+.login-header:hover {
+    background-color: #b2d430;
+    color: #fff !important;
+}
+
 
 /* Medium size screen  */
 

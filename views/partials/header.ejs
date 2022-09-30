@@ -92,12 +92,12 @@
 
             <!-- <li <% if (page_name === 'supplychain') { %>class="active" <% } %> ><a href="/app/supplychain">Supply Chain</a></li> This was from very first pilot with harvest and storage on one page July 2019 -->
             <!--<li <% if (page_name === 'config') { %>class="active" <% } %> ><a href="/config">Config</a></li> -->
-            <li <% if (page_name==='login' ) { %>class="active"
+            <li <% if (page_name==='login' ) { %>class=""
                 <% } %> >
                     <% if (user) { %>
                         <a href="/app/auth/logout">Log out (<%=user.username%>)</a>
                         <% } else { %>
-                            <a href="/app/auth/login">Login</a>
+                            <a class="login-header" href="/app/auth/login">Login</a>
                             <% } %>
             </li>
         </ul>
