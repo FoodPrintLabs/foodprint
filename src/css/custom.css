@@ -178,15 +178,46 @@ body {
     letter-spacing: 1px;
 }
 
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2vw;
+}
+
 
 /* Join Logo with logo name style*/
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.logo-wrapper h2 {
+    margin: 0;
+}
 
 
 /* Medium size screen  */
 
 @media only screen and (max-width: 800px) and (min-width: 550px) {
-    .qrcodedetailscardtimeline {
-        width: 80%;
+    .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2vw;
+    }
+    /* Join Logo with logo name style*/
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+    }
+    .logo-wrapper h2 {
+        margin: 0;
+    }
+    .probootstrap-burger-menu {
+        top: 35px;
     }
 }
 
@@ -194,8 +225,23 @@ body {
 /* Smaller size screen */
 
 @media only screen and (max-width: 550px) {
-    .qrcodedetailscardtimeline {
-        width: 80%;
+    .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2vw;
+    }
+    /* Join Logo with logo name style*/
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+    }
+    .logo-wrapper h2 {
+        margin: 0;
+    }
+    .probootstrap-burger-menu {
+        top: 35px;
     }
 }
 
