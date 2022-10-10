@@ -270,6 +270,12 @@ body {
     .probootstrap-burger-menu {
         top: 35px;
     }
+    .nav-item.dropdown .dropdown-menu a {
+        color: #000000 !important;
+    }
+    .nav-item.dropdown .dropdown-menu a:hover {
+        color: #b2d430 !important;
+    }
 }
 
 
@@ -319,3 +325,130 @@ body {
 
 
 /* Footer Changes End */
+
+
+/* Login View Changes Start */
+
+.login {
+    /* padding: 1rem 3rem; */
+    border-radius: 15px;
+    margin: 5rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-image {
+    padding: 0;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+.login .heading {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.login-form {
+    padding: 2rem 4rem;
+}
+
+
+/* Login View Changes End */
+
+
+/* Registration View Changes Start */
+
+.register {
+    /* padding: 1rem 3rem; */
+    border-radius: 15px;
+    margin: 5rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.register-image {
+    padding: 0;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+.register .heading {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.register-form {
+    padding: 1rem 4rem;
+}
+
+
+/* Registration View Changes End */
+
+
+/* Home Dashboard View Changes Start */
+
+.home-dashboard-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.home-dashboard-container h3 {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.home-dashboard {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    padding: 2rem 0;
+}
+
+.home-dashboard .card {
+    width: 25%;
+    background-color: white;
+    border-radius: 5px;
+    padding: 1rem 2rem;
+    box-shadow: 2px 2px 4px 5px #ccc;
+}
+
+.home-dashboard .card .card-text {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    gap: 0.4rem;
+}
+
+.home-dashboard .card .card-text p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.home-dashboard .card .card-text p a {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+/* Home Dashboard View Changes End */
+
+
+/* Registration View Changes End */
+
+
+/* Registration View Changes End */
