@@ -1,143 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <% include ./partials/head %>  
-  </head>
-  <body>
-   <!-- START: header -->
 
-  <div class="probootstrap-loader"></div>
+<head>
+    <% include ./partials/head %>
+</head>
 
-  <header role="banner" class="probootstrap-header">
-      <% include ./partials/header %>
-  </header>
-  <!-- END: header -->
-  
-  
-   
-  <div class="container" style="width: 100%;">
-    <div class="row align-items-center justify-content-center">
-      <!-- START  LANDING PAGE-->
-        <div class="col-md-6 col-md-offset-3"> <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
-          <h3>Welcome to FoodPrint</h3>
-          <% include ./partials/notificationbar %>
-          <div class="row display-flex">
-            <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
-            box-shadow: 2px 2px 4px 5px #ccc;">
-              <div class="card-header">
-                <p class="card-title h4">Track & Trace</p>
-              </div>
-              <div class="card-body d-flex flex-column">
-                <div class="card-text">
-                  <p><a href="/app/harvest">Harvest Logbook</a></p>
-                  <p><a href="/app/storage">Handover Logbook</a></p>
-                  <p><a href="/app/trace_produce">Trace Produce</a></p>
-                </div>
-              </div>
-            </div>
+<body>
+    <!-- START: header -->
 
-            <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
-            box-shadow: 2px 2px 4px 5px #ccc;">
-              <div class="card-header">
-                <p class="card-title h4">Wholesale Marketplace</p>
-              </div>
-              <div class="card-body d-flex flex-column">
-                <div class="card-text">
-                  <p><a href="/app/buyer">Buyer Logbook</a></p>
-                  <p><a href="/app/seller">Seller Logbook</a></p>
-                  <p><a href="/app/order">Order Dashboard</a></p>
-                  <p><a href="/app/order/myorders">My Orders</a></p>
-                  <p><a href="/app/produce">Produce List</a></p>
-                  <p><a href="/app/produce/pricepage">Produce Pricing</a></p>
-                  <p><a href="/app/produce/pricepage/pdf">Download Produce Price PDF</a></p>
-                </div>
-              </div>
-            </div>
+    <div class="probootstrap-loader"></div>
 
-            <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
-            box-shadow: 2px 2px 4px 5px #ccc;">
-              <div class="card-header">
-                <p class="card-title h4">Reporting & Dashboards</p>
-              </div>
-                <div class="card-body d-flex flex-column">
-                  <div class="card-text">
-                    <p><a href="/app/buyer">QR Code Analytics</a></p>
-                    <p><a href="/app/order">Order Dashboard</a></p>
-                    <p><a href="/app/dashboards/admin">Admin Dashboard</a></p>
-                    <p><a href="/app/dashboards/farmer">Farmer Dashboard</a></p>
-                  </div>
-              </div>
-            </div>
-          </div>
+    <header role="banner" class="probootstrap-header">
+        <% include ./partials/header %>
+    </header>
+    <!-- END: header -->
 
-          <div class="row display-flex">
 
-            <% if(admin_status){ %>
-            <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
-            box-shadow: 2px 2px 4px 5px #ccc;">
-              <div class="card-header">
-                <p class="card-title h4">Configuration</p>
-              </div>
-                <div class="card-body d-flex flex-column">
-                  <div class="card-text">
-                    <p><a href="/app/qrcode">QR Codes - Static</a></p>
-                    <p><a href="/app/qrcode/supplierproduce">QR Codes - Supplier</a></p>
-                    <p><a href="https://www.foodprintapp.com/img/demo_qrcode.png" target="_blank">Demo FoodPrint Farm - Betroot QR Code</a></p>
-                    <p><a href="/app/blockchain_explorer">Users</a></p>
-                    <p><a href="/test_config">Testing UI</a></p>
-                    <p><a href="/app/produce">Produce List</a></p>
-                    <p><a href="/app/produce/pricepage">Produce Pricing</a></p>
-                    <p><a href="/app/email">Email Logs</a></p>
-                  </div>
-              </div>
-            </div>
-            <%} else {%>
-              
-              <% } %>
-            
-          <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
-          box-shadow: 2px 2px 4px 5px #ccc;">
-            <div class="card-header">
-              <p class="card-title h4">Support</p>
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="card-text">
-                <p></p><a href="https://knowledge.foodprintlabs.com" target="_blank" >Knowledge Base</a></p>
-                <p><a href="mailto:support@foodprintlabs.com">FoodPrint Support</a></p>
-  
-                <p><a target="_blank" href="http://foodprintlabs.com/">FoodPrint Labs Website</a></p>
-              </div>
-            </div>
-          </div>
 
-          <div class="card" style="width: 12rem;background-color: white; border-radius: 5px;margin: 10px;padding: 5px; 
-          box-shadow: 2px 2px 4px 5px #ccc;">
-            <div class="card-header">
-              <p class="card-title h4">Other</p>
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="card-text">
-                <p>My Account</p>
-              </div>
-            </div>
-          </div>
+    <div class="container" style="width: 100%;">
+        <div class="row align-items-center justify-content-center">
+            <!-- START  LANDING PAGE-->
+            <div class="home-dashboard-container">
+                <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
+                <h3>Welcome to FoodPrint</h3>
+                <% include ./partials/notificationbar %>
+                    <div class="home-dashboard row display-flex">
+                        <div class="card">
+                            <div class="card-header ">
+                                <p class="card-title h4 ">Track & Trace</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-text ">
+                                    <p><a href="/app/harvest ">Harvest Logbook</a></p>
+                                    <p><a href="/app/storage ">Handover Logbook</a></p>
+                                    <p><a href="/app/trace_produce ">Trace Produce</a></p>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="card ">
+                            <div class="card-header ">
+                                <p class="card-title h4 ">Wholesale Marketplace</p>
+                            </div>
+                            <div class="card-body d-flex flex-column ">
+                                <div class="card-text ">
+                                    <p><a href="/app/buyer ">Buyer Logbook</a></p>
+                                    <p><a href="/app/seller ">Seller Logbook</a></p>
+                                    <p><a href="/app/order ">Order Dashboard</a></p>
+                                    <p><a href="/app/order/myorders ">My Orders</a></p>
+                                    <p><a href="/app/produce ">Produce List</a></p>
+                                    <p><a href="/app/produce/pricepage ">Produce Pricing</a></p>
+                                    <p><a href="/app/produce/pricepage/pdf ">Download Produce Price PDF</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card ">
+                            <div class="card-header ">
+                                <p class="card-title h4 ">Reporting & Dashboards</p>
+                            </div>
+                            <div class="card-body d-flex flex-column ">
+                                <div class="card-text ">
+                                    <p><a href="/app/buyer ">QR Code Analytics</a></p>
+                                    <p><a href="/app/order ">Order Dashboard</a></p>
+                                    <p><a href="/app/dashboards/admin ">Admin Dashboard</a></p>
+                                    <p><a href="/app/dashboards/farmer ">Farmer Dashboard</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="home-dashboard row display-flex ">
+
+                        <% if(admin_status){ %>
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <p class="card-title h4 ">Configuration</p>
+                                </div>
+                                <div class="card-body d-flex flex-column ">
+                                    <div class="card-text ">
+                                        <p><a href="/app/qrcode ">QR Codes - Static</a></p>
+                                        <p><a href="/app/qrcode/supplierproduce ">QR Codes - Supplier</a></p>
+                                        <p><a href="https://www.foodprintapp.com/img/demo_qrcode.png " target="_blank ">Demo FoodPrint Farm - Betroot QR Code</a></p>
+                                        <p><a href="/app/blockchain_explorer ">Users</a></p>
+                                        <p><a href="/test_config ">Testing UI</a></p>
+                                        <p><a href="/app/produce ">Produce List</a></p>
+                                        <p><a href="/app/produce/pricepage ">Produce Pricing</a></p>
+                                        <p><a href="/app/email ">Email Logs</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <%} else {%>
+
+                                <% } %>
+
+                                    <div class="card ">
+                                        <div class="card-header ">
+                                            <p class="card-title h4 ">Support</p>
+                                        </div>
+                                        <div class="card-body d-flex flex-column ">
+                                            <div class="card-text ">
+                                                <p></p><a href="https://knowledge.foodprintlabs.com " target="_blank ">Knowledge Base</a></p>
+                                                <p><a href="mailto:support@foodprintlabs.com ">FoodPrint Support</a></p>
+
+                                                <p><a target="_blank " href="http://foodprintlabs.com/ ">FoodPrint Labs Website</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card ">
+                                        <div class="card-header ">
+                                            <p class="card-title h4 ">Other</p>
+                                        </div>
+                                        <div class="card-body d-flex flex-column ">
+                                            <div class="card-text ">
+                                                <p>My Account</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                    </div>
+                    <!-- END LANDING PAGE-->
+            </div>
         </div>
-        <!-- END LANDING PAGE-->
-    </div>
-  </div>
 
-  <!-- start footer -->
-  <% include ./partials/footer %>
-  <!-- end footer -->
+        <!-- start footer -->
+        <% include ./partials/footer %>
+            <!-- end footer -->
 
-  <div class="gototop js-top">
-    <a href="#" class="js-gotop"><i class="icon-chevron-thin-up"></i></a>
-  </div>
+            <div class="gototop js-top ">
+                <a href="# " class="js-gotop "><i class="icon-chevron-thin-up "></i></a>
+            </div>
 
-  <script src="js/scripts.min.js"></script>
-  <script src="js/main.min.js"></script>
-  <script src="js/custom.js"></script>
+            <script src="js/scripts.min.js "></script>
+            <script src="js/main.min.js "></script>
+            <script src="js/custom.js "></script>
 
-  </body>
+</body>
+
 </html>
