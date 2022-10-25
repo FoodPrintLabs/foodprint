@@ -398,50 +398,38 @@ body {
 
 /* Home Dashboard View Changes Start */
 
-.home-dashboard-container {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem 0;
-}
-
-.home-dashboard-container h3 {
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
 .home-dashboard {
-    display: flex;
-    width: 80%;
-    justify-content: space-between;
-    padding: 2rem 0;
+    padding: 0.5rem 5rem;
 }
 
-.home-dashboard .card {
-    width: 25%;
-    background-color: white;
-    border-radius: 5px;
-    padding: 1rem 2rem;
-    box-shadow: 2px 2px 4px 5px #ccc;
+.home-dashboard .title {
+    width: 100%;
+    display: grid;
+    place-items: center;
 }
 
-.home-dashboard .card .card-text {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 0;
-    gap: 0.4rem;
+.home-dashboard .title h3 {
+    font-weight: 900;
 }
 
-.home-dashboard .card .card-text p {
-    margin: 0px;
-    padding: 0px;
+.home-dashboard .row .card .card-header .card-title a {
+    color: #819824;
+    margin-left: 5px;
 }
 
-.home-dashboard .card .card-text p a {
-    margin: 0px;
-    padding: 0px;
+@media only screen and (max-width: 800px) and (min-width: 550px) {
+    .home-dashboard {
+        padding: 0.5rem 2.5rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 550px) {
+    .home-dashboard {
+        padding: 0.5rem 1.5rem;
+    }
 }
 
 
