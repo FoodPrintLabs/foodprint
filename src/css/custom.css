@@ -436,7 +436,40 @@ body {
 /* Home Dashboard View Changes End */
 
 
-/* Registration View Changes End */
+/* Harvest Logbook View Changes End */
+
+@media only screen and (max-width: 800px) and (min-width: 550px) {
+    .container.harvestlogbook .buttons {
+        display: grid;
+        grid-gap: 1rem;
+    }
+    .table-container {
+        width: 100%;
+        overflow: hidden;
+    }
+    .table {
+        overflow-x: auto;
+        display: block;
+    }
+}
 
 
-/* Registration View Changes End */
+/* Smaller size screen */
+
+@media only screen and (max-width: 550px) {
+    .container.harvestlogbook .buttons {
+        display: grid;
+        grid-gap: 0.5rem;
+    }
+    .table-container {
+        width: 100%;
+        overflow: hidden;
+    }
+    .table {
+        overflow-x: auto;
+        display: block;
+    }
+}
+
+
+/* Harvest Logbook View Changes End */
