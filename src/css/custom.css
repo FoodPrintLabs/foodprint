@@ -357,6 +357,21 @@ body {
     padding: 2rem 4rem;
 }
 
+@media only screen and (max-width: 800px) and (min-width: 550px) {
+    .login-form {
+        padding: 2rem 2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 550px) {
+    .login-form {
+        padding: 2rem 1rem;
+    }
+}
+
 
 /* Login View Changes End */
 
@@ -390,6 +405,21 @@ body {
 
 .register-form {
     padding: 1rem 4rem;
+}
+
+@media only screen and (max-width: 800px) and (min-width: 550px) {
+    .register-form {
+        padding: 2rem 2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 550px) {
+    .register-form {
+        padding: 2rem 1rem;
+    }
 }
 
 
