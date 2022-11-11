@@ -466,7 +466,7 @@ body {
 /* Home Dashboard View Changes End */
 
 
-/* Harvest Logbook View Changes End */
+/* Harvest Logbook View Changes Start */
 
 @media only screen and (max-width: 800px) and (min-width: 550px) {
     .container.harvestlogbook .buttons {
@@ -503,3 +503,42 @@ body {
 
 
 /* Harvest Logbook View Changes End */
+
+
+/* Storage/Handover Logbook View Changes Start */
+
+@media only screen and (max-width: 800px) and (min-width: 550px) {
+    .container.storagelogbook .buttons {
+        display: grid;
+        grid-gap: 1rem;
+    }
+    .table-container {
+        width: 100%;
+        overflow: hidden;
+    }
+    .table {
+        overflow-x: auto;
+        display: block;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 550px) {
+    .container.storagelogbook .buttons {
+        display: grid;
+        grid-gap: 0.5rem;
+    }
+    .table-container {
+        width: 100%;
+        overflow: hidden;
+    }
+    .table {
+        overflow-x: auto;
+        display: block;
+    }
+}
+
+
+/* Storage/Handover Logbook View Changes End */
