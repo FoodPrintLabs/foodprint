@@ -542,3 +542,45 @@ body {
 
 
 /* Storage/Handover Logbook View Changes End */
+
+
+/* Trace Produce View Changes Start */
+
+.container.traceproduce #search_result_title h5 {
+    font-weight: 600 !important;
+    font-size: 1.5rem !important;
+}
+
+.container.traceproduce #search_result_title_storage h6 {
+    font-weight: 500 !important;
+    font-size: 1.2rem !important;
+    margin-bottom: 0.5rem !important;
+    color: #1c1c1c;
+}
+
+.container.traceproduce #search_result_title_harvest h6 {
+    font-weight: 500 !important;
+    font-size: 1.2rem !important;
+    margin-bottom: 0.5rem !important;
+    color: #1c1c1c;
+}
+
+.container.traceproduce #search_result_harvest li {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.container.traceproduce #search_result_storage li {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+@media only screen and (max-width: 800px) and (min-width: 550px) {}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 550px) {}
+
+
+/* Trace Produce View Changes End */
