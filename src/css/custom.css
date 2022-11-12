@@ -584,3 +584,49 @@ body {
 
 
 /* Trace Produce View Changes End */
+
+
+/* Buyer Logbook View Changes Start */
+
+.container.buyerlogbook .buttons-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+.container.buyerlogbook .buttons-top .filter select {
+    padding: 0.4rem 0.3rem;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.container.buyerlogbook .buttons-top .filter select:focus {
+    outline: none;
+}
+
+
+/* Buyer Logbook View Changes End */
+
+
+/* Seller Logbook View Changes Start */
+
+.container.sellerlogbook .buttons-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+.container.sellerlogbook .buttons-top .filter select {
+    padding: 0.4rem 0.3rem;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.container.sellerlogbook .buttons-top .filter select:focus {
+    outline: none;
+}
+
+
+/* Seller Logbook View Changes End */
