@@ -752,4 +752,103 @@ body {
 }
 
 
-/* Order Dashboard View Changes End */
+/* ---------------- Global Style ------------ */
+
+.title-global {
+    text-transform: uppercase;
+    font-weight: 600;
+    position: relative;
+    text-align: center;
+}
+
+.title-global::after {
+    content: '';
+    width: 40%;
+    height: 3px;
+    position: absolute;
+    background-color: #b2d430;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: -10px;
+}
+
+.title-global-container {
+    padding: 1.5rem 0;
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+
+/* Medium Size Screens */
+
+@media only screen and (max-width: 800px) and (min-width: 550px) {
+    .title-global {
+        text-transform: uppercase;
+        font-weight: 500;
+        position: relative;
+    }
+    .title-global::after {
+        content: '';
+        width: 40%;
+        height: 3px;
+        position: absolute;
+        background-color: #b2d430;
+        left: 50%;
+        transform: translate(-50%);
+        bottom: -10px;
+    }
+    .title-global-container {
+        padding: 0.9rem 0;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 550px) {
+    .title-global {
+        text-transform: uppercase;
+        font-weight: 500;
+        position: relative;
+        font-size: 25px;
+    }
+    .title-global::after {
+        content: '';
+        width: 40%;
+        height: 2px;
+        position: absolute;
+        background-color: #b2d430;
+        left: 50%;
+        transform: translate(-50%);
+        bottom: -10px;
+    }
+    .title-global-container {
+        padding: 0.8rem 0;
+    }
+}
+
+
+/* Extra Smaller size screen */
+
+@media only screen and (max-width: 396px) {
+    .title-global {
+        text-transform: uppercase;
+        font-weight: 500;
+        position: relative;
+        font-size: 18px;
+    }
+    .title-global::after {
+        content: '';
+        width: 40%;
+        height: 2px;
+        position: absolute;
+        background-color: #b2d430;
+        left: 50%;
+        transform: translate(-50%);
+        bottom: -10px;
+    }
+}
+
+
+/* ---------------- Global Style ------------ */
