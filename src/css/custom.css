@@ -752,6 +752,29 @@ body {
 }
 
 
+/* Produce price page start */
+
+.container.produceprice .buttons-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+.container.produceprice .buttons-top .filter select {
+    padding: 0.4rem 0.3rem;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.container.produceprice .buttons-top .filter select:focus {
+    outline: none;
+}
+
+
+/* Produce price page end */
+
+
 /* ---------------- Global Style ------------ */
 
 .title-global {

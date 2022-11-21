@@ -60,19 +60,18 @@
     <!-- END: header -->
 
     <!-- START TABLE-->
-    <div class="container" style="width: 100%;">
+    <div class="container produceprice" style="width: 100%;">
         <div class="title col-12 title-global-container">
             <h3 class="title-global">Produce Price Page</h3>
         </div>
 
 
-        <div>
-            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Produce</button>
-        </div>
-
         <% include ./partials/notificationbar %>
-            <div class="col text-right">
-                <select onchange="activatefilter()" class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
+            <div class="buttons-top">
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Produce</button>
+
+                <div class="col filter">
+                    <select onchange="activatefilter()" class="custom-select d-block w-100 " name="province_filter" id="province_filter" required>
         <option value="" selected disabled>Choose a Province to filter</option>
         <option>All</option>
         <option>Western Cape</option>
@@ -85,6 +84,7 @@
         <option>Mpumalanga</option>
         <option>Limpopo</option>
       </select>
+                </div>
             </div>
             <br>
             <table class="table table-hover table-sm" id="producePriceTable">
