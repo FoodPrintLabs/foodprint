@@ -143,10 +143,10 @@
                     </div>
                     <div class="modal-body">
                         <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
-
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
-                                <select class="form-control" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
+                            <div class="modal-column">
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
+                                    <select class="form-control" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
                     <option value="" selected disabled >Choose Supplier...</option>
                     <option>BGSM</option>
                     <option>EKLN</option>
@@ -156,11 +156,11 @@
                     <option>TEST</option>
                     <option>WMNP</option>
                   </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_suppliername">Farm Name</label>
-                                <select class="form-control" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_suppliername">Farm Name</label>
+                                    <select class="form-control" name="viewmodal_harvest_suppliername" id="viewmodal_harvest_suppliername">
                     <option value="" selected disabled >Farm Name</option>
                     <option>Bergsoom Farm</option>
                     <option>Eikelaan Farm</option>
@@ -170,19 +170,19 @@
                     <option>Quick Crop Growers Farm</option>
                     <option>White Mountain Natural Produce</option>
                   </select>
-                            </div>
+                                </div>
 
 
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_producename">Produce Name</label>
-                                <select class="form-control" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename">
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_producename">Produce Name</label>
+                                    <select class="form-control" id="viewmodal_harvest_producename" name="viewmodal_harvest_producename">
                     <option value="" selected disabled >Choose Produce...</option>
                   </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_supplierproduce">Supplier Produce Code</label>
-                                <select class="form-control" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                                <div class="form-group">
+                                    <label for="viewmodal_supplierproduce">Supplier Produce Code</label>
+                                    <select class="form-control" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
                     <!--Only sets to available values below on chosing produce above-->
                     <option value="" selected disabled >Supplier Produce</option>
                     <option>BGSM_Bergamot</option>
@@ -220,155 +220,158 @@
                     <option>WMNP_GreenBeans</option>
                     <option>WMNP_Radish</option>
                   </select>
-                            </div>
+                                </div>
 
 
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_supplieraddress">Farmer Address</label>
-                                <input type="text" name="viewmodal_harvest_supplieraddress" class="form-control" id="viewmodal_harvest_supplieraddress" placeholder="Supplier Address">
-                            </div>
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_supplieraddress">Farmer Address</label>
+                                    <input type="text" name="viewmodal_harvest_supplieraddress" class="form-control" id="viewmodal_harvest_supplieraddress" placeholder="Supplier Address">
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_farmername">Farmer Name</label>
-                                <input type="text" name="viewmodal_harvest_farmername" class="form-control" id="viewmodal_harvest_farmername" placeholder="Farmer Name">
-                            </div>
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_farmername">Farmer Name</label>
+                                    <input type="text" name="viewmodal_harvest_farmername" class="form-control" id="viewmodal_harvest_farmername" placeholder="Farmer Name">
+                                </div>
 
-                            <div class="form-group" style="display: none;">
-                                <label for="viewmodal_harvest_year_established">Year Farm Established</label>
-                                <input type="text" name="viewmodal_harvest_year_established" class="form-control" id="viewmodal_harvest_year_established" placeholder="Year Farm Established">
-                            </div>
+                                <div class="form-group" style="display: none;">
+                                    <label for="viewmodal_harvest_year_established">Year Farm Established</label>
+                                    <input type="text" name="viewmodal_harvest_year_established" class="form-control" id="viewmodal_harvest_year_established" placeholder="Year Farm Established">
+                                </div>
 
-                            <div class="form-group" style="display: none;">
-                                <label for="viewmodal_harvest_covid19_response">Brief description of response to COVID-19</label>
-                                <input type="text" name="viewmodal_harvest_covid19_response" class="form-control" id="viewmodal_harvest_covid19_response" placeholder="Brief description of response to COVID-19">
-                            </div>
+                                <div class="form-group" style="display: none;">
+                                    <label for="viewmodal_harvest_covid19_response">Brief description of response to COVID-19</label>
+                                    <input type="text" name="viewmodal_harvest_covid19_response" class="form-control" id="viewmodal_harvest_covid19_response" placeholder="Brief description of response to COVID-19">
+                                </div>
 
-                            <!--NB name="viewmodal_harvest_photohash_uploaded_file" and enctype="multipart/form-data" on the from required for multer library-->
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_photohash">Harvest Photo</label>
-                                <input type="file" name="viewmodal_harvest_photohash_uploaded_file" class="form-control" id="viewmodal_harvest_photohash" placeholder="Photo hash" accept=".jpg, .jpeg, .png">
-                                <div id="viewmodal_harvest_photoimageDiv">
-                                    <img id="viewmodal_harvest_photoimage" width='100%' alt="Harvest Image" />
+                                <!--NB name="viewmodal_harvest_photohash_uploaded_file" and enctype="multipart/form-data" on the from required for multer library-->
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_photohash">Harvest Photo</label>
+                                    <input type="file" name="viewmodal_harvest_photohash_uploaded_file" class="form-control" id="viewmodal_harvest_photohash" placeholder="Photo hash" accept=".jpg, .jpeg, .png">
+                                    <div id="viewmodal_harvest_photoimageDiv">
+                                        <img id="viewmodal_harvest_photoimage" width='100%' alt="Harvest Image" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_timestamp">Harvest Timestamp</label>
+                                    <div class="input-group form_datetime" id="viewmodal_harvest_timestamp_datetimepicker" data-target-input="viewmodal_harvest_timestamp">
+                                        <input type="datetime-local" class="form-control" id="viewmodal_harvest_timestamp" name="viewmodal_harvest_timestamp" placeholder="Actual time of Harvest in the field (Harvest Timestamp)" data-target="#viewmodal_harvest_timestamp" />
+                                    </div>
                                 </div>
                             </div>
+                            <div class="modal-column">
 
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_timestamp">Harvest Timestamp</label>
-                                <div class="input-group form_datetime" id="viewmodal_harvest_timestamp_datetimepicker" data-target-input="viewmodal_harvest_timestamp">
-                                    <input type="datetime-local" class="form-control" id="viewmodal_harvest_timestamp" name="viewmodal_harvest_timestamp" placeholder="Actual time of Harvest in the field (Harvest Timestamp)" data-target="#viewmodal_harvest_timestamp" />
+                                <div class="form-group" id="viewmodal_harvest_capturetimeDiv">
+                                    <label for="viewmodal_harvest_capturetime">Harvest Data Capture Time</label>
+                                    <div class="input-group form_datetime" id="viewmodal_harvest_capturetime_datetimepicker" data-target-input="viewmodal_harvest_capturetime">
+                                        <input type="datetime-local" class="form-control" id="viewmodal_harvest_capturetime" name="viewmodal_harvest_capturetime" placeholder="Harvest Data Capture Time" data-target="#viewmodal_harvest_capturetime" />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group" id="viewmodal_harvest_capturetimeDiv">
-                                <label for="viewmodal_harvest_capturetime">Harvest Data Capture Time</label>
-                                <div class="input-group form_datetime" id="viewmodal_harvest_capturetime_datetimepicker" data-target-input="viewmodal_harvest_capturetime">
-                                    <input type="datetime-local" class="form-control" id="viewmodal_harvest_capturetime" name="viewmodal_harvest_capturetime" placeholder="Harvest Data Capture Time" data-target="#viewmodal_harvest_capturetime" />
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_description">Description of Harvest</label>
+                                    <input type="text" name="viewmodal_harvest_description" class="form-control" id="viewmodal_harvest_description" placeholder="Harvest Description">
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_description">Description of Harvest</label>
-                                <input type="text" name="viewmodal_harvest_description" class="form-control" id="viewmodal_harvest_description" placeholder="Harvest Description">
-                            </div>
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_geolocation">Harvest Geolocation</label>
+                                    <input type="text" name="viewmodal_harvest_geolocation" class="form-control" id="viewmodal_harvest_geolocation" placeholder="Harvest Geolocation">
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_geolocation">Harvest Geolocation</label>
-                                <input type="text" name="viewmodal_harvest_geolocation" class="form-control" id="viewmodal_harvest_geolocation" placeholder="Harvest Geolocation">
-                            </div>
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_quantity">Produce Quantity</label>
+                                    <input type="number" name="viewmodal_harvest_quantity" class="form-control" id="viewmodal_harvest_quantity" placeholder="Quantity of produce harvested">
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_quantity">Produce Quantity</label>
-                                <input type="number" name="viewmodal_harvest_quantity" class="form-control" id="viewmodal_harvest_quantity" placeholder="Quantity of produce harvested">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_unitofmeasure">Unit of Measure</label>
-                                <select class="form-control" id="viewmodal_harvest_unitofmeasure" name="viewmodal_harvest_unitofmeasure">
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_unitofmeasure">Unit of Measure</label>
+                                    <select class="form-control" id="viewmodal_harvest_unitofmeasure" name="viewmodal_harvest_unitofmeasure">
                     <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>bunch</option>
                     <option>kilogram</option>
                     <option>none</option>
                     <option>box</option>
                   </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group" id="viewmodal_harvest_description_jsonDiv">
-                                <label>Additional Information</label> <br />
-                                <!-- <input type="text" name="viewmodal_harvest_description_json" class="form-control" id="viewmodal_harvest_description_json" placeholder="Harvest Description JSON"> -->
-                                <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_pestfree" value="Pesticide Free" /> Pesticide Free<br />
-                                <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_certorganic" value="Certified Organic" /> Certified Organic<br />
-                                <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_noncertorganic" value="Non-Certified Organic" /> Non-Certified Organic<br />
-                                <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_conventional" value="Conventional" /> Conventional<br />
-                                <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_freerange" value="Free Range" /> Free Range<br />
-                                <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_greenhouse" value="Greenhouse Grown" /> Greenhouse Grown<br />
-                                <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_gmo" value="Non-GMO" /> Non-GMO<br />
-                            </div>
+                                <div class="form-group" id="viewmodal_harvest_description_jsonDiv">
+                                    <label>Additional Information</label> <br />
+                                    <!-- <input type="text" name="viewmodal_harvest_description_json" class="form-control" id="viewmodal_harvest_description_json" placeholder="Harvest Description JSON"> -->
+                                    <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_pestfree" value="Pesticide Free" /> Pesticide Free<br />
+                                    <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_certorganic" value="Certified Organic" /> Certified Organic<br />
+                                    <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_noncertorganic" value="Non-Certified Organic" /> Non-Certified Organic<br />
+                                    <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_conventional" value="Conventional" /> Conventional<br />
+                                    <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_freerange" value="Free Range" /> Free Range<br />
+                                    <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_greenhouse" value="Greenhouse Grown" /> Greenhouse Grown<br />
+                                    <input type="checkbox" name="viewmodal_harvest_description_json[]" id="viewmodal_harvest_description_json_gmo" value="Non-GMO" /> Non-GMO<br />
+                                </div>
 
-                            <div class="form-group" , id="viewmodal_harvest_blockchainhashidDiv">
-                                <label for="viewmodal_harvest_blockchainhashid">Harvest Blockchain Hash ID</label>
-                                <input type="text" name="viewmodal_harvest_blockchainhashid" class="form-control" id="viewmodal_harvest_blockchainhashid" placeholder="Harvest Blockchain Hash ID">
-                            </div>
+                                <div class="form-group" , id="viewmodal_harvest_blockchainhashidDiv">
+                                    <label for="viewmodal_harvest_blockchainhashid">Harvest Blockchain Hash ID</label>
+                                    <input type="text" name="viewmodal_harvest_blockchainhashid" class="form-control" id="viewmodal_harvest_blockchainhashid" placeholder="Harvest Blockchain Hash ID">
+                                </div>
 
-                            <div class="form-group" id="viewmodal_harvest_blockchainhashdataDiv">
-                                <label for="viewmodal_harvest_blockchainhashdata">Blockchain Hash Data</label>
-                                <input type="text" name="viewmodal_harvest_blockchainhashdata" class="form-control" id="viewmodal_harvest_blockchainhashdata" placeholder="Blockchain Hash Data">
-                            </div>
+                                <div class="form-group" id="viewmodal_harvest_blockchainhashdataDiv">
+                                    <label for="viewmodal_harvest_blockchainhashdata">Blockchain Hash Data</label>
+                                    <input type="text" name="viewmodal_harvest_blockchainhashdata" class="form-control" id="viewmodal_harvest_blockchainhashdata" placeholder="Blockchain Hash Data">
+                                </div>
 
-                            <!-- <div class="form-group">
+                                <!-- <div class="form-group">
                   <label for="viewmodal_supplierproduce">Supplier Produce</label>
                   <input type="text" name="viewmodal_supplierproduce" class="form-control" id="viewmodal_supplierproduce" placeholder="Supplier Produce">
                 </div> -->
 
-                            <div class="form-group" id="viewmodal_harvest_bool_added_to_blockchainDiv">
-                                <label for="viewmodal_harvest_bool_added_to_blockchain">Harvest Added to Blockchain - Yes / No</label>
-                                <input type="text" name="viewmodal_harvest_bool_added_to_blockchain" class="form-control" id="viewmodal_harvest_bool_added_to_blockchain" placeholder="Harvest Added to Blockchain - Yes / No">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_harvest_added_to_blockchain_dateDiv">
-                                <label for="viewmodal_harvest_added_to_blockchain_date">Harvest Added to Blockchain Datetime</label>
-                                <div class="input-group form_datetime" id="viewmodal_harvest_added_to_blockchain_date_datetimepicker" data-target-input="viewmodal_harvest_added_to_blockchain_date">
-                                    <input type="datetime-local" class="form-control" id="viewmodal_harvest_added_to_blockchain_date" name="viewmodal_harvest_added_to_blockchain_date" placeholder="Harvest Added to Blockchain Datetime" data-target="#viewmodal_harvest_added_to_blockchain_date"
-                                    />
+                                <div class="form-group" id="viewmodal_harvest_bool_added_to_blockchainDiv">
+                                    <label for="viewmodal_harvest_bool_added_to_blockchain">Harvest Added to Blockchain - Yes / No</label>
+                                    <input type="text" name="viewmodal_harvest_bool_added_to_blockchain" class="form-control" id="viewmodal_harvest_bool_added_to_blockchain" placeholder="Harvest Added to Blockchain - Yes / No">
                                 </div>
-                            </div>
 
-                            <div class="form-group" id="viewmodal_harvest_added_to_blockchain_byDiv">
-                                <label for="viewmodal_harvest_added_to_blockchain_by">Harvest Added to Blockchain By User</label>
-                                <input type="text" name="viewmodal_harvest_added_to_blockchain_by" class="form-control" id="viewmodal_harvest_added_to_blockchain_by" placeholder="Harvest Added to Blockchain By User">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_harvest_blockchain_uuidDiv">
-                                <label for="viewmodal_harvest_blockchain_uuid">Harvest Blockchain ID</label>
-                                <input type="text" name="viewmodal_harvest_blockchain_uuid" class="form-control" id="viewmodal_harvest_blockchain_uuid" placeholder="Harvest Blockchain ID">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_harvest_userDiv">
-                                <label for="viewmodal_harvest_user">Harvest Logged By User</label>
-                                <input type="text" name="viewmodal_harvest_user" class="form-control" id="viewmodal_harvest_user" placeholder="Harvest Logged By User">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_logdatetimeDiv">
-                                <label for="viewmodal_logdatetime">Log Datetime</label>
-                                <div class="input-group form_datetime" id="viewmodal_logdatetime_datetimepicker" data-target-input="viewmodal_logdatetime">
-                                    <input type="datetime-local" class="form-control " id="viewmodal_logdatetime" name="viewmodal_logdatetime" placeholder="Log Datetime" data-target="#viewmodal_logdatetime" />
+                                <div class="form-group" id="viewmodal_harvest_added_to_blockchain_dateDiv">
+                                    <label for="viewmodal_harvest_added_to_blockchain_date">Harvest Added to Blockchain Datetime</label>
+                                    <div class="input-group form_datetime" id="viewmodal_harvest_added_to_blockchain_date_datetimepicker" data-target-input="viewmodal_harvest_added_to_blockchain_date">
+                                        <input type="datetime-local" class="form-control" id="viewmodal_harvest_added_to_blockchain_date" name="viewmodal_harvest_added_to_blockchain_date" placeholder="Harvest Added to Blockchain Datetime" data-target="#viewmodal_harvest_added_to_blockchain_date"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group" id="viewmodal_lastmodifieddatetimeDiv">
-                                <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
-                                <div class="input-group form_datetime" id="viewmodal_lastmodifieddatetime_datetimepicker" data-target-input="viewmodal_lastmodifieddatetime">
-                                    <input type="datetime-local" class="form-control" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime" />
+                                <div class="form-group" id="viewmodal_harvest_added_to_blockchain_byDiv">
+                                    <label for="viewmodal_harvest_added_to_blockchain_by">Harvest Added to Blockchain By User</label>
+                                    <input type="text" name="viewmodal_harvest_added_to_blockchain_by" class="form-control" id="viewmodal_harvest_added_to_blockchain_by" placeholder="Harvest Added to Blockchain By User">
                                 </div>
-                            </div>
 
-                            <div class="form-group" id="viewmodal_harvest_logidDiv">
-                                <label for="viewmodal_harvest_logid">Harvest ID</label>
-                                <input type="text" name="viewmodal_harvest_logid" class="form-control" id="viewmodal_harvest_logid" placeholder="Harvest ID">
-                            </div>
+                                <div class="form-group" id="viewmodal_harvest_blockchain_uuidDiv">
+                                    <label for="viewmodal_harvest_blockchain_uuid">Harvest Blockchain ID</label>
+                                    <input type="text" name="viewmodal_harvest_blockchain_uuid" class="form-control" id="viewmodal_harvest_blockchain_uuid" placeholder="Harvest Blockchain ID">
+                                </div>
 
-                            <div class="form-check" id="harvestCheckDiv">
-                                <input type="checkbox" class="form-check-input" id="harvestCheck" required>
-                                <label class="form-check-label" for="harvestCheck">I confirm the above harvest entry is correct</label>
+                                <div class="form-group" id="viewmodal_harvest_userDiv">
+                                    <label for="viewmodal_harvest_user">Harvest Logged By User</label>
+                                    <input type="text" name="viewmodal_harvest_user" class="form-control" id="viewmodal_harvest_user" placeholder="Harvest Logged By User">
+                                </div>
+
+                                <div class="form-group" id="viewmodal_logdatetimeDiv">
+                                    <label for="viewmodal_logdatetime">Log Datetime</label>
+                                    <div class="input-group form_datetime" id="viewmodal_logdatetime_datetimepicker" data-target-input="viewmodal_logdatetime">
+                                        <input type="datetime-local" class="form-control " id="viewmodal_logdatetime" name="viewmodal_logdatetime" placeholder="Log Datetime" data-target="#viewmodal_logdatetime" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="viewmodal_lastmodifieddatetimeDiv">
+                                    <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
+                                    <div class="input-group form_datetime" id="viewmodal_lastmodifieddatetime_datetimepicker" data-target-input="viewmodal_lastmodifieddatetime">
+                                        <input type="datetime-local" class="form-control" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="viewmodal_harvest_logidDiv">
+                                    <label for="viewmodal_harvest_logid">Harvest ID</label>
+                                    <input type="text" name="viewmodal_harvest_logid" class="form-control" id="viewmodal_harvest_logid" placeholder="Harvest ID">
+                                </div>
+
+                                <div class="form-check" id="harvestCheckDiv">
+                                    <input type="checkbox" class="form-check-input" id="harvestCheck" required>
+                                    <label class="form-check-label" for="harvestCheck">I confirm the above harvest entry is correct</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-check" id="harvestDeleteDiv">
