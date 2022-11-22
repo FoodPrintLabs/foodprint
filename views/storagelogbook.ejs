@@ -143,10 +143,10 @@
                     </div>
                     <div class="modal-body">
                         <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
-
-                            <div class="form-group" id="viewmodal_harvest_logidSelectDiv">
-                                <label for="viewmodal_harvest_logidSelect">Select Harvest ID</label>
-                                <select class="form-control" name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID" style="width:100%;">
+                            <div class="modal-column">
+                                <div class="form-group" id="viewmodal_harvest_logidSelectDiv">
+                                    <label for="viewmodal_harvest_logidSelect">Select Harvest ID</label>
+                                    <select class="form-control" name="viewmodal_harvest_logidSelect" id="viewmodal_harvest_logidSelect" placeholder="Select Harvest ID" style="width:100%;">
                     <option value="" selected disabled>Select Harvest ID...</option>
                     <% if(typeof harvest_data != "undefined" && harvest_data.length){
                       for(var i = 0; i< harvest_data.length; i++) {%>
@@ -156,11 +156,11 @@
                           <option>No data</option>
                          <% } %>
                   </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
-                                <select class="form-control" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
+                                <div class="form-group">
+                                    <label for="viewmodal_harvest_suppliershortcode">Supplier Shortcode</label>
+                                    <select class="form-control" name="viewmodal_harvest_suppliershortcode" id="viewmodal_harvest_suppliershortcode">
                     <option value="" selected disabled >Choose Supplier...</option>
                     <option>BGSM</option>
                     <option>EKLN</option>
@@ -170,11 +170,11 @@
                     <option>TEST</option>
                     <option>WMNP</option>
                   </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_supplierproduce">Supplier Produce</label>
-                                <select class="form-control" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
+                                <div class="form-group">
+                                    <label for="viewmodal_supplierproduce">Supplier Produce</label>
+                                    <select class="form-control" name="viewmodal_supplierproduce" id="viewmodal_supplierproduce">
                     <option value="" selected disabled >Choose Supplier Produce...</option>
                     <option>BGSM_Bergamot</option>
                     <option>BGSM_Lemon</option>
@@ -211,146 +211,148 @@
                     <option>WMNP_GreenBeans</option>
                     <option>WMNP_Radish</option>
                   </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_market_Shortcode">Market Shortcode</label>
-                                <select class="form-control" name="viewmodal_market_Shortcode" id="viewmodal_market_Shortcode">
+                                <div class="form-group">
+                                    <label for="viewmodal_market_Shortcode">Market Shortcode</label>
+                                    <select class="form-control" name="viewmodal_market_Shortcode" id="viewmodal_market_Shortcode">
                     <option value="" selected disabled >Choose Market Shortcode...</option>
                     <option>OZCFM</option>
                     <option>OBM</option>
                   </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_market_Name">Market Name</label>
-                                <select class="form-control" name="viewmodal_market_Name" id="viewmodal_market_Name">
+                                <div class="form-group">
+                                    <label for="viewmodal_market_Name">Market Name</label>
+                                    <select class="form-control" name="viewmodal_market_Name" id="viewmodal_market_Name">
                     <option value="" selected disabled >Choose Market Name...</option>
                     <option value="2">Oranjezicht City Farm Market</option>
                     <option value="1">Neighbourgoods Market - The Old Biscuit Mill</option>
                   </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_market_Address">Market Address</label>
-                                <select class="form-control" name="viewmodal_market_Address" id="viewmodal_market_Address">
+                                <div class="form-group">
+                                    <label for="viewmodal_market_Address">Market Address</label>
+                                    <select class="form-control" name="viewmodal_market_Address" id="viewmodal_market_Address">
                     <option value="" selected disabled >Choose Market Address...</option>
                     <option value="1">OBM - 375 Albert Rd, Woodstock, Cape Town, 7915</option>
                     <option value="2">OZCFM - Granger Bay Blvd, Victoria & Alfred Waterfront, Cape Town, 8051</option>
                   </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_market_quantity">Produce Quantity</label>
-                                <input type="number" name="viewmodal_market_quantity" class="form-control" id="viewmodal_market_quantity" placeholder="Quantity of produce received by Market">
+                                <div class="form-group">
+                                    <label for="viewmodal_market_quantity">Produce Quantity</label>
+                                    <input type="number" name="viewmodal_market_quantity" class="form-control" id="viewmodal_market_quantity" placeholder="Quantity of produce received by Market">
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="viewmodal_market_unitOfMeasure">Unit of Measure</label>
-                                <select class="form-control" id="viewmodal_market_unitOfMeasure" name="viewmodal_market_unitOfMeasure">
+                            <div class="modal-column">
+                                <div class="form-group">
+                                    <label for="viewmodal_market_unitOfMeasure">Unit of Measure</label>
+                                    <select class="form-control" id="viewmodal_market_unitOfMeasure" name="viewmodal_market_unitOfMeasure">
                     <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>bunch</option>
                     <option>kilogram</option>
                     <option>none</option>
                     <option>box</option>
                   </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="viewmodal_market_storageTimeStamp">Storage/Handover Time</label>
-                                <div class="input-group form_datetime" id="viewmodal_market_storageTimeStamp_datetimepicker" data-target-input="viewmodal_market_storageTimeStamp">
-                                    <input type="datetime-local" class="form-control" id="viewmodal_market_storageTimeStamp" name="viewmodal_market_storageTimeStamp" placeholder="Actual time of Storage/Handover with farmer (Storage Timestamp)" data-target="#viewmodal_market_storageTimeStamp"
-                                    />
                                 </div>
-                            </div>
 
-                            <div class="form-group" id="viewmodal_market_storageCaptureTimeDiv">
-                                <label for="viewmodal_market_storageCaptureTime">Storage/Handover Data Capture Time</label>
-                                <div class="input-group form_datetime" id="viewmodal_market_storageCaptureTime_datetimepicker" data-target-input="viewmodal_market_storageCaptureTime">
-                                    <input type="datetime-local" class="form-control" id="viewmodal_market_storageCaptureTime" name="viewmodal_market_storageCaptureTime" placeholder="Storage/Handover Data Capture Time" data-target="#viewmodal_market_storageCaptureTime" />
+                                <div class="form-group">
+                                    <label for="viewmodal_market_storageTimeStamp">Storage/Handover Time</label>
+                                    <div class="input-group form_datetime" id="viewmodal_market_storageTimeStamp_datetimepicker" data-target-input="viewmodal_market_storageTimeStamp">
+                                        <input type="datetime-local" class="form-control" id="viewmodal_market_storageTimeStamp" name="viewmodal_market_storageTimeStamp" placeholder="Actual time of Storage/Handover with farmer (Storage Timestamp)" data-target="#viewmodal_market_storageTimeStamp"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="viewmodal_market_URL">Market URL</label>
-                                <input type="text" name="viewmodal_market_URL" class="form-control" id="viewmodal_market_URL" placeholder="Market URL">
-                            </div>
-
-                            <div class="form-group" , id="viewmodal_storage_BlockchainHashIDDiv">
-                                <label for="viewmodal_storage_BlockchainHashID">Storage Blockchain Hash ID</label>
-                                <input type="text" name="viewmodal_storage_BlockchainHashID" class="form-control" id="viewmodal_storage_BlockchainHashID" placeholder="Storage Blockchain Hash ID">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_storage_BlockchainHashDataDiv">
-                                <label for="viewmodal_storage_BlockchainHashData">Blockchain Hash Data</label>
-                                <input type="text" name="viewmodal_storage_BlockchainHashData" class="form-control" id="viewmodal_storage_BlockchainHashData" placeholder="Blockchain Hash Data">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="viewmodal_storage_Description">Description of Produce Storage/Handover</label>
-                                <input type="text" name="viewmodal_storage_Description" class="form-control" id="viewmodal_storage_Description" placeholder="Storage Description">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_storage_bool_added_to_blockchainDiv">
-                                <label for="viewmodal_storage_bool_added_to_blockchain">Storage Added to Blockchain - Yes / No</label>
-                                <input type="text" name="viewmodal_storage_bool_added_to_blockchain" class="form-control" id="viewmodal_storage_bool_added_to_blockchain" placeholder="Storage Added to Blockchain - Yes / No">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_storage_added_to_blockchain_dateDiv">
-                                <label for="viewmodal_storage_added_to_blockchain_date">Storage Added to Blockchain Datetime</label>
-                                <div class="input-group form_datetime" id="viewmodal_storage_added_to_blockchain_date_datetimepicker" data-target-input="viewmodal_storage_added_to_blockchain_date">
-                                    <input type="datetime-local" class="form-control" id="viewmodal_storage_added_to_blockchain_date" name="viewmodal_storage_added_to_blockchain_date" placeholder="Storage Added to Blockchain Datetime" data-target="#viewmodal_storage_added_to_blockchain_date"
-                                    />
+                                <div class="form-group" id="viewmodal_market_storageCaptureTimeDiv">
+                                    <label for="viewmodal_market_storageCaptureTime">Storage/Handover Data Capture Time</label>
+                                    <div class="input-group form_datetime" id="viewmodal_market_storageCaptureTime_datetimepicker" data-target-input="viewmodal_market_storageCaptureTime">
+                                        <input type="datetime-local" class="form-control" id="viewmodal_market_storageCaptureTime" name="viewmodal_market_storageCaptureTime" placeholder="Storage/Handover Data Capture Time" data-target="#viewmodal_market_storageCaptureTime" />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group" id="viewmodal_storage_added_to_blockchain_byDiv">
-                                <label for="viewmodal_storage_added_to_blockchain_by">Storage Added to Blockchain By User</label>
-                                <input type="text" name="viewmodal_storage_added_to_blockchain_by" class="form-control" id="viewmodal_storage_added_to_blockchain_by" placeholder="Storage Added to Blockchain By User">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_storage_blockchain_uuidDiv">
-                                <label for="viewmodal_storage_blockchain_uuid">Storage Blockchain ID</label>
-                                <input type="text" name="viewmodal_storage_blockchain_uuid" class="form-control" id="viewmodal_storage_blockchain_uuid" placeholder="Storage Blockchain ID">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_storage_userDiv">
-                                <label for="viewmodal_storage_user">Storage Logged By User</label>
-                                <input type="text" name="viewmodal_storage_user" class="form-control" id="viewmodal_storage_user" placeholder="Storage Logged By User">
-                            </div>
-
-                            <div class="form-group" id="viewmodal_logdatetimeDiv">
-                                <label for="viewmodal_logdatetime">Log Datetime</label>
-                                <div class="input-group form_datetime" id="viewmodal_logdatetime_datetimepicker" data-target-input="viewmodal_logdatetime">
-                                    <input type="datetime-local" class="form-control" id="viewmodal_logdatetime" name="viewmodal_logdatetime" placeholder="Log Datetime" data-target="#viewmodal_logdatetime" />
+                                <div class="form-group">
+                                    <label for="viewmodal_market_URL">Market URL</label>
+                                    <input type="text" name="viewmodal_market_URL" class="form-control" id="viewmodal_market_URL" placeholder="Market URL">
                                 </div>
-                            </div>
 
-                            <div class="form-group" id="viewmodal_lastmodifieddatetimeDiv">
-                                <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
-                                <div class="input-group form_datetime" id="viewmodal_lastmodifieddatetime_datetimepicker" data-target-input="viewmodal_lastmodifieddatetime">
-                                    <input type="datetime-local" class="form-control" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime" />
+                                <div class="form-group" , id="viewmodal_storage_BlockchainHashIDDiv">
+                                    <label for="viewmodal_storage_BlockchainHashID">Storage Blockchain Hash ID</label>
+                                    <input type="text" name="viewmodal_storage_BlockchainHashID" class="form-control" id="viewmodal_storage_BlockchainHashID" placeholder="Storage Blockchain Hash ID">
                                 </div>
-                            </div>
+
+                                <div class="form-group" id="viewmodal_storage_BlockchainHashDataDiv">
+                                    <label for="viewmodal_storage_BlockchainHashData">Blockchain Hash Data</label>
+                                    <input type="text" name="viewmodal_storage_BlockchainHashData" class="form-control" id="viewmodal_storage_BlockchainHashData" placeholder="Blockchain Hash Data">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="viewmodal_storage_Description">Description of Produce Storage/Handover</label>
+                                    <input type="text" name="viewmodal_storage_Description" class="form-control" id="viewmodal_storage_Description" placeholder="Storage Description">
+                                </div>
+
+                                <div class="form-group" id="viewmodal_storage_bool_added_to_blockchainDiv">
+                                    <label for="viewmodal_storage_bool_added_to_blockchain">Storage Added to Blockchain - Yes / No</label>
+                                    <input type="text" name="viewmodal_storage_bool_added_to_blockchain" class="form-control" id="viewmodal_storage_bool_added_to_blockchain" placeholder="Storage Added to Blockchain - Yes / No">
+                                </div>
+
+                                <div class="form-group" id="viewmodal_storage_added_to_blockchain_dateDiv">
+                                    <label for="viewmodal_storage_added_to_blockchain_date">Storage Added to Blockchain Datetime</label>
+                                    <div class="input-group form_datetime" id="viewmodal_storage_added_to_blockchain_date_datetimepicker" data-target-input="viewmodal_storage_added_to_blockchain_date">
+                                        <input type="datetime-local" class="form-control" id="viewmodal_storage_added_to_blockchain_date" name="viewmodal_storage_added_to_blockchain_date" placeholder="Storage Added to Blockchain Datetime" data-target="#viewmodal_storage_added_to_blockchain_date"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="viewmodal_storage_added_to_blockchain_byDiv">
+                                    <label for="viewmodal_storage_added_to_blockchain_by">Storage Added to Blockchain By User</label>
+                                    <input type="text" name="viewmodal_storage_added_to_blockchain_by" class="form-control" id="viewmodal_storage_added_to_blockchain_by" placeholder="Storage Added to Blockchain By User">
+                                </div>
+
+                                <div class="form-group" id="viewmodal_storage_blockchain_uuidDiv">
+                                    <label for="viewmodal_storage_blockchain_uuid">Storage Blockchain ID</label>
+                                    <input type="text" name="viewmodal_storage_blockchain_uuid" class="form-control" id="viewmodal_storage_blockchain_uuid" placeholder="Storage Blockchain ID">
+                                </div>
+
+                                <div class="form-group" id="viewmodal_storage_userDiv">
+                                    <label for="viewmodal_storage_user">Storage Logged By User</label>
+                                    <input type="text" name="viewmodal_storage_user" class="form-control" id="viewmodal_storage_user" placeholder="Storage Logged By User">
+                                </div>
+
+                                <div class="form-group" id="viewmodal_logdatetimeDiv">
+                                    <label for="viewmodal_logdatetime">Log Datetime</label>
+                                    <div class="input-group form_datetime" id="viewmodal_logdatetime_datetimepicker" data-target-input="viewmodal_logdatetime">
+                                        <input type="datetime-local" class="form-control" id="viewmodal_logdatetime" name="viewmodal_logdatetime" placeholder="Log Datetime" data-target="#viewmodal_logdatetime" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="viewmodal_lastmodifieddatetimeDiv">
+                                    <label for="viewmodal_lastmodifieddatetime">Last Modified Datetime</label>
+                                    <div class="input-group form_datetime" id="viewmodal_lastmodifieddatetime_datetimepicker" data-target-input="viewmodal_lastmodifieddatetime">
+                                        <input type="datetime-local" class="form-control" id="viewmodal_lastmodifieddatetime" name="viewmodal_lastmodifieddatetime" placeholder="Last Modified Datetime" data-target="#viewmodal_lastmodifieddatetime" />
+                                    </div>
+                                </div>
 
 
-                            <div class="form-group" id="viewmodal_harvest_logidDiv">
-                                <label for="viewmodal_harvest_logid">Harvest ID</label>
-                                <input type="text" name="viewmodal_harvest_logid" class="form-control" id="viewmodal_harvest_logid" placeholder="Harvest ID">
-                            </div>
+                                <div class="form-group" id="viewmodal_harvest_logidDiv">
+                                    <label for="viewmodal_harvest_logid">Harvest ID</label>
+                                    <input type="text" name="viewmodal_harvest_logid" class="form-control" id="viewmodal_harvest_logid" placeholder="Harvest ID">
+                                </div>
 
-                            <div class="form-group" id="viewmodal_storage_logidDiv">
-                                <label for="viewmodal_storage_logid">Storage/Handover ID</label>
-                                <input type="text" name="viewmodal_storage_logid" class="form-control" id="viewmodal_storage_logid" placeholder="Storage/Handover ID">
-                            </div>
-                            <div class="form-group" id="qrcode_image_section">
-                                <label for="qrcode_img">QR Image</label>
-                                <img name="qrcode_img" src="" class="qrcode_img" id="qrcode_img" alt="QR Code Image">
-                            </div>
+                                <div class="form-group" id="viewmodal_storage_logidDiv">
+                                    <label for="viewmodal_storage_logid">Storage/Handover ID</label>
+                                    <input type="text" name="viewmodal_storage_logid" class="form-control" id="viewmodal_storage_logid" placeholder="Storage/Handover ID">
+                                </div>
+                                <div class="form-group" id="qrcode_image_section">
+                                    <label for="qrcode_img">QR Image</label>
+                                    <img name="qrcode_img" src="" class="qrcode_img" id="qrcode_img" alt="QR Code Image">
+                                </div>
 
-                            <div class="form-check" id="storageCheckDiv">
-                                <input type="checkbox" class="form-check-input" id="storageCheck" required>
-                                <label class="form-check-label" for="storageCheck">I confirm the above storage entry is correct</label>
+                                <div class="form-check" id="storageCheckDiv">
+                                    <input type="checkbox" class="form-check-input" id="storageCheck" required>
+                                    <label class="form-check-label" for="storageCheck">I confirm the above storage entry is correct</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-check" id="storageDeleteDiv">

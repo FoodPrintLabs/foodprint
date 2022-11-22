@@ -867,6 +867,98 @@ body {
 /* Harvest Entry Modal Style End */
 
 
+/* Storage Entry Modal Style Start */
+
+#storageModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#storageModalForm .modal-content {
+    width: 75%;
+}
+
+#storageModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#storageModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#storageModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#storageModalForm .modal-content .modal-body #modalBodyContainer {
+    display: flex;
+}
+
+#storageModalForm .modal-content .modal-body #modalBodyContainer .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #storageModalForm .modal-content {
+        width: 85%;
+    }
+    #storageModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #storageModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #storageModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #storageModalForm .modal-content .modal-body #modalBodyContainer {
+        display: flex;
+    }
+    #storageModalForm .modal-content .modal-body #modalBodyContainer .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #storageModalForm .modal-content .modal-body #modalBodyContainer {
+        display: flex;
+        flex-direction: column;
+    }
+    #storageModalForm .modal-content .modal-body #modalBodyContainer .modal-column {
+        width: 100%;
+        padding: 0.8rem 1rem;
+    }
+    #storageModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
+}
+
+
+/* Storage Entry Modal Style End */
+
+
 /* ---------------- Global Style ------------ */
 
 .title-global {
