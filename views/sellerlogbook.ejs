@@ -1,67 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <% include ./partials/head %>  
 
-      <script>
-        function activateProduceFilter()
-        { 
-          var filter = document.getElementById('produce_filter').value;
-          if(filter == "All"){
-            window.location = '/app/seller'}
-            else if (filter)
-            { window.location = '/app/seller/filter/produce/'+ filter;}
-            
-        }
-        
-        async function filterCheck(filter)
-        { 
+<head>
+    <% include ./partials/head %>
 
-          let produce_array = [ "All", "Baby Marrow",
-                    "Baby Leeks",  "Basil", "Beetroot",  "Bergamot", "Blood Oranges",
-                    "Cabbage",  "Carrots",  "Cauliflower", "Cayenne Pepper",  "Cucumber", "Eggs",
-                    "Fennel", "Granadilla", "Green Beans",  "Herbs", "Lebanese Cucumber", "Leeks",
-                    "Lemon", "Lettuce",  "Limes",   "Mor",  "Onion", "Pak Choi",  "Parsley",  "Radish",   "Sorrel",
-                    "Swiss Chard",  "Spinach",  "Turnips"]
-                    for(var i = 0; i< produce_array.length; i++)
-                    {
-                      //check if produce is in list
-                      if(filter == produce_array[i])
-                      {
+        <script>
+            function activateProduceFilter() {
+                var filter = document.getElementById('produce_filter').value;
+                if (filter == "All") {
+                    window.location = '/app/seller'
+                } else if (filter) {
+                    window.location = '/app/seller/filter/produce/' + filter;
+                }
+
+            }
+
+            async function filterCheck(filter) {
+
+                let produce_array = ["All", "Baby Marrow",
+                    "Baby Leeks", "Basil", "Beetroot", "Bergamot", "Blood Oranges",
+                    "Cabbage", "Carrots", "Cauliflower", "Cayenne Pepper", "Cucumber", "Eggs",
+                    "Fennel", "Granadilla", "Green Beans", "Herbs", "Lebanese Cucumber", "Leeks",
+                    "Lemon", "Lettuce", "Limes", "Mor", "Onion", "Pak Choi", "Parsley", "Radish", "Sorrel",
+                    "Swiss Chard", "Spinach", "Turnips"
+                ]
+                for (var i = 0; i < script produce_array.length; i++) {
+                    //check if produce is in list
+                    if (filter == produce_array[i]) {
                         document.getElementById('produce_filter').value = filter;
                         break;
-                      }
-                      
                     }
-                    if(document.getElementById('produce_filter').value != filter)
-                    {
+
+                }
+                if (document.getElementById('produce_filter').value != filter) {
                     console.log("Unexpected filter")
                     window.location = '/app/seller'
-                    }
-        
-        }
-           </script>
-  </head>
-  <body onload="filterCheck('<%=filter_data%>')">
-   <!-- START: header -->
+                }
 
-  <div class="probootstrap-loader"></div>
+            }
+        </script>
+</head>
 
-  <header role="banner" class="probootstrap-header">
-      <% include ./partials/header %>
-  </header>
-  <!-- END: header -->
+<body onload="filterCheck('<%=filter_data%>')">
+    <!-- START: header -->
 
-   <!-- START TABLE-->
-   <div class="container" style="width: 100%;">
-    <h3>Seller Logbook</h3>
-    <div>
-        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Offer</button>
-    </div>
-    
-    <% include ./partials/notificationbar %>
-    <div class="col text-right">
-      <select onchange="activateProduceFilter()" class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
+    <div class="probootstrap-loader"></div>
+
+    <header role="banner" class="probootstrap-header">
+        <% include ./partials/header %>
+    </header>
+    <!-- END: header -->
+
+    <!-- START TABLE-->
+    <div class="container sellerlogbook" style="width: 100%;">
+        <div class="title col-12 title-global-container">
+            <h3 class="title-global">Seller Logbook</h3>
+        </div>
+        <div class="buttons-top">
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Offer</button>
+            <div class="col filter">
+                <select onchange="activateProduceFilter()" class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
         <option value="" selected disabled>Choose a a Produce filter</option>
         <option>All</option>
         <option>Baby Marrow</option>
@@ -95,72 +93,86 @@
         <option>Spinach</option>
         <option>Turnips</option>
       </select>
-    </div>
-      <table class="table table-hover table-sm" id="OfferTable">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Offer logID</th>
-            <th scope="col">Produce Name</th>
-            <th scope="col">Offer Timestamp</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Unit of Measure</th>
-            <th scope="col">Offer Price</th>
-            <th scope="col">Offer Status</th>
-            <th width="200px">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if(data.length){
+            </div>
+        </div>
+        <% include ./partials/notificationbar %>
+            <table class="table table-hover table-sm" id="OfferTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Offer logID</th>
+                        <th scope="col">Produce Name</th>
+                        <th scope="col">Offer Timestamp</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit of Measure</th>
+                        <th scope="col">Offer Price</th>
+                        <th scope="col">Offer Status</th>
+                        <th width="200px">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(data.length){
 
               for(var i = 0; i< data.length; i++) {%>
-              <tr>
-                <th scope="row" style="width: 2%;"><%= (i+1) %></th>
-                <td style="width: 27%;"><%= data[i].offer_logid%></td>
-                <td style="width: 10%;"><%= data[i].offer_produceName%></td>
-                <td style="width: 45%;"><%= data[i].offer_timeStamp%></td>
-                <td style="width: 2%;"><%= data[i].offer_quantity%></td>
-                <td style="width: 3%;"><%= data[i].offer_unitOfMeasure%></td>
-                <td style="width: 5%;"><%= data[i].offer_price%></td>
-                <td style="width: 5%;"><%= data[i].offer_status%></td>
-                <td class="btn-group btn-group-sm" style="width: 2%;">
-                    <a href="javascript:void(0);" class="btn btn-xs btn-info edit" data-offer_logid="<%= data[i].offer_logid%>"
-                      data-offer_producename="<%= data[i].offer_produceName%>" data-offer_timestamp="<%=data[i].offer_timeStamp%>"
-                      data-offer_quantity="<%= data[i].offer_quantity%>" data-offer_price="<%= data[i].offer_price%>" data-offer_province="<%= data[i].offer_province%>" 
-                      data-offer_status="<%= data[i].offer_status%>"
-                      data-offer_user="<%= data[i].offer_user%>" data-offer_unitofmeasure="<%= data[i].offer_unitOfMeasure%>"  
-                      data-offer_saletime="<%= data[i].offer_saleTime%>" data-offer_saleuser="<%= data[i].offer_saleUser%>" data-offer_description="<%= data[i].offer_description%>"
-                      ><i class="far fa-eye"></i></a>
-                </td>
-              </tr>
-              <% }
+                        <tr>
+                            <th scope="row" style="width: 2%;">
+                                <%= (i+1) %>
+                            </th>
+                            <td style="width: 27%;">
+                                <%= data[i].offer_logid%>
+                            </td>
+                            <td style="width: 10%;">
+                                <%= data[i].offer_produceName%>
+                            </td>
+                            <td style="width: 45%;">
+                                <%= data[i].offer_timeStamp%>
+                            </td>
+                            <td style="width: 2%;">
+                                <%= data[i].offer_quantity%>
+                            </td>
+                            <td style="width: 3%;">
+                                <%= data[i].offer_unitOfMeasure%>
+                            </td>
+                            <td style="width: 5%;">
+                                <%= data[i].offer_price%>
+                            </td>
+                            <td style="width: 5%;">
+                                <%= data[i].offer_status%>
+                            </td>
+                            <td class="btn-group btn-group-sm" style="width: 2%;">
+                                <a href="javascript:void(0);" class="btn btn-xs btn-info edit" data-offer_logid="<%= data[i].offer_logid%>" data-offer_producename="<%= data[i].offer_produceName%>" data-offer_timestamp="<%=data[i].offer_timeStamp%>" data-offer_quantity="<%= data[i].offer_quantity%>"
+                                    data-offer_price="<%= data[i].offer_price%>" data-offer_province="<%= data[i].offer_province%>" data-offer_status="<%= data[i].offer_status%>" data-offer_user="<%= data[i].offer_user%>" data-offer_unitofmeasure="<%= data[i].offer_unitOfMeasure%>"
+                                    data-offer_saletime="<%= data[i].offer_saleTime%>" data-offer_saleuser="<%= data[i].offer_saleUser%>" data-offer_description="<%= data[i].offer_description%>"><i class="far fa-eye"></i></a>
+                            </td>
+                        </tr>
+                        <% }
 
            }else{ %>
-               <tr>
-                  <td colspan="5">No Offer data available for user</td>
-               </tr>
-            <% } %>
+                            <tr>
+                                <td colspan="5">No Offer data available for user</td>
+                            </tr>
+                            <% } %>
 
-        </tbody>
-    </table>
-   </div>
-   <!-- END TABLE-->
+                </tbody>
+            </table>
+    </div>
+    <!-- END TABLE-->
 
-   <!-- Modal Add Offer-->
-	  <form action="/app/seller/offer/save" method="post">
+    <!-- Modal Add Offer-->
+    <form action="/app/seller/offer/save" method="post">
         <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-         <div class="modal-dialog" role="document">
-           <div class="modal-content">
-             <div class="modal-header">
-               <h4 class="modal-title" id="exampleModalLabel">Place new offer</h4>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">Place new offer</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                  <span aria-hidden="true">&times;</span>
                </button>
-             </div>
-             <div class="modal-body">
-               <div class="form-group">
-                   <label for="config_name">Produce Name</label>
-                   <select class="form-control" id="offer_produceName" name="offer_produceName" >
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="config_name">Produce Name</label>
+                            <select class="form-control" id="offer_produceName" name="offer_produceName">
                     <option value="" selected disabled >Choose Produce...</option>
                     <option>Baby Marrow</option>
                     <option>Baby Leeks</option>
@@ -193,27 +205,27 @@
                     <option>Spinach</option>
                     <option>Turnips</option>
                   </select>
-               </div>
+                        </div>
 
-               <div class="form-group">
-                   <label for="config_description">Produce quantity</label>
-                   <input type="number" name="offer_quantity" class="form-control" placeholder="Quantity" required>
-               </div>
+                        <div class="form-group">
+                            <label for="config_description">Produce quantity</label>
+                            <input type="number" name="offer_quantity" class="form-control" placeholder="Quantity" required>
+                        </div>
 
-               <div class="form-group">
-                   <label for="config_value">Unit of Measure</label>
-                   <select class="form-control" id="offer_unitOfMeasure" name="offer_unitOfMeasure">
+                        <div class="form-group">
+                            <label for="config_value">Unit of Measure</label>
+                            <select class="form-control" id="offer_unitOfMeasure" name="offer_unitOfMeasure">
                     <option value="" selected disabled >Choose Unit of Measure...</option>
                     <option>kilogram</option>
                   </select>
-               </div>
-               <div class="form-group">
-                <label for="config_name">Price</label>
-                <input type="number" name="offer_price" class="form-control" placeholder="Offer Price" required>
-            </div>
-            <div class="form-group">
-              <label for="offer_province">Province</label>
-              <select class="custom-select d-block w-100 form-control" name="offer_province" id="offer_province" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="config_name">Price</label>
+                            <input type="number" name="offer_price" class="form-control" placeholder="Offer Price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_province">Province</label>
+                            <select class="custom-select d-block w-100 form-control" name="offer_province" id="offer_province" required>
                <option value="" selected disabled>Choose a Province</option>
                <option>Western Cape</option>
                <option>Eastern Cape</option>
@@ -225,144 +237,145 @@
                <option>Mpumalanga</option>
                <option>Limpopo</option>
              </select>
-          </div>
-            <div class="form-group">
-              <label for="offer_description">Description *[Optional]</label> 
-              <br>            
-              <textarea id="offer_description" class="descriptionTextAreaInput" name="offer_description" rows="4">
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_description">Description *[Optional]</label>
+                            <br>
+                            <textarea id="offer_description" class="descriptionTextAreaInput" name="offer_description" rows="4">
               </textarea>
-              <br>
-          </div>
-             </div>
-             <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary">Save</button>
-             </div>
-           </div>
-         </div>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
         </div>
-	 </form>
-   <!-- End Modal Add Offer-->
+    </form>
+    <!-- End Modal Add Offer-->
 
-   <!-- Modal View Offer-->
-   <form action="app/seller" method="POST">
-       <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="exampleModalLabel">View offer</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <!-- Modal View Offer-->
+    <form action="app/seller" method="POST">
+        <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">View offer</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="offer_logid">Offer ID</label>
-                <input type="text" name="offer_logid" class="form-control offer_logid" placeholder="Offer ID" disabled>
-            </div>
-              <div class="form-group">
-                  <label for="offer_produceName">Produce Name</label>
-                  <input type="text" name="offer_produceName" class="form-control offer_produceName" placeholder="Produce Name" disabled>
-              </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="offer_logid">Offer ID</label>
+                            <input type="text" name="offer_logid" class="form-control offer_logid" placeholder="Offer ID" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_produceName">Produce Name</label>
+                            <input type="text" name="offer_produceName" class="form-control offer_produceName" placeholder="Produce Name" disabled>
+                        </div>
 
-              <div class="form-group">
-                  <label for="offer_quantity">Produce quantity</label>
-                  <input type="number" name="offer_quantity" class="form-control offer_quantity" placeholder="Quantity" disabled>
-              </div>
+                        <div class="form-group">
+                            <label for="offer_quantity">Produce quantity</label>
+                            <input type="number" name="offer_quantity" class="form-control offer_quantity" placeholder="Quantity" disabled>
+                        </div>
 
-              <div class="form-group">
-                  <label for="offer_unitOfMeasure">Unit of Measure</label>
-                  <input type="text" name="offer_unitOfMeasure" class="form-control offer_unitOfMeasure" placeholder="Unit of Measure" disabled>
-              </div>
-              <div class="form-group">
-               <label for="offer_price">Price</label>
-               <input type="text" name="offer_price" class="form-control offer_price" placeholder="Offer Price" disabled>
-              </div>
-              <div class="form-group">
-                <label for="offer_province">Province</label>
-                <input type="text" name="offer_province" class="form-control offer_province" placeholder="Offer province" disabled>
-               </div>
-              <div class="form-group">
-                <label for="offer_user">Placed by</label>
-                <input type="text" name="offer_user" class="form-control offer_user" placeholder="Offer user" disabled>
-               </div>
-               <div class="form-group">
-                <label for="offer_timeStamp">Timestamp</label>
-                <input type="text" name="offer_timeStamp" class="form-control offer_timeStamp" placeholder="Offer Timestamp" disabled>
-               </div>
-               <div class="form-group">
-                <label for="offer_status">Status</label>
-                <input type="text" name="offer_status" class="form-control offer_status" placeholder="Offer Status" disabled>
-               </div>
-               <div class="form-group">
-                <label for="offer_saleTime">Sale Time</label>
-                <input type="text" name="offer_saleTime" class="form-control offer_saleTime" placeholder="Not yet acquired by buyer" disabled>
-               </div>
-               <div class="form-group">
-                <label for="offer_saleUserName">Sale User Name</label>
-                <input type="text" name="offer_saleUserName" class="form-control offer_saleUserName" placeholder="Not yet acquired by buyer" disabled>
-               </div>
-               <div class="form-group">
-                <label for="offer_description">Description </label> 
-                <br>            
-                <textarea id="offer_description" class="descriptionTextAreaInput" name="offer_description2" rows="4" disabled>
+                        <div class="form-group">
+                            <label for="offer_unitOfMeasure">Unit of Measure</label>
+                            <input type="text" name="offer_unitOfMeasure" class="form-control offer_unitOfMeasure" placeholder="Unit of Measure" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_price">Price</label>
+                            <input type="text" name="offer_price" class="form-control offer_price" placeholder="Offer Price" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_province">Province</label>
+                            <input type="text" name="offer_province" class="form-control offer_province" placeholder="Offer province" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_user">Placed by</label>
+                            <input type="text" name="offer_user" class="form-control offer_user" placeholder="Offer user" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_timeStamp">Timestamp</label>
+                            <input type="text" name="offer_timeStamp" class="form-control offer_timeStamp" placeholder="Offer Timestamp" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_status">Status</label>
+                            <input type="text" name="offer_status" class="form-control offer_status" placeholder="Offer Status" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_saleTime">Sale Time</label>
+                            <input type="text" name="offer_saleTime" class="form-control offer_saleTime" placeholder="Not yet acquired by buyer" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_saleUserName">Sale User Name</label>
+                            <input type="text" name="offer_saleUserName" class="form-control offer_saleUserName" placeholder="Not yet acquired by buyer" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_description">Description </label>
+                            <br>
+                            <textarea id="offer_description" class="descriptionTextAreaInput" name="offer_description2" rows="4" disabled>
                 </textarea>
-                <br>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
         </div>
-       </div>
-  </form>
-   <!-- End Modal View Offer-->
+    </form>
+    <!-- End Modal View Offer-->
 
-	 
+
 
     <!-- start footer -->
     <% include ./partials/footer %>
-    <!-- end footer -->
-    
-   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-    <script src="/js/scripts.min.js"></script>
-  <script src="/js/main.min.js"></script>
-  <script src="/js/custom.js"></script>
-  <script>
-    $(document).ready(function(){
+        <!-- end footer -->
 
-        //showing data to edit modal
-        $('#OfferTable').on('click','.edit',function(){
-            var offer_logid = $(this).data('offer_logid');
-            var offer_produceName = $(this).data('offer_producename');
-            var offer_quantity = $(this).data('offer_quantity');
-            var offer_unitOfMeasure = $(this).data('offer_unitofmeasure');
-            var offer_price = $(this).data('offer_price');
-            var offer_province = $(this).data('offer_province');
-            var offer_user = $(this).data('offer_user');
-            var offer_timeStamp= $(this).data('offer_timestamp');
-            var offer_status = $(this).data('offer_status');
-            var offer_saleTime = $(this).data('offer_saletime');
-            var offer_saleUser = $(this).data('offer_saleuser');
-            var offer_salePrice = $(this).data('offer_saleprice');
-            var offer_description = $(this).data('offer_description');
-            $('#viewModal').modal('show');
-            $('.offer_logid').val(offer_logid);
-            $('.offer_produceName').val(offer_produceName);
-            $('.offer_quantity').val(offer_quantity);
-            $('.offer_unitOfMeasure').val(offer_unitOfMeasure);
-            $('.offer_price').val(offer_price);
-            $('.offer_province').val(offer_province);
-            $('.offer_user').val(offer_user);
-            $('.offer_timeStamp').val(offer_timeStamp);
-            $('.offer_status').val(offer_status);
-            $('.offer_saleTime').val(offer_saleTime);
-            $('.offer_saleUser').val(offer_saleUser);
-            $('.offer_salePrice').val(offer_salePrice);
-            $('textarea[name="offer_description2"]').val(offer_description);
-      });
-    });
-    </script>
-  </body>
+        <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+        <script src="/js/scripts.min.js"></script>
+        <script src="/js/main.min.js"></script>
+        <script src="/js/custom.js"></script>
+        <script>
+            $(document).ready(function() {
+
+                //showing data to edit modal
+                $('#OfferTable').on('click', '.edit', function() {
+                    var offer_logid = $(this).data('offer_logid');
+                    var offer_produceName = $(this).data('offer_producename');
+                    var offer_quantity = $(this).data('offer_quantity');
+                    var offer_unitOfMeasure = $(this).data('offer_unitofmeasure');
+                    var offer_price = $(this).data('offer_price');
+                    var offer_province = $(this).data('offer_province');
+                    var offer_user = $(this).data('offer_user');
+                    var offer_timeStamp = $(this).data('offer_timestamp');
+                    var offer_status = $(this).data('offer_status');
+                    var offer_saleTime = $(this).data('offer_saletime');
+                    var offer_saleUser = $(this).data('offer_saleuser');
+                    var offer_salePrice = $(this).data('offer_saleprice');
+                    var offer_description = $(this).data('offer_description');
+                    $('#viewModal').modal('show');
+                    $('.offer_logid').val(offer_logid);
+                    $('.offer_produceName').val(offer_produceName);
+                    $('.offer_quantity').val(offer_quantity);
+                    $('.offer_unitOfMeasure').val(offer_unitOfMeasure);
+                    $('.offer_price').val(offer_price);
+                    $('.offer_province').val(offer_province);
+                    $('.offer_user').val(offer_user);
+                    $('.offer_timeStamp').val(offer_timeStamp);
+                    $('.offer_status').val(offer_status);
+                    $('.offer_saleTime').val(offer_saleTime);
+                    $('.offer_saleUser').val(offer_saleUser);
+                    $('.offer_salePrice').val(offer_salePrice);
+                    $('textarea[name="offer_description2"]').val(offer_description);
+                });
+            });
+        </script>
+</body>
+
 </html>
