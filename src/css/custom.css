@@ -86,7 +86,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: #fff;
+    background-color: rgb(246, 246, 246);
     color: #333;
     height: 50px;
     /* same height as the margin to the bottom of the body */
@@ -99,6 +99,7 @@ html {
 
 body {
     margin-bottom: 50px;
+    background-color: #fff !important;
 }
 
 
@@ -429,7 +430,7 @@ body {
 /* Home Dashboard View Changes Start */
 
 .home-dashboard {
-    padding: 0.5rem 5rem;
+    padding: 0.5rem 8rem;
 }
 
 .home-dashboard .title {
@@ -438,13 +439,18 @@ body {
     place-items: center;
 }
 
-.home-dashboard .title h3 {
-    font-weight: 900;
+.home-dashboard .row h4 {
+    font-weight: 400;
+    text-transform: uppercase;
 }
 
 .home-dashboard .row .card .card-header .card-title a {
-    color: #819824;
+    color: #454545;
     margin-left: 5px;
+}
+
+.home-dashboard .row .card .card-header .card-title i {
+    color: #b2d430;
 }
 
 @media only screen and (max-width: 800px) and (min-width: 550px) {
