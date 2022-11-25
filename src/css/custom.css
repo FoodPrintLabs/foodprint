@@ -967,8 +967,6 @@ body {
 
 /* QR CODE CONFIGURATION - STATIC start */
 
-.container.qrcode-static {}
-
 .container.qrcode-static .card .card-body .qrcode-card-title {
     font-size: 0.8rem !important;
     color: #4e5d14;
@@ -995,6 +993,36 @@ body {
 
 
 /* QR CODE CONFIGURATION - STATIC End */
+
+
+/* QR CODE CONFIGURATION - Suppier start */
+
+.container.qrcode-supplier .card .card-body .qrcode-card-title {
+    font-size: 0.8rem !important;
+    color: #4e5d14;
+}
+
+.container.qrcode-supplier .card .card-body .content {
+    font-size: 14px;
+}
+
+.container.qrcode-supplier .card .card-title {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.container.qrcode-supplier .card {
+    width: fit-content;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px 5px #ccc;
+    margin: 10px;
+    padding: 1.2rem 2rem;
+}
+
+
+/* QR CODE CONFIGURATION - Suppier End */
 
 
 /* ---------------- Global Style ------------ */
