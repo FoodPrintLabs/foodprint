@@ -16,7 +16,7 @@
     <!-- END: header -->
 
     <!-- START TABLE-->
-    <div class="container" style="width: 100%;">
+    <div class="container qrcode-static" style="width: 100%;">
         <div class="title col-12 title-global-container">
             <h3 class="title-global">QR Code Configuration - Static</h3>
         </div>
@@ -37,23 +37,22 @@
         for(var i = 0; i< data.length; i++){ 
     %>
                         <!--QR CODE CARD-->
-                        <div class="card col-2 col-lg-2 col-xl-2 text-center" style="width: 15.5rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px;
-        box-shadow: 2px 2px 4px 5px #ccc; ">
+                        <div class="card col-2 col-lg-2 col-xl-2 text-center" style=>
                             <div class="card-header">
                                 <p class="card-title h4 qrcode-card-heading"><b><%=data[i].qrcode_company_name%></b></p>
                             </div>
                             <div class="card-body">
                                 <div class="card-text text-center">
                                     <b class="qrcode-card-title">PRODUCT</b>
-                                    <div style="width: 15rem; height: 2rem; overflow: auto;">
+                                    <div class="content" style="width: 15rem; height: 2rem; overflow: auto;">
                                         <%=data[i].qrcode_product_name%>
                                     </div>
                                     <b class="qrcode-card-title">PRODUCT DESCRIPTION</b>
-                                    <div style="width: 15rem; height: 6rem; overflow: auto;">
+                                    <div class="content" style="width: 15rem; height: 6rem; overflow: auto;">
                                         <%=data[i].qrcode_product_description%>
                                     </div>
                                     <b class="qrcode-card-title">QR CODE DESCRIPTION</b>
-                                    <div style="width: 15rem; height: 2rem; overflow: auto;">
+                                    <div class="content" style="width: 15rem; height: 2rem; overflow: auto;">
                                         <%=data[i].qrcode_description%>
                                     </div>
                                     <img src="<%=qrcodes[i]%>" id="company_image" alt="Company Logo">
