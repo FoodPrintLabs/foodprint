@@ -159,7 +159,7 @@
     <!-- END TABLE-->
 
     <!-- Modal Add Bid-->
-    <form action="/app/buyer/bid/save" method="post">
+    <form id="buyerOfferModalForm" action="/app/buyer/bid/save" method="post">
         <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -170,9 +170,11 @@
                </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="bid_produceName">Produce Name</label>
-                            <select class="form-control" id="bid_produceName" name="bid_produceName">
+                        <div class="modal-row">
+                            <div class="modal-column">
+                                <div class="form-group">
+                                    <label for="bid_produceName">Produce Name</label>
+                                    <select class="form-control" id="bid_produceName" name="bid_produceName">
                     <option value="" selected disabled >Choose Produce...</option>
                     <option>Baby Marrow</option>
                     <option>Baby Leeks</option>
@@ -205,27 +207,29 @@
                     <option>Spinach</option>
                     <option>Turnips</option>
                   </select>
-                        </div>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="bid_quantity">Produce quantity</label>
-                            <input type="number" name="bid_quantity" class="form-control" placeholder="Quantity" required>
-                        </div>
+                                <div class="form-group">
+                                    <label for="bid_quantity">Produce quantity</label>
+                                    <input type="number" name="bid_quantity" class="form-control" placeholder="Quantity" required>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="bid_unitOfMeasure">Unit of Measure</label>
-                            <select class="form-control" id="bid_unitOfMeasure" name="bid_unitOfMeasure">
+                                <div class="form-group">
+                                    <label for="bid_unitOfMeasure">Unit of Measure</label>
+                                    <select class="form-control" id="bid_unitOfMeasure" name="bid_unitOfMeasure">
                     <option value="" selected disabled required>Choose Unit of Measure...</option>
                     <option>kilogram</option>
                   </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_price">Price</label>
-                            <input type="number" name="bid_price" class="form-control" placeholder="Bid Price" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_province">Province</label>
-                            <select class="custom-select d-block w-100 form-control" name="bid_province" id="bid_province" required>
+                                </div>
+                            </div>
+                            <div class="modal-column">
+                                <div class="form-group">
+                                    <label for="bid_price">Price</label>
+                                    <input type="number" name="bid_price" class="form-control" placeholder="Bid Price" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_province">Province</label>
+                                    <select class="custom-select d-block w-100 form-control" name="bid_province" id="bid_province" required>
                <option value="" selected disabled>Choose a Province</option>
                <option>Western Cape</option>
                <option>Eastern Cape</option>
@@ -237,13 +241,21 @@
                <option>Mpumalanga</option>
                <option>Limpopo</option>
              </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="bid_description">Description *[Optional]</label>
-                            <br>
-                            <textarea id="bid_description" class="descriptionTextAreaInput" name="bid_description" rows="4">
+                        <!-- End Modal Column  -->
+                        <!-- End Modal Row -->
+                        <div class="modal-row">
+                            <div class="modal-column full-width">
+                                <div class="form-group">
+                                    <label for="bid_description">Description *[Optional]</label>
+                                    <br>
+                                    <textarea id="bid_description" class="descriptionTextAreaInput" name="bid_description" rows="4">
               </textarea>
-                            <br>
+                                    <br>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

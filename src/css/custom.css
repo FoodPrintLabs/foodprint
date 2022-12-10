@@ -611,6 +611,105 @@ body {
     outline: none;
 }
 
+#buyerOfferModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#buyerOfferModalForm .modal-content {
+    width: 75%;
+}
+
+#buyerOfferModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#buyerOfferModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#buyerOfferModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#buyerOfferModalForm .modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#buyerOfferModalForm .modal-content .modal-body .modal-row {
+    display: flex;
+}
+
+#buyerOfferModalForm .modal-content .modal-body .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+#buyerOfferModalForm .modal-content .modal-body .modal-column.full-width {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #buyerOfferModalForm .modal-content {
+        width: 85%;
+    }
+    #buyerOfferModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #buyerOfferModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #buyerOfferModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #buyerOfferModalForm .modal-content .modal-body {
+        display: flex;
+    }
+    #buyerOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #buyerOfferModalForm .modal-content .modal-body {
+        display: flex;
+        flex-direction: column;
+    }
+    #buyerOfferModalForm .modal-content .modal-body .modal-row {
+        flex-direction: column;
+    }
+    #buyerOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 100%;
+        padding: 0rem 0.5rem;
+    }
+    #buyerOfferModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
+}
+
 
 /* Buyer Logbook View Changes End */
 
