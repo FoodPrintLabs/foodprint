@@ -975,6 +975,55 @@ body {
     outline: none;
 }
 
+#addProduceModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#addProduceModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#addProduceModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #addProduceModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #addProduceModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #addProduceModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #addProduceModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
+}
+
 
 /* Produce price page end */
 
