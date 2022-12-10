@@ -270,7 +270,7 @@
     <!-- End Modal Add Offer-->
 
     <!-- Modal View Offer-->
-    <form action="app/seller" method="POST">
+    <form id="viewOfferModalForm" action="app/seller" method="POST">
         <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -281,59 +281,70 @@
               </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="offer_logid">Offer ID</label>
-                            <input type="text" name="offer_logid" class="form-control offer_logid" placeholder="Offer ID" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="offer_produceName">Produce Name</label>
-                            <input type="text" name="offer_produceName" class="form-control offer_produceName" placeholder="Produce Name" disabled>
-                        </div>
+                        <div class="modal-row">
+                            <div class="modal-column">
+                                <div class="form-group">
+                                    <label for="offer_logid">Offer ID</label>
+                                    <input type="text" name="offer_logid" class="form-control offer_logid" placeholder="Offer ID" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_produceName">Produce Name</label>
+                                    <input type="text" name="offer_produceName" class="form-control offer_produceName" placeholder="Produce Name" disabled>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="offer_quantity">Produce quantity</label>
-                            <input type="number" name="offer_quantity" class="form-control offer_quantity" placeholder="Quantity" disabled>
-                        </div>
+                                <div class="form-group">
+                                    <label for="offer_quantity">Produce quantity</label>
+                                    <input type="number" name="offer_quantity" class="form-control offer_quantity" placeholder="Quantity" disabled>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="offer_unitOfMeasure">Unit of Measure</label>
-                            <input type="text" name="offer_unitOfMeasure" class="form-control offer_unitOfMeasure" placeholder="Unit of Measure" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="offer_price">Price</label>
-                            <input type="text" name="offer_price" class="form-control offer_price" placeholder="Offer Price" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="offer_province">Province</label>
-                            <input type="text" name="offer_province" class="form-control offer_province" placeholder="Offer province" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="offer_user">Placed by</label>
-                            <input type="text" name="offer_user" class="form-control offer_user" placeholder="Offer user" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="offer_timeStamp">Timestamp</label>
-                            <input type="text" name="offer_timeStamp" class="form-control offer_timeStamp" placeholder="Offer Timestamp" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="offer_status">Status</label>
-                            <input type="text" name="offer_status" class="form-control offer_status" placeholder="Offer Status" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="offer_saleTime">Sale Time</label>
-                            <input type="text" name="offer_saleTime" class="form-control offer_saleTime" placeholder="Not yet acquired by buyer" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="offer_saleUserName">Sale User Name</label>
-                            <input type="text" name="offer_saleUserName" class="form-control offer_saleUserName" placeholder="Not yet acquired by buyer" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="offer_description">Description </label>
-                            <br>
-                            <textarea id="offer_description" class="descriptionTextAreaInput" name="offer_description2" rows="4" disabled>
+                                <div class="form-group">
+                                    <label for="offer_unitOfMeasure">Unit of Measure</label>
+                                    <input type="text" name="offer_unitOfMeasure" class="form-control offer_unitOfMeasure" placeholder="Unit of Measure" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_price">Price</label>
+                                    <input type="text" name="offer_price" class="form-control offer_price" placeholder="Offer Price" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_province">Province</label>
+                                    <input type="text" name="offer_province" class="form-control offer_province" placeholder="Offer province" disabled>
+                                </div>
+                            </div>
+                            <!-- end column -->
+                            <div class="modal-column">
+
+                                <div class="form-group">
+                                    <label for="offer_user">Placed by</label>
+                                    <input type="text" name="offer_user" class="form-control offer_user" placeholder="Offer user" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_timeStamp">Timestamp</label>
+                                    <input type="text" name="offer_timeStamp" class="form-control offer_timeStamp" placeholder="Offer Timestamp" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_status">Status</label>
+                                    <input type="text" name="offer_status" class="form-control offer_status" placeholder="Offer Status" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_saleTime">Sale Time</label>
+                                    <input type="text" name="offer_saleTime" class="form-control offer_saleTime" placeholder="Not yet acquired by buyer" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_saleUserName">Sale User Name</label>
+                                    <input type="text" name="offer_saleUserName" class="form-control offer_saleUserName" placeholder="Not yet acquired by buyer" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_description">Description </label>
+                                    <br>
+                                    <textarea id="offer_description" class="descriptionTextAreaInput" name="offer_description2" rows="4" disabled>
                 </textarea>
-                            <br>
+                                    <br>
+                                </div>
+                            </div>
+                            <!-- end column -->
                         </div>
+                        <!-- end row -->
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

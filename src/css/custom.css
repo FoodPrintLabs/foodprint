@@ -611,6 +611,9 @@ body {
     outline: none;
 }
 
+
+/* Add New Bid Modal */
+
 #buyerOfferModalForm .modal-dialog {
     width: 100vw !important;
     display: grid;
@@ -706,6 +709,108 @@ body {
         padding: 0rem 0.5rem;
     }
     #buyerOfferModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
+}
+
+
+/* --- View Bid Modal --- */
+
+#viewBidModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#viewBidModalForm .modal-content {
+    width: 75%;
+}
+
+#viewBidModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#viewBidModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#viewBidModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#viewBidModalForm .modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#viewBidModalForm .modal-content .modal-body .modal-row {
+    display: flex;
+}
+
+#viewBidModalForm .modal-content .modal-body .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+#viewBidModalForm .modal-content .modal-body .modal-column.full-width {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #viewBidModalForm .modal-content {
+        width: 85%;
+    }
+    #viewBidModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #viewBidModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #viewBidModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #viewBidModalForm .modal-content .modal-body {
+        display: flex;
+    }
+    #viewBidModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #viewBidModalForm .modal-content .modal-body {
+        display: flex;
+        flex-direction: column;
+    }
+    #viewBidModalForm .modal-content .modal-body .modal-row {
+        flex-direction: column;
+    }
+    #viewBidModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 100%;
+        padding: 0rem 0.5rem;
+    }
+    #viewBidModalForm .modal-content .modal-header .modal-title {
         font-size: 1rem;
     }
 }
@@ -813,21 +918,103 @@ body {
 }
 
 
+/* --- View Offer Modal --- */
+
+#viewOfferModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#viewOfferModalForm .modal-content {
+    width: 75%;
+}
+
+#viewOfferModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#viewOfferModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#viewOfferModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#viewOfferModalForm .modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#viewOfferModalForm .modal-content .modal-body .modal-row {
+    display: flex;
+}
+
+#viewOfferModalForm .modal-content .modal-body .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+#viewOfferModalForm .modal-content .modal-body .modal-column.full-width {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #viewOfferModalForm .modal-content {
+        width: 85%;
+    }
+    #viewOfferModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #viewOfferModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #viewOfferModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #viewOfferModalForm .modal-content .modal-body {
+        display: flex;
+    }
+    #viewOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
 /* Smaller size screen */
 
 @media only screen and (max-width: 650px) {
-    #sellerOfferModalForm .modal-content .modal-body {
+    #viewOfferModalForm .modal-content .modal-body {
         display: flex;
         flex-direction: column;
     }
-    #sellerOfferModalForm .modal-content .modal-body .modal-row {
+    #viewOfferModalForm .modal-content .modal-body .modal-row {
         flex-direction: column;
     }
-    #sellerOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+    #viewOfferModalForm .modal-content .modal-body .modal-row .modal-column {
         width: 100%;
         padding: 0rem 0.5rem;
     }
-    #sellerOfferModalForm .modal-content .modal-header .modal-title {
+    #viewOfferModalForm .modal-content .modal-header .modal-title {
         font-size: 1rem;
     }
 }

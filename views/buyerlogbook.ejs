@@ -269,7 +269,7 @@
     <!-- End Modal Add Bid-->
 
     <!-- Modal View Bid-->
-    <form action="app/buyer" method="POST">
+    <form id="viewBidModalForm" action="app/buyer" method="POST">
         <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -280,59 +280,68 @@
               </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="bid_logid">Bid ID</label>
-                            <input type="text" name="bid_logid" class="form-control bid_logid" placeholder="Bid ID" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_produceName">Produce Name</label>
-                            <input type="text" name="bid_produceName" class="form-control bid_produceName" placeholder="Produce Name" disabled>
-                        </div>
+                        <div class="modal-row">
+                            <div class="modal-column">
+                                <div class="form-group">
+                                    <label for="bid_logid">Bid ID</label>
+                                    <input type="text" name="bid_logid" class="form-control bid_logid" placeholder="Bid ID" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_produceName">Produce Name</label>
+                                    <input type="text" name="bid_produceName" class="form-control bid_produceName" placeholder="Produce Name" disabled>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="bid_quantity">Produce quantity</label>
-                            <input type="number" name="bid_quantity" class="form-control bid_quantity" placeholder="Quantity" disabled>
-                        </div>
+                                <div class="form-group">
+                                    <label for="bid_quantity">Produce quantity</label>
+                                    <input type="number" name="bid_quantity" class="form-control bid_quantity" placeholder="Quantity" disabled>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="bid_unitOfMeasure">Unit of Measure</label>
-                            <input type="text" name="bid_unitOfMeasure" class="form-control bid_unitOfMeasure" placeholder="Unit of Measure" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_price">Price</label>
-                            <input type="text" name="bid_price" class="form-control bid_price" placeholder="Bid Price" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_province">Province</label>
-                            <input type="text" name="bid_province" class="form-control bid_province" placeholder="Bid Province" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_user">Placed by</label>
-                            <input type="text" name="bid_user" class="form-control bid_user" placeholder="Bid user" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_timeStamp">Timestamp</label>
-                            <input type="text" name="bid_timeStamp" class="form-control bid_timeStamp" placeholder="Bid Timestamp" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_status">Status</label>
-                            <input type="text" name="bid_status" class="form-control bid_status" placeholder="Bid Status" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_saleTime">Sale Time</label>
-                            <input type="text" name="bid_saleTime" class="form-control bid_saleTime" placeholder="Not yet acquired by seller" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_saleUserName">Sale User Name</label>
-                            <input type="text" name="bid_saleUserName" class="form-control bid_saleUserName" placeholder="Not yet acquired by seller" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="bid_description">Description</label>
-                            <br>
-                            <textarea id="bid_description" class="descriptionTextAreaInput" name="bid_description2" rows="4" disabled>
+                                <div class="form-group">
+                                    <label for="bid_unitOfMeasure">Unit of Measure</label>
+                                    <input type="text" name="bid_unitOfMeasure" class="form-control bid_unitOfMeasure" placeholder="Unit of Measure" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_price">Price</label>
+                                    <input type="text" name="bid_price" class="form-control bid_price" placeholder="Bid Price" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_province">Province</label>
+                                    <input type="text" name="bid_province" class="form-control bid_province" placeholder="Bid Province" disabled>
+                                </div>
+                            </div>
+                            <!-- end of column -->
+                            <div class="modal-column">
+                                <div class="form-group">
+                                    <label for="bid_user">Placed by</label>
+                                    <input type="text" name="bid_user" class="form-control bid_user" placeholder="Bid user" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_timeStamp">Timestamp</label>
+                                    <input type="text" name="bid_timeStamp" class="form-control bid_timeStamp" placeholder="Bid Timestamp" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_status">Status</label>
+                                    <input type="text" name="bid_status" class="form-control bid_status" placeholder="Bid Status" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_saleTime">Sale Time</label>
+                                    <input type="text" name="bid_saleTime" class="form-control bid_saleTime" placeholder="Not yet acquired by seller" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_saleUserName">Sale User Name</label>
+                                    <input type="text" name="bid_saleUserName" class="form-control bid_saleUserName" placeholder="Not yet acquired by seller" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_description">Description</label>
+                                    <br>
+                                    <textarea id="bid_description" class="descriptionTextAreaInput" name="bid_description2" rows="4" disabled>
                 </textarea>
-                            <br>
+                                    <br>
+                                </div>
+                            </div>
+                            <!-- end of column -->
                         </div>
+                        <!-- end of row -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -349,7 +358,7 @@
     <% include ./partials/footer %>
         <!-- end footer -->
 
-        <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+        <script type="text/javascript" src="/js/bundle.js"></script>
         <script src="/js/scripts.min.js"></script>
         <script src="/js/main.min.js"></script>
         <script src="/js/custom.js"></script>
