@@ -1189,6 +1189,105 @@ body {
     padding: 1.2rem 2rem;
 }
 
+#qrCodeOfferModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#qrCodeOfferModalForm .modal-content {
+    width: 75%;
+}
+
+#qrCodeOfferModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#qrCodeOfferModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#qrCodeOfferModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#qrCodeOfferModalForm .modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#qrCodeOfferModalForm .modal-content .modal-body .modal-row {
+    display: flex;
+}
+
+#qrCodeOfferModalForm .modal-content .modal-body .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+#qrCodeOfferModalForm .modal-content .modal-body .modal-column.full-width {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #qrCodeOfferModalForm .modal-content {
+        width: 85%;
+    }
+    #qrCodeOfferModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #qrCodeOfferModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #qrCodeOfferModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #qrCodeOfferModalForm .modal-content .modal-body {
+        display: flex;
+    }
+    #qrCodeOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #qrCodeOfferModalForm .modal-content .modal-body {
+        display: flex;
+        flex-direction: column;
+    }
+    #qrCodeOfferModalForm .modal-content .modal-body .modal-row {
+        flex-direction: column;
+    }
+    #qrCodeOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 100%;
+        padding: 0rem 0.5rem;
+    }
+    #qrCodeOfferModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
+}
+
 
 /* QR CODE CONFIGURATION - STATIC End */
 
