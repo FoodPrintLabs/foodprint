@@ -1217,11 +1217,13 @@ body {
 
 /* Produce List page Start */
 
+#updateProduceModal .modal-content .modal-header .close,
 #addNewProduceModal .modal-content .modal-header .close {
     margin-left: auto !important;
     margin-right: 1rem;
 }
 
+#updateProduceModal .modal-content .modal-header .modal-title,
 #addNewProduceModal .modal-content .modal-header .modal-title {
     margin-left: auto !important;
     font-size: 1.3rem;
@@ -1230,6 +1232,7 @@ body {
     text-transform: uppercase;
 }
 
+#updateProduceModal .modal-content .modal-header,
 #addNewProduceModal .modal-content .modal-header {
     display: flex;
     justify-content: center;
@@ -1238,10 +1241,12 @@ body {
 }
 
 @media only screen and (max-width: 850px) and (min-width: 550px) {
+    #updateProduceModal .modal-content .modal-header .close,
     #addNewProduceModal .modal-content .modal-header .close {
         margin-left: auto !important;
         margin-right: 1rem;
     }
+    #updateProduceModal .modal-content .modal-header .modal-title,
     #addNewProduceModal .modal-content .modal-header .modal-title {
         margin-left: auto !important;
         font-size: 1.3rem;
@@ -1249,6 +1254,7 @@ body {
         color: #1c1c1c;
         text-transform: uppercase;
     }
+    #updateProduceModal .modal-content .modal-header,
     #addNewProduceModal .modal-content .modal-header {
         display: flex;
         justify-content: center;
