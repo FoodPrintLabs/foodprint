@@ -164,7 +164,7 @@
     <!-- End Modal Add QR CODE Configuration-->
 
     <!-- Modal Update QR CODE Configuration-->
-    <form action="/app/qrcode/update" method="post">
+    <form id="updateQrCodeOfferModalForm" action="/app/qrcode/update" method="post">
         <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -175,52 +175,61 @@
               </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="qrcode_logid">QRCODE ID</label>
-                            <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QR CODE ID" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_company_name">Company Name</label>
-                            <input type="text" name="qrcode_company_name" class="form-control qrcode_company_name" placeholder="Company Name" required>
-                        </div>
+                        <div class="modal-row">
+                            <div class="modal-column">
+                                <div class="form-group">
+                                    <label for="qrcode_logid">QRCODE ID</label>
+                                    <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QR CODE ID" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qrcode_company_name">Company Name</label>
+                                    <input type="text" name="qrcode_company_name" class="form-control qrcode_company_name" placeholder="Company Name" required>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="qrcode_company_founded">Year founded</label>
-                            <input type="text" name="qrcode_company_founded" class="form-control qrcode_company_founded" placeholder="Year founded" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_contact_email">Email Address</label>
-                            <input type="text" name="qrcode_contact_email" class="form-control qrcode_contact_email" placeholder="Email Address" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_website">Company website</label>
-                            <input type="text" name="qrcode_website" class="form-control qrcode_website" placeholder="Company website" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_facebook">Facebook</label>
-                            <input type="text" name="qrcode_facebook" class="form-control qrcode_facebook" placeholder="Facebook">
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_twitter">Twitter</label>
-                            <input type="text" name="qrcode_twitter" class="form-control qrcode_twitter" placeholder="Twitter">
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_instagram">Instagram</label>
-                            <input type="text" name="qrcode_instagram" class="form-control qrcode_instagram" placeholder="Instagram">
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_description">QR Code description</label>
-                            <input type="text" name="qrcode_description" class="form-control qrcode_description" placeholder="QR Code description" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_product_name">Product Name</label>
-                            <input type="text" name="qrcode_product_name" class="form-control qrcode_product_name" placeholder="Product Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_product_description">Product Description</label>
-                            <textarea type="text" name="qrcode_product_description" class="form-control qrcode_product_description" placeholder="Product Description" rows="3" required>
+                                <div class="form-group">
+                                    <label for="qrcode_company_founded">Year founded</label>
+                                    <input type="text" name="qrcode_company_founded" class="form-control qrcode_company_founded" placeholder="Year founded" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qrcode_contact_email">Email Address</label>
+                                    <input type="text" name="qrcode_contact_email" class="form-control qrcode_contact_email" placeholder="Email Address" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qrcode_website">Company website</label>
+                                    <input type="text" name="qrcode_website" class="form-control qrcode_website" placeholder="Company website" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qrcode_facebook">Facebook</label>
+                                    <input type="text" name="qrcode_facebook" class="form-control qrcode_facebook" placeholder="Facebook">
+                                </div>
+                            </div>
+                            <!-- end of column -->
+                            <div class="modal-column">
+                                <div class="form-group">
+                                    <label for="qrcode_twitter">Twitter</label>
+                                    <input type="text" name="qrcode_twitter" class="form-control qrcode_twitter" placeholder="Twitter">
+                                </div>
+                                <div class="form-group">
+                                    <label for="qrcode_instagram">Instagram</label>
+                                    <input type="text" name="qrcode_instagram" class="form-control qrcode_instagram" placeholder="Instagram">
+                                </div>
+                                <div class="form-group">
+                                    <label for="qrcode_description">QR Code description</label>
+                                    <input type="text" name="qrcode_description" class="form-control qrcode_description" placeholder="QR Code description" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qrcode_product_name">Product Name</label>
+                                    <input type="text" name="qrcode_product_name" class="form-control qrcode_product_name" placeholder="Product Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qrcode_product_description">Product Description</label>
+                                    <textarea type="text" name="qrcode_product_description" class="form-control qrcode_product_description" placeholder="Product Description" rows="3" required>
                  </textarea>
+                                </div>
+                            </div>
+                            <!-- end of column -->
                         </div>
+                        <!-- end of row -->
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="config_id" class="config_id">
