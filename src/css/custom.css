@@ -86,7 +86,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: #fff;
+    background-color: rgb(246, 246, 246);
     color: #333;
     height: 50px;
     /* same height as the margin to the bottom of the body */
@@ -99,6 +99,7 @@ html {
 
 body {
     margin-bottom: 50px;
+    background-color: #fff !important;
 }
 
 
@@ -429,7 +430,7 @@ body {
 /* Home Dashboard View Changes Start */
 
 .home-dashboard {
-    padding: 0.5rem 5rem;
+    padding: 0.5rem 8rem;
 }
 
 .home-dashboard .title {
@@ -438,13 +439,18 @@ body {
     place-items: center;
 }
 
-.home-dashboard .title h3 {
-    font-weight: 900;
+.home-dashboard .row h4 {
+    font-weight: 400;
+    text-transform: uppercase;
 }
 
 .home-dashboard .row .card .card-header .card-title a {
-    color: #819824;
+    color: #454545;
     margin-left: 5px;
+}
+
+.home-dashboard .row .card .card-header .card-title i {
+    color: #b2d430;
 }
 
 @media only screen and (max-width: 800px) and (min-width: 550px) {
@@ -606,6 +612,210 @@ body {
 }
 
 
+/* Add New Bid Modal */
+
+#buyerOfferModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#buyerOfferModalForm .modal-content {
+    width: 75%;
+}
+
+#buyerOfferModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#buyerOfferModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#buyerOfferModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#buyerOfferModalForm .modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#buyerOfferModalForm .modal-content .modal-body .modal-row {
+    display: flex;
+}
+
+#buyerOfferModalForm .modal-content .modal-body .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+#buyerOfferModalForm .modal-content .modal-body .modal-column.full-width {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #buyerOfferModalForm .modal-content {
+        width: 85%;
+    }
+    #buyerOfferModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #buyerOfferModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #buyerOfferModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #buyerOfferModalForm .modal-content .modal-body {
+        display: flex;
+    }
+    #buyerOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #buyerOfferModalForm .modal-content .modal-body {
+        display: flex;
+        flex-direction: column;
+    }
+    #buyerOfferModalForm .modal-content .modal-body .modal-row {
+        flex-direction: column;
+    }
+    #buyerOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 100%;
+        padding: 0rem 0.5rem;
+    }
+    #buyerOfferModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
+}
+
+
+/* --- View Bid Modal --- */
+
+#viewBidModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#viewBidModalForm .modal-content {
+    width: 75%;
+}
+
+#viewBidModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#viewBidModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#viewBidModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#viewBidModalForm .modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#viewBidModalForm .modal-content .modal-body .modal-row {
+    display: flex;
+}
+
+#viewBidModalForm .modal-content .modal-body .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+#viewBidModalForm .modal-content .modal-body .modal-column.full-width {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #viewBidModalForm .modal-content {
+        width: 85%;
+    }
+    #viewBidModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #viewBidModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #viewBidModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #viewBidModalForm .modal-content .modal-body {
+        display: flex;
+    }
+    #viewBidModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #viewBidModalForm .modal-content .modal-body {
+        display: flex;
+        flex-direction: column;
+    }
+    #viewBidModalForm .modal-content .modal-body .modal-row {
+        flex-direction: column;
+    }
+    #viewBidModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 100%;
+        padding: 0rem 0.5rem;
+    }
+    #viewBidModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
+}
+
+
 /* Buyer Logbook View Changes End */
 
 
@@ -626,6 +836,187 @@ body {
 
 .container.sellerlogbook .buttons-top .filter select:focus {
     outline: none;
+}
+
+#sellerOfferModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#sellerOfferModalForm .modal-content {
+    width: 75%;
+}
+
+#sellerOfferModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#sellerOfferModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#sellerOfferModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#sellerOfferModalForm .modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#sellerOfferModalForm .modal-content .modal-body .modal-row {
+    display: flex;
+}
+
+#sellerOfferModalForm .modal-content .modal-body .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+#sellerOfferModalForm .modal-content .modal-body .modal-column.full-width {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #sellerOfferModalForm .modal-content {
+        width: 85%;
+    }
+    #sellerOfferModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #sellerOfferModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #sellerOfferModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #sellerOfferModalForm .modal-content .modal-body {
+        display: flex;
+    }
+    #sellerOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
+/* --- View Offer Modal --- */
+
+#viewOfferModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#viewOfferModalForm .modal-content {
+    width: 75%;
+}
+
+#viewOfferModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#viewOfferModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#viewOfferModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#viewOfferModalForm .modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#viewOfferModalForm .modal-content .modal-body .modal-row {
+    display: flex;
+}
+
+#viewOfferModalForm .modal-content .modal-body .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+#viewOfferModalForm .modal-content .modal-body .modal-column.full-width {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #viewOfferModalForm .modal-content {
+        width: 85%;
+    }
+    #viewOfferModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #viewOfferModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #viewOfferModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #viewOfferModalForm .modal-content .modal-body {
+        display: flex;
+    }
+    #viewOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #viewOfferModalForm .modal-content .modal-body {
+        display: flex;
+        flex-direction: column;
+    }
+    #viewOfferModalForm .modal-content .modal-body .modal-row {
+        flex-direction: column;
+    }
+    #viewOfferModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 100%;
+        padding: 0rem 0.5rem;
+    }
+    #viewOfferModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
 }
 
 
@@ -771,8 +1162,116 @@ body {
     outline: none;
 }
 
+#updateProducePriceModal .modal-content .modal-header .close,
+#addProduceModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#updateProducePriceModal .modal-content .modal-header .modal-title,
+#addProduceModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#updateProducePriceModal .modal-content .modal-header,
+#addProduceModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #updateProducePriceModal .modal-content .modal-header .close,
+    #addProduceModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #updateProducePriceModal .modal-content .modal-header .modal-title,
+    #addProduceModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #updateProducePriceModal .modal-content .modal-header,
+    #addProduceModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #updateProducePriceModal .modal-content .modal-header .modal-title,
+    #addProduceModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
+}
+
 
 /* Produce price page end */
+
+
+/* Produce List page Start */
+
+#updateProduceModal .modal-content .modal-header .close,
+#addNewProduceModal .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#updateProduceModal .modal-content .modal-header .modal-title,
+#addNewProduceModal .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#updateProduceModal .modal-content .modal-header,
+#addNewProduceModal .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #updateProduceModal .modal-content .modal-header .close,
+    #addNewProduceModal .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #updateProduceModal .modal-content .modal-header .modal-title,
+    #addNewProduceModal .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #updateProduceModal .modal-content .modal-header,
+    #addNewProduceModal .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+}
+
+
+/* Produce List page End */
 
 
 /* Harvest Entry Modal Style Start */
@@ -957,6 +1456,209 @@ body {
 
 
 /* Storage Entry Modal Style End */
+
+
+/* QR CODE CONFIGURATION - STATIC start */
+
+.container.qrcode-static .card .card-body .qrcode-card-title {
+    font-size: 0.8rem !important;
+    color: #4e5d14;
+}
+
+.container.qrcode-static .card .card-body .content {
+    font-size: 14px;
+}
+
+.container.qrcode-static .card .card-title {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.container.qrcode-static .card {
+    width: fit-content;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px 5px #ccc;
+    margin: 10px;
+    padding: 1.2rem 2rem;
+}
+
+#viewQrCodeModalForm .modal-dialog,
+#updateQrCodeModalForm .modal-dialog,
+#qrCodeModalForm .modal-dialog {
+    width: 100vw !important;
+    display: grid;
+    place-items: center;
+}
+
+#viewQrCodeModalForm .modal-content,
+#updateQrCodeModalForm .modal-content,
+#qrCodeModalForm .modal-content {
+    width: 75%;
+}
+
+#addNewCodeAttribute .modal-content .modal-header .close,
+#viewQrCodeModalForm .modal-content .modal-header .close,
+#updateQrCodeModalForm .modal-content .modal-header .close,
+#qrCodeModalForm .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#addNewCodeAttribute .modal-content .modal-header .modal-title,
+#viewQrCodeModalForm .modal-content .modal-header .modal-title,
+#updateQrCodeModalForm .modal-content .modal-header .modal-title,
+#qrCodeModalForm .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#addNewCodeAttribute .modal-content .modal-header,
+#viewQrCodeModalForm .modal-content .modal-header,
+#updateQrCodeModalForm .modal-content .modal-header,
+#qrCodeModalForm .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+#viewQrCodeModalForm .modal-content .modal-body,
+#updateQrCodeModalForm .modal-content .modal-body,
+#qrCodeModalForm .modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#viewQrCodeModalForm .modal-content .modal-body .modal-row,
+#updateQrCodeModalForm .modal-content .modal-body .modal-row,
+#qrCodeModalForm .modal-content .modal-body .modal-row {
+    display: flex;
+}
+
+#viewQrCodeModalForm .modal-content .modal-body .modal-column,
+#updateQrCodeModalForm .modal-content .modal-body .modal-column,
+#qrCodeModalForm .modal-content .modal-body .modal-column {
+    width: 50%;
+    padding: 1rem 2rem;
+}
+
+#viewQrCodeModalForm .modal-content .modal-body .modal-column.full-width,
+#updateQrCodeModalForm .modal-content .modal-body .modal-column.full-width,
+#qrCodeModalForm .modal-content .modal-body .modal-column.full-width {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #viewQrCodeModalForm .modal-content,
+    #updateQrCodeModalForm .modal-content,
+    #qrCodeModalForm .modal-content {
+        width: 85%;
+    }
+    #addNewCodeAttribute .modal-content .modal-header .close,
+    #viewQrCodeModalForm .modal-content .modal-header .close,
+    #updateQrCodeModalForm .modal-content .modal-header .close,
+    #qrCodeModalForm .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #addNewCodeAttribute .modal-content .modal-header .modal-title,
+    #viewQrCodeModalForm .modal-content .modal-header .modal-title,
+    #updateQrCodeModalForm .modal-content .modal-header .modal-title,
+    #qrCodeModalForm .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #addNewCodeAttribute .modal-content .modal-header,
+    #viewQrCodeModalForm .modal-content .modal-header,
+    #updateQrCodeModalForm .modal-content .modal-header,
+    #qrCodeModalForm .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+    #viewQrCodeModalForm .modal-content .modal-body,
+    #updateQrCodeModalForm .modal-content .modal-body,
+    #qrCodeModalForm .modal-content .modal-body {
+        display: flex;
+    }
+    #viewQrCodeModalForm .modal-content .modal-body .modal-row .modal-column,
+    #updateQrCodeModalForm .modal-content .modal-body .modal-row .modal-column,
+    #qrCodeModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 50%;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
+/* Smaller size screen */
+
+@media only screen and (max-width: 650px) {
+    #viewQrCodeModalForm .modal-content .modal-body,
+    #updateQrCodeModalForm .modal-content .modal-body,
+    #qrCodeModalForm .modal-content .modal-body {
+        display: flex;
+        flex-direction: column;
+    }
+    #viewQrCodeModalForm .modal-content .modal-body .modal-row,
+    #updateQrCodeModalForm .modal-content .modal-body .modal-row,
+    #qrCodeModalForm .modal-content .modal-body .modal-row {
+        flex-direction: column;
+    }
+    #viewQrCodeModalForm .modal-content .modal-body .modal-row .modal-column,
+    #updateQrCodeModalForm .modal-content .modal-body .modal-row .modal-column,
+    #qrCodeModalForm .modal-content .modal-body .modal-row .modal-column {
+        width: 100%;
+        padding: 0rem 0.5rem;
+    }
+    #viewQrCodeModalForm .modal-content .modal-header .modal-title,
+    #updateQrCodeModalForm .modal-content .modal-header .modal-title,
+    #qrCodeModalForm .modal-content .modal-header .modal-title {
+        font-size: 1rem;
+    }
+}
+
+
+/* QR CODE CONFIGURATION - STATIC End */
+
+
+/* QR CODE CONFIGURATION - Suppier start */
+
+.container.qrcode-supplier .card .card-body .qrcode-card-title {
+    font-size: 0.8rem !important;
+    color: #4e5d14;
+}
+
+.container.qrcode-supplier .card .card-body .content {
+    font-size: 14px;
+}
+
+.container.qrcode-supplier .card .card-title {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.container.qrcode-supplier .card {
+    width: fit-content;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px 5px #ccc;
+    margin: 10px;
+    padding: 1.2rem 2rem;
+}
+
+
+/* QR CODE CONFIGURATION - Suppier End */
 
 
 /* ---------------- Global Style ------------ */
