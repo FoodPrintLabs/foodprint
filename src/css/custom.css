@@ -1425,6 +1425,7 @@ body {
     padding: 1.2rem 2rem;
 }
 
+#viewQrCodeModalForm .modal-dialog,
 #updateQrCodeModalForm .modal-dialog,
 #qrCodeModalForm .modal-dialog {
     width: 100vw !important;
@@ -1432,17 +1433,20 @@ body {
     place-items: center;
 }
 
+#viewQrCodeModalForm .modal-content,
 #updateQrCodeModalForm .modal-content,
 #qrCodeModalForm .modal-content {
     width: 75%;
 }
 
+#viewQrCodeModalForm .modal-content .modal-header .close,
 #updateQrCodeModalForm .modal-content .modal-header .close,
 #qrCodeModalForm .modal-content .modal-header .close {
     margin-left: auto !important;
     margin-right: 1rem;
 }
 
+#viewQrCodeModalForm .modal-content .modal-header .modal-title,
 #updateQrCodeModalForm .modal-content .modal-header .modal-title,
 #qrCodeModalForm .modal-content .modal-header .modal-title {
     margin-left: auto !important;
@@ -1452,6 +1456,7 @@ body {
     text-transform: uppercase;
 }
 
+#viewQrCodeModalForm .modal-content .modal-header,
 #updateQrCodeModalForm .modal-content .modal-header,
 #qrCodeModalForm .modal-content .modal-header {
     display: flex;
@@ -1460,23 +1465,27 @@ body {
     padding: 1.5rem 0.8rem;
 }
 
+#viewQrCodeModalForm .modal-content .modal-body,
 #updateQrCodeModalForm .modal-content .modal-body,
 #qrCodeModalForm .modal-content .modal-body {
     display: flex;
     flex-direction: column;
 }
 
+#viewQrCodeModalForm .modal-content .modal-body .modal-row,
 #updateQrCodeModalForm .modal-content .modal-body .modal-row,
 #qrCodeModalForm .modal-content .modal-body .modal-row {
     display: flex;
 }
 
+#viewQrCodeModalForm .modal-content .modal-body .modal-column,
 #updateQrCodeModalForm .modal-content .modal-body .modal-column,
 #qrCodeModalForm .modal-content .modal-body .modal-column {
     width: 50%;
     padding: 1rem 2rem;
 }
 
+#viewQrCodeModalForm .modal-content .modal-body .modal-column.full-width,
 #updateQrCodeModalForm .modal-content .modal-body .modal-column.full-width,
 #qrCodeModalForm .modal-content .modal-body .modal-column.full-width {
     width: 100%;
@@ -1484,15 +1493,18 @@ body {
 }
 
 @media only screen and (max-width: 850px) and (min-width: 550px) {
+    #viewQrCodeModalForm .modal-content,
     #updateQrCodeModalForm .modal-content,
     #qrCodeModalForm .modal-content {
         width: 85%;
     }
+    #viewQrCodeModalForm .modal-content .modal-header .close,
     #updateQrCodeModalForm .modal-content .modal-header .close,
     #qrCodeModalForm .modal-content .modal-header .close {
         margin-left: auto !important;
         margin-right: 1rem;
     }
+    #viewQrCodeModalForm .modal-content .modal-header .modal-title,
     #updateQrCodeModalForm .modal-content .modal-header .modal-title,
     #qrCodeModalForm .modal-content .modal-header .modal-title {
         margin-left: auto !important;
@@ -1501,6 +1513,7 @@ body {
         color: #1c1c1c;
         text-transform: uppercase;
     }
+    #viewQrCodeModalForm .modal-content .modal-header,
     #updateQrCodeModalForm .modal-content .modal-header,
     #qrCodeModalForm .modal-content .modal-header {
         display: flex;
@@ -1508,10 +1521,12 @@ body {
         align-items: center;
         padding: 1.5rem 0.8rem;
     }
+    #viewQrCodeModalForm .modal-content .modal-body,
     #updateQrCodeModalForm .modal-content .modal-body,
     #qrCodeModalForm .modal-content .modal-body {
         display: flex;
     }
+    #viewQrCodeModalForm .modal-content .modal-body .modal-row .modal-column,
     #updateQrCodeModalForm .modal-content .modal-body .modal-row .modal-column,
     #qrCodeModalForm .modal-content .modal-body .modal-row .modal-column {
         width: 50%;
@@ -1523,20 +1538,24 @@ body {
 /* Smaller size screen */
 
 @media only screen and (max-width: 650px) {
+    #viewQrCodeModalForm .modal-content .modal-body,
     #updateQrCodeModalForm .modal-content .modal-body,
     #qrCodeModalForm .modal-content .modal-body {
         display: flex;
         flex-direction: column;
     }
+    #viewQrCodeModalForm .modal-content .modal-body .modal-row,
     #updateQrCodeModalForm .modal-content .modal-body .modal-row,
     #qrCodeModalForm .modal-content .modal-body .modal-row {
         flex-direction: column;
     }
+    #viewQrCodeModalForm .modal-content .modal-body .modal-row .modal-column,
     #updateQrCodeModalForm .modal-content .modal-body .modal-row .modal-column,
     #qrCodeModalForm .modal-content .modal-body .modal-row .modal-column {
         width: 100%;
         padding: 0rem 0.5rem;
     }
+    #viewQrCodeModalForm .modal-content .modal-header .modal-title,
     #updateQrCodeModalForm .modal-content .modal-header .modal-title,
     #qrCodeModalForm .modal-content .modal-header .modal-title {
         font-size: 1rem;
