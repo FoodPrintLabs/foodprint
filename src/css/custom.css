@@ -1215,6 +1215,52 @@ body {
 /* Produce price page end */
 
 
+/* Produce List page Start */
+
+#addNewProduceModal .modal-content .modal-header .close {
+    margin-left: auto !important;
+    margin-right: 1rem;
+}
+
+#addNewProduceModal .modal-content .modal-header .modal-title {
+    margin-left: auto !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1c1c1c;
+    text-transform: uppercase;
+}
+
+#addNewProduceModal .modal-content .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0.8rem;
+}
+
+@media only screen and (max-width: 850px) and (min-width: 550px) {
+    #addNewProduceModal .modal-content .modal-header .close {
+        margin-left: auto !important;
+        margin-right: 1rem;
+    }
+    #addNewProduceModal .modal-content .modal-header .modal-title {
+        margin-left: auto !important;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #1c1c1c;
+        text-transform: uppercase;
+    }
+    #addNewProduceModal .modal-content .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+    }
+}
+
+
+/* Produce List page End */
+
+
 /* Harvest Entry Modal Style Start */
 
 #harvestModalForm .modal-dialog {
