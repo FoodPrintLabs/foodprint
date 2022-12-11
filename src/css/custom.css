@@ -1439,6 +1439,7 @@ body {
     width: 75%;
 }
 
+#addNewCodeAttribute .modal-content .modal-header .close,
 #viewQrCodeModalForm .modal-content .modal-header .close,
 #updateQrCodeModalForm .modal-content .modal-header .close,
 #qrCodeModalForm .modal-content .modal-header .close {
@@ -1446,6 +1447,7 @@ body {
     margin-right: 1rem;
 }
 
+#addNewCodeAttribute .modal-content .modal-header .modal-title,
 #viewQrCodeModalForm .modal-content .modal-header .modal-title,
 #updateQrCodeModalForm .modal-content .modal-header .modal-title,
 #qrCodeModalForm .modal-content .modal-header .modal-title {
@@ -1456,6 +1458,7 @@ body {
     text-transform: uppercase;
 }
 
+#addNewCodeAttribute .modal-content .modal-header,
 #viewQrCodeModalForm .modal-content .modal-header,
 #updateQrCodeModalForm .modal-content .modal-header,
 #qrCodeModalForm .modal-content .modal-header {
@@ -1498,12 +1501,14 @@ body {
     #qrCodeModalForm .modal-content {
         width: 85%;
     }
+    #addNewCodeAttribute .modal-content .modal-header .close,
     #viewQrCodeModalForm .modal-content .modal-header .close,
     #updateQrCodeModalForm .modal-content .modal-header .close,
     #qrCodeModalForm .modal-content .modal-header .close {
         margin-left: auto !important;
         margin-right: 1rem;
     }
+    #addNewCodeAttribute .modal-content .modal-header .modal-title,
     #viewQrCodeModalForm .modal-content .modal-header .modal-title,
     #updateQrCodeModalForm .modal-content .modal-header .modal-title,
     #qrCodeModalForm .modal-content .modal-header .modal-title {
@@ -1513,6 +1518,7 @@ body {
         color: #1c1c1c;
         text-transform: uppercase;
     }
+    #addNewCodeAttribute .modal-content .modal-header,
     #viewQrCodeModalForm .modal-content .modal-header,
     #updateQrCodeModalForm .modal-content .modal-header,
     #qrCodeModalForm .modal-content .modal-header {
