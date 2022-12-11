@@ -1162,11 +1162,13 @@ body {
     outline: none;
 }
 
+#updateProducePriceModal .modal-content .modal-header .close,
 #addProduceModalForm .modal-content .modal-header .close {
     margin-left: auto !important;
     margin-right: 1rem;
 }
 
+#updateProducePriceModal .modal-content .modal-header .modal-title,
 #addProduceModalForm .modal-content .modal-header .modal-title {
     margin-left: auto !important;
     font-size: 1.3rem;
@@ -1175,6 +1177,7 @@ body {
     text-transform: uppercase;
 }
 
+#updateProducePriceModal .modal-content .modal-header,
 #addProduceModalForm .modal-content .modal-header {
     display: flex;
     justify-content: center;
@@ -1183,10 +1186,12 @@ body {
 }
 
 @media only screen and (max-width: 850px) and (min-width: 550px) {
+    #updateProducePriceModal .modal-content .modal-header .close,
     #addProduceModalForm .modal-content .modal-header .close {
         margin-left: auto !important;
         margin-right: 1rem;
     }
+    #updateProducePriceModal .modal-content .modal-header .modal-title,
     #addProduceModalForm .modal-content .modal-header .modal-title {
         margin-left: auto !important;
         font-size: 1.3rem;
@@ -1194,6 +1199,7 @@ body {
         color: #1c1c1c;
         text-transform: uppercase;
     }
+    #updateProducePriceModal .modal-content .modal-header,
     #addProduceModalForm .modal-content .modal-header {
         display: flex;
         justify-content: center;
@@ -1206,6 +1212,7 @@ body {
 /* Smaller size screen */
 
 @media only screen and (max-width: 650px) {
+    #updateProducePriceModal .modal-content .modal-header .modal-title,
     #addProduceModalForm .modal-content .modal-header .modal-title {
         font-size: 1rem;
     }
