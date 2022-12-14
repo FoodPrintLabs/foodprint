@@ -1,143 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <% include ./partials/head %>  
-  <body>
-   <!-- START: header -->
 
-  <div class="probootstrap-loader"></div>
+<head>
+    <% include ./partials/head %>
 
-  <header role="banner" class="probootstrap-header">
-      <% include ./partials/header %>
-  </header>
-  <!-- END: header -->
+        <body>
+            <!-- START: header -->
 
-   <!-- START TABLE-->
-   <div class="container" style="width: 100%;">
-    <h3>Email Logs</h3>
-    
-    <% include ./partials/notificationbar %>
-      <table class="table table-hover table-sm" id="emailTable">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Email Log ID</th>
-            <th scope="col">Recipient</th>
-            <th scope="col">Subject</th>
-            <th scope="col">Time stamp</th>
-            <th scope="col">Content</th>
-            <th scope="col">Status</th>
-            <th width="200px">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if(data.length){
+            <div class="probootstrap-loader"></div>
+
+            <header role="banner" class="probootstrap-header">
+                <% include ./partials/header %>
+            </header>
+            <!-- END: header -->
+
+            <!-- START TABLE-->
+            <div class="container" style="width: 100%;">
+                <h3></h3>
+                <div class="title col-12 title-global-container">
+                    <h3 class="title-global">Email Logs</h3>
+                </div>
+
+                <% include ./partials/notificationbar %>
+                    <table class="table table-hover table-sm" id="emailTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Email Log ID</th>
+                                <th scope="col">Recipient</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Time stamp</th>
+                                <th scope="col">Content</th>
+                                <th scope="col">Status</th>
+                                <th width="200px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(data.length){
 
               for(var i = 0; i< data.length; i++) {%>
-              <tr>
-                <th scope="row" style="width: 2%;"><%= (i+1) %></th>
-                <td style="width: 35%;"><%= data[i].email_logid%></td>
-                <td style="width: 15%;"><%= data[i].email_recipient %></td>
-                <td style="width: 15%;"><%= data[i].email_subject%> </td>
-                <td style="width: 15%;"><%= data[i].email_timestamp%></td>
-                <td style="width: 9%;">View to access</td>
-                <td style="width: 9%;"><%= data[i].email_status%></td>
-                <td  class="btn-group btn-group-sm" style="width: 2%;">
-                    <a href="javascript:void(0);" class="btn btn-xs btn-info edit" data-email_logid="<%= data[i].email_logid%>"
-                      data-email_recipient="<%= data[i].email_recipient%>" data-email_subject="<%= data[i].email_subject%>" data-email_content="<%= data[i].email_content%>" 
-                      data-email_status="<%= data[i].email_status%>" data-email_timestamp="<%= data[i].email_timestamp%>"
-                      >View</a>
-                </td>
-              </tr>
-              <% }
+                                <tr>
+                                    <th scope="row" style="width: 2%;">
+                                        <%= (i+1) %>
+                                    </th>
+                                    <td style="width: 35%;">
+                                        <%= data[i].email_logid%>
+                                    </td>
+                                    <td style="width: 15%;">
+                                        <%= data[i].email_recipient %>
+                                    </td>
+                                    <td style="width: 15%;">
+                                        <%= data[i].email_subject%>
+                                    </td>
+                                    <td style="width: 15%;">
+                                        <%= data[i].email_timestamp%>
+                                    </td>
+                                    <td style="width: 9%;">View to access</td>
+                                    <td style="width: 9%;">
+                                        <%= data[i].email_status%>
+                                    </td>
+                                    <td class="btn-group btn-group-sm" style="width: 2%;">
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-info edit" data-email_logid="<%= data[i].email_logid%>" data-email_recipient="<%= data[i].email_recipient%>" data-email_subject="<%= data[i].email_subject%>" data-email_content="<%= data[i].email_content%>"
+                                            data-email_status="<%= data[i].email_status%>" data-email_timestamp="<%= data[i].email_timestamp%>">View</a>
+                                    </td>
+                                </tr>
+                                <% }
 
            }else{ %>
-               <tr>
-                  <td colspan="5">No Email data available</td>
-               </tr>
-            <% } %>
+                                    <tr>
+                                        <td colspan="5">No Email data available</td>
+                                    </tr>
+                                    <% } %>
 
-        </tbody>
-    </table>
-   </div>
-   <!-- END TABLE-->
+                        </tbody>
+                    </table>
+            </div>
+            <!-- END TABLE-->
 
-   <!-- Modal View Bid-->
-   <form action="app/email" method="POST">
-       <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="exampleModalLabel">View Email</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- Modal View Bid-->
+            <form action="app/email" method="POST">
+                <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLabel">View Email</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="email_logid">Email ID</label>
-                <input type="text" name="email_logid" class="form-control email_logid" placeholder="Email ID" disabled>
-            </div>
-              <div class="form-group">
-                  <label for="email_recipient">Recipient</label>
-                  <input type="text" name="email_recipient" class="form-control email_recipient" placeholder="Recipient" disabled>
-              </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="email_logid">Email ID</label>
+                                    <input type="text" name="email_logid" class="form-control email_logid" placeholder="Email ID" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email_recipient">Recipient</label>
+                                    <input type="text" name="email_recipient" class="form-control email_recipient" placeholder="Recipient" disabled>
+                                </div>
 
-              <div class="form-group">
-                  <label for="email_subject">Subject</label>
-                  <input type="number" name="email_subject" class="form-control email_subject" placeholder="Subject" disabled>
-              </div>
-              <div class="form-group">
-                <label for="email_content">Content</label> 
-                <br>            
-                <textarea id="email_content" class="descriptionTextAreaInput" name="email_content" rows="15">
+                                <div class="form-group">
+                                    <label for="email_subject">Subject</label>
+                                    <input type="number" name="email_subject" class="form-control email_subject" placeholder="Subject" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email_content">Content</label>
+                                    <br>
+                                    <textarea id="email_content" class="descriptionTextAreaInput" name="email_content" rows="15">
                 </textarea>
-                <br>
-            </div>
-              <div class="form-group">
-                <label for="email_status">Status</label>
-                <input type="text" name="email_status" class="form-control email_status" placeholder="Status" disabled>
-               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-       </div>
-  </form>
-   <!-- End Modal View Bid-->
+                                    <br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email_status">Status</label>
+                                    <input type="text" name="email_status" class="form-control email_status" placeholder="Status" disabled>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- End Modal View Bid-->
 
-	 
 
-    <!-- start footer -->
-    <% include ./partials/footer %>
-    <!-- end footer -->
-    
-   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-    <script src="/js/scripts.min.js"></script>
-  <script src="/js/main.min.js"></script>
-  <script src="/js/custom.js"></script>
-  <script>
-    $(document).ready(function(){
 
-        //showing data to edit modal
-        $('#emailTable').on('click','.edit',function(){
-            var email_logid = $(this).data('email_logid');
-            var email_recipient = $(this).data('email_recipient');
-            var email_subject = $(this).data('email_subject');
-            var email_timestamp = $(this).data('email_timestamp');
-            var email_content = $(this).data('email_content');
-            var email_status = $(this).data('email_status');
-            $('#viewModal').modal('show');
-            $('.email_logid').val(email_logid);
-            $('.email_recipient').val(email_recipient);
-            $('.email_subject').val(email_subject);
-            $('.email_timestamp').val(email_timestamp);
-            $('textarea[name="email_content"]').val(email_content);
-            $('.email_status').val(email_status);
-      });
-    });
-    </script>
-  </body>
+            <!-- start footer -->
+            <% include ./partials/footer %>
+                <!-- end footer -->
+
+                <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+                <script src="/js/scripts.min.js"></script>
+                <script src="/js/main.min.js"></script>
+                <script src="/js/custom.js"></script>
+                <script>
+                    $(document).ready(function() {
+
+                        //showing data to edit modal
+                        $('#emailTable').on('click', '.edit', function() {
+                            var email_logid = $(this).data('email_logid');
+                            var email_recipient = $(this).data('email_recipient');
+                            var email_subject = $(this).data('email_subject');
+                            var email_timestamp = $(this).data('email_timestamp');
+                            var email_content = $(this).data('email_content');
+                            var email_status = $(this).data('email_status');
+                            $('#viewModal').modal('show');
+                            $('.email_logid').val(email_logid);
+                            $('.email_recipient').val(email_recipient);
+                            $('.email_subject').val(email_subject);
+                            $('.email_timestamp').val(email_timestamp);
+                            $('textarea[name="email_content"]').val(email_content);
+                            $('.email_status').val(email_status);
+                        });
+                    });
+                </script>
+        </body>
+
 </html>

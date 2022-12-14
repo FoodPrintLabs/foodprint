@@ -1244,25 +1244,56 @@ router.get(
         .then(async rows => {
           //create array of URL data
           const qrcodes = [];
+          const supplier_shortcode_list_check1 = [];
           for (var i = 0; i < rows.length; i++) {
-            var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
-            qrcodes.push(qrcode_image);
-          }
+            //check if the url exists and not duplicate else dont create
+            if (
+              rows[i].qrcode_url &&
+              !supplier_shortcode_list_check1.includes(rows[i].supplierproduce) &&
+              rows[i].market_Shortcode
+            ) {
+              supplier_shortcode_list_check1.push(rows[i].supplierproduce);
+              var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
+              qrcodes.push(qrcode_image);
+            } else {
+              //Create QR Code Link to generate QR code
+              //check environment product was saved in for URL
+              let host = req.get('host');
+              let protocol = 'https';
+              // if running in dev then protocol can be http
+              if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+                protocol = req.protocol;
+              }
+              let final_qrcode_url =
+                protocol + '://' + host + '/app/scan/' + rows[i].supplierproduce;
 
+              var qrcode_image = await QRCode.toDataURL(final_qrcode_url);
+              qrcodes.push(qrcode_image);
+              models.FoodprintStorage.update(
+                { qrcode_url: final_qrcode_url },
+                {
+                  where: { storage_logid: rows[i].storage_logid },
+                }
+              );
+            }
+          }
+          console.log(supplier_shortcode_list_check1);
           models.FoodprintHarvest.findAll({
             order: [['pk', 'DESC']],
           }).then(async harvest_rows => {
             const harvest_data = [];
+            const supplier_shortcode_list_check2 = [];
             //loop through harvest with storage.logid
             for (var i = 0; i < rows.length; i++) {
               var keyToFind = rows[i].harvest_logid;
               for (var k in harvest_rows) {
                 //find key and add data to dict
                 if (harvest_rows[k].harvest_logid == keyToFind) {
-                  //checks to stop whatsapp entries that dont have enough data
+                  //checks to stop whatsapp entries that dont have enough data (farm name)
                   if (
                     harvest_rows[k].harvest_supplierShortcode &&
-                    harvest_rows[k].harvest_supplierName
+                    harvest_rows[k].harvest_supplierName &&
+                    rows[i].qrcode_url
                   ) {
                     let qrcode_title =
                       harvest_rows[k].harvest_supplierShortcode +
@@ -1276,13 +1307,18 @@ router.get(
                       harvest_farm_name: harvest_farm_name,
                       harvest_produce_name: harvest_produce_name,
                     };
-                    //push dict to array
-                    harvest_data.push(harv_data);
+                    //console.log(harv_data.qrcode_title);
+                    //check if suppliershortcode list doesnt contains shortcode add it and push dict to array
+                    if (!supplier_shortcode_list_check2.includes(harv_data.qrcode_title)) {
+                      supplier_shortcode_list_check2.push(harv_data.qrcode_title);
+                      harvest_data.push(harv_data);
+                    }
                   }
                   break;
                 }
               }
             }
+            console.log(harvest_data);
 
             res.render('dashboard_qrcode_supplier', {
               page_title: 'FoodPrint - QR Code Dashboard',
