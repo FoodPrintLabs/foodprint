@@ -17,11 +17,11 @@ module.exports = {
       .addColumn('foodprint_qrcode', 'qrcode_supplier_product', {
         type: Sequelize.STRING,
       })
-     .then(
-      await queryInterface.addColumn('foodprint_qrcode', 'qrcode_hashid', {
-        type: Sequelize.STRING,
-      })
-     )
+      .then(
+        await queryInterface.addColumn('foodprint_qrcode', 'qrcode_hashid', {
+          type: Sequelize.STRING,
+        })
+      )
       .then(
         await queryInterface.addColumn('foodprint_qrcode', 'qrcode_company_logo_url', {
           type: Sequelize.STRING,
@@ -44,11 +44,8 @@ module.exports = {
      */
     await queryInterface
       .removeColumn('foodprint_qrcode', 'qrcode_supplier_product')
-      .then(
-        await queryInterface.removeColumn('foodprint_qrcode', 'qrcode_hashid')
-      )
-      .then(
-        await queryInterface.removeColumn('foodprint_qrcode', 'qrcode_company_logo_url'))
+      .then(await queryInterface.removeColumn('foodprint_qrcode', 'qrcode_hashid'))
+      .then(await queryInterface.removeColumn('foodprint_qrcode', 'qrcode_company_logo_url'))
       .then(
         await queryInterface.removeColumn('foodprint_qrcode_product_attributes', 'qrcode_hashid')
       );
