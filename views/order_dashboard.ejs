@@ -1,159 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <% include ./partials/head %>  
 
-      <script>
-        
-        //activate filter and checks which one is being activated
-        async function activatefilter(filterType)
-        { 
-          let filter_type_array = ["produce", "province", "timeframe", "status",]
-          let check = 0;
-          for(var i = 0; i< filter_type_array.length; i++)
-                    {
-                      //check if produce is in list
-                      if(filterType == filter_type_array[i])
-                      {
-                        var filter = document.getElementById(filterType+'_filter').value;
-                        if(filter == "All"){
-                        window.location = '/app/order'
-                        break
+<head>
+    <% include ./partials/head %>
+
+        <script>
+            //activate filter and checks which one is being activated
+            async function activatefilter(filterType) {
+                let filter_type_array = ["produce", "province", "timeframe", "status", ]
+                let check = 0;
+                for (var i = 0; i < filter_type_array.length; i++) {
+                    //check if produce is in list
+                    if (filterType == filter_type_array[i]) {
+                        var filter = document.getElementById(filterType + '_filter').value;
+                        if (filter == "All") {
+                            window.location = '/app/order'
+                            break
+                        } else if (filter) {
+                            window.location = '/app/order/filter/' + filterType + '/' + filter;
                         }
-                        else if (filter)
-                        { window.location = '/app/order/filter/'+filterType+'/'+ filter;}
                         break;
-                      }
-                      check++;
                     }
-                    //if check is 4 then whole array is checked and reroute is needed
-                    if(check == 4)
-                    {
-                      window.location = '/app/order'
-                    }
-        }
-          
-        
-  
-        //checks current active filter when rendering
-        async function filterCheck(filter,filterType)
-        { console.log(filter);
-          console.log(filterType)
-          if(filterType == "produce"){
-            let produce_array = [
-            "All",  "Baby Marrow",
-        "Baby Leeks",  "Basil",  "Beetroot",  "Bergamot",  "Blood Oranges",  "Cabbage",  "Carrots", "Cauliflower",
-        "Cayenne Pepper",  "Cucumber",  "Eggs",  "Fennel", "Granadilla",  "Green Beans",  "Herbs",
-        "Lebanese Cucumber",  "Leeks",   "Lemon",  "Lettuce",  "Limes",   "Mor",
-        "Onion",   "Pak Choi",  "Parsley",   "Radish",  "Sorrel",     "Swiss Chard",   "Spinach",   "Turnips"
-            ]
-            for(var i = 0; i< produce_array.length; i++)
-                    {
-                      //check if produce is in list
-                      if(filter == produce_array[i])
-                      {
-                        document.getElementById('produce_filter').value = filter;
-                        break;
-                      }
-                      
+                    check++;
+                }
+                //if check is 4 then whole array is checked and reroute is needed
+                if (check == 4) {
+                    window.location = '/app/order'
+                }
+            }
+
+
+
+            //checks current active filter when rendering
+            async function filterCheck(filter, filterType) {
+                console.log(filter);
+                console.log(filterType)
+                if (filterType == "produce") {
+                    let produce_array = [
+                        "All", "Baby Marrow",
+                        "Baby Leeks", "Basil", "Beetroot", "Bergamot", "Blood Oranges", "Cabbage", "Carrots", "Cauliflower",
+                        "Cayenne Pepper", "Cucumber", "Eggs", "Fennel", "Granadilla", "Green Beans", "Herbs",
+                        "Lebanese Cucumber", "Leeks", "Lemon", "Lettuce", "Limes", "Mor",
+                        "Onion", "Pak Choi", "Parsley", "Radish", "Sorrel", "Swiss Chard", "Spinach", "Turnips"
+                    ]
+                    for (var i = 0; i < produce_array.length; i++) {
+                        //check if produce is in list
+                        if (filter == produce_array[i]) {
+                            document.getElementById('produce_filter').value = filter;
+                            break;
+                        }
+
                     }
 
-          }
-          else if(filterType == "province"){
-            let province_array = ["All",
-            "Western Cape",
-            "Eastern Cape",
-            "Northern Cape",
-            "North West",
-            "KZN",
-            "Free State",
-            "Gauteng",
-            "Mpumalanga",
-            "Limpopo"]
-            for(var i = 0; i< province_array.length; i++)
-                    {
-                      //check if produce is in list
-                      if(filter == province_array[i])
-                      {
-                        document.getElementById('province_filter').value = filter;
-                        break;
-                      }
-                      
+                } else if (filterType == "province") {
+                    let province_array = ["All",
+                        "Western Cape",
+                        "Eastern Cape",
+                        "Northern Cape",
+                        "North West",
+                        "KZN",
+                        "Free State",
+                        "Gauteng",
+                        "Mpumalanga",
+                        "Limpopo"
+                    ]
+                    for (var i = 0; i < province_array.length; i++) {
+                        //check if produce is in list
+                        if (filter == province_array[i]) {
+                            document.getElementById('province_filter').value = filter;
+                            break;
+                        }
+
                     }
-                
-          }
-          else if(filterType == "timeframe"){
-            let timeframe_array = ["All", "1-Week", "1-Month", "6-Month", "1-Year"]
-            for(var i = 0; i< timeframe_array.length; i++)
-                    {
-                      //check if produce is in list
-                      if(filter == timeframe_array[i])
-                      {
-                        document.getElementById('timeframe_filter').value = filter;
-                        break;
-                      }
-                      
+
+                } else if (filterType == "timeframe") {
+                    let timeframe_array = ["All", "1-Week", "1-Month", "6-Month", "1-Year"]
+                    for (var i = 0; i < timeframe_array.length; i++) {
+                        //check if produce is in list
+                        if (filter == timeframe_array[i]) {
+                            document.getElementById('timeframe_filter').value = filter;
+                            break;
+                        }
+
                     }
-          }
-          else if(filterType == "status"){
-            let status_array = ["All", "Placed", "Settled"]
-            for(var i = 0; i< status_array.length; i++)
-                    {
-                      //check if produce is in list
-                      if(filter == status_array[i])
-                      {
-                        document.getElementById('status_filter').value = filter;
-                        break;
-                      }
-                      
+                } else if (filterType == "status") {
+                    let status_array = ["All", "Placed", "Settled"]
+                    for (var i = 0; i < status_array.length; i++) {
+                        //check if produce is in list
+                        if (filter == status_array[i]) {
+                            document.getElementById('status_filter').value = filter;
+                            break;
+                        }
+
                     }
-          }
-          else if( filter == "")
-          {
-            console.log("Empty Value")
-          }
-          else
-          {//default
-            console.log("Unexpected Filter received");
-            window.location = '/app/order'
-          }
+                } else if (filter == "") {
+                    console.log("Empty Value")
+                } else { //default
+                    console.log("Unexpected Filter received");
+                    window.location = '/app/order'
+                }
 
-        }
-           </script>
+            }
+        </script>
 
-  </head>
-  <body onload="filterCheck('<%=filter_data%>','<%=filter_type%>')">
-   <!-- START: header -->
+</head>
 
-  <div class="probootstrap-loader"></div>
+<body onload="filterCheck('<%=filter_data%>','<%=filter_type%>')">
+    <!-- START: header -->
 
-  <header role="banner" class="probootstrap-header">
-      <% include ./partials/header %>
-  </header>
-  <!-- END: header -->
+    <div class="probootstrap-loader"></div>
 
-   <!-- START TABLE-->
-   <div class="container" style="width: 100%;">
-   
-    <h3>Order Dashboard</h3>
-   
-    <div class="col text-right">
-      <a href="/app/order/myorders" class="btn btn-primary btn-sm" >My Order Logbook</a>
-    </div>
-    <br>
-    <% include ./partials/notificationbar %>
+    <header role="banner" class="probootstrap-header">
+        <% include ./partials/header %>
+    </header>
+    <!-- END: header -->
 
-    <!--FILTERS SECTION-->
-    <div class="row">
-    <div class="col-12 col-lg-12 col-xl-12" style="width: 100% ;background-color: white;padding: 10px; 
-    box-shadow: 2px 2px 4px 5px #ccc;">
-          <div class="col-12 col-lg-12 col-xl-12" >
-            <h4>Filters</h4>
-          </div>
-        <div class="col-3 col-lg-3 col-xl-3">
-          <p><strong>Produce Type</strong></p>
-          <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required onchange="activatefilter('produce')">
-            <option value="" selected disabled>Select Produce Type</option>
+    <!-- START TABLE-->
+    <div class="container order-dashboard" style="width: 100%;">
+        <div class="title col-12 title-global-container">
+            <h3 class="title-global">Order Dashboard</h3>
+        </div>
+        <div class="col">
+            <a href="/app/order/myorders" class="btn btn-primary btn-sm">My Order Logbook</a>
+        </div>
+        <br>
+        <% include ./partials/notificationbar %>
+
+            <!--FILTERS SECTION-->
+            <div class="row">
+                <div class="filter-section">
+                    <div class="filter-header">
+                        <h4>Filters</h4>
+                    </div>
+                    <div class="filters-container">
+
+                        <div class="filter-item">
+                            <select class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required onchange="activatefilter('produce')">
+            <option value="" selected disabled>Produce Type</option>
             <option>All</option>
         <option>Baby Marrow</option>
         <option>Baby Leeks</option>
@@ -185,12 +168,11 @@
         <option>Swiss Chard</option>
         <option>Spinach</option>
         <option>Turnips</option>
-          </select>
-        </div>
-        <div class="col-3 col-lg-3 col-xl-3">
-          <p><strong>Province:</strong></p>
-          <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required onchange="activatefilter('province')">
-            <option value="" selected disabled>Select a Province</option>
+                        </select>
+                        </div>
+                        <div class="filter-item">
+                            <select class="custom-select d-block w-100 " name="province_filter" id="province_filter" required onchange="activatefilter('province')">
+            <option value="" selected disabled>Province</option>
             <option>All</option>
             <option>Western Cape</option>
             <option>Eastern Cape</option>
@@ -202,292 +184,303 @@
             <option>Mpumalanga</option>
             <option>Limpopo</option>
           </select>
-        </div>
-        <div class="col-3 col-lg-3 col-xl-3">
-          <p><strong>Date:</strong></p>
-          <select class="custom-select d-block w-100 " name="timeframe_filter" id="timeframe_filter" required onchange="activatefilter('timeframe')">
-            <option value="" selected disabled>Select a timeframe</option>
+                        </div>
+                        <div class="filter-item">
+                            <select class="custom-select d-block w-100 " name="timeframe_filter" id="timeframe_filter" required onchange="activatefilter('timeframe')">
+            <option value="" selected disabled>Timeframe</option>
             <option>All</option>
             <option>1-Week</option>
             <option>1-Month</option>
             <option>6-Month</option>
             <option>1-Year</option>
           </select>
-        </div>
-        <div class="col-3 col-lg-3 col-xl-3">
-          <p><strong>Status:</strong></p>
-          <select class="custom-select d-block w-100 " name="status_filter" id="status_filter" required onchange="activatefilter('status')">
-            <option value="" selected disabled>Select a status</option>
+                        </div>
+                        <div class="filter-item">
+                            <select class="custom-select d-block w-100 " name="status_filter" id="status_filter" required onchange="activatefilter('status')">
+            <option value="" selected disabled>Status</option>
             <option>All</option>
             <option>Placed</option>
             <option>Settled</option>
           </select>
-        </div>
-      </div>
-    </div>
-    
-<!--OFFERS AND BIDS SECTIONS-->
-<div class="col-12 col-lg-12 col-xl-12" id="orderRows">
-  <% if(bid_rows.length || offer_rows.length) {
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--OFFERS AND BIDS SECTIONS-->
+            <div class="offers-bids-section" id="orderRows">
+                <% if(bid_rows.length || offer_rows.length) {
 
     for(var i = 0; i< produce_rows.length; i++){
   %>
-  <div class="row" style="border-bottom-style: solid;">
-      <!--PRODUCE HEADING-->
-      <div class="col-2 col-lg-2 col-xl-2">
-        <h4><%=produce_rows[i]%></h4>
-      </div>
-      <!--BIDS COL-->
-      <div class="col-5 col-lg-5 col-xl-5" >
-        <h4>BIDS</h4>
-        <!--Each card-->
-        <% for(var k = 0; k< bid_rows.length; k++){ 
+                    <div class="row produce-item">
+                        <!--PRODUCE HEADING-->
+                        <div class="produce-heading">
+                            <h4>
+                                <%=produce_rows[i]%>
+                            </h4>
+                        </div>
+                        <div class="offers-bids-container">
+                            <!--BIDS COL-->
+                            <div class="bids-container">
+                                <h4>BIDS</h4>
+                                <div class="bids-list">
+                                    <!--Each card-->
+                                    <% for(var k = 0; k< bid_rows.length; k++){ 
             if(bid_rows[k].bid_produceName == produce_rows[i]) {
           %>
-          
-        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
-        box-shadow: 2px 2px 4px 5px #ccc;">
-          <div class="card-header">
-          <p class="card-title h4">Bid - <%=bid_rows[k].bid_produceName%></p>
-          <% if (bid_rows[k].bid_status == "Settled" ) { %>
-            <b>SETTLED</b>
-          <% }%>   
-          </div>
-          <div class="card-body">
-            
-            <p class="">
-              <b class="small order-card-title">USER</b><br> <span class="order-card-data"><span class="order-card-data"><%=bid_rows[k].bid_user%></span><br>
-              <b class="small order-card-title">QUANTITY</b><br> <span class="order-card-data"><%=bid_rows[k].bid_quantity%>kg</span> <br>
-              <b class="small order-card-title">PRICE</b><br> <span class="order-card-data"><%=bid_rows[k].bid_price%></span> <br>
-              <b class="small order-card-title">PROVINCE</b><br> <span class="order-card-data"><%=bid_rows[k].bid_province%></span> <br>
-              <b class="small order-card-title">PLACED</b><br><span class="order-card-data"><%=bid_rows[k].bid_timeStamp%></span>                           
-            </p>
-            <a href="javascript:void(0);" class="btn-sm btn-primary acceptBid " data-bid_user="<%= bid_rows[k].bid_user%>" data-bid_quantity="<%= bid_rows[k].bid_quantity%>" 
-              data-bid_price="<%= bid_rows[k].bid_price%>" data-bid_producename="<%= bid_rows[k].bid_produceName%>" data-bid_timestamp="<%= bid_rows[k].bid_timeStamp%>" 
-              data-bid_logid="<%= bid_rows[k].bid_logid%>" data-bid_province="<%= bid_rows[k].bid_province%>" 
-              >View</a>
-          </div>
-        </div>
-        <%}} %>
-      </div>
-      <!--OFFERS COL-->
-      <div class="col-5 col-lg-5 col-xl-5">
-       <h4>OFFERS</h4>
-         <!--Each card-->
-         <% for(var k = 0; k< offer_rows.length; k++){ 
+
+                                        <div class="card col-1 col-lg-1 col-xl-1">
+                                            <div class="card-header">
+                                                <% if (bid_rows[k].bid_status == "Settled" ) { %>
+                                                    <b>SETTLED</b>
+                                                    <% }%>
+                                            </div>
+                                            <div class="card-body">
+
+                                                <p class="">
+                                                    <b class="small order-card-title">USER</b><br> <span class="order-card-data"><span class="order-card-data"><%=bid_rows[k].bid_user%></span><br>
+                                                    <b class="small order-card-title">QUANTITY</b><br> <span class="order-card-data"><%=bid_rows[k].bid_quantity%>kg</span> <br>
+                                                    <b class="small order-card-title">PRICE</b><br> <span class="order-card-data"><%=bid_rows[k].bid_price%></span> <br>
+                                                    <b class="small order-card-title">PROVINCE</b><br> <span class="order-card-data"><%=bid_rows[k].bid_province%></span> <br>
+                                                    <b class="small order-card-title">PLACED</b><br><span class="order-card-data"><%=bid_rows[k].bid_timeStamp%></span>
+                                                </p>
+                                                <a href="javascript:void(0);" class="btn-sm btn-primary acceptBid " data-bid_user="<%= bid_rows[k].bid_user%>" data-bid_quantity="<%= bid_rows[k].bid_quantity%>" data-bid_price="<%= bid_rows[k].bid_price%>" data-bid_producename="<%= bid_rows[k].bid_produceName%>"
+                                                    data-bid_timestamp="<%= bid_rows[k].bid_timeStamp%>" data-bid_logid="<%= bid_rows[k].bid_logid%>" data-bid_province="<%= bid_rows[k].bid_province%>">View</a>
+                                            </div>
+                                        </div>
+                                        <%}} %>
+                                </div>
+                            </div>
+                            <!--OFFERS COL-->
+                            <div class="offers-container">
+                                <h4>OFFERS</h4>
+                                <div class="offers-list">
+                                    <!--Each card-->
+                                    <% for(var k = 0; k< offer_rows.length; k++){ 
           if(offer_rows[k].offer_produceName == produce_rows[i]) {
         %>
-      <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; box-shadow: 2px 2px 4px 5px #ccc;">
-        <div class="card-header">
-          <p class="card-title h4">Offer - <%=offer_rows[k].offer_produceName%></p>
-          <% if (offer_rows[k].offer_status == "Settled" ) { %>
-            <b>SETTLED</b>
-          <% }%>  
-        </div>
-        <div class="card-body">
-          <p class="card-text">
-            <b class="order-card-title">USER</b><br> <%=offer_rows[k].offer_user%> <br>
-            <b class="order-card-title">QUANTITY</b><br> <%=offer_rows[k].offer_quantity%>kgs <br>
-            <b class="order-card-title">PRICE</b><br> <%=offer_rows[k].offer_price%> <br>
-            <b class="order-card-title">PROVINCE</b><br> <%=offer_rows[k].offer_province%> <br>
-            <b class="order-card-title">PLACED</b><br><%=offer_rows[k].offer_timeStamp%>
-                                     
-          </p>
-          <a href="javascript:void(0);" class="btn-sm btn-primary acceptOffer" data-offer_user="<%= offer_rows[k].offer_user%>" data-offer_quantity="<%= offer_rows[k].offer_quantity%>" 
-            data-offer_price="<%= offer_rows[k].offer_price%>" data-offer_producename="<%= offer_rows[k].offer_produceName%>" data-offer_timestamp="<%= offer_rows[k].offer_timeStamp%>" 
-            data-offer_logid="<%= offer_rows[k].offer_logid%>" data-offer_province="<%= offer_rows[k].offer_province%>">View</a>
-        </div>
-      </div>
-      <%}} %>
-      </div>
-</div>
+                                        <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; box-shadow: 2px 2px 4px 5px #ccc;">
+                                            <div class="card-header">
+                                                <p class="card-title h4">Offer -
+                                                    <%=offer_rows[k].offer_produceName%>
+                                                </p>
+                                                <% if (offer_rows[k].offer_status == "Settled" ) { %>
+                                                    <b>SETTLED</b>
+                                                    <% }%>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text">
+                                                    <b class="order-card-title">USER</b><br>
+                                                    <%=offer_rows[k].offer_user%> <br>
+                                                        <b class="order-card-title">QUANTITY</b><br>
+                                                        <%=offer_rows[k].offer_quantity%>kgs <br>
+                                                            <b class="order-card-title">PRICE</b><br>
+                                                            <%=offer_rows[k].offer_price%> <br>
+                                                                <b class="order-card-title">PROVINCE</b><br>
+                                                                <%=offer_rows[k].offer_province%> <br>
+                                                                    <b class="order-card-title">PLACED</b><br>
+                                                                    <%=offer_rows[k].offer_timeStamp%>
 
-<!--END OF OFFER SECTION-->
-<% }
+                                                </p>
+                                                <a href="javascript:void(0);" class="btn-sm btn-primary acceptOffer" data-offer_user="<%= offer_rows[k].offer_user%>" data-offer_quantity="<%= offer_rows[k].offer_quantity%>" data-offer_price="<%= offer_rows[k].offer_price%>" data-offer_producename="<%= offer_rows[k].offer_produceName%>"
+                                                    data-offer_timestamp="<%= offer_rows[k].offer_timeStamp%>" data-offer_logid="<%= offer_rows[k].offer_logid%>" data-offer_province="<%= offer_rows[k].offer_province%>">View</a>
+                                            </div>
+                                        </div>
+                                        <%}} %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--END OF OFFER SECTION-->
+                    <% }
 
            }else{ %>
-               
-                <div class="col-12 col-lg-12 col-xl-12"> 
-                  <h3>No Biddings or Offers available at the moment</h3>
+
+                        <div class="">
+                            <h3>No Biddings or Offers available at the moment</h3>
+                        </div>
+
+                        <% } %>
+            </div>
+
+
+
+    </div>
+
+    <!-- Modal Accept bid-->
+    <form action="/app/order/bid/accept" method="post">
+        <div class="modal fade" id="AcceptBidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">Accept Bid</h4>
+                        <h5 class="bid_logid"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="bid_produceName">Produce</label>
+                            <input type="text" name="bid_produceName" class="form-control bid_produceName" placeholder="Produce" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bid_quantity">Produce Quantity</label>
+                            <input type="text" name="bid_quantity" class="form-control bid_quantity" placeholder="Quantity" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bid_price">Price</label>
+                            <input type="text" name="bid_price" class="form-control bid_price" placeholder="Price" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bid_province">Province</label>
+                            <input type="text" name="bid_province" class="form-control bid_province" placeholder="Province" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bid_user">User</label>
+                            <input type="text" name="bid_user" class="form-control bid_user" placeholder="User" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bid_timeStamp">Time Placed</label>
+                            <input type="text" name="bid_timeStamp" class="form-control bid_timeStamp" placeholder="TimeStamp" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bid_logid">LogID</label>
+                            <input type="text" name="bid_logid" class="form-control bid_logid" placeholder="logid" readonly>
+                        </div>
+                    </div>
                 </div>
-              
-            <% } %>
-</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
+                    <% if (user.role == "Seller" ) { %>
+                        <button type="submit" class="btn btn-primary">Accept</button></a>
+                        <% } else { %>
+                            <button type="submit" class="btn btn-secondary" disabled>Accept</button>
+                            <% } %>
 
-     
-   </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </form>
+    <!-- End Modal Accept Bid-->
 
-   <!-- Modal Accept bid-->
- <form action="/app/order/bid/accept" method="post">
-  <div class="modal fade" id="AcceptBidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h4 class="modal-title" id="exampleModalLabel">Accept Bid</h4>
-         <h5 class="bid_logid"></h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <!-- Modal Accept offer-->
+    <form action="/app/order/offer/accept" method="post">
+        <div class="modal fade" id="AcceptOfferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">Accept Offer</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
            <span aria-hidden="true">&times;</span>
          </button>
-       </div>
-       <div class="modal-body">
-        <div class="form-group">
-            <label for="bid_produceName">Produce</label>
-            <input type="text" name="bid_produceName" class="form-control bid_produceName" placeholder="Produce" readonly>
-        </div>
-        <div class="form-group">
-          <label for="bid_quantity">Produce Quantity</label>
-          <input type="text" name="bid_quantity" class="form-control bid_quantity" placeholder="Quantity" readonly>
-      </div>
-      <div class="form-group">
-        <label for="bid_price">Price</label>
-        <input type="text" name="bid_price" class="form-control bid_price" placeholder="Price" readonly>
-    </div>
-           <div class="form-group">
-            <label for="bid_province">Province</label>
-            <input type="text" name="bid_province" class="form-control bid_province" placeholder="Province" readonly>
-        </div>
-        <div class="form-group">
-          <label for="bid_user">User</label>
-          <input type="text" name="bid_user" class="form-control bid_user" placeholder="User" readonly>
-      </div>
-      <div class="form-group">
-        <label for="bid_timeStamp">Time Placed</label>
-        <input type="text" name="bid_timeStamp" class="form-control bid_timeStamp" placeholder="TimeStamp" readonly>
-    </div>
-    <div class="form-group">
-      <label for="bid_logid">LogID</label>
-      <input type="text" name="bid_logid" class="form-control bid_logid" placeholder="logid" readonly>
-  </div>
-        </div>
-      </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="offer_produceName">Produce</label>
+                            <input type="text" name="offer_produceName" class="form-control offer_produceName" placeholder="Produce" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_quantity">Produce Quantity</label>
+                            <input type="text" name="offer_quantity" class="form-control offer_quantity" placeholder="Quantity" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_price">Price</label>
+                            <input type="text" name="offer_price" class="form-control offer_price" placeholder="Price" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_province">Province</label>
+                            <input type="text" name="offer_province" class="form-control offer_province" placeholder="Province" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_user">User</label>
+                            <input type="text" name="offer_user" class="form-control offer_user" placeholder="User" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_timeStamp">Time Placed</label>
+                            <input type="text" name="offer_timeStamp" class="form-control offer_timeStamp" placeholder="TimeStamp" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_logid">LogID</label>
+                            <input type="text" name="offer_logid" class="form-control offer_logid" placeholder="logid" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-         <% if (user.role == "Seller" ) { %>
-          <button type="submit" class="btn btn-primary">Accept</button></a>
-        <% } else { %>
-          <button type="submit" class="btn btn-secondary" disabled>Accept</button>
-        <% } %>
-         
-       </div>
-     </div>
-   </div>
-  </div>
-</form>
-<!-- End Modal Accept Bid-->
+                    <% if (user.role == "Buyer" ) { %>
+                        <button type="submit" class="btn btn-primary">Accept</button></a>
+                        <% } else { %>
+                            <button type="submit" class="btn btn-secondary" disabled>Accept</button>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+        </div>
+    </form>
+    <!-- End Modal Accept Offer-->
 
-<!-- Modal Accept offer-->
-<form action="/app/order/offer/accept" method="post">
-  <div class="modal fade" id="AcceptOfferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h4 class="modal-title" id="exampleModalLabel">Accept Offer</h4>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
-       </div>
-       <div class="modal-body">
-        <div class="form-group">
-            <label for="offer_produceName">Produce</label>
-            <input type="text" name="offer_produceName" class="form-control offer_produceName" placeholder="Produce" readonly>
-        </div>
-        <div class="form-group">
-          <label for="offer_quantity">Produce Quantity</label>
-          <input type="text" name="offer_quantity" class="form-control offer_quantity" placeholder="Quantity" readonly>
-      </div>
-      <div class="form-group">
-        <label for="offer_price">Price</label>
-        <input type="text" name="offer_price" class="form-control offer_price" placeholder="Price" readonly>
-    </div>
-           <div class="form-group">
-            <label for="offer_province">Province</label>
-            <input type="text" name="offer_province" class="form-control offer_province" placeholder="Province" readonly>
-        </div>
-        <div class="form-group">
-          <label for="offer_user">User</label>
-          <input type="text" name="offer_user" class="form-control offer_user" placeholder="User" readonly>
-      </div>
-      <div class="form-group">
-        <label for="offer_timeStamp">Time Placed</label>
-        <input type="text" name="offer_timeStamp" class="form-control offer_timeStamp" placeholder="TimeStamp" readonly>
-    </div>
-    <div class="form-group">
-      <label for="offer_logid">LogID</label>
-      <input type="text" name="offer_logid" class="form-control offer_logid" placeholder="logid" readonly>
-  </div>
-        </div>
-      </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-       
-         <% if (user.role == "Buyer" ) { %>
-          <button type="submit" class="btn btn-primary">Accept</button></a>
-        <% } else { %>
-          <button type="submit" class="btn btn-secondary" disabled>Accept</button>
-        <% } %>
-       </div>
-     </div>
-   </div>
-  </div>
-</form>
-<!-- End Modal Accept Offer-->
-
-   <!--END of offers section-->
+    <!--END of offers section-->
 
     <!-- start footer -->
     <% include ./partials/footer %>
-    <!-- end footer -->
-    
-   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-    <script src="/js/scripts.min.js"></script>
-  <script src="/js/main.min.js"></script>
-  <script src="/js/custom.js"></script>
+        <!-- end footer -->
 
-  <script>
-    $(document).ready(function(){
+        <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+        <script src="/js/scripts.min.js"></script>
+        <script src="/js/main.min.js"></script>
+        <script src="/js/custom.js"></script>
 
-        //showing data to acceot Bid
-        $('#orderRows').on('click','.acceptBid',function(){
-            var bid_produceName = $(this).data('bid_producename');
-            var bid_quantity = $(this).data('bid_quantity');
-            var bid_user = $(this).data('bid_user');
-            var bid_logid = $(this).data('bid_logid');
-            var bid_timeStamp = $(this).data('bid_timestamp');
-            var bid_price = $(this).data('bid_price');
-            var bid_province = $(this).data('bid_province');
-            $('#AcceptBidModal').modal('show');
-            $('.bid_produceName').val(bid_produceName);
-            $('.bid_quantity').val(bid_quantity);
-            $('.bid_user').val(bid_user);
-            $('.bid_logid').val(bid_logid);
-            $('.bid_timeStamp').val(bid_timeStamp);
-            $('.bid_price').val(bid_price);
-            $('.bid_province').val(bid_province);
-      });
+        <script>
+            $(document).ready(function() {
 
-      //showing data to accept Offer
-      $('#orderRows').on('click','.acceptOffer',function(){
-            var offer_produceName = $(this).data('offer_producename');
-            var offer_quantity = $(this).data('offer_quantity');
-            var offer_user = $(this).data('offer_user');
-            var offer_logid = $(this).data('offer_logid');
-            var offer_timeStamp = $(this).data('offer_timestamp');
-            var offer_price = $(this).data('offer_price');
-            var offer_province = $(this).data('offer_province');
-            $('#AcceptOfferModal').modal('show');
-            $('.offer_produceName').val(offer_produceName);
-            $('.offer_quantity').val(offer_quantity);
-            $('.offer_user').val(offer_user);
-            $('.offer_logid').val(offer_logid);
-            $('.offer_timeStamp').val(offer_timeStamp);
-            $('.offer_price').val(offer_price);
-            $('.offer_province').val(offer_province);
-      });
+                //showing data to acceot Bid
+                $('#orderRows').on('click', '.acceptBid', function() {
+                    var bid_produceName = $(this).data('bid_producename');
+                    var bid_quantity = $(this).data('bid_quantity');
+                    var bid_user = $(this).data('bid_user');
+                    var bid_logid = $(this).data('bid_logid');
+                    var bid_timeStamp = $(this).data('bid_timestamp');
+                    var bid_price = $(this).data('bid_price');
+                    var bid_province = $(this).data('bid_province');
+                    $('#AcceptBidModal').modal('show');
+                    $('.bid_produceName').val(bid_produceName);
+                    $('.bid_quantity').val(bid_quantity);
+                    $('.bid_user').val(bid_user);
+                    $('.bid_logid').val(bid_logid);
+                    $('.bid_timeStamp').val(bid_timeStamp);
+                    $('.bid_price').val(bid_price);
+                    $('.bid_province').val(bid_province);
+                });
 
-    });
-    </script>
+                //showing data to accept Offer
+                $('#orderRows').on('click', '.acceptOffer', function() {
+                    var offer_produceName = $(this).data('offer_producename');
+                    var offer_quantity = $(this).data('offer_quantity');
+                    var offer_user = $(this).data('offer_user');
+                    var offer_logid = $(this).data('offer_logid');
+                    var offer_timeStamp = $(this).data('offer_timestamp');
+                    var offer_price = $(this).data('offer_price');
+                    var offer_province = $(this).data('offer_province');
+                    $('#AcceptOfferModal').modal('show');
+                    $('.offer_produceName').val(offer_produceName);
+                    $('.offer_quantity').val(offer_quantity);
+                    $('.offer_user').val(offer_user);
+                    $('.offer_logid').val(offer_logid);
+                    $('.offer_timeStamp').val(offer_timeStamp);
+                    $('.offer_price').val(offer_price);
+                    $('.offer_province').val(offer_province);
+                });
 
-  </body>
+            });
+        </script>
+
+</body>
+
 </html>
