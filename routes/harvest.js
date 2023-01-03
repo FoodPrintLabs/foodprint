@@ -967,4 +967,14 @@ router.get(
   }
 );
 
+router.post(
+  '/getimagehash',
+  async function(req, res, next) {
+    const response = await fetch(req.body.url);
+    const image_hash = await response.buffer();
+    const hash256 = crypto.createHash('sha256').update(image_hash).digest('base64');
+    res.send(hash256);
+  }
+);
+
 module.exports = router;
