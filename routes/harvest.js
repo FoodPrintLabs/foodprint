@@ -316,8 +316,10 @@ router.post('/save/whatsapp', async function (req, res) {
   let harvest_CaptureTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss'); //time of harvest data entry
   let logdatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
   let lastmodifieddatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+  let channel = 'WhatsApp';
 
   let harvest_photoHash = '';
+  let twilio_url = '';
   let host = req.get('host');
   let protocol = 'https';
 
@@ -328,6 +330,8 @@ router.post('/save/whatsapp', async function (req, res) {
 
   if (req.body.harvestURL) {
     try {
+      twilio_url = req.body.harvestURL;
+      console.log('twilio_url -' + twilio_url);
       const response = await fetch(req.body.harvestURL);
       harvest_photoHash = await response.buffer();
     } catch (e) {
@@ -351,6 +355,8 @@ router.post('/save/whatsapp', async function (req, res) {
     harvest_user: req.body.email,
     logdatetime: logdatetime,
     lastmodifieddatetime: lastmodifieddatetime,
+    twilio_url: twilio_url,
+    channel: channel,
     harvest_photoHash,
   };
   try {
