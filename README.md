@@ -166,6 +166,16 @@ node sequelise_auto_export.js
 
 The generated models can be found in `./models`
 
+- Creating sequelize migration (which creates a js file in migrations folder and will need to be commited)
+```bash
+npx sequelize migration:create --name name_of_new_db_column
+```
+
+Run the migration
+```bash
+npx sequelize db:migrate --url ‘mysql://username:password@localhost:3306/databasename'
+```
+
 - Generate test UUID's from command line (i.e. server side).
 
 ```
