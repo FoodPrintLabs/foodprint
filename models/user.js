@@ -52,6 +52,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.BLOB,
         allowNull: true,
       },
+      user_identifier_image_url: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
     },
     {
       sequelize,

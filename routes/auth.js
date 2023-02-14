@@ -1,3 +1,5 @@
+import { getUploadParams, resolveFilenames, uploadConnection } from '../config/digitalocean/file-upload';
+
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
@@ -7,6 +9,12 @@ var initModels = require('../models/init-models');
 var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
+
+const BucketName = process.env.DO_BUCKET_NAME;
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const tw_client = require('twilio')(accountSid, authToken);
 
 /* Render Login page. */
 router.get('/login', function (req, res) {
@@ -76,7 +84,42 @@ router.post('/register/whatsapp', async function (req, res) {
     if (req.body.idURL) {
       try {
         const response = await fetch(req.body.idURL);
-        req.body.nationalIdPhotoHash = await response.buffer();
+        const id_hash = await response.buffer();
+        req.body.nationalIdPhotoHash = id_hash;
+
+        const twilio_url = req.body.idURL
+        const [accountID, messageID, mediaID] = twilio_url.split("/").slice(4).filter((_, index) => index % 2 === 1);
+
+        tw_client.messages(messageID)
+          .media(mediaID)
+          .fetch()
+          .then(media => {
+
+            const contentType = media.contentType
+            const [fileType, ext] = contentType.split("/");
+
+            const filenames = resolveFilenames(
+              `${req.body.firstName}_${req.body.lastName}_${req.body.phoneNumber.replace("+", "")}`.toLowerCase(),
+              `.${ext}`
+            );
+            const uploadParams = getUploadParams(
+              BucketName,
+              contentType,
+              id_hash,
+              'public-read',
+              filenames.filename
+            );
+
+            uploadConnection.upload(uploadParams, function (error, data) {
+              if (error) {
+                console.error(error);
+              } else {
+                console.log('File uploaded ' + filenames.fileUrl);
+                req.body.user_identifier_image_url = filenames.fileUrl;
+              }
+            });
+          });
+
         delete req.body.idURL;
       } catch (e) {
         console.log(e);
@@ -159,5 +202,72 @@ router.get('/register/status/:phoneNumber', function (req, res) {
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
 });
+
+
+router.get(
+  '/migratewhatsappusers',
+  require('connect-ensure-login')
+    .ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.User.findAll({
+        order: [['ID', 'DESC']],
+      })
+        .then(rows => {
+          for (let i = 0; i < rows.length; i++) {
+            if (rows[i].nationalIdPhotoHash === null) {
+              console.log(`no image for user ${rows[i].ID} - ${rows[i].firstName} ${rows[i].lastName}`);
+            } else {
+              try {
+                const filenames = resolveFilenames(
+                  `${req.body.firstName}_${req.body.lastName}_${req.body.phoneNumber.replace("+", "")}`.toLowerCase(),
+                  '.jpg');
+                const uploadParams = getUploadParams(
+                  BucketName,
+                  'image/jpg',
+                  Buffer.from(rows[i].nationalIdPhotoHash, 'binary'),
+                  'public-read',
+                  filenames.filename
+                );
+                uploadConnection.upload(uploadParams, function (error, data) {
+                  if (error) {
+                    console.error(error);
+                  } else {
+                    console.log('File uploaded ' + filenames.fileUrl);
+                    const user_entry = {
+                      user_identifier_image_url: filenames.fileUrl,
+                    };
+
+                    models.User.update(user_entry, {
+                      where: {
+                        ID: rows[i].ID,
+                      },
+                    })
+                      .then(_ => {
+                        console.log(`updated image for ${rows[i].ID} - ${rows[i].firstName} ${rows[i].lastName}`);
+                      })
+                      .catch(err => {
+                        //throw err;
+                        console.log('Error - Update Harvest failed');
+                        console.log(err);
+                      });
+                  }
+                });
+              } catch (e) {
+                console.log(`error on user ${rows[i].ID} - ${rows[i].firstName} ${rows[i].lastName}`);
+              }
+            }
+          }
+          res.json({ message: 'success' });
+        })
+        .catch(err => {
+          console.log('All user err:' + err);
+          res.json({ error: err });
+        });
+    } else {
+      res.json({ message: 'not authorised' });
+    }
+  }
+);
 
 module.exports = router;
