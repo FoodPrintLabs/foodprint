@@ -347,7 +347,6 @@ router.get('/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], function (
     'harvest_description_json',
     'harvest_photoHash',
     'harvest_image_url',
-    'harvest_image_url',
     'harvest_supplierAddress',
     'harvest_produceName',
     'harvest_TimeStamp',

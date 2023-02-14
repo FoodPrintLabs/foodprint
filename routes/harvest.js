@@ -425,7 +425,7 @@ router.post('/save/whatsapp', async function (req, res) {
     lastmodifieddatetime: lastmodifieddatetime,
     twilio_url: twilio_url,
     channel: channel,
-    harvest_photoHash,
+    // harvest_photoHash,
     harvest_image_url,
   };
   try {
@@ -434,7 +434,7 @@ router.post('/save/whatsapp', async function (req, res) {
         res.status(201).send({ message: 'harvest created', harvest_logid: data.harvest_logid });
       })
       .then(_ => {
-        // data['harvest_photoHash'] = harvest_photoHash;
+        data['harvest_photoHash'] = harvest_photoHash;
         whatsappHarvestToBlockchain(data, protocol, host);
       })
       .catch(err => {
