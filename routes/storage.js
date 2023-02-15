@@ -332,7 +332,7 @@ router.post(
                   harvest_bool_added_to_blockchain:
                     harvest_rows[0].harvest_bool_added_to_blockchain,
                   harvest_added_to_blockchain_date:
-                    harvest_rows[0].harvest_added_to_blockchain_date,
+                    `${harvest_rows[0].harvest_added_to_blockchain_date}`,
                   harvest_added_to_blockchain_by: harvest_rows[0].harvest_added_to_blockchain_by,
                   harvest_blockchain_uuid: harvest_rows[0].harvest_blockchain_uuid,
                   harvest_user: harvest_rows[0].harvest_user,

@@ -26,6 +26,8 @@ const {
   resolveFilenames,
   uploadConnection,
 } = require('../config/digitalocean/file-upload');
+const { getMimeType } = require('../utils/image_mimetypes');
+
 const pdfService = require('../config/pdf/pdf-service');
 const { harvestpdf } = require('../config/pdf/harvestpdf');
 //Name of your DO bucket here
@@ -345,6 +347,31 @@ router.post(
 
 // route create harvest via WhatsApp
 router.post('/save/whatsapp', async function (req, res) {
+
+  const createHarvestEntry = function(data){
+    try {
+      models.FoodprintHarvest.create(data)
+        .then(_ => {
+          res.status(201).send({ message: 'harvest created', harvest_logid: data.harvest_logid });
+        })
+        .then(_ => {
+          data['harvest_photoHash'] = harvest_photoHash;
+          whatsappHarvestToBlockchain(data, protocol, host);
+        })
+        .catch(err => {
+          //throw err;
+          console.log(err.message);
+          res.status(400).send({ message: err.message });
+        });
+    } catch (e) {
+      //this will eventually be handled by your error handling middleware
+      //res.json({success: false, errors:errors.array()});
+      console.log(e);
+      res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
+    }
+  }
+
+
   let harvest_logid_uuid = uuidv4();
   let harvest_TimeStamp = moment(new Date(req.body.harvest_date)).format('YYYY-MM-DD'); //actual time of harvest in the field
   let harvest_CaptureTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss'); //time of harvest data entry
@@ -363,51 +390,7 @@ router.post('/save/whatsapp', async function (req, res) {
     protocol = req.protocol;
   }
 
-  if (req.body.harvestURL) {
-    try {
-      twilio_url = req.body.harvestURL;
-      console.log('twilio_url -' + twilio_url);
-      const response = await fetch(req.body.harvestURL);
-      harvest_photoHash = await response.buffer();
-
-      const [accountID, messageID, mediaID] = twilio_url.split("/").slice(4).filter((_, index) => index % 2 === 1);
-
-      tw_client.messages(messageID)
-        .media(mediaID)
-        .fetch()
-        .then(media => {
-
-          const contentType = media.contentType
-          const [fileType, ext] = contentType.split("/");
-
-          const filenames = resolveFilenames(
-            harvest_logid_uuid,
-            `.${ext}`
-          );
-          const uploadParams = getUploadParams(
-            BucketName,
-            contentType,
-            harvest_photoHash,
-            'public-read',
-            filenames.filename
-          );
-
-          uploadConnection.upload(uploadParams, function (error, data) {
-            if (error) {
-              console.error(error);
-            } else {
-              console.log('File uploaded ' + filenames.fileUrl);
-              harvest_image_url = filenames.fileUrl;
-            }
-          });
-        });
-
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  let data = {
+  let harvest_entry = {
     harvest_logid: harvest_logid_uuid,
     harvest_farmerName: req.body.harvest_farmerName,
     harvest_produceName: req.body.harvest_produceName,
@@ -426,27 +409,56 @@ router.post('/save/whatsapp', async function (req, res) {
     twilio_url: twilio_url,
     channel: channel,
     // harvest_photoHash,
-    harvest_image_url,
+    harvest_image_url: harvest_image_url ,
   };
-  try {
-    models.FoodprintHarvest.create(data)
-      .then(_ => {
-        res.status(201).send({ message: 'harvest created', harvest_logid: data.harvest_logid });
-      })
-      .then(_ => {
-        data['harvest_photoHash'] = harvest_photoHash;
-        whatsappHarvestToBlockchain(data, protocol, host);
-      })
-      .catch(err => {
-        //throw err;
-        console.log(err.message);
-        res.status(400).send({ message: err.message });
-      });
-  } catch (e) {
-    //this will eventually be handled by your error handling middleware
-    //res.json({success: false, errors:errors.array()});
-    console.log(e);
-    res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
+
+  if (req.body.harvestURL) {
+    try {
+      twilio_url = req.body.harvestURL;
+      harvest_entry["twilio_url"] = twilio_url;
+      // console.log('twilio_url -' + twilio_url);
+      const response = await fetch(req.body.harvestURL);
+      harvest_photoHash = await response.buffer();
+
+      const [accountID, messageID, mediaID] = twilio_url
+        .split("/")
+        .slice(4)
+        .filter((_, index) => index % 2 === 1);
+
+      tw_client.messages(messageID)
+        .media(mediaID)
+        .fetch()
+        .then(media => {
+          const contentType = media.contentType
+          const [fileType, ext] = contentType.split("/");
+          const filenames = resolveFilenames(
+            harvest_logid_uuid,
+            `.${ext}`
+          );
+          const uploadParams = getUploadParams(
+            BucketName,
+            contentType,
+            harvest_photoHash,
+            'public-read',
+            filenames.filename
+          );
+
+          uploadConnection.upload(uploadParams, function (error, data) {
+            if (error) {
+              console.error(error);
+            } else {
+              // console.log('File uploaded ' + filenames.fileUrl);
+              harvest_entry["harvest_image_url"] = filenames.fileUrl;
+              createHarvestEntry(harvest_entry);
+            }
+          });
+        });
+
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    createHarvestEntry(harvest_entry);
   }
 });
 
@@ -960,19 +972,22 @@ router.get(
   function (req, res, next) {
     if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
       models.FoodprintHarvest.findAll({
-        order: [['pk', 'DESC']],
+        order: [['pk', 'ASC']],
       })
         .then(rows => {
+          let message = 'completed successfully';
           for (let i = 0; i < rows.length; i++) {
             if (rows[i].harvest_photoHash === null) {
               console.log(`no image for harvest ${rows[i].harvest_logid}`);
             } else {
               try {
-                const filenames = resolveFilenames(rows[i].harvest_logid, '.png');
+                const imageBuffer = Buffer.from(rows[i].harvest_photoHash, 'binary');
+                const metadata = getMimeType(imageBuffer);
+                const filenames = resolveFilenames(rows[i].harvest_logid, metadata.ext);
                 const uploadParams = getUploadParams(
                   BucketName,
-                  'image/png',
-                  Buffer.from(rows[i].harvest_photoHash, 'binary'),
+                  metadata.contentType,
+                  imageBuffer,
                   'public-read',
                   filenames.filename
                 );
@@ -997,15 +1012,19 @@ router.get(
                         //throw err;
                         console.log('Error - Update Harvest failed');
                         console.log(err);
+                        message = 'completed with errors please check console';
+
                       });
                   }
                 });
               } catch (e) {
+                console.log(e);
                 console.log(`error on harvest ${rows[i].harvest_logid}`);
+                message = 'completed with errors please check console';
               }
             }
           }
-          res.json({ message: 'success' });
+          res.json({ message: message });
         })
         .catch(err => {
           console.log('All harvests err:' + err);
