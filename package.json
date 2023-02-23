@@ -81,7 +81,7 @@
     "pdfkit": "^0.13.0",
     "pg": "^8.7.3",
     "qrcode": "^1.4.0",
-    "sequelize": "^6.6.5",
+    "sequelize": "^6.28.2",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
     "twilio": "^3.84.1",
