@@ -304,7 +304,8 @@ router.post(
                   year_established: harvest_rows[0].year_established,
                   covid19_response: harvest_rows[0].covid19_response,
                   harvest_produceName: harvest_rows[0].harvest_produceName,
-                  harvest_photoHash: harvest_rows[0].harvest_photoHash,
+                  // harvest_photoHash: harvest_rows[0].harvest_photoHash,
+                  harvest_image_url: harvest_rows[0].harvest_image_url,
                   harvest_TimeStamp: harvest_rows[0].harvest_TimeStamp,
                   harvest_CaptureTime: harvest_rows[0].harvest_CaptureTime,
                   harvest_Description: harvest_rows[0].harvest_Description,
@@ -331,7 +332,7 @@ router.post(
                   harvest_bool_added_to_blockchain:
                     harvest_rows[0].harvest_bool_added_to_blockchain,
                   harvest_added_to_blockchain_date:
-                    harvest_rows[0].harvest_added_to_blockchain_date,
+                    `${harvest_rows[0].harvest_added_to_blockchain_date}`,
                   harvest_added_to_blockchain_by: harvest_rows[0].harvest_added_to_blockchain_by,
                   harvest_blockchain_uuid: harvest_rows[0].harvest_blockchain_uuid,
                   harvest_user: harvest_rows[0].harvest_user,

@@ -70,7 +70,7 @@
                                     <div class="btn-group-sm" role="group">
                                         <a onclick="ShowModal(this, 'view', 'View Harvest Entry','viewCSS')" class="btn btn-xs btn-info view" id="<%= (" harvest_view_ " + data[i].harvest_logid) %>" data-harvest_logid="<%= data[i].harvest_logid%>" data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                                             data-harvest_suppliername="<%=data[i].harvest_supplierName%>" data-harvest_farmername="<%=data[i].harvest_farmerName%>" data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>" data-harvest_producename="<%=data[i].harvest_produceName%>"
-                                            data-harvest_photohash="<%=data[i].harvest_photoHash%>" data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>" data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>" data-harvest_description="<%=data[i].harvest_Description%>"
+                                            data-harvest_photohash="<%=data[i].harvest_image_url%>" data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>" data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>" data-harvest_description="<%=data[i].harvest_Description%>"
                                             data-harvest_geolocation="<%=data[i].harvest_geolocation%>" data-harvest_quantity="<%=data[i].harvest_quantity%>" data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>" data-harvest_description_json="<%=data[i].harvest_description_json%>"
                                             data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>" data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>" data-supplierproduce="<%=data[i].supplierproduce%>" data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>"
                                             data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>" data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>" data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
@@ -80,7 +80,7 @@
 
                                         <a onclick="ShowModal(this, 'update', 'Edit Harvest Entry','editCSS')" class="btn btn-xs btn-info edit" style="background-color: rgb(0, 160, 246);" id="<%= (" harvest_edit_ " + data[i].harvest_logid) %>" data-harvest_logid="<%= data[i].harvest_logid%>"
                                             data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>" data-harvest_suppliername="<%=data[i].harvest_supplierName%>" data-harvest_farmername="<%=data[i].harvest_farmerName%>" data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>"
-                                            data-harvest_producename="<%=data[i].harvest_produceName%>" data-harvest_photohash="<%=data[i].harvest_photoHash%>" data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>" data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
+                                            data-harvest_producename="<%=data[i].harvest_produceName%>" data-harvest_photohash="<%=data[i].harvest_image_url%>" data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>" data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>"
                                             data-harvest_description="<%=data[i].harvest_Description%>" data-harvest_geolocation="<%=data[i].harvest_geolocation%>" data-harvest_quantity="<%=data[i].harvest_quantity%>" data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>"
                                             data-harvest_description_json="<%=data[i].harvest_description_json%>" data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>" data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>"
                                             data-supplierproduce="<%=data[i].supplierproduce%>" data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>" data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>"
@@ -90,7 +90,7 @@
 
                                         <a onclick="ShowModal(this, 'delete', 'Delete Harvest Entry','deleteCSS')" class="btn btn-xs btn-danger delete" id="<%= (" harvest_delete_ " + data[i].harvest_logid) %>" data-harvest_logid="<%= data[i].harvest_logid%>" data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                                             data-harvest_suppliername="<%=data[i].harvest_supplierName%>" data-harvest_farmername="<%=data[i].harvest_farmerName%>" data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>" data-harvest_producename="<%=data[i].harvest_produceName%>"
-                                            data-harvest_photohash="<%=data[i].harvest_photoHash%>" data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>" data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>" data-harvest_description="<%=data[i].harvest_Description%>"
+                                            data-harvest_photohash="<%=data[i].harvest_image_url%>" data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>" data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>" data-harvest_description="<%=data[i].harvest_Description%>"
                                             data-harvest_geolocation="<%=data[i].harvest_geolocation%>" data-harvest_quantity="<%=data[i].harvest_quantity%>" data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>" data-harvest_description_json="<%=data[i].harvest_description_json%>"
                                             data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>" data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>" data-supplierproduce="<%=data[i].supplierproduce%>" data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>"
                                             data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>" data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>" data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
@@ -107,7 +107,7 @@
                                             <%}else{ %>
                                                 <a onclick="addToBlockchain(this)" class="btn btn-block btn-xs btn-success blockchain addHarvestToBlockchainBtn" id="<%= (" harvest_add_blockchain_ " + data[i].harvest_logid) %>" data-harvest_logid="<%= data[i].harvest_logid%>" data-harvest_suppliershortcode="<%=data[i].harvest_supplierShortcode%>"
                                                     data-harvest_suppliername="<%=data[i].harvest_supplierName%>" data-harvest_farmername="<%=data[i].harvest_farmerName%>" data-harvest_supplieraddress="<%=data[i].harvest_supplierAddress%>" data-harvest_producename="<%=data[i].harvest_produceName%>"
-                                                    data-harvest_photohash="<%=data[i].harvest_photoHash%>" data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>" data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>" data-harvest_description="<%=data[i].harvest_Description%>"
+                                                    data-harvest_photohash="<%=data[i].harvest_image_url%>" data-harvest_timestamp="<%=data[i].harvest_TimeStamp%>" data-harvest_capturetime="<%=data[i].harvest_CaptureTime%>" data-harvest_description="<%=data[i].harvest_Description%>"
                                                     data-harvest_geolocation="<%=data[i].harvest_geolocation%>" data-harvest_quantity="<%=data[i].harvest_quantity%>" data-harvest_unitofmeasure="<%=data[i].harvest_unitOfMeasure%>" data-harvest_description_json="<%=data[i].harvest_description_json%>"
                                                     data-harvest_blockchainhashid="<%=data[i].harvest_BlockchainHashID%>" data-harvest_blockchainhashdata="<%=data[i].harvest_BlockchainHashData%>" data-supplierproduce="<%=data[i].supplierproduce%>" data-harvest_bool_added_to_blockchain="<%=data[i].harvest_bool_added_to_blockchain%>"
                                                     data-harvest_added_to_blockchain_date="<%=data[i].harvest_added_to_blockchain_date%>" data-harvest_added_to_blockchain_by="<%=data[i].harvest_added_to_blockchain_by%>" data-harvest_blockchain_uuid="<%=data[i].harvest_blockchain_uuid%>"
@@ -460,11 +460,18 @@
 
                 let logExtendedDetail = "{" + "growingConditions:" + harvestDescriptionJSON + "}";
 
-                let photoHash = sha256(harvestPhotoHash);
+              $.ajax({
+                url: '/app/harvest/getimagehash',
+                data: JSON.stringify({ url: harvestPhotoHash }),
+                processData: false,
+                type: 'POST',
+                contentType: 'application/json'
+              }).done(function(photoHash) {
+                // console.log("sha256 " + res);
+                // let photoHash = sha256(harvestPhotoHash);
                 console.log("harvest_photohash successfully hashed (hash value " + photoHash + ").");
                 let logMetadata = "{" + "logUser:" + harvestUser + ", " + "logType:" + "harvest" + ", " + "logTableName:" +
-                    "foodprint_harvest" + ", " + "harvestPhotoHash:" + photoHash + "}";
-
+                  "foodprint_harvest" + ", " + "harvestPhotoHash:" + photoHash + "}";
                 var data = {};
                 data.logID = harvestLogid;
                 data.previouslogID = "";
@@ -472,28 +479,28 @@
                 data.logDetail = logDetail;
                 data.logExtendedDetail = logExtendedDetail;
                 data.logMetadata = logMetadata;
-
                 // send POST request to server via ajax
                 $.ajax({
-                    url: '/app/harvest/save/blockchain',
-                    data: JSON.stringify(data),
-                    processData: false,
-                    type: 'POST',
-                    contentType: 'application/json'
+                  url: '/app/harvest/save/blockchain',
+                  data: JSON.stringify(data),
+                  processData: false,
+                  type: 'POST',
+                  contentType: 'application/json'
                 }).done(function(res) {
-                    if (res.success) {
-                        // remove spinner from button
-                        $(harvestAddBlockchainBtnId).removeClass("spinner-border");
-                        $(harvestAddBlockchainBtnId).removeClass("spinner-spinner-border-sm");
-                        $(harvestAddBlockchainBtnId).html('Added to Blockchain...');
-                        console.log("updateHarvestAddBlockchainBtn updated for Harvest " + harvestLogid);
-                    } else {
-                        // remove spinner from button
-                        $(harvestAddBlockchainBtnId).removeClass("spinner-border");
-                        $(harvestAddBlockchainBtnId).removeClass("spinner-spinner-border-sm");
-                        $(harvestAddBlockchainBtnId).html('Error! Add to Blockchain');
-                    }
+                  if (res.success) {
+                    // remove spinner from button
+                    $(harvestAddBlockchainBtnId).removeClass("spinner-border");
+                    $(harvestAddBlockchainBtnId).removeClass("spinner-spinner-border-sm");
+                    $(harvestAddBlockchainBtnId).html('Added to Blockchain...');
+                    console.log("updateHarvestAddBlockchainBtn updated for Harvest " + harvestLogid);
+                  } else {
+                    // remove spinner from button
+                    $(harvestAddBlockchainBtnId).removeClass("spinner-border");
+                    $(harvestAddBlockchainBtnId).removeClass("spinner-spinner-border-sm");
+                    $(harvestAddBlockchainBtnId).html('Error! Add to Blockchain');
+                  }
                 });
+              });
             }
 
 
@@ -617,7 +624,7 @@
                 $('#viewmodal_supplierproduce').val(supplierproduce);
 
 
-                //$('#viewmodal_harvest_photohash').val(harvest_photohash);            
+                //$('#viewmodal_harvest_photohash').val(harvest_photohash);
                 $('#viewmodal_harvest_photoimage').attr("src", harvest_photoimage);
 
                 $('#viewmodal_harvest_timestamp').val(harvest_timestamp_adjusted);
@@ -654,9 +661,9 @@
 
                     //System populated:
                     //viewmodal_harvest_photoimageDiv, viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
-                    //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
+                    //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv,
                     //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv,
-                    //viewmodal_harvest_capturetime, viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid 
+                    //viewmodal_harvest_capturetime, viewmodal_logdatetime, viewmodal_lastmodifieddatetime and viewmodal_harvest_logid
 
                     //Hide divs for System populated elements
                     $("#viewmodal_harvest_photoimageDiv").hide();
@@ -811,7 +818,7 @@
                     //SHOW DIVS
                     //System populated:
                     //viewmodal_harvest_blockchainhashidDiv, viewmodal_harvest_blockchainhashdataDiv,
-                    //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv, 
+                    //viewmodal_harvest_bool_added_to_blockchainDiv, viewmodal_harvest_added_to_blockchain_dateDiv,
                     //viewmodal_harvest_userDiv, viewmodal_harvest_blockchain_uuidDiv, viewmodal_harvest_added_to_blockchain_byDiv
 
                     $("#viewmodal_harvest_photoimageDiv").show();
