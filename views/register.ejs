@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <% include ./partials/head %>
+        <%- include('partials/head'); %>
 </head>
 
 <body>
@@ -11,7 +11,7 @@
     <div class="probootstrap-loader"></div>
 
     <header role="banner" class="probootstrap-header">
-        <% include ./partials/header %>
+            <%- include('partials/header'); %>
     </header>
     <!-- END: header -->
 
@@ -21,7 +21,7 @@
             <!-- START LOGIN FORM-->
             <div class="col-md-6 col-md-offset-3">
                 <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
-                <% include ./partials/notificationbar %>
+                    <%- include('partials/notificationbar'); %>
                     <div class="register">
                         <div class="register-image probootstrap-section-heading text-center probootstrap-animate fadeInUp probootstrap-animated" style="background-image: url(/img/farm1.jpg); height: 200px; background-size: 100%; background-repeat: no-repeat; "></div>
                         <h4 class="heading">REGISTER</h4>
@@ -86,7 +86,7 @@
         </div>
 
         <!-- start footer -->
-        <% include ./partials/footer %>
+        <%- include('partials/footer'); %>
             <!-- end footer -->
 
             <!--<script type="text/javascript" src="/js/bundle.js"></script>-->

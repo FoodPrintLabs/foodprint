@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <% include ./partials/head %>
+        <%- include('partials/head'); %>
         <script>
             async function activatefilter() {
                 var filter = document.getElementById('province_filter').value;
@@ -55,7 +55,7 @@
     <div class="probootstrap-loader"></div>
 
     <header role="banner" class="probootstrap-header">
-        <% include ./partials/header %>
+            <%- include('partials/header'); %>
     </header>
     <!-- END: header -->
 
@@ -66,7 +66,7 @@
         </div>
 
 
-        <% include ./partials/notificationbar %>
+            <%- include('partials/notificationbar'); %>
             <div class="buttons-top">
                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Produce</button>
 
@@ -274,7 +274,7 @@
 
 
     <!-- start footer -->
-    <% include ./partials/footer %>
+    <%- include('partials/footer'); %>
         <!-- end footer -->
 
         <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
