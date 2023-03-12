@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
 
-      <% include ./partials/head %>
+          <%- include('partials/head'); %>
       <link rel="stylesheet" href="/css/timeline.css" />
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
   </head>
@@ -12,7 +12,7 @@
      <div class="probootstrap-loader"></div>
 
      <header role="banner" class="probootstrap-header">
-         <% include ./partials/header %>
+             <%- include('partials/header'); %>
      </header>
      <!-- END: header -->
 
@@ -108,7 +108,7 @@
     </div>
 
       <!-- start footer -->
-      <% include ./partials/footer %>
+      <%- include('partials/footer'); %>
       <!-- end footer -->
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
     <script src="/js/scripts.min.js"></script>
