@@ -228,7 +228,7 @@ router.post(
       const img = req.file;
 
       // req.body will hold the text fields, if there were any
-      // data is object-key-value pairs
+      // harvest_entry is object-key-value pairs
       let harvest_entry = {
         harvest_logid: harvest_logid_uuid,
         harvest_supplierShortcode: req.body.viewmodal_harvest_suppliershortcode,
@@ -238,7 +238,6 @@ router.post(
         covid19_response: req.body.viewmodal_harvest_covid19_response,
         harvest_supplierAddress: req.body.viewmodal_harvest_supplieraddress,
         harvest_produceName: req.body.viewmodal_harvest_producename,
-        //harvest_photoHash: req.body.viewmodal_harvest_photohash,
         harvest_TimeStamp: harvest_TimeStamp,
         harvest_CaptureTime: harvest_CaptureTime,
         harvest_Description: req.body.viewmodal_harvest_description,

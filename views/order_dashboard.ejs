@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <% include ./partials/head %>
+        <%- include('partials/head'); %>
 
         <script>
             //activate filter and checks which one is being activated
@@ -111,7 +111,7 @@
     <div class="probootstrap-loader"></div>
 
     <header role="banner" class="probootstrap-header">
-        <% include ./partials/header %>
+            <%- include('partials/header'); %>
     </header>
     <!-- END: header -->
 
@@ -124,7 +124,7 @@
             <a href="/app/order/myorders" class="btn btn-primary btn-sm">My Order Logbook</a>
         </div>
         <br>
-        <% include ./partials/notificationbar %>
+            <%- include('partials/notificationbar'); %>
 
             <!--FILTERS SECTION-->
             <div class="row">
@@ -429,7 +429,7 @@
     <!--END of offers section-->
 
     <!-- start footer -->
-    <% include ./partials/footer %>
+    <%- include('partials/footer'); %>
         <!-- end footer -->
 
         <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
