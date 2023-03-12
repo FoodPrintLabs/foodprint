@@ -43,7 +43,7 @@
     "gulp-sourcemaps": "latest",
     "gulp-uglify": "latest",
     "mocha": "^9.2.2",
-    "nodemon": "^1.19.1",
+    "nodemon": "^2.0.21",
     "prettier": "2.5.1",
     "sequelize-auto": "^0.8.4",
     "sequelize-cli": "^6.3.0",
