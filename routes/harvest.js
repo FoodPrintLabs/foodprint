@@ -415,7 +415,7 @@ router.post('/save/whatsapp', async function (req, res) {
     try {
       twilio_url = req.body.harvestURL;
       harvest_entry["twilio_url"] = twilio_url;
-      // console.log('twilio_url -' + twilio_url);
+      console.log('twilio_url -' + twilio_url);
       const response = await fetch(req.body.harvestURL);
       harvest_photoHash = await response.buffer();
 
@@ -424,10 +424,16 @@ router.post('/save/whatsapp', async function (req, res) {
         .slice(4)
         .filter((_, index) => index % 2 === 1);
 
+      console.log('accountID -' + accountID);
+      console.log('messageID -' + messageID);
+      console.log('mediaID -' + mediaID);
+
+
       tw_client.messages(messageID)
         .media(mediaID)
         .fetch()
         .then(media => {
+          console.log('twilio media metadata -' + media)
           const contentType = media.contentType
           const [fileType, ext] = contentType.split("/");
           const filenames = resolveFilenames(
@@ -446,9 +452,9 @@ router.post('/save/whatsapp', async function (req, res) {
             if (error) {
               console.error(error);
             } else {
-              // console.log('File uploaded ' + filenames.fileUrl);
-              harvest_entry["harvest_image_url"] = filenames.fileUrl;
-              createHarvestEntry(harvest_entry);
+                console.log('File uploaded ' + filenames.fileUrl);
+                harvest_entry["harvest_image_url"] = filenames.fileUrl;
+                createHarvestEntry(harvest_entry);
             }
           });
         });
