@@ -58,9 +58,13 @@ router.post(
 
 /* Logout. */
 router.get('/logout', function (req, res) {
-  req.logout();
-  req.flash('success', 'You are now logged out.');
-  res.redirect('/app/auth/login');
+    req.logout(function(err) {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success', 'You are now logged out.');
+        res.redirect('/app/auth/login');
+    });
 });
 
 /* Render Register page. */
