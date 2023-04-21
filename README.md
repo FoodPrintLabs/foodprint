@@ -261,6 +261,11 @@ If you need to run sequelize migrations in Heroku (although this is included in 
 $ heroku run npx sequelize-cli db:migrate --url 'mysql://root:password@mysql_host.com/database_name' --app nameofapp
 ```
 
+Alternatively
+```
+$ heroku run npm run build -a name-of-app
+```
+
 Tail Heroku logs
 
 ```
