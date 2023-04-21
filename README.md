@@ -1,7 +1,7 @@
 # FoodPrint
 
 FoodPrint is a digital, blockchain-enabled, farm-to-fork (fresh produce) supply chain platform for
-smallholder farmers, primarily in developing countries. FoodPrint is designed to:
+smallholder farmers. FoodPrint is designed to:
 
 - Simplify production and harvest data collection for smallholder farmers.
 - Directly connect them to market opportunities - including but not limited to intermediaries such
@@ -38,10 +38,6 @@ intermediary. The consumer can scan a barcode associated with produce and view t
 information and supply chain stories i.e. view information on the produce they are buying, it's
 source and journey, hence from farm-to-fork. Android versions 8 & 9 and iOS versions 11 & 12 can
 automatically scan QR codes using the camera app.
-
-## Documentation
-
-TODO
 
 ## IDE Setup
 
