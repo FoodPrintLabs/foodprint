@@ -2,180 +2,178 @@
 <html lang="en">
 
 <head>
-    <% include ./partials/head %>
+  <% include('./partials/head')%>
 
 
-        <script>
-            function activateProduceFilter() {
-                var filter = document.getElementById('produce_filter').value;
-                if (filter == "All") {
-                    window.location = '/app/buyer'
-                } else if (filter) {
-                    window.location = '/app/buyer/filter/produce/' + filter;
-                }
+  <script>
+    function activateProduceFilter() {
+      var filter = document.getElementById('produce_filter').value;
+      if (filter == "All") {
+        window.location = '/app/buyer'
+      } else if (filter) {
+        window.location = '/app/buyer/filter/produce/' + filter;
+      }
 
-            }
+    }
 
-            async function filterCheck(filter) {
-                let produce_array = ["All", "Baby Marrow",
-                    "Baby Leeks", "Basil", "Beetroot", "Bergamot", "Blood Oranges",
-                    "Cabbage", "Carrots", "Cauliflower", "Cayenne Pepper", "Cucumber", "Eggs",
-                    "Fennel", "Granadilla", "Green Beans", "Herbs", "Lebanese Cucumber", "Leeks",
-                    "Lemon", "Lettuce", "Limes", "Mor", "Onion", "Pak Choi", "Parsley", "Radish", "Sorrel",
-                    "Swiss Chard", "Spinach", "Turnips"
-                ]
-                for (var i = 0; i < produce_array.length; i++) {
-                    //check if produce is in list
-                    if (filter == produce_array[i]) {
-                        document.getElementById('produce_filter').value = filter;
-                        break;
-                    }
+    async function filterCheck(filter) {
+      let produce_array = ["All", "Baby Marrow",
+        "Baby Leeks", "Basil", "Beetroot", "Bergamot", "Blood Oranges",
+        "Cabbage", "Carrots", "Cauliflower", "Cayenne Pepper", "Cucumber", "Eggs",
+        "Fennel", "Granadilla", "Green Beans", "Herbs", "Lebanese Cucumber", "Leeks",
+        "Lemon", "Lettuce", "Limes", "Mor", "Onion", "Pak Choi", "Parsley", "Radish", "Sorrel",
+        "Swiss Chard", "Spinach", "Turnips"
+      ]
+      for (var i = 0; i < produce_array.length; i++) {
+        //check if produce is in list
+        if (filter == produce_array[i]) {
+          document.getElementById('produce_filter').value = filter;
+          break;
+        }
 
-                }
-                if (document.getElementById('produce_filter').value != filter) {
-                    console.log("Unexpected filter")
-                    window.location = '/app/buyer'
-                }
+      }
+      if (document.getElementById('produce_filter').value != filter) {
+        console.log("Unexpected filter")
+        window.location = '/app/buyer'
+      }
 
-            }
-        </script>
+    }
+  </script>
 </head>
 
 <body onload="filterCheck('<%=filter_data%>')">
-    <!-- START: header -->
+  <!-- START: header -->
 
-    <div class="probootstrap-loader"></div>
+  <div class="probootstrap-loader"></div>
 
-    <header role="banner" class="probootstrap-header">
-        <% include ./partials/header %>
-    </header>
-    <!-- END: header -->
+  <header role="banner" class="probootstrap-header">
+    <% include('./partials/header')%>
+  </header>
+  <!-- END: header -->
 
-    <!-- START TABLE-->
-    <div class="container buyerlogbook" style="width: 100%;">
-        <div class="title col-12 title-global-container">
-            <h3 class="title-global">Buyer Logbook</h3>
-        </div>
-        <div class="buttons-top">
-            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Bid</button>
-            <div class="col filter">
-                <select onchange="activateProduceFilter()" class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
-        <option value="" selected disabled>Choose a a Produce filter</option>
-        <option>All</option>
-        <option>Baby Marrow</option>
-        <option>Baby Leeks</option>
-        <option>Basil</option>
-        <option>Beetroot</option>
-        <option>Bergamot</option>
-        <option>Blood Oranges</option>
-        <option>Cabbage</option>
-        <option>Carrots</option>
-        <option>Cauliflower</option>
-        <option>Cayenne Pepper</option>
-        <option>Cucumber</option>
-        <option>Eggs</option>
-        <option>Fennel</option>
-        <option>Granadilla</option>
-        <option>Green Beans</option>
-        <option>Herbs</option>
-        <option>Lebanese Cucumber</option>
-        <option>Leeks</option>
-        <option>Lemon</option>
-        <option>Lettuce</option>
-        <option>Limes</option>
-        <option>Mor</option>
-        <option>Onion</option>
-        <option>Pak Choi</option>
-        <option>Parsley</option>
-        <option>Radish</option>
-        <option>Sorrel</option>
-        <option>Swiss Chard</option>
-        <option>Spinach</option>
-        <option>Turnips</option>
-      </select>
-            </div>
-        </div>
-        <% include ./partials/notificationbar %>
-            <table class="table table-hover table-sm" id="bidTable">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Bid logID</th>
-                        <th scope="col">Produce Name</th>
-                        <th scope="col">Bid Timestamp</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Unit of Measure</th>
-                        <th scope="col">Bid Price</th>
-                        <th scope="col">Bid Status</th>
-                        <th width="200px">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% if(data.length){
+  <!-- START TABLE-->
+  <div class="container buyerlogbook" style="width: 100%;">
+    <div class="title col-12 title-global-container">
+      <h3 class="title-global">Buyer Logbook</h3>
+    </div>
+    <div class="buttons-top">
+      <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Bid</button>
+      <div class="col filter">
+        <select onchange="activateProduceFilter()" class="custom-select d-block w-100 " name="produce_filter" id="produce_filter" required>
+          <option value="" selected disabled>Choose a a Produce filter</option>
+          <option>All</option>
+          <option>Baby Marrow</option>
+          <option>Baby Leeks</option>
+          <option>Basil</option>
+          <option>Beetroot</option>
+          <option>Bergamot</option>
+          <option>Blood Oranges</option>
+          <option>Cabbage</option>
+          <option>Carrots</option>
+          <option>Cauliflower</option>
+          <option>Cayenne Pepper</option>
+          <option>Cucumber</option>
+          <option>Eggs</option>
+          <option>Fennel</option>
+          <option>Granadilla</option>
+          <option>Green Beans</option>
+          <option>Herbs</option>
+          <option>Lebanese Cucumber</option>
+          <option>Leeks</option>
+          <option>Lemon</option>
+          <option>Lettuce</option>
+          <option>Limes</option>
+          <option>Mor</option>
+          <option>Onion</option>
+          <option>Pak Choi</option>
+          <option>Parsley</option>
+          <option>Radish</option>
+          <option>Sorrel</option>
+          <option>Swiss Chard</option>
+          <option>Spinach</option>
+          <option>Turnips</option>
+        </select>
+      </div>
+    </div>
+    <% include('./partials/notificationbar')%>
+    <table class="table table-hover table-sm" id="bidTable">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Bid logID</th>
+          <th scope="col">Produce Name</th>
+          <th scope="col">Bid Timestamp</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Unit of Measure</th>
+          <th scope="col">Bid Price</th>
+          <th scope="col">Bid Status</th>
+          <th width="200px">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data.length){
 
               for(var i = 0; i< data.length; i++) {%>
-                        <tr>
-                            <th scope="row" style="width: 2%;">
-                                <%= (i+1) %>
-                            </th>
-                            <td style="width: 27%;">
-                                <%= data[i].bid_logid%>
-                            </td>
-                            <td style="width: 10%;">
-                                <%= data[i].bid_produceName%>
-                            </td>
-                            <td style="width: 45%;">
-                                <%= data[i].bid_timeStamp%>
-                            </td>
-                            <td style="width: 2%;">
-                                <%= data[i].bid_quantity%>
-                            </td>
-                            <td style="width: 3%;">
-                                <%= data[i].bid_unitOfMeasure%>
-                            </td>
-                            <td style="width: 5%;">
-                                <%= data[i].bid_price%>
-                            </td>
-                            <td style="width: 5%;">
-                                <%= data[i].bid_status%>
-                            </td>
-                            <td class="btn-group btn-group-sm" style="width: 2%;">
-                                <a href="javascript:void(0);" class="btn btn-xs btn-info edit" data-bid_logid="<%= data[i].bid_logid%>" data-bid_producename="<%= data[i].bid_produceName%>" data-bid_timestamp="<%=data[i].bid_timeStamp%>" data-bid_quantity="<%= data[i].bid_quantity%>"
-                                    data-bid_price="<%= data[i].bid_price%>" data-bid_province="<%= data[i].bid_province%>" data-bid_status="<%= data[i].bid_status%>" data-bid_user="<%= data[i].bid_user%>" data-bid_unitofmeasure="<%= data[i].bid_unitOfMeasure%>"
-                                    data-bid_saletime="<%= data[i].bid_saleTime%>" data-bid_saleuser="<%= data[i].bid_saleUser%>" data-bid_description="<%= data[i].bid_description%>"><i class="far fa-eye"></i></a>
-                            </td>
-                        </tr>
-                        <% }
+        <tr>
+          <th scope="row" style="width: 2%;">
+            <%= (i+1) %>
+          </th>
+          <td style="width: 27%;">
+            <%= data[i].bid_logid%>
+          </td>
+          <td style="width: 10%;">
+            <%= data[i].bid_produceName%>
+          </td>
+          <td style="width: 45%;">
+            <%= data[i].bid_timeStamp%>
+          </td>
+          <td style="width: 2%;">
+            <%= data[i].bid_quantity%>
+          </td>
+          <td style="width: 3%;">
+            <%= data[i].bid_unitOfMeasure%>
+          </td>
+          <td style="width: 5%;">
+            <%= data[i].bid_price%>
+          </td>
+          <td style="width: 5%;">
+            <%= data[i].bid_status%>
+          </td>
+          <td class="btn-group btn-group-sm" style="width: 2%;">
+            <a href="javascript:void(0);" class="btn btn-xs btn-info edit" data-bid_logid="<%= data[i].bid_logid%>" data-bid_producename="<%= data[i].bid_produceName%>" data-bid_timestamp="<%=data[i].bid_timeStamp%>" data-bid_quantity="<%= data[i].bid_quantity%>" data-bid_price="<%= data[i].bid_price%>" data-bid_province="<%= data[i].bid_province%>" data-bid_status="<%= data[i].bid_status%>" data-bid_user="<%= data[i].bid_user%>" data-bid_unitofmeasure="<%= data[i].bid_unitOfMeasure%>" data-bid_saletime="<%= data[i].bid_saleTime%>" data-bid_saleuser="<%= data[i].bid_saleUser%>" data-bid_description="<%= data[i].bid_description%>"><i class="far fa-eye"></i></a>
+          </td>
+        </tr>
+        <% }
 
            }else{ %>
-                            <tr>
-                                <td colspan="5">No Bidding data available for user</td>
-                            </tr>
-                            <% } %>
+        <tr>
+          <td colspan="5">No Bidding data available for user</td>
+        </tr>
+        <% } %>
 
-                </tbody>
-            </table>
-    </div>
-    <!-- END TABLE-->
+      </tbody>
+    </table>
+  </div>
+  <!-- END TABLE-->
 
-    <!-- Modal Add Bid-->
-    <form id="buyerOfferModalForm" action="/app/buyer/bid/save" method="post">
-        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="exampleModalLabel">Place new bid</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-               </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-row">
-                            <div class="modal-column">
-                                <div class="form-group">
-                                    <label for="bid_produceName">Produce Name</label>
-                                    <select class="form-control" id="bid_produceName" name="bid_produceName">
-                    <option value="" selected disabled >Choose Produce...</option>
+  <!-- Modal Add Bid-->
+  <form id="buyerOfferModalForm" action="/app/buyer/bid/save" method="post">
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Place new bid</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-row">
+              <div class="modal-column">
+                <div class="form-group">
+                  <label for="bid_produceName">Produce Name</label>
+                  <select class="form-control" id="bid_produceName" name="bid_produceName">
+                    <option value="" selected disabled>Choose Produce...</option>
                     <option>Baby Marrow</option>
                     <option>Baby Leeks</option>
                     <option>Basil</option>
@@ -189,212 +187,212 @@
                     <option>Cucumber</option>
                     <option>Eggs</option>
                     <option>Fennel</option>
-		                <option>Granadilla</option>
+                    <option>Granadilla</option>
                     <option>Green Beans</option>
                     <option>Herbs</option>
                     <option>Lebanese Cucumber</option>
                     <option>Leeks</option>
                     <option>Lemon</option>
                     <option>Lettuce</option>
-		                <option>Limes</option>
+                    <option>Limes</option>
                     <option>Mor</option>
-	                  <option>Onion</option>
-		                <option>Pak Choi</option>
-		                <option>Parsley</option>
+                    <option>Onion</option>
+                    <option>Pak Choi</option>
+                    <option>Parsley</option>
                     <option>Radish</option>
                     <option>Sorrel</option>
                     <option>Swiss Chard</option>
                     <option>Spinach</option>
                     <option>Turnips</option>
                   </select>
-                                </div>
+                </div>
 
-                                <div class="form-group">
-                                    <label for="bid_quantity">Produce quantity</label>
-                                    <input type="number" name="bid_quantity" class="form-control" placeholder="Quantity" required>
-                                </div>
+                <div class="form-group">
+                  <label for="bid_quantity">Produce quantity</label>
+                  <input type="number" name="bid_quantity" class="form-control" placeholder="Quantity" required>
+                </div>
 
-                                <div class="form-group">
-                                    <label for="bid_unitOfMeasure">Unit of Measure</label>
-                                    <select class="form-control" id="bid_unitOfMeasure" name="bid_unitOfMeasure">
+                <div class="form-group">
+                  <label for="bid_unitOfMeasure">Unit of Measure</label>
+                  <select class="form-control" id="bid_unitOfMeasure" name="bid_unitOfMeasure">
                     <option value="" selected disabled required>Choose Unit of Measure...</option>
                     <option>kilogram</option>
                   </select>
-                                </div>
-                            </div>
-                            <div class="modal-column">
-                                <div class="form-group">
-                                    <label for="bid_price">Price</label>
-                                    <input type="number" name="bid_price" class="form-control" placeholder="Bid Price" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bid_province">Province</label>
-                                    <select class="custom-select d-block w-100 form-control" name="bid_province" id="bid_province" required>
-               <option value="" selected disabled>Choose a Province</option>
-               <option>Western Cape</option>
-               <option>Eastern Cape</option>
-               <option>Northern Cape</option>
-               <option>North West</option>
-               <option>KZN</option>
-               <option>Free State</option>
-               <option>Gauteng</option>
-               <option>Mpumalanga</option>
-               <option>Limpopo</option>
-             </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Modal Column  -->
-                        <!-- End Modal Row -->
-                        <div class="modal-row">
-                            <div class="modal-column full-width">
-                                <div class="form-group">
-                                    <label for="bid_description">Description *[Optional]</label>
-                                    <br>
-                                    <textarea id="bid_description" class="descriptionTextAreaInput" name="bid_description" rows="4">
+                </div>
+              </div>
+              <div class="modal-column">
+                <div class="form-group">
+                  <label for="bid_price">Price</label>
+                  <input type="number" name="bid_price" class="form-control" placeholder="Bid Price" required>
+                </div>
+                <div class="form-group">
+                  <label for="bid_province">Province</label>
+                  <select class="custom-select d-block w-100 form-control" name="bid_province" id="bid_province" required>
+                    <option value="" selected disabled>Choose a Province</option>
+                    <option>Western Cape</option>
+                    <option>Eastern Cape</option>
+                    <option>Northern Cape</option>
+                    <option>North West</option>
+                    <option>KZN</option>
+                    <option>Free State</option>
+                    <option>Gauteng</option>
+                    <option>Mpumalanga</option>
+                    <option>Limpopo</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- End Modal Column  -->
+            <!-- End Modal Row -->
+            <div class="modal-row">
+              <div class="modal-column full-width">
+                <div class="form-group">
+                  <label for="bid_description">Description *[Optional]</label>
+                  <br>
+                  <textarea id="bid_description" class="descriptionTextAreaInput" name="bid_description" rows="4">
               </textarea>
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
+                  <br>
                 </div>
+              </div>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
         </div>
-    </form>
-    <!-- End Modal Add Bid-->
+      </div>
+    </div>
+  </form>
+  <!-- End Modal Add Bid-->
 
-    <!-- Modal View Bid-->
-    <form id="viewBidModalForm" action="app/buyer" method="POST">
-        <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="exampleModalLabel">View Bid</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-row">
-                            <div class="modal-column">
-                                <div class="form-group">
-                                    <label for="bid_logid">Bid ID</label>
-                                    <input type="text" name="bid_logid" class="form-control bid_logid" placeholder="Bid ID" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bid_produceName">Produce Name</label>
-                                    <input type="text" name="bid_produceName" class="form-control bid_produceName" placeholder="Produce Name" disabled>
-                                </div>
+  <!-- Modal View Bid-->
+  <form id="viewBidModalForm" action="app/buyer" method="POST">
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">View Bid</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-row">
+              <div class="modal-column">
+                <div class="form-group">
+                  <label for="bid_logid">Bid ID</label>
+                  <input type="text" name="bid_logid" class="form-control bid_logid" placeholder="Bid ID" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="bid_produceName">Produce Name</label>
+                  <input type="text" name="bid_produceName" class="form-control bid_produceName" placeholder="Produce Name" disabled>
+                </div>
 
-                                <div class="form-group">
-                                    <label for="bid_quantity">Produce quantity</label>
-                                    <input type="number" name="bid_quantity" class="form-control bid_quantity" placeholder="Quantity" disabled>
-                                </div>
+                <div class="form-group">
+                  <label for="bid_quantity">Produce quantity</label>
+                  <input type="number" name="bid_quantity" class="form-control bid_quantity" placeholder="Quantity" disabled>
+                </div>
 
-                                <div class="form-group">
-                                    <label for="bid_unitOfMeasure">Unit of Measure</label>
-                                    <input type="text" name="bid_unitOfMeasure" class="form-control bid_unitOfMeasure" placeholder="Unit of Measure" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bid_price">Price</label>
-                                    <input type="text" name="bid_price" class="form-control bid_price" placeholder="Bid Price" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bid_province">Province</label>
-                                    <input type="text" name="bid_province" class="form-control bid_province" placeholder="Bid Province" disabled>
-                                </div>
-                            </div>
-                            <!-- end of column -->
-                            <div class="modal-column">
-                                <div class="form-group">
-                                    <label for="bid_user">Placed by</label>
-                                    <input type="text" name="bid_user" class="form-control bid_user" placeholder="Bid user" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bid_timeStamp">Timestamp</label>
-                                    <input type="text" name="bid_timeStamp" class="form-control bid_timeStamp" placeholder="Bid Timestamp" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bid_status">Status</label>
-                                    <input type="text" name="bid_status" class="form-control bid_status" placeholder="Bid Status" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bid_saleTime">Sale Time</label>
-                                    <input type="text" name="bid_saleTime" class="form-control bid_saleTime" placeholder="Not yet acquired by seller" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bid_saleUserName">Sale User Name</label>
-                                    <input type="text" name="bid_saleUserName" class="form-control bid_saleUserName" placeholder="Not yet acquired by seller" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bid_description">Description</label>
-                                    <br>
-                                    <textarea id="bid_description" class="descriptionTextAreaInput" name="bid_description2" rows="4" disabled>
+                <div class="form-group">
+                  <label for="bid_unitOfMeasure">Unit of Measure</label>
+                  <input type="text" name="bid_unitOfMeasure" class="form-control bid_unitOfMeasure" placeholder="Unit of Measure" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="bid_price">Price</label>
+                  <input type="text" name="bid_price" class="form-control bid_price" placeholder="Bid Price" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="bid_province">Province</label>
+                  <input type="text" name="bid_province" class="form-control bid_province" placeholder="Bid Province" disabled>
+                </div>
+              </div>
+              <!-- end of column -->
+              <div class="modal-column">
+                <div class="form-group">
+                  <label for="bid_user">Placed by</label>
+                  <input type="text" name="bid_user" class="form-control bid_user" placeholder="Bid user" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="bid_timeStamp">Timestamp</label>
+                  <input type="text" name="bid_timeStamp" class="form-control bid_timeStamp" placeholder="Bid Timestamp" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="bid_status">Status</label>
+                  <input type="text" name="bid_status" class="form-control bid_status" placeholder="Bid Status" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="bid_saleTime">Sale Time</label>
+                  <input type="text" name="bid_saleTime" class="form-control bid_saleTime" placeholder="Not yet acquired by seller" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="bid_saleUserName">Sale User Name</label>
+                  <input type="text" name="bid_saleUserName" class="form-control bid_saleUserName" placeholder="Not yet acquired by seller" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="bid_description">Description</label>
+                  <br>
+                  <textarea id="bid_description" class="descriptionTextAreaInput" name="bid_description2" rows="4" disabled>
                 </textarea>
-                                    <br>
-                                </div>
-                            </div>
-                            <!-- end of column -->
-                        </div>
-                        <!-- end of row -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                  <br>
                 </div>
+              </div>
+              <!-- end of column -->
             </div>
+            <!-- end of row -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
         </div>
-    </form>
-    <!-- End Modal View Bid-->
+      </div>
+    </div>
+  </form>
+  <!-- End Modal View Bid-->
 
 
 
-    <!-- start footer -->
-    <% include ./partials/footer %>
-        <!-- end footer -->
+  <!-- start footer -->
+  <% include('./partials/footer')%>
+  <!-- end footer -->
 
-        <script type="text/javascript" src="/js/bundle.js"></script>
-        <script src="/js/scripts.min.js"></script>
-        <script src="/js/main.min.js"></script>
-        <script src="/js/custom.js"></script>
-        <script>
-            $(document).ready(function() {
+  <script type="text/javascript" src="/js/bundle.js"></script>
+  <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <script>
+    $(document).ready(function() {
 
-                //showing data to edit modal
-                $('#bidTable').on('click', '.edit', function() {
-                    var bid_logid = $(this).data('bid_logid');
-                    var bid_produceName = $(this).data('bid_producename');
-                    var bid_quantity = $(this).data('bid_quantity');
-                    var bid_unitOfMeasure = $(this).data('bid_unitofmeasure');
-                    var bid_price = $(this).data('bid_price');
-                    var bid_province = $(this).data('bid_province');
-                    var bid_user = $(this).data('bid_user');
-                    var bid_timeStamp = $(this).data('bid_timestamp');
-                    var bid_status = $(this).data('bid_status');
-                    var bid_saleTime = $(this).data('bid_saletime');
-                    var bid_saleUser = $(this).data('bid_saleuser');
-                    var bid_description = $(this).data('bid_description');
-                    $('#viewModal').modal('show');
-                    $('.bid_logid').val(bid_logid);
-                    $('.bid_produceName').val(bid_produceName);
-                    $('.bid_quantity').val(bid_quantity);
-                    $('.bid_unitOfMeasure').val(bid_unitOfMeasure);
-                    $('.bid_price').val(bid_price);
-                    $('.bid_province').val(bid_province);
-                    $('.bid_user').val(bid_user);
-                    $('.bid_timeStamp').val(bid_timeStamp);
-                    $('.bid_status').val(bid_status);
-                    $('.bid_saleTime').val(bid_saleTime);
-                    $('.bid_saleUser').val(bid_saleUser);
-                    $('textarea[name="bid_description2"]').val(bid_description);
-                });
-            });
-        </script>
+      //showing data to edit modal
+      $('#bidTable').on('click', '.edit', function() {
+        var bid_logid = $(this).data('bid_logid');
+        var bid_produceName = $(this).data('bid_producename');
+        var bid_quantity = $(this).data('bid_quantity');
+        var bid_unitOfMeasure = $(this).data('bid_unitofmeasure');
+        var bid_price = $(this).data('bid_price');
+        var bid_province = $(this).data('bid_province');
+        var bid_user = $(this).data('bid_user');
+        var bid_timeStamp = $(this).data('bid_timestamp');
+        var bid_status = $(this).data('bid_status');
+        var bid_saleTime = $(this).data('bid_saletime');
+        var bid_saleUser = $(this).data('bid_saleuser');
+        var bid_description = $(this).data('bid_description');
+        $('#viewModal').modal('show');
+        $('.bid_logid').val(bid_logid);
+        $('.bid_produceName').val(bid_produceName);
+        $('.bid_quantity').val(bid_quantity);
+        $('.bid_unitOfMeasure').val(bid_unitOfMeasure);
+        $('.bid_price').val(bid_price);
+        $('.bid_province').val(bid_province);
+        $('.bid_user').val(bid_user);
+        $('.bid_timeStamp').val(bid_timeStamp);
+        $('.bid_status').val(bid_status);
+        $('.bid_saleTime').val(bid_saleTime);
+        $('.bid_saleUser').val(bid_saleUser);
+        $('textarea[name="bid_description2"]').val(bid_description);
+      });
+    });
+  </script>
 </body>
 
 </html>

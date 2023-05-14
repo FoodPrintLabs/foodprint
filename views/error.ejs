@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <% include ./partials/head %>  
-  </head>
-  <body>
-   <!-- START: header -->
+
+<head>
+  <% include('./partials/head') %>
+</head>
+
+<body>
+  <!-- START: header -->
 
   <div class="probootstrap-loader"></div>
 
   <header role="banner" class="probootstrap-header">
-      <% include ./partials/header %>
+    <% include('./partials/header')%>
   </header>
   <!-- END: header -->
 
-   <!-- START TABLE-->
-   <div class="container" style="width: 100%;">
+  <!-- START TABLE-->
+  <div class="container" style="width: 100%;">
     <h3>Error</h3>
-        <h4><%= message %></h4>
-        <% console.log(message) %>
-        <% console.log(error) %>
-        <% if (typeof error != "undefined" && error.length) { %>
-           <%= error %>
-            <h6><%= error.status %></h6>
-            <pre><%= error.stack %></pre>
-        <% } %>
+    <h4><%= message %></h4>
+    <% console.log(message) %>
+    <% console.log(error) %>
+    <% if (typeof error != "undefined" && error.length) { %>
+    <%= error %>
+    <h6><%= error.status %></h6>
+    <pre><%= error.stack %></pre>
+    <% } %>
 
-   <!-- start footer -->
-   <% include ./partials/footer %>
-   <!-- end footer -->
-  <script src="/js/scripts.min.js"></script>
-  <script src="/js/main.min.js"></script>
-  <script src="/js/custom.js"></script>
-  </body>
+    <!-- start footer -->
+    <% include('./partials/footer')%>
+    <!-- end footer -->
+    <script src="/js/scripts.min.js"></script>
+    <script src="/js/main.min.js"></script>
+    <script src="/js/custom.js"></script>
+</body>
+
 </html>

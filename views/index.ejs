@@ -2,190 +2,190 @@
 <html lang="en">
 
 <head>
-    <% include ./partials/head %>
+  <% include('./partials/head') %>
 </head>
 
 <body>
-    <!-- START: header -->
+  <!-- START: header -->
 
-    <div class="probootstrap-loader"></div>
+  <div class="probootstrap-loader"></div>
 
-    <header role="banner" class="probootstrap-header">
-        <% include ./partials/header %>
-    </header>
-    <!-- END: header -->
+  <header role="banner" class="probootstrap-header">
+    <% include('./partials/header') %>
+  </header>
+  <!-- END: header -->
 
-    <div class="container" style="width: 100%;">
-        <div class="home-dashboard row align-items-center justify-content-center">
-            <!-- START  LANDING PAGE-->
-            <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
-            <div class="title col-12 title-global-container">
-                <h3 class="title-global">Welcome to FoodPrint</h3>
+  <div class="container" style="width: 100%;">
+    <div class="home-dashboard row align-items-center justify-content-center">
+      <!-- START  LANDING PAGE-->
+      <!-- col-md-offset-3 class that will offset by 3 columns, given that Bootstrap has a 12-column grid this will put a col-md-6 element right in the center. -->
+      <div class="title col-12 title-global-container">
+        <h3 class="title-global">Welcome to FoodPrint</h3>
+      </div>
+      <% include('./partials/notificationbar') %>
+      <div class="row">
+        <h4 style="margin-left: 30px;">Track and Trace</h4>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-list-alt"></i> <a href="/app/harvest">Harvest Logbook</a></p>
             </div>
-            <% include ./partials/notificationbar %>
-                <div class="row">
-                    <h4 style="margin-left: 30px;">Track and Trace</h4>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-list-alt"></i> <a href="/app/harvest">Harvest Logbook</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-list-alt"></i> <a href="/app/storage">Handover Logbook</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-search"></i> <a href="/app/trace_produce">Trace Produce</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <h4 style="margin-left: 30px;">Wholesale Marketplace</h4>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-book"></i> <a href="/app/buyer">Buyer Logbook</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-book"></i> <a href="/app/seller">Seller Logbook</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-archive"></i> <a href="/app/order">Order Dashboard</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-briefcase"></i> <a href="/app/order/myorders">My Orders</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-list"></i> <a href="/app/produce">Produce List</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-tags"></i> <a href="/app/produce/pricepage">Produce Pricing</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-download"></i> <a href="/app/produce/pricepage/pdf">Download Produce Price PDF</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <h4 style="margin-left: 30px;">Reporting and Dashboards</h4>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-qrcode"></i> <a href="/app/qrcode">QR Code Analytics</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-archive"></i> <a href="/app/order">Order Dashboard</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-table"></i> <a href="/app/dashboards/admin">Admin Dashboard</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="margin: 30px;">
-                            <div class="card-header">
-                                <p class="card-title h4"><i class="fa fa-table"></i> <a href="/app/dashboard/farmer">Farmer Dashboard</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <% if(admin_status){ %>
-                    <div class="row">
-                        <h4 style="margin-left: 30px;">Configuration</h4>
-                        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                            <div class="card" style="margin: 30px;" ">
-          <div class="card-header ">
-            <p class="card-title h4 "><i class="fa fa-qrcode "></i> <a href="/app/qrcode ">QR Codes - Static</a></p>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-list-alt"></i> <a href="/app/storage">Handover Logbook</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-search"></i> <a href="/app/trace_produce">Trace Produce</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <h4 style="margin-left: 30px;">Wholesale Marketplace</h4>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-book"></i> <a href="/app/buyer">Buyer Logbook</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-book"></i> <a href="/app/seller">Seller Logbook</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-archive"></i> <a href="/app/order">Order Dashboard</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-briefcase"></i> <a href="/app/order/myorders">My Orders</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-list"></i> <a href="/app/produce">Produce List</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-tags"></i> <a href="/app/produce/pricepage">Produce Pricing</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-download"></i> <a href="/app/produce/pricepage/pdf">Download Produce Price PDF</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <h4 style="margin-left: 30px;">Reporting and Dashboards</h4>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-qrcode"></i> <a href="/app/qrcode">QR Code Analytics</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-archive"></i> <a href="/app/order">Order Dashboard</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-table"></i> <a href="/app/dashboards/admin">Admin Dashboard</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;">
+            <div class="card-header">
+              <p class="card-title h4"><i class="fa fa-table"></i> <a href="/app/dashboard/farmer">Farmer Dashboard</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if(admin_status){ %>
+      <div class="row">
+        <h4 style="margin-left: 30px;">Configuration</h4>
+        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="card" style="margin: 30px;" ">
+          <div class=" card-header ">
+            <p class=" card-title h4 "><i class=" fa fa-qrcode "></i> <a href=" /app/qrcode ">QR Codes - Static</a></p>
           </div>
       </div>
     </div>
-    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-      <div class="card " style="margin: 30px; ">
-        <div class="card-header ">
-          <p class="card-title h4 "><i class="fa fa-qrcode "></i> <a href="/app/qrcode/supplierproduce ">QR Codes - Supplier</a></p>
+    <div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+      <div class=" card " style=" margin: 30px; ">
+        <div class=" card-header ">
+          <p class=" card-title h4 "><i class=" fa fa-qrcode "></i> <a href=" /app/qrcode/supplierproduce ">QR Codes - Supplier</a></p>
         </div>
     </div>
   </div>
-  <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-    <div class="card " style="margin: 30px; ">
-      <div class="card-header ">
-        <p class="card-title h4 "><i class="fa fa-play "></i> <a href="https://www.foodprintapp.com/img/demo_qrcode.png " target="_blank ">Demo FoodPrint Farm - Beetroot QR Code</a></p>
+  <div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+    <div class=" card " style=" margin: 30px; ">
+      <div class=" card-header ">
+        <p class=" card-title h4 "><i class=" fa fa-play "></i> <a href=" https://www.foodprintapp.com/img/demo_qrcode.png " target=" _blank ">Demo FoodPrint Farm - Beetroot QR Code</a></p>
       </div>
   </div>
 </div>
-<div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-  <div class="card " style="margin: 30px; ">
-    <div class="card-header ">
-      <p class="card-title h4 "><i class="fa fa-users "></i> <a href="/app/blockchain_explorer ">Users</a></p>
+<div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+  <div class=" card " style=" margin: 30px; ">
+    <div class=" card-header ">
+      <p class=" card-title h4 "><i class=" fa fa-users "></i> <a href=" /app/blockchain_explorer ">Users</a></p>
     </div>
 </div>
 </div>
-<div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-  <div class="card " style="margin: 30px; ">
-    <div class="card-header ">
-      <p class="card-title h4 "><i class="fa fa-check "></i> <a href="/app/test_config ">Testing UI</a></p>
+<div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+  <div class=" card " style=" margin: 30px; ">
+    <div class=" card-header ">
+      <p class=" card-title h4 "><i class=" fa fa-check "></i> <a href=" /app/test_config ">Testing UI</a></p>
     </div>
 </div>
 </div>
-<div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-  <div class="card " style="margin: 30px; ">
-    <div class="card-header ">
-      <p class="card-title h4 "><i class="fa fa-list "></i> <a href="/app/produce ">Produce List</a></p>
+<div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+  <div class=" card " style=" margin: 30px; ">
+    <div class=" card-header ">
+      <p class=" card-title h4 "><i class=" fa fa-list "></i> <a href=" /app/produce ">Produce List</a></p>
     </div>
 </div>
 </div>
-<div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-  <div class="card " style="margin: 30px; ">
-    <div class="card-header ">
-      <p class="card-title h4 "><i class="fa fa-tags "></i> <a href="/app/produce/pricepage ">Produce Pricing</a></p>
+<div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+  <div class=" card " style=" margin: 30px; ">
+    <div class=" card-header ">
+      <p class=" card-title h4 "><i class=" fa fa-tags "></i> <a href=" /app/produce/pricepage ">Produce Pricing</a></p>
     </div>
 </div>
 </div>
-<div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-  <div class="card " style="margin: 30px; ">
-    <div class="card-header ">
-      <p class="card-title h4 "><i class="fa fa-envelope "></i> <a href="/app/email ">Email Logs</a></p>
+<div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+  <div class=" card " style=" margin: 30px; ">
+    <div class=" card-header ">
+      <p class=" card-title h4 "><i class=" fa fa-envelope "></i> <a href=" /app/email ">Email Logs</a></p>
     </div>
 </div>
 </div>
@@ -193,36 +193,36 @@
   <%} else {%>
               
     <% } %>
-  <div class="row ">
-    <h4 style="margin-left: 30px; ">Support</h4>
-    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-      <div class="card " style="margin: 30px ">
-        <div class="card-header ">
-          <p class="card-title h4 "><i class="fa fa-newspaper "></i> <a href="https://knowledge.foodprintlabs.com " target="_blank " >Knowledge Base</a></p>
+  <div class=" row ">
+    <h4 style=" margin-left: 30px; ">Support</h4>
+    <div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+      <div class=" card " style=" margin: 30px ">
+        <div class=" card-header ">
+          <p class=" card-title h4 "><i class=" fa fa-newspaper "></i> <a href=" https://knowledge.foodprintlabs.com " target=" _blank " >Knowledge Base</a></p>
         </div>
     </div>
   </div>
-  <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-    <div class="card " style="margin: 30px; ">
-      <div class="card-header ">
-        <p class="card-title h4 "><i class="fa fa-info-circle "></i> <a href="mailto:support@foodprintlabs.com ">FoodPrint Support</a></p>
+  <div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+    <div class=" card " style=" margin: 30px; ">
+      <div class=" card-header ">
+        <p class=" card-title h4 "><i class=" fa fa-info-circle "></i> <a href=" mailto:support@foodprintlabs.com ">FoodPrint Support</a></p>
       </div>
   </div>
 </div>
-<div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-  <div class="card " style="margin: 30px; ">
-    <div class="card-header ">
-      <p class="card-title h4 "><i class="fa fa-share "></i> <a target="_blank " href="http://foodprintlabs.com/ ">FoodPrint Labs Website</a></p>
+<div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+  <div class=" card " style=" margin: 30px; ">
+    <div class=" card-header ">
+      <p class=" card-title h4 "><i class=" fa fa-share "></i> <a target=" _blank " href=" http://foodprintlabs.com/ ">FoodPrint Labs Website</a></p>
     </div>
 </div>
 </div>
 </div>
-<div class="row ">
-  <h4 style="margin-left: 30px; ">Other</h4>
-  <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
-    <div class="card " style="margin: 30px ">
-      <div class="card-header ">
-        <p class="card-title h4 "><i class="fa fa-user "></i> <a href="/app/harvest ">My Account</a></p>
+<div class=" row ">
+  <h4 style=" margin-left: 30px; ">Other</h4>
+  <div class=" col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 ">
+    <div class=" card " style=" margin: 30px ">
+      <div class=" card-header ">
+        <p class=" card-title h4 "><i class=" fa fa-user "></i> <a href=" /app/harvest ">My Account</a></p>
       </div>
   </div>
 </div>
@@ -234,16 +234,16 @@
 
 
   <!-- start footer -->
-  <% include ./partials/footer %>
+  <% include('./partials/footer') %>
   <!-- end footer -->
 
-  <div class="gototop js-top ">
-    <a href="# " class="js-gotop "><i class="icon-chevron-thin-up "></i></a>
+  <div class=" gototop js-top ">
+    <a href=" # " class=" js-gotop "><i class=" icon-chevron-thin-up "></i></a>
   </div>
 
-  <script src="js/scripts.min.js "></script>
-  <script src="js/main.min.js "></script>
-  <script src="js/custom.js "></script>
+  <script src=" js/scripts.min.js "></script>
+  <script src=" js/main.min.js "></script>
+  <script src=" js/custom.js "></script>
 
   </body>
 </html>
