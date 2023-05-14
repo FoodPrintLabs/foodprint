@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <% include('./partials/head') %>
+  <%- include('./partials/head') %>
 </head>
 
 <body>
@@ -11,7 +11,7 @@
   <div class="probootstrap-loader"></div>
 
   <header role="banner" class="probootstrap-header">
-    <% include('./partials/header') %>
+    <%- include('./partials/header') %>
   </header>
   <!-- END: header -->
 
@@ -24,7 +24,7 @@
         <div class="title col-12 title-global-container">
           <h3 class="title-global">BLOCKCHAIN EXPLORER</h3>
         </div>
-        <% include('./partials/notificationbar') %>
+        <%- include('./partials/notificationbar') %>
         <div>
           <a class="btn btn-primary btn-sm enableBlockchainButton">Enable Blockchain Wallet</a>
           <p>Connected Account: <span class="showAccount"></span></p>
@@ -87,7 +87,7 @@
   </div>
 
   <!-- start footer -->
-  <% include('./partials/footer') %>
+  <%- include('./partials/footer') %>
   <!-- end footer -->
 
   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
