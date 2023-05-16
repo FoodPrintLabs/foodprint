@@ -214,14 +214,14 @@
 
     for(var i = 0; i< produce_rows.length; i++){
   %>
-      <div class="row produce-item">
+      <div class="row produce-item-outer-row">
         <!--PRODUCE HEADING-->
-        <div class="produce-heading">
+        <div class="produce-heading-row">
           <h4>
             <%=produce_rows[i]%>
           </h4>
         </div>
-        <div class="offers-bids-container">
+        <div class="offers-bids-container-row">
           <!--BIDS COL-->
           <div class="bids-container">
             <h4>BIDS</h4>
@@ -235,7 +235,7 @@
                 <div class="card-header">
                   <% if (bid_rows[k].bid_status == "Settled" ) { %>
                   <b>SETTLED</b>
-                  <% }%>
+                  <% } %>
                 </div>
                 <div class="card-body">
 
@@ -250,6 +250,12 @@
                 </div>
               </div>
               <%}} %>
+              <% if (!bid_rows.find((bid) => bid.bid_produceName == produce_rows[i]))  { %>
+              <div class="card" style="height: fit-content">
+                <h4>No Bids</h4>
+              </div>
+              <% } %>
+
             </div>
           </div>
           <!--OFFERS COL-->
@@ -260,11 +266,11 @@
               <% for(var k = 0; k< offer_rows.length; k++){ 
           if(offer_rows[k].offer_produceName == produce_rows[i]) {
         %>
-              <div class="card col-1 col-lg-1 col-xl-1" style="width: 12rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; box-shadow: 2px 2px 4px 5px #ccc;">
+              <div class="card col-1 col-lg-1 col-xl-1">
                 <div class="card-header">
-                  <p class="card-title h4">Offer -
+                  <!-- <p class="card-title h4">Offer -
                     <%=offer_rows[k].offer_produceName%>
-                  </p>
+                  </p> -->
                   <% if (offer_rows[k].offer_status == "Settled" ) { %>
                   <b>SETTLED</b>
                   <% }%>
@@ -287,12 +293,18 @@
                 </div>
               </div>
               <%}} %>
+
+              <% if (!offer_rows.find((offer) => offer.offer_produceName == produce_rows[i]))  { %>
+              <div class="card" style="height: fit-content">
+                <h4>No Offers</h4>
+              </div>
+              <% } %>
             </div>
           </div>
         </div>
       </div>
 
-      <!--END OF OFFER SECTION-->
+      <!--END OF OFFER SECTION -->
       <% }
 
            }else{ %>
