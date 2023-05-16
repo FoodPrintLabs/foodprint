@@ -12,6 +12,7 @@ const axios = require('axios');
 const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 const CUSTOM_ENUMS = require('../utils/enums');
+const path = require('path');
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
@@ -25,10 +26,16 @@ const {
   resolveFilenames,
   uploadConnection,
 } = require('../config/digitalocean/file-upload');
+const { getMimeType } = require('../utils/image_mimetypes');
+
 const pdfService = require('../config/pdf/pdf-service');
 const { harvestpdf } = require('../config/pdf/harvestpdf');
 //Name of your DO bucket here
 const BucketName = process.env.DO_BUCKET_NAME;
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const tw_client = require('twilio')(accountSid, authToken);
 
 /*   function to determine rows of data that can be seen based on user role */
 function getHarvestSqlSearchCondition(user){
@@ -71,13 +78,16 @@ router.get(
           console.log('All harvests:' + rows.length.toString());
 
           for (let i = 0; i < rows.length; i++) {
-            if (rows[i].harvest_photoHash === null) {
+            if (rows[i].harvest_image_url === null) {
+              rows[i].harvest_image_url = '';
+            }
+            /*if (rows[i].harvest_photoHash === null) {
               rows[i].harvest_photoHash = '';
             } else {
               rows[i].harvest_photoHash =
                 'data:image/png;base64,' +
                 Buffer.from(rows[i].harvest_photoHash, 'binary').toString('base64');
-            }
+            }*/
           }
           res.render('harvestlogbook', {
             page_title: 'FoodPrint - Harvest Logbook',
@@ -218,8 +228,8 @@ router.post(
       const img = req.file;
 
       // req.body will hold the text fields, if there were any
-      // data is object-key-value pairs
-      let data = {
+      // harvest_entry is object-key-value pairs
+      let harvest_entry = {
         harvest_logid: harvest_logid_uuid,
         harvest_supplierShortcode: req.body.viewmodal_harvest_suppliershortcode,
         harvest_supplierName: req.body.viewmodal_harvest_suppliername,
@@ -228,7 +238,6 @@ router.post(
         covid19_response: req.body.viewmodal_harvest_covid19_response,
         harvest_supplierAddress: req.body.viewmodal_harvest_supplieraddress,
         harvest_produceName: req.body.viewmodal_harvest_producename,
-        //harvest_photoHash: req.body.viewmodal_harvest_photohash,
         harvest_TimeStamp: harvest_TimeStamp,
         harvest_CaptureTime: harvest_CaptureTime,
         harvest_Description: req.body.viewmodal_harvest_description,
@@ -248,23 +257,49 @@ router.post(
         lastmodifieddatetime: lastmodifieddatetime,
       };
       try {
-        fs.readFile(img.path, function (err, img_datadata) {
-          data['harvest_photoHash'] = img_datadata;
+        fs.readFile(img.path, async function (err, img_datadata) {
+          // data['harvest_photoHash'] = img_datadata;
 
-          models.FoodprintHarvest.create(data)
-            .then(_ => {
-              req.flash(
-                'success',
-                'New Harvest entry added successfully! Harvest ID = ' + harvest_logid_uuid
-              );
+          // console.log(img)
+          // console.log(`type ${img.mimetype}`)
+          // console.log(`extension ${path.extname(img.originalname)}`)
+          const filenames = resolveFilenames(
+            harvest_logid_uuid,
+            `${path.extname(img.originalname)}`
+          );
+          const uploadParams = getUploadParams(
+            BucketName,
+            img.mimetype,
+            img_datadata,
+            'public-read',
+            filenames.filename
+          );
+          uploadConnection.upload(uploadParams, function (error, data) {
+            if (error) {
+              console.error(error);
+              req.flash('error', error.message);
               res.redirect('/app/harvest');
-            })
-            .catch(err => {
-              //throw err;
-              req.flash('error', err.message);
-              // redirect to harvest logbook page
-              res.redirect('/app/harvest');
-            });
+            } else {
+              console.log('File uploaded ' + filenames.fileUrl);
+
+              harvest_entry['harvest_image_url'] = filenames.fileUrl;
+
+              models.FoodprintHarvest.create(harvest_entry)
+                .then(_ => {
+                  req.flash(
+                    'success',
+                    'New Harvest entry added successfully! Harvest ID = ' + harvest_logid_uuid
+                  );
+                  res.redirect('/app/harvest');
+                })
+                .catch(err => {
+                  //throw err;
+                  req.flash('error', err.message);
+                  // redirect to harvest logbook page
+                  res.redirect('/app/harvest');
+                });
+            }
+          });
         });
       } catch (e) {
         //this will eventually be handled by your error handling middleware
@@ -311,31 +346,50 @@ router.post(
 
 // route create harvest via WhatsApp
 router.post('/save/whatsapp', async function (req, res) {
+
+  const createHarvestEntry = function(data){
+    try {
+      models.FoodprintHarvest.create(data)
+        .then(_ => {
+          res.status(201).send({ message: 'harvest created', harvest_logid: data.harvest_logid });
+        })
+        .then(_ => {
+          data['harvest_photoHash'] = harvest_photoHash;
+          whatsappHarvestToBlockchain(data, protocol, host);
+        })
+        .catch(err => {
+          //throw err;
+          console.log(err.message);
+          res.status(400).send({ message: err.message });
+        });
+    } catch (e) {
+      //this will eventually be handled by your error handling middleware
+      //res.json({success: false, errors:errors.array()});
+      console.log(e);
+      res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
+    }
+  }
+
+
   let harvest_logid_uuid = uuidv4();
   let harvest_TimeStamp = moment(new Date(req.body.harvest_date)).format('YYYY-MM-DD'); //actual time of harvest in the field
   let harvest_CaptureTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss'); //time of harvest data entry
   let logdatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
   let lastmodifieddatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+  let channel = 'WhatsApp';
 
   let harvest_photoHash = '';
+  let twilio_url = '';
   let host = req.get('host');
   let protocol = 'https';
+  let harvest_image_url = '';
 
   // if running in dev then protocol can be http otherwise if you pass protocol as http for PRODUCTION, axios lib will fail when attempting to write to blockchain i.e. Error: Request failed with status code 404
   if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
     protocol = req.protocol;
   }
 
-  if (req.body.harvestURL) {
-    try {
-      const response = await fetch(req.body.harvestURL);
-      harvest_photoHash = await response.buffer();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  let data = {
+  let harvest_entry = {
     harvest_logid: harvest_logid_uuid,
     harvest_farmerName: req.body.harvest_farmerName,
     harvest_produceName: req.body.harvest_produceName,
@@ -351,24 +405,65 @@ router.post('/save/whatsapp', async function (req, res) {
     harvest_user: req.body.email,
     logdatetime: logdatetime,
     lastmodifieddatetime: lastmodifieddatetime,
-    harvest_photoHash,
+    twilio_url: twilio_url,
+    channel: channel,
+    // harvest_photoHash,
+    harvest_image_url: harvest_image_url ,
   };
-  try {
-    models.FoodprintHarvest.create(data)
-      .then(_ => {
-        res.status(201).send({ message: 'harvest created', harvest_logid: data.harvest_logid });
-      })
-      .then(_ => whatsappHarvestToBlockchain(data, protocol, host))
-      .catch(err => {
-        //throw err;
-        console.log(err.message);
-        res.status(400).send({ message: err.message });
-      });
-  } catch (e) {
-    //this will eventually be handled by your error handling middleware
-    //res.json({success: false, errors:errors.array()});
-    console.log(e);
-    res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
+
+  if (req.body.harvestURL) {
+    try {
+      twilio_url = req.body.harvestURL;
+      harvest_entry["twilio_url"] = twilio_url;
+      console.log('twilio_url -' + twilio_url);
+      const response = await fetch(req.body.harvestURL);
+      harvest_photoHash = await response.buffer();
+
+      const [accountID, messageID, mediaID] = twilio_url
+        .split("/")
+        .slice(4)
+        .filter((_, index) => index % 2 === 1);
+
+      console.log('accountID -' + accountID);
+      console.log('messageID -' + messageID);
+      console.log('mediaID -' + mediaID);
+
+
+      tw_client.messages(messageID)
+        .media(mediaID)
+        .fetch()
+        .then(media => {
+          console.log('twilio media metadata -' + media)
+          const contentType = media.contentType
+          const [fileType, ext] = contentType.split("/");
+          const filenames = resolveFilenames(
+            harvest_logid_uuid,
+            `.${ext}`
+          );
+          const uploadParams = getUploadParams(
+            BucketName,
+            contentType,
+            harvest_photoHash,
+            'public-read',
+            filenames.filename
+          );
+
+          uploadConnection.upload(uploadParams, function (error, data) {
+            if (error) {
+              console.error(error);
+            } else {
+                console.log('File uploaded ' + filenames.fileUrl);
+                harvest_entry["harvest_image_url"] = filenames.fileUrl;
+                createHarvestEntry(harvest_entry);
+            }
+          });
+        });
+
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    createHarvestEntry(harvest_entry);
   }
 });
 
@@ -875,5 +970,85 @@ router.get('/pdf/whatsapp/:phoneNumber', function (req, res) {
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
 });
+
+router.get(
+  '/migrateimages',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintHarvest.findAll({
+        order: [['pk', 'ASC']],
+      })
+        .then(rows => {
+          let message = 'completed successfully';
+          for (let i = 0; i < rows.length; i++) {
+            if (rows[i].harvest_photoHash === null) {
+              console.log(`no image for harvest ${rows[i].harvest_logid}`);
+            } else {
+              try {
+                const imageBuffer = Buffer.from(rows[i].harvest_photoHash, 'binary');
+                const metadata = getMimeType(imageBuffer);
+                const filenames = resolveFilenames(rows[i].harvest_logid, metadata.ext);
+                const uploadParams = getUploadParams(
+                  BucketName,
+                  metadata.contentType,
+                  imageBuffer,
+                  'public-read',
+                  filenames.filename
+                );
+                uploadConnection.upload(uploadParams, function (error, data) {
+                  if (error) {
+                    console.error(error);
+                  } else {
+                    console.log('File uploaded ' + filenames.fileUrl);
+                    const harvest_entry = {
+                      harvest_image_url: filenames.fileUrl,
+                    };
+
+                    models.FoodprintHarvest.update(harvest_entry, {
+                      where: {
+                        harvest_logid: rows[i].harvest_logid,
+                      },
+                    })
+                      .then(_ => {
+                        console.log(`updated image for ${rows[i].harvest_logid}`);
+                      })
+                      .catch(err => {
+                        //throw err;
+                        console.log('Error - Update Harvest failed');
+                        console.log(err);
+                        message = 'completed with errors please check console';
+
+                      });
+                  }
+                });
+              } catch (e) {
+                console.log(e);
+                console.log(`error on harvest ${rows[i].harvest_logid}`);
+                message = 'completed with errors please check console';
+              }
+            }
+          }
+          res.json({ message: message });
+        })
+        .catch(err => {
+          console.log('All harvests err:' + err);
+          res.json({ error: err });
+        });
+    } else {
+      res.json({ message: 'not authorised' });
+    }
+  }
+);
+
+router.post(
+  '/getimagehash',
+  async function(req, res, next) {
+    const response = await fetch(req.body.url);
+    const image_hash = await response.buffer();
+    const hash256 = crypto.createHash('sha256').update(image_hash).digest('base64');
+    res.send(hash256);
+  }
+);
 
 module.exports = router;

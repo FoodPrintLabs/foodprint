@@ -60,7 +60,7 @@
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "ejs": "^2.6.2",
+    "ejs": "^3.1.7",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
     "express-session": "^1.16.2",
@@ -76,7 +76,7 @@
     "mysql2": "^2.2.5",
     "node-fetch": "^3.1.0",
     "nodemailer": "^6.4.2",
-    "passport": "^0.4.0",
+    "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pdfkit": "^0.13.0",
     "pg": "^8.7.3",
@@ -84,6 +84,7 @@
     "sequelize": "^6.6.5",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
+    "twilio": "^3.84.1",
     "uglify-js": "^3.13.7",
     "uuid": "^3.3.3"
   }

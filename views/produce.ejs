@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <%- include('./partials/head') %>
+  <%- include('partials/head'); %>
   <script async>
     function activatefilter(veg) {
       window.location = '/app/produce/filter/' + veg;
@@ -39,7 +39,7 @@
   <div class="probootstrap-loader"></div>
 
   <header role="banner" class="probootstrap-header">
-    <%- include('./partials/header') %>
+    <%- include('partials/header'); %>
   </header>
   <!-- END: header -->
 
@@ -53,7 +53,7 @@
       <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Produce</button>
     </div>
 
-    <%- include('./partials/notificationbar') %>
+    <%- include('partials/notificationbar'); %>
 
     <br>
     <button onclick="removefilter()" class="btn btn-sm mt-3" id="all-veg-btn" style="background-color: white;">All Veg</button>
@@ -213,7 +213,7 @@
 
 
   <!-- start footer -->
-  <%- include('./partials/footer') %>
+  <%- include('partials/footer'); %>
   <!-- end footer -->
 
   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->

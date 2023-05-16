@@ -23,7 +23,7 @@ module.exports = function (sequelize, DataTypes) {
       },
       email: {
         type: DataTypes.STRING(255),
-        allowNull: false,
+        allowNull: true,
         unique: 'email',
       },
       phoneNumber: {
@@ -50,6 +50,10 @@ module.exports = function (sequelize, DataTypes) {
       },
       nationalIdPhotoHash: {
         type: DataTypes.BLOB,
+        allowNull: true,
+      },
+      user_identifier_image_url: {
+        type: DataTypes.STRING(255),
         allowNull: true,
       },
     },
