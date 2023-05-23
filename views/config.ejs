@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <% include ./partials/head %>  
+          <%- include('partials/head'); %>
   </head>
   <body>
    <!-- START: header -->
@@ -9,7 +9,7 @@
   <div class="probootstrap-loader"></div>
 
   <header role="banner" class="probootstrap-header">
-      <% include ./partials/header %>
+          <%- include('partials/header'); %>
   </header>
   <!-- END: header -->
 
@@ -20,7 +20,7 @@
         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalAdd">Add New Configuration</button>
     </div>
     
-    <% include ./partials/notificationbar %>
+        <%- include('partials/notificationbar'); %>
 
     <br>
       <table class="table table-hover table-sm" id="configtable">
@@ -168,7 +168,7 @@
     <!-- End Modal Delete Configuration-->
 
     <!-- start footer -->
-    <% include ./partials/footer %>
+    <%- include('partials/footer'); %>
     <!-- end footer -->
     
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->

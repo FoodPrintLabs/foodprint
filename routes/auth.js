@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var ROLES = require('../utils/roles');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 var fs = require('fs').promises;
 const multer = require('multer');
@@ -64,9 +65,13 @@ router.post(
 
 /* Logout. */
 router.get('/logout', function (req, res) {
-  req.logout();
-  req.flash('success', 'You are now logged out.');
-  res.redirect('/app/auth/login');
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    req.flash('success', 'You are now logged out.');
+    res.redirect('/app/auth/login');
+  });
 });
 
 /* Render Register page. */
@@ -230,18 +235,8 @@ router.get('/confirm/:confirmationCode', async function (req, res) {
 
 /* Process register for WhatsApp*/
 router.post('/register/whatsapp', async function (req, res) {
-  try {
-    if (req.body.idURL) {
-      try {
-        const response = await fetch(req.body.idURL);
-        req.body.nationalIdPhotoHash = await response.buffer();
-        delete req.body.idURL;
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    models.User.create(req.body)
+  const createUser = function (user_entry) {
+    models.User.create(user_entry)
       .then(_ => {
         models.User.findAll({
           attributes: [
@@ -256,7 +251,7 @@ router.post('/register/whatsapp', async function (req, res) {
             'registrationChannel',
           ],
           where: {
-            phoneNumber: req.body.phoneNumber,
+            phoneNumber: user_entry.phoneNumber,
           },
         })
           .then(users => {
@@ -275,6 +270,57 @@ router.post('/register/whatsapp', async function (req, res) {
         console.log(err);
         res.status(400).send({ message: err.message });
       });
+  };
+
+  try {
+    if (req.body.idURL) {
+      try {
+        const response = await fetch(req.body.idURL);
+        const id_hash = await response.buffer();
+        req.body.nationalIdPhotoHash = id_hash;
+
+        const twilio_url = req.body.idURL;
+        const [accountID, messageID, mediaID] = twilio_url
+          .split('/')
+          .slice(4)
+          .filter((_, index) => index % 2 === 1);
+
+        tw_client
+          .messages(messageID)
+          .media(mediaID)
+          .fetch()
+          .then(media => {
+            const contentType = media.contentType;
+            const [fileType, ext] = contentType.split('/');
+            const image_name = uuidv4();
+            const filenames = resolveFilenames(image_name, `.${ext}`);
+            const uploadParams = getUploadParams(
+              BucketName,
+              contentType,
+              id_hash,
+              'public-read',
+              filenames.filename
+            );
+
+            uploadConnection.upload(uploadParams, function (error, data) {
+              if (error) {
+                console.error(error);
+              } else {
+                // console.log('File uploaded ' + filenames.fileUrl);
+                req.body.user_identifier_image_url = filenames.fileUrl;
+                createUser(req.body);
+              }
+            });
+          });
+
+        delete req.body.idURL;
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      // console.log(req.body);
+      createUser(req.body);
+    }
   } catch (e) {
     console.log(e);
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
@@ -317,5 +363,81 @@ router.get('/register/status/:phoneNumber', function (req, res) {
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
 });
+
+router.get(
+  '/migratewhatsappusers',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.User.findAll({
+        order: [['ID', 'ASC']],
+      })
+        .then(rows => {
+          let message = 'completed successfully';
+          for (let i = 0; i < rows.length; i++) {
+            if (rows[i].nationalIdPhotoHash === null) {
+              console.log(
+                `no image for user ${rows[i].ID} - ${rows[i].firstName} ${rows[i].lastName}`
+              );
+            } else {
+              try {
+                const imageBuffer = Buffer.from(rows[i].nationalIdPhotoHash, 'binary');
+                const metadata = getMimeType(imageBuffer);
+                const image_name = uuidv4();
+                const filenames = resolveFilenames(image_name, metadata.ext);
+                const uploadParams = getUploadParams(
+                  BucketName,
+                  metadata.contentType,
+                  imageBuffer,
+                  'public-read',
+                  filenames.filename
+                );
+                uploadConnection.upload(uploadParams, function (error, data) {
+                  if (error) {
+                    console.error(error);
+                  } else {
+                    console.log('File uploaded ' + filenames.fileUrl);
+                    const user_entry = {
+                      user_identifier_image_url: filenames.fileUrl,
+                    };
+
+                    models.User.update(user_entry, {
+                      where: {
+                        ID: rows[i].ID,
+                      },
+                    })
+                      .then(_ => {
+                        console.log(
+                          `updated image for ${rows[i].ID} - ${rows[i].firstName} ${rows[i].lastName}`
+                        );
+                      })
+                      .catch(err => {
+                        //throw err;
+                        console.log('Error - Update user failed');
+                        console.log(err);
+                        message = 'completed with errors please check console';
+                      });
+                  }
+                });
+              } catch (e) {
+                console.log(e);
+                console.log(
+                  `error on user ${rows[i].ID} - ${rows[i].firstName} ${rows[i].lastName}`
+                );
+                message = 'completed with errors please check console';
+              }
+            }
+          }
+          res.json({ message: message });
+        })
+        .catch(err => {
+          console.log('All user err:' + err);
+          res.json({ error: err });
+        });
+    } else {
+      res.json({ message: 'not authorised' });
+    }
+  }
+);
 
 module.exports = router;

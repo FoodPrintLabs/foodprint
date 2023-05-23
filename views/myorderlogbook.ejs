@@ -1,178 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <% include ./partials/head %>  
-  <body>
-   <!-- START: header -->
 
-  <div class="probootstrap-loader"></div>
+<head>
+        <%- include('partials/head'); %>
 
-  <header role="banner" class="probootstrap-header">
-      <% include ./partials/header %>
-  </header>
-  <!-- END: header -->
+        <body>
+            <!-- START: header -->
 
-   <!-- START TABLE-->
-   <div class="container" style="width: 100%;">
-    <h3>My Order Logbook</h3>
-    
-    <% include ./partials/notificationbar %>
-      <table class="table table-hover table-sm" id="orderTable">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Order ID</th>
-            <th scope="col">Produce Name</th>
-            <th scope="col">Order TimeStamp</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Order Price</th>
-            <th scope="col">Order Province</th>
-            <th scope="col">Order User</th>
-            <th width="200px">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if(data.length){
+            <div class="probootstrap-loader"></div>
+
+            <header role="banner" class="probootstrap-header">
+                    <%- include('partials/header'); %>
+            </header>
+            <!-- END: header -->
+
+            <!-- START TABLE-->
+            <div class="container" style="width: 100%;">
+                <div class="title col-12 title-global-container">
+                    <h3 class="title-global">My Order Logbook</h3>
+                </div>
+
+
+                    <%- include('partials/notificationbar'); %>
+                    <table class="table table-hover table-sm" id="orderTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Produce Name</th>
+                                <th scope="col">Order TimeStamp</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Order Price</th>
+                                <th scope="col">Order Province</th>
+                                <th scope="col">Order User</th>
+                                <th width="200px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(data.length){
 
               for(var i = 0; i< data.length; i++) {%>
-              <tr>
-                <th scope="row" style="width: 2%;"><%= (i+1) %></th>
-                <td style="width: 27%;"><%= data[i].order_logid%></td>
-                <td style="width: 10%;"><%= data[i].order_produceName %></td>
-                <td style="width: 45%;"><%= data[i].order_timeStamp%></td>
-                <td style="width: 2%;"><%= data[i].order_quantity%> </td>
-                <td style="width: 5%;"><%= data[i].order_price%></td>
-                <td style="width: 5%;"><%= data[i].order_province%></td>
-                <td style="width: 5%;"><% if(user.role === "Buyer") {%><%= data[i].offer_user %><%} else if (user.role === "Seller" ) { %><%= data[i].bid_user%><% }%></td>
-                <td  class="btn-group btn-group-sm" style="width: 2%;">
-                    <a href="javascript:void(0);" class="btn btn-xs btn-info edit" data-order_logid="<%= data[i].order_logid%>"
-                      data-order_producename="<%= data[i].order_produceName%>" data-order_timestamp="<%=data[i].order_timeStamp%>"data-order_original_timestamp="<%=data[i].order_original_timeStamp%>"
-                      data-order_quantity="<%= data[i].order_quantity%>" data-order_price="<%= data[i].order_price%>" data-order_province="<%= data[i].order_province%>" 
-                      data-bid_user="<%= data[i].bid_user%>" data-offer_user="<%= data[i].offer_user%>" data-order_type="<%= data[i].order_type%>"   data-order_original_logid="<%= data[i].order_original_logid%>"
-                      >View</a>
-                </td>
-              </tr>
-              <% }
+                                <tr>
+                                    <th scope="row" style="width: 2%;">
+                                        <%= (i+1) %>
+                                    </th>
+                                    <td style="width: 27%;">
+                                        <%= data[i].order_logid%>
+                                    </td>
+                                    <td style="width: 10%;">
+                                        <%= data[i].order_produceName %>
+                                    </td>
+                                    <td style="width: 45%;">
+                                        <%= data[i].order_timeStamp%>
+                                    </td>
+                                    <td style="width: 2%;">
+                                        <%= data[i].order_quantity%>
+                                    </td>
+                                    <td style="width: 5%;">
+                                        <%= data[i].order_price%>
+                                    </td>
+                                    <td style="width: 5%;">
+                                        <%= data[i].order_province%>
+                                    </td>
+                                    <td style="width: 5%;">
+                                        <% if(user.role === "Buyer") {%>
+                                            <%= data[i].offer_user %>
+                                                <%} else if (user.role === "Seller" ) { %>
+                                                    <%= data[i].bid_user%>
+                                                        <% }%>
+                                    </td>
+                                    <td class="btn-group btn-group-sm" style="width: 2%;">
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-info edit" data-order_logid="<%= data[i].order_logid%>" data-order_producename="<%= data[i].order_produceName%>" data-order_timestamp="<%=data[i].order_timeStamp%>" data-order_original_timestamp="<%=data[i].order_original_timeStamp%>"
+                                            data-order_quantity="<%= data[i].order_quantity%>" data-order_price="<%= data[i].order_price%>" data-order_province="<%= data[i].order_province%>" data-bid_user="<%= data[i].bid_user%>" data-offer_user="<%= data[i].offer_user%>"
+                                            data-order_type="<%= data[i].order_type%>" data-order_original_logid="<%= data[i].order_original_logid%>"><i class="far fa-eye"></i></a>
+                                    </td>
+                                </tr>
+                                <% }
 
            }else{ %>
-               <tr>
-                  <td colspan="5">No Bidding data available for user</td>
-               </tr>
-            <% } %>
+                                    <tr>
+                                        <td colspan="5">No order data available for user</td>
+                                    </tr>
+                                    <% } %>
 
-        </tbody>
-    </table>
-   </div>
-   <!-- END TABLE-->
+                        </tbody>
+                    </table>
+            </div>
+            <!-- END TABLE-->
 
-   <!-- Modal View Bid-->
-   <form action="app/order/myorder" method="POST">
-       <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="exampleModalLabel">View Order</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- Modal View Bid-->
+            <form action="app/order/myorder" method="POST">
+                <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLabel">View Order</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="order_logid">order ID</label>
-                <input type="text" name="order_logid" class="form-control order_logid" placeholder="order ID" disabled>
-            </div>
-              <div class="form-group">
-                  <label for="order_produceName">Produce Name</label>
-                  <input type="text" name="order_produceName" class="form-control order_produceName" placeholder="Produce Name" disabled>
-              </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="order_logid">order ID</label>
+                                    <input type="text" name="order_logid" class="form-control order_logid" placeholder="order ID" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order_produceName">Produce Name</label>
+                                    <input type="text" name="order_produceName" class="form-control order_produceName" placeholder="Produce Name" disabled>
+                                </div>
 
-              <div class="form-group">
-                  <label for="order_quantity">Produce quantity</label>
-                  <input type="number" name="order_quantity" class="form-control order_quantity" placeholder="Quantity" disabled>
-              </div>
-              <div class="form-group">
-               <label for="order_price">Price</label>
-               <input type="text" name="order_price" class="form-control order_price" placeholder="order Price" disabled>
-              </div>
-              <div class="form-group">
-                <label for="order_province">Province</label>
-                <input type="text" name="order_province" class="form-control order_province" placeholder="order Province" disabled>
-               </div>
-              <div class="form-group">
-                <label for="bid_user">Bid User</label>
-                <input type="text" name="bid_user" class="form-control bid_user" placeholder="Bid user" disabled>
-               </div>
-               <div class="form-group">
-                <label for="offer_user">Offer User</label>
-                <input type="text" name="offer_user" class="form-control offer_user" placeholder="Offer User" disabled>
+                                <div class="form-group">
+                                    <label for="order_quantity">Produce quantity</label>
+                                    <input type="number" name="order_quantity" class="form-control order_quantity" placeholder="Quantity" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order_price">Price</label>
+                                    <input type="text" name="order_price" class="form-control order_price" placeholder="order Price" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order_province">Province</label>
+                                    <input type="text" name="order_province" class="form-control order_province" placeholder="order Province" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bid_user">Bid User</label>
+                                    <input type="text" name="bid_user" class="form-control bid_user" placeholder="Bid user" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_user">Offer User</label>
+                                    <input type="text" name="offer_user" class="form-control offer_user" placeholder="Offer User" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order_timeStamp">Timestamp of Order</label>
+                                    <input type="text" name="order_timeStamp" class="form-control order_timeStamp" placeholder="order Timestamp" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order_original_timeStamp">Original Timestamp of Bid/Offer</label>
+                                    <input type="text" name="order_original_timeStamp" class="form-control order_original_timeStamp" placeholder="order Timestamp" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order_original_logid">Original ID of Bid/Offer</label>
+                                    <input type="text" name="order_original_logid" class="form-control order_original_logid" placeholder="order Timestamp" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order_type">Order Type</label>
+                                    <input type="text" name="order_type" class="form-control order_type" placeholder="order Status" disabled>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-               <div class="form-group">
-                <label for="order_timeStamp">Timestamp of Order</label>
-                <input type="text" name="order_timeStamp" class="form-control order_timeStamp" placeholder="order Timestamp" disabled>
-               </div>
-               <div class="form-group">
-                <label for="order_original_timeStamp">Original Timestamp of Bid/Offer</label>
-                <input type="text" name="order_original_timeStamp" class="form-control order_original_timeStamp" placeholder="order Timestamp" disabled>
-               </div>
-               <div class="form-group">
-                <label for="order_original_logid">Original ID of Bid/Offer</label>
-                <input type="text" name="order_original_logid" class="form-control order_original_logid" placeholder="order Timestamp" disabled>
-               </div>
-               <div class="form-group">
-                <label for="order_type">Order Type</label>
-                <input type="text" name="order_type" class="form-control order_type" placeholder="order Status" disabled>
-               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-       </div>
-  </form>
-   <!-- End Modal View Bid-->
+            </form>
+            <!-- End Modal View Bid-->
 
-	 
 
-    <!-- start footer -->
-    <% include ./partials/footer %>
-    <!-- end footer -->
-    
-   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-    <script src="/js/scripts.min.js"></script>
-  <script src="/js/main.min.js"></script>
-  <script src="/js/custom.js"></script>
-  <script>
-    $(document).ready(function(){
 
-        //showing data to edit modal
-        $('#orderTable').on('click','.edit',function(){
-            var order_logid = $(this).data('order_logid');
-            var order_produceName = $(this).data('order_producename');
-            var order_quantity = $(this).data('order_quantity');
-            var order_original_logid = $(this).data('order_original_logid');
-            var order_price = $(this).data('order_price');
-            var order_province = $(this).data('order_province');
-            var offer_user = $(this).data('offer_user');
-            var order_timeStamp= $(this).data('order_timestamp');
-            var bid_user = $(this).data('bid_user');
-            var order_original_timeStamp = $(this).data('order_original_timestamp');
-            var order_type = $(this).data('order_type');
-            console.log(order_timeStamp)
-            $('#viewModal').modal('show');
-            $('.order_logid').val(order_logid);
-            $('.order_produceName').val(order_produceName);
-            $('.order_quantity').val(order_quantity);
-            $('.order_original_logid').val(order_original_logid);
-            $('.order_price').val(order_price);
-            $('.order_province').val(order_province);
-            $('.offer_user').val(offer_user);
-            $('.order_timeStamp').val(order_timeStamp);
-            $('.bid_user').val(bid_user);
-            $('.order_original_timeStamp').val(order_original_timeStamp);
-            $('.order_type').val(order_type);
-      });
-    });
-    </script>
-  </body>
+            <!-- start footer -->
+            <%- include('partials/footer'); %>
+                <!-- end footer -->
+
+                <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+                <script src="/js/scripts.min.js"></script>
+                <script src="/js/main.min.js"></script>
+                <script src="/js/custom.js"></script>
+                <script>
+                    $(document).ready(function() {
+
+                        //showing data to edit modal
+                        $('#orderTable').on('click', '.edit', function() {
+                            var order_logid = $(this).data('order_logid');
+                            var order_produceName = $(this).data('order_producename');
+                            var order_quantity = $(this).data('order_quantity');
+                            var order_original_logid = $(this).data('order_original_logid');
+                            var order_price = $(this).data('order_price');
+                            var order_province = $(this).data('order_province');
+                            var offer_user = $(this).data('offer_user');
+                            var order_timeStamp = $(this).data('order_timestamp');
+                            var bid_user = $(this).data('bid_user');
+                            var order_original_timeStamp = $(this).data('order_original_timestamp');
+                            var order_type = $(this).data('order_type');
+                            console.log(order_timeStamp)
+                            $('#viewModal').modal('show');
+                            $('.order_logid').val(order_logid);
+                            $('.order_produceName').val(order_produceName);
+                            $('.order_quantity').val(order_quantity);
+                            $('.order_original_logid').val(order_original_logid);
+                            $('.order_price').val(order_price);
+                            $('.order_province').val(order_province);
+                            $('.offer_user').val(offer_user);
+                            $('.order_timeStamp').val(order_timeStamp);
+                            $('.bid_user').val(bid_user);
+                            $('.order_original_timeStamp').val(order_original_timeStamp);
+                            $('.order_type').val(order_type);
+                        });
+                    });
+                </script>
+        </body>
+
 </html>

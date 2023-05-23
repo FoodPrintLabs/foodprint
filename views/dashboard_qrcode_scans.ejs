@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+          <%- include('partials/head'); %>
+
+
+      <script>
+        //FILTER CODE
+        function activatefilter()
+        { 
+          var filter = document.getElementById('qrtype_filter').value;
+          if(filter == "All"){
+            window.location = '/app/qrcode/analytics'}
+            else if (filter)
+            { window.location = '/app/qrcode/analytics/filter/'+ filter;}
+            
+        }
+        
+        async function filterCheck(filter)
+        { 
+          //switch to check if filter range is part of qrtype else if it isnt display unexpected filter in console
+          switch(filter){
+          case "All":
+          ocument.getElementById('qrtype_filter').value = filter;
+          break;
+          case "Supplier Produce":
+          document.getElementById('qrtype_filter').value = filter;
+          break;
+          case "Static":
+          document.getElementById('qrtype_filter').value = filter;
+          break;
+          case "":
+            break;
+          default:
+          console.log("Unexpected filter")
+          window.location = '/app/qrcode/analytics'
+        }
+        
+        } 
+        
+           </script>
+  </head>
+  <body onload="filterCheck('<%=filter_data%>')">
+   <!-- START: header -->
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+          <%- include('partials/header'); %>
+  </header>
+  <!-- END: header -->
+
+   <!-- START TABLE-->
+   <div class="container" style="width: 100%;">
+    <h3>QR Code Scans and analytics</h3>
+    
+    
+        <%- include('partials/notificationbar'); %>
+     <!--FILTERS SECTION-->
+     <div class="row">
+      <div class="col-12 col-lg-12 col-xl-12" style="width: 100% ;background-color: white;padding: 10px; 
+      box-shadow: 2px 2px 4px 5px #ccc;">
+            <div class="col-12 col-lg-12 col-xl-12" >
+              <h4>Filters</h4>
+            </div>
+          <div class="col-3 col-lg-3 col-xl-3">
+            <p><strong>QR Code Type</strong></p>
+            <select class="custom-select d-block w-100 " name="qrtype_filter" id="qrtype_filter" required onchange="activatefilter()">
+              <option value="" selected disabled>Select QR Code Type</option>
+              <option>All</option>
+            <option>Supplier Produce</option>
+            <option>Static</option>
+          
+            </select>
+          </div>   
+        </div>
+      </div>
+
+      <table class="table table-hover table-sm" id="qrcountTable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">logID</th>
+            <th scope="col">QRID</th>
+            <th scope="col">qrURL</th>
+            <th scope="col">MarketID</th>
+            <th scope="col">Request Origin</th>
+            <th scope="col">Request User Agent</th>
+            <th scope="col">qrtype</th>
+            <th scope="col">qrlogid</th>
+            <th scope="col">User Email</th>
+            <th scope="col">Location</th>
+            <th scope="col">Logdatetime</th>
+            <th width="200px">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if(data.length){
+
+              for(var i = 0; i< data.length; i++) {%>
+              <tr>
+                <th scope="row" style="width: 2%;"><%= (i+1) %></th>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].logid%> </td>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].qrid%></td>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].qrurl%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].marketid%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].request_origin%></td>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].request_host%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].qrtype%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].qrlogid%></td>
+                <td style="word-wrap: break-word;min-width: 10rem;max-width: 10rem;"><%= data[i].user_email%></td>
+                <td style="word-wrap: break-word;min-width: 5rem;max-width: 5rem;"><%= data[i].location%></td>
+                <td style="word-wrap: break-word;min-width: 10%;max-width: 10%;"><%= data[i].logdatetime%></td>
+                <td  class="btn-group btn-group-sm" style="width: 2%;">
+                     <a href="javascript:void(0);" class="btn btn-xs btn-info view" data-logid="<%= data[i].logid%>" data-qrid="<%= data[i].qrid%>" data-qrurl="<%= data[i].qrurl%>" data-marketid="<%= data[i].marketid%>" 
+                      data-request_origin="<%= data[i].request_origin%>" data-request_host="<%= data[i].request_host%>" data-qrtype="<%= data[i].qrtype%>" data-user_email="<%= data[i].user_email%>" data-qrlogid="<%= data[i].qrlogid%>" 
+                      data-location="<%= data[i].location%>" data-logdatetime="<%= data[i].logdatetime%>" 
+                      >View</a>
+                </td> 
+              </tr>
+              <% }
+
+           }else{ %>
+               <tr>
+                  <td colspan="5">No Bidding data available for user</td>
+               </tr>
+            <% } %>
+
+        </tbody>
+    </table>
+   </div>
+   <!-- END TABLE-->
+
+
+   <!-- Modal View Bid-->
+   <form action="app/" method="POST">
+       <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="exampleModalLabel">View scan</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="logid">Log ID</label>
+                <input type="text" name="logid" class="form-control logid" placeholder="Log ID" disabled>
+            </div>
+              <div class="form-group">
+                  <label for="qrid">QR ID</label>
+                  <input type="text" name="qrid" class="form-control qrid" placeholder="QR ID" disabled>
+              </div>
+
+              <div class="form-group">
+                  <label for="qrurl">QR URL</label>
+                  <input type="text" name="qrurl" class="form-control qrurl" placeholder="QR URL" disabled>
+              </div>
+
+              <div class="form-group">
+                  <label for="marketid">Market ID</label>
+                  <input type="text" name="marketid" class="form-control marketid" placeholder="Market ID" disabled>
+              </div>
+              <div class="form-group">
+               <label for="request_host">Request Host</label>
+               <input type="text" name="request_host" class="form-control request_host" placeholder="Request Host" disabled>
+              </div>
+              <div class="form-group">
+                <label for="request_origin">Request Origin</label>
+                <input type="text" name="request_origin" class="form-control request_origin" placeholder="Request Origin" disabled>
+               </div>
+              <div class="form-group">
+                <label for="logdatetime">Logdatetime</label>
+                <input type="text" name="logdatetime" class="form-control logdatetime" placeholder="Log Date time" disabled>
+               </div>
+               <div class="form-group">
+                <label for="qrtype">QR Type</label>
+                <input type="text" name="qrtype" class="form-control qrtype" placeholder="QR Type" disabled>
+               </div>
+               <div class="form-group">
+                <label for="qrlogid">QR LogID</label>
+                <input type="text" name="qrlogid" class="form-control qrlogid" placeholder="QR Code LogID" disabled>
+               </div>
+               <div class="form-group">
+                <label for="user_email">User Email</label>
+                <input type="text" name="user_email" class="form-control user_email" placeholder="User Email" disabled>
+               </div>
+               <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" name="location" class="form-control location" placeholder="Location" disabled>
+               </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+       </div>
+  </form>
+   <!-- End Modal View Bid-->
+
+	 
+
+    <!-- start footer -->
+    <%- include('partials/footer'); %>
+    <!-- end footer -->
+    
+   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+    <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <script>
+    $(document).ready(function(){
+
+        //showing data to view modal
+        $('#qrcountTable').on('click','.view',function(){
+            var logid = $(this).data('logid');
+            var qrid = $(this).data('qrid');
+            var qrurl = $(this).data('qrurl');
+            var marketid = $(this).data('marketid');
+            var request_host = $(this).data('request_host');
+            var request_origin = $(this).data('request_origin');
+            var logdatetime = $(this).data('logdatetime');
+            var qrtype = $(this).data('qrtype');
+            var qrlogid = $(this).data('qrlogid');
+            var user_email = $(this).data('user_email');
+            var location = $(this).data('location');
+            $('#viewModal').modal('show');
+            $('.logid').val(logid);
+            $('.qrid').val(qrid);
+            $('.qrurl').val(qrurl);
+            $('.marketid').val(marketid);
+            $('.request_host').val(request_host);
+            $('.request_origin').val(request_origin);
+            $('.logdatetime').val(logdatetime);
+            $('.qrtype').val(qrtype);
+            $('.qrlogid').val(qrlogid);
+            $('.user_email').val(user_email);
+            $('.location').val(location);
+
+      });
+    });
+    </script>
+  </body>
+</html>

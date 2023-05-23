@@ -1,7 +1,7 @@
 # FoodPrint
 
 FoodPrint is a digital, blockchain-enabled, farm-to-fork (fresh produce) supply chain platform for
-smallholder farmers, primarily in developing countries. FoodPrint is designed to:
+smallholder farmers. FoodPrint is designed to:
 
 - Simplify production and harvest data collection for smallholder farmers.
 - Directly connect them to market opportunities - including but not limited to intermediaries such
@@ -38,10 +38,6 @@ intermediary. The consumer can scan a barcode associated with produce and view t
 information and supply chain stories i.e. view information on the produce they are buying, it's
 source and journey, hence from farm-to-fork. Android versions 8 & 9 and iOS versions 11 & 12 can
 automatically scan QR codes using the camera app.
-
-## Documentation
-
-TODO
 
 ## IDE Setup
 
@@ -113,10 +109,6 @@ ACCOUNT1_ADDRESS=REPLACE_ME
 ACCOUNT1_MNEMONIC=REPLACE_ME
 ACCOUNT2_ADDRESS=REPLACE_ME
 ACCOUNT2_MNEMONIC=REPLACE_ME
-DB_USERNAME=REPLACE_ME
-DB_PASSWORD=REPLACE_ME
-DB_DATABASE=REPLACE_ME
-DB_HOST=REPLACE_ME
 DB_DIALECT=REPLACE_ME
 DB_URL=REPLACE_ME
 USER1_PASSWORD=REPLACE_ME
@@ -133,6 +125,8 @@ DO_ENDPOINT=REPLACE_ME
 TOKEN_SIGN=REPLACE_ME
 AUTH_STATEGY=REPLACE_ME
 CONFIRM_URL=REPLACE_ME
+TWILIO_ACCOUNT_SID=REPLACE_ME
+TWILIO_AUTH_TOKEN=REPLACE_ME
 ```
 
 You can then access the variables in your code using process.env e.g.
@@ -168,6 +162,19 @@ node sequelise_auto_export.js
 ```
 
 The generated models can be found in `./models`
+
+- Creating sequelize migration (which creates a js file in migrations folder and will need to be
+  commited)
+
+```bash
+npx sequelize migration:create --name name_of_new_db_column
+```
+
+Run the migration
+
+```bash
+npx sequelize db:migrate --url ‘mysql://username:password@localhost:3306/databasename'
+```
 
 - Generate test UUID's from command line (i.e. server side).
 
@@ -258,6 +265,12 @@ If you need to run sequelize migrations in Heroku (although this is included in 
 
 ```
 $ heroku run npx sequelize-cli db:migrate --url 'mysql://root:password@mysql_host.com/database_name' --app nameofapp
+```
+
+Alternatively
+
+```
+$ heroku run npm run build -a name-of-app
 ```
 
 Tail Heroku logs

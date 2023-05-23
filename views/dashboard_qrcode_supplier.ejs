@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <%- include('partials/head'); %>
+</head>
+
+<body>
+    <!-- START: header -->
+
+    <div class="probootstrap-loader"></div>
+
+    <header role="banner" class="probootstrap-header">
+            <%- include('partials/header'); %>
+    </header>
+    <!-- END: header -->
+
+    <!-- START TABLE-->
+    <div class="container qrcode-supplier" style="width: 100%;">
+        <div class="title col-12 title-global-container">
+            <h3 class="title-global">QR Code Configuration - Supplier Produce</h3>
+        </div>
+
+            <%- include('partials/notificationbar'); %>
+            <!--QR Code Section-->
+            <br>
+            <div class="row" id="qrcoderows">
+
+                <div class="col-4 col-lg-12 col-xl-12">
+
+                    <!--Check QR Code availability-->
+                    <% 
+      if(harvest_data.length) {
+        for(var i = 0; i< harvest_data.length; i++){ 
+    %>
+                        <!--QR CODE CARD-->
+                        <div class="card col-2 col-lg-2 col-xl-2 text-center">
+                            <div class="card-header">
+                                <p class="card-title h4 qrcode-card-heading"><b><%=harvest_data[i].qrcode_title%></b></p>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-text text-center">
+                                    <b class="qrcode-card-title">FARM NAME</b>
+                                    <div style="width: 15rem; height: 2rem; overflow: auto;">
+                                        <%=harvest_data[i].harvest_farm_name%>
+                                    </div>
+                                    <b class="qrcode-card-title">PRODUCE</b>
+                                    <div style="width: 15rem; height: 2rem; overflow: auto;">
+                                        <%=harvest_data[i].harvest_produce_name%>
+                                    </div>
+                                    <img src="<%=qrcodes[i]%>" id="qrcode_image" width="150" height="150" alt="QRCODE">
+                                </div>
+                                <div class="card-footer">
+                                    <a href="<%= qrcodes[i]%>" download="<%=harvest_data[i].qrcode_title%>.jpg" target="_blank" class="btn-sm btn-primary attribute " style="padding-right: 1rem; padding-left: 1rem;"><i class="fa fa-download"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <%}}else{ %>
+                            <p colspan="5">No Supplier QR Configurations, Check storage handover logbook</p>
+                            <% } %>
+                </div>
+            </div>
+    </div>
+    <!-- END TABLE-->
+
+
+
+    <!-- start footer -->
+    <%- include('partials/footer'); %>
+        <!-- end footer -->
+
+        <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+        <script src="/js/scripts.min.js"></script>
+        <script src="/js/main.min.js"></script>
+        <script src="/js/custom.js"></script>
+
+</body>
+
+</html>

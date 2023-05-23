@@ -218,6 +218,10 @@ let passport = require('passport');
  *    description: Storage API
  *  - name: QRCount
  *    description: QR Count API
+ *  - name: Produce
+ *    description: Produce API
+ *  - name: Order
+ *    description: Order, Bids & Offers API
  */
 
 /**
@@ -1803,12 +1807,220 @@ router.get('/logout', function (req, res) {
   res.status(200).json({ message: 'You are now logged out' });
 });
 
+/**
+ * @swagger
+ * /app/api/v1/price:
+ *  get:
+ *    summary: Returns a list of all produce prices
+ *    tags: [Produce]
+ *    responses:
+ *      200:
+ *        description: The list of all produce prices
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Produce'
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: An error occurred
+ *      500:
+ *        description: An internal server error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: object
+ *                  description: Error object
+ *                message:
+ *                  type: string
+ *                  description: Error message
+ *                  example: Internal server error
+ */
 /*
  * PRODUCE/PRICE
  */
 router.get('/price', function (req, res) {
   try {
     models.FoodprintProducePrice.findAll({
+      order: [['pk', 'DESC']],
+    })
+      .then(rows => {
+        if (rows.length === 0) {
+          res.status(200).json([]);
+        } else {
+          res.status(200).json(rows);
+        }
+      })
+      .catch(err => {
+        res.status(400).json({
+          message: err.message,
+        });
+      });
+  } catch (e) {
+    res.status(500).json({
+      error: e,
+      message: 'Internal Server Error',
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /app/api/v1/offers:
+ *  get:
+ *    summary: Returns a list of all placed offers
+ *    tags: [Order]
+ *    responses:
+ *      200:
+ *        description: The list of offer items placed
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: An error occurred
+ *      500:
+ *        description: An internal server error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: object
+ *                  description: Error object
+ *                message:
+ *                  type: string
+ *                  description: Error message
+ *                  example: Internal server error
+ */
+/*
+ * ALL OFFERS REQUEST IN 2 WEEKS
+ */
+router.get('/offers', function (req, res) {
+  try {
+    //get range variables
+    let current_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    let start_date = null;
+    let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    start_date = moment(current_date).subtract('2', 'weeks').format('YYYY-MM-DD HH:mm:ss');
+
+    models.Seller_offer.findAll({
+      where: {
+        [Op.and]: [
+          {
+            offer_timeStamp: {
+              [Op.between]: [start_date, finish_date],
+            },
+          },
+        ],
+        offer_status: 'Placed',
+      },
+      order: [['pk', 'DESC']],
+    })
+      .then(rows => {
+        if (rows.length === 0) {
+          res.status(200).json([]);
+        } else {
+          res.status(200).json(rows);
+        }
+      })
+      .catch(err => {
+        res.status(400).json({
+          message: err.message,
+        });
+      });
+  } catch (e) {
+    res.status(500).json({
+      error: e,
+      message: 'Internal Server Error',
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /app/api/v1/bids:
+ *  get:
+ *    summary: Returns a list of all placed bids
+ *    tags: [Order]
+ *    responses:
+ *      200:
+ *        description: The list of bid items placed
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *      400:
+ *         description: An error happened whilst querying the database
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Error message
+ *                    example: An error occurred
+ *      500:
+ *        description: An internal server error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: object
+ *                  description: Error object
+ *                message:
+ *                  type: string
+ *                  description: Error message
+ *                  example: Internal server error
+ */
+/*
+ * ALL BID REQUEST IN 2 WEEKS
+ */
+router.get('/bids', function (req, res) {
+  try {
+    //get range variables
+    let current_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    let start_date = null;
+    let finish_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    start_date = moment(current_date).subtract('2', 'weeks').format('YYYY-MM-DD HH:mm:ss');
+
+    models.Buyer_bid.findAll({
+      where: {
+        [Op.and]: [
+          {
+            bid_timeStamp: {
+              [Op.between]: [start_date, finish_date],
+            },
+          },
+        ],
+        bid_status: 'Placed',
+      },
       order: [['pk', 'DESC']],
     })
       .then(rows => {

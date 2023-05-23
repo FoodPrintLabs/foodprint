@@ -13,6 +13,48 @@ var models = initModels(sequelise);
 var crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 const env = process.env.NODE_ENV || 'development';
+let fs = require('fs');
+
+//Digital Ocean File Upload
+const {
+  uploadConnection,
+  getUploadParams,
+  resolveFilenames,
+} = require('../config/digitalocean/file-upload');
+
+const multerS3 = require('multer-s3');
+const multer = require('multer'); //middleware for handling multipart/form-data, which is primarily used for uploading files
+
+//Name of your DO bucket here
+const BucketName = process.env.DO_BUCKET_NAME;
+
+//upload header added to route
+const upload = multer({
+  storage: multerS3({
+    s3: uploadConnection,
+    bucket: BucketName,
+    acl: 'public-read',
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      //Logic for file uploaded + access to req data
+      //console.log(file);
+      //mimetype split for ext - safe with image mimetypes (image/png, image/jpeg) not others
+      let extArray = file.mimetype.split('/');
+      let extension = extArray[extArray.length - 1];
+      cb(
+        null,
+        (
+          req.body.qrcode_company_name +
+          moment(new Date()).format('YYYY-MM-DD') +
+          '.' +
+          extension
+        ).toLowerCase()
+      );
+    },
+  }),
+});
 
 //market checkin XmlHTTP request
 router.post(
@@ -140,7 +182,8 @@ router.get('/scan/:id', [sanitizeParam('id').escape().trim()], function (req, re
     'harvest_farmerName',
     'year_established',
     'harvest_description_json',
-    'harvest_photoHash',
+    // 'harvest_photoHash',
+    'harvest_image_url',
     'harvest_supplierAddress',
     'harvest_produceName',
     'harvest_TimeStamp',
@@ -206,13 +249,13 @@ router.get('/scan/:id', [sanitizeParam('id').escape().trim()], function (req, re
         //  https://stackoverflow.com/questions/51010423/how-to-resize-base64-image-in-javascript
 
         // convert your binary data to base64 format & then pass it to ejs
-        if (rows[0].harvest_photoHash === null) {
+        /*if (rows[0].harvest_photoHash === null) {
           rows[0].harvest_photoHash = '';
         } else {
           rows[0].harvest_photoHash =
             'data:image/png;base64,' +
             Buffer.from(rows[0].harvest_photoHash, 'binary').toString('base64');
-        }
+        }*/
       }
       provenance_data = rows;
       console.log('Provenance scan successful');
@@ -247,7 +290,10 @@ router.get('/scan/:id', [sanitizeParam('id').escape().trim()], function (req, re
 
       var request_useragent = req.headers['user-agent'];
       var logdatetime = new Date();
-
+      var qrtype = 'Supplier Produce';
+      var qrlogid = 'NA';
+      var user_email = 'FoodPrint';
+      var location = 'NA';
       //TODO - cross check marketID and supplierProduceID against existing marketID's from foodprint_market and foodPrint_supplierproduceid
       //using connection.query and not connection.execute because of
       // TypeError: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
@@ -260,6 +306,11 @@ router.get('/scan/:id', [sanitizeParam('id').escape().trim()], function (req, re
         request_origin: request_origin,
         request_useragent: request_useragent,
         logdatetime: logdatetime,
+        qrtype: qrtype,
+        qrlogid: qrlogid,
+        //Is it possible to get farmer email?
+        user_email: user_email,
+        location: location,
       };
 
       models.FoodprintQrcount.create(data)
@@ -295,7 +346,8 @@ router.get('/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], function (
     'harvest_farmerName',
     'year_established',
     'harvest_description_json',
-    'harvest_photoHash',
+    // 'harvest_photoHash',
+    'harvest_image_url',
     'harvest_supplierAddress',
     'harvest_produceName',
     'harvest_TimeStamp',
@@ -359,13 +411,13 @@ router.get('/api/v1/scan/:id', [sanitizeParam('id').escape().trim()], function (
         //  https://stackoverflow.com/questions/51010423/how-to-resize-base64-image-in-javascript
 
         // convert your binary data to base64 format & then pass it to ejs
-        if (rows[0].harvest_photoHash === null) {
+        /*if (rows[0].harvest_photoHash === null) {
           rows[0].harvest_photoHash = '';
         } else {
           rows[0].harvest_photoHash =
             'data:image/png;base64,' +
             Buffer.from(rows[0].harvest_photoHash, 'binary').toString('base64');
-        }
+        }*/
         provenance_data = rows[0]; // return 1st row only
       } else {
         provenance_data = []; // return empty list for no data
@@ -429,28 +481,28 @@ router.get(
           //create array of URL data
           const qrcodes = [];
           for (var i = 0; i < rows.length; i++) {
-            var res2 = await QRCode.toDataURL(rows[i].qrcode_url);
-            qrcodes.push(res2);
+            var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
+            qrcodes.push(qrcode_image);
           }
           //console.log(qrcodes);
-          res.render('dashboard_qrcode', {
+          res.render('dashboard_qrcode_static', {
             page_title: 'FoodPrint - QR Code Dashboard',
             data: rows,
             user: req.user,
             qrcodes: qrcodes,
             filter_data: '',
-            page_name: 'dashboard_qrcode',
+            page_name: 'dashboard_qrcode_static',
           });
         })
         .catch(err => {
-          console.log('All dashboard_qrcode err:' + err);
+          console.log('All dashboard_qrcode_static err:' + err);
           req.flash('error', err);
-          res.render('dashboard_qrcode', {
+          res.render('dashboard_qrcode_static', {
             page_title: 'FoodPrint - QR Code Dashboard',
             data: '',
             filter_data: '',
             user: req.user,
-            page_name: 'dashboard_qrcode',
+            page_name: 'dashboard_qrcode_static',
           });
         });
     } else {
@@ -467,6 +519,7 @@ router.get(
 //ROUTE TO INSERT QRCODE DATA
 router.post(
   '/qrcode/save',
+  upload.array('qrcode_company_logo_uploaded_file', 1),
   [
     check('qrcode_company_name', 'Your company name is not valid').not().isEmpty().trim().escape(),
     check('qrcode_company_founded', 'Your your founded year is not valid')
@@ -493,6 +546,7 @@ router.post(
       .escape(),
   ],
   function (req, res) {
+    console.log('Successfully uploaded ' + req.files.length + ' files!');
     const result = validationResult(req);
     var errors = result.errors;
     for (var key in errors) {
@@ -500,12 +554,27 @@ router.post(
     }
     if (!result.isEmpty()) {
       req.flash('error', errors);
-      res.render('dashboard_qrcode', {
+      res.render('dashboard_qrcode_static', {
         page_title: 'FoodPrint - QR Code Configuration Dashboard',
         data: '',
-        page_name: 'dashboard_qrcode',
+        user: req.user,
+        page_name: 'dashboard_qrcode_static',
       }); //should add error array here
     } else {
+      //File Names needed for saving
+      let logoFilename = req.body.qrcode_company_name + moment(new Date()).format('YYYY-MM-DD');
+      //mimetype extension setting
+      let logofileextension = '';
+      if (req.files[0].mimetype == 'image/jpeg') {
+        logofileextension = '.jpeg';
+      } else if (req.files[0].mimetype == 'image/png') {
+        logofileextension = '.png';
+      } else if (req.files[0].mimetype == 'image/jpg') {
+        logofileextension = '.jpg';
+      }
+
+      let filenames = resolveFilenames(logoFilename, logofileextension);
+      //QRCODE
       //check environment product was saved in for URL
       let host = req.get('host');
       let protocol = 'https';
@@ -515,12 +584,14 @@ router.post(
       }
       let supplier_product = (
         req.body.qrcode_company_name +
+        '-' +
         req.body.qrcode_product_name +
+        '-' +
         req.body.qrcode_contact_email
       )
         .split(' ')
         .join('');
-      let hashID = hash.update(supplier_product).digest('base64');
+      let hashID = crypto.createHash('sha256').update(supplier_product).digest('hex');
       let qrURL = protocol + '://' + host + '/app/qrcode/static/' + hashID;
 
       let qrid = uuidv4();
@@ -536,6 +607,7 @@ router.post(
         qrcode_url: qrURL,
         qrcode_image_url: qrURL,
         qrcode_description: req.body.qrcode_description,
+        qrcode_company_logo_url: filenames.fileUrl,
         qrcode_product_name: req.body.qrcode_product_name,
         qrcode_product_description: req.body.qrcode_product_description,
         qrcode_hashid: hashID,
@@ -563,12 +635,13 @@ router.post(
         //this will eventually be handled by your error handling middleware
         next(e);
         //res.json({success: false, errors: e});
-        res.render('dashboard_qrcode', {
+        res.render('dashboard_qrcode_static', {
           page_title: 'FoodPrint - QR Code Configuration Dashboard',
           data: '',
           success: false,
+          user: req.user,
           errors: e.array(),
-          page_name: 'dashboard_qrcode',
+          page_name: 'dashboard_qrcode_static',
         });
       }
     }
@@ -612,10 +685,10 @@ router.post(
     }
     if (!result.isEmpty()) {
       req.flash('error', errors);
-      res.render('dashboard_qrcode', {
+      res.render('dashboard_qrcode_static', {
         page_title: 'FoodPrint - QR Code Configuration Dashboard',
         data: '',
-        page_name: 'dashboard_qrcode',
+        page_name: 'dashboard_qrcode_static',
       }); //should add error array here
     } else {
       let data = {
@@ -657,12 +730,12 @@ router.post(
         //this will eventually be handled by your error handling middleware
         next(e);
         //res.json({success: false, errors: e});
-        res.render('dashboard_qrcode', {
+        res.render('dashboard_qrcode_static', {
           page_title: 'FoodPrint - QR Code Configuration Dashboard',
           data: '',
           success: false,
           errors: e.array(),
-          page_name: 'dashboard_qrcode',
+          page_name: 'dashboard_qrcode_static',
         });
       }
     }
@@ -931,6 +1004,59 @@ router.get(
             },
             order: [['pk', 'DESC']],
           }).then(qrcoderows => {
+            var marketID = 'NA';
+            var logid = uuidv4();
+            var qrid = req.params.hashID; //Param similar to scan route
+            var qrurl = req.protocol + '://' + req.get('host') + req.originalUrl;
+            var request_host = req.get('host');
+            var request_origin = req.headers.referer;
+            //req.headers.referer - The Referer request header contains the address of the previous web page
+            //from which a link to the currently requested page was followed.
+            //The Referer header allows servers to identify where people are visiting them from and may use that data for analytics, logging, or optimized caching, for example.
+            var request_useragent = req.headers['user-agent'];
+            var logdatetime = new Date();
+            var qrtype = 'Static';
+            var user_email = qrcoderows[0].user_email;
+            var qrlogid = qrcoderows[0].qrcode_logid;
+
+            //TODO location
+            var location = 'NA';
+
+            try {
+              let data = {
+                logid: logid,
+                qrid: qrid,
+                qrurl: qrurl,
+                marketid: marketID,
+                request_host: request_host,
+                request_origin: request_origin,
+                request_useragent: request_useragent,
+                logdatetime: logdatetime,
+                qrtype: qrtype,
+                qrlogid: qrlogid,
+                user_email: user_email,
+                location: location,
+              };
+              //add to QRCount
+              models.FoodprintQrcount.create(data)
+                .then(() => {
+                  console.log('Product Attribute Scan Successful');
+                })
+                .catch(err => {
+                  console.error('Product Attribute scan error');
+                });
+            } catch (e) {
+              console.error('Market checkin tracking error occured');
+              res.render('error', {
+                message: 'Cannot access resources for page.',
+                title: 'Error',
+                user: req.user,
+                filter_data: '',
+                qrcodedata: '',
+                page_name: 'error',
+              });
+            }
+
             res.render('qrcode_product', {
               page_title: 'FoodPrint - QR Code Product',
               product_data: rows,
@@ -962,6 +1088,270 @@ router.get(
         user: req.user,
         filter_data: '',
         qrcodedata: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
+
+//Render qrcode analytics EJS
+router.get(
+  '/qrcode/analytics',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintQrcount.findAll({
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: rows,
+            user: req.user,
+            filter_data: '',
+            page_name: 'dashboard_qrcode_scans',
+          });
+        })
+        .catch(err => {
+          console.log('All dashboard_qrcode_scans err:' + err);
+          req.flash('error', err);
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'dashboard_qrcode_scans',
+          });
+        });
+    } else if (req.user.role !== ROLES.Admin) {
+      models.FoodprintQrcount.findAll({
+        where: {
+          user_email: req.user.email,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: rows,
+            user: req.user,
+            filter_data: '',
+            page_name: 'dashboard_qrcode_scans',
+          });
+        })
+        .catch(err => {
+          console.log('All dashboard_qrcode_scans err:' + err);
+          req.flash('error', err);
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'dashboard_qrcode_scans',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
+
+//Render filtered qrcode analytics EJS
+router.get(
+  '/qrcode/analytics/filter/:qrtype',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintQrcount.findAll({
+        where: {
+          qrtype: req.params.qrtype,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: rows,
+            user: req.user,
+            filter_data: req.params.qrtype,
+            page_name: 'dashboard_qrcode_scans',
+          });
+        })
+        .catch(err => {
+          console.log('All dashboard_qrcode_scans err:' + err);
+          req.flash('error', err);
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'dashboard_qrcode_scans',
+          });
+        });
+    } else if (req.user.role !== ROLES.Admin) {
+      models.FoodprintQrcount.findAll({
+        where: {
+          user_email: req.user.email,
+          qrtype: req.params.qrtype,
+        },
+        order: [['pk', 'DESC']],
+      })
+        .then(rows => {
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: rows,
+            user: req.user,
+            filter_data: req.params.qrtype,
+            page_name: 'dashboard_qrcode_scans',
+          });
+        })
+        .catch(err => {
+          console.log('All dashboard_qrcode_scans err:' + err);
+          req.flash('error', err);
+          res.render('dashboard_qrcode_scans', {
+            page_title: 'FoodPrint - QR Code Analytics Dashboard',
+            data: '',
+            filter_data: '',
+            user: req.user,
+            page_name: 'dashboard_qrcode_scans',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        page_name: 'error',
+      });
+    }
+  }
+);
+
+//Render qrcode EJS
+router.get(
+  '/qrcode/supplierproduce',
+  require('connect-ensure-login').ensureLoggedIn({ redirectTo: '/app/auth/login' }),
+  function (req, res, next) {
+    if (req.user.role === ROLES.Admin || req.user.role === ROLES.Superuser) {
+      models.FoodprintStorage.findAll({
+        order: [['pk', 'DESC']],
+      })
+        .then(async rows => {
+          //create array of URL data
+          const qrcodes = [];
+          const supplier_shortcode_list_check1 = [];
+          for (var i = 0; i < rows.length; i++) {
+            //check if the url exists and not duplicate else dont create
+            if (
+              rows[i].qrcode_url &&
+              !supplier_shortcode_list_check1.includes(rows[i].supplierproduce) &&
+              rows[i].market_Shortcode
+            ) {
+              supplier_shortcode_list_check1.push(rows[i].supplierproduce);
+              var qrcode_image = await QRCode.toDataURL(rows[i].qrcode_url);
+              qrcodes.push(qrcode_image);
+            } else {
+              //Create QR Code Link to generate QR code
+              //check environment product was saved in for URL
+              let host = req.get('host');
+              let protocol = 'https';
+              // if running in dev then protocol can be http
+              if (process.env.NODE_ENV === CUSTOM_ENUMS.DEVELOPMENT) {
+                protocol = req.protocol;
+              }
+              let final_qrcode_url =
+                protocol + '://' + host + '/app/scan/' + rows[i].supplierproduce;
+
+              var qrcode_image = await QRCode.toDataURL(final_qrcode_url);
+              qrcodes.push(qrcode_image);
+              models.FoodprintStorage.update(
+                { qrcode_url: final_qrcode_url },
+                {
+                  where: { storage_logid: rows[i].storage_logid },
+                }
+              );
+            }
+          }
+          console.log(supplier_shortcode_list_check1);
+          models.FoodprintHarvest.findAll({
+            order: [['pk', 'DESC']],
+          }).then(async harvest_rows => {
+            const harvest_data = [];
+            const supplier_shortcode_list_check2 = [];
+            //loop through harvest with storage.logid
+            for (var i = 0; i < rows.length; i++) {
+              var keyToFind = rows[i].harvest_logid;
+              for (var k in harvest_rows) {
+                //find key and add data to dict
+                if (harvest_rows[k].harvest_logid == keyToFind) {
+                  //checks to stop whatsapp entries that dont have enough data (farm name)
+                  if (
+                    harvest_rows[k].harvest_supplierShortcode &&
+                    harvest_rows[k].harvest_supplierName &&
+                    rows[i].qrcode_url
+                  ) {
+                    let qrcode_title =
+                      harvest_rows[k].harvest_supplierShortcode +
+                      ' ' +
+                      harvest_rows[k].harvest_produceName;
+                    let harvest_farm_name = harvest_rows[k].harvest_supplierName;
+                    let harvest_produce_name = harvest_rows[k].harvest_produceName;
+
+                    var harv_data = {
+                      qrcode_title: qrcode_title,
+                      harvest_farm_name: harvest_farm_name,
+                      harvest_produce_name: harvest_produce_name,
+                    };
+                    //console.log(harv_data.qrcode_title);
+                    //check if suppliershortcode list doesnt contains shortcode add it and push dict to array
+                    if (!supplier_shortcode_list_check2.includes(harv_data.qrcode_title)) {
+                      supplier_shortcode_list_check2.push(harv_data.qrcode_title);
+                      harvest_data.push(harv_data);
+                    }
+                  }
+                  break;
+                }
+              }
+            }
+            console.log(harvest_data);
+
+            res.render('dashboard_qrcode_supplier', {
+              page_title: 'FoodPrint - QR Code Dashboard',
+              data: rows,
+              user: req.user,
+              qrcodes: qrcodes,
+              harvest_data: harvest_data,
+              filter_data: '',
+              page_name: 'dashboard_qrcode_supplier',
+            });
+          });
+        })
+        .catch(err => {
+          console.log('All dashboard_qrcode_supplier err:' + err);
+          req.flash('error', err);
+          res.render('dashboard_qrcode_supplier', {
+            page_title: 'FoodPrint - QR Code Dashboard',
+            data: '',
+            filter_data: '',
+            harvest_data: '',
+            user: req.user,
+            page_name: 'dashboard_qrcode_supplier',
+          });
+        });
+    } else {
+      res.render('error', {
+        message: 'You are not authorised to view this resource.',
+        title: 'Error',
+        user: req.user,
+        filter_data: '',
+        harvest_data: '',
         page_name: 'error',
       });
     }

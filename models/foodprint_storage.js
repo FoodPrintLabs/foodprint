@@ -101,6 +101,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.DATE,
         allowNull: true,
       },
+      qrcode_url: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
     },
     {
       sequelize,

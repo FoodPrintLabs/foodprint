@@ -2,8 +2,7 @@
 <html lang="en">
     <head>
     
-      <% include ./partials/head %>  
-      <link rel="stylesheet" href="/css/timeline.css" />
+          <%- include('partials/head'); %>
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
   </head>
   <body>
@@ -12,66 +11,85 @@
      <div class="probootstrap-loader"></div>
 
      <header role="banner" class="probootstrap-header">
-         <% include ./partials/header %>
+             <%- include('partials/header'); %>
      </header>
      <!-- END: header -->
    
    <div class="container" style="width: 100%;">
        <% if(qrcode_data.length){%>
-            <h3 class="text-center">Visualise your product</h3>
+            <h3 class="text-center">Peek Beyond the Label</h3>
             <div class="qrcodedetailscardtimeline">
-            <h3 class="company-title text-center"><%=qrcode_data[0].qrcode_product_name%></h3>
-            <p class="text-center">
-                <%=qrcode_data[0].qrcode_product_description%><br>  
-                <b>Company: </b><%=qrcode_data[0].qrcode_company_name%><br>
-                <b>Founded: </b><%=qrcode_data[0].qrcode_company_founded%><br>
-                <b>Instagram: </b><%=qrcode_data[0].qrcode_instagram%><br>
-                <b>Twitter: </b><%=qrcode_data[0].qrcode_twitter%><br>
-                <b>Facebook: </b><%=qrcode_data[0].qrcode_facebook%><br>
-                <a href="http://<%=qrcode_data[0].qrcode_website%>" target="_blank"><%=qrcode_data[0].qrcode_website%> </a>
-            </p>
-        </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="main-timeline7">
+                <div class="card text-center" style="width: 100% ;background-color: white;padding: 10px;
+                box-shadow: 2px 2px 4px 5px #ccc;  margin-top:20px;">
+                    <div class="card-body">
+                        <p class="card-text res-change">
+                            <img src="<%=qrcode_data[0].qrcode_company_logo_url%>" id="company_image" alt="Company Logo" height="250px" width="250px"><br>
+                           <%=qrcode_data[0].qrcode_company_name%><br>
+                            <i>Established in <%=qrcode_data[0].qrcode_company_founded%></i><br>
+                        </p>
+                    </div>
+                </div>
+                <div style="width: 100% ;background-color: white;padding: 10px; box-shadow: 2px 2px 4px 5px #ccc;  margin-top:20px;">
+                    <h3 class="company-title text-center"><%=qrcode_data[0].qrcode_product_name%></h3>
+                        <p class="text-center">
+                            <%=qrcode_data[0].qrcode_product_description%><br>
+                        </p>
+                </div>
 
-                                <!--For each attribute of QRCODE-->
-                                <% if(product_data.length){
-                                      for(var i = 0; i < product_data.length; i++){ 
-                                  %>
-                                <a href="#" class="timeline">
-                                    <div class="timeline-icon"><i class="fas fa-qrcode"></i></div>
-                                    <div class="timeline-content">
-                                        <h3 class="title"><%=product_data[i].product_attribute%></h3>
-                                        <p class="description res-change">
-                                         <%=product_data[i].product_attribute_description%><br>                                   
-                                        </p>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                    <!--For each attribute of QRCODE-->
+                                    <% if(product_data.length){
+                                          for(var i = 0; i < product_data.length; i++){
+                                      %>
+                                    <div class="card" style="width: 100% ;background-color: white;padding: 10px;
+        box-shadow: 2px 2px 4px 5px #ccc;  margin-top:20px;">
+                                        <div class="card-body">
+                                            <h4 class="card-title"><%=product_data[i].product_attribute%></h4>
+                                            <p class="card-text res-change">
+                                             <%=product_data[i].product_attribute_description%><br>
+                                            </p>
+                                        </div>
                                     </div>
-                                </a>
-                                <% }}
-                                    else{ %>
-                                    <h4>No Attributes.</h4>
-                                    <% } %>
+                                    <% }
+                                          }
+                                        else{ %>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-text res-change">No Attributes.</h4>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+                            </div>
+                        <div class="card text-center" style="width: 100% ;background-color: white;padding: 10px;
+                box-shadow: 2px 2px 4px 5px #ccc;  margin-top:20px;">
+                            <div class="card-body">
+                                <h4 class="card-title">Follow Us</h4>
+                                <p class="card-text res-change">
+                                    <a class="icon-instagram" href="<%=qrcode_data[0].qrcode_instagram%>" target="_blank"></a>
+                                    <a class="icon-twitter" href="<%=qrcode_data[0].qrcode_twitter%>" target="_blank"></a>
+                                    <a class="icon-facebook" href="<%=qrcode_data[0].qrcode_facebook%>" target="_blank"></a>
+                                    <a class="icon-laptop" href="https://<%=qrcode_data[0].qrcode_website%>" target="_blank"></a>
+                                </p>
                             </div>
                         </div>
-                    </div>
-               <!--  </div> -->
+   </div>
           <% }
            else{ %>
-           <h4>No QR Code Product data.</h4>
-        <% } %>
+            <h4>No QR Code Product data.</h4>
+            <% } %>
         <div class="text-center">
-            <h6 class="sub-heading"><a href="https://www.foodprintlabs.com.com/" target="_blank" >Powered by FoodPrint</a>  <i class="fas fa-bolt"></i></h6>
-            
+            <h6 class="sub-heading"><a href="https://www.foodprintlabs.com" target="_blank" >Powered by FoodPrint</a>  <i class="fas fa-bolt"></i></h6>
         </div>
     </div>
         
       <!-- start footer -->
-      <% include ./partials/footer %>
+      <%- include('partials/footer'); %>
       <!-- end footer -->  
    <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
     <script src="/js/scripts.min.js"></script>
-  <script src="/js/main.min.js"></script>
-  <script src="/js/custom.js"></script>
+    <script src="/js/main.min.js"></script>
+    <script src="/js/custom.js"></script>
   </body>
 </html>
