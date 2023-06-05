@@ -1710,3 +1710,63 @@ body {
 }
 
 /* ---------------- Global Style ------------ */
+
+/* ----------------------- Test Config Styles -------------------- */
+
+#test-config-wrapper {
+  padding: 0 5vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+#test-config-wrapper .test-btns-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#test-config-wrapper .test-btns-container .btn {
+  width: 30vw;
+}
+
+@media only screen and (min-width: 396px) and (max-width: 720px) {
+  #test-config-wrapper .table {
+    width: 80vw;
+  }
+  #test-config-wrapper {
+    padding: 0 2vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  #test-config-wrapper .test-btns-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #test-config-wrapper .test-btns-container .btn {
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 396px) {
+  #test-config-wrapper .table {
+    width: 80vw;
+  }
+  #test-config-wrapper {
+    padding: 0 2vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  #test-config-wrapper .test-btns-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #test-config-wrapper .test-btns-container .btn {
+    width: 90vw;
+  }
+}
