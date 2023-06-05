@@ -1,176 +1,203 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Farmers</title>
   <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <%- include('partials/head'); %>
 </head>
+
 <body>
+
+  <div class="probootstrap-loader"></div>
+
+  <header role="banner" class="probootstrap-header">
+    <%- include('partials/header'); %>
+  </header>
   <div>
-    <a href="/" class="btn btn-primary ml-3">Home</a>
+    <!-- <a href="/" class="btn btn-primary ml-3">Home</a>
     <a href="#" class="btn btn-secondary ml-3">New Customer</a>
-    <a href="#" class="btn btn-info ml-3">Customer List</a>
-</div>
-<!--   <% if (messages.error) { %>
+    <a href="#" class="btn btn-info ml-3">Customer List</a> -->
+  </div>
+  <!--   <% if (messages.error) { %>
   <p style="color:red"><%- messages.error %></p>
 <% } %> -->
 
-<% if (messages.success) { %>
-    <p class="alert alert-success mt-4"><%- messages.success %></p>
-<% } %>
-<br>
-  <table class="table">
-<thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">ID</th>
-    <th scope="col">Farmer Name</th>
-    <th width="200px">Produce Name</th>
+  <% if (messages.success) { %>
+  <p class="alert alert-success mt-4"><%- messages.success %></p>
+  <% } %>
+  <br>
 
-  </tr>
-</thead>
-<tbody>
-  <% if(data.length){
+  <div id="test-config-wrapper">
+    <div class="title col-12 title-global-container">
+      <h3 class="title-global">Testing</h3>
+    </div>
+
+    <%# Data %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">ID</th>
+          <th scope="col">Farmer Name</th>
+          <th scope="col">Produce Name</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <% if(data.length){
 
   for(var i = 0; i< data.length; i++) {%>
-  <tr>
-    <th scope="row"><%= (i+1) %></th>
-    <td><%= data[i].harvest_logid%></td>
-    <td><%= data[i].harvest_farmerName%></td>
-    <td><%= data[i].harvest_produceName%></td>
-    <!--<td>
+        <tr>
+          <th scope="row"><%= (i+1) %></th>
+          <td><%= data[i].harvest_logid%></td>
+          <td><%= data[i].harvest_farmerName%></td>
+          <td><%= data[i].harvest_produceName%></td>
+          <!--<td>
     &lt;!&ndash;<a class="btn btn-success edit" href="../customers/edit/<%=data[i].id%>">Edit</a>                       &ndash;&gt;
     &lt;!&ndash;<a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="../customers/delete/<%=data[i].id%>">Delete</a>                       &ndash;&gt;
    <a class="btn btn-success edit" href="#">Edit</a>
     <a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="#">Delete</a>
    </td>-->
-  </tr>
-  <% }
+        </tr>
+        <% }
 
    }else{ %>
-       <tr>
+        <tr>
           <td colspan="3">No data</td>
-       </tr>
-    <% } %>
-</tbody>
-</table>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <div class="test-btns-container">
+      <div class="row">
+        <p><a class="btn btn-success" id="test_whatsapp_pdf" href="/app/produce/pricepage/pdf/whatsapp" target="_blank">Test WhatsApp Produce Price PDF</a></p>
+        <p><text id="test_whatsapp_pdf_result"></text></p>
+        <div class="alert-danger" id="test_whatsapp_pdf_error_group" style="display: none"></div>
+        <ul id="test_whatsapp_pdf_errors"></ul>
+      </div>
+      <div class="row">
+        <p><a class="btn btn-success" id="test_email">Test Email</a></p>
+        <p><text id="test_email_result"></text></p>
+        <div class="alert-danger" id="test_email_error_group" style="display: none"></div>
+        <ul id="test_email_errors"></ul>
+      </div>
+      <div class="row">
+        <p><a class="btn btn-success" id="test_qrcode">Test QR Code</a></p>
+        <p><text id="test_qrcode_result"></text></p>
+        <p>
+        <div id="test_qrcode_image"></div>
+        </p>
+        <div class="alert-danger" id="test_qrcode_error_group" style="display: none"></div>
+        <ul id="test_qrcode_errors"></ul>
+      </div>
+      <div class="row">
+        <p><a class="btn btn-success" id="test_rest_producescan">Test REST API (app/api/v1/scan/WMNP_Fennel)</a></p>
+        <p><text id="test_rest_producescan_result"></text></p>
+        <p>
+        <div id="test_rest_producescan_image"></div>
+        </p>
+        <div class="alert-danger" id="test_rest_producescan_error_group" style="display: none"></div>
+        <ul id="test_rest_producescan_errors"></ul>
+      </div>
+    </div>
+  </div>
+  <%- include('partials/footer'); %>
+  <!-- end footer -->
 
-<div class="row">
-  <p><a class="btn btn-success" id="test_whatsapp_pdf" href="/app/produce/pricepage/pdf/whatsapp" target="_blank">Test WhatsApp Produce Price PDF</a></p>
-  <p><text id="test_whatsapp_pdf_result"></text></p>
-  <div class="alert-danger" id = "test_whatsapp_pdf_error_group" style="display: none"></div>
-  <ul id="test_whatsapp_pdf_errors"></ul>
-</div>
-<div class="row">
-  <p><a class="btn btn-success" id="test_email">Test Email</a></p>
-  <p><text id="test_email_result"></text></p>
-  <div class="alert-danger" id = "test_email_error_group" style="display: none"></div>
-  <ul id="test_email_errors"></ul>
-</div>
-<div class="row">
-  <p><a class="btn btn-success" id="test_qrcode">Test QR Code</a></p>
-  <p><text id="test_qrcode_result"></text></p>
-  <p><div id="test_qrcode_image"></div></p>
-  <div class="alert-danger" id = "test_qrcode_error_group" style="display: none"></div>
-  <ul id="test_qrcode_errors"></ul>
-</div>
-<div class="row">
-  <p><a class="btn btn-success" id="test_rest_producescan">Test REST API (app/api/v1/scan/WMNP_Fennel)</a></p>
-  <p><text id="test_rest_producescan_result"></text></p>
-  <p><div id="test_rest_producescan_image"></div></p>
-  <div class="alert-danger" id = "test_rest_producescan_error_group" style="display: none"></div>
-  <ul id="test_rest_producescan_errors"></ul>
-</div>
+  <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+  <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
 
-<script>
-  $(document).ready(function () {
-           $('#test_email').click(function (event) {
-                        event.preventDefault();
-                        //collect the form data using Id Selector what ever data you need to send to server
-                        //var data = {};
-                        //data.checkin_email=$('#checkin_email').val();
-                        //data.checkin_market_id=$('#checkin_market_id').val();
-                        $('#test_email_result').html('Processing.');
-                        $.ajax({
-                            url: '/app/testemail',
-                            //data: JSON.stringify(data),
-                            processData: false,
-                            type: 'POST',
-                            contentType: 'application/json'
-                        }).done(function(res) {
-                            if (res.success) {
-                                $('#test_email_error_group').hide();
-                                $('#test_email_result').html('Email sent!');
-                            } else {
-                                $('#test_email_result').html('Email not sent!');
-                                $('#test_email_error_group').css('display', 'block');
-                                  var errors = JSON.parse(JSON.stringify(res.errors));
-                                  var errorsContainer = $('#test_email_errors');
-                                  errorsContainer.innerHTML = '';
-                                  var errorsList = '';
+  <script>
+    $(document).ready(function() {
+      $('#test_email').click(function(event) {
+        event.preventDefault();
+        //collect the form data using Id Selector what ever data you need to send to server
+        //var data = {};
+        //data.checkin_email=$('#checkin_email').val();
+        //data.checkin_market_id=$('#checkin_market_id').val();
+        $('#test_email_result').html('Processing.');
+        $.ajax({
+          url: '/app/testemail',
+          //data: JSON.stringify(data),
+          processData: false,
+          type: 'POST',
+          contentType: 'application/json'
+        }).done(function(res) {
+          if (res.success) {
+            $('#test_email_error_group').hide();
+            $('#test_email_result').html('Email sent!');
+          } else {
+            $('#test_email_result').html('Email not sent!');
+            $('#test_email_error_group').css('display', 'block');
+            var errors = JSON.parse(JSON.stringify(res.errors));
+            var errorsContainer = $('#test_email_errors');
+            errorsContainer.innerHTML = '';
+            var errorsList = '';
 
-                                  for (var i = 0; i < errors.length; i++) {
-                                    errorsList += '<li>' + errors[i].msg + '</li>';
-                                  }
-                                  errorsContainer.html(errorsList);
-                                }
-                          });
-                    });
+            for (var i = 0; i < errors.length; i++) {
+              errorsList += '<li>' + errors[i].msg + '</li>';
+            }
+            errorsContainer.html(errorsList);
+          }
+        });
+      });
 
-          $('#test_rest_producescan').click(function (event) {
-                        event.preventDefault();
-                        $.ajax({
-                            url: '/app/api/v1/scan/WMNP_Fennel',
-                            processData: false,
-                            type: 'GET',
-                            contentType: 'application/json'
-                        }).done(function(res) {
-                            $('#test_rest_producescan_image').html(res);
-                            console.log('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
-                            $('#test_rest_producescan_result').html('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
-                          });
-                    });
+      $('#test_rest_producescan').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+          url: '/app/api/v1/scan/WMNP_Fennel',
+          processData: false,
+          type: 'GET',
+          contentType: 'application/json'
+        }).done(function(res) {
+          $('#test_rest_producescan_image').html(res);
+          console.log('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
+          $('#test_rest_producescan_result').html('Test API call (/app/api/v1/scan/WMNP_Fennel) successful!');
+        });
+      });
 
-          $('#test_qrcode').click(function (event) {
-                        event.preventDefault();
-                        //collect the form data using Id Selector what ever data you need to send to server
-                        $('#test_qrcode_result').html('Processing.');
-                        $.ajax({
-                            url: '/test_qrcode',
-                            processData: false,
-                            type: 'POST',
-                            contentType: 'application/json'
-                        }).done(function(res) {
-                          var divQRCodeHtml = '<img src='+ res + '>';
-                          $('#test_qrcode_image').html(divQRCodeHtml);
-                          console.log('Test QRCode created!');
-                          $('#test_qrcode_result').html('Test QRCode created!');
+      $('#test_qrcode').click(function(event) {
+        event.preventDefault();
+        //collect the form data using Id Selector what ever data you need to send to server
+        $('#test_qrcode_result').html('Processing.');
+        $.ajax({
+          url: '/test_qrcode',
+          processData: false,
+          type: 'POST',
+          contentType: 'application/json'
+        }).done(function(res) {
+          var divQRCodeHtml = '<img src=' + res + '>';
+          $('#test_qrcode_image').html(divQRCodeHtml);
+          console.log('Test QRCode created!');
+          $('#test_qrcode_result').html('Test QRCode created!');
 
 
-                            // if (res.success) {
-                            //     //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
-                            //     $("#checkin_calltoaction").hide();
-                            //     $("#checkin_form").hide();
-                            //     $('#checkin_error_group').hide();
-                            //     $('#test_qrcode_result').html('Thanks for checking in (' + res.email + ') and enjoy your visit!');
-                            // } else {
-                            //     $('#test_qrcode_error_group').css('display', 'block');
-                            //       var errors = JSON.parse(JSON.stringify(res.errors));
-                            //       var errorsContainer = $('#test_qrcode_errors');
-                            //       errorsContainer.innerHTML = '';
-                            //       var errorsList = '';
+          // if (res.success) {
+          //     //$("#subscribe_form").get(0).reset() // or $('form')[0].reset()
+          //     $("#checkin_calltoaction").hide();
+          //     $("#checkin_form").hide();
+          //     $('#checkin_error_group').hide();
+          //     $('#test_qrcode_result').html('Thanks for checking in (' + res.email + ') and enjoy your visit!');
+          // } else {
+          //     $('#test_qrcode_error_group').css('display', 'block');
+          //       var errors = JSON.parse(JSON.stringify(res.errors));
+          //       var errorsContainer = $('#test_qrcode_errors');
+          //       errorsContainer.innerHTML = '';
+          //       var errorsList = '';
 
-                            //       for (var i = 0; i < errors.length; i++) {
-                            //         errorsList += '<li>' + errors[i].msg + '</li>';
-                            //       }
-                            //       errorsContainer.html(errorsList);
-                            //     }
-                          });
-                    });
+          //       for (var i = 0; i < errors.length; i++) {
+          //         errorsList += '<li>' + errors[i].msg + '</li>';
+          //       }
+          //       errorsContainer.html(errorsList);
+          //     }
+        });
+      });
 
-                });
+    });
   </script>
 </body>
+
 </html>

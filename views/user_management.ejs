@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ./partials/head %>
+</head>
+<body>
+<!-- START: header -->
+
+<div class="probootstrap-loader"></div>
+
+<header role="banner" class="probootstrap-header">
+    <% include ./partials/header %>
+</header>
+<!-- END: header -->
+
+
+<div class="container" style="width: 100%;">
+    <h4>Users</h4>
+
+    <div>
+        <a class="btn btn-primary btn-sm" onclick="showModal(this, 'add', 'Add User Entry','addCSS')">Add New User</a>
+    </div>
+
+    <% include ./partials/notificationbar %>
+
+    <br>
+    <table class="table table-hover table-condensed table-responsive" id="storagetable">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Role</th>
+            <th scope="col">Email Verified</th>
+            <th scope="col">Profile Active</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if(data.length){
+        for(var i = 0; i < data.length; i++) { %>
+            <tr>
+                <td scope="row" style="width: 2%;"><%= (i + 1) ;%></td>
+                <td style="width: 20%;"><%= data[i].firstName ;%> <%= data[i].lastName ;%></td>
+                <td style="width: 15%;"> <%= data[i].email ;%></td>
+                <td style="width: 15%;"> <%= data[i].phoneNumber ;%></td>
+                <td style="width: 10%;"> <%= data[i].role ;%></td>
+                <td style="width: 10%;"> <%= data[i].isEmailVerified ;%></td>
+                <td style="width: 10%;"> <%= data[i].isAdminVerified ;%></td>
+
+                <td style="width: 20%;">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        <a onclick="showModal(this, 'view', 'View User Entry','viewCSS')" class="btn btn-xs btn-info view"
+                           id="<%= ("user_view_" + (i + 1) ) %>"
+                           data-user_uuid="<%= data[i].user_uuid%>"
+                           data-firstname="<%= data[i].firstName%>"
+                           data-lastname="<%=data[i].lastName%>"
+                           data-email="<%=data[i].email%>"
+                           data-phonenumber="<%=data[i].phoneNumber%>"
+                           data-role="<%=data[i].role%>"
+                           data-profilestatus="<%=data[i].isAdminVerified%>"
+                           data-farmname="<%=data[i].farmName%>"
+                           data-organisationname="<%=data[i].organisationName%>"
+                           data-organisationtype="<%=data[i].organisationType%>"
+                           data-city="<%=data[i].city%>"
+                           data-nationalidphotohash="<%=data[i].nationalIdPhotoHash%>"
+                        >View</a>
+
+                        <a onclick="showModal(this, 'update', 'Edit User Entry','editCSS')" class="btn btn-xs btn-info edit" style="background-color: rgb(0, 160, 246);"
+                           id="<%= ("user_edit_" + (i + 1) ) %>"
+                           data-user_uuid="<%= data[i].user_uuid%>"
+                           data-firstname="<%= data[i].firstName%>"
+                           data-lastname="<%=data[i].lastName%>"
+                           data-email="<%=data[i].email%>"
+                           data-phonenumber="<%=data[i].phoneNumber%>"
+                           data-role="<%=data[i].role%>"
+                           data-profilestatus="<%=data[i].isAdminVerified%>"
+                           data-farmname="<%=data[i].farmName%>"
+                           data-organisationname="<%=data[i].organisationName%>"
+                           data-organisationtype="<%=data[i].organisationType%>"
+                           data-city="<%=data[i].city%>"
+                           data-nationalidphotohash="<%=data[i].nationalIdPhotoHash%>"
+                        >Edit</a>
+
+                        <a onclick="showModal(this, 'delete', 'Delete User Entry','editCSS')" class="btn btn-xs btn-danger delete"
+                           id="<%= ("user_edit_" + (i + 1) ) %>"
+                           data-user_uuid="<%= data[i].user_uuid%>"
+                           data-firstname="<%= data[i].firstName%>"
+                           data-lastname="<%=data[i].lastName%>"
+                           data-email="<%=data[i].email%>"
+                           data-phonenumber="<%=data[i].phoneNumber%>"
+                           data-role="<%=data[i].role%>"
+                           data-profilestatus="<%=data[i].isAdminVerified%>"
+                           data-farmname="<%=data[i].farmName%>"
+                           data-organisationname="<%=data[i].organisationName%>"
+                           data-organisationtype="<%=data[i].organisationType%>"
+                           data-city="<%=data[i].city%>"
+                           data-nationalidphotohash="<%=data[i].nationalIdPhotoHash%>"
+                        >Delete</a>
+
+                    </div>
+                </td>
+            </tr>
+        <% }
+        }else{ %>
+            <tr>
+                <td colspan="5">No Data</td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
+
+</div>
+
+<form id="userModalForm" enctype="multipart/form-data" action="/app/user/save" method="post">
+    <div class="modal fade" id="userViewModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="harvestModalLabel">User</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="modalBodyContainer" class="classIDThatContainstheContentsforModal">
+
+                        <div class="form-group">
+                            <label for="viewmodal_user_firstName">FirstName</label>
+                            <input type="text"
+                                   name="viewmodal_user_firstName"
+                                   class="form-control"
+                                   id="viewmodal_user_firstName"
+                                   placeholder="Firstname"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="viewmodal_user_lastName">LastName</label>
+                            <input type="text"
+                                   name="viewmodal_user_lastName"
+                                   class="form-control"
+                                   id="viewmodal_user_lastName"
+                                   placeholder="Lastname"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="viewmodal_user_email">Email</label>
+                            <input type="email"
+                                   name="viewmodal_user_email"
+                                   class="form-control"
+                                   id="viewmodal_user_email"
+                                   placeholder="Email"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="viewmodal_user_phoneNumber">Phone Number</label>
+                            <input type="text"
+                                   name="viewmodal_user_phoneNumber"
+                                   class="form-control"
+                                   id="viewmodal_user_phoneNumber"
+                                   placeholder="Phone Number">
+                        </div>
+
+                        <div class="form-group" id="password_div">
+                            <label for="password">Password</label>
+                            <input type="password"
+                                   id="viewmodal_user_password"
+                                   name="viewmodal_user_password"
+                                   class="form-control"
+                                   placeholder="Password"
+                                   required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="viewmodal_user_role">Role</label>
+                            <select class="custom-select d-block w-100" id="viewmodal_user_role" name="viewmodal_user_role">
+                                <option value="" selected disabled >Choose Role ...</option>
+                                <option value="Farmer">Farmer</option>
+                                <option value="Agent">Agent</option>
+                                <option value="Intermediary">Intermediary</option>
+                                <option value='Admin'>Admin</option>
+                                <option value='Superuser'>Superuser</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="viewmodal_user_profile">Profile Active</label>
+                            <select class="custom-select d-block w-100" id="viewmodal_user_profile" name="viewmodal_user_profile">
+                                <option value="" selected disabled >Choose Profile status ...</option>
+                                <option value="true">Active</option>
+                                <option value="false">Disabled</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="farmname_div">
+                            <label for="viewmodal_user_farmname">Farm Name</label>
+                            <input type="text"
+                                   name="viewmodal_user_farmname"
+                                   class="form-control"
+                                   id="viewmodal_user_farmname"
+                                   placeholder="Farm Name"
+                                   required>
+                        </div>
+
+                        <div class="form-group" id="orgname_div">
+                            <label for="viewmodal_user_orgname">Organisation Name</label>
+                            <input type="text"
+                                   id="viewmodal_user_orgname"
+                                   name="viewmodal_user_orgname"
+                                   class="form-control"
+                                   placeholder="Organisation Name"
+                                   required>
+                        </div>
+
+
+                        <div class="form-group" id="orgtype_div">
+                            <label for="viewmodal_user_orgtype">Organisation Type</label>
+                            <select class="custom-select d-block w-100" name="viewmodal_user_orgtype" id="viewmodal_user_orgtype">
+                                <option value="" selected disabled >Organisation Type...</option>
+                                <option value='Retailer'>Retailer</option>
+                                <option value='Restaurant'>Restaurant</option>
+                                <option value='Market'>Market</option>
+                                <option value='AgriHub'>AgriHub</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="city_div">
+                            <label for="viewmodal_user_city">City</label>
+                            <input type="text"
+                                   name="viewmodal_user_city"
+                                   class="form-control"
+                                   id="viewmodal_user_city"
+                                   placeholder="City"
+                                   required>
+                        </div>
+
+                        <div class="form-group" id="idphoto_div">
+                            <label for="viewmodal_user_idphotohash">ID</label>
+
+                            <div id="viewmodal_user_photoimageDiv">
+                                <img id="viewmodal_user_idimage"
+                                     width='100%'
+                                     alt="User ID" />
+                            </div>
+                        </div>
+
+
+                        <div class="form-check" id="userCheckDiv">
+                            <input type="checkbox" class="form-check-input" id="userCheck" required>
+                            <label class="form-check-label" for="userCheck">I confirm the above user entry is correct</label>
+                        </div>
+                    </div>
+                    <div class="form-check" id="userDeleteDiv">
+                        <input type="checkbox" class="form-check-input" id="userDelete" required>
+                        <label class="form-check-label" for="userDelete">I confirm I wish to delete this user entry</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <input type="hidden" name="viewmodal_user_uuid" class="" id="viewmodal_user_uuid">
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<!-- start footer -->
+<% include ./partials/footer %>
+<!-- end footer -->
+
+<!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+<script src="/js/scripts.min.js"></script>
+<script src="/js/main.min.js"></script>
+<script src="/js/custom.js"></script>
+
+<script type="text/javascript">
+  function showModal(obj_identifier, action, header, contentClassID) {
+    const addButton=$('<input/>').attr({
+      type: "submit",
+      id: "userModalAdd",
+      value: 'Add',
+      class:"btn btn-primary"
+    });
+
+    const updateButton = $('<input/>').attr({
+      type: 'submit',
+      id: 'userModalUpdate',
+      value: 'Update',
+      class: 'btn btn-primary',
+    });
+
+    const deleteButton=$('<input/>').attr({
+      type: "submit",
+      id: "userModalDelete",
+      value: 'Delete',
+      class:"btn btn-danger"
+    });
+
+    const closeButton = $('<input/>').attr({
+      type: 'submit',
+      id: 'userModalClose',
+      value: 'Close',
+      class: 'btn btn-secondary',
+      'data-dismiss': 'modal',
+    });
+
+    const user_uuid = $(obj_identifier).data('user_uuid');
+    const user_firstName = $(obj_identifier).data('firstname');
+    const user_lastName = $(obj_identifier).data('lastname');
+    const user_email = $(obj_identifier).data('email');
+    const user_phoneNumber = $(obj_identifier).data('phonenumber');
+    const user_role = $(obj_identifier).data('role');
+    const user_profilestatus = $(obj_identifier).data('profilestatus');
+    const user_farmname = $(obj_identifier).data('farmname');
+    const user_organisationname = $(obj_identifier).data('organisationname');
+    const user_organisationtype = $(obj_identifier).data('organisationtype');
+    const user_city = $(obj_identifier).data('city');
+    const user_idphoto = $(obj_identifier).data('nationalidphotohash');
+
+    // console.log(obj_identifier);
+
+    //remove modal buttons, then re-add
+    $('#userModalUpdate').remove();
+    $('#userModalClose').remove();
+    $('#userModalAdd').remove();
+    $('#userModalDelete').remove();
+    $(`#viewmodal_user_role option[value='Farmer']`).remove();
+    $(`#viewmodal_user_role option[value='Agent']`).remove();
+    $(`#viewmodal_user_role option[value='Intermediary']`).remove();
+    $(`#viewmodal_user_role option[value='Admin']`).remove();
+    $(`#viewmodal_user_role option[value='Superuser']`).remove();
+
+    $('#viewmodal_user_uuid').val(user_uuid);
+    $('#viewmodal_user_firstName').val(user_firstName);
+    $('#viewmodal_user_lastName').val(user_lastName);
+    $('#viewmodal_user_email').val(user_email);
+    $('#viewmodal_user_phoneNumber').val(user_phoneNumber);
+    $('#viewmodal_user_farmname').val(user_farmname);
+    $('#viewmodal_user_orgname').val(user_organisationname);
+    $(`#viewmodal_user_orgtype option[value='${user_organisationtype}']`).prop('selected', true);
+    $('#viewmodal_user_city').val(user_city);
+    $('#viewmodal_user_idimage').attr("src", user_idphoto);
+
+    $('#password_div').hide();
+    $('#farmname_div').hide();
+    $('#orgname_div').hide();
+    $('#orgtype_div').hide();
+    $('#city_div').hide();
+    $('#idphoto_div').hide();
+
+    $(`#viewmodal_user_profile option[value='${user_profilestatus}']`).prop('selected', true);
+
+    if (action==='view') {
+      $("#modalBodyContainer :input").attr("disabled", true);
+
+      $('#viewmodal_user_firstName').show();
+      $('#viewmodal_user_lastName').show();
+      $('#viewmodal_user_email').show();
+      $('#viewmodal_user_phoneNumber').show();
+      $('#viewmodal_user_role').show();
+      $('#viewmodal_user_profile').show();
+
+      $("#viewmodal_user_role").append("<option value='Farmer'>Farmer</option>");
+      $("#viewmodal_user_role").append("<option value='Agent'>Agent</option>");
+      $("#viewmodal_user_role").append("<option value='Intermediary'>Intermediary</option>");
+      $("#viewmodal_user_role").append("<option value='Admin'>Admin</option>");
+      $("#viewmodal_user_role").append("<option value='Superuser'>Superuser</option>");
+
+      $(`#viewmodal_user_role option[value='${user_role}']`).prop('selected', true);
+
+      if(user_role ===  'Farmer'){
+        $('#farmname_div').show();
+        $('#orgname_div').hide();
+        $('#orgtype_div').hide();
+        $('#city_div').hide();
+        $('#idphoto_div').show();
+      } else if (user_role === 'Agent') {
+        $('#farmname_div').hide();
+        $('#orgname_div').hide();
+        $('#orgtype_div').hide();
+        $('#city_div').show();
+        $('#idphoto_div').show();
+      } else if (user_role === 'Intermediary') {
+        $('#farmname_div').hide();
+        $('#orgname_div').show();
+        $('#orgtype_div').show();
+        $('#city_div').hide();
+        $('#idphoto_div').hide();
+      }
+
+      $("#userCheckDiv").hide();
+      $("#userDeleteDiv").hide();
+      $("#modalFooter").append(closeButton);
+    }
+    else if (action === 'update'){
+      $("#modalBodyContainer :input").attr("disabled", false);
+
+      $('#viewmodal_user_firstName').show();
+      $('#viewmodal_user_lastName').show();
+      $('#viewmodal_user_email').show();
+      $('#viewmodal_user_phoneNumber').show();
+      $('#viewmodal_user_role').show();
+      $('#viewmodal_user_profile').show();
+
+      $("#viewmodal_user_role").append("<option value='Farmer'>Farmer</option>");
+      $("#viewmodal_user_role").append("<option value='Agent'>Agent</option>");
+      $("#viewmodal_user_role").append("<option value='Intermediary'>Intermediary</option>");
+      $("#viewmodal_user_role").append("<option value='Admin'>Admin</option>");
+      $("#viewmodal_user_role").append("<option value='Superuser'>Superuser</option>");
+
+      $(`#viewmodal_user_role option[value='${user_role}']`).prop('selected', true);
+
+      if(user_role ===  'Farmer'){
+        $('#farmname_div').show();
+        $('#orgname_div').hide();
+        $('#orgtype_div').hide();
+        $('#city_div').hide();
+        $('#idphoto_div').show();
+        $("#viewmodal_user_orgname").attr("required", false);
+        $("#viewmodal_user_orgtype").attr("required", false);
+        $("#viewmodal_user_city").attr("required", false);
+      } else if (user_role === 'Agent') {
+        $('#farmname_div').hide();
+        $('#orgname_div').hide();
+        $('#orgtype_div').hide();
+        $('#city_div').show();
+        $('#idphoto_div').show();
+        $("#viewmodal_user_orgname").attr("required", false);
+        $("#viewmodal_user_orgtype").attr("required", false);
+        $("#viewmodal_user_farmname").attr("required", false);
+      } else if (user_role === 'Intermediary') {
+        $('#farmname_div').hide();
+        $('#orgname_div').show();
+        $('#orgtype_div').show();
+        $('#city_div').hide();
+        $('#idphoto_div').hide();
+        $("#viewmodal_user_city").attr("required", false);
+        $("#viewmodal_user_farmname").attr("required", false);
+      }
+
+      $("#viewmodal_user_uuid").attr('readonly', true);
+      $("#viewmodal_user_password").attr("required", false);
+
+      $("#userCheckDiv").show();
+      $("#userDeleteDiv").hide();
+      $("#userDelete").attr("required", false);
+
+
+      $("#modalFooter").append(updateButton);
+      $("#modalFooter").append(closeButton);
+
+      $('#userModalForm').attr('action', '/app/user/update');
+    }
+    else if (action === 'add'){
+      $("#modalBodyContainer :input").attr("disabled", false);
+      $("#modalBodyContainer :input").attr("required", true);
+
+      $(`#viewmodal_user_role option[value='Farmer']`).remove();
+      $(`#viewmodal_user_role option[value='Agent']`).remove();
+      $(`#viewmodal_user_role option[value='Intermediary']`).remove();
+      $("#viewmodal_user_role").append("<option value='Admin'>Admin</option>");
+      $("#viewmodal_user_role").append("<option value='Superuser'>Superuser</option>");
+
+      $('#viewmodal_user_firstName').show();
+      $('#viewmodal_user_lastName').show();
+      $('#viewmodal_user_email').show();
+      $('#viewmodal_user_phoneNumber').show();
+      $('#viewmodal_user_role').show();
+      $('#viewmodal_user_profile').show();
+      $('#password_div').show();
+
+      $('#farmname_div').hide();
+      $('#orgname_div').hide();
+      $('#orgtype_div').hide();
+      $('#city_div').hide();
+      $('#idphoto_div').hide();
+      $("#viewmodal_user_orgname").attr("required", false);
+      $("#viewmodal_user_orgtype").attr("required", false);
+      $("#viewmodal_user_city").attr("required", false);
+      $("#viewmodal_user_farmname").attr("required", false);
+
+
+      $("#userCheckDiv").show();
+      $("#userDeleteDiv").hide();
+      $("#userDelete").attr("required", false);
+
+
+      $("#modalFooter").append(addButton);
+      $("#modalFooter").append(closeButton);
+
+      $('#userModalForm').attr('action', '/app/user/save');
+    }
+    else if (action==='delete'){
+      $("#modalBodyContainer :input").attr("disabled", true);
+      $("#userCheckDiv").hide();
+      $("#userCheck").attr("required", false);
+
+      $("#viewmodal_user_role").append("<option value='Farmer'>Farmer</option>");
+      $("#viewmodal_user_role").append("<option value='Agent'>Agent</option>");
+      $("#viewmodal_user_role").append("<option value='Intermediary'>Intermediary</option>");
+      $("#viewmodal_user_role").append("<option value='Admin'>Admin</option>");
+      $("#viewmodal_user_role").append("<option value='Superuser'>Superuser</option>");
+
+      $(`#viewmodal_user_role option[value='${user_role}']`).prop('selected', true);
+
+      if(user_role ===  'Farmer'){
+        $('#farmname_div').show();
+        $('#orgname_div').hide();
+        $('#orgtype_div').hide();
+        $('#city_div').hide();
+        $('#idphoto_div').show();
+        $("#viewmodal_user_orgname").attr("required", false);
+        $("#viewmodal_user_orgtype").attr("required", false);
+        $("#viewmodal_user_city").attr("required", false);
+      } else if (user_role === 'Agent') {
+        $('#farmname_div').hide();
+        $('#orgname_div').hide();
+        $('#orgtype_div').hide();
+        $('#city_div').show();
+        $('#idphoto_div').show();
+        $("#viewmodal_user_orgname").attr("required", false);
+        $("#viewmodal_user_orgtype").attr("required", false);
+        $("#viewmodal_user_farmname").attr("required", false);
+      } else if (user_role === 'Intermediary') {
+        $('#farmname_div').hide();
+        $('#orgname_div').show();
+        $('#orgtype_div').show();
+        $('#city_div').hide();
+        $('#idphoto_div').hide();
+        $("#viewmodal_user_city").attr("required", false);
+        $("#viewmodal_user_farmname").attr("required", false);
+      }
+
+      $("#userDeleteDiv").show();
+      $("#userDelete").attr("required", true);
+
+      $("#viewmodal_user_uuid").attr('readonly', true);
+
+      $("#modalFooter").append(deleteButton);
+      $("#modalFooter").append(closeButton);
+      $('#userModalForm').attr('action', '/app/user/delete');
+    }
+
+
+    $('#userModalLabel').html(header);
+    $('#modalBodyContainer').removeAttr('class'); //if already exists remove it
+    $('#modalBodyContainer').addClass(contentClassID);
+    $('#userViewModal').modal('show');
+  }
+
+
+</script>
+</body>
+</html>

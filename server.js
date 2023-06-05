@@ -15,6 +15,9 @@ var sequelise = require('./config/db/db_sequelise');
 var ROLES = require('./utils/roles');
 
 const CUSTOM_ENUMS = require('./utils/enums');
+const bcrypt = require('bcrypt');
+var initModels = require('./models/init-models');
+var models = initModels(sequelise);
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -64,6 +67,7 @@ var authRouter = require('./routes/auth');
 var blockchainRouter = require('./routes/blockchain');
 var dashboardsRouter = require('./routes/dashboards');
 var qrCodeRouter = require('./routes/qrcode');
+var umsRouter = require('./routes/users');
 
 var testRouter = require('./routes/test');
 var searchRouter = require('./routes/search');
@@ -147,6 +151,7 @@ app.use('/', router);
 app.use('/', blockchainRouter);
 app.use('/app/config', configRouter);
 app.use('/app/auth', authRouter);
+app.use('/app/user', umsRouter);
 app.use('/app/harvest', harvestRouter);
 app.use('/app/storage', storageRouter);
 app.use('/app/produce', produceRouter);
@@ -188,7 +193,7 @@ passport.use(
         if (!user) {
           return cb(null, false, { message: 'Incorrect username.' });
         }
-        if (user.password != password) {
+        if (user.password !== password) {
           return cb(null, false, { message: 'Incorrect password.' });
         }
         // If the credentials are valid, the verify callback invokes done to supply
@@ -207,20 +212,56 @@ passport.use(
       passwordField: 'loginPassword', //useful for custom id's on your credentials fields
     },
     function (username, password, cb) {
-      db.users.findByUsername(username, function (err, user) {
-        if (err) {
+      models.User.findOne({
+        attributes: [
+          'ID',
+          'firstName',
+          'middleName',
+          'lastName',
+          'email',
+          'password',
+          'role',
+          'isEmailVerified',
+          'isAdminVerified',
+        ],
+        where: {
+          email: username,
+        },
+      })
+        .then(async data => {
+          let user = {
+            id: data.ID,
+            username: '',
+            password: data.password,
+            displayName: `${data.firstName} ${data.lastName}`,
+            prefs: [{ value: data.email }],
+            email: data.email,
+            role: data.role,
+          };
+          if (!data) {
+            return cb(null, false, { message: 'Incorrect login details.' });
+          }
+
+          const match = await bcrypt.compare(password, user.password);
+          if (!match) {
+            return cb(null, false, { message: 'Incorrect login details.' });
+          }
+
+          if (!data.isEmailVerified) {
+            return cb(null, false, { message: 'Please verify your email first.' });
+          }
+
+          if (!data.isAdminVerified) {
+            return cb(null, false, {
+              message: 'Your profile is being reviewed by the Foodprint team.',
+            });
+          }
+          // console.log(user);
+          return cb(null, user);
+        })
+        .catch(err => {
           return cb(err);
-        }
-        if (!user) {
-          return cb(null, false, { message: 'Incorrect username.' });
-        }
-        if (user.password != password) {
-          return cb(null, false, { message: 'Incorrect password.' });
-        }
-        // If the credentials are valid, the verify callback invokes done to
-        // supply Passport with the user that authenticated.
-        return cb(null, user);
-      });
+        });
     }
   )
 );
@@ -237,12 +278,41 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-  db.users.findById(id, function (err, user) {
-    if (err) {
-      return cb(err);
-    }
-    cb(null, user);
-  });
+  const strategy = process.env.AUTH_STATEGY ? process.env.AUTH_STATEGY : CUSTOM_ENUMS.DB_STRATEGY;
+  if (strategy === CUSTOM_ENUMS.FILE_STRATEGY) {
+    db.users.findById(id, function (err, user) {
+      if (err) {
+        return cb(err);
+      }
+      cb(null, user);
+    });
+  } else {
+    models.User.findOne({
+      attributes: ['ID', 'firstName', 'lastName', 'email', 'password', 'role'],
+      where: {
+        ID: id,
+      },
+    })
+      .then(data => {
+        const user = {
+          id: data.ID,
+          username: data.email,
+          password: data.password,
+          displayName: `${data.firstName} ${data.lastName}`,
+          prefs: [{ value: data.email }],
+          email: data.email,
+          role: data.role,
+        };
+        if (!data) {
+          return cb(err);
+        }
+
+        return cb(null, user);
+      })
+      .catch(err => {
+        return cb(err);
+      });
+  }
 });
 
 // catch 404 and forward to error handler

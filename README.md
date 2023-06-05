@@ -122,6 +122,9 @@ DO_BUCKET_NAME=REPLACE_ME
 DO_KEY_ID=REPLACE_ME
 DO_SECRET=REPLACE_ME
 DO_ENDPOINT=REPLACE_ME
+TOKEN_SIGN=REPLACE_ME
+AUTH_STATEGY=REPLACE_ME
+CONFIRM_URL=REPLACE_ME
 TWILIO_ACCOUNT_SID=REPLACE_ME
 TWILIO_AUTH_TOKEN=REPLACE_ME
 ```
@@ -160,12 +163,15 @@ node sequelise_auto_export.js
 
 The generated models can be found in `./models`
 
-- Creating sequelize migration (which creates a js file in migrations folder and will need to be commited)
+- Creating sequelize migration (which creates a js file in migrations folder and will need to be
+  commited)
+
 ```bash
 npx sequelize migration:create --name name_of_new_db_column
 ```
 
 Run the migration
+
 ```bash
 npx sequelize db:migrate --url ‘mysql://username:password@localhost:3306/databasename'
 ```
@@ -262,6 +268,7 @@ $ heroku run npx sequelize-cli db:migrate --url 'mysql://root:password@mysql_hos
 ```
 
 Alternatively
+
 ```
 $ heroku run npm run build -a name-of-app
 ```
