@@ -1,118 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
 
-          <%- include('partials/head'); %>
-      <link rel="stylesheet" href="/css/timeline.css" />
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-  </head>
-  <body>
-     <!-- START: header -->
+<head>
 
-     <div class="probootstrap-loader"></div>
+  <%- include('partials/head'); %>
+  <link rel="stylesheet" href="/css/timeline.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+</head>
 
-     <header role="banner" class="probootstrap-header">
-             <%- include('partials/header'); %>
-     </header>
-     <!-- END: header -->
+<body>
+  <!-- START: header -->
 
-   <div class="container" style="width: 100%;">
-       <% if(data.length){%>
-            <h4>Visualise the Journey - Farm-to-Fork</h4>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="main-timeline7">
-                                <a href="#" class="timeline">
-                                    <div class="timeline-icon"><i class="fas fa-seedling"></i></div>
-                                    <div class="timeline-content">
-                                        <h3 class="title">Farm</h3>
-                                        <p class="description res-change">
-                                         <b><%=data[0].harvest_produceName%></b> grown at <b><%=data[0].harvest_supplierName%></b>(established <%=data[0].year_established%>) by <b><%=data[0].harvest_farmerName%></b>.
-                                         The farm is located in <b><%=data[0].harvest_supplierAddress%></b>.
-                                        </p>
-                                    </div>
-                                </a>
-                                <a href="#" class="timeline">
-                                    <div class="timeline-icon"><i class="fa fa-hands"></i></div>
-                                    <div class="timeline-content">
-                                        <h3 class="title">Harvest</h3>
-                                        <p class="description res-change">
-                                            <b><%=data[0].harvest_supplierName%></b> exercised high standards of crop management and sustainable farming practices that minimized crop pests, diseases and maintained soil fertility.
-                                            The <b><%=data[0].harvest_produceName%></b> were harvested on <b><%=data[0].harvest_TimeStamp%></b>
-                                            and the harvest data captured on FoodPrint on <b><%=data[0].harvest_CaptureTime%></b>.</br>
-                                            <i>Additional information about the <%=data[0].harvest_produceName%> -  <%=data[0].harvest_Description%></i></br>
-                                            <i><%=data[0].harvest_description_json%> </i>
-                                        </p>
-                                    </div>
-                                </a>
-                                <a href="#" class="timeline">
-                                    <div class="timeline-icon"><i class="fa fa-shipping-fast"></i></div>
-                                    <div class="timeline-content">
-                                        <h3 class="title">Transportation</h3>
-                                        <p class="description res-change">
-                                            After receiving an order from the market, <b><%=data[0].harvest_supplierName%></b> packaged and transported the <b><%=data[0].harvest_produceName%></b> to the market on
-                                            <%=data[0].market_storageTimeStamp%>.
-                                        </p>
-                                    </div>
-                                </a>
-                                <a href="#" class="timeline">
-                                    <div class="timeline-icon"><i class="fa fa-box-open"></i></div>
-                                    <div class="timeline-content">
-                                        <h3 class="title">Storage</h3>
-                                        <p class="description res-change">
-                                            The handover of the <b><%=data[0].harvest_produceName%></b> from <b><%=data[0].harvest_supplierName%></b> to the market happened on <b><%=data[0].market_storageTimeStamp%></b>. The handover was captured on FoodPrint at <b><%=data[0].market_storageCaptureTime%></b>.
-                                    </div>
-                                </a>
-                                <a href="#" class="timeline">
-                                    <div class="timeline-icon"><i class="fas fa-shopping-bag"></i></div>
-                                    <div class="timeline-content">
-                                        <h3 class="title">Market Stall</h3>
-                                        <p class="description">
-                                            The <b><%=data[0].harvest_produceName%></b> were stored at optimal temperature overnight before the opening of the market this weekend. They were added to the stall this morning!
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                            <br/>
-                            <div class="text-center">
-                                <img alt="Harvest Image"  src="<%= data[0].harvest_image_url %>"
-                                     onerror="this.onerror=null;this.src='data:image/png;base64,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';"
-                                />
-                            </div>
+  <div class="probootstrap-loader"></div>
 
-                            <!-- START: TRACED ON BLOCKCHAIN  -->
-                            <% if (showTracedOnBlockchain || testRecord){ %>
-                              <div class="probootstrap-section-heading text-center mb50 probootstrap-animate" class="text-center">
-                                  <h4 class="sub-heading">Traced using Blockchain <i class="far fa-check-circle"></i></h4>
-                              </div>
-                              <% } %>
-                            <!-- END: TRACED ON BLOCKCHAIN -->
+  <header role="banner" class="probootstrap-header">
+    <%- include('partials/header'); %>
+  </header>
+  <!-- END: header -->
 
-                            <!-- START: CONTACT FARMER  -->
-                            <div class="text-center">
-                                <p><a href="mailto:thefoodprintapp@gmail.com">Email Farmer</a> <i class="fas fa-envelope"></i> </p>
-                            </div>
-                            <!-- END: CONTACT FARMER -->
-                        </div>
-                    </div>
-               <!--  </div> -->
-                <hr>
-          <% }
-           else{ %>
-           <h4>No Farm-to-Fork data.</h4>
-        <% } %>
-        <div class="text-center">
-            <h6 class="sub-heading"><a href="https://www.foodprintapp.com/" target="_blank" >Powered by FoodPrint</a>  <i class="fas fa-bolt"></i></h6>
-            <!-- <a href="mailto:thefoodprintapp@gmail.com">Email Farmer</a> <i class="fas fa-envelope"></i>  -->
+  <div class="container" style="width: 100%;">
+    <% if(data.length){%>
+    <h4>Visualise the Journey - Farm-to-Fork</h4>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="main-timeline7">
+          <a href="#" class="timeline">
+            <div class="timeline-icon"><i class="fas fa-seedling"></i></div>
+            <div class="timeline-content">
+              <h3 class="title">Farm</h3>
+              <p class="description res-change">
+                <b><%=data[0].harvest_produceName%></b> grown at <b><%=data[0].harvest_supplierName%></b>(established <%=data[0].year_established%>) by <b><%=data[0].harvest_farmerName%></b>.
+                The farm is located in <b><%=data[0].harvest_supplierAddress%></b>.
+              </p>
+            </div>
+          </a>
+          <a href="#" class="timeline">
+            <div class="timeline-icon"><i class="fa fa-hands"></i></div>
+            <div class="timeline-content">
+              <h3 class="title">Harvest</h3>
+              <p class="description res-change">
+                <b><%=data[0].harvest_supplierName%></b> exercised high standards of crop management and sustainable farming practices that minimized crop pests, diseases and maintained soil fertility.
+                The <b><%=data[0].harvest_produceName%></b> were harvested on <b><%=data[0].harvest_TimeStamp%></b>
+                and the harvest data captured on FoodPrint on <b><%=data[0].harvest_CaptureTime%></b>.</br>
+                <i>Additional information about the <%=data[0].harvest_produceName%> - <%=data[0].harvest_Description%></i></br>
+                <i><%=data[0].harvest_description_json%> </i>
+              </p>
+            </div>
+          </a>
+          <a href="#" class="timeline">
+            <div class="timeline-icon"><i class="fa fa-shipping-fast"></i></div>
+            <div class="timeline-content">
+              <h3 class="title">Transportation</h3>
+              <p class="description res-change">
+                After receiving an order from the market, <b><%=data[0].harvest_supplierName%></b> packaged and transported the <b><%=data[0].harvest_produceName%></b> to the market on
+                <%=data[0].market_storageTimeStamp%>.
+              </p>
+            </div>
+          </a>
+          <a href="#" class="timeline">
+            <div class="timeline-icon"><i class="fa fa-box-open"></i></div>
+            <div class="timeline-content">
+              <h3 class="title">Storage</h3>
+              <p class="description res-change">
+                The handover of the <b><%=data[0].harvest_produceName%></b> from <b><%=data[0].harvest_supplierName%></b> to the market happened on <b><%=data[0].market_storageTimeStamp%></b>. The handover was captured on FoodPrint at <b><%=data[0].market_storageCaptureTime%></b>.
+            </div>
+          </a>
+          <a href="#" class="timeline">
+            <div class="timeline-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="timeline-content">
+              <h3 class="title">Market Stall</h3>
+              <p class="description">
+                The <b><%=data[0].harvest_produceName%></b> were stored at optimal temperature overnight before the opening of the market this weekend. They were added to the stall this morning!
+              </p>
+            </div>
+          </a>
         </div>
-    </div>
+        <br />
+        <div class="text-center">
+          <img alt="Harvest Image" src="<%= data[0].harvest_image_url %>" onerror="this.onerror=null;this.src='data:image/png;base64,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';" />
+        </div>
 
-      <!-- start footer -->
-      <%- include('partials/footer'); %>
-      <!-- end footer -->
-   <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-    <script src="/js/scripts.min.js"></script>
+        <!-- START: TRACED ON BLOCKCHAIN  -->
+        <% if (showTracedOnBlockchain || testRecord){ %>
+        <div class="probootstrap-section-heading text-center mb50 probootstrap-animate" class="text-center">
+          <h4 class="sub-heading">Traced using Blockchain <i class="far fa-check-circle"></i></h4>
+        </div>
+        <% } %>
+        <!-- END: TRACED ON BLOCKCHAIN -->
+
+        <!-- START: CONTACT FARMER  -->
+        <div class="text-center">
+          <p><a href="mailto:thefoodprintapp@gmail.com">Email Farmer</a> <i class="fas fa-envelope"></i> </p>
+        </div>
+        <!-- END: CONTACT FARMER -->
+      </div>
+    </div>
+    <!--  </div> -->
+    <hr>
+    <% }
+           else{ %>
+    <h4>No Farm-to-Fork data.</h4>
+    <% } %>
+    <div class="text-center">
+      <h6 class="sub-heading"><a href="https://www.foodprintapp.com/" target="_blank">Powered by FoodPrint</a> <i class="fas fa-bolt"></i></h6>
+      <!-- <a href="mailto:thefoodprintapp@gmail.com">Email Farmer</a> <i class="fas fa-envelope"></i>  -->
+    </div>
+  </div>
+
+  <!-- start footer -->
+  <%- include('partials/footer'); %>
+  <!-- end footer -->
+  <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+  <script src="/js/scripts.min.js"></script>
   <script src="/js/main.min.js"></script>
   <script src="/js/custom.js"></script>
-  </body>
+</body>
+
 </html>

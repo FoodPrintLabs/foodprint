@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <%- include('partials/head'); %>
-  </head>
 
-  <body>
-       <!-- START: header -->
+<head>
+  <%- include('partials/head'); %>
+</head>
 
-      <div class="probootstrap-loader"></div>
+<body>
+  <!-- START: header -->
 
-      <header role="banner" class="probootstrap-header">
-          <%- include('partials/header'); %>
-      </header>
-      <!-- END: header -->
+  <div class="probootstrap-loader"></div>
 
-       <!-- START TABLE-->
-       <div class="container" style="width: 100%;">
-            <h3>Error</h3>
-            <h4><%= message %></h4>
-            <% console.log(message) %>
-            <% console.log(error) %>
-            <% if (typeof error != "undefined" && error.length) { %>
-               <%= error %>
-                <h6><%= error.status %></h6>
-                <pre><%= error.stack %></pre>
-            <% } %>
-       </div>
-       <!-- start footer -->
-       <%- include('partials/footer'); %>
-       <!-- end footer -->
-      <script src="/js/scripts.min.js"></script>
-      <script src="/js/main.min.js"></script>
-      <script src="/js/custom.js"></script>
-  </body>
+  <header role="banner" class="probootstrap-header">
+    <%- include('partials/header'); %>
+  </header>
+  <!-- END: header -->
+
+  <!-- START TABLE-->
+  <div class="container" style="width: 100%;">
+    <h3>Error</h3>
+    <h4><%= message %></h4>
+    <% console.log(message) %>
+    <% console.log(error) %>
+    <% if (typeof error != "undefined" && error.length) { %>
+    <%= error %>
+    <h6><%= error.status %></h6>
+    <pre><%= error.stack %></pre>
+    <% } %>
+  </div>
+  <!-- start footer -->
+  <%- include('partials/footer'); %>
+  <!-- end footer -->
+  <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+</body>
+
 </html>
