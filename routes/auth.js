@@ -186,6 +186,7 @@ router.post('/register/whatsapp', async function (req, res) {
 /* check user registration status relevent for whatsapp*/
 router.get('/register/status/:phoneNumber', function (req, res) {
   const { phoneNumber } = req.params;
+
   try {
     models.User.findAll({
       attributes: [
@@ -219,6 +220,69 @@ router.get('/register/status/:phoneNumber', function (req, res) {
     res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
   }
 });
+
+router.put('/profile/update/:userID', function (req, res) {
+
+    let {userID} = req.params;
+
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let userEmail = req.body.email;
+
+    let user_entry = {}
+
+    if (typeof firstName !== 'undefined' && firstName.length > 0) {
+        user_entry = {firstName: firstName}
+    } else if (typeof lastName !== 'undefined' && lastName.length > 0) {
+        user_entry = {lastName: lastName}
+    } else if (typeof userEmail !== 'undefined' && userEmail.length > 0) {
+        user_entry = {email: userEmail}
+    }
+
+        try {
+        models.User.update(user_entry, {
+            where: {
+                ID: userID,
+            },
+        })
+            .then(_ => {
+                console.log(_)
+                models.User.findAll({
+                    attributes: [
+                        'ID',
+                        'firstName',
+                        'middleName',
+                        'lastName',
+                        'email',
+                        'phoneNumber',
+                        'role',
+                        'createdAt',
+                        'registrationChannel',
+                    ],
+                    where: {
+                        ID: userID,
+                    },
+                })
+                    .then(users => {
+                        if (users.length === 0) {
+                            res.status(404).send({ message: 'user not found' });
+                        } else {
+                            res.status(200).send(users[0]);
+                        }
+                    })
+            })
+            .catch(err => {
+                //throw err;
+                console.log('Error - Update user failed');
+                console.log(err);
+                res.status(400).send({message: "User details failed to update"})
+            });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({ error: e, message: 'Unexpected error occurred 😤' });
+    }
+});
+
 
 
 router.get(
