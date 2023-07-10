@@ -15,6 +15,7 @@ var _User = require('./user');
 var _FoodprintEmail = require('./foodprint_email');
 var _FoodprintQRCode = require('./foodprint_qrcode');
 var _FoodprintQRCodeProductAttributes = require('./foodprint_qrcode_product_attributes');
+var _FoodprintNotice = require('./foodprint_notice');
 
 function initModels(sequelize) {
   var FoodprintConfig = _FoodprintConfig(sequelize, DataTypes);
@@ -33,6 +34,7 @@ function initModels(sequelize) {
   var FoodprintEmail = _FoodprintEmail(sequelize, DataTypes);
   var FoodprintQRCode = _FoodprintQRCode(sequelize, DataTypes);
   var FoodprintQRCodeProductAttributes = _FoodprintQRCodeProductAttributes(sequelize, DataTypes);
+  var FoodprintNotice = _FoodprintNotice(sequelize, DataTypes);
 
   return {
     FoodprintConfig,
@@ -51,6 +53,7 @@ function initModels(sequelize) {
     FoodprintEmail,
     FoodprintQRCode,
     FoodprintQRCodeProductAttributes,
+    FoodprintNotice
   };
 }
 module.exports = initModels;
