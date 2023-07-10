@@ -73,6 +73,7 @@ var buyerRouter = require('./routes/buyer');
 var sellerRouter = require('./routes/seller');
 var orderRouter = require('./routes/order');
 var emailRouter = require('./routes/email');
+var noticeRouter = require('./routes/notice');
 
 // enable ssl redirect
 app.use(
@@ -155,6 +156,10 @@ app.use('/app/buyer', buyerRouter);
 app.use('/app/seller', sellerRouter);
 app.use('/app/order', orderRouter);
 app.use('/app/email', emailRouter);
+
+// Views and API Routes
+app.use('/', noticeRouter);
+
 
 app.use('/', testRouter);
 app.use('/', searchRouter);
