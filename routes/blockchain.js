@@ -8,6 +8,8 @@ var sequelise = require('../config/db/db_sequelise');
 
 var models = initModels(sequelise);
 
+const blockchainExplorerURL = process.env.ALGORAND_EXPLORER_URL;
+
 //------Import account mnemonics------\\
 var account1_mnemonic = process.env.ACCOUNT1_MNEMONIC;
 var account2_mnemonic = process.env.ACCOUNT2_MNEMONIC; // account against which supply chain data is logged from web
@@ -109,20 +111,20 @@ let token, server, port;
 
 if (environment == 'TESTNET') {
   token = {
-    'X-API-Key': process.env.TESTNET_ALGOD_API_KEY,
+    'X-API-Key': process.env.TESTNET_ALGOD_API_KEY, // https://nodely.io/docs/free/start - free service does not require tokens
   };
-  server = process.env.TESTNET_ALGOD_SERVER; // PureStake "https://testnet-algorand.api.purestake.io/ps2" or AlgoExplorer "https://api.testnet.algoexplorer.io",
+  server = process.env.TESTNET_ALGOD_SERVER;
   port = process.env.TESTNET_ALGOD_PORT;
 } else if (environment == 'MAINNET') {
   //if MAINNET
   token = {
     'X-API-Key': process.env.MAINNET_ALGOD_API_KEY,
   };
-  server = process.env.MAINNET_ALGOD_SERVER; // PureStake "https://testnet-algorand.api.purestake.io/ps2" or AlgoExplorer "https://api.testnet.algoexplorer.io",
+  server = process.env.MAINNET_ALGOD_SERVER;
   port = process.env.MAINNET_ALGOD_PORT;
 } else {
   //if DEV
-  token = process.env.DEV_ALGOD_API_KEY; // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  token = process.env.DEV_ALGOD_API_KEY; // https://nodely.io/docs/free/start - free service does not require tokens
   server = process.env.DEV_ALGOD_SERVER; // "http://localhost";
   port = process.env.DEV_ALGOD_PORT;
 }
@@ -245,8 +247,7 @@ function updateHarvestBlockchainHash(logId, supplyChainData, user, transactionId
     harvest_bool_added_to_blockchain: true,
     harvest_added_to_blockchain_by: addToBlockchainUser,
     harvest_blockchain_uuid: transactionId,
-    blockchain_explorer_url:
-      'https://goalseeker.purestake.io/algorand/testnet/transaction/' + transactionId,
+    blockchain_explorer_url: blockchainExplorerURL + '/' + transactionId,
   };
   try {
     models.FoodprintHarvest.update(data, {
@@ -388,8 +389,7 @@ function updateStorageBlockchainHash(logId, supplyChainData, user, transactionId
     storage_bool_added_to_blockchain: true,
     storage_added_to_blockchain_by: user.email,
     storage_blockchain_uuid: transactionId,
-    blockchain_explorer_url:
-      'https://goalseeker.purestake.io/algorand/testnet/transaction/' + transactionId,
+    blockchain_explorer_url: blockchainExplorerURL + '/' + transactionId,
   };
   try {
     models.FoodprintStorage.update(data, {

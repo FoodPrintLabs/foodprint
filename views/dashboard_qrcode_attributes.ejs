@@ -2,305 +2,305 @@
 <html lang="en">
 
 <head>
-        <%- include('partials/head'); %>
+  <%- include('partials/head'); %>
 </head>
 
 <body>
-    <!-- START: header -->
+  <!-- START: header -->
 
-    <div class="probootstrap-loader"></div>
+  <div class="probootstrap-loader"></div>
 
-    <header role="banner" class="probootstrap-header">
-            <%- include('partials/header'); %>
-    </header>
-    <!-- END: header -->
+  <header role="banner" class="probootstrap-header">
+    <%- include('partials/header'); %>
+  </header>
+  <!-- END: header -->
 
-    <!-- START TABLE-->
-    <div class="container" style="width: 100%;">
-        <h3>QR Code Attributes</h3>
+  <!-- START TABLE-->
+  <div class="container" style="width: 100%;">
+    <h3>QR Code Attributes</h3>
 
-            <%- include('partials/notificationbar'); %>
-            <% 
+    <%- include('partials/notificationbar'); %>
+    <% 
       if(qrcodedata.length) {
         for(var i = 0; i< qrcodedata.length; i++){ 
     %>
-                <div class="col-12 col-lg-12 col-xl-12" style="width: 100% ;background-color: white;padding: 10px; 
+    <div class="col-12 col-lg-12 col-xl-12" style="width: 100% ;background-color: white;padding: 10px; 
     box-shadow: 2px 2px 4px 5px #ccc;">
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <h4>QRCODE</h4>
-                        <div class="col-3 col-lg-3 col-xl-3">
-                            <p class="h4">Name</p>
-                            <div style=" overflow: auto;">
-                                <%=qrcodedata[i].qrcode_company_name %>
-                            </div>
-                        </div>
-                        <div class="col-3 col-lg-3 col-xl-3">
-                            <p class="h4">Product</p>
-                            <div style=" overflow: auto;">
-                                <%=qrcodedata[i].qrcode_product_name %>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <div class="col-12 col-lg-12 col-xl-12">
-                            <p class="h4">URL</p>
-                            <div style=" overflow: auto;">
-                                <a href="<%=qrcodedata[i].qrcode_url%>" target="_blank">
-                                    <%=qrcodedata[i].qrcode_url%>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
+      <div class="col-12 col-lg-12 col-xl-12">
+        <h4>QRCODE</h4>
+        <div class="col-3 col-lg-3 col-xl-3">
+          <p class="h4">Name</p>
+          <div style=" overflow: auto;">
+            <%=qrcodedata[i].qrcode_company_name %>
+          </div>
+        </div>
+        <div class="col-3 col-lg-3 col-xl-3">
+          <p class="h4">Product</p>
+          <div style=" overflow: auto;">
+            <%=qrcodedata[i].qrcode_product_name %>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-12 col-xl-12">
+        <div class="col-12 col-lg-12 col-xl-12">
+          <p class="h4">URL</p>
+          <div style=" overflow: auto;">
+            <a href="<%=qrcodedata[i].qrcode_url%>" target="_blank">
+              <%=qrcodedata[i].qrcode_url%>
+            </a>
+          </div>
+        </div>
+      </div>
+      <br>
 
 
-                    <%}}else{ %>
-                        <p colspan="5">No Valid QR Code selected</p>
-                        <% } %>
-                            <div>
-                                <button class="btn btn-primary btn-sm" data-toggle="modal" style="margin: 5px;" data-target="#myModalAdd">Add New Attribute</button>
-                            </div>
-                </div>
-                <br>
-                <!--QR Code Section-->
-                <div class="" id="attributeRows">
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <h4>Attributes</h4>
-                        <!--Check QR Code availability-->
-                        <% 
+      <%}}else{ %>
+      <p colspan="5">No Valid QR Code selected</p>
+      <% } %>
+      <div>
+        <button class="btn btn-primary btn-sm" data-toggle="modal" style="margin: 5px;" data-target="#myModalAdd">Add New Attribute</button>
+      </div>
+    </div>
+    <br>
+    <!--QR Code Section-->
+    <div class="" id="attributeRows">
+      <div class="col-12 col-lg-12 col-xl-12">
+        <h4>Attributes</h4>
+        <!--Check QR Code availability-->
+        <% 
       if(data.length) {
         for(var i = 0; i< data.length; i++){ 
     %>
-                            <!--QR CODE CARD-->
-                            <div class="card col-2 col-lg-2 col-xl-2" style="width: 16rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
+        <!--QR CODE CARD-->
+        <div class="card col-2 col-lg-2 col-xl-2" style="width: 16rem;background-color: white;border-radius: 5px;margin: 10px;padding: 5px; 
         box-shadow: 2px 2px 4px 5px #ccc;">
-                                <div class="card-header">
-                                    <p class="card-title h4 qrcode-card-heading">Attribute -
-                                        <%=i + 1%>
-                                    </p>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-text">
-                                        <b class="qrcode-card-title">ATTRIBUTE</b>
-                                        <div style="width: 15.5rem; height: 2rem; overflow: auto;">
-                                            <%=data[i].product_attribute%>
-                                        </div>
-                                        <b class="qrcode-card-title">DESCRIPTION</b>
-                                        <div style="width: 15.5rem; height: 8rem; overflow: scroll;">
-                                            <%=data[i].product_attribute_description%>
-                                        </div>
-                                    </div>
-                                    <a href="javascript:void(0);" class="btn-sm btn-success edit " data-qrcode_logid="<%= data[i].qrcode_logid%>" data-attribute_id="<%= data[i].attribute_id%>" data-product_attribute="<%= data[i].product_attribute%>" data-product_attribute_description="<%= data[i].product_attribute_description%>"><i class="far fa-edit"></i></a>
-                                    <a href="javascript:void(0);" class="btn-sm btn-danger delete " data-qrcode_logid2="<%= data[i].qrcode_logid%>" data-attribute_id2="<%= data[i].attribute_id%>"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </div>
+          <div class="card-header">
+            <p class="card-title h4 qrcode-card-heading">Attribute -
+              <%=i + 1%>
+            </p>
+          </div>
+          <div class="card-body">
+            <div class="card-text">
+              <b class="qrcode-card-title">ATTRIBUTE</b>
+              <div style="width: 15.5rem; height: 2rem; overflow: auto;">
+                <%=data[i].product_attribute%>
+              </div>
+              <b class="qrcode-card-title">DESCRIPTION</b>
+              <div style="width: 15.5rem; height: 8rem; overflow: scroll;">
+                <%=data[i].product_attribute_description%>
+              </div>
+            </div>
+            <a href="javascript:void(0);" class="btn-sm btn-success edit " data-qrcode_logid="<%= data[i].qrcode_logid%>" data-attribute_id="<%= data[i].attribute_id%>" data-product_attribute="<%= data[i].product_attribute%>" data-product_attribute_description="<%= data[i].product_attribute_description%>"><i class="far fa-edit"></i></a>
+            <a href="javascript:void(0);" class="btn-sm btn-danger delete " data-qrcode_logid2="<%= data[i].qrcode_logid%>" data-attribute_id2="<%= data[i].attribute_id%>"><i class="far fa-trash-alt"></i></a>
+          </div>
+        </div>
 
-                            <%}}else{ %>
-                                <p colspan="5">No Attributes</p>
-                                <% } %>
-                    </div>
-                </div>
+        <%}}else{ %>
+        <p colspan="5">No Attributes</p>
+        <% } %>
+      </div>
     </div>
-    <!-- END TABLE-->
+  </div>
+  <!-- END TABLE-->
 
-    <!-- Modal Add QR CODE Attribute-->
-    <form id="addNewCodeAttribute" action="/app/qrcode/attribute/save" method="post">
-        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New QR Code Attribute</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-               </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="qrcode_logid">QRCODE ID</label>
-                            <input type="text" name="qrcode_logid" class="form-control qrcode_logid" value="<%= qrdata %>" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="product_attribute">Attribute</label>
-                            <input type="text" name="product_attribute" class="form-control product_attribute" placeholder="QR Code description">
-                        </div>
-                        <div class="form-group">
-                            <label for="product_attribute_description">Attribute Description</label>
-                            <input type="text" name="product_attribute_description" class="form-control product_attribute_description" placeholder="Attribute description">
-                        </div>
-                        <div class="form-group">
-                            <label for="product_attribute_description">QRCODE Hash ID</label>
-                            <input type="text" name="qrcode_hashid" class="form-control qrcode_hashid" value="<%= qrcodedata[0].qrcode_hashid %>" readonly>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </div>
+  <!-- Modal Add QR CODE Attribute-->
+  <form id="addNewCodeAttribute" action="/app/qrcode/attribute/save" method="post">
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add New QR Code Attribute</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="qrcode_logid">QRCODE ID</label>
+              <input type="text" name="qrcode_logid" class="form-control qrcode_logid" value="<%= qrdata %>" readonly>
             </div>
-        </div>
-    </form>
-    <!-- End Modal Add QR CODE Attribute-->
-
-    <!-- Modal Update QR CODE Attribute-->
-    <form action="/app/qrcode/attribute/update" method="post">
-        <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Attribute</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="qrcode_logid">QRCODE ID</label>
-                            <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QRCODE ID" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="attribute_id">Attribute ID</label>
-                            <input type="text" name="attribute_id" class="form-control attribute_id" placeholder="attribute ID" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="product_attribute">Attribute</label>
-                            <input type="text" name="product_attribute" class="form-control product_attribute" placeholder="QR Code description">
-                        </div>
-                        <div class="form-group">
-                            <label for="product_attribute_description">Attribute Description</label>
-                            <input type="text" name="product_attribute_description" class="form-control product_attribute_description" placeholder="Attribute description">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="config_id" class="config_id">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="product_attribute">Attribute</label>
+              <input type="text" name="product_attribute" class="form-control product_attribute" placeholder="QR Code description">
             </div>
-        </div>
-    </form>
-    <!-- End Modal Update QR CODE Attribute-->
-
-    <!-- Modal View QR CODE Attribute-->
-    <form action="" method="post">
-        <div class="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">View Attribute</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-             <span aria-hidden="true">&times;</span>
-           </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="qrcode_logid">QRCODE ID</label>
-                            <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QRCODE ID" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="attribute_id">attribute ID</label>
-                            <input type="text" name="attribute_id" class="form-control attribute_id" placeholder="attribute ID" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="product_attribute">Attribute</label>
-                            <input type="text" name="product_attribute" class="form-control product_attribute" placeholder="QR Code description" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="product_attribute_description">Attribute Description</label>
-                            <input type="text" name="product_attribute_description" class="form-control product_attribute_description" placeholder="Attribute description" readonly>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <input type="hidden" name="config_id" class="config_id">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="product_attribute_description">Attribute Description</label>
+              <input type="text" name="product_attribute_description" class="form-control product_attribute_description" placeholder="Attribute description">
             </div>
-        </div>
-    </form>
-    <!-- End Modal View QR CODE Attribute-->
-
-    <!-- Modal Delete QR CODE Attribute-->
-    <form id="add-row-form" action="/app/qrcode/attribute/delete" method="post">
-        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Delete Attribute</h5>
-                        <strong>Are you sure to delete this QR Code?</strong>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="attribute_id2">Attribute ID</label>
-                            <input type="text" name="attribute_id2" id="attribute_id2" class="form-control attribute_id2" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="qrcode_logid2">QR Code ID</label>
-                            <input type="text" name="qrcode_logid2" class="form-control qrcode_logid2" value="<%= qrdata %>" readonly>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="config_id2" class="form-control config_id2" required>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="product_attribute_description">QRCODE Hash ID</label>
+              <input type="text" name="qrcode_hashid" class="form-control qrcode_hashid" value="<%= qrcodedata[0].qrcode_hashid %>" readonly>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
         </div>
-    </form>
-    <!-- End Modal Delete QR CODE Attribute-->
+      </div>
+    </div>
+  </form>
+  <!-- End Modal Add QR CODE Attribute-->
 
-    <!-- start footer -->
-    <%- include('partials/footer'); %>
-        <!-- end footer -->
+  <!-- Modal Update QR CODE Attribute-->
+  <form action="/app/qrcode/attribute/update" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Attribute</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="qrcode_logid">QRCODE ID</label>
+              <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QRCODE ID" readonly>
+            </div>
+            <div class="form-group">
+              <label for="attribute_id">Attribute ID</label>
+              <input type="text" name="attribute_id" class="form-control attribute_id" placeholder="attribute ID" readonly>
+            </div>
+            <div class="form-group">
+              <label for="product_attribute">Attribute</label>
+              <input type="text" name="product_attribute" class="form-control product_attribute" placeholder="QR Code description">
+            </div>
+            <div class="form-group">
+              <label for="product_attribute_description">Attribute Description</label>
+              <input type="text" name="product_attribute_description" class="form-control product_attribute_description" placeholder="Attribute description">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="config_id" class="config_id">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- End Modal Update QR CODE Attribute-->
 
-        <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
-        <script src="/js/scripts.min.js"></script>
-        <script src="/js/main.min.js"></script>
-        <script src="/js/custom.js"></script>
-        <script>
-            $(document).ready(function() {
+  <!-- Modal View QR CODE Attribute-->
+  <form action="" method="post">
+    <div class="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">View Attribute</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="qrcode_logid">QRCODE ID</label>
+              <input type="text" name="qrcode_logid" class="form-control qrcode_logid" placeholder="QRCODE ID" readonly>
+            </div>
+            <div class="form-group">
+              <label for="attribute_id">attribute ID</label>
+              <input type="text" name="attribute_id" class="form-control attribute_id" placeholder="attribute ID" readonly>
+            </div>
+            <div class="form-group">
+              <label for="product_attribute">Attribute</label>
+              <input type="text" name="product_attribute" class="form-control product_attribute" placeholder="QR Code description" readonly>
+            </div>
+            <div class="form-group">
+              <label for="product_attribute_description">Attribute Description</label>
+              <input type="text" name="product_attribute_description" class="form-control product_attribute_description" placeholder="Attribute description" readonly>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <input type="hidden" name="config_id" class="config_id">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- End Modal View QR CODE Attribute-->
+
+  <!-- Modal Delete QR CODE Attribute-->
+  <form id="add-row-form" action="/app/qrcode/attribute/delete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">Delete Attribute</h5>
+            <strong>Are you sure to delete this QR Code?</strong>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="attribute_id2">Attribute ID</label>
+              <input type="text" name="attribute_id2" id="attribute_id2" class="form-control attribute_id2" readonly>
+            </div>
+            <div class="form-group">
+              <label for="qrcode_logid2">QR Code ID</label>
+              <input type="text" name="qrcode_logid2" class="form-control qrcode_logid2" value="<%= qrdata %>" readonly>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="config_id2" class="form-control config_id2" required>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- End Modal Delete QR CODE Attribute-->
+
+  <!-- start footer -->
+  <%- include('partials/footer'); %>
+  <!-- end footer -->
+
+  <!--<script type="text/javascript" src="/js/bundle.js"></script>-->
+  <script src="/js/scripts.min.js"></script>
+  <script src="/js/main.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <script>
+    $(document).ready(function() {
 
 
-                //showing data to edit modal
-                $('#attributeRows').on('click', '.edit', function() {
-                    var qrcode_logid = $(this).data('qrcode_logid');
-                    var attribute_id = $(this).data('attribute_id');
-                    var product_attribute = $(this).data('product_attribute');
-                    var product_attribute_description = $(this).data('product_attribute_description');
-                    $('#EditModal').modal('show');
-                    $('.qrcode_logid').val(qrcode_logid);
-                    $('.attribute_id').val(attribute_id);
-                    $('.product_attribute').val(product_attribute);
-                    $('.product_attribute_description').val(product_attribute_description);
-                });
-                //showing data to view modal
-                $('#attributeRows').on('click', '.view', function() {
-                    var qrcode_logid = $(this).data('qrcode_logid');
-                    var attribute_id = $(this).data('attribute_id');
-                    var product_attribute = $(this).data('product_attribute');
-                    var product_attribute_description = $(this).data('product_attribute_description');
-                    $('#ViewModal').modal('show');
-                    $('.qrcode_logid').val(qrcode_logid);
-                    $('.attribute_id').val(attribute_id);
-                    $('.product_attribute').val(product_attribute);
-                    $('.product_attribute_description').val(product_attribute_description);
+      //showing data to edit modal
+      $('#attributeRows').on('click', '.edit', function() {
+        var qrcode_logid = $(this).data('qrcode_logid');
+        var attribute_id = $(this).data('attribute_id');
+        var product_attribute = $(this).data('product_attribute');
+        var product_attribute_description = $(this).data('product_attribute_description');
+        $('#EditModal').modal('show');
+        $('.qrcode_logid').val(qrcode_logid);
+        $('.attribute_id').val(attribute_id);
+        $('.product_attribute').val(product_attribute);
+        $('.product_attribute_description').val(product_attribute_description);
+      });
+      //showing data to view modal
+      $('#attributeRows').on('click', '.view', function() {
+        var qrcode_logid = $(this).data('qrcode_logid');
+        var attribute_id = $(this).data('attribute_id');
+        var product_attribute = $(this).data('product_attribute');
+        var product_attribute_description = $(this).data('product_attribute_description');
+        $('#ViewModal').modal('show');
+        $('.qrcode_logid').val(qrcode_logid);
+        $('.attribute_id').val(attribute_id);
+        $('.product_attribute').val(product_attribute);
+        $('.product_attribute_description').val(product_attribute_description);
 
-                })
+      })
 
-                //showing delete record modal
-                $('#attributeRows').on('click', '.delete', function() {
-                    var attribute_id2 = $(this).data('attribute_id2');
-                    var attribute_id2 = $(this).data('attribute_id2');
-                    $('#DeleteModal').modal('show');
-                    $('.attribute_id2').val(attribute_id2);
-                    $('.attribute_id2').val(attribute_id2);
-                });
-            });
-        </script>
+      //showing delete record modal
+      $('#attributeRows').on('click', '.delete', function() {
+        var attribute_id2 = $(this).data('attribute_id2');
+        var attribute_id2 = $(this).data('attribute_id2');
+        $('#DeleteModal').modal('show');
+        $('.attribute_id2').val(attribute_id2);
+        $('.attribute_id2').val(attribute_id2);
+      });
+    });
+  </script>
 </body>
 
 </html>

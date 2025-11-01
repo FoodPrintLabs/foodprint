@@ -86,7 +86,6 @@ PORT=3000
 APP_NAME=REPLACE_ME
 SESSION_SECRET=REPLACE_ME
 EMAIL_ADDRESS=GMAIL_EMAIL_ADDRESS
-EMAIL_PASSWORD=GMAIL_EMAIL_PASSWORD
 WEBAPP_PASSWORD=WEBAPP_PASSWORD
 EMAIL_HOST=EMAIL_HOST
 EMAIL_PORT=EMAIL_PORT
@@ -105,6 +104,7 @@ MAINNET_ALGOD_API_KEY=REPLACE_ME
 MAINNET_ALGOD_SERVER=https:https://mainnet-algorand.api.purestake.io/ps2
 MAINNET_ALGOINDEXER_SERVER=https://mainnet-algorand.api.purestake.io/idx2
 MAINNET_ALGOD_PORT=
+ALGORAND_EXPLORER_URL=
 ACCOUNT1_ADDRESS=REPLACE_ME
 ACCOUNT1_MNEMONIC=REPLACE_ME
 ACCOUNT2_ADDRESS=REPLACE_ME
@@ -122,6 +122,7 @@ DO_BUCKET_NAME=REPLACE_ME
 DO_KEY_ID=REPLACE_ME
 DO_SECRET=REPLACE_ME
 DO_ENDPOINT=REPLACE_ME
+DB_USE_SQLITE=REPLACE_ME
 TWILIO_ACCOUNT_SID=REPLACE_ME
 TWILIO_AUTH_TOKEN=REPLACE_ME
 ```
@@ -160,12 +161,15 @@ node sequelise_auto_export.js
 
 The generated models can be found in `./models`
 
-- Creating sequelize migration (which creates a js file in migrations folder and will need to be commited)
+- Creating sequelize migration (which creates a js file in migrations folder and will need to be
+  commited)
+
 ```bash
 npx sequelize migration:create --name name_of_new_db_column
 ```
 
 Run the migration
+
 ```bash
 npx sequelize db:migrate --url ‘mysql://username:password@localhost:3306/databasename'
 ```
@@ -262,6 +266,7 @@ $ heroku run npx sequelize-cli db:migrate --url 'mysql://root:password@mysql_hos
 ```
 
 Alternatively
+
 ```
 $ heroku run npm run build -a name-of-app
 ```

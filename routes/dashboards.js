@@ -26,11 +26,6 @@ router.get(
         order: [['pk', 'DESC']],
       })
         .then(harvest_rows => {
-          for (let i = 0; i < harvest_rows.length; i++) {
-            harvest_rows[i].harvest_photoHash =
-              'data:image/png;base64,' +
-              new Buffer(harvest_rows[i].harvest_photoHash, 'binary').toString('base64');
-          }
           models.FoodprintStorage.findAll({
             order: [['pk', 'DESC']],
           }).then(storage_rows => {
@@ -45,9 +40,10 @@ router.get(
           });
         })
         .catch(err => {
+          console.log(err);
           req.flash('error', err);
           res.render('error', {
-            message: 'Unexpected Error occured',
+            message: 'Unexpected error occured',
             data: '',
             user: req.user,
             page_name: 'error',
